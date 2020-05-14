@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="layui-form timo-compile">
+    <form th:action="@{/base/mouldPcbDetail/save}">
+        <input type="hidden" name="id" th:if="${mouldPcbDetail}" th:value="${mouldPcbDetail.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">PCB编码</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="pcb_code" placeholder="请输入PCB编码" th:value="${mouldPcbDetail?.pcb_code}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">PCB版本</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="pcb_version" placeholder="请输入PCB版本" th:value="${mouldPcbDetail?.pcb_version}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">PCB名称</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="pcb_name" placeholder="请输入PCB名称" th:value="${mouldPcbDetail?.pcb_name}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">PCB光板号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="pcb_light_plate" placeholder="请输入PCB光板号" th:value="${mouldPcbDetail?.pcb_light_plate}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">数量</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="count" placeholder="请输入数量" th:value="${mouldPcbDetail?.count}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否AB面</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="is_ab" placeholder="请输入是否AB面" th:value="${mouldPcbDetail?.is_ab}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">修改标记</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="flag" placeholder="请输入修改标记" th:value="${mouldPcbDetail?.flag}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">机型id</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="mould_id" placeholder="请输入机型id" th:value="${mouldPcbDetail?.mould_id}">
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

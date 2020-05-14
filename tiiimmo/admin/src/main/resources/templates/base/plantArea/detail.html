@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${plantArea.id}"></td>
+                    <th>厂区编号</th>
+                    <td th:text="${plantArea.code}"></td>
+                </tr>
+                <tr>
+                    <th>厂区名称</th>
+                    <td th:text="${plantArea.name}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${plantArea.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${plantArea.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(plantArea.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(plantArea.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

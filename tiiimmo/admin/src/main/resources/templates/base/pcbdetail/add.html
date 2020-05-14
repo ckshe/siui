@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="layui-form timo-compile">
+    <form th:action="@{/base/pcbdetail/save}">
+        <input type="hidden" name="id" th:if="${pcbdetail}" th:value="${pcbdetail.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">物料编号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="product_code" placeholder="请输入物料编号" th:value="${pcbdetail?.product_code}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">物料名称</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="product_name" placeholder="请输入物料名称" th:value="${pcbdetail?.product_name}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所需数量</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="need_count" placeholder="请输入所需数量" th:value="${pcbdetail?.need_count}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">pcbId</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="pcb_id" placeholder="请输入pcbId" th:value="${pcbdetail?.pcb_id}">
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

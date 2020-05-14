@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="layui-form timo-compile">
+    <form th:action="@{/base/feeder/save}">
+        <input type="hidden" name="id" th:if="${feeder}" th:value="${feeder.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">飞达编码</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="code" placeholder="请输入飞达编码" th:value="${feeder?.code}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">飞达名称</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="name" placeholder="请输入飞达名称" th:value="${feeder?.name}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">使用次数</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="use_times" placeholder="请输入使用次数" th:value="${feeder?.use_times}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">最高使用次数</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="highest_use_times" placeholder="请输入最高使用次数" th:value="${feeder?.highest_use_times}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">[[${feeder?.remark}]]</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>
