@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="layui-form timo-compile">
+    <form th:action="@{/base/vehicle/save}">
+        <input type="hidden" name="id" th:if="${vehicle}" th:value="${vehicle.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">编码</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="code" placeholder="请输入编码" th:value="${vehicle?.code}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">载具号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="serial" placeholder="请输入载具号" th:value="${vehicle?.serial}">
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>
