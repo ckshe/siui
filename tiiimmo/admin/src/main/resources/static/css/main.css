@@ -31,13 +31,13 @@ a{
 /* 导航栏样式 */
 .layui-layout-admin .layui-header{
 	height: 50px;
-	background-color: #009688;
+	background-color: #1e9fff;
 }
 .layui-layout-admin .layui-header .layui-logo{
 	width: 220px;
 	color: #ffffff;
 	line-height: 50px;
-	background-color: #007d71;
+	background-color: #1590ee;
 	overflow: hidden;
 	-webkit-transition: left 0.3s ease, width 0.3s ease;
 	-o-transition: left 0.3s ease, width 0.3s ease;
@@ -55,7 +55,7 @@ a{
 	transition: left 0.3s ease, width 0.3s ease;
 }
 .layui-layout-admin .layui-header .side-toggle:hover{
-	background-color: #00635a;
+	background-color: #1590ee;
 }
 .layui-layout-admin .layui-header .layui-nav .layui-nav-item{
 	line-height: 50px;
@@ -68,7 +68,7 @@ a{
 	transition: all 0.2s;
 }
 .layui-layout-admin .layui-header .layui-nav .layui-nav-item>a:hover{
-	background-color: #038478;
+	background-color: #1590ee;
 }
 .layui-layout-admin .layui-header .layui-nav .layui-nav-item>a>.fa{
 	font-size: 18px;
@@ -290,7 +290,7 @@ a{
 	display:inline-block;
 	width: 10px;
 	height: 10px;
-	background-color: #5FB878;
+	background-color: #1590ee;
 	border-radius: 50%;
 	margin-right: 2px;
 }
@@ -347,11 +347,11 @@ a{
     background-color: #f8f8f8;
 }
 .layui-layout-admin .layui-body .layui-tab-title .layui-this{
-    color: #009688;
+    color: #1e9fff;
     background-color: #f8f8f8;
 }
 .layui-layout-admin .layui-body .layui-tab-title .layui-this:after{
-    border-bottom: 2px solid #009688;
+    border-bottom: 2px solid #1e9fff;
 }
 .layui-layout-admin .layui-body .layui-tab-title .layui-icon-home{
 	text-align: left;
@@ -418,8 +418,8 @@ a{
     background-color: #fff;
 }
 .timo-checkbox input[type="checkbox"]:checked + .layui-icon:before{
-    border-color: #009688;
-    background-color: #009688;
+    border-color: #1e9fff;
+    background-color: #1e9fff;
 }
 
 /* 收起侧边栏 */
@@ -546,21 +546,21 @@ a{
 .timo-layout-page .layui-form-pane .layui-form-label{
 	width: auto;
 	background-color: #fff;
-	border-color: #009688;
-	color: #009688;
+	border-color: #1e9fff;
+	color: #1e9fff;
 	font-weight: bold;
 }
 .timo-layout-page .layui-form-pane input,
 .timo-layout-page .layui-form-pane select{
-	border-color: #009688;
+	border-color: #1e9fff;
 	border-radius: 0 2px 2px 0;
 }
 .timo-layout-page .layui-form-pane input:hover,
 .timo-layout-page .layui-form-pane input:focus{
-	border-color: #009688 !important;
+	border-color: #1e9fff !important;
 	outline: 0;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 150, 136, 0.6);
-	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 150, 136, 0.6);
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(21, 144, 238, 0.6);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(21, 144, 238, 0.6);
 }
 .timo-layout-page .layui-form-pane .layui-input-block{
 	margin-left: 0px;
@@ -581,10 +581,10 @@ a{
     table-layout: fixed;
 }
 .timo-layout-page .timo-table a{
-	color: #009688;
+	color: #1e9fff;
 }
 .timo-layout-page .timo-table a:hover {
-	color: #004a43;
+	color: #1590ee;
 	text-decoration: underline;
 }
 .timo-layout-page .timo-table th,
@@ -697,7 +697,7 @@ a{
 	padding: 8px 14px;
 	margin-left: -1px;
 	line-height: 1.25;
-	color: #009688;
+	color: #1e9fff;
 	background-color: #FFF;
 	border: 1px solid #dee2e6;
 }
@@ -716,8 +716,8 @@ a{
 .page-item.active .page-link {
 	z-index: 1;
 	color: #FFF;
-	background-color: #009688;
-	border-color: #009688;
+	background-color: #1e9fff;
+	border-color: #1e9fff;
 }
 .page-item .breviary{
 	font-weight: bold;
@@ -734,7 +734,7 @@ a{
 .timo-compile .layui-input-block input:hover,
 .timo-compile .layui-input-inline textarea:hover,
 .timo-compile .layui-input-block textarea:hover{
-    border-color: #009688!important;
+    border-color: #1e9fff!important;
 }
 .timo-compile .layui-input-info{
     float: left;
@@ -891,7 +891,7 @@ a{
     right: 12px;
     z-index: 999999;
     color: #FFFFFF;
-    background-color: rgba(0, 150, 136, 0.69);
+    background-color: rgba(21, 144, 238, 0.69);
     font-size: 11px;
     width: 14px;
     height: 14px;
@@ -900,5 +900,18 @@ a{
     cursor: pointer;
 }
 .upload-show .upload-item .upload-item-close:hover{
-    background-color: #009688;
+    background-color: #1e9fff;
+}
+.layui-btn{
+	background-color: #1e9fff;
+}
+.layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a, .layui-nav-tree .layui-this, .layui-nav-tree .layui-this>a, .layui-nav-tree .layui-this>a:hover{
+	background-color: #1e9fff;
+}
+.layui-form-radio>i:hover, .layui-form-radioed>i {
+	color: #1e9fff;
+}
+.layui-nav-tree .layui-nav-bar{
+	background-color: #1e9fff;
+	color: #1e9fff;
 }

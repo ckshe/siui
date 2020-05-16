@@ -8,9 +8,35 @@
     bottom: 0;
     z-index: -1;
 }
+.login {
+    margin: 120px auto 0 auto;
+    width: 1224px;
+}
+.login-fl {
+    float: left;
+    min-height: 420px;
+    max-width: 500px;
+    padding: 40px 40px;
+    background-color: #ffffff;
+    margin-right: 10px;
+    border-radius: 4px 0 0 4px;
+    box-sizing: border-box;
+}
+.login-fr{
+    background: url(../images/sansan.jpg)  no-repeat center;
+    float: left;
+    overflow: hidden;
+    width: 820px;
+    height: 420px;
+    border-radius: 0px 4px 4px 0px;
+}
 .layui-layout-login .login-bg .cover{
-    background-color: #009688;
-    height: 50%;
+    background-color: #1e9fff;
+    background: url(../images/bg.png) no-repeat center;
+    background-size: cover;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
 }
 .layui-layout-login .login-content{
     width:250px;
@@ -78,14 +104,14 @@
     line-height: 14px;
 }
 .layui-layout-login .layui-form-item .layui-form-checkbox[lay-skin=primary]:hover i {
-    border-color: #009688;
+    border-color: #1e9fff;
 }
 .layui-layout-login .layui-form-item .layui-form-checked[lay-skin=primary] i{
-    border-color: #009688;
-    background-color: #009688;
+    border-color: #1e9fff;
+    background-color: #1e9fff;
 }
 .layui-layout-login .layui-form-item .forget-password{
-    color: #009688;
+    color: #1e9fff;
 }
 .layui-layout-login .login-page-loading {
     position: absolute;
