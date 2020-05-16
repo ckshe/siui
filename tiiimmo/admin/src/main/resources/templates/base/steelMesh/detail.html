@@ -14,40 +14,36 @@
                 <tr>
                     <th>主键ID</th>
                     <td th:text="${steelMesh.id}"></td>
-                    <th>序号</th>
-                    <td th:text="${steelMesh.no}"></td>
-                </tr>
-                <tr>
                     <th>编号</th>
                     <td th:text="${steelMesh.num}"></td>
+                </tr>
+                <tr>
                     <th>光板号</th>
                     <td th:text="${steelMesh.plateNo}"></td>
-                </tr>
-                <tr>
                     <th>货架名称</th>
                     <td th:text="${steelMesh.name}"></td>
+                </tr>
+                <tr>
                     <th>货架层</th>
                     <td th:text="${steelMesh.number}"></td>
-                </tr>
-                <tr>
                     <th>使用次数</th>
                     <td th:text="${steelMesh.useTimes}"></td>
+                </tr>
+                <tr>
                     <th>寿命</th>
                     <td th:text="${steelMesh.useLife}"></td>
-                </tr>
-                <tr>
                     <th>创建者</th>
                     <td th:text="${steelMesh.createBy?.nickname}"></td>
+                </tr>
+                <tr>
                     <th>更新者</th>
                     <td th:text="${steelMesh.updateBy?.nickname}"></td>
-                </tr>
-                <tr>
                     <th>创建时间</th>
                     <td th:text="${#dates.format(steelMesh.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <th>更新时间</th>
-                    <td th:text="${#dates.format(steelMesh.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 </tr>
                 <tr>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(steelMesh.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                     <th>备注</th>
                     <td th:text="${steelMesh.remark}" colspan="3"></td>
                 </tr>

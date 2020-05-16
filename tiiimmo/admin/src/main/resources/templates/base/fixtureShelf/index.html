@@ -52,7 +52,6 @@
                                 <i class="layui-icon layui-icon-ok"></i></label>
                         </th>
                         <th>主键ID</th>
-                        <th>序号</th>
                         <th>货架编号</th>
                         <th>货位号</th>
                         <th>创建时间</th>
@@ -66,7 +65,6 @@
                         <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
                             <i class="layui-icon layui-icon-ok"></i></label></td>
                         <td th:text="${item.id}">主键ID</td>
-                        <td th:text="${item.no}">序号</td>
                         <td th:text="${item.shelfNo}">货架编号</td>
                         <td th:text="${item.locationNo}">货位号</td>
                         <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>

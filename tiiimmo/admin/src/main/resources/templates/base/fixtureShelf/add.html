@@ -7,12 +7,6 @@
     <form th:action="@{/base/fixtureShelf/save}">
         <input type="hidden" name="id" th:if="${fixtureShelf}" th:value="${fixtureShelf.id}">
         <div class="layui-form-item">
-            <label class="layui-form-label">序号</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="no" placeholder="请输入序号" th:value="${fixtureShelf?.no}">
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">货架编号</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="shelfNo" placeholder="请输入货架编号" th:value="${fixtureShelf?.shelfNo}">

@@ -915,3 +915,6 @@ a{
 	background-color: #1e9fff;
 	color: #1e9fff;
 }
+.layui-form-select dl dd.layui-this {
+	background-color: #1e9fff;
+}

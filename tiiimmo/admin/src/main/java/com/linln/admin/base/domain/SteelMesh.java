@@ -32,8 +32,6 @@ public class SteelMesh implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    // 序号
-    private Integer no;
     // 编号
     private String num;
     // 光板号

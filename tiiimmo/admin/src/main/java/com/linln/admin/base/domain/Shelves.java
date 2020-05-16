@@ -32,8 +32,6 @@ public class Shelves implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    // 序号
-    private Integer no;
     // 货架编号
     private String num;
     private String name;

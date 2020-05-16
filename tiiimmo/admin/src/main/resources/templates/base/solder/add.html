@@ -7,12 +7,6 @@
     <form th:action="@{/base/solder/save}">
         <input type="hidden" name="id" th:if="${solder}" th:value="${solder.id}">
         <div class="layui-form-item">
-            <label class="layui-form-label">序号</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="no" placeholder="请输入序号" th:value="${solder?.no}">
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">编号</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="num" placeholder="请输入编号" th:value="${solder?.num}">

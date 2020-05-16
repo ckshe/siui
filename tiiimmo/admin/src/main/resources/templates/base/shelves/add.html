@@ -7,12 +7,6 @@
     <form th:action="@{/base/shelves/save}">
         <input type="hidden" name="id" th:if="${shelves}" th:value="${shelves.id}">
         <div class="layui-form-item">
-            <label class="layui-form-label">序号</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="no" placeholder="请输入序号" th:value="${shelves?.no}">
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">货架编号</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="num" placeholder="请输入货架编号" th:value="${shelves?.num}">
