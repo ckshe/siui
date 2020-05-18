@@ -1,8 +1,8 @@
-package com.linln.admin.base.service.impl;
+package com.linln.admin.produce.service.impl;
 
-import com.linln.admin.base.domain.Mould;
-import com.linln.admin.base.repository.MouldRepository;
-import com.linln.admin.base.service.MouldService;
+import com.linln.admin.produce.domain.PcbTask;
+import com.linln.admin.produce.repository.PcbTaskRepository;
+import com.linln.admin.produce.service.PcbTaskService;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * @author www
- * @date 2020/05/14
+ * @author 小懒虫
+ * @date 2020/05/18
  */
 @Service
-public class MouldServiceImpl implements MouldService {
+public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Autowired
-    private MouldRepository mouldRepository;
+    private PcbTaskRepository pcbTaskRepository;
 
     /**
      * 根据ID查询数据
@@ -30,8 +30,8 @@ public class MouldServiceImpl implements MouldService {
      */
     @Override
     @Transactional
-    public Mould getById(Long id) {
-        return mouldRepository.findById(id).orElse(null);
+    public PcbTask getById(Long id) {
+        return pcbTaskRepository.findById(id).orElse(null);
     }
 
     /**
@@ -40,19 +40,19 @@ public class MouldServiceImpl implements MouldService {
      * @return 返回分页数据
      */
     @Override
-    public Page<Mould> getPageList(Example<Mould> example) {
+    public Page<PcbTask> getPageList(Example<PcbTask> example) {
         // 创建分页对象
         PageRequest page = PageSort.pageRequest();
-        return mouldRepository.findAll(example, page);
+        return pcbTaskRepository.findAll(example, page);
     }
 
     /**
      * 保存数据
-     * @param mould 实体对象
+     * @param pcbTask 实体对象
      */
     @Override
-    public Mould save(Mould mould) {
-        return mouldRepository.save(mould);
+    public PcbTask save(PcbTask pcbTask) {
+        return pcbTaskRepository.save(pcbTask);
     }
 
     /**
@@ -61,6 +61,6 @@ public class MouldServiceImpl implements MouldService {
     @Override
     @Transactional
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
-        return mouldRepository.updateStatus(statusEnum.getCode(), idList) > 0;
+        return pcbTaskRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
 }

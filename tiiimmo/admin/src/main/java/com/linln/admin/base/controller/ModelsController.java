@@ -1,8 +1,8 @@
 package com.linln.admin.base.controller;
 
-import com.linln.admin.base.domain.Mould;
-import com.linln.admin.base.service.MouldService;
-import com.linln.admin.base.validator.MouldValid;
+import com.linln.admin.base.domain.Models;
+import com.linln.admin.base.service.ModelsService;
+import com.linln.admin.base.validator.ModelsValid;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.EntityBeanUtil;
 import com.linln.common.utils.ResultVoUtil;
@@ -21,54 +21,55 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @author www
- * @date 2020/05/14
+ * @author 小懒虫
+ * @date 2020/05/18
  */
 @Controller
-@RequestMapping("/base/mould")
-public class MouldController {
+@RequestMapping("/base/models")
+public class ModelsController {
 
     @Autowired
-    private MouldService mouldService;
+    private ModelsService modelsService;
 
     /**
      * 列表页面
      */
     @GetMapping("/index")
-    @RequiresPermissions("mould:mould:index")
-    public String index(Model model, Mould mould) {
+    @RequiresPermissions("base:models:index")
+    public String index(Model model, Models models) {
 
         // 创建匹配器，进行动态查询匹配
         ExampleMatcher matcher = ExampleMatcher.matching()
-                .withMatcher("code", match -> match.contains());
+                .withMatcher("model_id", match -> match.contains())
+                .withMatcher("model_ver", match -> match.contains());
 
         // 获取数据列表
-        Example<Mould> example = Example.of(mould, matcher);
-        Page<Mould> list = mouldService.getPageList(example);
+        Example<Models> example = Example.of(models, matcher);
+        Page<Models> list = modelsService.getPageList(example);
 
         // 封装数据
         model.addAttribute("list", list.getContent());
         model.addAttribute("page", list);
-        return "/base/mould/index";
+        return "/base/models/index";
     }
 
     /**
      * 跳转到添加页面
      */
     @GetMapping("/add")
-    @RequiresPermissions("mould:mould:add")
+    @RequiresPermissions("base:models:add")
     public String toAdd() {
-        return "/base/mould/add";
+        return "/base/models/add";
     }
 
     /**
      * 跳转到编辑页面
      */
     @GetMapping("/edit/{id}")
-    @RequiresPermissions("mould:mould:edit")
-    public String toEdit(@PathVariable("id") Mould mould, Model model) {
-        model.addAttribute("mould", mould);
-        return "/base/mould/add";
+    @RequiresPermissions("base:models:edit")
+    public String toEdit(@PathVariable("id") Models models, Model model) {
+        model.addAttribute("models", models);
+        return "/base/models/add";
     }
 
     /**
@@ -76,17 +77,17 @@ public class MouldController {
      * @param valid 验证对象
      */
     @PostMapping("/save")
-    @RequiresPermissions({"mould:mould:add", "mould:mould:edit"})
+    @RequiresPermissions({"base:models:add", "base:models:edit"})
     @ResponseBody
-    public ResultVo save(@Validated MouldValid valid, Mould mould) {
+    public ResultVo save(@Validated ModelsValid valid, Models models) {
         // 复制保留无需修改的数据
-        if (mould.getId() != null) {
-            Mould beMould = mouldService.getById(mould.getId());
-            EntityBeanUtil.copyProperties(beMould, mould);
+        if (models.getId() != null) {
+            Models beModels = modelsService.getById(models.getId());
+            EntityBeanUtil.copyProperties(beModels, models);
         }
 
         // 保存数据
-        mouldService.save(mould);
+        modelsService.save(models);
         return ResultVoUtil.SAVE_SUCCESS;
     }
 
@@ -94,24 +95,24 @@ public class MouldController {
      * 跳转到详细页面
      */
     @GetMapping("/detail/{id}")
-    @RequiresPermissions("mould:mould:detail")
-    public String toDetail(@PathVariable("id") Mould mould, Model model) {
-        model.addAttribute("mould",mould);
-        return "/base/mould/detail";
+    @RequiresPermissions("base:models:detail")
+    public String toDetail(@PathVariable("id") Models models, Model model) {
+        model.addAttribute("models",models);
+        return "/base/models/detail";
     }
 
     /**
      * 设置一条或者多条数据的状态
      */
     @RequestMapping("/status/{param}")
-    @RequiresPermissions("mould:mould:status")
+    @RequiresPermissions("base:models:status")
     @ResponseBody
     public ResultVo status(
             @PathVariable("param") String param,
             @RequestParam(value = "ids", required = false) List<Long> ids) {
         // 更新状态
         StatusEnum statusEnum = StatusUtil.getStatusEnum(param);
-        if (mouldService.updateStatus(statusEnum, ids)) {
+        if (modelsService.updateStatus(statusEnum, ids)) {
             return ResultVoUtil.success(statusEnum.getMessage() + "成功");
         } else {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");

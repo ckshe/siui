@@ -14,38 +14,36 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
- * @author www
- * @date 2020/05/14
+ * @author 小懒虫
+ * @date 2020/05/18
  */
 @Data
 @Entity
-@Table(name="base_mould_pcb_detail")
+@Table(name="base_models")
 @EntityListeners(AuditingEntityListener.class)
 @Where(clause = StatusUtil.NOT_DELETE)
-public class MouldPcbDetail implements Serializable {
+public class Models implements Serializable {
     // 主键ID
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    // PCB编码
-    private String pcb_code;
-    // PCB版本
-    private String pcb_version;
-    // PCB名称
-    private String pcb_name;
-    // PCB光板号
-    private String pcb_light_plate;
-    // 数量
-    private Integer count;
-    // 是否AB面
-    private Byte is_ab;
-    // 修改标记
-    private String flag;
+    // 机型编码
+    private String model_id;
+    // 备注
+    private String remark;
     // 创建时间
     @CreatedDate
     private Date createDate;
@@ -68,6 +66,10 @@ public class MouldPcbDetail implements Serializable {
     private User updateBy;
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
-    // 机型id
-    private String mould_id;
+    // 机型名称
+    private String model_name;
+    // 机型版本
+    private String model_ver;
+    // RoHS
+    private Byte is_rohs;
 }

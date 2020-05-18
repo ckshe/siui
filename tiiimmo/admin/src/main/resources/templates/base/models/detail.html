@@ -13,31 +13,35 @@
             <tbody>
                 <tr>
                     <th>主键ID</th>
-                    <td th:text="${mould.id}"></td>
+                    <td th:text="${models.id}"></td>
                     <th>机型编码</th>
-                    <td th:text="${mould.code}"></td>
+                    <td th:text="${models.model_id}"></td>
                 </tr>
                 <tr>
                     <th>机型名称</th>
-                    <td th:text="${mould.name}"></td>
+                    <td th:text="${models.model_name}"></td>
                     <th>机型版本</th>
-                    <td th:text="${mould.version}"></td>
+                    <td th:text="${models.model_ver}"></td>
                 </tr>
                 <tr>
                     <th>RoHS</th>
-                    <td th:text="${mould.rohs}" colspan="3"></td>
+                    <td th:text="${models.is_rohs}" colspan="3"></td>
                 </tr>
                 <tr>
                     <th>创建者</th>
-                    <td th:text="${mould.createBy?.nickname}"></td>
+                    <td th:text="${models.createBy?.nickname}"></td>
                     <th>更新者</th>
-                    <td th:text="${mould.updateBy?.nickname}"></td>
+                    <td th:text="${models.updateBy?.nickname}"></td>
                 </tr>
                 <tr>
                     <th>创建时间</th>
-                    <td th:text="${#dates.format(mould.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(models.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                     <th>更新时间</th>
-                    <td th:text="${#dates.format(mould.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(models.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${models.remark}" colspan="3"></td>
                 </tr>
             </tbody>
         </table>

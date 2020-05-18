@@ -1,8 +1,8 @@
-package com.linln.admin.base.controller;
+package com.linln.admin.produce.controller;
 
-import com.linln.admin.base.domain.MouldPcbDetail;
-import com.linln.admin.base.service.MouldPcbDetailService;
-import com.linln.admin.base.validator.MouldPcbDetailValid;
+import com.linln.admin.produce.domain.PcbTask;
+import com.linln.admin.produce.service.PcbTaskService;
+import com.linln.admin.produce.validator.PcbTaskValid;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.EntityBeanUtil;
 import com.linln.common.utils.ResultVoUtil;
@@ -21,54 +21,56 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @author www
- * @date 2020/05/14
+ * @author 小懒虫
+ * @date 2020/05/18
  */
 @Controller
-@RequestMapping("/base/mouldPcbDetail")
-public class MouldPcbDetailController {
+@RequestMapping("/produce/pcbTask")
+public class PcbTaskController {
 
     @Autowired
-    private MouldPcbDetailService mouldPcbDetailService;
+    private PcbTaskService pcbTaskService;
 
     /**
      * 列表页面
      */
     @GetMapping("/index")
-    @RequiresPermissions("mould:mouldPcbDetail:index")
-    public String index(Model model, MouldPcbDetail mouldPcbDetail) {
+    @RequiresPermissions("produce:pcbTask:index")
+    public String index(Model model, PcbTask pcbTask) {
 
         // 创建匹配器，进行动态查询匹配
         ExampleMatcher matcher = ExampleMatcher.matching()
-                .withMatcher("pcb_code", match -> match.contains());
+                .withMatcher("pcb_task_id", match -> match.contains())
+                .withMatcher("task_sheet_id", match -> match.contains())
+                .withMatcher("task_sheet_date", match -> match.contains());
 
         // 获取数据列表
-        Example<MouldPcbDetail> example = Example.of(mouldPcbDetail, matcher);
-        Page<MouldPcbDetail> list = mouldPcbDetailService.getPageList(example);
+        Example<PcbTask> example = Example.of(pcbTask, matcher);
+        Page<PcbTask> list = pcbTaskService.getPageList(example);
 
         // 封装数据
         model.addAttribute("list", list.getContent());
         model.addAttribute("page", list);
-        return "/base/mouldPcbDetail/index";
+        return "/produce/pcbTask/index";
     }
 
     /**
      * 跳转到添加页面
      */
     @GetMapping("/add")
-    @RequiresPermissions("mould:mouldPcbDetail:add")
+    @RequiresPermissions("produce:pcbTask:add")
     public String toAdd() {
-        return "/base/mouldPcbDetail/add";
+        return "/produce/pcbTask/add";
     }
 
     /**
      * 跳转到编辑页面
      */
     @GetMapping("/edit/{id}")
-    @RequiresPermissions("mould:mouldPcbDetail:edit")
-    public String toEdit(@PathVariable("id") MouldPcbDetail mouldPcbDetail, Model model) {
-        model.addAttribute("mouldPcbDetail", mouldPcbDetail);
-        return "/base/mouldPcbDetail/add";
+    @RequiresPermissions("produce:pcbTask:edit")
+    public String toEdit(@PathVariable("id") PcbTask pcbTask, Model model) {
+        model.addAttribute("pcbTask", pcbTask);
+        return "/produce/pcbTask/add";
     }
 
     /**
@@ -76,17 +78,17 @@ public class MouldPcbDetailController {
      * @param valid 验证对象
      */
     @PostMapping("/save")
-    @RequiresPermissions({"mould:mouldPcbDetail:add", "mould:mouldPcbDetail:edit"})
+    @RequiresPermissions({"produce:pcbTask:add", "produce:pcbTask:edit"})
     @ResponseBody
-    public ResultVo save(@Validated MouldPcbDetailValid valid, MouldPcbDetail mouldPcbDetail) {
+    public ResultVo save(@Validated PcbTaskValid valid, PcbTask pcbTask) {
         // 复制保留无需修改的数据
-        if (mouldPcbDetail.getId() != null) {
-            MouldPcbDetail beMouldPcbDetail = mouldPcbDetailService.getById(mouldPcbDetail.getId());
-            EntityBeanUtil.copyProperties(beMouldPcbDetail, mouldPcbDetail);
+        if (pcbTask.getId() != null) {
+            PcbTask bePcbTask = pcbTaskService.getById(pcbTask.getId());
+            EntityBeanUtil.copyProperties(bePcbTask, pcbTask);
         }
 
         // 保存数据
-        mouldPcbDetailService.save(mouldPcbDetail);
+        pcbTaskService.save(pcbTask);
         return ResultVoUtil.SAVE_SUCCESS;
     }
 
@@ -94,24 +96,24 @@ public class MouldPcbDetailController {
      * 跳转到详细页面
      */
     @GetMapping("/detail/{id}")
-    @RequiresPermissions("mould:mouldPcbDetail:detail")
-    public String toDetail(@PathVariable("id") MouldPcbDetail mouldPcbDetail, Model model) {
-        model.addAttribute("mouldPcbDetail",mouldPcbDetail);
-        return "/base/mouldPcbDetail/detail";
+    @RequiresPermissions("produce:pcbTask:detail")
+    public String toDetail(@PathVariable("id") PcbTask pcbTask, Model model) {
+        model.addAttribute("pcbTask",pcbTask);
+        return "/produce/pcbTask/detail";
     }
 
     /**
      * 设置一条或者多条数据的状态
      */
     @RequestMapping("/status/{param}")
-    @RequiresPermissions("mould:mouldPcbDetail:status")
+    @RequiresPermissions("produce:pcbTask:status")
     @ResponseBody
     public ResultVo status(
             @PathVariable("param") String param,
             @RequestParam(value = "ids", required = false) List<Long> ids) {
         // 更新状态
         StatusEnum statusEnum = StatusUtil.getStatusEnum(param);
-        if (mouldPcbDetailService.updateStatus(statusEnum, ids)) {
+        if (pcbTaskService.updateStatus(statusEnum, ids)) {
             return ResultVoUtil.success(statusEnum.getMessage() + "成功");
         } else {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");

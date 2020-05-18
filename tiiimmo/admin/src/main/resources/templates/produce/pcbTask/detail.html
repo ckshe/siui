@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${pcbTask.id}"></td>
+                    <th>任务号</th>
+                    <td th:text="${pcbTask.pcb_task_id}"></td>
+                </tr>
+                <tr>
+                    <th>制造编号</th>
+                    <td th:text="${pcbTask.task_sheet_id}"></td>
+                    <th>通知日期</th>
+                    <td th:text="${pcbTask.task_sheet_date}"></td>
+                </tr>
+                <tr>
+                    <th>厂区</th>
+                    <td th:text="${pcbTask.factory}"></td>
+                    <th>车间</th>
+                    <td th:text="${pcbTask.workshop}"></td>
+                </tr>
+                <tr>
+                    <th>机型编码</th>
+                    <td th:text="${pcbTask.model_id}"></td>
+                    <th>机型名称</th>
+                    <td th:text="${pcbTask.model_name}"></td>
+                </tr>
+                <tr>
+                    <th>机型版本</th>
+                    <td th:text="${pcbTask.model_ver}"></td>
+                    <th>RoHS</th>
+                    <td th:text="${pcbTask.is_rohs}"></td>
+                </tr>
+                <tr>
+                    <th>生产数量</th>
+                    <td th:text="${pcbTask.quantity}"></td>
+                    <th>计划完成时间</th>
+                    <td th:text="${pcbTask.plan_complete_date}"></td>
+                </tr>
+                <tr>
+                    <th>PCB编码</th>
+                    <td th:text="${pcbTask.pcb_id}"></td>
+                    <th>PCB名称</th>
+                    <td th:text="${pcbTask.pcb_name}"></td>
+                </tr>
+                <tr>
+                    <th>PCB数量</th>
+                    <td th:text="${pcbTask.pcb_quantity}"></td>
+                    <th>板编号</th>
+                    <td th:text="${pcbTask.batch_id}"></td>
+                </tr>
+                <tr>
+                    <th>PCB光板号</th>
+                    <td th:text="${pcbTask.pcb_plate_id}"></td>
+                    <th>PCB修改标记</th>
+                    <td th:text="${pcbTask.pcb_modify_tag}"></td>
+                </tr>
+                <tr>
+                    <th>PCB修改时间</th>
+                    <td th:text="${pcbTask.pcb_update_time}"></td>
+                    <th>AB面</th>
+                    <td th:text="${pcbTask.pcb_is_ab}"></td>
+                </tr>
+                <tr>
+                    <th>贴片领料</th>
+                    <td th:text="${pcbTask.patch_pick}"></td>
+                    <th>工单状态</th>
+                    <td th:text="${pcbTask.pcb_task_status}"></td>
+                </tr>
+                <tr>
+                    <th>生产计划投产时间</th>
+                    <td th:text="${pcbTask.produce_plan_date}"></td>
+                    <th>投产时间</th>
+                    <td th:text="${pcbTask.produce_date}"></td>
+                </tr>
+                <tr>
+                    <th>生产计划完成时间</th>
+                    <td th:text="${pcbTask.produce_plan_complete_date}"></td>
+                    <th>生产完成时间</th>
+                    <td th:text="${pcbTask.produce_complete_date}"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${pcbTask.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${pcbTask.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(pcbTask.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(pcbTask.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${pcbTask.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

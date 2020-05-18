@@ -1,8 +1,8 @@
 package com.linln.admin.base.service.impl;
 
-import com.linln.admin.base.domain.MouldPcbDetail;
-import com.linln.admin.base.repository.MouldPcbDetailRepository;
-import com.linln.admin.base.service.MouldPcbDetailService;
+import com.linln.admin.base.domain.Models;
+import com.linln.admin.base.repository.ModelsRepository;
+import com.linln.admin.base.service.ModelsService;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * @author www
- * @date 2020/05/14
+ * @author 小懒虫
+ * @date 2020/05/18
  */
 @Service
-public class MouldPcbDetailServiceImpl implements MouldPcbDetailService {
+public class ModelsServiceImpl implements ModelsService {
 
     @Autowired
-    private MouldPcbDetailRepository mouldPcbDetailRepository;
+    private ModelsRepository modelsRepository;
 
     /**
      * 根据ID查询数据
@@ -30,8 +30,8 @@ public class MouldPcbDetailServiceImpl implements MouldPcbDetailService {
      */
     @Override
     @Transactional
-    public MouldPcbDetail getById(Long id) {
-        return mouldPcbDetailRepository.findById(id).orElse(null);
+    public Models getById(Long id) {
+        return modelsRepository.findById(id).orElse(null);
     }
 
     /**
@@ -40,19 +40,19 @@ public class MouldPcbDetailServiceImpl implements MouldPcbDetailService {
      * @return 返回分页数据
      */
     @Override
-    public Page<MouldPcbDetail> getPageList(Example<MouldPcbDetail> example) {
+    public Page<Models> getPageList(Example<Models> example) {
         // 创建分页对象
         PageRequest page = PageSort.pageRequest();
-        return mouldPcbDetailRepository.findAll(example, page);
+        return modelsRepository.findAll(example, page);
     }
 
     /**
      * 保存数据
-     * @param mouldPcbDetail 实体对象
+     * @param models 实体对象
      */
     @Override
-    public MouldPcbDetail save(MouldPcbDetail mouldPcbDetail) {
-        return mouldPcbDetailRepository.save(mouldPcbDetail);
+    public Models save(Models models) {
+        return modelsRepository.save(models);
     }
 
     /**
@@ -61,6 +61,6 @@ public class MouldPcbDetailServiceImpl implements MouldPcbDetailService {
     @Override
     @Transactional
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
-        return mouldPcbDetailRepository.updateStatus(statusEnum.getCode(), idList) > 0;
+        return modelsRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
 }
