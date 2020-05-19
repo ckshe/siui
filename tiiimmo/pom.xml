@@ -82,10 +82,16 @@
         </dependency>
 
         <!--mysql连接驱动-->
-        <dependency>
+       <!-- <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.connector.version}</version>
+            <scope>runtime</scope>
+        </dependency>-->
+        <!--sqlserver连接驱动-->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
             <scope>runtime</scope>
         </dependency>
 
