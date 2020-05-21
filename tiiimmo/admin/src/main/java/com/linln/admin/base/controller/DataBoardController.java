@@ -10,6 +10,6 @@ public class DataBoardController {
 
     @GetMapping("/dateBoardIndex")
     public String dateBoardIndex(){
-        return "";
+        return "/base/dataBoard/index";
     }
 }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${newPBC.id}"></td>
+                    <th>设备编号</th>
+                    <td th:text="${newPBC.deviceCode}"></td>
+                </tr>
+                <tr>
+                    <th>机型</th>
+                    <td th:text="${newPBC.deviceTypedd}"></td>
+                    <th>PBC</th>
+                    <td th:text="${newPBC.pbc}"></td>
+                </tr>
+                <tr>
+                    <th>温度曲线名</th>
+                    <td th:text="${newPBC.temperatureCurve}"></td>
+                    <th>检测人</th>
+                    <td th:text="${newPBC.checker}"></td>
+                </tr>
+                <tr>
+                    <th>确认人</th>
+                    <td th:text="${newPBC.confirmer}"></td>
+                    <th>日期</th>
+                    <td th:text="${newPBC.confirmDate}"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${newPBC.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${newPBC.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(newPBC.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(newPBC.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${newPBC.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

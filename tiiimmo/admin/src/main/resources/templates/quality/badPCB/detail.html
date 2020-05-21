@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${badPCB.id}"></td>
+                    <th>制造编码</th>
+                    <td th:text="${badPCB.manufactureCode}"></td>
+                </tr>
+                <tr>
+                    <th>PCB编码</th>
+                    <td th:text="${badPCB.pcbCode}"></td>
+                    <th>板编号</th>
+                    <td th:text="${badPCB.panelCode}"></td>
+                </tr>
+                <tr>
+                    <th>位号</th>
+                    <td th:text="${badPCB.locationNum}"></td>
+                    <th>贴片机台</th>
+                    <td th:text="${badPCB.pcb}"></td>
+                </tr>
+                <tr>
+                    <th>不良类型</th>
+                    <td th:text="${badPCB.badType}"></td>
+                    <th>不良现象</th>
+                    <td th:text="${badPCB.badPhenomenon}"></td>
+                </tr>
+                <tr>
+                    <th>数量</th>
+                    <td th:text="${badPCB.number}"></td>
+                    <th>修复情况</th>
+                    <td th:text="${badPCB.repairSituation}"></td>
+                </tr>
+                <tr>
+                    <th>修复人</th>
+                    <td th:text="${badPCB.repairer}"></td>
+                    <th>QC</th>
+                    <td th:text="${badPCB.qc}"></td>
+                </tr>
+                <tr>
+                    <th>时间</th>
+                    <td th:text="${badPCB.repairDate}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${badPCB.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${badPCB.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(badPCB.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(badPCB.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${badPCB.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

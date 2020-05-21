@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="layui-form timo-compile">
+    <form th:action="@{/quality/badPCB/save}">
+        <input type="hidden" name="id" th:if="${badPCB}" th:value="${badPCB.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">制造编码</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="manufactureCode" placeholder="请输入制造编码" th:value="${badPCB?.manufactureCode}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">PCB编码</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="pcbCode" placeholder="请输入PCB编码" th:value="${badPCB?.pcbCode}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">板编号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="panelCode" placeholder="请输入板编号" th:value="${badPCB?.panelCode}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">位号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="locationNum" placeholder="请输入位号" th:value="${badPCB?.locationNum}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">贴片机台</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="pcb" placeholder="请输入贴片机台" th:value="${badPCB?.pcb}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">不良类型</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="badType" placeholder="请输入不良类型" th:value="${badPCB?.badType}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">不良现象</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="badPhenomenon" placeholder="请输入不良现象" th:value="${badPCB?.badPhenomenon}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">数量</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="number" placeholder="请输入数量" th:value="${badPCB?.number}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">修复情况</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="repairSituation" placeholder="请输入修复情况" th:value="${badPCB?.repairSituation}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">修复人</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="repairer" placeholder="请输入修复人" th:value="${badPCB?.repairer}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">QC</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="qc" placeholder="请输入QC" th:value="${badPCB?.qc}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">时间</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="repairDate" placeholder="请输入时间" th:value="${badPCB?.repairDate}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">[[${badPCB?.remark}]]</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>
