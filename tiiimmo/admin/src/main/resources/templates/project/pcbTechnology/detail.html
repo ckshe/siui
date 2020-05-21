@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${pcbTechnology.id}"></td>
+                    <th>更改记录编码</th>
+                    <td th:text="${pcbTechnology.pcb_technology_code}"></td>
+                </tr>
+                <tr>
+                    <th>pcb编码</th>
+                    <td th:text="${pcbTechnology.pcb_code}"></td>
+                    <th>pcb版本</th>
+                    <td th:text="${pcbTechnology.pcb_version}"></td>
+                </tr>
+                <tr>
+                    <th>生效时间</th>
+                    <td th:text="${pcbTechnology.work_time}"></td>
+                    <th>更改类型</th>
+                    <td th:text="${pcbTechnology.change_type}"></td>
+                </tr>
+                <tr>
+                    <th>更改内容</th>
+                    <td th:text="${pcbTechnology.change_msg}"></td>
+                    <th>更改结果</th>
+                    <td th:text="${pcbTechnology.change_result}"></td>
+                </tr>
+                <tr>
+                    <th>审批人</th>
+                    <td th:text="${pcbTechnology.check_user}"></td>
+                    <th>更改人</th>
+                    <td th:text="${pcbTechnology.change_user}"></td>
+                </tr>
+                <tr>
+                    <th>生效人</th>
+                    <td th:text="${pcbTechnology.work_user}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${pcbTechnology.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${pcbTechnology.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(pcbTechnology.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更改时间</th>
+                    <td th:text="${#dates.format(pcbTechnology.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${pcbTechnology.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>
