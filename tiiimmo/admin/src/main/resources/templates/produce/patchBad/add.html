@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="layui-form timo-compile">
+    <form th:action="@{/produce/patchBad/save}">
+        <input type="hidden" name="id" th:if="${patchBad}" th:value="${patchBad.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">版编号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="pcb_code" placeholder="请输入版编号" th:value="${patchBad?.pcb_code}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">位号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="tag_no" placeholder="请输入位号" th:value="${patchBad?.tag_no}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">贴片机台</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="patch_device" placeholder="请输入贴片机台" th:value="${patchBad?.patch_device}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">不良类型</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="bad_type" placeholder="请输入不良类型" th:value="${patchBad?.bad_type}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">不良现象</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="bad_view" placeholder="请输入不良现象" th:value="${patchBad?.bad_view}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">数量</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="amount" placeholder="请输入数量" th:value="${patchBad?.amount}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">修复情况</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="repair_situation" placeholder="请输入修复情况" th:value="${patchBad?.repair_situation}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">修复人</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="repair_user" placeholder="请输入修复人" th:value="${patchBad?.repair_user}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">QC</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="QC" placeholder="请输入QC" th:value="${patchBad?.QC}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">记录时间</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="record_time" placeholder="请输入记录时间" th:value="${patchBad?.record_time}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">[[${patchBad?.remark}]]</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

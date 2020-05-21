@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${plasticBad.id}"></td>
+                    <th>版编号</th>
+                    <td th:text="${plasticBad.pcb_code}"></td>
+                </tr>
+                <tr>
+                    <th>位号</th>
+                    <td th:text="${plasticBad.tag_no}"></td>
+                    <th>贴片机台</th>
+                    <td th:text="${plasticBad.pacth_device}"></td>
+                </tr>
+                <tr>
+                    <th>不良现象</th>
+                    <td th:text="${plasticBad.bad_view}"></td>
+                    <th>数量</th>
+                    <td th:text="${plasticBad.amount}"></td>
+                </tr>
+                <tr>
+                    <th>修复情况</th>
+                    <td th:text="${plasticBad.repair_situation}"></td>
+                    <th>修复人</th>
+                    <td th:text="${plasticBad.repair_user}"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${plasticBad.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${plasticBad.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(plasticBad.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(plasticBad.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${plasticBad.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${patchBad.id}"></td>
+                    <th>版编号</th>
+                    <td th:text="${patchBad.pcb_code}"></td>
+                </tr>
+                <tr>
+                    <th>位号</th>
+                    <td th:text="${patchBad.tag_no}"></td>
+                    <th>贴片机台</th>
+                    <td th:text="${patchBad.patch_device}"></td>
+                </tr>
+                <tr>
+                    <th>不良类型</th>
+                    <td th:text="${patchBad.bad_type}"></td>
+                    <th>不良现象</th>
+                    <td th:text="${patchBad.bad_view}"></td>
+                </tr>
+                <tr>
+                    <th>数量</th>
+                    <td th:text="${patchBad.amount}"></td>
+                    <th>修复情况</th>
+                    <td th:text="${patchBad.repair_situation}"></td>
+                </tr>
+                <tr>
+                    <th>修复人</th>
+                    <td th:text="${patchBad.repair_user}"></td>
+                    <th>QC</th>
+                    <td th:text="${patchBad.QC}"></td>
+                </tr>
+                <tr>
+                    <th>记录时间</th>
+                    <td th:text="${patchBad.record_time}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${patchBad.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${patchBad.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(patchBad.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(patchBad.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${patchBad.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

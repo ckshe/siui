@@ -13,7 +13,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -28,21 +27,33 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * @author 小懒虫
- * @date 2020/05/18
+ * @author www
+ * @date 2020/05/21
  */
 @Data
 @Entity
-@Table(name="produce_pcb_task")
+@Table(name="produce_plastic_bad")
 @EntityListeners(AuditingEntityListener.class)
 @Where(clause = StatusUtil.NOT_DELETE)
-public class PcbTask implements Serializable {
+public class PlasticBad implements Serializable {
     // 主键ID
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    // 任务号
-    private String pcb_task_id;
+    // 版编号
+    private String pcb_code;
+    // 位号
+    private String tag_no;
+    // 贴片机台
+    private String pacth_device;
+    // 不良现象
+    private String bad_view;
+    // 数量
+    private String amount;
+    // 修复情况
+    private String repair_situation;
+    // 修复人
+    private String repair_user;
     // 备注
     private String remark;
     // 创建时间
@@ -67,62 +78,4 @@ public class PcbTask implements Serializable {
     private User updateBy;
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
-    // 制造编号
-    private String task_sheet_id;
-    // 通知日期
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date task_sheet_date;
-    // 厂区
-    private String factory;
-    // 车间
-    private String workshop;
-    // 机型编码
-    private String model_id;
-    // 机型名称
-    private String model_name;
-    // 机型版本
-    private String model_ver;
-    // RoHS
-    private String is_rohs;
-    // 生产数量
-    private Integer quantity;
-    // 计划完成时间
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date plan_complete_date;
-    // PCB编码
-    private String pcb_id;
-    // PCB名称
-    private String pcb_name;
-    // PCB数量
-    private Integer pcb_quantity;
-    // 板编号
-    private String batch_id;
-    // PCB光板号
-    private String pcb_plate_id;
-    // PCB修改标记
-    private String pcb_modify_tag;
-    // PCB修改时间
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date pcb_update_time;
-    // AB面
-    private Byte pcb_is_ab;
-    // 贴片领料
-    private Byte patch_pick;
-
-    //完成数量
-    private Integer amount_completed;
-    // 工单状态
-    private Byte pcb_task_status;
-    // 生产计划投产时间
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date produce_plan_date;
-    // 投产时间
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date produce_date;
-    // 生产计划完成时间
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date produce_plan_complete_date;
-    // 生产完成时间
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date produce_complete_date;
 }

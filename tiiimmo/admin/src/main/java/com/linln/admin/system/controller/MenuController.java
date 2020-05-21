@@ -153,7 +153,8 @@ public class MenuController {
         }
 
         // 保存数据
-        menuService.save(levelMenu);
+        levelMenu.forEach(menu1 -> menuService.save(menu1));
+        //menuService.save(levelMenu);
         return ResultVoUtil.SAVE_SUCCESS;
     }
 

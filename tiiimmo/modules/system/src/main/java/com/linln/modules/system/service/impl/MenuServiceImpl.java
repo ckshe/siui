@@ -124,7 +124,7 @@ public class MenuServiceImpl implements MenuService {
         List<Menu> menus = menuRepository.findByIdIn(ids);
         menus.forEach(menu -> {
             treeMenus.add(menu);
-            treeMenus.addAll(menuRepository.findByPidsLikeAndStatus("%[" + menu.getId() + "]%", menu.getStatus()));
+            treeMenus.addAll(menuRepository.findByPidsLikeAndStatus("%[[]" + menu.getId() + "]%", menu.getStatus()));
         });
 
         treeMenus.forEach(menu -> {

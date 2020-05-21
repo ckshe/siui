@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${pcbCirculation.id}"></td>
+                    <th>版编号</th>
+                    <td th:text="${pcbCirculation.pcb_code}"></td>
+                </tr>
+                <tr>
+                    <th>工序</th>
+                    <td th:text="${pcbCirculation.process_name}"></td>
+                    <th>用料详情</th>
+                    <td th:text="${pcbCirculation.material_detail}"></td>
+                </tr>
+                <tr>
+                    <th>不良记录</th>
+                    <td th:text="${pcbCirculation.bad_record}"></td>
+                    <th>机台</th>
+                    <td th:text="${pcbCirculation.device}"></td>
+                </tr>
+                <tr>
+                    <th>质检信息</th>
+                    <td th:text="${pcbCirculation.inspection_msg}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${pcbCirculation.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${pcbCirculation.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(pcbCirculation.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(pcbCirculation.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${pcbCirculation.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>
