@@ -112,7 +112,7 @@ public class PcbTask implements Serializable {
     //完成数量
     private Integer amount_completed;
     // 工单状态
-    private Byte pcb_task_status;
+    private String pcb_task_status;
     // 生产计划投产时间
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date produce_plan_date;
@@ -125,4 +125,6 @@ public class PcbTask implements Serializable {
     // 生产完成时间
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date produce_complete_date;
+    //投料单号
+    private String feeding_code;
 }

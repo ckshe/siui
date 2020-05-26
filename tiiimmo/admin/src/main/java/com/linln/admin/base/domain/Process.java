@@ -57,4 +57,6 @@ public class Process implements Serializable {
     private User updateBy;
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
+    //序号
+    private Integer sort_no;
 }

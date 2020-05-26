@@ -1,7 +1,9 @@
 package com.linln.admin.produce.service;
 
+import com.linln.RespAndReqs.TaskPutIntoReq;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.common.enums.StatusEnum;
+import com.linln.common.vo.ResultVo;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,5 +41,11 @@ public interface PcbTaskService {
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
 
-    void getDataFromERP(String dataBetween) ;
+    ResultVo getDataFromERP(String dataBetween) ;
+
+    ResultVo putIntoProduceBefore(TaskPutIntoReq taskPutIntoReq);
+
+    ResultVo putIntoProduce(TaskPutIntoReq taskPutIntoReq);
+
+
 }
