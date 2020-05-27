@@ -86,7 +86,8 @@
                     <button class="redButton">工单明细</button>
                 </div>
                 <div class="fourRight">
-                    <button class="greenButton" style="height:calc(100% - 10px)">操作指导</button>
+                    <button class="blueButton">工单明细</button>
+                    <button class="redButton">工单明细</button>
                 </div>
             </div>
         </div>
@@ -95,7 +96,6 @@
 <script src="../../lib/layui-v2.3.0/layui.js" ></script>
 <script src="../../js/common.js" ></script>
 </body>
-
 <script>
     window.onload = function () {
         layui.use(['jquery', 'form'], function () {
@@ -112,7 +112,6 @@
                             for(var o=0;o<navLis.length;o++){
                                 navLis[o].className="navLi"
                             }
-                            console.log(ev.currentTarget)
                             ev.currentTarget.className="navLi this-navLi";
                             iframe.src=url
                         }

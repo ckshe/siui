@@ -124,7 +124,7 @@ layui.use(['element', 'form', 'layer', 'upload'], function () {
                 } else {
                     window.location.reload();
                 }
-            }, 2000);
+            }, 1000);
         } else {
             layer.msg(result.msg, {offset: '15px', time: 3000, icon: 2});
         }

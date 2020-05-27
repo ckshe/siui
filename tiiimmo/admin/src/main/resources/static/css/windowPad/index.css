@@ -15,34 +15,34 @@
     background:#1e9fff ;
 }
 .blueButton{
-    border-radius: 12px;
+    border-radius: 4px;
     color:#fff;
     border: none;
         cursor: pointer;
 
     background:#1e9fff ;
-    box-shadow:0 0 2px 4px #0585e4 inset,
-                0 0 8px 1px #fff inset
+    box-shadow:0 0 2px 3px #0585e4 inset,
+                0 0 5px 1px #fff inset
 }
 .greenButton{
-    border-radius: 12px;
+    border-radius: 4px;
     color:#fff;
     border: none;
         cursor: pointer;
 
     background: #0eb265;
-    box-shadow: 0 0 2px 4px  #109850 inset,
-                0 0 8px 1px #fff inset
+    box-shadow: 0 0 2px 3px  #109850 inset,
+                0 0 5px 1px #fff inset
 }
 .redButton{
-    border-radius: 12px;
+    border-radius: 4px;
     color:#fff;
     border: none;
         cursor: pointer;
 
     background:#ff5b52 ;
-    box-shadow: 0 0 2px 4px  #c6483f inset,
-                0 0 8px 1px #fff inset
+    box-shadow: 0 0 2px 3px  #c6483f inset,
+                0 0 5px 1px #fff inset
 }
 /*总体布局*/
 .bigLeftBox{
@@ -92,8 +92,8 @@
     width:100%;
     height:100%;
     overflow: auto;
-    background: #fff;
-    border:1px solid #eee;
+    /*background: #fff;*/
+    border:1px solid transparent;
 }
 /*头部内容*/
 .topLeft{
@@ -153,7 +153,7 @@
     width:110px;
     height:110px;
     border-radius: 50%;
-    border:1px solid #ccc;
+    border:1px solid #999;
     box-sizing: border-box;
     vertical-align: middle;
 }

@@ -14,7 +14,77 @@
 </head>
 <body>
 <div class="mainBox">
-
+    <div class="imBox">
+        <span class="title" id="imName">1号机台 SMT贴片机</span>
+        <button id="imState" class="greenButton">工作中</button>
+    </div>
+    <div class="taskBox">
+        <div class="title">当前工单</div>
+        <form class="layui-form" lay-filter="formNode">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">验证手机</label>
+                    <div class="layui-input-inline">
+                        <input type="tel" name="phone" lay-verify="phone" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">验证邮箱</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">验证邮箱</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">验证手机</label>
+                    <div class="layui-input-inline">
+                        <input type="tel" name="phone" lay-verify="phone" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">验证邮箱</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">验证邮箱</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">验证手机</label>
+                    <div class="layui-input-inline">
+                        <input type="tel" name="phone" lay-verify="phone" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">验证邮箱</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">验证邮箱</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            </form>
+        <div class="title">生产工单</div>
+        <table class="layui-hide" id="table" lay-filter="table"></table>
+    </div>
 </div>
 
 <script src="../../lib/layui-v2.3.0/layui.js" ></script>
@@ -23,16 +93,74 @@
 
 <script>
     window.onload = function () {
-        layui.use(['jquery', 'form'], function () {
+        layui.use(['jquery', 'form','table'], function () {
             var $ = layui.jquery,
+                table = layui.table,
                 form = layui.form;
+            //展示已知数据
+            table.render({
+                elem: '#table'
+                ,cols: [
+                    [ //标题栏
+                    {field: 'id', title: 'ID', width: 80, sort: true}
+                    ,{field: 'username', title: '用户名', width: 120}
+                    ,{field: 'email', title: '邮箱', minWidth: 150}
+                    ,{field: 'sign', title: '签名', minWidth: 160}
+                    ,{field: 'sex', title: '性别', width: 80}
+                    ,{field: 'city', title: '城市', width: 100}
+                    ,{field: 'experience', title: '积分', width: 80, sort: true}
+                ]
+                ]
+                ,data: [
+                    {
+                    "id": "10001"
+                    ,"username": "杜甫"
+                    ,"email": "xianxin@layui.com"
+                    ,"sex": "男"
+                    ,"city": "浙江杭州"
+                    ,"sign": "人生恰似一场修行"
+                    ,"experience": "116"
+                    ,"ip": "192.168.0.8"
+                    ,"logins": "108"
+                    ,"joinTime": "2016-10-14"
+                }, {
+                    "id": "10002"
+                    ,"username": "李白"
+                    ,"email": "xianxin@layui.com"
+                    ,"sex": "男"
+                    ,"city": "浙江杭州"
+                    ,"sign": "人生恰似一场修行"
+                    ,"experience": "12"
+                    ,"ip": "192.168.0.8"
+                    ,"logins": "106"
+                    ,"joinTime": "2016-10-14"
+                    ,"LAY_CHECKED": true
+                }, {
+                    "id": "10003"
+                    ,"username": "王勃"
+                    ,"email": "xianxin@layui.com"
+                    ,"sex": "男"
+                    ,"city": "浙江杭州"
+                    ,"sign": "人生恰似一场修行"
+                    ,"experience": "65"
+                    ,"ip": "192.168.0.8"
+                    ,"logins": "106"
+                    ,"joinTime": "2016-10-14"
+                }, {
+                    "id": "10004"
+                    ,"username": "贤心"
+                    ,"email": "xianxin@layui.com"
+                    ,"sex": "男"
+                    ,"city": "浙江杭州"
+                    ,"sign": "人生恰似一场修行"
+                    ,"experience": "666"
+                    ,"ip": "192.168.0.8"
+                    ,"logins": "106"
+                    ,"joinTime": "2016-10-14"
+                }]
 
+            });
 
-                    // for(var i=0;i<navLis.length;i++){
-                    //     navLis[i].className = 'navLi';
-                    // }
-                    // navLis[index].className="navLi this-navLi"
-                // }
 
         });
 
