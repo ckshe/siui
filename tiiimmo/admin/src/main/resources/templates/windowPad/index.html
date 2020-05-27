@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>平板主页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+    <link rel="stylesheet" href="../../css/windowPad/index.css">
+    <link rel="stylesheet" href="../../css/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+    <style>
+        html{
+            overflow-x: auto!important;
+        }
+    </style>
+</head>
+<body>
+<div class="bigLeftBox">
+    <div class="topBox">
+        <div class="topLeft"></div>
+        <div class="topRight"><span id="systemTime"></span></div>
+    </div>
+    <div class="container">
+        <div class="navBox">
+            <ul class="navUl">
+                <li class="navLi this-navLi" data-url="/windowPad/productInfo">
+                    <span  class="layui-icon">&#xe62c;</span><span>生产信息</span>
+                </li>
+                <li class="navLi" data-url="https://www.baidu.com">
+                    <span  class="layui-icon" >&#xe63c;</span><span>生产任务</span>
+                </li>
+                <li class="navLi">
+                    <span class="layui-icon" data-url="/windowPad/productInfo">&#xe60e;</span><span>操作历史</span>
+                </li>
+                <li class="navLi">
+                    <span class="layui-icon" data-url="/windowPad/productInfo">&#xe642;</span><span>运行日志</span>
+                </li>
+            </ul>
+        </div>
+        <iframe id="iframe" class="mainBox" src="/windowPad/productInfo">
+        </iframe>
+
+    </div>
+</div>
+    <div class="bigRightBox">
+        <div class="rightTop">
+            <div class="userInfo">
+            <img class="userImg" src="../../images/char-ccmiao.png" alt=""><!--
+            --><div class="userRight">
+                    <div class="title"><span id="userName">诸葛孔明</span></div>
+                    <div class="title hui"><span id="upTime">2020-08-22 12:30:59</span></div>
+                </div>
+        </div>
+        <ul class="userUl">
+            <li class="userLi">
+                <div class="title cu">生产数</div>
+                <div class="title hui">12399</div>
+            </li>
+            <li class="userLi">
+                <div class="title cu">不良数</div>
+                <div class="title hui">999999</div>
+            </li>
+            <li class="userLi">
+                <div class="title cu">工作时长</div>
+                <div class="title hui">12399</div>
+            </li>
+        </ul>
+        </div>
+        <div class="buttonBox">
+            <div class="fourBox">
+                <div class="fourLeft">
+                    <button class="blueButton">工单明细</button>
+                    <button class="redButton">工单明细</button>
+                </div>
+                <div class="fourRight">
+                    <button class="greenButton" style="height:calc(100% - 10px)">操作指导</button>
+                </div>
+            </div>
+            <button class="blueButton" style="height:70px;width:100%;">大按钮</button>
+
+            <div class="fourBox">
+                <div class="fourLeft">
+                    <button class="blueButton">工单明细</button>
+                    <button class="redButton">工单明细</button>
+                </div>
+                <div class="fourRight">
+                    <button class="greenButton" style="height:calc(100% - 10px)">操作指导</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../lib/layui-v2.3.0/layui.js" ></script>
+<script src="../../js/common.js" ></script>
+</body>
+
+<script>
+    window.onload = function () {
+        layui.use(['jquery', 'form'], function () {
+            var $ = layui.jquery,
+                form = layui.form;
+                var navLis = document.getElementsByClassName('navLi');
+                var iframe = document.getElementById('iframe');
+
+                    for(var i=0;i<navLis.length;i++){
+
+                        navLis[i].onclick=function (e) {
+                            var ev=e||window.event;
+                            var url = ev.currentTarget.getAttribute('data-url');
+                            for(var o=0;o<navLis.length;o++){
+                                navLis[o].className="navLi"
+                            }
+                            console.log(ev.currentTarget)
+                            ev.currentTarget.className="navLi this-navLi";
+                            iframe.src=url
+                        }
+                    }
+                    // navLis[index].className="navLi this-navLi"
+                // }
+
+        });
+        var systemTime = document.getElementById('systemTime');
+        systemTime.innerHTML=timeToDate(new Date())
+        setInterval(function () {
+            systemTime.innerHTML=timeToDate(new Date())
+        },1000)
+
+    };
+
+</script>
+</html>
