@@ -1,0 +1,11 @@
+/*向左消失*/
+.goLeft0{
+    transition: left .2s ,opacity .2s;
+    left:-30px;
+    opacity: 0;
+}
+.go01{
+    transition: left .5s ,opacity .7s;
+    left:0;
+    opacity: 1;
+}

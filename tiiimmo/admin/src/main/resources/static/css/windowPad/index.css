@@ -94,6 +94,9 @@
     overflow: auto;
     /*background: #fff;*/
     border:1px solid transparent;
+    position: relative;
+    left:0;
+    opacity:1;
 }
 /*头部内容*/
 .topLeft{
@@ -107,6 +110,7 @@
     right:0;
     width:176px;
     height:100%;
+    padding-right:14px;
 }
 #systemTime{
     position: absolute;

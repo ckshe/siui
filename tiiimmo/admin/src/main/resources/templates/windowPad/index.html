@@ -9,7 +9,7 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
     <link rel="stylesheet" href="../../css/windowPad/index.css">
-    <link rel="stylesheet" href="../../css/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/windowPad/animation.css">
     <style>
         html{
             overflow-x: auto!important;
@@ -17,39 +17,38 @@
     </style>
 </head>
 <body>
-<div class="bigLeftBox">
-    <div class="topBox">
-        <div class="topLeft"></div>
-        <div class="topRight"><span id="systemTime"></span></div>
-    </div>
-    <div class="container">
-        <div class="navBox">
-            <ul class="navUl">
-                <li class="navLi this-navLi" data-url="/windowPad/productInfo">
-                    <span  class="layui-icon">&#xe62c;</span><span>生产信息</span>
-                </li>
-                <li class="navLi" data-url="https://www.baidu.com">
-                    <span  class="layui-icon" >&#xe63c;</span><span>生产任务</span>
-                </li>
-                <li class="navLi">
-                    <span class="layui-icon" data-url="/windowPad/productInfo">&#xe60e;</span><span>操作历史</span>
-                </li>
-                <li class="navLi">
-                    <span class="layui-icon" data-url="/windowPad/productInfo">&#xe642;</span><span>运行日志</span>
-                </li>
-            </ul>
+    <div class="bigLeftBox">
+        <div class="topBox">
+            <div class="topLeft"></div>
+            <div class="topRight"><span id="systemTime"></span></div>
         </div>
-        <iframe id="iframe" class="mainBox" src="/windowPad/productInfo">
-        </iframe>
-
+        <div class="container">
+            <div class="navBox">
+                <ul class="navUl">
+                    <li class="navLi" data-url="/windowPad/productInfo">
+                        <span  class="layui-icon">&#xe62c;</span><span>生产工单</span>
+                    </li>
+                    <li class="navLi" data-url="https://www.baidu.com">
+                        <span  class="layui-icon" >&#xe63c;</span><span>生产任务</span>
+                    </li>
+                    <li class="navLi" data-url="https://fanyi.baidu.com/#en/zh/">
+                        <span class="layui-icon" >&#xe60e;</span><span>工作历史</span>
+                    </li>
+                    <li class="navLi">
+                        <span class="layui-icon" data-url="/windowPad/productInfo">&#xe614;</span><span>系统设置</span>
+                    </li>
+                </ul>
+            </div>
+            <iframe id="iframe" class="mainBox" src="">
+            </iframe>
+        </div>
     </div>
-</div>
     <div class="bigRightBox">
         <div class="rightTop">
             <div class="userInfo">
             <img class="userImg" src="../../images/char-ccmiao.png" alt=""><!--
             --><div class="userRight">
-                    <div class="title"><span id="userName">诸葛孔明</span></div>
+                    <div class="title"><span id="userName">用户名称</span></div>
                     <div class="title hui"><span id="upTime">2020-08-22 12:30:59</span></div>
                 </div>
         </div>
@@ -78,16 +77,16 @@
                     <button class="greenButton" style="height:calc(100% - 10px)">操作指导</button>
                 </div>
             </div>
-            <button class="blueButton" style="height:70px;width:100%;">大按钮</button>
+            <button class="blueButton" style="height:70px;width:100%;">切换工单</button>
 
             <div class="fourBox">
                 <div class="fourLeft">
-                    <button class="blueButton">工单明细</button>
-                    <button class="redButton">工单明细</button>
+                    <button class="blueButton">呼叫</button>
+                    <button class="redButton">不良品</button>
                 </div>
                 <div class="fourRight">
-                    <button class="blueButton">工单明细</button>
-                    <button class="redButton">工单明细</button>
+                    <button class="blueButton">上机</button>
+                    <button class="redButton">下机</button>
                 </div>
             </div>
         </div>
@@ -105,26 +104,56 @@
                 var iframe = document.getElementById('iframe');
 
                     for(var i=0;i<navLis.length;i++){
-
                         navLis[i].onclick=function (e) {
+                            iframe.className='mainBox goLeft0';
+
                             var ev=e||window.event;
                             var url = ev.currentTarget.getAttribute('data-url');
                             for(var o=0;o<navLis.length;o++){
                                 navLis[o].className="navLi"
                             }
                             ev.currentTarget.className="navLi this-navLi";
-                            iframe.src=url
+                            iframe.src=url;
+                            // iframe.addEventListener('load',function (ev1) {
+                            setTimeout(function () {
+                                iframe.className='mainBox go01';
+
+                            },300)
+
+                            // })
+
+
+
+                            var nowNav={};
+                            nowNav.url=url;
+                            localStorage.setItem('nowNav',JSON.stringify(nowNav))
                         }
                     }
-                    // navLis[index].className="navLi this-navLi"
-                // }
+                    //    读取本地存储，展开菜单
+                    if(localStorage.getItem('nowNav')){
+                        var obj = JSON.parse(localStorage.getItem('nowNav'));
+                        console.log(obj)
+                        if(obj.url){
+                            for(var o=0;o<navLis.length;o++){
+                                if(navLis[o].getAttribute('data-url')==obj.url){
+                                    navLis[o].className = "navLi this-navLi";
+                                    iframe.src=obj.url;
+                                }
+                            }
+                        }else{
+                            navLis[0].className = "navLi this-navLi";
+                            iframe.src=navLis[0].getAttribute('data-url')
+                        }
 
+                    }
         });
         var systemTime = document.getElementById('systemTime');
         systemTime.innerHTML=timeToDate(new Date())
         setInterval(function () {
             systemTime.innerHTML=timeToDate(new Date())
         },1000)
+
+
 
     };
 
