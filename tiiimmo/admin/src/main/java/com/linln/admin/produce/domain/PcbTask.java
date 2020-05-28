@@ -42,7 +42,7 @@ public class PcbTask implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     // 任务号
-    private String pcb_task_id;
+    private String pcb_task_code;
     // 备注
     private String remark;
     // 创建时间
@@ -68,7 +68,7 @@ public class PcbTask implements Serializable {
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
     // 制造编号
-    private String task_sheet_id;
+    private String task_sheet_code;
     // 通知日期
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date task_sheet_date;
@@ -127,4 +127,6 @@ public class PcbTask implements Serializable {
     private Date produce_complete_date;
     //投料单号
     private String feeding_code;
+
+
 }

@@ -42,7 +42,7 @@ public class TaskSheet implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     // 制造编号
-    private String task_sheet_id;
+    private String task_sheet_code;
     // 备注
     private String remark;
     // 创建时间

@@ -40,8 +40,8 @@ public class PcbTaskController {
 
         // 创建匹配器，进行动态查询匹配
         ExampleMatcher matcher = ExampleMatcher.matching()
-                .withMatcher("pcb_task_id", match -> match.contains())
-                .withMatcher("task_sheet_id", match -> match.contains())
+                .withMatcher("pcb_task_code", match -> match.contains())
+                .withMatcher("task_sheet_code", match -> match.contains())
                 .withMatcher("task_sheet_date", match -> match.contains());
 
         // 获取数据列表
@@ -118,5 +118,24 @@ public class PcbTaskController {
         } else {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
+    }
+
+    @ResponseBody
+    @GetMapping("/getPcbTaskFromERP")
+    public ResultVo getPcbTaskFromERP(){
+        return pcbTaskService.getPcbTaskFromERP(null);
+    }
+
+
+    @GetMapping("/putIntoProduceBefore")
+    @ResponseBody
+    public ResultVo putIntoProduceBefore(){
+        return pcbTaskService.putIntoProduceBefore(null);
+    }
+
+    @GetMapping("/findProcessTaskByPCBTaskId")
+    @ResponseBody
+    public ResultVo findProcessTaskByPCBTaskId(){
+        return pcbTaskService.findProcessTaskByPCBTaskId(31L);
     }
 }

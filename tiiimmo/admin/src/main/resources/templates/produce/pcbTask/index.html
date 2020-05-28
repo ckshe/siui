@@ -21,13 +21,13 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">任务号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="pcb_task_id" th:value="${param.pcb_task_id}" placeholder="请输入任务号" autocomplete="off" class="layui-input">
+                            <input type="text" name="pcb_task_code" th:value="${param.pcb_task_code}" placeholder="请输入任务号" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">制造编号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="task_sheet_id" th:value="${param.task_sheet_id}" placeholder="请输入制造编号" autocomplete="off" class="layui-input">
+                            <input type="text" name="task_sheet_code" th:value="${param.task_sheet_code}" placeholder="请输入制造编号" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -68,19 +68,19 @@
                         <th>通知日期</th>
                         <th>厂区</th>
                         <th>车间</th>
-                        <th>机型编码</th>
+                        <th style="display: none">机型编码</th>
                         <th>机型名称</th>
                         <th>机型版本</th>
                         <th>RoHS</th>
-                        <th>生产数量</th>
-                        <th>计划完成时间</th>
+                        <th style="display: none">生产数量</th>
+                        <th style="display: none">计划完成时间</th>
                         <th>PCB编码</th>
                         <th>PCB名称</th>
                         <th>PCB数量</th>
                         <th>板编号</th>
                         <th>PCB光板号</th>
-                        <th>PCB修改标记</th>
-                        <th>PCB修改时间</th>
+                        <th style="display: none">PCB修改标记</th>
+                        <th style="display: none">PCB修改时间</th>
                         <th>AB面</th>
                         <th>贴片领料</th>
                         <th>工单状态</th>
@@ -95,24 +95,24 @@
                     <tr th:each="item:${list}">
                         <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
                             <i class="layui-icon layui-icon-ok"></i></label></td>
-                        <td th:text="${item.pcb_task_id}">任务号</td>
-                        <td th:text="${item.task_sheet_id}">制造编号</td>
+                        <td th:text="${item.pcb_task_code}">任务号</td>
+                        <td th:text="${item.task_sheet_code}">制造编号</td>
                         <td th:text="${item.task_sheet_date}">通知日期</td>
                         <td th:text="${item.factory}">厂区</td>
                         <td th:text="${item.workshop}">车间</td>
-                        <td th:text="${item.model_id}">机型编码</td>
+                        <td style="display: none" th:text="${item.model_id}">机型编码</td>
                         <td th:text="${item.model_name}">机型名称</td>
                         <td th:text="${item.model_ver}">机型版本</td>
                         <td th:text="${item.is_rohs}">RoHS</td>
-                        <td th:text="${item.quantity}">生产数量</td>
-                        <td th:text="${item.plan_complete_date}">计划完成时间</td>
+                        <td style="display: none" th:text="${item.quantity}">生产数量</td>
+                        <td style="display: none" th:text="${item.plan_complete_date}">计划完成时间</td>
                         <td th:text="${item.pcb_id}">PCB编码</td>
                         <td th:text="${item.pcb_name}">PCB名称</td>
                         <td th:text="${item.pcb_quantity}">PCB数量</td>
                         <td th:text="${item.batch_id}">板编号</td>
                         <td th:text="${item.pcb_plate_id}">PCB光板号</td>
-                        <td th:text="${item.pcb_modify_tag}">PCB修改标记</td>
-                        <td th:text="${item.pcb_update_time}">PCB修改时间</td>
+                        <td style="display: none" th:text="${item.pcb_modify_tag}">PCB修改标记</td>
+                        <td style="display: none" th:text="${item.pcb_update_time}">PCB修改时间</td>
                         <td th:text="${item.pcb_is_ab}">AB面</td>
                         <td th:text="${item.patch_pick}">贴片领料</td>
                         <td th:text="${item.pcb_task_status}">工单状态</td>

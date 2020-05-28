@@ -14,9 +14,9 @@ public class ProcessTask {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id ;
     // 制造编号
-    private String task_sheet_id;
+    private String task_sheet_code;
     // 任务号
-    private String pcb_task_id;
+    private String pcb_task_code;
     // 机型版本
     private String model_ver;
     // PCB名称
@@ -41,5 +41,8 @@ public class ProcessTask {
     //是否冻结
     private Byte status;
 
+    private String process_task_code;
+
+    private Long pcb_task_id;
 }
 

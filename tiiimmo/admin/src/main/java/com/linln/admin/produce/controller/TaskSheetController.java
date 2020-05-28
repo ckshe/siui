@@ -40,7 +40,7 @@ public class TaskSheetController {
 
         // 创建匹配器，进行动态查询匹配
         ExampleMatcher matcher = ExampleMatcher.matching()
-                .withMatcher("task_sheet_id", match -> match.contains());
+                .withMatcher("task_sheet_code", match -> match.contains());
 
         // 获取数据列表
         Example<TaskSheet> example = Example.of(taskSheet, matcher);

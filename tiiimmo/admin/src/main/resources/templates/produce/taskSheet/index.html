@@ -21,7 +21,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">制造编号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="task_sheet_id" th:value="${param.task_sheet_id}" placeholder="请输入制造编号" autocomplete="off" class="layui-input">
+                            <input type="text" name="task_sheet_code" th:value="${param.task_sheet_code}" placeholder="请输入制造编号" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -70,7 +70,7 @@
                         <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
                             <i class="layui-icon layui-icon-ok"></i></label></td>
                         <td th:text="${item.id}">主键ID</td>
-                        <td th:text="${item.task_sheet_id}">制造编号</td>
+                        <td th:text="${item.task_sheet_code}">制造编号</td>
                         <td th:text="${item.task_sheet_date}">通知日期</td>
                         <td th:text="${item.factory}">厂区</td>
                         <td th:text="${item.workshop}">车间</td>

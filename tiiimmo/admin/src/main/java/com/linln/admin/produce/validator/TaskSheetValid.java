@@ -12,5 +12,5 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class TaskSheetValid implements Serializable {
     @NotEmpty(message = "制造编号不能为空")
-    private String task_sheet_id;
+    private String task_sheet_code;
 }

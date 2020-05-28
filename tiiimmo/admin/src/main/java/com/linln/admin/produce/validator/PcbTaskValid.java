@@ -12,5 +12,5 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class PcbTaskValid implements Serializable {
     @NotEmpty(message = "任务号不能为空")
-    private String pcb_task_id;
+    private String pcb_task_code;
 }

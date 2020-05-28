@@ -34,9 +34,9 @@ public class OpenController {
         List<PcbTask> pckTaskList = new ArrayList<>();
         for(int i = 0 ; i<lists.size();i++){
             JSONObject param = lists.getJSONObject(i);
-            String task_sheet_id = param.getString("制造编号");
+            String task_sheet_code = param.getString("制造编号");
             Date produce_plan_date =  param.getDate("计划投产时间");
-            String pcb_task_id = param.getString("任务号");
+            String pcb_task_code = param.getString("任务号");
             String pcb_name = param.getString("pcb_name");
             Date produce_date =  param.getDate("实际投产时间");
             Date produce_plan_complete_date =  param.getDate("计划完成时间");
@@ -49,9 +49,9 @@ public class OpenController {
             String feeding_code = param.getString("投料单号");
             String workshop = param.getString("车间");
             PcbTask pcbTask = new PcbTask();
-            pcbTask.setTask_sheet_id(task_sheet_id);
+            pcbTask.setTask_sheet_code(task_sheet_code);
             pcbTask.setProduce_plan_date(produce_plan_date);
-            pcbTask.setPcb_task_id(pcb_task_id);
+            pcbTask.setPcb_task_code(pcb_task_code);
             pcbTask.setPcb_name(pcb_name);
             pcbTask.setProduce_date(produce_date);
             pcbTask.setProduce_plan_complete_date(produce_plan_complete_date);

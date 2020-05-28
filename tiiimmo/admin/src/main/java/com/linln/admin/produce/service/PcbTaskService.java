@@ -41,11 +41,13 @@ public interface PcbTaskService {
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
 
-    ResultVo getDataFromERP(String dataBetween) ;
+    ResultVo getPcbTaskFromERP(String dataBetween) ;
 
+
+    ResultVo getFeedingTaskFromERP(String dataBetween) ;
     ResultVo putIntoProduceBefore(TaskPutIntoReq taskPutIntoReq);
 
     ResultVo putIntoProduce(TaskPutIntoReq taskPutIntoReq);
 
-
+    ResultVo findProcessTaskByPCBTaskId(Long id);
 }
