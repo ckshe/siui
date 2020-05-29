@@ -126,7 +126,7 @@ public class PcbTask implements Serializable {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date produce_complete_date;
     //投料单号
-    private String feeding_code;
+    private String feeding_task_code;
 
 
 }

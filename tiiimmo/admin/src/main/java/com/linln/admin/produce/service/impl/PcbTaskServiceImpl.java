@@ -8,6 +8,7 @@ import com.linln.RespAndReqs.TaskPutIntoReq;
 import com.linln.admin.base.domain.Process;
 import com.linln.admin.base.repository.ModelsRepository;
 import com.linln.admin.base.repository.ProcessRepository;
+import com.linln.admin.produce.domain.FeedingTask;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.ScheduleJobApi;
@@ -114,12 +115,18 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         List<PcbTask> pckTaskList = new ArrayList<>();
         for(int i = 0 ; i<lists.size();i++){
             JSONObject param = lists.getJSONObject(i);
+            //生产任务单号
+            String pcb_task_code = param.getString("FRWFBillNo");
+            //这里需要匹配是否已同步过的
+            PcbTask pcbTask = new PcbTask();
+            PcbTask oldPcbTask = pcbTaskRepository.findAllByPcb_task_code(pcb_task_code);
+            if(oldPcbTask!=null){
+                pcbTask = oldPcbTask;
+            }
             //制造编号
             String task_sheet_code = param.getString("FProduceNo");
             //计划投产时间
             Date produce_plan_date =  param.getDate("FPlanCommitDate");
-            //生产任务单号
-            String pcb_task_code = param.getString("FRWFBillNo");
             //pcb名称
             String pcb_name = param.getString("FPCBName");
             //计划完成时间
@@ -146,7 +153,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             String is_rohs = param.getString("FRoHSBz");
             //通知日期
             Date noticeDate = param.getDate("FNoticeDate");
-            PcbTask pcbTask = new PcbTask();
             pcbTask.setProduce_plan_date(produce_plan_date);
             pcbTask.setTask_sheet_code(task_sheet_code);
             pcbTask.setIs_rohs(is_rohs);
@@ -154,15 +160,17 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             pcbTask.setProduce_date(produce_date);
             pcbTask.setTask_sheet_date(noticeDate);
             pcbTask.setPcb_name(pcb_name);
+            pcbTask.setFactory("万吉厂区");
             pcbTask.setProduce_plan_complete_date(produce_plan_complete_date);
             pcbTask.setProduce_complete_date(produce_complete_date);
             pcbTask.setModel_name(model_name);
             pcbTask.setPcb_id(pcb_id);
             pcbTask.setPcb_task_status(pcb_task_status);
             pcbTask.setModel_ver(model_ver);
-            pcbTask.setFeeding_code(feeding_code);
+            pcbTask.setFeeding_task_code(feeding_code);
             pcbTask.setPcb_quantity(pcb_quantity);
             pcbTask.setWorkshop(workshop);
+            //生成板编号
 
             pckTaskList.add(pcbTask);
         }
@@ -186,18 +194,20 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
         String s = ReadUtill.readJsonFile(path);
         JSONObject jobj = JSON.parseObject(s);
+        List<FeedingTask> feedingTaskList = new ArrayList<>();
         JSONArray lists = jobj.getJSONArray("data");
         for(int i =0;i<lists.size();i++){
-
+            FeedingTask feedingTask = new FeedingTask();
+            feedingTask.setFeeding_task_code("");
         }
         return null;
     }
 
     @Override
-    public ResultVo putIntoProduceBefore(TaskPutIntoReq taskPutIntoReq) {
+    public ResultVo putIntoProduceBefore(Long pcbTaskId) {
         PcbTask pcbTask = null;
 
-        Optional<PcbTask> optional = pcbTaskRepository.findById(31L);
+        Optional<PcbTask> optional = pcbTaskRepository.findById(pcbTaskId);
         pcbTask = optional.isPresent()?optional.get():null;
         if(pcbTask==null) {
             return ResultVoUtil.error("查不到该pcb任务单");
@@ -212,6 +222,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTask.setPcb_task_id(pcbTask.getId());
             processTask.setPcb_quantity(pcbTask.getPcb_quantity());
             processTask.setModel_ver(pcbTask.getModel_ver());
+            processTask.setAmount_completed(0);
             processTask.setProcess_name(p.getName());
             processTask.setTask_sheet_code(pcbTask.getTask_sheet_code());
             processTask.setPcb_name(pcbTask.getPcb_name());

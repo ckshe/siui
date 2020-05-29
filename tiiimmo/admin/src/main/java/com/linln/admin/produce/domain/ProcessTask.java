@@ -44,5 +44,7 @@ public class ProcessTask {
     private String process_task_code;
 
     private Long pcb_task_id;
+
+    private Integer amount_completed;
 }
 

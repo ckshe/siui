@@ -122,20 +122,21 @@ public class PcbTaskController {
 
     @ResponseBody
     @GetMapping("/getPcbTaskFromERP")
-    public ResultVo getPcbTaskFromERP(){
+    public ResultVo getPcbTaskFromERP( ){
         return pcbTaskService.getPcbTaskFromERP(null);
     }
 
 
-    @GetMapping("/putIntoProduceBefore")
+    @GetMapping("/putIntoProduceBefore/{id}")
     @ResponseBody
-    public ResultVo putIntoProduceBefore(){
-        return pcbTaskService.putIntoProduceBefore(null);
+    public ResultVo putIntoProduceBefore(@PathVariable Long id){
+
+        return pcbTaskService.putIntoProduceBefore(id);
     }
 
-    @GetMapping("/findProcessTaskByPCBTaskId")
+    @GetMapping("/findProcessTaskByPCBTaskId/{id}")
     @ResponseBody
-    public ResultVo findProcessTaskByPCBTaskId(){
-        return pcbTaskService.findProcessTaskByPCBTaskId(31L);
+    public ResultVo findProcessTaskByPCBTaskId(@PathVariable Long id){
+        return pcbTaskService.findProcessTaskByPCBTaskId(id);
     }
 }
