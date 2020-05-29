@@ -214,6 +214,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }
         List<ProcessTask> processTaskList = new ArrayList<>();
         List<Process> processList = processRepository.findAllByStatus(StatusEnum.OK.getCode());
+        int i = 1;
         for(Process p : processList){
             ProcessTask processTask = new ProcessTask();
             processTask.setPcb_task_code(pcbTask.getPcb_task_code());
@@ -227,6 +228,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTask.setTask_sheet_code(pcbTask.getTask_sheet_code());
             processTask.setPcb_name(pcbTask.getPcb_name());
             processTask.setProcess_task_status("未下达到机台");
+            String processTaskCode = pcbTask.getPcb_task_code()+"_00"+i;
+            processTask.setProcess_task_code(processTaskCode);
             processTaskList.add(processTask);
 
         }
