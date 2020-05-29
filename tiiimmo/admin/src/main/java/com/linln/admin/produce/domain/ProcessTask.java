@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -40,11 +41,19 @@ public class ProcessTask {
     private String process_task_status;
     //是否冻结
     private Byte status;
-
+    //工序订单编号
     private String process_task_code;
-
+    //排产计划id
     private Long pcb_task_id;
-
+    //完成数量
     private Integer amount_completed;
+    //计划开始时间
+    private Date plan_start_time;
+    //计划结束时间
+    private Date plan_finish_name;
+    //工时
+    private BigDecimal work_time;
+
+
 }
 

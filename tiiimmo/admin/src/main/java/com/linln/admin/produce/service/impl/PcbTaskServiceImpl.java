@@ -234,7 +234,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
         }
         processTaskRepository.saveAll(processTaskList);
-        pcbTask.setPcb_task_status("已下达切分工序未投产");
+        pcbTask.setPcb_task_status("已下达已投产");
         pcbTaskRepository.save(pcbTask);
         return  ResultVoUtil.success("下达切分完成");
     }
@@ -250,8 +250,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }
         processTask.setDevice_code(taskPutIntoReq.getDeviceCode());
         processTask.setDevice_name(taskPutIntoReq.getDeviceName());
-        processTask.setStart_time(taskPutIntoReq.getStartTime());
-        processTask.setFinish_time(taskPutIntoReq.getFinishTime());
+        processTask.setStart_time(taskPutIntoReq.getPlanStartTime());
+        processTask.setFinish_time(taskPutIntoReq.getPlanFinishTime());
+        processTask.setAmount_completed(taskPutIntoReq.getAmountCompleted());
         processTask.setProcess_task_status("已下达到机台");
         processTaskRepository.save(processTask);
         return ResultVoUtil.success("工序计划下达到机台成功");
