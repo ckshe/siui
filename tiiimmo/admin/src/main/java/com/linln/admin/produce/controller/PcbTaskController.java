@@ -63,6 +63,11 @@ public class PcbTaskController {
         return "/produce/pcbTask/add";
     }
 
+    @GetMapping("/plan")
+    public String plan() {
+        return "/produce/pcbTask/plan";
+    }
+
     /**
      * 跳转到编辑页面
      */
@@ -101,6 +106,8 @@ public class PcbTaskController {
         model.addAttribute("pcbTask",pcbTask);
         return "/produce/pcbTask/detail";
     }
+
+
 
     /**
      * 设置一条或者多条数据的状态

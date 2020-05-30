@@ -7,6 +7,10 @@
 .layui-form-item .layui-inline{
     margin-right:0!important;
 }
+.layui-form-item .layui-input-inline{
+    width: auto!important;
+     margin-right: 0!important;
+}
 .title{
     font-size: 20px;
     vertical-align: middle;
