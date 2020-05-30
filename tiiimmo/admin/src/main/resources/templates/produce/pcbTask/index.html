@@ -73,6 +73,7 @@
                         <th style="display: none">机型编码</th>
                         <th>机型名称</th>
                         <th>机型型号</th>
+                        <th>规格型号</th>
                         <th>物料名称</th>
                         <th>光板号</th>
                         <th>计划生产数量</th>
@@ -107,6 +108,7 @@
                         <td th:text="${item.workshop}">车间</td>
                         <td th:text="${item.model_name}">机型名称</td>
                         <td>机型型号</td>
+                        <td>规格型号</td>
                         <td th:text="${item.pcb_name}">物料名称</td>
                         <td th:text="${item.pcb_plate_id}">光板号</td>
                         <td>计划生产数量</td>
@@ -143,13 +145,34 @@
     <script>
         layui.use(['form'],function () {
             var layer = layui.layer,
-                form=layui.form;
+                    $ = layui.jquery,
+                 form = layui.form;
 
             form.on('submit(sub)',function (obj) {
                 var id=obj.field.id;
                 switch (obj.elem.getAttribute('data-type')) {
                     case 'tou':
-                        ;break
+                           // var load= layer.load(2,{
+                           //      shade: [0.5, 'gray'],
+                           //      content: '下达中...',
+                           //      success: function (layero) {
+                           //          layero.find('.layui-layer-content').css({
+                           //              'padding-top': '39px',
+                           //              'width': '60px'
+                           //          });
+                           //      }
+                           //  });
+                        // layer.alert('asfd',{icon:1})
+                            $.get('/produce/pcbTask/putIntoProduceBefore/'+id,function(res){
+                                    if(res.code===200){
+                                        layer.alert(res.msg,{icon:1},function () {
+                                            window.location.reload();
+                                        })
+                                    }else{
+                                        layer.alert(res.msg,{icon:5})
+                                    }
+                            });
+                        break;
                     case 'kan':
                         layer.open({
                             title:'工序计划',
