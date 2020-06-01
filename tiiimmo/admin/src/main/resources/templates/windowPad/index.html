@@ -28,15 +28,15 @@
                     <li class="navLi" data-url="/windowPad/productInfo">
                         <span  class="layui-icon">&#xe62c;</span><span>生产工单</span>
                     </li>
-                    <li class="navLi" data-url="https://www.baidu.com">
-                        <span  class="layui-icon" >&#xe63c;</span><span>生产任务</span>
-                    </li>
-                    <li class="navLi" data-url="https://fanyi.baidu.com/#en/zh/">
-                        <span class="layui-icon" >&#xe60e;</span><span>工作历史</span>
-                    </li>
-                    <li class="navLi">
-                        <span class="layui-icon" data-url="/windowPad/productInfo">&#xe614;</span><span>系统设置</span>
-                    </li>
+<!--                    <li class="navLi" data-url="https://www.baidu.com">-->
+<!--                        <span  class="layui-icon" >&#xe63c;</span><span>生产任务</span>-->
+<!--                    </li>-->
+<!--                    <li class="navLi" data-url="https://fanyi.baidu.com/#en/zh/">-->
+<!--                        <span class="layui-icon" >&#xe60e;</span><span>工作历史</span>-->
+<!--                    </li>-->
+<!--                    <li class="navLi">-->
+<!--                        <span class="layui-icon" data-url="/windowPad/productInfo">&#xe614;</span><span>系统设置</span>-->
+<!--                    </li>-->
                 </ul>
             </div>
             <iframe id="iframe" class="mainBox" src="">
@@ -114,16 +114,10 @@
                             }
                             ev.currentTarget.className="navLi this-navLi";
                             iframe.src=url;
-                            // iframe.addEventListener('load',function (ev1) {
                             setTimeout(function () {
                                 iframe.className='mainBox go01';
 
-                            },300)
-
-                            // })
-
-
-
+                            },300);
                             var nowNav={};
                             nowNav.url=url;
                             localStorage.setItem('nowNav',JSON.stringify(nowNav))

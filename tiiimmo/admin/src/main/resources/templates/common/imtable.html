@@ -38,7 +38,11 @@
         <a class=" layui-btn layui-btn-xs  "  lay-event="ok">确定</a>
         <a class=" layui-btn layui-btn-xs  layui-btn-normal"  lay-event="detail">详情</a>
     </script>
+    <script type="text/html" id="toolbarDemo">
+            <button id="sub" class="layui-btn layui-btn-sm" type="button"  lay-event="devs">确定所选</button>
+    </script>
     <script src="../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+    <script src="../../js/common.js" ></script>
 </div>
 </body>
 <script>
@@ -54,73 +58,42 @@
                 curr:1
             })
         });
-        // table.render({
-        //     elem: '#table',
-        //     url: '/produce/pcbTask/plan?id=50', //数据接口
-        //     method:'POST',
-        //     contentType: 'application/json',
-        //     toolbar: false,	//打印表格的功能
-        //     response: {
-        //         statusCode: 200 //规定成功的状态码，默认：0，改为200
-        //     },
-        //     where:{
-        //         taskState:0
-        //     },
-        //     parseData: function(res){ this.page.limits=[10,20,50,100, res.count]; //res 即为原始返回的数据
-        //         return {
-        //             "code": res.code, //解析接口状态
-        //             "msg": res.message, //解析提示文本
-        //             "count": res.count, //解析数据长度
-        //             "data": res.data //解析数据列表
-        //         };
-        //     },
-        //     page: {
-        //         limits:[10,20,50,100]
-        //
-        //     }, cols:[//开启分页
-        //         [
-        //             {align:'center', field: 'taskNo',title: '日制令编号',width:190},
-        //             {align:'center', field: 'config_serial',title: '机台编号',width:145},
-        //             {align:'center', field: 'mouldId',title: '模具编号',width:145},
-        //             {align:'center', field: 'mouldName',title: '模具名称',minWidth:145},
-        //             {align:'center', field: 'planOpenCount',title: '计划开合模数',minWidth:145},
-        //             {align:'center', field: 'product_name',title: '产品名称',minWidth:320},
-        //             {align:'center', field: 'format_plan_finish_time',title: '计划结束日期',width:170,templet:function (t) {
-        //                     return timeToDate(t.format_plan_finish_time)
-        //                 }},
-        //             {align:'center', field: 'operate',title: '操作',toolbar: '#tool',width:120,fixed: 'right'}
-        //         ]]
-        // });
         table.render({
             elem: '#table'
-            ,url: '/produce/pcbTask/findProcessTaskByPCBTaskId/50' //数据接口
+            ,url: '/base/device/getDeviceByProcess' //数据接口
             ,page: false //开启分页
+            ,method:'POST'
+            ,contentType: 'application/json'
             ,response: {
-                statusCode: 200 //规定成功的状态码，默认：0，改为200
+                statusCode: 200
+            },
+            toolbar:'#toolbarDemo',
+            where:{
+                // processName:getQueryString('process_name'),
+                processName:'贴片',
             }
             ,parseData: function(res){
                 return {
                     "code": res.code, //解析接口状态
-                    "msg": res.message, //解析提示文本
                     "data": res.data //解析数据列表
                 };
             }
             ,cols: [
                 [
-                    {field: 'task_sheet_code', title: '机台编号', minWidth:154}
-                    ,{field: 'process_name', title: '工序名称', minWidth:120}
-                    ,{field: 'plan_start_time', title: '计划生产时间', minWidth:170}
-                    ,{field: 'plan_finish_name', title: '计划完成时间', minWidth:170}
-                    ,{field: 'start_time', title: '实际生产时间', minWidth:170}
-                    ,{field: 'finish_time', title: '实际完成时间', minWidth:170}
-                    ,{field: 'device_name', title: '选择设备', minWidth:86,toolbar:'#im'}
-                    ,{field: 'pcb_quantity', title: '计划生产数量', minWidth:120}
-                    ,{field: 'amount_completed', title: '实际生产数量', minWidth:120}
-                    ,{field: 'process_task_status', title: '工单状态', minWidth:140}
-                    ,{field: 'score', title: '工时', minWidth: 80 }
-                    ,{field: 'score', title: '报表', minWidth: 66,toolbar:'#baobiao'}
+                     {type: 'checkbox', fixed: 'left'}
+                    ,{field: 'device_code', title: '设备编号', minWidth:140}
+                    ,{field: 'device_name', title: '设备名称', minWidth:170}
+                    ,{field: 'device_type', title: '设备类型', minWidth:140}
+                    ,{field: 'mac', title: 'Mac', minWidth:170}
+                    ,{field: 'belong_line', title: '所属厂区', minWidth:240}
                     ,{ title: '操作',fixed:'right', toolbar: '#tool', minWidth: 110}]
-            ]
+                ]
+        });
+        table.on('toolbar(table)',function (obj) {
+            if(obj.event==='devs'){
+                var checkStatus = table.checkStatus('table').data;
+                parent.a(checkStatus)
+            }
         });
         table.on('tool(table)',function (obj) {
             var data = obj.data;
@@ -135,7 +108,7 @@
                             var iframeWin = window[i.find('iframe')[0]['name']];
                             var newData = data;
                             var title = {
-                              taskNo: '日制令编号',
+                                task_sheet_code: '日制令编号',
                               config_serial: '机台编号',
                                 mouldId: '模具编号',
                                 mouldName: '模具名称',
@@ -148,11 +121,12 @@
                     ;break;
                 case 'ok':
                     // console.log(parent.layui)
-                    parent.a(obj.data)
+                    parent.a([obj.data]);
                     // parent.layer.close(parent.imTable)
                     break;
             }
-        })
+        });
+
     })
 </script>
 </html>

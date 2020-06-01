@@ -26,37 +26,36 @@
         <div class="layui-inline" id="time"></div>
     </div>
 </div>
-<form class="layui-form" id="editForm" style="display: none;padding:14px 0;">
+<form class="layui-form"  id="editForm" style="display: none;padding:14px 0;">
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">计划生产时间</label>
             <div class="layui-input-inline">
-                <input id="startTime" type="text" name="planStartTime"  autocomplete="off" class="layui-input">
+                <input id="planStartTime" type="text" name="planStartTime"  autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">计划完成时间</label>
             <div class="layui-input-inline">
-                <input id="endTime" type="text" name="planEndTime"  autocomplete="off" class="layui-input">
+                <input id="planFinishTime" type="text" name="planFinishTime"  autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">选择设备</label>
             <div class="layui-input-inline">
-                <input id="imConfig" type="text" name="imConfig"  autocomplete="off" class="layui-input">
+                <textarea id="imConfig" type="text"  class="layui-textarea"  placeholder="选择机台"></textarea>
             </div>
         </div>
     </div>
     <div style="text-align: center">
-        <button class="layui-btn  layui-btn-sm" type="button">确定</button>
+        <button class="layui-btn  layui-btn-sm" lay-submit lay-filter="sub" type="button">确定</button>
     </div>
 </form>
 <div class="mainBox">
     <table class="layui-table" id="table" lay-filter="table"></table>
 </div>
 <script type="text/html" id="barDemo">
-  <button lay-event="set" class="layui-btn layui-btn-warm layui-btn-xs" type="button">下达</button>
-  <button lay-event="edit" class="layui-btn layui-btn-normal layui-btn-xs" type="button">编辑</button>
+    <button lay-event="set" class="layui-btn layui-btn-warm layui-btn-xs" type="button">下达</button>
   <button lay-event="del" class="layui-btn layui-btn-danger layui-btn-xs" type="button">删除</button>
 </script>
 <script type="text/html" id="im">
@@ -78,6 +77,9 @@
                 table = layui.table,
                 laydate = layui.laydate,
                 form = layui.form;
+            var nowData={};
+            var deviceName = [],//选择的机台编号列表
+                deviceCode = [];//选择的机台名称列表
             //展示已知数据
             table.render({
                 elem: '#table'
@@ -111,11 +113,11 @@
                 ]
             });
             laydate.render({
-                elem: '#startTime'
+                elem: '#planStartTime'
                 ,type:'date'
             });
             laydate.render({
-                elem: '#endTime'
+                elem: '#planFinishTime'
                 ,type:'date'
             });
             table.on('tool(table)',function (obj) {
@@ -125,16 +127,14 @@
                     case 'baobiao':break;
                     case 'set':
                         console.log(data);
-                        break;
-                    case 'edit':
+                        nowData=data;
                         layer.open({
-                            title:'编辑',
+                            title:'下达',
                             offset:20,
                             content:$('#editForm'),
                             type:1,
                             area:['360px','300px']
                         });
-
                         break;
                     case 'del':break;
                 }
@@ -144,14 +144,50 @@
                     type:2,
                     area:["80%","80%"],
                     title:'请选择机台',
-                    content:'/imTable'
+                    content:'/imTable?process_name='+nowData.process_name
                 });
                 a=function (data) {
-                    console.log(data)
-                    $('#imConfig').val(data.task_sheet_code);
+                    console.log(data);
+                    data.forEach(function (t) {
+                        deviceName.push(t.device_name);
+                        deviceCode.push(t.device_code)
+                    });
+                    $('#imConfig').val(deviceName.join('\r\n'));
                     layer.close(imTable)
                 }
             })
+            form.on('submit(sub)',function (obj) {
+                obj.field.deviceName=deviceName.join(',')
+                obj.field.deviceCode=deviceCode.join(',')
+                obj.field.processTaskId=nowData.id
+                console.log(obj.field)
+                $.ajax({
+                    type: "POST",
+                    url: '/produce/pcbTask/putIntoProduce',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(obj.field),
+                    dataType: "json",
+                    success: function (result) {
+                        if(result.code === 200){
+                            layer.close(imTable);
+                            table.reload('table')
+                        }else{
+                            layer.msg(result.msg, {offset: '15px', time: 3000, icon: 2});
+                        }
+                    },
+                    error: function (message) {
+                        layer.msg("保存失败！", {offset: '15px', time: 3000, icon: 2});
+                    }
+                });
+            })
+
+
+
+
+
+
+
+
         });
 
     };
