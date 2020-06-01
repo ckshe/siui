@@ -12,6 +12,7 @@ import com.linln.admin.produce.domain.FeedingTask;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.ScheduleJobApi;
+import com.linln.admin.produce.repository.FeedingTaskRepository;
 import com.linln.admin.produce.repository.PcbTaskRepository;
 import com.linln.admin.produce.repository.ProcessTaskRepository;
 import com.linln.admin.produce.repository.ScheduleJobApiRepository;
@@ -54,6 +55,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Autowired
     private ScheduleJobApiRepository scheduleJobApiRepository;
+
+    @Autowired
+    private FeedingTaskRepository feedingTaskRepository;
 
 
     /**
@@ -107,7 +111,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         scheduleJobReq.setAction(jobApi.getApiName() == null ? "" : jobApi.getApiName());
         //JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
 
-        String path = "D:\\workspace\\timosecond\\tiiimmo\\admin\\src\\main\\resources\\task.json";
+        String path = "D:\\workspace\\timosecond\\tiiimmo\\admin\\src\\main\\resources\\task2.json";
 
         String s = ReadUtill.readJsonFile(path);
         JSONObject jobj = JSON.parseObject(s);
@@ -119,9 +123,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             String pcb_task_code = param.getString("FRWFBillNo");
             //这里需要匹配是否已同步过的
             PcbTask pcbTask = new PcbTask();
-            PcbTask oldPcbTask = pcbTaskRepository.findAllByPcb_task_code(pcb_task_code);
-            if(oldPcbTask!=null){
-                pcbTask = oldPcbTask;
+            List<PcbTask> oldPcbTasks = pcbTaskRepository.findAllByPcb_task_code(pcb_task_code);
+            if(oldPcbTasks!=null&&oldPcbTasks.size()!=0){
+                pcbTask = oldPcbTasks.get(0);
             }
             //制造编号
             String task_sheet_code = param.getString("FProduceNo");
@@ -197,10 +201,27 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         List<FeedingTask> feedingTaskList = new ArrayList<>();
         JSONArray lists = jobj.getJSONArray("data");
         for(int i =0;i<lists.size();i++){
+            JSONObject param = lists.getJSONObject(i);
+
             FeedingTask feedingTask = new FeedingTask();
-            feedingTask.setFeeding_task_code("");
+            feedingTask.setProduct_code(param.getString("FNumber"));
+            feedingTask.setProduct_name(param.getString("FName"));
+            feedingTask.setSpecification_model(param.getString("FModel"));
+            feedingTask.setStock_name(param.getString("FStock"));
+            feedingTask.setUnit(param.getString("FUnit"));
+            feedingTask.setFQtyScrap(param.getBigDecimal("FQtyScrap"));
+            feedingTask.setFQtyMust(param.getBigDecimal("FQtyMust"));
+            feedingTask.setFStockQty(param.getBigDecimal("FStockQty"));
+            feedingTask.setFNStockQty(param.getBigDecimal("FNStockQty"));
+            feedingTask.setFQty(param.getBigDecimal("FQty"));
+            feedingTask.setFQtlv(param.getString("FQty"));
+            feedingTask.setPcb_task_code(param.getString("FRWFBillno"));
+            feedingTask.setFeeding_task_code(param.getString("FTLFBillno"));
+            feedingTaskList.add(feedingTask);
         }
-        return null;
+        feedingTaskRepository.saveAll(feedingTaskList);
+        return ResultVoUtil.success("同步完成");
+
     }
 
     @Override
@@ -228,7 +249,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTask.setTask_sheet_code(pcbTask.getTask_sheet_code());
             processTask.setPcb_name(pcbTask.getPcb_name());
             processTask.setProcess_task_status("未下达到机台");
-            String processTaskCode = pcbTask.getPcb_task_code()+"_00"+i;
+            String processTaskCode = "BL"+pcbTask.getPcb_task_code()+"_00"+i;
             processTask.setProcess_task_code(processTaskCode);
             processTaskList.add(processTask);
 

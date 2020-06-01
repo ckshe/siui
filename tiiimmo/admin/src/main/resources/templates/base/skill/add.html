@@ -4,24 +4,24 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/deviceType/save}">
-        <input type="hidden" name="id" th:if="${deviceType}" th:value="${deviceType.id}">
+    <form th:action="@{/base/skill/save}">
+        <input type="hidden" name="id" th:if="${skill}" th:value="${skill.id}">
         <div class="layui-form-item">
-            <label class="layui-form-label">类型编号</label>
+            <label class="layui-form-label">技能编码</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="code" placeholder="请输入类型编号" th:value="${deviceType?.code}">
+                <input class="layui-input" type="text" name="skill_code" placeholder="请输入技能编码" th:value="${skill?.skill_code}">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">类型名称</label>
+            <label class="layui-form-label">技能名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="name" placeholder="请输入类型名称" th:value="${deviceType?.name}">
+                <input class="layui-input" type="text" name="skill_name" placeholder="请输入技能名称" th:value="${skill?.skill_name}">
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">所属工序</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="process_name" placeholder="请输入类型名称" th:value="${deviceType?.process_name}">
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">[[${skill?.remark}]]</textarea>
             </div>
         </div>
         <div class="layui-form-item timo-finally">

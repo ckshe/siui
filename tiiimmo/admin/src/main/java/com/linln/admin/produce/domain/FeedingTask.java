@@ -37,7 +37,7 @@ public class FeedingTask implements Serializable {
     //库存
     private BigDecimal FQty;
     //齐套率
-    private BigDecimal FQtlv;
+    private String FQtlv;
     //生产任务单号
     private String pcb_task_code;
     //投料单号

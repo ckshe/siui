@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:mo="https://gitee.com/aun/Timo">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body class="timo-layout-page">
+    <div class="layui-card">
+        <div class="layui-card-header timo-card-header">
+            <span><i class="fa fa-bars"></i>投料计划</span>
+            <i class="layui-icon layui-icon-refresh refresh-btn"></i>
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-row timo-card-screen">
+                <div class="pull-left layui-form-pane timo-search-box">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-block timo-search-status">
+                            <select class="timo-search-select" name="status" mo:dict="SEARCH_STATUS" mo-selected="${param.status}"></select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">任务号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="pcb_task_code" th:value="${param.pcb_task_code}" placeholder="请输入任务号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">制造编号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="task_sheet_code" th:value="${param.task_sheet_code}" placeholder="请输入制造编号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">通知日期</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="task_sheet_date" th:value="${param.task_sheet_date}" placeholder="请输入通知日期" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn timo-search-btn">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="pull-right screen-btn-group">
+                    <button class="layui-btn open-popup" data-title="添加PCB工单" th:attr="data-url=@{/produce/pcbTask/add}" data-size="auto">
+                        <i class="fa fa-plus"></i> 添加</button>
+                    <div class="btn-group">
+                        <button class="layui-btn">操作<span class="caret"></span></button>
+                        <dl class="layui-nav-child layui-anim layui-anim-upbit">
+                            <dd><a class="ajax-status" th:href="@{/produce/pcbTask/status/ok}">启用</a></dd>
+                            <dd><a class="ajax-status" th:href="@{/produce/pcbTask/status/freezed}">冻结</a></dd>
+                            <dd><a class="ajax-status" th:href="@{/produce/pcbTask/status/delete}">删除</a></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="timo-table-wrap">
+                <table class="layui-table timo-table">
+                    <thead>
+                    <tr>
+                        <th class="timo-table-checkbox">
+                            <label class="timo-checkbox">
+                                <input type="checkbox">
+                                <i class="layui-icon layui-icon-ok"></i>
+                            </label>
+                        </th>
+                        <th>生产任务单号</th>
+                        <th>生产批次</th>
+                        <th>通知日期</th>
+                        <th>厂区</th>
+                        <th>车间</th>
+                        <th style="display: none">机型编码</th>
+                        <th>机型名称</th>
+                        <th>机型型号</th>
+                        <th>规格型号</th>
+                        <th>物料名称</th>
+                        <th>光板号</th>
+                        <th>计划生产数量</th>
+                        <th>RoHS</th>
+                        <th>板编号</th>
+                        <th>投料单号</th>
+                        <th>领料单</th>
+                        <th>安排启动日期</th>
+                        <th>实际启动日期</th>
+                        <th>计划完成时间</th>
+                        <th>生产完成时间</th>
+                        <th>工单状态</th>
+                        <th>优先级</th>
+                        <th>完成数量</th>
+                        <th>备注</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr th:each="item:${list}">
+                        <td>
+                            <label class="timo-checkbox">
+                                <input type="checkbox" th:value="${item.id}">
+                            <i class="layui-icon layui-icon-ok"></i>
+                            </label>
+                        </td>
+                        <td th:text="${item.pcb_task_code}">生产任务单号</td>
+                        <td th:text="${item.task_sheet_code}">生产批次</td>
+                        <td th:text="${item.task_sheet_date}">通知日期</td>
+                        <td th:text="${item.factory}">厂区</td>
+                        <td th:text="${item.workshop}">车间</td>
+                        <td th:text="${item.model_name}">机型名称</td>
+                        <td>机型型号</td>
+                        <td>规格型号</td>
+                        <td th:text="${item.pcb_name}">物料名称</td>
+                        <td th:text="${item.pcb_plate_id}">光板号</td>
+                        <td>计划生产数量</td>
+                        <td th:text="${item.is_rohs}">RoHS</td>
+                        <td th:text="${item.batch_id}">板编号</td>
+                        <td th:text="${item.feeding_task_code}">投料单号</td>
+                        <td >
+                            <button lay-submit lay-filter="sub" data-type="tou" class="layui-btn  layui-btn-sm " type="button">查看</button>
+                        </td>
+                        <td th:text="${item.produce_plan_date}">安排启动日期</td>
+                        <td th:text="${item.produce_date}">实际启动日期</td>
+                        <td th:text="${item.plan_complete_date}">计划完成时间</td>
+                        <td th:text="${item.produce_complete_date}">生产完成时间</td>
+                        <td th:text="${item.pcb_task_status}">工单状态</td>
+                        <td>优先级</td>
+                        <td th:text="${item.quantity}">完成数量</td>
+                        <td>备注</td>
+                        <td>
+                            <form class="layui-form">
+                                <input  type="hidden" name="id" th:value="${item.id}">
+                                <button lay-submit lay-filter="sub" data-type="tou" class="layui-btn  layui-btn-sm " type="button">投产</button>
+                                <button lay-submit lay-filter="sub" th:style="${item.pcb_task_status=='已下达已投产'?'':'background-color:#e4e4e4'}" th:disabled="${item.pcb_task_status=='已下达已投产'?false:true}" data-type="kan" class="layui-btn  layui-btn-sm" type="button">查看工序计划</button>
+                                <button lay-submit lay-filter="sub" data-type="edit" class="layui-btn  layui-btn-sm" type="button">编辑</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:replace="/common/fragment :: page"></div>
+        </div>
+    </div>
+<script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['form'],function () {
+            var layer = layui.layer,
+                    $ = layui.jquery,
+                 form = layui.form;
+
+            form.on('submit(sub)',function (obj) {
+                var id=obj.field.id;
+                switch (obj.elem.getAttribute('data-type')) {
+                    case 'tou':
+                           // var load= layer.load(2,{
+                           //      shade: [0.5, 'gray'],
+                           //      content: '下达中...',
+                           //      success: function (layero) {
+                           //          layero.find('.layui-layer-content').css({
+                           //              'padding-top': '39px',
+                           //              'width': '60px'
+                           //          });
+                           //      }
+                           //  });
+                        // layer.alert('asfd',{icon:1})
+                            $.get('/produce/pcbTask/putIntoProduceBefore/'+id,function(res){
+                                    if(res.code===200){
+                                        layer.alert(res.msg,{icon:1},function () {
+                                            window.location.reload();
+                                        })
+                                    }else{
+                                        layer.alert(res.msg,{icon:5})
+                                    }
+                            });
+                        break;
+                    case 'kan':
+                        layer.open({
+                            title:'工序计划',
+                            type:2,
+                            area:['96%','96%'],
+                            content:'/produce/pcbTask/plan?id='+id
+                        });
+                        break;
+                    case 'edit':
+                        break
+
+
+                }
+            })
+        })
+    </script>
+</body>
+</html>

@@ -14,28 +14,38 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * @author www
- * @date 2020/05/14
+ * @date 2020/05/31
  */
 @Data
 @Entity
-@Table(name="base_device_type")
+@Table(name="base_skill")
 @EntityListeners(AuditingEntityListener.class)
 @Where(clause = StatusUtil.NOT_DELETE)
-public class DeviceType implements Serializable {
+public class Skill implements Serializable {
     // 主键ID
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    // 类型编号
-    private String code;
-    private String name;
-    private String process_name;
+    // 技能编码
+    private String skill_code;
+    // 技能名称
+    private String skill_name;
+    // 备注
+    private String remark;
     // 创建时间
     @CreatedDate
     private Date createDate;
