@@ -572,6 +572,7 @@ a{
 .timo-layout-page .timo-table-wrap{
 	overflow-y: auto;
     margin: 5px 0;
+	position: relative;
 }
 .timo-layout-page .timo-table{
 	color: #000000;

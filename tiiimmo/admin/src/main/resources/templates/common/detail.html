@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>表格详情页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <style>
+        *{margin:0;padding:0;box-sizing: border-box}
+        .layui-table{
+            color:#666;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        .layui-table td, .layui-table th{
+            position: relative;
+            padding: 9px 15px;
+            min-height: 20px;
+            line-height: 20px;
+            font-size: 14px;
+            border:1px solid #ccc
+        }
+         th {
+            text-align: left;
+            font-weight: 400;
+            width:120px!important;
+            min-width:120px!important;
+        }
+    </style>
+</head>
+<body >
+<div id="box"></div>
+<script>
+    /*new MyTable({
+      box:document.getElementById('box'),
+      data:res.data,
+      col:2,
+      title:{
+          wsCode:'车间代码',
+          wsName:'车间名称',
+          code:'拉线代码',
+          name:'拉线名称',
+          spec:'规格型号',
+          vendor:'厂商',
+          yearLife:'折旧年限',
+          hours:'生产工时',
+          changeTime:'换模时间',
+          materials:'指定生产材料',
+          color:'指定生产颜色',
+          principal:'负责人',
+          status:'机台状态',
+          buyTime:'购入时间',
+          calendar:'工作日历',
+          imgTd1:{title:'员工图片',src:'/img.jpg'},    //添加图片路劲
+          blankTd:'',                                 //blankTd表示空白的 td 如果表格是奇数又要偶数排列，可以用来占位。
+          blankTd1:'',
+          blankTd2:'',
+      },
+
+      //
+      success: function(i, index) {
+      var iframeWin = window[i.find('iframe')[0]['name']];
+      var newData = data;
+      var title = {
+          taskNo:'日制令编号',
+          mouldId:'模具编号',
+          mouldName:'模具名称',
+          moldsNumber:'出模数量',
+          sumNumber:'总数量',
+          feedingNumber:'投料数量',
+          feedingDate:'投料日期',
+          feedingPeople:'投料人',
+      };
+      iframeWin.render(newData,title,1)//第三个参数设置列数
+  }
+  })*/
+    function MyTable(obj){
+        this.box = obj.box;
+        this.data= obj.data;
+        this.keyValue = obj.title;
+        this.col = obj.col||2;
+        this.create();
+    }
+    MyTable.prototype={
+        create:function () {
+            this.box.innerHTML="";
+            this.box.style.cssText="width: 100%;padding:14px;box-sizing: border-box;";
+            var str = '<table class="layui-table">';
+            var title = this.keyValue;
+            var obj =this.data;
+            var arr = [];
+            for(var k in title){
+                if(obj[k]==null){obj[k]=""}
+                if(/blankTd/.test(k)){
+                    arr.push('<th width="120" style="font-weight: bold;"></th><td  width="500"></td>')
+                }else if(/imgTd/.test(k)){
+                    arr.push('<th width="120" style="font-weight: bold;">'+title[k].title+'</th><td width="500"><img id="'+k+'" style="max-width:300px; width: 100%" src="'+title[k].src+'"/></td>')
+                }else{
+                    arr.push('<th width="120" style="font-weight: bold;">'+title[k]+'</th><td id="'+k+'" width="500">'+obj[k]+'</td>')
+                }
+                if(arr.length===this.col){
+                    str+='<tr>';
+                    for(var i=0;i<this.col;i++){
+                        str+= arr[i];
+                    }
+                    str+='</tr>';
+                    arr.length=0;
+                }
+            }
+            str+='</table>';
+            this.box.innerHTML=str;
+        }
+    };
+    function render(data,title,col){
+        var obj={};
+        obj.box = document.getElementById('box');
+        obj.data = data;
+        obj.title = title;
+        obj.col = col;
+        new MyTable(obj)
+    }
+
+
+
+
+
+
+</script>
+</body>
+</html>

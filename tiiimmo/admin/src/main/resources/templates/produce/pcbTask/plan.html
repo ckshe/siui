@@ -16,6 +16,9 @@
         box-sizing: border-box;
         padding:0 14px;
     }
+    .layui-form-label{
+        width:90px;
+    }
 </style>
 <body>
 <div style="display: none" id="timeBox">
@@ -23,6 +26,31 @@
         <div class="layui-inline" id="time"></div>
     </div>
 </div>
+<form class="layui-form" id="editForm" style="display: none;padding:14px 0;">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">计划生产时间</label>
+            <div class="layui-input-inline">
+                <input id="startTime" type="text" name="planStartTime"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">计划完成时间</label>
+            <div class="layui-input-inline">
+                <input id="endTime" type="text" name="planEndTime"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">选择设备</label>
+            <div class="layui-input-inline">
+                <input id="imConfig" type="text" name="imConfig"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center">
+        <button class="layui-btn  layui-btn-sm" type="button">确定</button>
+    </div>
+</form>
 <div class="mainBox">
     <table class="layui-table" id="table" lay-filter="table"></table>
 </div>
@@ -42,6 +70,8 @@
 <script src="../../js/common.js" ></script>
 </body>
 <script>
+    var a="";
+    var imTable="";
     window.onload = function () {
         layui.use(['jquery', 'form','table','laydate'], function () {
             var $ = layui.jquery,
@@ -51,7 +81,6 @@
             //展示已知数据
             table.render({
                 elem: '#table'
-                // ,height: 'full-50'
                 ,url: '/produce/pcbTask/findProcessTaskByPCBTaskId/'+getQueryString('id') //数据接口
                 ,page: false //开启分页
                 ,response: {
@@ -67,10 +96,10 @@
                 ,cols: [
                     [
                     {field: 'task_sheet_code', title: '日制令号', minWidth:154}
-                    ,{field: 'process_name', title: '工序名称', minWidth:80}
-                    ,{field: 'process_name', title: '计划生产时间',event:'planTime', minWidth:170}
+                    ,{field: 'process_name', title: '工序名称', minWidth:120}
+                    ,{field: 'plan_start_time', title: '计划生产时间', minWidth:170}
+                    ,{field: 'plan_finish_name', title: '计划完成时间', minWidth:170}
                     ,{field: 'start_time', title: '实际生产时间', minWidth:170}
-                    ,{field: 'process_name', title: '计划完成时间', minWidth:170}
                     ,{field: 'finish_time', title: '实际完成时间', minWidth:170}
                     ,{field: 'device_name', title: '选择设备', minWidth:86,toolbar:'#im'}
                     ,{field: 'pcb_quantity', title: '计划生产数量', minWidth:120}
@@ -78,38 +107,51 @@
                     ,{field: 'process_task_status', title: '工单状态', minWidth:140}
                     ,{field: 'score', title: '工时', minWidth: 80 }
                     ,{field: 'score', title: '报表', minWidth: 66,toolbar:'#baobiao'}
-                    ,{field: 'wealth', title: '操作', toolbar: '#barDemo', minWidth: 135}]
+                    ,{field: 'wealth', title: '操作',fixed:'right', toolbar: '#barDemo', minWidth: 135}]
                 ]
+            });
+            laydate.render({
+                elem: '#startTime'
+                ,type:'date'
+            });
+            laydate.render({
+                elem: '#endTime'
+                ,type:'date'
             });
             table.on('tool(table)',function (obj) {
                 var data = obj.data;
-                console.log(obj);
                 switch (obj.event) {
                     case 'im':break;
                     case 'baobiao':break;
-                    case 'set':break;
-                    case 'edit':break;
-                    case 'del':break;
-                    case 'planTime':
-                        layer.open({
-                            type:1,
-                            title:'计划开始时间',
-                            content:$('#timeBox')
-                        });
+                    case 'set':
+                        console.log(data);
                         break;
+                    case 'edit':
+                        layer.open({
+                            title:'编辑',
+                            offset:20,
+                            content:$('#editForm'),
+                            type:1,
+                            area:['360px','300px']
+                        });
+
+                        break;
+                    case 'del':break;
                 }
             });
-            laydate.render({
-                elem: '#time'
-                ,type:'datetime'
-                ,position: 'static'
-                ,change: function(value, date){ //监听日期被切换
-                    alert(value)
-                    layer.closeAll()
+            $("#imConfig").on('click',function () {
+                imTable = layer.open({
+                    type:2,
+                    area:["80%","80%"],
+                    title:'请选择机台',
+                    content:'/imTable'
+                });
+                a=function (data) {
+                    console.log(data)
+                    $('#imConfig').val(data.task_sheet_code);
+                    layer.close(imTable)
                 }
-            });
-
-
+            })
         });
 
     };

@@ -168,4 +168,14 @@ public class LoginController implements ErrorController {
         model.addAttribute("msg", errorMsg);
         return "/system/main/error";
     }
+//    公共详情页面
+    @GetMapping("/detail")
+    public String detail() {
+        return "/common/detail";
+    }
+    //    公共基础数据选择页面
+    @GetMapping("/imTable")
+    public String choseTable() {
+        return "/common/imTable";
+    }
 }

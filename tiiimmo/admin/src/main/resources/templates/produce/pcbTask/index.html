@@ -127,7 +127,7 @@
                         <td th:text="${item.quantity}">完成数量</td>
                         <td>备注</td>
                         <td>
-                            <form class="layui-form">
+                            <form class="layui-form" >
                                 <input  type="hidden" name="id" th:value="${item.id}">
                                 <button lay-submit lay-filter="sub" data-type="tou" class="layui-btn  layui-btn-sm " type="button">投产</button>
                                 <button lay-submit lay-filter="sub" th:style="${item.pcb_task_status=='已下达已投产'?'':'background-color:#e4e4e4'}" th:disabled="${item.pcb_task_status=='已下达已投产'?false:true}" data-type="kan" class="layui-btn  layui-btn-sm" type="button">查看工序计划</button>
@@ -152,26 +152,17 @@
                 var id=obj.field.id;
                 switch (obj.elem.getAttribute('data-type')) {
                     case 'tou':
-                           // var load= layer.load(2,{
-                           //      shade: [0.5, 'gray'],
-                           //      content: '下达中...',
-                           //      success: function (layero) {
-                           //          layero.find('.layui-layer-content').css({
-                           //              'padding-top': '39px',
-                           //              'width': '60px'
-                           //          });
-                           //      }
-                           //  });
-                        // layer.alert('asfd',{icon:1})
+                        layer.confirm('确定投产',{icon:3},function () {
                             $.get('/produce/pcbTask/putIntoProduceBefore/'+id,function(res){
-                                    if(res.code===200){
-                                        layer.alert(res.msg,{icon:1},function () {
-                                            window.location.reload();
-                                        })
-                                    }else{
-                                        layer.alert(res.msg,{icon:5})
-                                    }
+                                if(res.code===200){
+                                    layer.alert(res.msg,{icon:1},function () {
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    layer.alert(res.msg,{icon:5})
+                                }
                             });
+                        });
                         break;
                     case 'kan':
                         layer.open({

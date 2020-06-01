@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>选择机台表格</title>
+    <meta name="Description" content="基于layUI数据表格操作"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../lib/layui-v2.3.0/css/layui.css">
+    <style type="text/css">
+        .layui-form-switch {
+            width: 55px;
+        }
+        .layui-form-switch em {
+            width: 40px;
+        }
+
+        body {
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+<div style="box-sizing: border-box;padding:14px;">
+    <form class="layui-form"  lay-filter='search'>
+        机台编号：
+        <div class="layui-inline" >
+            <div id="imConfigId" style="width: 140px;height: 30px;"></div>
+        </div>
+        <button class="layui-btn" type="button" lay-submit lay-filter="sub"><i class="layui-icon">&#xe615;</i></button>
+        <button type="reset" class="layui-btn layui-bg-blue" >清除</button>
+    </form>
+    <table class="layui-hide" id="table" lay-filter="table"></table>
+    <script type="text/html" id="tool">
+        <a class=" layui-btn layui-btn-xs  "  lay-event="ok">确定</a>
+        <a class=" layui-btn layui-btn-xs  layui-btn-normal"  lay-event="detail">详情</a>
+    </script>
+    <script src="../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+</div>
+</body>
+<script>
+    layui.use(['table','jquery','form','layer'],function () {
+        var table = layui.table,
+            layer = layui.layer,
+            form = layui.form,
+            $ = layui.jquery;
+        form.on('submit(sub)',function (obj) {
+            var data = obj.field;
+            table.reload('table',{
+                where:data,
+                curr:1
+            })
+        });
+        // table.render({
+        //     elem: '#table',
+        //     url: '/produce/pcbTask/plan?id=50', //数据接口
+        //     method:'POST',
+        //     contentType: 'application/json',
+        //     toolbar: false,	//打印表格的功能
+        //     response: {
+        //         statusCode: 200 //规定成功的状态码，默认：0，改为200
+        //     },
+        //     where:{
+        //         taskState:0
+        //     },
+        //     parseData: function(res){ this.page.limits=[10,20,50,100, res.count]; //res 即为原始返回的数据
+        //         return {
+        //             "code": res.code, //解析接口状态
+        //             "msg": res.message, //解析提示文本
+        //             "count": res.count, //解析数据长度
+        //             "data": res.data //解析数据列表
+        //         };
+        //     },
+        //     page: {
+        //         limits:[10,20,50,100]
+        //
+        //     }, cols:[//开启分页
+        //         [
+        //             {align:'center', field: 'taskNo',title: '日制令编号',width:190},
+        //             {align:'center', field: 'config_serial',title: '机台编号',width:145},
+        //             {align:'center', field: 'mouldId',title: '模具编号',width:145},
+        //             {align:'center', field: 'mouldName',title: '模具名称',minWidth:145},
+        //             {align:'center', field: 'planOpenCount',title: '计划开合模数',minWidth:145},
+        //             {align:'center', field: 'product_name',title: '产品名称',minWidth:320},
+        //             {align:'center', field: 'format_plan_finish_time',title: '计划结束日期',width:170,templet:function (t) {
+        //                     return timeToDate(t.format_plan_finish_time)
+        //                 }},
+        //             {align:'center', field: 'operate',title: '操作',toolbar: '#tool',width:120,fixed: 'right'}
+        //         ]]
+        // });
+        table.render({
+            elem: '#table'
+            ,url: '/produce/pcbTask/findProcessTaskByPCBTaskId/50' //数据接口
+            ,page: false //开启分页
+            ,response: {
+                statusCode: 200 //规定成功的状态码，默认：0，改为200
+            }
+            ,parseData: function(res){
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "data": res.data //解析数据列表
+                };
+            }
+            ,cols: [
+                [
+                    {field: 'task_sheet_code', title: '机台编号', minWidth:154}
+                    ,{field: 'process_name', title: '工序名称', minWidth:120}
+                    ,{field: 'plan_start_time', title: '计划生产时间', minWidth:170}
+                    ,{field: 'plan_finish_name', title: '计划完成时间', minWidth:170}
+                    ,{field: 'start_time', title: '实际生产时间', minWidth:170}
+                    ,{field: 'finish_time', title: '实际完成时间', minWidth:170}
+                    ,{field: 'device_name', title: '选择设备', minWidth:86,toolbar:'#im'}
+                    ,{field: 'pcb_quantity', title: '计划生产数量', minWidth:120}
+                    ,{field: 'amount_completed', title: '实际生产数量', minWidth:120}
+                    ,{field: 'process_task_status', title: '工单状态', minWidth:140}
+                    ,{field: 'score', title: '工时', minWidth: 80 }
+                    ,{field: 'score', title: '报表', minWidth: 66,toolbar:'#baobiao'}
+                    ,{ title: '操作',fixed:'right', toolbar: '#tool', minWidth: 110}]
+            ]
+        });
+        table.on('tool(table)',function (obj) {
+            var data = obj.data;
+            switch (obj.event) {
+                case 'detail':
+                    layer.open({
+                        type:2,
+                        area:['90%','90%'],
+                        title:"日制令详情",
+                        content:'/detail',
+                        success: function (i, index) {
+                            var iframeWin = window[i.find('iframe')[0]['name']];
+                            var newData = data;
+                            var title = {
+                              taskNo: '日制令编号',
+                              config_serial: '机台编号',
+                                mouldId: '模具编号',
+                                mouldName: '模具名称',
+                              planOpenCount: '计划开合模数',
+                              format_plan_finish_time: '计划结束日期'
+                            };
+                            iframeWin.render(newData,title)
+                        }
+                    })
+                    ;break;
+                case 'ok':
+                    // console.log(parent.layui)
+                    parent.a(obj.data)
+                    // parent.layer.close(parent.imTable)
+                    break;
+            }
+        })
+    })
+</script>
+</html>
