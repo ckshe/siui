@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class TaskPutIntoReq {
+public class PcbTaskReq {
     private Long pcbTaskId;
     private Integer amountCompleted;
     private Date startTime;
@@ -15,5 +15,8 @@ public class TaskPutIntoReq {
     private Date planStartTime;
     private Date planFinishTime;
     private Long processTaskId;
+    private String feedindTaskCode;
+    private Integer page;
+    private Integer size;
 
 }

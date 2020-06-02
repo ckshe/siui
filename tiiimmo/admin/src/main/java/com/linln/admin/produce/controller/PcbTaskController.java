@@ -1,6 +1,6 @@
 package com.linln.admin.produce.controller;
 
-import com.linln.RespAndReqs.TaskPutIntoReq;
+import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.service.PcbTaskService;
 import com.linln.admin.produce.validator.PcbTaskValid;
@@ -180,11 +180,24 @@ public class PcbTaskController {
     //工序计划下达到机台
     @PostMapping("/putIntoProduce")
     @ResponseBody
-    public ResultVo putIntoProduce(@RequestBody TaskPutIntoReq req){
+    public ResultVo putIntoProduce(@RequestBody PcbTaskReq req){
         return pcbTaskService.putIntoProduce(req);
     }
 
     //获取备料工序计划
+    @PostMapping("/findProcessTaskByProcessName")
+    @ResponseBody
+    public ResultVo findProcessTaskByProcessName(@RequestBody PcbTaskReq req){
+        return pcbTaskService.findProcessTaskByProcessName(req);
+    }
+
+
+    //查询投料单
+    @PostMapping("/findFeedingTask")
+    @ResponseBody
+    public ResultVo findFeedingTask(@RequestBody PcbTaskReq req){
+        return pcbTaskService.findFeedingTask(req);
+    }
 
 
     //机台查询当前工单

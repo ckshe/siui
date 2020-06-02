@@ -1,6 +1,6 @@
 package com.linln.admin.produce.service;
 
-import com.linln.RespAndReqs.TaskPutIntoReq;
+import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.vo.ResultVo;
@@ -47,7 +47,11 @@ public interface PcbTaskService {
     ResultVo getFeedingTaskFromERP(String dataBetween) ;
     ResultVo putIntoProduceBefore(Long pcbTaskId);
 
-    ResultVo putIntoProduce(TaskPutIntoReq taskPutIntoReq);
+    ResultVo putIntoProduce(PcbTaskReq pcbTaskReq);
 
     ResultVo findProcessTaskByPCBTaskId(Long id);
+
+    ResultVo findProcessTaskByProcessName(PcbTaskReq pcbTaskReq);
+
+    ResultVo findFeedingTask(PcbTaskReq pcbTaskReq);
 }

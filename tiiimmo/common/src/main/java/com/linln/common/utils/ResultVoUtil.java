@@ -27,6 +27,15 @@ public class ResultVoUtil {
         return resultVo;
     }
 
+
+    public static <T> ResultVo<T> success(String msg, T object,Integer total) {
+        ResultVo<T> resultVo = new ResultVo<>();
+        resultVo.setMsg(msg);
+        resultVo.setCode(ResultEnum.SUCCESS.getCode());
+        resultVo.setData(object);
+        resultVo.setTotal(total);
+        return resultVo;
+    }
     /**
      * 操作成功，使用默认的提示信息
      *

@@ -24,4 +24,6 @@ public class ResultVo<T> {
     /** 响应数据 */
     @ApiModelProperty(notes = "响应数据")
     private T data;
+
+    private Integer total;
 }

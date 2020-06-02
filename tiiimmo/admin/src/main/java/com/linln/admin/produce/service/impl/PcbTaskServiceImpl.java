@@ -4,18 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.linln.RespAndReqs.ScheduleJobReq;
-import com.linln.RespAndReqs.TaskPutIntoReq;
+import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.admin.base.domain.Process;
 import com.linln.admin.base.repository.ModelsRepository;
 import com.linln.admin.base.repository.ProcessRepository;
-import com.linln.admin.produce.domain.FeedingTask;
-import com.linln.admin.produce.domain.PcbTask;
-import com.linln.admin.produce.domain.ProcessTask;
-import com.linln.admin.produce.domain.ScheduleJobApi;
-import com.linln.admin.produce.repository.FeedingTaskRepository;
-import com.linln.admin.produce.repository.PcbTaskRepository;
-import com.linln.admin.produce.repository.ProcessTaskRepository;
-import com.linln.admin.produce.repository.ScheduleJobApiRepository;
+import com.linln.admin.produce.domain.*;
+import com.linln.admin.produce.repository.*;
 import com.linln.admin.produce.service.PcbTaskService;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
@@ -23,12 +17,16 @@ import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
 import com.linln.utill.ApiUtil;
 import com.linln.utill.ReadUtill;
+import io.swagger.models.auth.In;
 import org.apache.xmlbeans.impl.common.ResolverUtil;
+import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.task.TaskDecorator;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,6 +56,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Autowired
     private FeedingTaskRepository feedingTaskRepository;
+
+    @Autowired
+    private ProcessTaskDeviceRepository processTaskDeviceRepository;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
 
     /**
@@ -126,6 +130,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             List<PcbTask> oldPcbTasks = pcbTaskRepository.findAllByPcb_task_code(pcb_task_code);
             if(oldPcbTasks!=null&&oldPcbTasks.size()!=0){
                 pcbTask = oldPcbTasks.get(0);
+                continue;
             }
             //制造编号
             String task_sheet_code = param.getString("FProduceNo");
@@ -176,6 +181,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             pcbTask.setWorkshop(workshop);
             //生成板编号
 
+            //设备记录最后版编号
+
+            //优先级默认1
+            pcbTask.setPriority(1);
             pckTaskList.add(pcbTask);
         }
         pcbTaskRepository.saveAll(pckTaskList);
@@ -261,21 +270,35 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     }
 
     @Override
-    public ResultVo putIntoProduce(TaskPutIntoReq taskPutIntoReq) {
+    @Transactional
+    public ResultVo putIntoProduce(PcbTaskReq pcbTaskReq) {
 
         ProcessTask processTask = null;
-        Optional<ProcessTask> optional = processTaskRepository.findById(taskPutIntoReq.getProcessTaskId());;
+        Optional<ProcessTask> optional = processTaskRepository.findById(pcbTaskReq.getProcessTaskId());;
         processTask = optional.isPresent()?optional.get():null;
         if(processTask==null){
             return ResultVoUtil.error("查找不到该工序计划");
         }
-        processTask.setDevice_code(taskPutIntoReq.getDeviceCode());
-        processTask.setDevice_name(taskPutIntoReq.getDeviceName());
-        processTask.setStart_time(taskPutIntoReq.getPlanStartTime());
-        processTask.setFinish_time(taskPutIntoReq.getPlanFinishTime());
-        processTask.setAmount_completed(taskPutIntoReq.getAmountCompleted());
+        processTask.setDevice_code(pcbTaskReq.getDeviceCode());
+        processTask.setDevice_name(pcbTaskReq.getDeviceName());
+        processTask.setPlan_start_time(pcbTaskReq.getPlanStartTime());
+        processTask.setPlan_finish_name(pcbTaskReq.getPlanFinishTime());
+        processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
         processTask.setProcess_task_status("已下达到机台");
         processTaskRepository.save(processTask);
+        String[] split = pcbTaskReq.getDeviceCode().split(",");
+        List<ProcessTaskDevice> list = new ArrayList<>();
+        for (int i=0;i<split.length;i++){
+            String deviceCode = split[i];
+            ProcessTaskDevice processTaskDevice = new ProcessTaskDevice();
+            processTaskDevice.setAmount(0);
+            processTaskDevice.setDevice_code(deviceCode);
+            processTaskDevice.setProcess_task_code(processTask.getProcess_task_code());
+            processTaskDevice.setPlant_code("");
+            processTaskDevice.setTd_status("");
+            list.add(processTaskDevice);
+        }
+        processTaskDeviceRepository.saveAll(list);
         return ResultVoUtil.success("工序计划下达到机台成功");
     }
 
@@ -285,5 +308,38 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         final List<ProcessTask> processTaskList = processTaskRepository.findAllByPcb_task_id(id);
 
         return ResultVoUtil.success(processTaskList);
+    }
+
+    @Override
+    public ResultVo findProcessTaskByProcessName(PcbTaskReq pcbTaskReq) {
+
+        StringBuffer sql = new StringBuffer("select * from(\n" +
+                "select *, ROW_NUMBER() OVER(order by t4.Id asc) row from\n" +
+                "(SELECT t1.*,t2.pcb_id,t2.feeding_task_code from produce_process_task t1 LEFT JOIN produce_pcb_task t2 on t2.pcb_task_code = t1.pcb_task_code where process_name = '备料')t4)t3\n");
+        Integer page = 1;
+        Integer size = 10;
+        if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
+            page = pcbTaskReq.getPage();
+            size = pcbTaskReq.getSize();
+        }
+
+        List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
+
+        sql.append("where t3.Row between " +
+                ((page-1)*size+1) +
+                " and " +
+                (page*size) +
+                "");
+
+
+        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+        return ResultVoUtil.success("查询成功",mapList,count.size());
+    }
+
+    @Override
+    public ResultVo findFeedingTask(PcbTaskReq pcbTaskReq) {
+        List<FeedingTask> list = feedingTaskRepository.findByFeeding_task_code(pcbTaskReq.getFeedindTaskCode());
+
+        return ResultVoUtil.success(list);
     }
 }

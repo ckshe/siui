@@ -128,5 +128,6 @@ public class PcbTask implements Serializable {
     //投料单号
     private String feeding_task_code;
 
-
+    //优先级
+    private Integer priority;
 }
