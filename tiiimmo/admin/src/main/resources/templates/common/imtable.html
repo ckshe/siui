@@ -25,14 +25,14 @@
 </head>
 <body>
 <div style="box-sizing: border-box;padding:14px;">
-    <form class="layui-form"  lay-filter='search'>
-        机台编号：
-        <div class="layui-inline" >
-            <div id="imConfigId" style="width: 140px;height: 30px;"></div>
-        </div>
-        <button class="layui-btn" type="button" lay-submit lay-filter="sub"><i class="layui-icon">&#xe615;</i></button>
-        <button type="reset" class="layui-btn layui-bg-blue" >清除</button>
-    </form>
+<!--    <form class="layui-form"  lay-filter='search'>-->
+<!--        机台编号：-->
+<!--        <div class="layui-inline" >-->
+<!--            <div id="imConfigId" style="width: 140px;height: 30px;"></div>-->
+<!--        </div>-->
+<!--        <button class="layui-btn" type="button" lay-submit lay-filter="sub"><i class="layui-icon">&#xe615;</i></button>-->
+<!--        <button type="reset" class="layui-btn layui-bg-blue" >清除</button>-->
+<!--    </form>-->
     <table class="layui-hide" id="table" lay-filter="table"></table>
     <script type="text/html" id="tool">
         <a class=" layui-btn layui-btn-xs  "  lay-event="ok">确定</a>
@@ -69,8 +69,8 @@
             },
             toolbar:'#toolbarDemo',
             where:{
-                // processName:getQueryString('process_name'),
-                processName:'贴片',
+                processName:getQueryString('process_name'),
+                // processName:'贴片',
             }
             ,parseData: function(res){
                 return {
@@ -108,12 +108,12 @@
                             var iframeWin = window[i.find('iframe')[0]['name']];
                             var newData = data;
                             var title = {
-                                task_sheet_code: '日制令编号',
-                              config_serial: '机台编号',
-                                mouldId: '模具编号',
-                                mouldName: '模具名称',
-                              planOpenCount: '计划开合模数',
-                              format_plan_finish_time: '计划结束日期'
+                                device_code: '设备编号',
+                                device_name: '设备名称',
+                                device_type: '设备类型',
+                                mac: 'mac',
+                                belong_line: '所属厂区',
+                                blankTd:''
                             };
                             iframeWin.render(newData,title)
                         }

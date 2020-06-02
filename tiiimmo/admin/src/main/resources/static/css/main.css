@@ -3,8 +3,23 @@
 a{
     cursor: pointer;
 }
+
 .required {
 	position: relative;
+}
+.pull-right{
+	text-align: right;
+}
+.layui-table thead tr{
+	background-color:#fff!important;
+}
+.layui-table thead tr th{
+	font-weight: bold!important;
+}
+.layui-form-checked[lay-skin=primary] i {
+	border-color: #1e9fff;
+	background-color: #1e9fff;
+	color: #fff;
 }
 .required:after {
 	position: absolute;

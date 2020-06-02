@@ -29,6 +29,7 @@ import java.util.List;
 @RequestMapping("/produce/pcbTask")
 public class PcbTaskController {
 
+
     @Autowired
     private PcbTaskService pcbTaskService;
 
@@ -91,6 +92,10 @@ public class PcbTaskController {
     public String plan() {
         return "/produce/pcbTask/plan";
     }
+
+
+    @GetMapping("/beiliao")
+    public String beiliao() {return "/produce/beiliao/index"; }
 
     /**
      * 跳转到编辑页面
