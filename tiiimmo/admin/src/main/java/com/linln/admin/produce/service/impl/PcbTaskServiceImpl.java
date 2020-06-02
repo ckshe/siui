@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.linln.RespAndReqs.ScheduleJobReq;
 import com.linln.RespAndReqs.PcbTaskReq;
+import com.linln.RespAndReqs.responce.PTDeviceResp;
 import com.linln.admin.base.domain.Process;
 import com.linln.admin.base.repository.ModelsRepository;
 import com.linln.admin.base.repository.ProcessRepository;
@@ -341,5 +342,38 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         List<FeedingTask> list = feedingTaskRepository.findByFeeding_task_code(pcbTaskReq.getFeedindTaskCode());
 
         return ResultVoUtil.success(list);
+    }
+
+    @Override
+    public  Map<String,Object> deviceProduceAmount(PcbTaskReq pcbTaskReq) {
+        List<PTDeviceResp> list = new ArrayList<>();
+        for(PcbTaskReq req : pcbTaskReq.getData()){
+            PTDeviceResp resp = new PTDeviceResp();
+            ProcessTask processTask = processTaskRepository.findProducingByDevice_code(req.getDeviceCode());
+            //查无生产中的单怎么办
+            ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(processTask.getProcess_task_code(),req.getDeviceCode());
+            processTaskDevice.setTd_status(req.getStatus());
+            processTaskDevice.setAmount(req.getAmount());
+            processTaskDevice.setTime_stamp(pcbTaskReq.getTimeStamp());
+            //todo 当前版编号 是否重新计数
+
+            resp.setDeviceCode(req.getDeviceCode());
+            resp.setReCount("");
+            list.add(resp);
+            processTaskDeviceRepository.save(processTaskDevice);
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("result","OK");
+        map.put("data",list);
+        map.put("timeStamp",pcbTaskReq.getTimeStamp());
+        map.put("msg","");
+        return map;
+    }
+
+    @Override
+    public ResultVo findProcessTaskByDevice(PcbTaskReq pcbTaskReq) {
+
+        List<ProcessTask> processTaskList = processTaskRepository.findByDevice_code("%"+pcbTaskReq.getDeviceCode()+"%");
+        return ResultVoUtil.success(processTaskList);
     }
 }

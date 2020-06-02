@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.linln.RespAndReqs.ExcuteReq;
+import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.repository.PcbTaskRepository;
+import com.linln.admin.produce.service.PcbTaskService;
 import com.linln.admin.system.service.OpenService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/open")
@@ -26,6 +29,9 @@ public class OpenController {
 
     @Autowired
     private OpenService openService;
+
+    @Autowired
+    private PcbTaskService pcbTaskService;
 
 
     @PostMapping("/excute")
@@ -42,4 +48,16 @@ public class OpenController {
 
         return openService.excuteSql(sql);
     }
+
+
+    //设备接口
+    @PostMapping("/deviceProduceAmount")
+    @ResponseBody
+    public Map<String,Object> deviceProduceAmount(String data){
+        List<PcbTaskReq> req = (List<PcbTaskReq> ) JSON.parseArray(data,PcbTaskReq.class);
+        return pcbTaskService.deviceProduceAmount(req.get(0));
+    }
+
+
+
 }

@@ -11,8 +11,10 @@ public interface ProcessTaskRepository extends BaseRepository<ProcessTask,Long> 
     @Query(value = "select * from produce_process_task where pcb_task_id = ?1",nativeQuery = true)
     List<ProcessTask> findAllByPcb_task_id(Long id);
 
+    @Query(value = "select * from produce_process_task where device_code like ?1 and process_task_status = '生产中'",nativeQuery = true)
+    ProcessTask findProducingByDevice_code(String device);
 
-
-
+    @Query(value = "select * from produce_process_task where device_code like ?1 and (process_task_status = '生产中' or process_task_status like '%已下达%' or process_task_status like '%暂停%')",nativeQuery = true)
+    List<ProcessTask> findByDevice_code(String device);
 
 }

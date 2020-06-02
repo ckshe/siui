@@ -3,6 +3,7 @@ package com.linln.RespAndReqs;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class PcbTaskReq {
@@ -18,5 +19,11 @@ public class PcbTaskReq {
     private String feedindTaskCode;
     private Integer page;
     private Integer size;
+    private String timeStamp;
+    private String status;
+    private Integer amount;
+    private List<PcbTaskReq> data;
+    private String reCount;
+
 
 }

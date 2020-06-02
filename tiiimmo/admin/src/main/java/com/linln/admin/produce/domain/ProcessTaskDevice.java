@@ -21,7 +21,7 @@ public class ProcessTaskDevice {
     //上机用户
     private String user_ids;
     //时间
-    private Date time_stamp;
+    private String time_stamp;
     //计数
     private Integer amount;
     //状态

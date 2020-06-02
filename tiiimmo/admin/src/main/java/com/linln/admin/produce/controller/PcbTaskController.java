@@ -20,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 小懒虫
@@ -206,9 +207,15 @@ public class PcbTaskController {
 
 
     //机台查询当前工单
+    @PostMapping("/findProcessTaskByDevice")
+    @ResponseBody
+    public ResultVo findProcessTaskByDevice(@RequestBody PcbTaskReq req){
+        return pcbTaskService.findProcessTaskByDevice(req);
+    }
 
 
     //机台启动工单
+
 
 
 
