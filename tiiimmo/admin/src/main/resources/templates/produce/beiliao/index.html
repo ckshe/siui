@@ -46,7 +46,7 @@
         </form>
             <div class="pull-right screen-btn-group">
                 <button class="layui-btn open-popup" data-title="添加PCB工单"  data-size="auto">
-                    <i class="fa fa-plus"></i> 添加</button>
+                    <i class="layui-icon ">&#xe654;</i>    添加</button>
                 <div class="btn-group">
                     <button class="layui-btn" id="sync" type="button">同步数据</button>
                     <!--                        <dl class="layui-nav-child layui-anim layui-anim-upbit">-->
@@ -85,6 +85,7 @@
             ,url: '/produce/pcbTask/findProcessTaskByProcessName' //数据接口
             ,page: true //开启分页
             ,method:'POST'
+            ,loading:false
             ,contentType: 'application/json'
             ,response: {
                 statusCode: 200
