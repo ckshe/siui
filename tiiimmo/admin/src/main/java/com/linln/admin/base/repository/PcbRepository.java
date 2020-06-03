@@ -8,4 +8,7 @@ import com.linln.modules.system.repository.BaseRepository;
  * @date 2020/05/13
  */
 public interface PcbRepository extends BaseRepository<Pcb, Long> {
+
+    Pcb findByCode(String code);
+
 }

@@ -6,8 +6,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.linln.RespAndReqs.ScheduleJobReq;
 import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.RespAndReqs.responce.PTDeviceResp;
+import com.linln.admin.base.domain.Pcb;
 import com.linln.admin.base.domain.Process;
 import com.linln.admin.base.repository.ModelsRepository;
+import com.linln.admin.base.repository.PcbRepository;
 import com.linln.admin.base.repository.ProcessRepository;
 import com.linln.admin.produce.domain.*;
 import com.linln.admin.produce.repository.*;
@@ -63,6 +65,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private PCBPlateNoRepository pcbPlateNoRepository;
 
 
     /**
@@ -180,9 +185,23 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             pcbTask.setFeeding_task_code(feeding_code);
             pcbTask.setPcb_quantity(pcb_quantity);
             pcbTask.setWorkshop(workshop);
-            //生成板编号
 
-            //设备记录最后版编号
+            //pcb记录最后版编号
+            PCBPlateNo pcbPlateNo = pcbPlateNoRepository.findByPcb_code(pcb_id);
+            if(pcbPlateNo==null){
+                pcbPlateNo = new PCBPlateNo();
+                pcbPlateNo.setPcb_code(pcb_id);
+                pcbPlateNo.setLast_plate_no("");
+                pcbPlateNo.setAll_count(pcb_quantity);
+             }else {
+
+            }
+            String lastPlateNo = pcbPlateNo.getLast_plate_no();
+            //生成板编号
+            //todo 假设符合
+            String prefix = "20";
+            String suffix = "R";
+
 
             //优先级默认1
             pcbTask.setPriority(1);
@@ -346,21 +365,22 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Override
     public  Map<String,Object> deviceProduceAmount(PcbTaskReq pcbTaskReq) {
+
         List<PTDeviceResp> list = new ArrayList<>();
         for(PcbTaskReq req : pcbTaskReq.getData()){
             PTDeviceResp resp = new PTDeviceResp();
-            ProcessTask processTask = processTaskRepository.findProducingByDevice_code(req.getDeviceCode());
+            //ProcessTask processTask = processTaskRepository.findProducingByDevice_code(req.getDeviceCode());
             //查无生产中的单怎么办
-            ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(processTask.getProcess_task_code(),req.getDeviceCode());
+          /*  ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(processTask.getProcess_task_code(),req.getDeviceCode());
             processTaskDevice.setTd_status(req.getStatus());
             processTaskDevice.setAmount(req.getAmount());
-            processTaskDevice.setTime_stamp(pcbTaskReq.getTimeStamp());
-            //todo 当前版编号 是否重新计数
+            processTaskDevice.setTime_stamp(pcbTaskReq.getTimeStamp());*/
+            //todo 当前版编号 是否重新计数 手动结束工单重新计数=】
 
             resp.setDeviceCode(req.getDeviceCode());
             resp.setReCount("");
             list.add(resp);
-            processTaskDeviceRepository.save(processTaskDevice);
+            //processTaskDeviceRepository.save(processTaskDevice);
         }
         Map<String,Object> map = new HashMap<>();
         map.put("result","OK");
@@ -372,8 +392,21 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Override
     public ResultVo findProcessTaskByDevice(PcbTaskReq pcbTaskReq) {
+        StringBuffer sql = new StringBuffer("SELECT\n" +
+                "\tt1.*,\n" +
+                "\tt2.pcb_id,\n" +
+                "\tt2.feeding_task_code,t2.model_name \n" +
+                "FROM\n" +
+                "\tproduce_process_task t1\n" +
+                "\tLEFT JOIN produce_pcb_task t2 ON t2.pcb_task_code = t1.pcb_task_code \n" +
+                "WHERE\n" +
+                "\tt1.device_code LIKE '%" +
+                pcbTaskReq.getDeviceCode() +
+                "%' \n" +
+                "\tAND ( t1.process_task_status = '生产中' OR t1.process_task_status LIKE '%已下达%' OR t1.process_task_status LIKE '%暂停%' )\n" +
+                "\tORDER BY t2.priority DESC ,t1.plan_start_time");
+        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
 
-        List<ProcessTask> processTaskList = processTaskRepository.findByDevice_code("%"+pcbTaskReq.getDeviceCode()+"%");
-        return ResultVoUtil.success(processTaskList);
+        return ResultVoUtil.success(mapList);
     }
 }

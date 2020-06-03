@@ -54,6 +54,7 @@ public class OpenController {
     @PostMapping("/deviceProduceAmount")
     @ResponseBody
     public Map<String,Object> deviceProduceAmount(String data){
+        System.out.println(data);
         List<PcbTaskReq> req = (List<PcbTaskReq> ) JSON.parseArray(data,PcbTaskReq.class);
         return pcbTaskService.deviceProduceAmount(req.get(0));
     }
