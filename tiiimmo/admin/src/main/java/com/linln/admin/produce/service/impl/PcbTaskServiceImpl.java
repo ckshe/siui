@@ -34,6 +34,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author 小懒虫
@@ -121,20 +123,28 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         scheduleJobReq.setAction(jobApi.getApiName() == null ? "" : jobApi.getApiName());
         //JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
 
-        String path = "D:\\workspace\\timosecond\\tiiimmo\\admin\\src\\main\\resources\\task2.json";
+        String path = "D:\\workspace\\timosecond\\tiiimmo\\admin\\src\\main\\resources\\task.json";
 
         String s = ReadUtill.readJsonFile(path);
         JSONObject jobj = JSON.parseObject(s);
         JSONArray lists = jobj.getJSONArray("data");
         List<PcbTask> pckTaskList = new ArrayList<>();
+        List<PCBPlateNo> plateNoList = new ArrayList<>();
         for(int i = 0 ; i<lists.size();i++){
             JSONObject param = lists.getJSONObject(i);
             //生产任务单号
             String pcb_task_code = param.getString("FRWFBillNo");
+            //pcb编码
+            String pcb_id = param.getString("FPCBModel");
+            //工单状态
+            String pcb_task_status = param.getString("FStatus");
+            if(!pcb_id.contains("DCY2.90")){
+                continue;
+            }
             //这里需要匹配是否已同步过的
             PcbTask pcbTask = new PcbTask();
             List<PcbTask> oldPcbTasks = pcbTaskRepository.findAllByPcb_task_code(pcb_task_code);
-            if(oldPcbTasks!=null&&oldPcbTasks.size()!=0){
+            if(oldPcbTasks!=null&&oldPcbTasks.size()!=0&&pcb_task_status.contains("已下达")){
                 pcbTask = oldPcbTasks.get(0);
                 continue;
             }
@@ -152,12 +162,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             Date produce_complete_date =  param.getDate("FFinishDate");
             //机型名称
             String model_name = param.getString("FProduceName");
-            //pcb编码
-            String pcb_id = param.getString("FPCBModel");
+
             //机型版本
             String model_ver = param.getString("FProduceModel");
-            //工单状态
-            String pcb_task_status = param.getString("FStatus");
+
             //pcb 生产数量
             Integer pcb_quantity = param.getInteger("FPCBQty");
             //投料单号
@@ -188,25 +196,81 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
             //pcb记录最后版编号
             PCBPlateNo pcbPlateNo = pcbPlateNoRepository.findByPcb_code(pcb_id);
+            Integer first = 0;
+            Integer last = 0;
             if(pcbPlateNo==null){
                 pcbPlateNo = new PCBPlateNo();
                 pcbPlateNo.setPcb_code(pcb_id);
                 pcbPlateNo.setLast_plate_no("");
                 pcbPlateNo.setAll_count(pcb_quantity);
+                last = pcb_quantity;
              }else {
-
+                first = pcbPlateNo.getAll_count()+1;
+                last = pcbPlateNo.getAll_count()+pcb_quantity;
+                pcbPlateNo.setAll_count(last);
             }
-            String lastPlateNo = pcbPlateNo.getLast_plate_no();
-            //生成板编号
+             //生成板编号
+            // DCY2.908.H1339B-AL06-A
+            // DCY2.909.0186GS-RC
+            // DCY2.908.0186GS-RC
             //todo 假设符合
-            String prefix = "20";
-            String suffix = "R";
+            String split[] = pcb_id.split("\\.");
+            String code1 = split[1];
+            String code2[] = split[2].split("-");
+            String code3 = code2[0];
+            String code4 = code2[code2.length-1];
+            //提取数字
+            String regEx="[^0-9]";
+            Pattern p = Pattern.compile(regEx);
+            Matcher m = p.matcher(code3);
+            String trim = m.replaceAll("").trim();
+            String prefix = "";
+            String suffix = "";
+            if("908".equals(code1)&&"H".equals(code3.charAt(0))){
 
-
+            }else {
+                char lastLetter = code4.charAt(code4.length()-1);
+                prefix = trim+lastLetter+"20";
+                char temp = code4.charAt(0);
+                if("R".equals(code4.charAt(0)+"")){
+                    suffix = "R";
+                }
+            }
+            String firstStr = first+"";
+            String lastStr = last+"";
+            if(firstStr.length()<5){
+                Integer fleng = firstStr.length();
+                int need = 4-fleng;
+                String add = "";
+                for(int k = 0;k<need;k++){
+                    add = "0"+add;
+                }
+                firstStr = add+firstStr;
+            } if(lastStr.length()<5){
+                Integer fleng = lastStr.length();
+                int need = 4-fleng;
+                String add = "";
+                for(int k = 0;k<need;k++){
+                    add = "0"+add;
+                }
+                lastStr = add+lastStr;
+            }
+            String firstPlate = prefix+firstStr+suffix;
+            String lastPlate = prefix+lastStr+suffix;
+            pcbTask.setPcb_plate_id(firstPlate+"~"+lastPlate);
+            pcbPlateNo.setLast_plate_no(lastPlate);
+            plateNoList.add(pcbPlateNo);
+            //pcbPlateNoRepository.save(pcbPlateNo);
+            if("R".equals(suffix)){
+                pcbTask.setIs_rohs("是");
+            }else {
+                pcbTask.setIs_rohs("否");
+            }
             //优先级默认1
             pcbTask.setPriority(1);
             pckTaskList.add(pcbTask);
         }
+        pcbPlateNoRepository.saveAll(plateNoList);
         pcbTaskRepository.saveAll(pckTaskList);
         return ResultVoUtil.success("同步完成");
     }
@@ -369,18 +433,23 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         List<PTDeviceResp> list = new ArrayList<>();
         for(PcbTaskReq req : pcbTaskReq.getData()){
             PTDeviceResp resp = new PTDeviceResp();
-            //ProcessTask processTask = processTaskRepository.findProducingByDevice_code(req.getDeviceCode());
+            ProcessTask processTask = processTaskRepository.findProducingByDevice_code(req.getDeviceCode());
             //查无生产中的单怎么办
-          /*  ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(processTask.getProcess_task_code(),req.getDeviceCode());
-            processTaskDevice.setTd_status(req.getStatus());
-            processTaskDevice.setAmount(req.getAmount());
-            processTaskDevice.setTime_stamp(pcbTaskReq.getTimeStamp());*/
-            //todo 当前版编号 是否重新计数 手动结束工单重新计数=】
+            if(processTask==null){
+
+            }else {
+                ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(processTask.getProcess_task_code(),req.getDeviceCode());
+                processTaskDevice.setTd_status(req.getStatus());
+                processTaskDevice.setAmount(req.getAmount());
+                processTaskDevice.setTime_stamp(pcbTaskReq.getTimeStamp());
+                processTaskDeviceRepository.save(processTaskDevice);
+
+            }
+            //todo 当前版编号 是否重新计数 手动结束工单重新计数
 
             resp.setDeviceCode(req.getDeviceCode());
             resp.setReCount("");
             list.add(resp);
-            //processTaskDeviceRepository.save(processTaskDevice);
         }
         Map<String,Object> map = new HashMap<>();
         map.put("result","OK");
@@ -409,4 +478,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
         return ResultVoUtil.success(mapList);
     }
+
+
 }

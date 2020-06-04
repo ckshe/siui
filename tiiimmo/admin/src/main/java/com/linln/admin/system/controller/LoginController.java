@@ -1,5 +1,11 @@
 package com.linln.admin.system.controller;
 
+import com.linln.RespAndReqs.CardLoginReq;
+import com.linln.RespAndReqs.DeviceReq;
+import com.linln.admin.base.domain.Device;
+import com.linln.admin.base.repository.DeviceRepository;
+import com.linln.admin.produce.domain.ProcessTaskDevice;
+import com.linln.admin.produce.repository.ProcessTaskDeviceRepository;
 import com.linln.common.config.properties.ProjectProperties;
 import com.linln.common.data.URL;
 import com.linln.common.enums.ResultEnum;
@@ -13,6 +19,7 @@ import com.linln.component.actionLog.annotation.ActionLog;
 import com.linln.component.shiro.ShiroUtil;
 import com.linln.modules.system.domain.User;
 import com.linln.modules.system.service.RoleService;
+import com.linln.modules.system.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -24,10 +31,7 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +47,15 @@ public class LoginController implements ErrorController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private DeviceRepository deviceRepository;
+
+    @Autowired
+    private ProcessTaskDeviceRepository processTaskDeviceRepository;
 
     /**
      * 跳转到登录页面
@@ -63,6 +76,7 @@ public class LoginController implements ErrorController {
     public ResultVo login(String username, String password, String captcha, String rememberMe) {
         // 判断账号密码是否为空
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+
             throw new ResultException(ResultEnum.USER_NAME_PWD_NULL);
         }
 
@@ -107,6 +121,29 @@ public class LoginController implements ErrorController {
         } catch (AuthenticationException e) {
             return ResultVoUtil.error("用户名或密码错误");
         }
+    }
+
+    @PostMapping("/cardCrashLogin")
+    @ResponseBody
+    public ResultVo cardCrashLogin(@RequestBody CardLoginReq req){
+        if(req.getCardSequence()==null||"".equals(req.getCardSequence())){
+            return ResultVoUtil.error("参数错误");
+        }
+        User user = userService.findUserByCardNo(req.getCardSequence());
+        if(user==null){
+            //该工号不存在
+            return ResultVoUtil.error("该工号不存在");
+        }
+        Subject currentUser = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername()+"|","password");
+        currentUser.login(token);
+        //记录上机人员
+        ProcessTaskDevice ptd = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getProcessTaskCode(), req.getDeviceCode());
+        ptd.setUser_ids(user.getNickname());
+        processTaskDeviceRepository.save(ptd);
+
+        return ResultVoUtil.success("登录成功",user);
+
     }
 
     /**

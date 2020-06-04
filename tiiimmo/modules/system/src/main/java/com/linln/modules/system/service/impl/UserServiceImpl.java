@@ -145,4 +145,9 @@ public class UserServiceImpl implements UserService {
         }
         return userRepository.updateStatus(statusEnum.getCode(), ids) > 0;
     }
+
+    @Override
+    public User findUserByCardNo(String cardSequence) {
+        return userRepository.findByCard_sequence(cardSequence);
+    }
 }

@@ -3,6 +3,7 @@ package com.linln.modules.system.repository;
 import com.linln.modules.system.domain.Dept;
 import com.linln.modules.system.domain.User;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -40,4 +41,7 @@ public interface UserRepository extends BaseRepository<User, Long>, JpaSpecifica
      * @return 影响行数
      */
     public Integer deleteByIdIn(List<Long> ids);
+
+    @Query(value = "select  * from sys_user where card_sequence =?1 ",nativeQuery = true)
+    public User findByCard_sequence(String cardSequence);
 }

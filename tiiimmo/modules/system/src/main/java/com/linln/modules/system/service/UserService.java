@@ -63,4 +63,6 @@ public interface UserService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    User findUserByCardNo(String cardSequence );
 }

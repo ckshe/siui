@@ -75,4 +75,12 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
     private Set<Role> roles = new HashSet<>(0);
+    //工号
+    private String card_sequence;
+
+    //班次
+    private String class_no;
+
+    //技能
+    private String skill_list;
 }

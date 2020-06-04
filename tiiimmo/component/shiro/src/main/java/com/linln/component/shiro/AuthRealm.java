@@ -67,7 +67,15 @@ public class AuthRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         // 获取数据库中的用户名密码
-        User user = userService.getByName(token.getUsername());
+        //刷卡后台自动登录
+        boolean isCardCrash = false;
+        String username = token.getUsername();
+        if (username.contains("|")){
+            username = username.substring(0, username.lastIndexOf("|"));
+            isCardCrash = true;
+        }
+
+        User user = userService.getByName(username);
 
         // 判断用户名是否存在
         if (user == null) {
@@ -76,6 +84,21 @@ public class AuthRealm extends AuthorizingRealm {
             throw new LockedAccountException();
         }
 
+
+         SimpleAuthenticationInfo authenticationInfo = null;
+        if (isCardCrash){
+            authenticationInfo = new SimpleAuthenticationInfo(
+                    user,            //用户名
+                    ShiroUtil.encrypt("password", user.getSalt()),  //密码
+                    ByteSource.Util.bytes(user.getSalt()),//使用账号作为盐值
+                    getName());          //realm name
+        }else {
+            authenticationInfo = new SimpleAuthenticationInfo(
+                    user,            //用户名
+                    user.getPassword(),  //密码
+                    ByteSource.Util.bytes(user.getSalt()),//使用账号作为盐值
+                    getName());          //realm name
+        }
         // 对盐进行加密处理
         ByteSource salt = ByteSource.Util.bytes(user.getSalt());
 
@@ -85,7 +108,9 @@ public class AuthRealm extends AuthorizingRealm {
          * 参数3：加盐处理
          * 参数4：固定写法
          */
-        return new SimpleAuthenticationInfo(user, user.getPassword(), salt, getName());
+        //SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(), salt, getName());
+
+        return authenticationInfo;
     }
 
     /**
