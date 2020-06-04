@@ -138,7 +138,7 @@ public class LoginController implements ErrorController {
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername()+"|","password");
         currentUser.login(token);
         //记录上机人员
-        ProcessTaskDevice ptd = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getProcessTaskCode(), req.getDeviceCode());
+        ProcessTaskDevice ptd = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getDeviceCode(),req.getProcessTaskCode() );
         ptd.setUser_ids(user.getNickname());
         processTaskDeviceRepository.save(ptd);
 
