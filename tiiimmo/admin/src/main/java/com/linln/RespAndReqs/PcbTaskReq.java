@@ -26,6 +26,7 @@ public class PcbTaskReq {
     private String reCount;
     private String processTaskStatus;
     private String processTaskCode;
+    private String pcbTaskCode;
 
 
 }

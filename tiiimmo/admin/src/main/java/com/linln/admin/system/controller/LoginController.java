@@ -5,7 +5,9 @@ import com.linln.RespAndReqs.DeviceReq;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.produce.domain.ProcessTaskDevice;
+import com.linln.admin.produce.domain.UserDeviceHistory;
 import com.linln.admin.produce.repository.ProcessTaskDeviceRepository;
+import com.linln.admin.produce.repository.UserDeviceHistoryRepository;
 import com.linln.common.config.properties.ProjectProperties;
 import com.linln.common.data.URL;
 import com.linln.common.enums.ResultEnum;
@@ -37,6 +39,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * @author 小懒虫
@@ -56,6 +59,9 @@ public class LoginController implements ErrorController {
 
     @Autowired
     private ProcessTaskDeviceRepository processTaskDeviceRepository;
+
+    @Autowired
+    private UserDeviceHistoryRepository userDeviceHistoryRepository;
 
     /**
      * 跳转到登录页面
@@ -141,8 +147,35 @@ public class LoginController implements ErrorController {
         ProcessTaskDevice ptd = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getDeviceCode(),req.getProcessTaskCode() );
         ptd.setUser_ids(user.getNickname());
         processTaskDeviceRepository.save(ptd);
+        UserDeviceHistory history = new UserDeviceHistory();
+        history.setDevice_code(req.getDeviceCode());
+        history.setUser_id(user.getId());
+        history.setUser_name(user.getNickname());
+        history.setProcess_task_code(req.getProcessTaskCode());
+        history.setDo_time(new Date());
+        history.setDo_type("上机");
+        userDeviceHistoryRepository.save(history);
+        return ResultVoUtil.success("上机成功",user);
 
-        return ResultVoUtil.success("登录成功",user);
+    }
+
+    //下机操作
+    @PostMapping("/logoutDevice")
+    @ResponseBody
+    public ResultVo logoutDevice(@RequestBody CardLoginReq req){
+        User user = userService.findUserByCardNo(req.getCardSequence());
+
+        UserDeviceHistory history = new UserDeviceHistory();
+        history.setDevice_code(req.getDeviceCode());
+        history.setUser_id(user.getId());
+        history.setUser_name(user.getNickname());
+        history.setProcess_task_code(req.getProcessTaskCode());
+        history.setDo_time(new Date());
+        history.setDo_type("下机");
+        userDeviceHistoryRepository.save(history);
+        SecurityUtils.getSubject().logout();
+
+        return ResultVoUtil.success("下机成功");
 
     }
 
@@ -214,5 +247,10 @@ public class LoginController implements ErrorController {
     @GetMapping("/imTable")
     public String choseTable() {
         return "/common/imTable";
+    }
+    //   工序选择
+    @GetMapping("/gonxvTable")
+    public String gonxvTable() {
+        return "/common/gonxvTable";
     }
 }

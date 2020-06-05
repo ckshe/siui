@@ -159,7 +159,7 @@
         <div class="buttonBox">
             <div class="fourBox">
                 <div class="fourLeft">
-                    <button class="blueButton">启动</button>
+                    <button id="run" class="blueButton">启动</button>
                     <button id="stop" class="redButton">暂停</button>
                 </div>
                 <div class="fourRight">
@@ -319,7 +319,46 @@
                 document.getElementById('zezao2').style.display='none';
                 func13=function () {}
             })
+            $('#run').on('click',function () {
+                layer.open({
+                    type:2,
+                    area:["80%","80%"],
+                    title:'请选择启动工序',
+                    content:'/gonxvTable?deviceCode='+getQueryString('deviceCode')
+                });
+                a=function (data) {
+                    layer.load(1,{
+                        content: '启动中...',
+                        success: function (layero) {
+                            layero.find('.layui-layer-content').css({
+                                'padding-top': '39px',
+                                'width': '60px'
+                            });
+                        }
+                    })
+                    $.ajax({
+                        url: '/produce/pcbTask/modifyProcessTaskStatus',
+                        type: "post",
+                        dataType : "json",
+                        data : JSON.stringify({
+                            processTaskId:data.id,
+                            processTaskStatus:"生产中",
+                            deviceCode:getQueryString('deviceCode')
+                        }),
+                        contentType : "application/json;charset=UTF-8",
+                        success: function (res) {
+                            layer.closeAll();
+                            if(res.code === 200){
+                                layer.msg(res.msg,{icon:1});
 
+                            }else{
+                                layer.alert(res.msg,{icon:5})
+                            }
+                            func13=function () {}
+                        }
+                    })
+                }
+            });
             //暂停工单
             $('#stop').on('click',function () {
                 layer.confirm('确定暂停当前工单？',{icon:3},function () {
