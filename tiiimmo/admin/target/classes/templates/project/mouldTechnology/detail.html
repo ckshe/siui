@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${mouldTechnology.id}"></td>
+                    <th>更改记录编码</th>
+                    <td th:text="${mouldTechnology.mould_technology_code}"></td>
+                </tr>
+                <tr>
+                    <th>pcb编码</th>
+                    <td th:text="${mouldTechnology.pcb_code}"></td>
+                    <th>pcb版本</th>
+                    <td th:text="${mouldTechnology.pcb_version}"></td>
+                </tr>
+                <tr>
+                    <th>生效时间</th>
+                    <td th:text="${mouldTechnology.work_time}"></td>
+                    <th>更改类型</th>
+                    <td th:text="${mouldTechnology.change_type}"></td>
+                </tr>
+                <tr>
+                    <th>更改内容</th>
+                    <td th:text="${mouldTechnology.change_msg}"></td>
+                    <th>更改结果</th>
+                    <td th:text="${mouldTechnology.change_result}"></td>
+                </tr>
+                <tr>
+                    <th>审批人</th>
+                    <td th:text="${mouldTechnology.check_user}"></td>
+                    <th>更改人</th>
+                    <td th:text="${mouldTechnology.change_user}"></td>
+                </tr>
+                <tr>
+                    <th>生效人</th>
+                    <td th:text="${mouldTechnology.work_user}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${mouldTechnology.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${mouldTechnology.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(mouldTechnology.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更改时间</th>
+                    <td th:text="${#dates.format(mouldTechnology.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${mouldTechnology.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

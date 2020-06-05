@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${spareParts.id}"></td>
+                    <th>编号</th>
+                    <td th:text="${spareParts.code}"></td>
+                </tr>
+                <tr>
+                    <th>条形编码</th>
+                    <td th:text="${spareParts.barCode}"></td>
+                    <th>备品名称</th>
+                    <td th:text="${spareParts.sparePartsName}"></td>
+                </tr>
+                <tr>
+                    <th>库存</th>
+                    <td th:text="${spareParts.stock}"></td>
+                    <th>最低库存</th>
+                    <td th:text="${spareParts.minStock}"></td>
+                </tr>
+                <tr>
+                    <th>确认人</th>
+                    <td th:text="${spareParts.confirmer}"></td>
+                    <th>日期</th>
+                    <td th:text="${spareParts.confirmDate}"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${spareParts.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${spareParts.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(spareParts.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(spareParts.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${spareParts.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

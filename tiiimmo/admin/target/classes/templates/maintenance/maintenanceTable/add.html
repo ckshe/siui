@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="layui-form timo-compile">
+    <form th:action="@{/maintenance/maintenanceTable/save}">
+        <input type="hidden" name="id" th:if="${maintenanceTable}" th:value="${maintenanceTable.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">检查气压及阀门情况</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="hardwareStatus" placeholder="请输入检查气压及阀门情况" th:value="${maintenanceTable?.hardwareStatus}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">设备软件自检情况</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="softwareStatus" placeholder="请输入设备软件自检情况" th:value="${maintenanceTable?.softwareStatus}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">设备预热</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="preheatStatus" placeholder="请输入设备预热" th:value="${maintenanceTable?.preheatStatus}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">维护人员</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="repairer" placeholder="请输入维护人员" th:value="${maintenanceTable?.repairer}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">维护时间</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="repairerDate" placeholder="请输入维护时间" th:value="${maintenanceTable?.repairerDate}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">[[${maintenanceTable?.remark}]]</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

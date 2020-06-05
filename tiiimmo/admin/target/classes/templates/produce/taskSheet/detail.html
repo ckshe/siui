@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${taskSheet.id}"></td>
+                    <th>制造编号</th>
+                    <td th:text="${taskSheet.task_sheet_code}"></td>
+                </tr>
+                <tr>
+                    <th>通知日期</th>
+                    <td th:text="${taskSheet.task_sheet_date}"></td>
+                    <th>厂区</th>
+                    <td th:text="${taskSheet.factory}"></td>
+                </tr>
+                <tr>
+                    <th>车间</th>
+                    <td th:text="${taskSheet.workshop}"></td>
+                    <th>机型编码</th>
+                    <td th:text="${taskSheet.model_id}"></td>
+                </tr>
+                <tr>
+                    <th>机型名称</th>
+                    <td th:text="${taskSheet.model_name}"></td>
+                    <th>机型版本</th>
+                    <td th:text="${taskSheet.model_ver}"></td>
+                </tr>
+                <tr>
+                    <th>RoHS</th>
+                    <td th:text="${taskSheet.is_rohs}"></td>
+                    <th>生产数量</th>
+                    <td th:text="${taskSheet.quantity}"></td>
+                </tr>
+                <tr>
+                    <th>计划完成时间</th>
+                    <td th:text="${taskSheet.plan_complete_date}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${taskSheet.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${taskSheet.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(taskSheet.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(taskSheet.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${taskSheet.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

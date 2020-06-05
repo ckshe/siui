@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${feeder.id}"></td>
+                    <th>飞达编码</th>
+                    <td th:text="${feeder.code}"></td>
+                </tr>
+                <tr>
+                    <th>飞达名称</th>
+                    <td th:text="${feeder.name}"></td>
+                    <th>使用次数</th>
+                    <td th:text="${feeder.use_times}"></td>
+                </tr>
+                <tr>
+                    <th>最高使用次数</th>
+                    <td th:text="${feeder.highest_use_times}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${feeder.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${feeder.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(feeder.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(feeder.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${feeder.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

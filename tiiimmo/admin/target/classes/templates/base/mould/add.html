@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="layui-form timo-compile">
+    <form th:action="@{/base/mould/save}">
+        <input type="hidden" name="id" th:if="${mould}" th:value="${mould.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">机型编码</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="code" placeholder="请输入机型编码" th:value="${mould?.code}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">机型名称</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="name" placeholder="请输入机型名称" th:value="${mould?.name}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">机型版本</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="version" placeholder="请输入机型版本" th:value="${mould?.version}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">RoHS</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="rohs" placeholder="请输入RoHS" th:value="${mould?.rohs}">
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

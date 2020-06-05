@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${solder.id}"></td>
+                    <th>编号</th>
+                    <td th:text="${solder.num}"></td>
+                </tr>
+                <tr>
+                    <th>名称</th>
+                    <td th:text="${solder.name}"></td>
+                    <th>厂家</th>
+                    <td th:text="${solder.manufactor}"></td>
+                </tr>
+                <tr>
+                    <th>批号</th>
+                    <td th:text="${solder.batchNumber}"></td>
+                    <th>数量</th>
+                    <td th:text="${solder.number}"></td>
+                </tr>
+                <tr>
+                    <th>出厂日期</th>
+                    <td th:text="${solder.productionDate}"></td>
+                    <th>保质期</th>
+                    <td th:text="${solder.shelfLife}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${solder.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${solder.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(solder.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(solder.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${solder.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

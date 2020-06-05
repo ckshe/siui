@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${device.id}"></td>
+                    <th>所属厂区</th>
+                    <td th:text="${device.belong_plant_area}"></td>
+                </tr>
+                <tr>
+                    <th>所属产线</th>
+                    <td th:text="${device.belong_line}"></td>
+                    <th>设备类型</th>
+                    <td th:text="${device.device_type}"></td>
+                </tr>
+                <tr>
+                    <th>设备编号</th>
+                    <td th:text="${device.device_code}"></td>
+                    <th>设备名称</th>
+                    <td th:text="${device.device_name}"></td>
+                </tr>
+                <tr>
+                    <th>所属工序</th>
+                    <td th:text="${device.belong_process}"></td>
+                    <th>Mac</th>
+                    <td th:text="${device.mac}"></td>
+                </tr>
+                <tr>
+                    <th>设备型号</th>
+                    <td th:text="${device.device_model}"></td>
+                    <th>上次检测时间</th>
+                    <td th:text="${device.last_check_time}"></td>
+                </tr>
+                <tr>
+                    <th>下次检测时间</th>
+                    <td th:text="${device.next_check_time}"></td>
+                    <th>年限</th>
+                    <td th:text="${device.year}"></td>
+                </tr>
+                <tr>
+                    <th>操作说明书</th>
+                    <td th:text="${device.use_book}"></td>
+                    <th>作业说明书</th>
+                    <td th:text="${device.work_book}"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${device.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${device.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(device.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(device.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

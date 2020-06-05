@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="layui-form timo-compile">
+    <form th:action="@{/produce/taskSheet/save}">
+        <input type="hidden" name="id" th:if="${taskSheet}" th:value="${taskSheet.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">制造编号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="task_sheet_code" placeholder="请输入制造编号" th:value="${taskSheet?.task_sheet_code}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">通知日期</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="task_sheet_date" placeholder="请输入通知日期" th:value="${taskSheet?.task_sheet_date}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">厂区</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="factory" placeholder="请输入厂区" th:value="${taskSheet?.factory}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">车间</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="workshop" placeholder="请输入车间" th:value="${taskSheet?.workshop}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">机型编码</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="model_id" placeholder="请输入机型编码" th:value="${taskSheet?.model_id}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">机型名称</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="model_name" placeholder="请输入机型名称" th:value="${taskSheet?.model_name}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">机型版本</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="model_ver" placeholder="请输入机型版本" th:value="${taskSheet?.model_ver}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">RoHS</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="is_rohs" placeholder="请输入RoHS" th:value="${taskSheet?.is_rohs}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">生产数量</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="quantity" placeholder="请输入生产数量" th:value="${taskSheet?.quantity}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">计划完成时间</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="plan_complete_date" placeholder="请输入计划完成时间" th:value="${taskSheet?.plan_complete_date}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">[[${taskSheet?.remark}]]</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

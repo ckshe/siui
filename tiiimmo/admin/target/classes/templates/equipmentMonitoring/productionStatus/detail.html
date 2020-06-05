@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${productionStatus.id}"></td>
+                    <th>设备编码</th>
+                    <td th:text="${productionStatus.deviceCode}"></td>
+                </tr>
+                <tr>
+                    <th>设备名称</th>
+                    <td th:text="${productionStatus.deviceName}"></td>
+                    <th>所属工序</th>
+                    <td th:text="${productionStatus.workingProcedure}"></td>
+                </tr>
+                <tr>
+                    <th>制造编码</th>
+                    <td th:text="${productionStatus.manufactureCode}"></td>
+                    <th>PCB编码</th>
+                    <td th:text="${productionStatus.pcbCode}"></td>
+                </tr>
+                <tr>
+                    <th>PCB名称</th>
+                    <td th:text="${productionStatus.pcbName}"></td>
+                    <th>PCB版本</th>
+                    <td th:text="${productionStatus.PCBEdition}"></td>
+                </tr>
+                <tr>
+                    <th>计划完成时间</th>
+                    <td th:text="${productionStatus.planOverTime}"></td>
+                    <th>任务数量</th>
+                    <td th:text="${productionStatus.taskNum}"></td>
+                </tr>
+                <tr>
+                    <th>已完成数量</th>
+                    <td th:text="${productionStatus.overNum}"></td>
+                    <th>当前处理板编号</th>
+                    <td th:text="${productionStatus.processingCode}"></td>
+                </tr>
+                <tr>
+                    <th>设备状态</th>
+                    <td th:text="${productionStatus.deviceStatus}"></td>
+                    <th>合格率</th>
+                    <td th:text="${productionStatus.qualifiedRate}"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${productionStatus.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${productionStatus.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(productionStatus.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(productionStatus.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${productionStatus.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

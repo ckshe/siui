@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${silkRecord.id}"></td>
+                    <th>开始时间</th>
+                    <td th:text="${silkRecord.beginTime}"></td>
+                </tr>
+                <tr>
+                    <th>PBC板号</th>
+                    <td th:text="${silkRecord.pbcNo}"></td>
+                    <th>板编码</th>
+                    <td th:text="${silkRecord.pbcCode}"></td>
+                </tr>
+                <tr>
+                    <th>焊接面</th>
+                    <td th:text="${silkRecord.welding}"></td>
+                    <th>元件面</th>
+                    <td th:text="${silkRecord.element }"></td>
+                </tr>
+                <tr>
+                    <th>校板人</th>
+                    <td th:text="${silkRecord.checker}"></td>
+                    <th>丝印人</th>
+                    <td th:text="${silkRecord.silker}"></td>
+                </tr>
+                <tr>
+                    <th>结束时间</th>
+                    <td th:text="${silkRecord.endTime}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${silkRecord.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${silkRecord.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(silkRecord.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(silkRecord.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${silkRecord.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${pcbdetail.id}"></td>
+                    <th>物料编号</th>
+                    <td th:text="${pcbdetail.product_code}"></td>
+                </tr>
+                <tr>
+                    <th>物料名称</th>
+                    <td th:text="${pcbdetail.product_name}"></td>
+                    <th>所需数量</th>
+                    <td th:text="${pcbdetail.need_count}"></td>
+                </tr>
+                <tr>
+                    <th>pcbId</th>
+                    <td th:text="${pcbdetail.pcb_id}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${pcbdetail.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${pcbdetail.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(pcbdetail.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(pcbdetail.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${mouldPcbDetail.id}"></td>
+                    <th>PCB编码</th>
+                    <td th:text="${mouldPcbDetail.pcb_code}"></td>
+                </tr>
+                <tr>
+                    <th>PCB版本</th>
+                    <td th:text="${mouldPcbDetail.pcb_version}"></td>
+                    <th>PCB名称</th>
+                    <td th:text="${mouldPcbDetail.pcb_name}"></td>
+                </tr>
+                <tr>
+                    <th>PCB光板号</th>
+                    <td th:text="${mouldPcbDetail.pcb_light_plate}"></td>
+                    <th>数量</th>
+                    <td th:text="${mouldPcbDetail.count}"></td>
+                </tr>
+                <tr>
+                    <th>是否AB面</th>
+                    <td th:text="${mouldPcbDetail.is_ab}"></td>
+                    <th>修改标记</th>
+                    <td th:text="${mouldPcbDetail.flag}"></td>
+                </tr>
+                <tr>
+                    <th>机型id</th>
+                    <td th:text="${mouldPcbDetail.mould_id}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${mouldPcbDetail.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${mouldPcbDetail.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(mouldPcbDetail.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(mouldPcbDetail.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

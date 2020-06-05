@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>备料工序计划</title>
+    <meta name="Description" content="基于layUI数据表格操作"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <style type="text/css">
+        .layui-form-switch {
+            width: 55px;
+        }
+        .layui-form-switch em {
+            width: 40px;
+        }
+        body {
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body class="timo-layout-page">
+    <div class="layui-card">
+        <div class="layui-card-header timo-card-header">
+            <span><i class="fa fa-bars"></i></span>
+        </div>
+        <div class="layui-card-body">
+        <form class="layui-form pull-left layui-form-pane timo-search-box "  lay-filter='search'>
+            <div class="layui-inline">
+                <label class="layui-form-label">任务号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pcb_task_code"  placeholder="请输入任务号" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">任务号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pcb_task_code"  placeholder="请输入任务号" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <button class="layui-btn" type="button" lay-submit lay-filter="sub"><i class="layui-icon">&#xe615;</i></button>
+            <button type="reset" class="layui-btn layui-bg-blue" >清除</button>
+        </form>
+            <div class="pull-right screen-btn-group">
+                <button class="layui-btn open-popup" data-title="添加PCB工单"  data-size="auto">
+                    <i class="layui-icon ">&#xe654;</i>    添加</button>
+                <div class="btn-group">
+                    <button class="layui-btn" id="sync" type="button">同步数据</button>
+                    <!--                        <dl class="layui-nav-child layui-anim layui-anim-upbit">-->
+                    <!--                            <dd><a class="ajax-status" th:href="@{/produce/pcbTask/status/ok}">启用</a></dd>-->
+                    <!--                            <dd><a class="ajax-status" th:href="@{/produce/pcbTask/status/freezed}">冻结</a></dd>-->
+                    <!--                            <dd><a class="ajax-status" th:href="@{/produce/pcbTask/status/delete}">删除</a></dd>-->
+                    <!--                        </dl>-->
+                </div>
+            </div>
+        <table class="layui-hide" id="table" lay-filter="table"></table>
+        <script type="text/html" id="tool">
+            <a class=" layui-btn layui-btn-xs  "  lay-event="ok">确定</a>
+            <a class=" layui-btn layui-btn-xs  layui-btn-normal"  lay-event="detail">详情</a>
+        </script>
+        <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+        <script src="../../js/common.js" ></script>
+    </div>
+</div>
+
+</body>
+<script>
+    layui.use(['table','jquery','form','layer'],function () {
+        var table = layui.table,
+            layer = layui.layer,
+            form = layui.form,
+            $ = layui.jquery;
+        form.on('submit(sub)',function (obj) {
+            var data = obj.field;
+            table.reload('table',{
+                where:data,
+                curr:1
+            })
+        });
+        table.render({
+            elem: '#table'
+            ,url: '/produce/pcbTask/findProcessTaskByProcessName' //数据接口
+            ,page: true //开启分页
+            ,method:'POST'
+            ,loading:false
+            ,contentType: 'application/json'
+            ,response: {
+                statusCode: 200
+            },
+            where:{
+                size:10,
+            }
+            ,parseData: function(res){
+                return {
+                    "code": res.code, //解析接口状态
+                    "data": res.data, //解析数据列表
+                    "count": res.total, //解析数据长度
+                };
+            }
+            ,cols: [
+                [
+                     // {type: 'checkbox'}
+                    {field: 'task_sheet_code', title: '日制令号', minWidth:140}
+                    ,{field: 'process_name', title: '工序名称', minWidth:120}
+                    ,{field: 'feeding_task_code', title: '领料编号', minWidth:120}
+                    ,{field: 'is_rohs', title: '是否RoHS', minWidth:120}
+                    ,{field: 'process_task_status', title: '工单状态', minWidth:120}
+
+                    ,{field: 'plan_start_time', title: '计划生产时间', minWidth:170,templet:function (d) {
+                        return d.plan_start_time?timeToDate(d.plan_start_time):"";}}
+                    ,{field: 'plan_finish_name', title: '计划完成时间', minWidth:170,templet:function (d) {
+                        return d.plan_finish_name?timeToDate(d.plan_finish_name):"";}}
+                    ,{field: 'start_time', title: '实际生产时间', minWidth:170,templet:function (d) {
+                        return d.start_time?timeToDate(d.start_time):"";}}
+                    ,{field: 'finish_time', title: '实际完成时间', minWidth:170,templet:function (d) {
+                        return d.finish_time?timeToDate(d.finish_time):"";}}
+                    ,{field: 'pcb_quantity', title: '计划生产数量', minWidth:120}
+                    ,{field: 'amount_completed', title: '实际生产数量', minWidth:120}
+                    ,{field: 'process_task_status', title: '工单状态', minWidth:140}
+                    // ,{ title: '操作',fixed:'right', toolbar: '#tool', minWidth: 90}
+                    ]
+                ]
+        });
+        table.on('toolbar(table)',function (obj) {
+            if(obj.event==='devs'){
+                var checkStatus = table.checkStatus('table').data;
+                parent.a(checkStatus)
+            }
+        });
+        table.on('tool(table)',function (obj) {
+            var data = obj.data;
+            switch (obj.event) {
+                case 'detail':
+                    layer.open({
+                        type:2,
+                        area:['90%','90%'],
+                        title:"日制令详情",
+                        content:'/detail',
+                        success: function (i, index) {
+                            var iframeWin = window[i.find('iframe')[0]['name']];
+                            var newData = data;
+                            var title = {
+                                device_code: '设备编号',
+                                device_name: '设备名称',
+                                device_type: '设备类型',
+                                mac: 'mac',
+                                belong_line: '所属厂区',
+                                blankTd:''
+                            };
+                            iframeWin.render(newData,title)
+                        }
+                    })
+                    ;break;
+                case 'ok':
+                    // console.log(parent.layui)
+                    parent.a([obj.data]);
+                    // parent.layer.close(parent.imTable)
+                    break;
+            }
+        });
+
+    })
+</script>
+</html>

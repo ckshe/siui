@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>生产信息</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+
+</head>
+<style>
+    .mainBox{
+        box-sizing: border-box;
+        padding:0 14px;
+    }
+    .layui-form-label{
+        width:90px;
+    }
+</style>
+<body>
+<div style="display: none" id="timeBox">
+    <div class="site-demo-laydate">
+        <div class="layui-inline" id="time"></div>
+    </div>
+</div>
+<form class="layui-form"  id="editForm" style="display: none;padding:14px 0;">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">计划生产时间</label>
+            <div class="layui-input-inline">
+                <input id="planStartTime" type="text" name="planStartTime"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">计划完成时间</label>
+            <div class="layui-input-inline">
+                <input id="planFinishTime" type="text" name="planFinishTime"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">选择设备</label>
+            <div class="layui-input-inline">
+                <textarea id="imConfig" type="text"  class="layui-textarea"  placeholder="选择机台"></textarea>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center">
+        <button class="layui-btn  layui-btn-sm" lay-submit lay-filter="sub" type="button">确定</button>
+    </div>
+</form>
+<div class="mainBox">
+    <table class="layui-table" id="table" lay-filter="table"></table>
+</div>
+<!--<script type="text/html" id="barDemo">-->
+<!--   -->
+<!--</script>-->
+<script type="text/html" id="im">
+    <button lay-event="im" class="layui-btn layui-btn-normal layui-btn-xs" type="button">查看</button>
+</script>
+<script type="text/html" id="baobiao">
+    <button lay-event="baobiao" class="layui-btn layui-btn-normal layui-btn-xs" type="button">查看</button>
+</script>
+
+<script src="../../lib/layui-v2.3.0/layui.js" ></script>
+<script src="../../js/common.js" ></script>
+</body>
+<script>
+    var a="";
+    var imTable="";
+    window.onload = function () {
+        layui.use(['jquery', 'form','table','laydate'], function () {
+            var $ = layui.jquery,
+                table = layui.table,
+                laydate = layui.laydate,
+                form = layui.form;
+            var nowData={};
+            var deviceName = [],//选择的机台编号列表
+                deviceCode = [];//选择的机台名称列表
+            //展示已知数据
+            table.render({
+                elem: '#table'
+                ,url: '/produce/pcbTask/findProcessTaskByPCBTaskId/'+getQueryString('id') //数据接口
+                ,page: false //开启分页
+                ,height:'full-30'
+                ,response: {
+                    statusCode: 200 //规定成功的状态码，默认：0，改为200
+                }
+                ,parseData: function(res){
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "data": res.data //解析数据列表
+                    };
+                }
+                ,cols: [
+                    [
+                    {field: 'task_sheet_code', title: '日制令号', minWidth:140}
+                    ,{field: 'process_name', title: '工序名称', minWidth:120}
+                    ,{field: 'plan_start_time', title: '计划生产时间', minWidth:170,templet:function (d) {
+                            return d.plan_start_time?timeToDate(d.plan_start_time):"";}}
+                    ,{field: 'plan_finish_name', title: '计划完成时间', minWidth:170,templet:function (d) {
+                            return d.plan_finish_name?timeToDate(d.plan_finish_name):"";}}
+                     ,{field: 'start_time', title: '实际生产时间', minWidth:170,templet:function (d) {
+                        return d.start_time?timeToDate(d.start_time):"";}}
+                    ,{field: 'finish_time', title: '实际完成时间', minWidth:170,templet:function (d) {
+                        return d.finish_time?timeToDate(d.finish_time):"";}}
+                        ,{field: 'pcb_quantity', title: '计划生产数量', minWidth:120}
+
+                        ,{field: 'amount_completed', title: '实际生产数量', minWidth:120}
+                        ,{field: 'device_name', title: '选择设备', minWidth:86,toolbar:'#im'}
+
+                        ,{field: 'process_task_status', title: '工单状态', minWidth:140}
+                    ,{field: 'score', title: '工时', minWidth: 80 }
+                    // ,{field: 'score', title: '报表', minWidth: 66,toolbar:'#baobiao'}
+                    ,{field: 'wealth', title: '操作',fixed:'right',  minWidth: 90,templet:function (d) {
+                        if(d.process_name=='备料'){
+                            return ''
+                        }else if(d.process_task_status=='已下达到机台'){
+                            return '<button class="layui-btn layui-btn-disabled layui-btn-xs" type="button">已下达</button> '
+                        } else {
+                            return '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-xs" type="button">下达</button> '
+                        }
+                        }}
+                    ]
+                ]
+            });
+            laydate.render({
+                elem: '#planStartTime'
+                ,type:'date'
+            });
+            laydate.render({
+                elem: '#planFinishTime'
+                ,type:'date'
+            });
+            table.on('tool(table)',function (obj) {
+                var data = obj.data;
+                switch (obj.event) {
+                    case 'im':break;
+                    case 'baobiao':break;
+                    case 'set':
+                        console.log(data);
+                        nowData=data;
+                        layer.open({
+                            title:'下达',
+                            offset:20,
+                            content:$('#editForm'),
+                            type:1,
+                            area:['360px','300px']
+                        });
+                        break;
+                    case 'del':break;
+                }
+            });
+            $("#imConfig").on('click',function () {
+                imTable = layer.open({
+                    type:2,
+                    area:["80%","80%"],
+                    title:'请选择机台',
+                    content:'/imTable?process_name='+nowData.process_name
+                });
+                a=function (data) {
+                    console.log(data);
+                     deviceName = []//选择的机台编号列表
+                    deviceCode = []//选择的机台名称列表
+                    data.forEach(function (t) {
+                        deviceName.push(t.device_name);
+                        deviceCode.push(t.device_code)
+                    });
+                    $('#imConfig').val(deviceName.join('\r\n'));
+                    layer.close(imTable)
+                }
+            })
+            form.on('submit(sub)',function (obj) {
+                obj.field.deviceName=deviceName.join(',')
+                obj.field.deviceCode=deviceCode.join(',')
+                obj.field.processTaskId=nowData.id
+                console.log(obj.field)
+                $.ajax({
+                    type: "POST",
+                    url: '/produce/pcbTask/putIntoProduce',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(obj.field),
+                    dataType: "json",
+                    success: function (res) {
+                        if(res.code === 200){
+                            layer.alert(res.msg,{icon:1},function () {
+                                table.reload('table')
+                                layer.closeAll();
+
+                            })
+                        }else{
+                            layer.msg(res.msg, {offset: '15px', time: 3000, icon: 2});
+                        }
+                    },
+                    error: function (message) {
+                        layer.msg("保存失败！", {offset: '15px', time: 3000, icon: 2});
+                    }
+                });
+            })
+
+
+
+
+
+
+
+
+        });
+
+    };
+
+</script>
+</html>

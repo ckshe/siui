@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${deviceSort.id}"></td>
+                    <th>设备类型</th>
+                    <td th:text="${deviceSort.device_type}"></td>
+                </tr>
+                <tr>
+                    <th>设备编号</th>
+                    <td th:text="${deviceSort.device_code}"></td>
+                    <th>设备名称</th>
+                    <td th:text="${deviceSort.device_sort}"></td>
+                </tr>
+                <tr>
+                    <th>所属工序</th>
+                    <td th:text="${deviceSort.belong_process}"></td>
+                    <th>Mac</th>
+                    <td th:text="${deviceSort.mac}"></td>
+                </tr>
+                <tr>
+                    <th>站位</th>
+                    <td th:text="${deviceSort.sort_no}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${deviceSort.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${deviceSort.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(deviceSort.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(deviceSort.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

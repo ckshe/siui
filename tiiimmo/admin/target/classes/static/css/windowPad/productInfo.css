@@ -1,0 +1,71 @@
+/*修改layui form*/
+.layui-form-label{
+    padding:9px 0!important;
+    width:60px!important;
+    margin-right:8px;
+}
+.layui-form-item .layui-inline{
+    margin-right:0!important;
+}
+.layui-form-item .layui-input-inline{
+    width: auto!important;
+     margin-right: 0!important;
+}
+.title{
+    font-size: 20px;
+    vertical-align: middle;
+    margin-bottom:14px;
+}
+.greenButton{
+    border-radius: 4px;
+    color:#fff;
+    border: none;
+    cursor: pointer;
+    background: #0eb265;
+}
+.redButton{
+    border-radius: 8px;
+    color:#fff;
+    border: none;
+    cursor: pointer;
+
+    background:#ff5b52 ;
+
+}
+.mainBox{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.imBox{
+    width: 100%;
+    height:60px;
+    border-radius: 8px;
+    background-color:#fff;
+    border:1px solid #eee;
+    box-sizing: border-box;
+    margin-bottom:10px;
+    padding:10px;
+    overflow: hidden;
+}
+
+#imName{
+    font-size: 24px;
+}
+#imState{
+    height:100%;
+    padding:3px 14px;
+    vertical-align: middle;
+    float: right;
+}
+.taskBox{
+    width: 100%;
+    height:calc(100% - 70px);
+    background-color:#fff;
+    box-sizing: border-box;
+    border:1px solid #eee;
+    padding:20px;
+}
+.formBox{
+    width: 100%;
+}

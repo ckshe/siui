@@ -1,0 +1,230 @@
+/*@media screen and (max-width: 900px) and (min-width:601px) {*/
+/*    .he{*/
+/*        background: yellow;*/
+/*        width:200px;*/
+/*        height:100px;*/
+/*    }*/
+/*}*/
+.hui{
+    color:#999;
+}
+.cu{
+    font-weight: bold;
+}
+.blue{
+    background:#1e9fff ;
+}
+.blueButton{
+    border-radius: 4px;
+    color:#fff;
+    border: none;
+        cursor: pointer;
+
+    background:#1e9fff ;
+    box-shadow:0 0 2px 3px #0585e4 inset,
+                0 0 5px 1px #fff inset
+}
+.greenButton{
+    border-radius: 4px;
+    color:#fff;
+    border: none;
+        cursor: pointer;
+
+    background: #0eb265;
+    box-shadow: 0 0 2px 3px  #109850 inset,
+                0 0 5px 1px #fff inset
+}
+.redButton{
+    border-radius: 4px;
+    color:#fff;
+    border: none;
+        cursor: pointer;
+
+    background:#ff5b52 ;
+    box-shadow: 0 0 2px 3px  #c6483f inset,
+                0 0 5px 1px #fff inset
+}
+/*总体布局*/
+.bigLeftBox{
+    position: absolute;
+    top:0;
+    left:0;
+    width:calc(100% - 350px);
+    height:100%;
+}
+.bigRightBox{
+    position: absolute;
+    top:0;
+    right:0;
+    width:350px;
+    height:100%;
+}
+.topBox{
+    width: 100%;
+    height:90px;
+    box-sizing: border-box;
+    border-bottom:1px solid #eee;
+    position: relative;
+}
+
+.container{
+    position: absolute;
+    top:90px;
+    height:calc(100% - 90px);
+    width:100%;
+    background: #f8f8f8;
+    padding:14px 14px 14px 194px;
+    box-sizing: border-box;
+    border-bottom:1px solid #eee;
+}
+.navBox{
+    height:100%;
+    width:180px;
+    position: absolute;
+    top:0;
+    left:0;
+    background: #fff;
+    box-sizing: border-box;
+    border-right:1px solid #eee;
+    border-radius: 8px;
+}
+.mainBox{
+    width:100%;
+    height:100%;
+    overflow: auto;
+    /*background: #fff;*/
+    border:1px solid transparent;
+    position: relative;
+    left:0;
+    opacity:1;
+}
+/*头部内容*/
+.topLeft{
+    position: absolute;
+    left:0;
+    width:250px;
+    height:100%;
+}
+.topRight{
+    position: absolute;
+    right:0;
+    width:176px;
+    height:100%;
+    padding-right:14px;
+}
+#systemTime{
+    position: absolute;
+    bottom: 0;
+    font-size: 18px;
+    margin-bottom:10px;
+}
+/*侧边栏主题css*/
+.navUl{
+    width:100%;
+    list-style: none;
+}
+.navLi{
+    height:50px;
+    cursor: pointer;
+    line-height: 50px;
+    box-sizing: border-box;
+    padding:0 14px;
+    margin:10px 0;
+}
+.navLi span{
+    font-size: 22px!important;
+    margin-right:6px;
+}
+.this-navLi{
+    color:#fff;
+    background: #1e9fff;
+    border-radius: 2px;
+    width: 186px;
+}
+/*右侧边栏*/
+.rightTop{
+    width:100%;
+    box-sizing: border-box;
+    margin-bottom:20px;
+}
+.userInfo{
+    width:100%;
+    height:150px;
+    box-sizing: border-box;
+    padding:20px 10px 20px 30px;
+}
+.userImg{
+    width:110px;
+    height:110px;
+    border-radius: 50%;
+    border:1px solid #999;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+#upTime{
+    display: block;
+    font-size: 18px;
+    box-sizing: border-box;
+    margin-top:6px;
+}
+.userRight{
+    text-align: center;
+    padding-right:40px;
+    display: inline-block;
+    width:200px;
+    vertical-align: middle;
+    box-sizing: border-box;
+    padding-left:14px;
+}
+.title{
+    font-size: 22px;
+}
+.userData{
+    width:100%;
+    height:100px;
+}
+.userUl{
+    list-style: none;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding:0 30px;
+}
+.userLi{
+    float: left;
+    width: 33%;
+    text-align: center;
+}
+.buttonBox{
+    width: 100%;
+    box-sizing: border-box;
+    padding:0 30px;
+}
+.fourBox{
+    width:290px;
+    height:200px;
+    overflow: hidden;
+}
+.fourBox div{
+    width: 50%;
+    float: left;
+    height:100%;
+}
+.fourBox button{
+    width:100%;
+    height:calc(50% - 10px);
+    font-size: 16px;
+}
+.buttonBox button{
+    margin-bottom:10px;
+}
+.buttonBox button:active{
+    opacity: 0.7;
+}
+.fourLeft{
+    box-sizing: border-box;
+    padding-right:6px;
+}
+.fourRight{
+    box-sizing: border-box;
+    padding-left:6px;
+}
