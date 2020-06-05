@@ -16,10 +16,26 @@ a{
 .layui-table thead tr th{
 	font-weight: bold!important;
 }
+.layui-table-view .layui-table td{
+	padding:0!important;
+}
 .layui-form-checked[lay-skin=primary] i {
 	border-color: #1e9fff;
 	background-color: #1e9fff;
 	color: #fff;
+}
+.layui-btn+.layui-btn{
+	margin-left:0;
+}
+.layui-form-label{
+	padding:9px 10px!important;
+	width:85px!important;
+}
+.layui-laypage .layui-laypage-curr .layui-laypage-em{
+	background-color: #1e9fff!important;
+}
+.layui-table-tool{
+	background-color:#fff!important;
 }
 .required:after {
 	position: absolute;

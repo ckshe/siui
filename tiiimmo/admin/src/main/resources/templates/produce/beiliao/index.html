@@ -46,9 +46,11 @@
         </form>
             <div class="pull-right screen-btn-group">
                 <button class="layui-btn open-popup" data-title="添加PCB工单"  data-size="auto">
-                    <i class="layui-icon ">&#xe654;</i>    添加</button>
+                    <i class="layui-icon ">&#xe654;</i> 添加</button>
                 <div class="btn-group">
-                    <button class="layui-btn" id="sync" type="button">同步数据</button>
+                    <button class="layui-btn" id="sync" type="button">
+
+                        同步数据</button>
                     <!--                        <dl class="layui-nav-child layui-anim layui-anim-upbit">-->
                     <!--                            <dd><a class="ajax-status" th:href="@{/produce/pcbTask/status/ok}">启用</a></dd>-->
                     <!--                            <dd><a class="ajax-status" th:href="@{/produce/pcbTask/status/freezed}">冻结</a></dd>-->
@@ -83,17 +85,22 @@
         table.render({
             elem: '#table'
             ,url: '/produce/pcbTask/findProcessTaskByProcessName' //数据接口
-            ,page: true //开启分页
             ,method:'POST'
             ,loading:false
             ,contentType: 'application/json'
             ,response: {
                 statusCode: 200
-            },
-            where:{
-                size:10,
             }
+            ,page:true
             ,parseData: function(res){
+                // var page = this.page.curr;
+                // if(res.data.length===0&&page>1){
+                //     table.reload('table',{
+                //         page:{
+                //             curr:(page-1)
+                //         }
+                //     })
+                // }
                 return {
                     "code": res.code, //解析接口状态
                     "data": res.data, //解析数据列表
@@ -103,7 +110,7 @@
             ,cols: [
                 [
                      // {type: 'checkbox'}
-                    {field: 'task_sheet_code', title: '日制令号', minWidth:140}
+                    {field: 'task_sheet_code', title: '工序任务号', minWidth:140}
                     ,{field: 'process_name', title: '工序名称', minWidth:120}
                     ,{field: 'feeding_task_code', title: '领料编号', minWidth:120}
                     ,{field: 'is_rohs', title: '是否RoHS', minWidth:120}

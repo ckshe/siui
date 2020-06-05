@@ -14,9 +14,87 @@
         html{
             overflow-x: auto!important;
         }
+        .zezao{
+              width:100%;
+              height:100%;
+              background: rgba(0,0,0, .5);
+              border:1px solid #999;
+              position: absolute;
+              z-index: 100;
+              box-sizing: border-box;
+              padding:20px;
+                top:0;
+                left:0
+          }
+        .loginBox{
+            width:500px;
+            height:154px;
+            background: #fff;
+            border:1px solid #999;
+            position: absolute;
+            top:0;
+            right:0;
+            bottom:0;
+            left:0;
+            margin: auto;
+            z-index: 100;
+            box-sizing: border-box;
+            padding:20px 20px 40px 20px;
+        }
+        .loginBox h2{
+            margin-bottom:20px;
+            text-align: center;
+
+        }
+        .loginBox input{
+            margin-bottom:20px;
+            width:280px;
+            height:38px;
+            padding:0 10px;
+            border:1px solid #999;
+        }
+        .blueButton{
+            width: 90px;height:38px;
+        }
+        .blueButton:active{
+            opacity: 0.5;
+        }
+        .xx{
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #fff;
+            text-align: center;
+            line-height: 48px;
+            position: absolute;
+            top: -22px;
+            right: -22px;
+            font-size: 30px;
+            border:1px solid #dedede;
+        }
     </style>
 </head>
 <body>
+<div id="zezao" class="zezao" style="display: none">
+    <div  id="loginBox" class="loginBox">
+        <div id="xx"  class="xx layui-icon layui-icon-close"></div>
+        <h2>请扫码上机</h2>
+        <label >员工号：</label>
+        <input class="loginInput" id="loginCode" type="text" name="userCode"  autocomplete="off">
+        <button class="blueButton" type="button">清除</button>
+    </div>
+</div>
+
+<div id="zezao2" class="zezao"  style="display: none">
+    <div  id="loginBox2" class="loginBox">
+        <div id="xx2"  class="xx layui-icon layui-icon-close"></div>
+        <h2>请扫码下机</h2>
+        <label >员工号：</label>
+        <input class="loginInput" id="outCode" type="text" name="userCode"  autocomplete="off">
+        <button class="blueButton" type="reset">清除</button>
+    </div>
+</div>
     <div class="bigLeftBox">
         <div class="topBox">
             <div class="topLeft"><img style="height:70%;margin:12px" src="../../images/logo2.jpg" alt=""></div>
@@ -25,18 +103,28 @@
         <div class="container">
             <div class="navBox">
                 <ul class="navUl">
-                    <li class="navLi" data-url="/windowPad/productInfo">
-                        <span  class="layui-icon">&#xe62c;</span><span>生产工单</span>
+                    <li class="navLi " data-url="/windowPad/productInfo">
+                        <span  class="layui-icon">&#xe62c;</span><span>生产工序</span>
                     </li>
-<!--                    <li class="navLi" data-url="https://www.baidu.com">-->
-<!--                        <span  class="layui-icon" >&#xe63c;</span><span>生产任务</span>-->
-<!--                    </li>-->
-<!--                    <li class="navLi" data-url="https://fanyi.baidu.com/#en/zh/">-->
-<!--                        <span class="layui-icon" >&#xe60e;</span><span>工作历史</span>-->
-<!--                    </li>-->
-<!--                    <li class="navLi">-->
-<!--                        <span class="layui-icon" data-url="/windowPad/productInfo">&#xe614;</span><span>系统设置</span>-->
-<!--                    </li>-->
+                    <li class="navLi" data-url="/404">
+                        <span  class="layui-icon">&#xe6b2;</span><span>首检</span>
+                    </li>
+
+                    <li class="navLi" data-url="/404">
+                        <span class="layui-icon" >&#xe629;</span><span>设备参数</span>
+                    </li>
+                    <li class="navLi" data-url="/404">
+                        <span class="layui-icon" >&#xe705;</span><span>操作规范</span>
+                    </li>
+                    <li class="navLi" data-url="/404">
+                        <span class="layui-icon" >&#xe63c;</span><span>物料明细</span>
+                    </li>
+                    <li class="navLi" data-url="https://www.baidu.com">
+                        <span class="layui-icon" >&#xe60e;</span><span>工作历史</span>
+                    </li>
+                    <li class="navLi" data-url="/windowPad/productInfo2">
+                        <span class="layui-icon" >&#xe614;</span><span>系统设置</span>
+                    </li>
                 </ul>
             </div>
             <iframe id="iframe" class="mainBox" src="">
@@ -44,49 +132,47 @@
         </div>
     </div>
     <div class="bigRightBox">
-        <div class="rightTop">
-            <div class="userInfo">
-            <img class="userImg" src="../../images/char-ccmiao.png" alt=""><!--
-            --><div class="userRight">
-                    <div class="title"><span id="userName">用户名称</span></div>
-                    <div class="title hui"><span id="upTime">2020-08-22 12:30:59</span></div>
+                <div class="rightTop">
+                    <div class="userInfo">
+                        <img class="layui-icon userImg" src="../../images/user.png"/><!--
+                    --><div class="userRight">
+                            <div >名称：<span class="hui"  id="userName" >无</span></div>
+                            <div >职位：<span class="hui"  id="juese" >无</span></div>
+                        <div >上机：<span class="hui" id="upTime" >无</span></div>
+                    </div>
                 </div>
-        </div>
-        <ul class="userUl">
-            <li class="userLi">
-                <div class="title cu">生产数</div>
-                <div class="title hui">12399</div>
-            </li>
-            <li class="userLi">
-                <div class="title cu">不良数</div>
-                <div class="title hui">999999</div>
-            </li>
-            <li class="userLi">
-                <div class="title cu">工作时长</div>
-                <div class="title hui">12399</div>
-            </li>
-        </ul>
-        </div>
+                <ul class="userUl">
+                    <li class="userLi">
+                        <div class="title cu">生产数</div>
+                        <div class="title hui">90000</div>
+                    </li>
+                    <li class="userLi">
+                        <div class="title cu">不良数</div>
+                        <div class="title hui">0</div>
+                    </li>
+                    <li class="userLi">
+                        <div class="title cu">工作时长</div>
+                        <div class="title hui">12</div>
+                    </li>
+                </ul>
+                </div>
         <div class="buttonBox">
             <div class="fourBox">
                 <div class="fourLeft">
-                    <button class="blueButton">工单明细</button>
-                    <button class="redButton">工单明细</button>
+                    <button class="blueButton">启动</button>
+                    <button id="stop" class="redButton">暂停</button>
                 </div>
                 <div class="fourRight">
                     <button class="greenButton" style="height:calc(100% - 10px)">操作指导</button>
                 </div>
             </div>
-            <button class="blueButton" style="height:90px;width:100%;">切换工单</button>
-
+            <button class="redButton" style="height:90px;width:100%;">不良录入</button>
             <div class="fourBox">
                 <div class="fourLeft">
-                    <button class="blueButton">呼叫</button>
-                    <button class="redButton">不良品</button>
+                    <button id="login" class="blueButton">上机</button>
                 </div>
                 <div class="fourRight">
-                    <button class="blueButton">上机</button>
-                    <button class="redButton">下机</button>
+                    <button id="out" class="huiButton">下机</button>
                 </div>
             </div>
         </div>
@@ -96,13 +182,26 @@
 <script src="../../js/common.js" ></script>
 </body>
 <script>
+    var func13 = function () {};
+    document.onkeydown=function (e) {
+        console.log(e.keyCode)
+        if(e.keyCode===13){
+            func13()
+        }
+    };
+
     window.onload = function () {
         layui.use(['jquery', 'form'], function () {
             var $ = layui.jquery,
                 form = layui.form;
                 var navLis = document.getElementsByClassName('navLi');
                 var iframe = document.getElementById('iframe');
-
+                if(localStorage.getItem('padUserData')){
+                    var data = JSON.parse(localStorage.getItem('padUserData'))
+                    console.log(data);
+                    $('#userName').html(data.username)
+                    $('#upTime').html(timeToDate(data.updateDate))
+                }
                     for(var i=0;i<navLis.length;i++){
                         navLis[i].onclick=function (e) {
                             iframe.className='mainBox goLeft0';
@@ -113,10 +212,9 @@
                                 navLis[o].className="navLi"
                             }
                             ev.currentTarget.className="navLi this-navLi";
-                            iframe.src=url;
                             setTimeout(function () {
+                                iframe.src=url;
                                 iframe.className='mainBox go01';
-
                             },300);
                             var nowNav={};
                             nowNav.url=url;
@@ -126,7 +224,6 @@
                     //    读取本地存储，展开菜单
                     if(localStorage.getItem('nowNav')){
                         var obj = JSON.parse(localStorage.getItem('nowNav'));
-                        console.log(obj)
                         if(obj.url){
                             for(var o=0;o<navLis.length;o++){
                                 if(navLis[o].getAttribute('data-url')==obj.url){
@@ -140,13 +237,131 @@
                         }
 
                     }
+            // 上机功能
+            $('#login').on('click',function(){
+                console.log('上机')
+                document.getElementById('zezao').style.display='block';
+                document.getElementById('loginCode').focus();
+                func13=function () {
+                    layer.load(1,{
+                        content: '上机中...',
+                        success: function (layero) {
+                            layero.find('.layui-layer-content').css({
+                                'padding-top': '39px',
+                                'width': '60px'
+                            });
+                        }
+                    })
+                    $.ajax({
+                        url: '/cardCrashLogin',
+                        type: "post",
+                        dataType : "json",
+                        data : JSON.stringify({
+                            cardSequence:$('#loginCode').val(),
+                            processTaskCode:"未分配",
+                            deviceCode:getQueryString('deviceCode'),
+                        }),
+                        contentType : "application/json;charset=UTF-8",
+                        success: function (res) {
+                            layer.closeAll();
+                            if(res.code === 200){
+                                layer.msg(res.msg,{icon:1});
+                                localStorage.setItem('padUserData',JSON.stringify(res.data));
+                                setTimeout(function () {
+                                    window.location.reload();
+                                },1000)
+                            }else{
+                                layer.alert(res.msg,{icon:5})
+                            }
+                            func13=function () {}
+                        }
+                    })
+                }
+            })
+
+            $('#out').on('click',function(){
+                console.log('下机')
+                document.getElementById('zezao2').style.display='block';
+                document.getElementById('outCode').focus();
+                func13=function () {
+                    layer.load(1,{
+                        content: '下机中...',
+                        success: function (layero) {
+                            layero.find('.layui-layer-content').css({
+                                'padding-top': '39px',
+                                'width': '60px'
+                            });
+                        }
+                    });
+                    localStorage.removeItem("padUserData");
+                    setTimeout(function () {
+                        window.location.reload()
+                    },1000)
+                    return
+                    $.ajax({
+                        url: '/loggg',
+                        type: "post",
+                        dataType : "json",
+                        data : JSON.stringify({userCode:123,device_code:getQueryString('deviceCode')}),
+                        contentType : "application/json;charset=UTF-8",
+                        success: function (res) {
+                            layer.closeAll();
+                            func13=function () {}
+                        }
+                    })
+                }
+            });
+            $('#xx').on('click',function () {
+                document.getElementById('zezao').style.display='none';
+
+            })
+            $('#xx2').on('click',function () {
+                document.getElementById('zezao2').style.display='none';
+                func13=function () {}
+            })
+
+            //暂停工单
+            $('#stop').on('click',function () {
+                layer.confirm('确定暂停当前工单？',{icon:3},function () {
+                    layer.load(1,{
+                        content: '暂停中...',
+                        success: function (layero) {
+                            layero.find('.layui-layer-content').css({
+                                'padding-top': '39px',
+                                'width': '60px'
+                            });
+                        }
+                    })
+                })
+            })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         });
         var systemTime = document.getElementById('systemTime');
         systemTime.innerHTML=timeToDate(new Date())
         setInterval(function () {
             systemTime.innerHTML=timeToDate(new Date())
         },1000)
-
+    //    暂停工单
 
 
     };

@@ -1,11 +1,23 @@
 /*修改layui form*/
-.layui-form-label{
-    padding:9px 0!important;
-    width:60px!important;
-    margin-right:8px;
-}
 .layui-form-item .layui-inline{
     margin-right:0!important;
+    width:272px;
+}
+.layui-input{
+    border-color: transparent!important;
+}
+.layui-input:hover{
+    border-color: transparent!important;
+}
+.layui-form-label{
+    font-weight: bold;
+    padding:9px 0 9px 0!important;
+    width: 90px!important;
+}
+.layui-form-item{
+    margin-bottom: 0;
+    text-align: center;
+    height:36px;
 }
 .layui-form-item .layui-input-inline{
     width: auto!important;
@@ -28,14 +40,26 @@
     color:#fff;
     border: none;
     cursor: pointer;
-
     background:#ff5b52 ;
 
+}
+.redBg{
+    background: #ff5b52;
+}
+.yellowBg{
+    background: #FFB800;
+}
+.greenBg{
+    background: #0eb265;
 }
 .mainBox{
     position: absolute;
     width: 100%;
     height: 100%;
+}
+.layui-table-cell{
+    padding:8px 15px!important;
+    height:46px;
 }
 .imBox{
     width: 100%;
@@ -47,6 +71,10 @@
     margin-bottom:10px;
     padding:10px;
     overflow: hidden;
+    position: sticky;
+    top:0;
+    z-index: 2;
+
 }
 
 #imName{
@@ -60,11 +88,29 @@
 }
 .taskBox{
     width: 100%;
-    height:calc(100% - 70px);
     background-color:#fff;
     box-sizing: border-box;
     border:1px solid #eee;
     padding:20px;
+}
+#formNode{
+    width: 100%;
+    height:232px;
+    position: relative;
+    overflow: hidden;
+}
+.statusBox{
+    position: absolute;
+    width: 188px;
+    height:36px;
+    line-height: 36px;
+    bottom: 13px;
+    right: -60px;
+    text-align: center;
+    color:#fff;
+    font-size: 18px;
+    transform: rotate(-45deg);
+    z-index: 5;
 }
 .formBox{
     width: 100%;
