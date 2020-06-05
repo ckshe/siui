@@ -352,7 +352,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTask.setProcess_name(p.getName());
             processTask.setTask_sheet_code(pcbTask.getTask_sheet_code());
             processTask.setPcb_name(pcbTask.getPcb_name());
-            processTask.setProcess_task_status("未下达到机台");
+            processTask.setProcess_task_status("未下达");
             String processTaskCode = "BL"+pcbTask.getPcb_task_code()+"_00"+i;
             i++;
             processTask.setProcess_task_code(processTaskCode);
@@ -380,7 +380,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         processTask.setPlan_start_time(pcbTaskReq.getPlanStartTime());
         processTask.setPlan_finish_name(pcbTaskReq.getPlanFinishTime());
         processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
-        processTask.setProcess_task_status("已下达到机台");
+        processTask.setProcess_task_status("已下达");
         processTaskRepository.save(processTask);
         String[] split = pcbTaskReq.getDeviceCode().split(",");
         List<ProcessTaskDevice> list = new ArrayList<>();
