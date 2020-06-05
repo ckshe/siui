@@ -215,4 +215,9 @@ public class LoginController implements ErrorController {
     public String choseTable() {
         return "/common/imTable";
     }
+    //   工序选择
+    @GetMapping("/gonxvTable")
+    public String gonxvTable() {
+        return "/common/gonxvTable";
+    }
 }

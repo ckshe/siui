@@ -116,13 +116,13 @@
                     ,{field: 'score', title: '工时', minWidth: 80 }
                     // ,{field: 'score', title: '报表', minWidth: 66,toolbar:'#baobiao'}
                     ,{field: 'wealth', title: '操作',fixed:'right',  minWidth: 90,templet:function (d) {
-                        if(d.process_name=='备料'){
-                            return ''
-                        }else if(d.process_task_status=='已下达到机台'){
-                            return '<button class="layui-btn layui-btn-disabled layui-btn-xs" type="button">已下达</button> '
-                        } else {
-                            return '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-xs" type="button">下达</button> '
-                        }
+                       if(d.process_task_status==='未下达'){
+                           return '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-xs" type="button">下达</button> '
+
+                       } else {
+                           return ''
+
+                       }
                         }}
                     ]
                 ]

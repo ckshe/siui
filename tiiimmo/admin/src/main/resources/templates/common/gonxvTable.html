@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>选择机台表格</title>
+    <title>选择工序表格</title>
     <meta name="Description" content="基于layUI数据表格操作"/>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -25,14 +25,6 @@
 </head>
 <body>
 <div style="box-sizing: border-box;padding:14px;">
-<!--    <form class="layui-form"  lay-filter='search'>-->
-<!--        机台编号：-->
-<!--        <div class="layui-inline" >-->
-<!--            <div id="imConfigId" style="width: 140px;height: 30px;"></div>-->
-<!--        </div>-->
-<!--        <button class="layui-btn" type="button" lay-submit lay-filter="sub"><i class="layui-icon">&#xe615;</i></button>-->
-<!--        <button type="reset" class="layui-btn layui-bg-blue" >清除</button>-->
-<!--    </form>-->
     <table class="layui-hide" id="table" lay-filter="table"></table>
     <script type="text/html" id="tool">
         <a class=" layui-btn layui-btn-xs  "  lay-event="ok">确定</a><a class=" layui-btn layui-btn-xs  layui-btn-normal"  lay-event="detail">详情</a>
@@ -59,7 +51,7 @@
         });
         table.render({
             elem: '#table'
-            ,url: '/base/device/getDeviceByProcess' //数据接口
+            ,url: '/produce/pcbTask/findProcessTaskByDevice' //数据接口
             ,page: false //开启分页
             ,method:'POST'
             ,contentType: 'application/json'
@@ -67,10 +59,8 @@
             ,response: {
                 statusCode: 200
             },
-            toolbar:'#toolbarDemo',
             where:{
-                processName:getQueryString('process_name'),
-                // processName:'贴片',
+                deviceCode:getQueryString('deviceCode'),
             }
             ,parseData: function(res){
                 return {
@@ -78,16 +68,27 @@
                     "data": res.data //解析数据列表
                 };
             }
-            ,cols: [
-                [
-                     {type: 'checkbox', fixed: 'left'}
-                    ,{field: 'device_code', title: '设备编号', minWidth:140}
-                    ,{field: 'device_name', title: '设备名称', minWidth:170}
-                    ,{field: 'device_type', title: '设备类型', minWidth:140}
-                    ,{field: 'mac', title: 'Mac', minWidth:170}
-                    ,{field: 'belong_line', title: '所属厂区', minWidth:240}
-                    ,{ title: '操作',fixed:'right', toolbar: '#tool', width: 120}]
+            ,cols:  [
+                [ //标题栏
+                    {field: 'process_task_code', title: '工序任务号', width: 188}
+                    ,{field: 'process_name', title: '工序名称', width: 120}
+                    ,{field: 'process_task_status', title: '工单状态', minWidth: 110}
+                    ,{field: 'task_sheet_code', title: '生产批次', width: 164}
+                    ,{field: 'model_name', title: '机型名称', minWidth: 218}
+                    ,{field: 'sign', title: '规格型号', minWidth: 160}
+                    ,{field: 'pcb_quantity', title: '计划生产数量', minWidth: 120}
+                    ,{field: 'amount_completed', title: '实际生产数量', minWidth: 120}
+                    ,{field: 'RoHS', title: 'RoHS标志', minWidth: 100}
+                    ,{field: 'plan_start_time', title: '计划生产时间', minWidth: 170,templet:function (d) {
+                        return timeToDate(d.plan_start_time)
+                    }}
+                    ,{field: 'plan_finish_name', title: '计划结束时间', minWidth: 170,templet:function (d) {
+                        return timeToDate(d.plan_finish_name)
+                    }}
+                    ,{ title: '操作',fixed:'right', toolbar: '#tool', width: 120}
                 ]
+            ]
+
         });
         table.on('toolbar(table)',function (obj) {
             if(obj.event==='devs'){
@@ -106,23 +107,28 @@
                         content:'/detail',
                         success: function (i, index) {
                             var iframeWin = window[i.find('iframe')[0]['name']];
-                            var newData = data;
+                            data.plan_start_time = timeToDate(data.plan_start_time)
+                            data.plan_finish_name = timeToDate(data.plan_finish_name)
                             var title = {
-                                device_code: '设备编号',
-                                device_name: '设备名称',
-                                device_type: '设备类型',
-                                mac: 'mac',
-                                belong_line: '所属厂区',
-                                blankTd:''
+                                process_task_code: '工序任务号',
+                                process_name: '工序名称',
+                                task_sheet_code: '生产批次',
+                                process_task_status: '工单状态',
+                                model_name: '机型名称',
+                                sign: '规格型号',
+                                pcb_quantity: '计划生产数量',
+                                amount_completed: '实际生产数量',
+                                RoHS: 'RoHS',
+                                plan_start_time: '计划生产时间',
+                                plan_finish_name: '计划结束时间',
+                                qqq: '板编号',
                             };
-                            iframeWin.render(newData,title)
+                            iframeWin.render(data,title,2)
                         }
                     })
                     ;break;
                 case 'ok':
-                    // console.log(parent.layui)
-                    parent.a([obj.data]);
-                    // parent.layer.close(parent.imTable)
+                    parent.a(obj.data);
                     break;
             }
         });
