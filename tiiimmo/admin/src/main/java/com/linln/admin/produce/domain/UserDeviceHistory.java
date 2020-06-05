@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name ="produce_process_task_device")
+@Table(name ="produce_user_device_history")
 public class UserDeviceHistory {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
