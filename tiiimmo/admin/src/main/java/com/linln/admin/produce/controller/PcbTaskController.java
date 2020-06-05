@@ -215,9 +215,11 @@ public class PcbTaskController {
 
 
     //机台启动工单
-
-
-
+    @PostMapping("/modifyProcessTaskStatus")
+    @ResponseBody
+    public ResultVo modifyProcessTaskStatus(@RequestBody PcbTaskReq req){
+        return pcbTaskService.modifyProcessTaskStatus(req);
+    }
 
 
     

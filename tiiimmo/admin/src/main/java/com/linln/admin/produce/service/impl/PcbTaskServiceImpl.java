@@ -502,47 +502,54 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         //todo 需考虑备料工序的状态更改
         ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
         processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
-        //开始工序计划 进行中
-        //将未分配的上机员工转移到这里
-        if("进行中".equals(pcbTaskReq.getProcessTaskStatus())){
-            processTask.setStart_time(new Date());
-            ProcessTaskDevice now = processTaskDeviceRepository.findByPTCodeDeviceCode(pcbTaskReq.getDeviceCode(),processTask.getProcess_task_code());
-            if(now !=null){
+        if(!"备料".equals(processTask.getProcess_name())){
+            List<ProcessTask> list = processTaskRepository.findAllByPcb_task_id(processTask.getPcb_task_id());
+            list.forEach(p -> p.setIs_now_flag("0"));
+            processTaskRepository.saveAll(list);
+            processTask.setIs_now_flag("1");
+            //开始工序计划 进行中
+            //将未分配的上机员工转移到这里
+            if("进行中".equals(pcbTaskReq.getProcessTaskStatus())){
+                processTask.setStart_time(new Date());
+                ProcessTaskDevice now = processTaskDeviceRepository.findByPTCodeDeviceCode(pcbTaskReq.getDeviceCode(),processTask.getProcess_task_code());
+                if(now !=null){
 
-            }else {
-                ProcessTaskDevice no = processTaskDeviceRepository.findByPTCodeDeviceCode(pcbTaskReq.getDeviceCode(),"未分配");
-                now.setUser_ids(no.getUser_ids());
-                processTaskDeviceRepository.save(now);
-                no.setUser_ids("");
-                processTaskDeviceRepository.save(no);
+                }else {
+                    ProcessTaskDevice no = processTaskDeviceRepository.findByPTCodeDeviceCode(pcbTaskReq.getDeviceCode(),"未分配");
+                    now.setUser_ids(no.getUser_ids());
+                    processTaskDeviceRepository.save(now);
+                    no.setUser_ids("");
+                    processTaskDeviceRepository.save(no);
+                }
+            }
+            //启动工序计划 生产中
+            if("生产中".equals(pcbTaskReq.getProcessTaskStatus())){
+
+
+            }
+            //暂停工序计划 暂停
+            if("暂停".equals(pcbTaskReq.getProcessTaskStatus())){
+                //重新计数记录在设备处
+                List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(pcbTaskReq.getProcessTaskCode());
+                for(ProcessTaskDevice de:prl){
+                    Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
+                    device.setRe_count("1");
+                    deviceRepository.save(device);
+                }
+
+            }
+            //结束工序计划 完成
+            if("完成".equals(pcbTaskReq.getProcessTaskStatus())){
+                //重新计数
+                List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(pcbTaskReq.getProcessTaskCode());
+                for(ProcessTaskDevice de:prl){
+                    Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
+                    device.setRe_count("1");
+                    deviceRepository.save(device);
+                }
             }
         }
-        //启动工序计划 生产中
-        if("生产中".equals(pcbTaskReq.getProcessTaskStatus())){
 
-
-        }
-        //暂停工序计划 暂停
-        if("暂停".equals(pcbTaskReq.getProcessTaskStatus())){
-            //重新计数记录在设备处
-            List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(pcbTaskReq.getProcessTaskCode());
-            for(ProcessTaskDevice de:prl){
-                Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
-                device.setRe_count("1");
-                deviceRepository.save(device);
-            }
-
-         }
-        //结束工序计划 完成
-        if("完成".equals(pcbTaskReq.getProcessTaskStatus())){
-            //重新计数
-            List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(pcbTaskReq.getProcessTaskCode());
-            for(ProcessTaskDevice de:prl){
-                Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
-                device.setRe_count("1");
-                deviceRepository.save(device);
-            }
-        }
         processTaskRepository.save(processTask);
         return ResultVoUtil.success("操作成功");
     }

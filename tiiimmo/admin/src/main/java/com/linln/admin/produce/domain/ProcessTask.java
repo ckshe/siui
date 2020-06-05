@@ -56,6 +56,8 @@ public class ProcessTask {
     private Date plan_finish_name;
     //工时
     private BigDecimal work_time;
+    //是否当前工单
+    private String is_now_flag;
 
 
 
