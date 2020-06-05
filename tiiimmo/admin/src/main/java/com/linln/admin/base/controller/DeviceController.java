@@ -129,6 +129,8 @@ public class DeviceController {
     @PostMapping("/getDeviceByProcess")
     //@RequiresPermissions("base:device:status")
     @ResponseBody
+
+    //暂时所有设备可选
     public ResultVo getDeviceByProcess(@RequestBody DeviceReq req){
 
 

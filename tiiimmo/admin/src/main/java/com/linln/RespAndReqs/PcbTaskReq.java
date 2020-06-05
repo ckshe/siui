@@ -24,6 +24,8 @@ public class PcbTaskReq {
     private Integer amount;
     private List<PcbTaskReq> data;
     private String reCount;
+    private String processTaskStatus;
+    private String processTaskCode;
 
 
 }

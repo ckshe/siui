@@ -22,6 +22,9 @@ public class ProcessTask {
     private String model_ver;
     // PCB名称
     private String pcb_name;
+    //pcb编码
+    private String pcb_code;
+
     // PCB数量
     private Integer pcb_quantity;
     // RoHS

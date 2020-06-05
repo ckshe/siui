@@ -60,4 +60,6 @@ public interface PcbTaskService {
 
     ResultVo findProcessTaskByDevice(PcbTaskReq pcbTaskReq);
 
+    ResultVo modifyProcessTaskStatus(PcbTaskReq pcbTaskReq);
+
 }

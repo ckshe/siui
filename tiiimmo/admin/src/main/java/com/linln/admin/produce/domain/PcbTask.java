@@ -80,7 +80,7 @@ public class PcbTask implements Serializable {
     private String model_id;
     // 机型名称
     private String model_name;
-    // 机型版本
+    // 机型型号
     private String model_ver;
     // RoHS
     private String is_rohs;

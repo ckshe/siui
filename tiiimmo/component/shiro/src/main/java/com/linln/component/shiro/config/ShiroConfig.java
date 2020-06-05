@@ -56,6 +56,7 @@ public class ShiroConfig {
         filterMap.put("/captcha", "anon");
         filterMap.put("/noAuth", "anon");
         filterMap.put("/css/**", "anon");
+        filterMap.put("/windowPad/**", "anon");
         filterMap.put("/js/**", "anon");
         filterMap.put("/images/**", "anon");
         filterMap.put("/lib/**", "anon");

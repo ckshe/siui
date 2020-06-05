@@ -91,4 +91,9 @@ public class Device implements Serializable {
     private User updateBy;
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
+
+    //当前板编号
+    private String current_plate_no;
+    //是否重新计数
+    private String re_count;
 }

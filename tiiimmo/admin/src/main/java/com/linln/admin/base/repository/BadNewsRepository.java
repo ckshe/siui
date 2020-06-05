@@ -8,4 +8,6 @@ import com.linln.modules.system.repository.BaseRepository;
  * @date 2020/05/13
  */
 public interface BadNewsRepository extends BaseRepository<BadNews, Long> {
+
+
 }

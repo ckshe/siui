@@ -81,8 +81,8 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public ResultVo getDeviceByProcess(DeviceReq req) {
-        List<Device> devices = deviceRepository.findAllByBelong_process(req.getProcessName());
-
+        //List<Device> devices = deviceRepository.findAllByBelong_process(req.getProcessName());
+        List<Device> devices = deviceRepository.findAll();
         return ResultVoUtil.success(devices);
     }
 }

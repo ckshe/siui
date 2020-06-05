@@ -6,8 +6,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.linln.RespAndReqs.ScheduleJobReq;
 import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.RespAndReqs.responce.PTDeviceResp;
+import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.domain.Pcb;
 import com.linln.admin.base.domain.Process;
+import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.base.repository.ModelsRepository;
 import com.linln.admin.base.repository.PcbRepository;
 import com.linln.admin.base.repository.ProcessRepository;
@@ -70,6 +72,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Autowired
     private PCBPlateNoRepository pcbPlateNoRepository;
+
+    @Autowired
+    private DeviceRepository deviceRepository;
 
 
     /**
@@ -196,7 +201,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
             //pcb记录最后版编号
             PCBPlateNo pcbPlateNo = pcbPlateNoRepository.findByPcb_code(pcb_id);
-            Integer first = 0;
+            Integer first = 1;
             Integer last = 0;
             if(pcbPlateNo==null){
                 pcbPlateNo = new PCBPlateNo();
@@ -336,7 +341,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTask.setPcb_name(pcbTask.getPcb_name());
             processTask.setPcb_task_id(pcbTask.getId());
             processTask.setPcb_quantity(pcbTask.getPcb_quantity());
-            processTask.setModel_ver(pcbTask.getModel_ver());
+            processTask.setPcb_code(pcbTask.getPcb_id());
             processTask.setAmount_completed(0);
             processTask.setProcess_name(p.getName());
             processTask.setTask_sheet_code(pcbTask.getTask_sheet_code());
@@ -380,6 +385,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTaskDevice.setProcess_task_code(processTask.getProcess_task_code());
             processTaskDevice.setPlant_code("");
             processTaskDevice.setTd_status("");
+            processTaskDevice.setReCount("0");
             list.add(processTaskDevice);
         }
         processTaskDeviceRepository.saveAll(list);
@@ -433,6 +439,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         List<PTDeviceResp> list = new ArrayList<>();
         for(PcbTaskReq req : pcbTaskReq.getData()){
             PTDeviceResp resp = new PTDeviceResp();
+
+            Device device = deviceRepository.findbyDeviceCode(req.getDeviceCode());
+            String reCount = device.getRe_count();
+            //是，记录数据返回清零标志
+            resp.setReCount(reCount);
+
             ProcessTask processTask = processTaskRepository.findProducingByDevice_code(req.getDeviceCode());
             //查无生产中的单怎么办
             if(processTask==null){
@@ -448,7 +460,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             //todo 当前版编号 是否重新计数 手动结束工单重新计数
 
             resp.setDeviceCode(req.getDeviceCode());
-            resp.setReCount("");
             list.add(resp);
         }
         Map<String,Object> map = new HashMap<>();
@@ -479,5 +490,47 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         return ResultVoUtil.success(mapList);
     }
 
+    @Override
+    public ResultVo modifyProcessTaskStatus(PcbTaskReq pcbTaskReq) {
+        //todo 需考虑备料工序的状态更改
+        ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
+        processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
+        //开始工序计划 进行中
+        //将未分配的上机员工转移到这里
+        if("进行中".equals(pcbTaskReq.getProcessTaskStatus())){
+            processTask.setStart_time(new Date());
+            ProcessTaskDevice no = processTaskDeviceRepository.findByPTCodeDeviceCode(pcbTaskReq.getDeviceCode(),"未分配");
+            ProcessTaskDevice now = processTaskDeviceRepository.findByPTCodeDeviceCode(pcbTaskReq.getDeviceCode(),pcbTaskReq.getProcessTaskCode());
+            now.setUser_ids(no.getUser_ids());
+            processTaskDeviceRepository.save(now);
+        }
+        //启动工序计划 生产中
+        if("生产中".equals(pcbTaskReq.getProcessTaskStatus())){
 
+
+        }
+        //暂停工序计划 暂停
+        if("暂停".equals(pcbTaskReq.getProcessTaskStatus())){
+            //重新计数记录在设备处
+            List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(pcbTaskReq.getProcessTaskCode());
+            for(ProcessTaskDevice de:prl){
+                Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
+                device.setRe_count("1");
+                deviceRepository.save(device);
+            }
+
+         }
+        //结束工序计划 完成
+        if("完成".equals(pcbTaskReq.getProcessTaskStatus())){
+            //重新计数
+            List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(pcbTaskReq.getProcessTaskCode());
+            for(ProcessTaskDevice de:prl){
+                Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
+                device.setRe_count("1");
+                deviceRepository.save(device);
+            }
+        }
+        processTaskRepository.save(processTask);
+        return ResultVoUtil.success("操作成功");
+    }
 }
