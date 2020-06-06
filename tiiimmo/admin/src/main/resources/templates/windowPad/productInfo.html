@@ -22,7 +22,7 @@
     <div class="taskBox">
         <div class="title">当前生产工序</div>
         <form class="layui-form" lay-filter="formNode" id="formNode">
-            <div class="statusBox greenBg">生产中</div>
+            <div id="statusBox" class="greenBg">生产中</div>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">工序任务号:</label>
@@ -71,13 +71,13 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">计划生产时间:</label>
                     <div class="layui-input-inline">
-                        <input type="tel" disabled name="phone" autocomplete="off" class="layui-input">
+                        <input type="tel" disabled name="plan_start_time" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">计划结束时间:</label>
                     <div class="layui-input-inline">
-                        <input type="text" disabled name="email" autocomplete="off" class="layui-input">
+                        <input type="text" disabled name="plan_finish_time" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -148,7 +148,19 @@
                     deviceCode:getQueryString2('deviceCode'),
                 }
                 ,parseData: function(res){
-                    // form.val('formNode',res.data[0])
+
+                    res.data.some(function (t) {
+                        if(t.is_now_flag==1){
+                            t.plan_start_time = timeToDate(t.plan_start_time);
+                            t.plan_finish_time = timeToDate(t.plan_finish_time);
+                           var  statusBox = document.getElementById('statusBox');
+                            switch (t.process_task_status) {
+                                case "工单状态":break;
+                            }
+                            form.val('formNode',t);
+                            return true
+                        }
+                    })
                     return {
                         "code": res.code, //解析接口状态
                         "data": res.data, //解析数据列表

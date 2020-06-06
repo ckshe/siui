@@ -99,18 +99,18 @@
     position: relative;
     overflow: hidden;
 }
-.statusBox{
+#statusBox{
     position: absolute;
     width: 188px;
-    height:36px;
+    height: 68px;
     line-height: 36px;
-    bottom: 13px;
-    right: -60px;
+    bottom: -12px;
+    right: -71px;
     text-align: center;
-    color:#fff;
+    color: #fff;
     font-size: 18px;
     transform: rotate(-45deg);
-    z-index: 5;
+    z-index: 1;
 }
 .formBox{
     width: 100%;
