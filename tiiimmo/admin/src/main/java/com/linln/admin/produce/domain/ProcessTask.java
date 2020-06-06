@@ -53,7 +53,7 @@ public class ProcessTask {
     //计划开始时间
     private Date plan_start_time;
     //计划结束时间
-    private Date plan_finish_name;
+    private Date plan_finish_time;
     //工时
     private BigDecimal work_time;
     //是否当前工单

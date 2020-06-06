@@ -378,7 +378,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         processTask.setDevice_code(pcbTaskReq.getDeviceCode());
         processTask.setDevice_name(pcbTaskReq.getDeviceName());
         processTask.setPlan_start_time(pcbTaskReq.getPlanStartTime());
-        processTask.setPlan_finish_name(pcbTaskReq.getPlanFinishTime());
+        processTask.setPlan_finish_time(pcbTaskReq.getPlanFinishTime());
         processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
         processTask.setProcess_task_status("已下达");
         processTaskRepository.save(processTask);
