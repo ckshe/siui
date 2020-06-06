@@ -128,10 +128,10 @@ public class SkillController {
     }
 
 
-    @GetMapping("/findAllByIdsIn")
+    @GetMapping("/findAllByRoleId")
     @ResponseBody
-    public ResultVo findAllByRoleId(Long roldId){
-        List<Skill> list = skillService.findAllByRoleId(roldId);
+    public ResultVo findAllByRoleId(Long roleId){
+        List<Skill> list = skillService.findAllByRoleId(roleId);
         return ResultVoUtil.success(list);
     }
 
