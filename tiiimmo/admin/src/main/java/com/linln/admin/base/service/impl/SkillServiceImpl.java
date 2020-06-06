@@ -5,6 +5,8 @@ import com.linln.admin.base.repository.SkillRepository;
 import com.linln.admin.base.service.SkillService;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
+import com.linln.modules.system.domain.Role;
+import com.linln.modules.system.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -12,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -23,6 +27,9 @@ public class SkillServiceImpl implements SkillService {
 
     @Autowired
     private SkillRepository skillRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     /**
      * 根据ID查询数据
@@ -62,5 +69,27 @@ public class SkillServiceImpl implements SkillService {
     @Transactional
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return skillRepository.updateStatus(statusEnum.getCode(), idList) > 0;
+    }
+
+    @Override
+    public List<Skill> findAllSkill() {
+        return skillRepository.findAll();
+    }
+
+
+    @Override
+    public List<Skill> findAllByRoleId(Long roleId) {
+        Role role =roleRepository.findById(roleId).get();
+        if(role.getSkillIds()==null||"".equals(role.getSkillIds())){
+            return new ArrayList<>();
+        }
+        String [] id = role.getSkillIds().split(",");
+        List<Long> iids = new ArrayList<>();
+        Arrays.asList(id).forEach(s -> iids.add(Long.parseLong(s)));
+
+        List<Skill> list = skillRepository.findAllByIdIn(iids);
+        //List<Skill> list2 = skillRepository.findAllByIdIn("(1,2.3)");
+
+        return list;
     }
 }

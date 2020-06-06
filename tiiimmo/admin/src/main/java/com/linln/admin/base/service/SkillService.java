@@ -38,4 +38,8 @@ public interface SkillService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    List<Skill> findAllSkill();
+
+    List<Skill> findAllByRoleId(Long roleId);
 }

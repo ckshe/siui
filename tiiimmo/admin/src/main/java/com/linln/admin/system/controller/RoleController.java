@@ -57,7 +57,7 @@ public class RoleController {
         ExampleMatcher matcher = ExampleMatcher.matching().
                 withMatcher("title", match -> match.contains());
 
-        // 获取角色列表
+        // 获取岗位列表
         Example<Role> example = Example.of(role, matcher);
         Page<Role> list = roleService.getPageList(example);
 
@@ -96,13 +96,13 @@ public class RoleController {
     @ResponseBody
     @ActionLog(key = RoleAction.ROLE_SAVE, action = RoleAction.class)
     public ResultVo save(@Validated RoleValid valid, @EntityParam Role role){
-        // 不允许操作管理员角色数据
+        // 不允许操作管理员岗位数据
         if (role.getId() !=null && role.getId().equals(AdminConst.ADMIN_ROLE_ID) &&
                 !ShiroUtil.getSubject().getId().equals(AdminConst.ADMIN_ID)){
             throw new ResultException(ResultEnum.NO_ADMINROLE_AUTH);
         }
 
-        // 判断角色编号是否重复
+        // 判断岗位编号是否重复
         if (roleService.repeatByName(role)) {
             throw new ResultException(ResultEnum.ROLE_EXIST);
         }
@@ -136,7 +136,7 @@ public class RoleController {
     @RequiresPermissions("system:role:auth")
     @ResponseBody
     public ResultVo authList(@RequestParam(value = "ids") Role role){
-        // 获取指定角色权限资源
+        // 获取指定岗位权限资源
         Set<Menu> authMenus = role.getMenus();
         // 获取全部菜单列表
         List<Menu> list = menuService.getListBySortOk();
@@ -161,13 +161,13 @@ public class RoleController {
     public ResultVo auth(
             @RequestParam(value = "id", required = true) Role role,
             @RequestParam(value = "authId", required = false) HashSet<Menu> menus){
-        // 不允许操作管理员角色数据
+        // 不允许操作管理员岗位数据
         if (role.getId().equals(AdminConst.ADMIN_ROLE_ID) &&
                 !ShiroUtil.getSubject().getId().equals(AdminConst.ADMIN_ID)){
             throw new ResultException(ResultEnum.NO_ADMINROLE_AUTH);
         }
 
-        // 更新角色菜单
+        // 更新岗位菜单
         role.setMenus(menus);
 
         // 保存数据
@@ -186,7 +186,7 @@ public class RoleController {
     }
 
     /**
-     * 跳转到拥有该角色的用户列表页面
+     * 跳转到拥有该岗位的用户列表页面
      */
     @GetMapping("/userList/{id}")
     @RequiresPermissions("system:role:detail")
@@ -201,11 +201,11 @@ public class RoleController {
     @RequestMapping("/status/{param}")
     @RequiresPermissions("system:role:status")
     @ResponseBody
-    @ActionLog(name = "角色状态", action = StatusAction.class)
+    @ActionLog(name = "岗位状态", action = StatusAction.class)
     public ResultVo status(
             @PathVariable("param") String param,
             @RequestParam(value = "ids", required = false) List<Long> ids){
-        // 不能修改超级管理员角色状态
+        // 不能修改超级管理员岗位状态
         if(ids.contains(AdminConst.ADMIN_ROLE_ID)){
             throw new ResultException(ResultEnum.NO_ADMINROLE_STATUS);
         }

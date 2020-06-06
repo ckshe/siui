@@ -45,7 +45,7 @@ public class ShiroConfig {
          *  —anon 无需认证(登录)可访问
          * 	—authc 必须认证才可访问
          * 	—perms[标识] 拥有资源权限才可访问
-         * 	—role 拥有角色权限才可访问
+         * 	—role 拥有岗位权限才可访问
          * 	—user 认证和自动登录可访问
          */
         LinkedHashMap<String, String> filterMap = new LinkedHashMap<>();

@@ -65,7 +65,7 @@ public class MainController{
             List<Menu> menus = menuService.getListBySortOk();
             menus.forEach(menu -> keyMenu.put(menu.getId(), menu));
         }else{
-            // 其他用户需从相应的角色中获取菜单资源
+            // 其他用户需从相应的岗位中获取菜单资源
             Set<Role> roles = ShiroUtil.getSubjectRoles();
             roles.forEach(role -> {
                 role.getMenus().forEach(menu -> {

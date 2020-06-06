@@ -9,6 +9,7 @@ import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.utils.StatusUtil;
 import com.linln.common.vo.ResultVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.xmlbeans.impl.common.ResolverUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -118,4 +119,20 @@ public class SkillController {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
     }
+
+    @GetMapping("/findAllSkill")
+    @ResponseBody
+    public ResultVo findAllSkill(){
+        List<Skill> list = skillService.findAllSkill();
+        return ResultVoUtil.success(list);
+    }
+
+
+    @GetMapping("/findAllByRoleId")
+    @ResponseBody
+    public ResultVo findAllByRoleId(Long roleId){
+        List<Skill> list = skillService.findAllByRoleId(roleId);
+        return ResultVoUtil.success(list);
+    }
+
 }

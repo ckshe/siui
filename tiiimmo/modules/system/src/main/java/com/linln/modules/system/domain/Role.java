@@ -57,6 +57,8 @@ public class Role implements Serializable {
     private User updateBy;
     private Byte status = StatusEnum.OK.getCode();
 
+    private String skillIds;
+
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnore
     private Set<User> users = new HashSet<>(0);

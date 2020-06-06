@@ -18,12 +18,12 @@ public class AdminConst {
     public static String ADMIN_NAME = "admin";
 
     /**
-     * 超级管理员角色id
+     * 超级管理员岗位id
      */
     public static Long ADMIN_ROLE_ID = 1L;
 
     /**
-     * 超级管理员角色标识名称
+     * 超级管理员岗位标识名称
      */
     public static String ADMIN_ROLE_NAME = "admin";
 

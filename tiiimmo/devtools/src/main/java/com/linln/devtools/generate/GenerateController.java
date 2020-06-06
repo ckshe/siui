@@ -84,7 +84,7 @@ public class GenerateController {
         if(generate.getBasic().getModuleType().equals(ModuleType.ALONE.getCode())){
             GenerateUtil.genMavenModule(generate);
         }
-        // 自动生成菜单和角色权限
+        // 自动生成菜单和岗位权限
         if(generate.getTemplate().isController()){
             genMenuRule(generate);
         }
@@ -93,7 +93,7 @@ public class GenerateController {
     }
 
     /**
-     * 自动生成菜单和角色权限
+     * 自动生成菜单和岗位权限
      */
     private void genMenuRule(Generate generate){
         Template temp = generate.getTemplate();
@@ -153,7 +153,7 @@ public class GenerateController {
         }
         menuService.save(bthMenus);
 
-        // 添加管理员角色权限
+        // 添加管理员岗位权限
         Role role = roleService.getById(AdminConst.ADMIN_ROLE_ID);
         bthMenus.add(pMenu);
         role.getMenus().addAll(bthMenus);

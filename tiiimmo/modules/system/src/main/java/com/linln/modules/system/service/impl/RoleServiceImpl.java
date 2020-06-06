@@ -27,7 +27,7 @@ public class RoleServiceImpl implements RoleService {
     private RoleRepository roleRepository;
 
     /**
-     * 获取用户角色列表
+     * 获取用户岗位列表
      * @param id 用户ID
      */
     @Override
@@ -38,7 +38,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
-     * 判断指定的用户是否存在角色
+     * 判断指定的用户是否存在岗位
      * @param id 用户ID
      */
     @Override
@@ -48,8 +48,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
-     * 根据角色ID查询角色数据
-     * @param id 角色ID
+     * 根据岗位ID查询岗位数据
+     * @param id 岗位ID
      */
     @Override
     @Transactional
@@ -70,7 +70,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
-     * 获取角色列表数据
+     * 获取岗位列表数据
      * @param sort 排序对象
      */
     @Override
@@ -79,8 +79,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
-     * 角色标识是否重复
-     * @param role 角色实体类
+     * 岗位标识是否重复
+     * @param role 岗位实体类
      */
     @Override
     public boolean repeatByName(Role role) {
@@ -89,8 +89,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
-     * 保存角色
-     * @param role 角色实体类
+     * 保存岗位
+     * @param role 岗位实体类
      */
     @Override
     public Role save(Role role){
@@ -103,7 +103,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> ids){
-        // 删除角色时取消与角色和菜单的关联
+        // 删除岗位时取消与岗位和菜单的关联
         if(statusEnum == StatusEnum.DELETE){
             // 非规范的Jpa操作，直接采用SQL语句
             roleRepository.cancelUserJoin(ids);

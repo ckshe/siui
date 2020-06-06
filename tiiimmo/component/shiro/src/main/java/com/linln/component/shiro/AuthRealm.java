@@ -44,7 +44,7 @@ public class AuthRealm extends AuthorizingRealm {
             return info;
         }
 
-        // 赋予角色和资源授权
+        // 赋予岗位和资源授权
         Set<Role> roles = ShiroUtil.getSubjectRoles();
         roles.forEach(role -> {
             info.addRole(role.getName());

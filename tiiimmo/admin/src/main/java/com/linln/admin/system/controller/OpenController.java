@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.linln.RespAndReqs.ExcuteReq;
 import com.linln.RespAndReqs.PcbTaskReq;
+import com.linln.admin.base.domain.Device;
+import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.repository.PcbTaskRepository;
 import com.linln.admin.produce.service.PcbTaskService;
@@ -12,14 +14,15 @@ import com.linln.admin.system.service.OpenService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
 import com.linln.utill.ReadUtill;
+import org.apache.commons.io.IOUtils;
 import org.apache.xmlbeans.impl.common.ResolverUtil;
+import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.*;
 
 @RestController
 @RequestMapping("/open")
@@ -32,6 +35,9 @@ public class OpenController {
 
     @Autowired
     private PcbTaskService pcbTaskService;
+
+    @Autowired
+    private DeviceRepository deviceRepository;
 
 
     @PostMapping("/excute")
@@ -58,6 +64,43 @@ public class OpenController {
         List<PcbTaskReq> req = (List<PcbTaskReq> ) JSON.parseArray(data,PcbTaskReq.class);
         return pcbTaskService.deviceProduceAmount(req.get(0));
     }
+
+
+    /**
+     * 在线浏览PDF文件
+     * @return
+     */
+    @RequestMapping("/showPDF")
+    @ResponseBody
+    public void showPDF(HttpServletResponse response, Long operationManualId)throws IOException, DocumentException {
+        //需要填充的数据
+        Map<String, Object> data = new HashMap<>(16);
+        data.put("name", "kevin");
+        // 读取pdf并预览
+        readPDF(response,operationManualId);
+    }
+
+    /**
+     * 读取本地pdf,这里设置的是预览
+     */
+    private void readPDF(HttpServletResponse response,Long deviceId) {
+        Device device= deviceRepository.findById(deviceId).get();
+        response.reset();
+        response.setContentType("application/pdf");
+        try {
+            File file = new File("C:\\chaosheng_file\\" + device.getUse_book()+".pdf");
+            FileInputStream fileInputStream = new FileInputStream(file);
+            OutputStream outputStream = response.getOutputStream();
+            IOUtils.write(IOUtils.toByteArray(fileInputStream), outputStream);
+            response.setHeader("Content-Disposition","inline; filename= file");
+            outputStream.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 

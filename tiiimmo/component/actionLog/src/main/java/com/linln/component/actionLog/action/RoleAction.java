@@ -8,7 +8,7 @@ import com.linln.modules.system.domain.Role;
 import javax.persistence.Table;
 
 /**
- * 角色日志行为
+ * 岗位日志行为
  * @author 小懒虫
  * @date 2018/10/14
  */
@@ -21,8 +21,8 @@ public class RoleAction extends BaseActionMap {
     public void init() {
         // 保存日志行为
         putMethod(ROLE_SAVE, new BusinessMethod("日志管理","roleSave"));
-        // 角色授权行为
-        putMethod(ROLE_AUTH, new BusinessMethod("角色授权","roleAuth"));
+        // 岗位授权行为
+        putMethod(ROLE_AUTH, new BusinessMethod("岗位授权","roleAuth"));
     }
 
     /**
@@ -34,7 +34,7 @@ public class RoleAction extends BaseActionMap {
     }
 
     /**
-     * 角色授权行为方法
+     * 岗位授权行为方法
      */
     public void roleAuth(ResetLog resetLog){
         Role role = (Role) resetLog.getParam("role");
@@ -42,9 +42,9 @@ public class RoleAction extends BaseActionMap {
         resetLog.getActionLog().setModel(table.name());
         resetLog.getActionLog().setRecordId(role.getId());
         if (resetLog.isSuccess()){
-            resetLog.getActionLog().setMessage("角色授权成功："+role.getTitle());
+            resetLog.getActionLog().setMessage("岗位授权成功："+role.getTitle());
         }else {
-            resetLog.getActionLog().setMessage("角色授权失败："+role.getTitle());
+            resetLog.getActionLog().setMessage("岗位授权失败："+role.getTitle());
         }
     }
 }

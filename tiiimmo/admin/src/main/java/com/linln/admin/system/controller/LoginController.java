@@ -114,7 +114,7 @@ public class LoginController implements ErrorController {
             }
             subject.login(token);
 
-            // 判断是否拥有后台角色
+            // 判断是否拥有后台岗位
             User user = ShiroUtil.getSubject();
             if (roleService.existsUserOk(user.getId())) {
                 return ResultVoUtil.success("登录成功", new URL("/"));
@@ -164,7 +164,10 @@ public class LoginController implements ErrorController {
     @ResponseBody
     public ResultVo logoutDevice(@RequestBody CardLoginReq req){
         User user = userService.findUserByCardNo(req.getCardSequence());
-
+        if(user==null){
+            //该工号不存在
+            return ResultVoUtil.error("该工号不存在");
+        }
         UserDeviceHistory history = new UserDeviceHistory();
         history.setDevice_code(req.getDeviceCode());
         history.setUser_id(user.getId());
