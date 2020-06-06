@@ -82,8 +82,8 @@
                     ,{field: 'plan_start_time', title: '计划生产时间', minWidth: 170,templet:function (d) {
                         return timeToDate(d.plan_start_time)
                     }}
-                    ,{field: 'plan_finish_name', title: '计划结束时间', minWidth: 170,templet:function (d) {
-                        return timeToDate(d.plan_finish_name)
+                    ,{field: 'plan_finish_time', title: '计划结束时间', minWidth: 170,templet:function (d) {
+                        return timeToDate(d.plan_finish_time)
                     }}
                     ,{ title: '操作',fixed:'right', toolbar: '#tool', width: 120}
                 ]
@@ -108,7 +108,7 @@
                         success: function (i, index) {
                             var iframeWin = window[i.find('iframe')[0]['name']];
                             data.plan_start_time = timeToDate(data.plan_start_time)
-                            data.plan_finish_name = timeToDate(data.plan_finish_name)
+                            data.plan_finish_time = timeToDate(data.plan_finish_time)
                             var title = {
                                 process_task_code: '工序任务号',
                                 process_name: '工序名称',
@@ -120,7 +120,7 @@
                                 amount_completed: '实际生产数量',
                                 RoHS: 'RoHS',
                                 plan_start_time: '计划生产时间',
-                                plan_finish_name: '计划结束时间',
+                                plan_finish_time: '计划结束时间',
                                 qqq: '板编号',
                             };
                             iframeWin.render(data,title,2)

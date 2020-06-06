@@ -22,7 +22,7 @@
     <div class="taskBox">
         <div class="title">当前生产工序</div>
         <form class="layui-form" lay-filter="formNode" id="formNode">
-            <div class="statusBox greenBg">生产中</div>
+            <div id="statusBox" class="greenBg">生产中</div>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">工序任务号:</label>
@@ -71,13 +71,13 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">计划生产时间:</label>
                     <div class="layui-input-inline">
-                        <input type="tel" disabled name="phone" autocomplete="off" class="layui-input">
+                        <input type="tel" disabled name="plan_start_time" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">计划结束时间:</label>
                     <div class="layui-input-inline">
-                        <input type="text" disabled name="email" autocomplete="off" class="layui-input">
+                        <input type="text" disabled name="plan_finish_time" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -126,7 +126,14 @@
             return decodeURI(r[2]);
         return null;
     }
-    // parent.login()
+    function color (status){
+        switch (status) {
+            case "进行中":return 'greenBg';
+            case "生产中":return 'greenBg';
+            case "暂停":return 'redBg';
+            case "结束":return 'yellowBg';
+        }
+    }
     window.onload = function () {
         layui.use(['jquery', 'form','table'], function () {
 
@@ -148,7 +155,19 @@
                     deviceCode:getQueryString2('deviceCode'),
                 }
                 ,parseData: function(res){
-                    // form.val('formNode',res.data[0])
+
+                    res.data.some(function (t) {
+                        if(t.is_now_flag==1){
+                            t.plan_start_time = timeToDate(t.plan_start_time);
+                            t.plan_finish_time = timeToDate(t.plan_finish_time);
+                            parent.nowGonDan=t;
+                           var  statusBox = document.getElementById('statusBox');
+                            statusBox.className = color(t.process_task_status);
+                            statusBox.innerHTML = t.process_task_status
+                            form.val('formNode',t);
+                            return true
+                        }
+                    });
                     return {
                         "code": res.code, //解析接口状态
                         "data": res.data, //解析数据列表
@@ -169,8 +188,8 @@
                         ,{field: 'plan_start_time', title: '计划生产时间', minWidth: 170,templet:function (d) {
                                 return timeToDate(d.plan_start_time)
                         }}
-                        ,{field: 'plan_finish_name', title: '计划结束时间', minWidth: 170,templet:function (d) {
-                                return timeToDate(d.plan_finish_name)
+                        ,{field: 'plan_finish_time', title: '计划结束时间', minWidth: 170,templet:function (d) {
+                                return timeToDate(d.plan_finish_time)
                         }}
                         ,{ field: 'qwe',title: '操作',fixed:'right', minWidth: 100,templet:function (d) {
                             return  '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-sm" type="button">查看详情</button> '
@@ -192,7 +211,7 @@
                             success: function (i, index) {
                                 var iframeWin = window[i.find('iframe')[0]['name']];
                                 data.plan_start_time = timeToDate(data.plan_start_time)
-                                data.plan_finish_name = timeToDate(data.plan_finish_name)
+                                data.plan_finish_time = timeToDate(data.plan_finish_time)
                                 var title = {
                                     process_task_code: '工序任务号',
                                     process_name: '工序名称',
@@ -204,7 +223,7 @@
                                     amount_completed: '实际生产数量',
                                     RoHS: 'RoHS',
                                     plan_start_time: '计划生产时间',
-                                    plan_finish_name: '计划结束时间',
+                                    plan_finish_time: '计划结束时间',
                                     qqq: '板编号',
                                 };
                                 iframeWin.render(data,title,1)
