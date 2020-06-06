@@ -17,24 +17,24 @@ import java.util.Set;
 public interface RoleService {
 
     /**
-     * 获取用户角色列表
+     * 获取用户岗位列表
      * @param id 用户ID
-     * @return 角色列表
+     * @return 岗位列表
      */
     @Transactional
     Set<Role> getUserOkRoleList(Long id);
 
     /**
-     * 判断指定的用户是否存在角色
+     * 判断指定的用户是否存在岗位
      * @param id 用户ID
-     * @return 是否存在角色
+     * @return 是否存在岗位
      */
     Boolean existsUserOk(Long id);
 
     /**
-     * 根据角色ID查询角色数据
-     * @param id 角色ID
-     * @return 角色信息
+     * 根据岗位ID查询岗位数据
+     * @param id 岗位ID
+     * @return 岗位信息
      */
     @Transactional
     Role getById(Long id);
@@ -47,23 +47,23 @@ public interface RoleService {
     Page<Role> getPageList(Example<Role> example);
 
     /**
-     * 获取角色列表数据
+     * 获取岗位列表数据
      * @param sort 排序对象
-     * @return 角色列表
+     * @return 岗位列表
      */
     List<Role> getListBySortOk(Sort sort);
 
     /**
-     * 角色标识是否重复
-     * @param role 角色实体类
+     * 岗位标识是否重复
+     * @param role 岗位实体类
      * @return 标识是否重复
      */
     boolean repeatByName(Role role);
 
     /**
-     * 保存角色
-     * @param role 角色实体类
-     * @return 角色信息
+     * 保存岗位
+     * @param role 岗位实体类
+     * @return 岗位信息
      */
     Role save(Role role);
 

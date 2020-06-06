@@ -40,7 +40,7 @@ public class RememberMeManager extends CookieRememberMeManager {
         // 获取用户信息
         User user = (User) principals.getPrimaryPrincipal();
 
-        // 克隆一个Principal对象，隐藏用户密码及密码盐，消除部门及角色数据
+        // 克隆一个Principal对象，隐藏用户密码及密码盐，消除部门及岗位数据
         String[] ignores = {"password", "salt", "dept", "roles"};
         User principal = (User) EntityBeanUtil.cloneBean(user, ignores);
 
@@ -77,7 +77,7 @@ public class RememberMeManager extends CookieRememberMeManager {
             throw new AuthenticationException();
         }
 
-        // 更新“记住我”用户数据，使部门及角色超时
+        // 更新“记住我”用户数据，使部门及岗位超时
         principal.setDept(new RememberMeDept());
         principal.setRoles(new PersistentSet());
         return collection;

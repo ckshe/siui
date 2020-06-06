@@ -16,47 +16,47 @@ import java.util.Set;
 public interface RoleRepository extends BaseRepository<Role,Long> {
 
     /**
-     * 查找多个角色
+     * 查找多个岗位
      * @param ids id列表
-     * @return 角色列表
+     * @return 岗位列表
      */
     public List<Role> findByIdIn(List<Long> ids);
 
     /**
-     * 查找相应状态的角色
+     * 查找相应状态的岗位
      * @param sort 排序对象
      * @param status 数据状态
-     * @return 角色列表
+     * @return 岗位列表
      */
     public List<Role> findAllByStatus(Sort sort, Byte status);
 
     /**
-     * 查询指定用户的角色列表
+     * 查询指定用户的岗位列表
      * @param id 用户ID
-     * @param status 角色状态
-     * @return 角色列表
+     * @param status 岗位状态
+     * @return 岗位列表
      */
     public Set<Role> findByUsers_IdAndStatus(Long id, Byte status);
 
     /**
-     * 根据标识查询角色数据,且排查指定ID的角色
-     * @param name 角色标识
-     * @param id 角色ID
-     * @return 角色信息
+     * 根据标识查询岗位数据,且排查指定ID的岗位
+     * @param name 岗位标识
+     * @param id 岗位ID
+     * @return 岗位信息
      */
     public Role findByNameAndIdNot(String name, Long id);
 
     /**
-     * 判断指定的用户是否存在角色
+     * 判断指定的用户是否存在岗位
      * @param id 用户ID
-     * @param status 角色状态
-     * @return 是否存在角色
+     * @param status 岗位状态
+     * @return 是否存在岗位
      */
     public Boolean existsByUsers_IdAndStatus(Long id, Byte status);
 
     /**
-     * 取消角色与用户之间的关系
-     * @param ids 角色ID
+     * 取消岗位与用户之间的关系
+     * @param ids 岗位ID
      * @return 影响结果
      */
     @Modifying
@@ -65,8 +65,8 @@ public interface RoleRepository extends BaseRepository<Role,Long> {
     public Integer cancelUserJoin(List<Long> ids);
 
     /**
-     * 取消角色与菜单之间的关系
-     * @param ids 角色ID
+     * 取消岗位与菜单之间的关系
+     * @param ids 岗位ID
      * @return 影响结果
      */
     @Modifying

@@ -63,7 +63,7 @@ public interface MenuRepository extends BaseRepository<Menu, Long> {
     public List<Menu> findByPidAndIdNot(Sort sort, long pid, long notId);
 
     /**
-     * 取消菜单与角色之间的关系
+     * 取消菜单与岗位之间的关系
      * @param id 菜单ID
      * @return 影响行数
      */

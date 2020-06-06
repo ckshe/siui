@@ -208,14 +208,14 @@ public class UserController {
     }
 
     /**
-     * 跳转到角色分配页面
+     * 跳转到岗位分配页面
      */
     @GetMapping("/role")
     @RequiresPermissions("system:user:role")
     public String toRole(@RequestParam(value = "ids") User user, Model model) {
-        // 获取指定用户角色列表
+        // 获取指定用户岗位列表
         Set<Role> authRoles = user.getRoles();
-        // 获取全部角色列表
+        // 获取全部岗位列表
         Sort sort = new Sort(Sort.Direction.ASC, "createDate");
         List<Role> list = roleService.getListBySortOk(sort);
 
@@ -226,7 +226,7 @@ public class UserController {
     }
 
     /**
-     * 保存角色分配信息
+     * 保存岗位分配信息
      */
     @PostMapping("/role")
     @RequiresPermissions("system:user:role")
@@ -242,7 +242,7 @@ public class UserController {
             throw new ResultException(ResultEnum.NO_ADMIN_AUTH);
         }
 
-        // 更新用户角色
+        // 更新用户岗位
         user.setRoles(roles);
 
         // 保存数据

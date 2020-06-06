@@ -114,7 +114,7 @@ public class LoginController implements ErrorController {
             }
             subject.login(token);
 
-            // 判断是否拥有后台角色
+            // 判断是否拥有后台岗位
             User user = ShiroUtil.getSubject();
             if (roleService.existsUserOk(user.getId())) {
                 return ResultVoUtil.success("登录成功", new URL("/"));

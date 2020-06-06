@@ -34,8 +34,8 @@ public class UserAction extends BaseActionMap {
         putMethod(USER_SAVE, new BusinessMethod("用户管理","userSave"));
         // 修改用户密码行为
         putMethod(EDIT_PWD, new BusinessMethod("用户密码","editPwd"));
-        // 角色分配行为
-        putMethod(EDIT_ROLE, new BusinessMethod("角色分配","editRole"));
+        // 岗位分配行为
+        putMethod(EDIT_ROLE, new BusinessMethod("岗位分配","editRole"));
     }
 
     /**
@@ -88,7 +88,7 @@ public class UserAction extends BaseActionMap {
     }
 
     /**
-     * 角色分配行为方法
+     * 岗位分配行为方法
      */
     public void editRole(ResetLog resetLog){
         User user = (User) resetLog.getParam("user");
@@ -96,9 +96,9 @@ public class UserAction extends BaseActionMap {
         resetLog.getActionLog().setModel(table.name());
         resetLog.getActionLog().setRecordId(user.getId());
         if (resetLog.isSuccess()){
-            resetLog.getActionLog().setMessage("角色分配成功："+user.getUsername());
+            resetLog.getActionLog().setMessage("岗位分配成功："+user.getUsername());
         }else {
-            resetLog.getActionLog().setMessage("角色分配失败："+user.getUsername());
+            resetLog.getActionLog().setMessage("岗位分配失败："+user.getUsername());
         }
     }
 }

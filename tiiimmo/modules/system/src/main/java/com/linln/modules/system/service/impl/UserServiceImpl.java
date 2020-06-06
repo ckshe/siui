@@ -139,7 +139,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> ids){
-        // 联级删除与角色之间的关联
+        // 联级删除与岗位之间的关联
         if(statusEnum == StatusEnum.DELETE){
             return userRepository.deleteByIdIn(ids) > 0;
         }

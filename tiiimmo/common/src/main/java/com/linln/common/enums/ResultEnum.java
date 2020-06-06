@@ -28,9 +28,9 @@ public enum ResultEnum implements ResultInterface {
     USER_CAPTCHA_ERROR(406, "验证码错误"),
 
     /**
-     * 角色问题
+     * 岗位问题
      */
-    ROLE_EXIST(401, "该角色标识已经存在，不允许重复！"),
+    ROLE_EXIST(401, "该岗位标识已经存在，不允许重复！"),
 
     /**
      * 部门问题
@@ -53,8 +53,8 @@ public enum ResultEnum implements ResultInterface {
     NO_PERMISSIONS(401, "权限不足！"),
     NO_ADMIN_AUTH(500, "不允许操作超级管理员"),
     NO_ADMIN_STATUS(501, "不能修改超级管理员状态"),
-    NO_ADMINROLE_AUTH(500, "不允许操作管理员角色"),
-    NO_ADMINROLE_STATUS(501, "不能修改管理员角色状态"),
+    NO_ADMINROLE_AUTH(500, "不允许操作管理员岗位"),
+    NO_ADMINROLE_STATUS(501, "不能修改管理员岗位状态"),
 
     ;
 

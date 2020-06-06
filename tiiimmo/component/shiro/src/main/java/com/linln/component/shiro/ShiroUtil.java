@@ -76,7 +76,7 @@ public class ShiroUtil {
     }
 
     /**
-     * 获取当前用户角色列表
+     * 获取当前用户岗位列表
      */
     public static Set<Role> getSubjectRoles() {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
@@ -86,12 +86,12 @@ public class ShiroUtil {
             user = new User();
         }
 
-        // 判断角色列表是否已缓存
+        // 判断岗位列表是否已缓存
         if (!Hibernate.isInitialized(user.getRoles())) {
             try {
                 Hibernate.initialize(user.getRoles());
             } catch (LazyInitializationException e) {
-                // 延迟加载超时，重新查询角色列表数据
+                // 延迟加载超时，重新查询岗位列表数据
                 RoleService roleService = SpringContextUtil.getBean(RoleService.class);
                 user.setRoles(roleService.getUserOkRoleList(user.getId()));
             }
