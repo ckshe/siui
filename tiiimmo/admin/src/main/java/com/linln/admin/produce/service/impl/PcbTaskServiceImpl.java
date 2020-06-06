@@ -401,8 +401,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Override
     public ResultVo findProcessTaskByPCBTaskId(Long id) {
-
-        final List<ProcessTask> processTaskList = processTaskRepository.findAllByPcb_task_id(id);
+        List<ProcessTask> processTaskList = processTaskRepository.findAllByPcb_task_id(id);
 
         return ResultVoUtil.success(processTaskList);
     }
@@ -503,7 +502,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
         processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
         if(!"备料".equals(processTask.getProcess_name())){
-            List<ProcessTask> list = processTaskRepository.findAllByPcb_task_id(processTask.getPcb_task_id());
+            List<ProcessTask> list = processTaskRepository.findByDevice_code(pcbTaskReq.getDeviceCode());
             list.forEach(p -> p.setIs_now_flag("0"));
             processTaskRepository.saveAll(list);
             processTask.setIs_now_flag("1");

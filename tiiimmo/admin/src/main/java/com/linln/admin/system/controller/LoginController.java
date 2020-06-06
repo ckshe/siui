@@ -164,7 +164,10 @@ public class LoginController implements ErrorController {
     @ResponseBody
     public ResultVo logoutDevice(@RequestBody CardLoginReq req){
         User user = userService.findUserByCardNo(req.getCardSequence());
-
+        if(user==null){
+            //该工号不存在
+            return ResultVoUtil.error("该工号不存在");
+        }
         UserDeviceHistory history = new UserDeviceHistory();
         history.setDevice_code(req.getDeviceCode());
         history.setUser_id(user.getId());
