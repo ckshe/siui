@@ -12,7 +12,7 @@
         <div class="layui-card-body">
             <div class="layui-row timo-card-screen">
                 <div class="pull-left layui-form-pane timo-search-box">
-                    <div class="layui-inline">
+                    <div style="display: none" class="layui-inline">
                         <label class="layui-form-label">状态</label>
                         <div class="layui-input-block timo-search-status">
                             <select class="timo-search-select" name="status" mo:dict="SEARCH_STATUS" mo-selected="${param.status}"></select>
@@ -60,9 +60,9 @@
                         <th>主键ID</th>
                         <th>物料编号</th>
                         <th>物料名称</th>
-                        <th>创建时间</th>
-                        <th>更新时间</th>
-                        <th>数据状态</th>
+                        <th style="display: none">创建时间</th>
+                        <th style="display: none">更新时间</th>
+                        <th style="display: none">数据状态</th>
                         <th>备注</th>
                         <th>操作</th>
                     </tr>
@@ -74,9 +74,9 @@
                         <td th:text="${item.id}">主键ID</td>
                         <td th:text="${item.code}">物料编号</td>
                         <td th:text="${item.name}">物料名称</td>
-                        <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
-                        <td th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
-                        <td th:text="${#dicts.dataStatus(item.status)}">数据状态</td>
+                        <td style="display: none" th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
+                        <td style="display: none" th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
+                        <td style="display: none" th:text="${#dicts.dataStatus(item.status)}">数据状态</td>
                         <td th:text="${item.remark}">备注</td>
                         <td>
                             <a class="open-popup" data-title="编辑物料" th:attr="data-url=@{'/base/product/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>

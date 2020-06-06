@@ -12,7 +12,7 @@
         <div class="layui-card-body">
             <div class="layui-row timo-card-screen">
                 <div class="pull-left layui-form-pane timo-search-box">
-                    <div class="layui-inline">
+                    <div style="display: none" class="layui-inline">
                         <label class="layui-form-label">状态</label>
                         <div class="layui-input-block timo-search-status">
                             <select class="timo-search-select" name="status" mo:dict="SEARCH_STATUS" mo-selected="${param.status}"></select>
@@ -60,9 +60,9 @@
                         <th>主键ID</th>
                         <th>班次编码</th>
                         <th>班次名称</th>
-                        <th>开始时间</th>
+                        <th >开始时间</th>
                         <th>结束时间</th>
-                        <th>数据状态</th>
+                        <th style="display: none">数据状态</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -75,7 +75,7 @@
                         <td th:text="${item.name}">班次名称</td>
                         <td th:text="${item.start_time}">开始时间</td>
                         <td th:text="${item.end_time}">结束时间</td>
-                        <td th:text="${#dicts.dataStatus(item.status)}">数据状态</td>
+                        <td style="display: none" th:text="${#dicts.dataStatus(item.status)}">数据状态</td>
                         <td>
                             <a class="open-popup" data-title="编辑班次" th:attr="data-url=@{'/base/classInfo/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
                             <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/base/classInfo/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>

@@ -12,7 +12,7 @@
         <div class="layui-card-body">
             <div class="layui-row timo-card-screen">
                 <div class="pull-left layui-form-pane timo-search-box">
-                    <div class="layui-inline">
+                    <div style="display: none" class="layui-inline">
                         <label class="layui-form-label">状态</label>
                         <div class="layui-input-block timo-search-status">
                             <select class="timo-search-select" name="status" mo:dict="SEARCH_STATUS" mo-selected="${param.status}"></select>
@@ -60,9 +60,9 @@
                         <th>主键ID</th>
                         <th>物料编号</th>
                         <th>物料名称</th>
-                        <th>创建时间</th>
-                        <th>更新时间</th>
-                        <th>数据状态</th>
+                        <th style="display: none">创建时间</th>
+                        <th style="display: none">更新时间</th>
+                        <th style="display: none">数据状态</th>
                         <th>损耗库存</th>
                         <th>损耗率</th>
                         <th>最低库存</th>
@@ -76,9 +76,9 @@
                         <td th:text="${item.id}">主键ID</td>
                         <td th:text="${item.product_code}">物料编号</td>
                         <td th:text="${item.product_name}">物料名称</td>
-                        <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
-                        <td th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
-                        <td th:text="${#dicts.dataStatus(item.status)}">数据状态</td>
+                        <td style="display: none" th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
+                        <td style="display: none" th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
+                        <td style="display: none" th:text="${#dicts.dataStatus(item.status)}">数据状态</td>
                         <td th:text="${item.loss_stock}">损耗库存</td>
                         <td th:text="${item.loss_rate}">损耗率</td>
                         <td th:text="${item.min_stock}">最低库存</td>

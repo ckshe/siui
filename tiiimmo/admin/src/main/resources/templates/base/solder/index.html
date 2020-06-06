@@ -12,7 +12,7 @@
         <div class="layui-card-body">
             <div class="layui-row timo-card-screen">
                 <div class="pull-left layui-form-pane timo-search-box">
-                    <div class="layui-inline">
+                    <div style="display: none" class="layui-inline">
                         <label class="layui-form-label">状态</label>
                         <div class="layui-input-block timo-search-status">
                             <select class="timo-search-select" name="status" mo:dict="SEARCH_STATUS" mo-selected="${param.status}"></select>
@@ -59,9 +59,9 @@
                         <th>数量</th>
                         <th>出厂日期</th>
                         <th>保质期</th>
-                        <th>创建时间</th>
-                        <th>更新时间</th>
-                        <th>数据状态</th>
+                        <th style="display: none">创建时间</th>
+                        <th style="display: none">更新时间</th>
+                        <th style="display: none">数据状态</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -77,9 +77,9 @@
                         <td th:text="${item.number}">数量</td>
                         <td th:text="${item.productionDate}">出厂日期</td>
                         <td th:text="${item.shelfLife}">保质期</td>
-                        <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
-                        <td th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
-                        <td th:text="${#dicts.dataStatus(item.status)}">数据状态</td>
+                        <td style="display: none" th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
+                        <td style="display: none" th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
+                        <td style="display: none" th:text="${#dicts.dataStatus(item.status)}">数据状态</td>
                         <td>
                             <a class="open-popup" data-title="编辑锡膏" th:attr="data-url=@{'/base/solder/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
                             <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/base/solder/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>

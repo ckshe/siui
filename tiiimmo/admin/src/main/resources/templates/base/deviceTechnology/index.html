@@ -12,7 +12,7 @@
         <div class="layui-card-body">
             <div class="layui-row timo-card-screen">
                 <div class="pull-left layui-form-pane timo-search-box">
-                    <div class="layui-inline">
+                    <div style="display: none" class="layui-inline">
                         <label class="layui-form-label">状态</label>
                         <div class="layui-input-block timo-search-status">
                             <select class="timo-search-select" name="status" mo:dict="SEARCH_STATUS" mo-selected="${param.status}"></select>
@@ -69,7 +69,7 @@
                         <th>设备名称</th>
                         <th>关键工艺名称</th>
                         <th>单位</th>
-                        <th>创建时间</th>
+                        <th style="display: none">创建时间</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -83,7 +83,7 @@
                         <td th:text="${item.device_name}">设备名称</td>
                         <td th:text="${item.key_technology_name}">关键工艺名称</td>
                         <td th:text="${item.unit}">单位</td>
-                        <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
+                        <td style="display: none" th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
                         <td>
                             <a class="open-popup" data-title="编辑设备工艺参数" th:attr="data-url=@{'/base/deviceTechnology/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
                             <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/base/deviceTechnology/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>
