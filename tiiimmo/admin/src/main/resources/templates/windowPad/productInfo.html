@@ -126,7 +126,14 @@
             return decodeURI(r[2]);
         return null;
     }
-    // parent.login()
+    function color (status){
+        switch (status) {
+            case "进行中":return 'greenBg';
+            case "生产中":return 'greenBg';
+            case "暂停":return 'redBg';
+            case "结束":return 'yellowBg';
+        }
+    }
     window.onload = function () {
         layui.use(['jquery', 'form','table'], function () {
 
@@ -153,14 +160,14 @@
                         if(t.is_now_flag==1){
                             t.plan_start_time = timeToDate(t.plan_start_time);
                             t.plan_finish_time = timeToDate(t.plan_finish_time);
+                            parent.nowGonDan=t;
                            var  statusBox = document.getElementById('statusBox');
-                            switch (t.process_task_status) {
-                                case "工单状态":break;
-                            }
+                            statusBox.className = color(t.process_task_status);
+                            statusBox.innerHTML = t.process_task_status
                             form.val('formNode',t);
                             return true
                         }
-                    })
+                    });
                     return {
                         "code": res.code, //解析接口状态
                         "data": res.data, //解析数据列表

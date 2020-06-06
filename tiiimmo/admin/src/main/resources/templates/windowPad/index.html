@@ -189,6 +189,7 @@
             func13()
         }
     };
+    var nowGonDan=""
     window.onload = function () {
         layui.use(['jquery', 'form'], function () {
             var $ = layui.jquery,
@@ -264,6 +265,7 @@
                         type: "post",
                         dataType : "json",
                         data : JSON.stringify({
+                            cardSequence:$('#loginCode').val(),
                             processTaskCode:"未分配",
                             deviceCode:getQueryString('deviceCode'),
                         }),
@@ -292,7 +294,7 @@
                 document.getElementById('outCode').focus();
                 func13=function () {
                     layer.load(1,{
-                        content: '上机中...',
+                        content: '下机中...',
                         success: function (layero) {
                             layero.find('.layui-layer-content').css({
                                 'padding-top': '39px',
@@ -305,7 +307,8 @@
                         type: "post",
                         dataType : "json",
                         data : JSON.stringify({
-                            processTaskCode:"未分配",
+                            cardSequence:$('#loginCode').val(),
+                            processTaskCode:nowGonDan.process_task_code,
                             deviceCode:getQueryString('deviceCode'),
                         }),
                         contentType : "application/json;charset=UTF-8",
@@ -358,7 +361,7 @@
                             dataType : "json",
                             data : JSON.stringify({
                                 processTaskId:data.id,
-                                processTaskStatus:"生产中",
+                                processTaskStatus:"结束",
                                 deviceCode:getQueryString('deviceCode')
                             }),
                             contentType : "application/json;charset=UTF-8",
@@ -366,6 +369,7 @@
                                 layer.closeAll();
                                 if(res.code === 200){
                                     layer.msg(res.msg,{icon:1});
+                                    nowGonDan=data
                                     setTimeout(function () {
                                         window.location.reload();
 

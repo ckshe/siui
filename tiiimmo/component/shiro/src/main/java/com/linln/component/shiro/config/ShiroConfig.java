@@ -54,6 +54,7 @@ public class ShiroConfig {
         filterMap.put("/produce/pcbTask/findProcessTaskByDevice", "anon");
         filterMap.put("/logout", "anon");
         filterMap.put("/error", "anon");
+        filterMap.put("/404", "anon");
         filterMap.put("/open/**", "anon");
         filterMap.put("/dataBoard/**", "anon");
         filterMap.put("/captcha", "anon");
