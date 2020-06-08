@@ -72,12 +72,12 @@ public class OpenController {
      */
     @RequestMapping("/showPDF")
     @ResponseBody
-    public void showPDF(HttpServletResponse response, Long operationManualId)throws IOException, DocumentException {
+    public void showPDF(HttpServletResponse response, Long deviceId)throws IOException, DocumentException {
         //需要填充的数据
         Map<String, Object> data = new HashMap<>(16);
         data.put("name", "kevin");
         // 读取pdf并预览
-        readPDF(response,operationManualId);
+        readPDF(response,deviceId);
     }
 
     /**
