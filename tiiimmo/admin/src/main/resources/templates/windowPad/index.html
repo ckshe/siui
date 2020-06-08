@@ -76,23 +76,26 @@
     </style>
 </head>
 <body>
+<iframe id="zhidao" style="display: none;width: 880px;height: 650px;" src="">
+
+</iframe>
 <div id="zezao" class="zezao" style="display: none">
     <div  id="loginBox" class="loginBox">
         <div id="xx"  class="xx layui-icon layui-icon-close"></div>
-        <h2>请扫码上机</h2>
+        <h2>扫码上机</h2>
         <label >员工号：</label>
         <input class="loginInput" id="loginCode" type="text" name="userCode"  autocomplete="off">
-        <button class="blueButton" type="button">清除</button>
+        <button class="blueButton" id="loginClear" type="button">清除</button>
     </div>
 </div>
 
 <div id="zezao2" class="zezao"  style="display: none">
     <div  id="loginBox2" class="loginBox">
         <div id="xx2"  class="xx layui-icon layui-icon-close"></div>
-        <h2>请扫码下机</h2>
+        <h2>扫码下机</h2>
         <label >员工号：</label>
         <input class="loginInput" id="outCode" type="text" name="userCode"  autocomplete="off">
-        <button class="blueButton" type="reset">清除</button>
+        <button class="blueButton" id="outClear" type="button">清除</button>
     </div>
 </div>
     <div class="bigLeftBox">
@@ -152,7 +155,7 @@
                     </li>
                     <li class="userLi">
                         <div class="title cu">工作时长</div>
-                        <div class="title hui">12</div>
+                        <div class="title hui" id="workTime"></div>
                     </li>
                 </ul>
                 </div>
@@ -163,7 +166,7 @@
                     <button id="stop" class="redButton">暂停</button>
                 </div>
                 <div class="fourRight">
-                    <button class="greenButton" style="height:calc(100% - 10px)">操作指导</button>
+                    <button id="pdf" class="greenButton" type="button" style="height:calc(100% - 10px)">操作指导</button>
                 </div>
             </div>
             <button class="redButton" style="height:90px;width:100%;">不良录入</button>
@@ -189,26 +192,18 @@
             func13()
         }
     };
-    var nowGonDan=""
+    var nowGonDan="";
     window.onload = function () {
         layui.use(['jquery', 'form'], function () {
             var $ = layui.jquery,
                 form = layui.form;
                 var navLis = document.getElementsByClassName('navLi');
                 var iframe = document.getElementById('iframe');
-                function isLogin() {
-                    if(!localStorage.getItem('padUserData')){
-                        layer.alert('请先上机后操作！',{icon:5});
-                        return false
-                    }else{
-                        return true
-                    }
-                }
+
                 if(localStorage.getItem('padUserData')){
                     var data = JSON.parse(localStorage.getItem('padUserData'))
-                    console.log(data);
                     $('#userName').html(data.username)
-                    $('#upTime').html(timeToDate(data.updateDate))
+                    $('#upTime').html('无')
                 }
                     for(var i=0;i<navLis.length;i++){
                         navLis[i].onclick=function (e) {
@@ -247,7 +242,7 @@
                     }
             // 上机功能
             $('#login').on('click',function(){
-                console.log('上机')
+                console.log('上机');
                 document.getElementById('zezao').style.display='block';
                 document.getElementById('loginCode').focus();
                 func13=function () {
@@ -259,7 +254,7 @@
                                 'width': '60px'
                             });
                         }
-                    })
+                    });
                     $.ajax({
                         url: '/cardCrashLogin',
                         type: "post",
@@ -286,8 +281,6 @@
                     })
                 }
             })
-
-
             $('#out').on('click',function(){
                 console.log('下机')
                 document.getElementById('zezao2').style.display='block';
@@ -307,7 +300,7 @@
                         type: "post",
                         dataType : "json",
                         data : JSON.stringify({
-                            cardSequence:$('#loginCode').val(),
+                            cardSequence:$('#outCode').val(),
                             processTaskCode:nowGonDan.process_task_code,
                             deviceCode:getQueryString('deviceCode'),
                         }),
@@ -330,12 +323,17 @@
             });
             $('#xx').on('click',function () {
                 document.getElementById('zezao').style.display='none';
-
             })
             $('#xx2').on('click',function () {
                 document.getElementById('zezao2').style.display='none';
                 func13=function () {}
             })
+            $('#outClear').on('click',function () {
+                $('#outCode').val('')
+            });
+            $('#loginClear').on('click',function () {
+                $('#loginCode').val('')
+            });
             //启动工单
             $('#run').on('click',function () {
                 if(isLogin()){
@@ -373,7 +371,7 @@
                                     setTimeout(function () {
                                         window.location.reload();
 
-                                    },1500);
+                                    },1000);
 
                                 }else{
                                     layer.alert(res.msg,{icon:5})
@@ -386,36 +384,51 @@
             });
             //暂停工单
             $('#stop').on('click',function () {
-                layer.confirm('确定暂停当前工单？',{icon:3},function () {
-                    layer.load(1,{
-                        content: '暂停中...',
-                        success: function (layero) {
-                            layero.find('.layui-layer-content').css({
-                                'padding-top': '39px',
-                                'width': '60px'
-                            });
-                        }
-                    })
-                    $.ajax({
-                        url: '/produce/pcbTask/modifyProcessTaskStatus',
-                        type: "post",
-                        dataType : "json",
-                        data : JSON.stringify({
-                            processTaskId:data.id,
-                            processTaskStatus:"暂停",
-                            deviceCode:getQueryString('deviceCode')
-                        }),
-                        contentType : "application/json;charset=UTF-8",
-                        success: function (res) {
-                            layer.closeAll();
-                            if(res.code === 200){
-                                layer.msg(res.msg,{icon:1});
-
-                            }else{
-                                layer.alert(res.msg,{icon:5})
+                if(isLogin()) {
+                    layer.confirm('确定暂停当前工单？', {icon: 3}, function () {
+                        layer.load(1, {
+                            content: '暂停中...',
+                            success: function (layero) {
+                                layero.find('.layui-layer-content').css({
+                                    'padding-top': '39px',
+                                    'width': '60px'
+                                });
                             }
-                        }
+                        })
+                        $.ajax({
+                            url: '/produce/pcbTask/modifyProcessTaskStatus',
+                            type: "post",
+                            dataType: "json",
+                            data: JSON.stringify({
+                                processTaskId: nowGonDan.id,
+                                processTaskStatus: "暂停",
+                                deviceCode: getQueryString('deviceCode')
+                            }),
+                            contentType: "application/json;charset=UTF-8",
+                            success: function (res) {
+                                layer.closeAll();
+                                if (res.code === 200) {
+                                    layer.msg(res.msg, {icon: 1});
+                                    setTimeout(function () {
+                                        window.location.reload()
+                                    },1000);
+                                } else {
+                                    layer.alert(res.msg, {icon: 5})
+                                }
+                            }
+                        })
                     })
+                }
+            })
+            //操作指导
+            $('#pdf').on('click',function () {
+                document.getElementById('zhidao').src='/open/showPDF?deviceCode='+getQueryString('deviceCode');
+                layer.open({
+                    title:'操作指导',
+                    type:1,
+                    offset:10,
+                    area:['900px','700px'],
+                    content:$('#zhidao')
                 })
             })
 
@@ -438,12 +451,14 @@
 
 
 
-
         });
         var systemTime = document.getElementById('systemTime');
-        systemTime.innerHTML=timeToDate(new Date())
+        var workTime = document.getElementById('workTime');
+        var upTime = document.getElementById('upTime');
+        systemTime.innerHTML=timeToDate(new Date());
         setInterval(function () {
             systemTime.innerHTML=timeToDate(new Date())
+            workTime.innerHTML = diffTime('2020-06-08 08:00:00',timeToDate(new Date()))
         },1000)
     //    暂停工单
 

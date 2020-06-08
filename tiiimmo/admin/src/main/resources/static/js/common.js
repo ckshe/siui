@@ -55,3 +55,51 @@ var http = {
         xhr.send(JSON.stringify(data));
     }
 }
+function parentLogin() {
+    if(!parent.localStorage.getItem('padUserData')){
+        layer.alert('请先上机后操作！',{icon:5});
+        return false
+    }else{
+        return true
+    }
+}
+function isLogin() {
+    if(!localStorage.getItem('padUserData')){
+        layer.alert('请先上机后操作！',{icon:5});
+        return false
+    }else{
+        return true
+    }
+}
+//计算两个时间差
+function diffTime(startDate,endDate) {
+    startDate= new Date(startDate);
+    endDate = new Date(endDate);
+    var diff=endDate.getTime() - startDate.getTime();//时间差的毫秒数
+
+    //计算出相差天数
+    var days=Math.floor(diff/(24*3600*1000));
+
+    //计算出小时数
+    var leave1=diff%(24*3600*1000);    //计算天数后剩余的毫秒数
+    var hours=Math.floor(leave1/(3600*1000));
+    //计算相差分钟数
+    var leave2=leave1%(3600*1000);        //计算小时数后剩余的毫秒数
+    var minutes=Math.floor(leave2/(60*1000));
+
+    //计算相差秒数
+    var leave3=leave2%(60*1000);      //计算分钟数后剩余的毫秒数
+    var seconds=Math.round(leave3/1000);
+
+    var returnStr = '';
+    if(minutes>0) {
+        returnStr = minutes + "分" + returnStr;
+    }
+    if(hours>0) {
+        returnStr = hours + "时" + returnStr;
+    }
+    if(days>0) {
+        returnStr = days + "天" + returnStr;
+    }
+    return returnStr;
+}

@@ -20,8 +20,52 @@
         body {
             overflow-y: scroll;
         }
+        #edit{
+            box-sizing: border-box;
+            padding:14px;
+        }
     </style>
 </head>
+<!--备料工序计划页面-->
+<div id="edit"  style="display: none">
+    <form class="layui-form" lay-filter="editForm">
+        <div class="layui-form-item">
+            <label class="layui-form-label">工序任务号</label>
+            <div class="layui-input-block">
+                <input type="text" name="pcb_task_code" disabled autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">工序状态</label>
+            <div class="layui-input-block">
+                <select name="process_task_status"  lay-filter="status">
+                    <option value="进行中">进行中</option>
+                    <option value="生产中">生产中</option>
+                    <option value="暂停">暂停</option>
+                    <option value="完成">完成</option>
+                </select>
+            </div>
+        </div>
+        <div id="isOver" style="display: none">
+            <div class="layui-form-item">
+                <label class="layui-form-label">计划生产数量</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pcb_quantity" disabled autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">实际生产数量</label>
+                <div class="layui-input-block">
+                    <input type="text" name="amount_completed"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center">
+            <button class="layui-btn" type="button" lay-submit lay-filter="sub2">确定</button>
+        </div>
+    </form>
+</div>
+
 <body class="timo-layout-page">
     <div class="layui-card">
         <div class="layui-card-header timo-card-header">
@@ -51,18 +95,9 @@
                     <button class="layui-btn" id="sync" type="button">
 
                         同步数据</button>
-                    <!--                        <dl class="layui-nav-child layui-anim layui-anim-upbit">-->
-                    <!--                            <dd><a class="ajax-status" th:href="@{/produce/pcbTask/status/ok}">启用</a></dd>-->
-                    <!--                            <dd><a class="ajax-status" th:href="@{/produce/pcbTask/status/freezed}">冻结</a></dd>-->
-                    <!--                            <dd><a class="ajax-status" th:href="@{/produce/pcbTask/status/delete}">删除</a></dd>-->
-                    <!--                        </dl>-->
                 </div>
             </div>
         <table class="layui-hide" id="table" lay-filter="table"></table>
-        <script type="text/html" id="tool">
-            <a class=" layui-btn layui-btn-xs  "  lay-event="ok">确定</a>
-            <a class=" layui-btn layui-btn-xs  layui-btn-normal"  lay-event="detail">详情</a>
-        </script>
         <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
         <script src="../../js/common.js" ></script>
     </div>
@@ -114,7 +149,7 @@
                     ,{field: 'process_name', title: '工序名称', minWidth:120}
                     ,{field: 'feeding_task_code', title: '领料编号', minWidth:120}
                     ,{field: 'is_rohs', title: '是否RoHS', minWidth:120}
-                    ,{field: 'process_task_status', title: '工单状态', minWidth:120}
+                    ,{field: 'process_task_status', title: '工序状态', minWidth:120}
 
                     ,{field: 'plan_start_time', title: '计划生产时间', minWidth:170,templet:function (d) {
                         return d.plan_start_time?timeToDate(d.plan_start_time):"";}}
@@ -126,8 +161,9 @@
                         return d.finish_time?timeToDate(d.finish_time):"";}}
                     ,{field: 'pcb_quantity', title: '计划生产数量', minWidth:120}
                     ,{field: 'amount_completed', title: '实际生产数量', minWidth:120}
-                    ,{field: 'process_task_status', title: '工单状态', minWidth:140}
-                    // ,{ title: '操作',fixed:'right', toolbar: '#tool', minWidth: 90}
+                    ,{ title: '操作',fixed:'right', minWidth: 100,templet:function (d) {
+                        return '<button class=" layui-btn layui-btn-xs  layui-btn-normal"  lay-event="edit" type="button" >编辑</button>'
+                    }}
                     ]
                 ]
         });
@@ -137,6 +173,18 @@
                 parent.a(checkStatus)
             }
         });
+        form.on('select(status)',function (obj) {
+            console.log(obj.value)
+            if(obj.value==='完成'){
+                document.getElementById('isOver').style.display="block"
+            }else{
+                document.getElementById('isOver').style.display="none"
+
+            }
+        });
+        form.on('submit(sub2)',function (obj) {
+            console.log(obj.field)
+        })
         table.on('tool(table)',function (obj) {
             var data = obj.data;
             switch (obj.event) {
@@ -161,10 +209,17 @@
                         }
                     })
                     ;break;
-                case 'ok':
-                    // console.log(parent.layui)
-                    parent.a([obj.data]);
-                    // parent.layer.close(parent.imTable)
+                case 'edit':
+                   layer.open({
+                      title:'备料信息',
+                       type:1,
+                        offset:100,
+                       area:['400px','400px'],
+                       content:$('#edit'),
+                       success:function (d) {
+                            form.val('editForm',data)
+                       }
+                   });
                     break;
             }
         });

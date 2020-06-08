@@ -18,7 +18,7 @@ public class ShiroProjectProperties {
     private Integer rememberMeTimeout = 7;
 
     /** Session会话超时时间，默认30*24分钟 */
-    private Integer globalSessionTimeout = 43200;
+    private Integer globalSessionTimeout = 43200;//过过时间
 
     /** Session会话检测间隔时间，默认15分钟 */
     private Integer sessionValidationInterval = 900;
