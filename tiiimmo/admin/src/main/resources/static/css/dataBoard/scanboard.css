@@ -383,6 +383,8 @@ body{
 	color: #fff;
 	overflow: hidden;
 	text-overflow:ellipsis;
+	font-size: 22px;
+	padding: 0 5px;
 }
 /* .billState .StateBox span:nth-child(1){
 	width: 38%;
@@ -441,6 +443,7 @@ body{
 
 .billState .StateBox .fontInner{
 	border-bottom: 1px dashed #404040;
+	
 }
 .billState .progress{
 	height: 6px;
