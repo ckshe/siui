@@ -5,6 +5,7 @@
 </head>
 
 <body class="timo-layout-page">
+<!--排产计划页面-->
     <div class="layui-card">
         <div class="layui-card-header timo-card-header">
             <span><i class="fa fa-bars"></i></span>
@@ -111,7 +112,7 @@
                         <td th:text="${item.model_ver}">机型型号</td>
                         <td th:text="${item.pcb_id}">规格型号</td>
                         <td th:text="${item.pcb_name}">物料名称</td>
-                        <td th:text="${item.pcb_plate_id}">光板号</td>
+                        <td th:text="${ item.batch_id}">光板号</td>
                         <td th:text="${item.pcb_quantity}">计划生产数量</td>
                         <td th:text="${item.is_rohs}">RoHS</td>
                         <td th:text="${item.pcb_plate_id}">板编号</td>
@@ -124,9 +125,9 @@
                         <td th:text="${item.produce_plan_complete_date}">计划完成时间</td>
                         <td th:text="${item.produce_complete_date}">生产完成时间</td>
                         <td th:text="${item.pcb_task_status}">工单状态</td>
-                        <td th:text="${item.priority}">优先级</td>
-                        <td th:text="${item.amount_completed}">完成数量</td>
-                        <td>备注</td>
+                        <td  th:text="${item.priority}">优先级</td>
+                        <td th:text="${item.quantity}">完成数量</td>
+                        <td th:text="${item.remark}">备注</td>
                         <td>
                             <form class="layui-form" >
                                 <input  type="hidden" name="id" th:value="${item.id}">

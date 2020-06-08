@@ -22,7 +22,7 @@
     <div class="taskBox">
         <div class="title">当前生产工序</div>
         <form class="layui-form" lay-filter="formNode" id="formNode">
-            <div id="statusBox" class="greenBg">生产中</div>
+            <div id="statusBox" class=""></div>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">工序任务号:</label>
@@ -48,7 +48,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">规格型号:</label>
                     <div class="layui-input-inline">
-                        <input type="text" disabled name="model_ver"  autocomplete="off" class="layui-input">
+                        <input type="text" disabled name="pcb_code"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">工单状态:</label>
+                    <label class="layui-form-label"></label>
                     <div class="layui-input-inline">
                         <input type="tel" disabled name="phone" autocomplete="off" class="layui-input">
                     </div>
@@ -136,7 +136,6 @@
     }
     window.onload = function () {
         layui.use(['jquery', 'form','table'], function () {
-
             var $ = layui.jquery,
                 table = layui.table,
                 form = layui.form;
@@ -155,8 +154,7 @@
                     deviceCode:getQueryString2('deviceCode'),
                 }
                 ,parseData: function(res){
-
-                    res.data.some(function (t) {
+                    res.data.some(function (t,i) {
                         if(t.is_now_flag==1){
                             t.plan_start_time = timeToDate(t.plan_start_time);
                             t.plan_finish_time = timeToDate(t.plan_finish_time);
@@ -165,9 +163,11 @@
                             statusBox.className = color(t.process_task_status);
                             statusBox.innerHTML = t.process_task_status
                             form.val('formNode',t);
+                            res.data.splice(i,1)
                             return true
                         }
                     });
+
                     return {
                         "code": res.code, //解析接口状态
                         "data": res.data, //解析数据列表
@@ -180,8 +180,8 @@
                         ,{field: 'process_name', title: '工序名称', width: 120}
                         ,{field: 'process_task_status', title: '工单状态', minWidth: 110}
                         ,{field: 'task_sheet_code', title: '生产批次', width: 164}
-                        ,{field: 'model_name', title: '机型名称', minWidth: 218}
-                        ,{field: 'sign', title: '规格型号', minWidth: 160}
+                        ,{field: 'model_name', title: '机型名称', minWidth: 274}
+                        ,{field: 'pcb_code', title: '规格型号', minWidth: 208}
                         ,{field: 'pcb_quantity', title: '计划生产数量', minWidth: 120}
                         ,{field: 'amount_completed', title: '实际生产数量', minWidth: 120}
                         ,{field: 'RoHS', title: 'RoHS标志', minWidth: 100}
@@ -200,9 +200,10 @@
 
             table.on('tool(table)',function (obj) {
                 var data = obj.data;
-                console.log(data)
                 switch (obj.event) {
                     case 'set':
+                        if(parentLogin()){
+
                         layer.open({
                             type:2,
                             area:['90%','90%'],
@@ -218,7 +219,7 @@
                                     task_sheet_code: '生产批次',
                                     process_task_status: '工单状态',
                                     model_name: '机型名称',
-                                    sign: '规格型号',
+                                    pcb_code: '规格型号',
                                     pcb_quantity: '计划生产数量',
                                     amount_completed: '实际生产数量',
                                     RoHS: 'RoHS',
@@ -229,6 +230,8 @@
                                 iframeWin.render(data,title,1)
                             }
                         })
+                        }
+
                         break;
                 }
             })

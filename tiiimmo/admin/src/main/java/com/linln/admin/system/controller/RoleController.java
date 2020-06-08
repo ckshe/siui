@@ -67,6 +67,11 @@ public class RoleController {
         return "/system/role/index";
     }
 
+    @GetMapping("/skillTable")
+    public String skillTable(){
+        return "/system/role/skillTable";
+    }
+
     /**
      * 跳转到添加页面
      */

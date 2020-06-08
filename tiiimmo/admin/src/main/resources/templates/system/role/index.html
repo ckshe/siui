@@ -41,8 +41,8 @@
                 </div>
             </div>
             <div class="pull-right screen-btn-group">
-                <button class="layui-btn open-popup" data-title="添加岗位" th:attr="data-url=@{/system/role/add}"
-                        shiro:hasPermission="system:role:add" data-size="460,357">
+                <button class="layui-btn open-popup" data-title="添加岗位" th:attr="data-url=@{/system/role/add}+'?type=add'"
+                        shiro:hasPermission="system:role:add" data-size="760,577">
                     <i class="fa fa-plus"></i> 添加
                 </button>
                 <button class="layui-btn open-popup-param" data-type="radio" data-title="授权管理"
@@ -72,7 +72,8 @@
                     <th class="sortable" data-field="title">岗位名称</th>
                     <th class="sortable" data-field="createDate">创建时间</th>
                     <th class="sortable" data-field="updateDate">更新时间</th>
-                    <th>查看</th>
+                    <th>用户列表</th>
+                    <th>岗位技能</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -84,15 +85,20 @@
                     <td th:text="${item.title}">岗位名称</td>
                     <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
                     <td th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
-                    <td>
+                    <td style="text-align: center">
                         <a class="open-popup" data-title="用户列表" shiro:hasPermission="system:role:userList"
                            th:attr="data-url=@{'/system/role/userList/'+${item.id}}" data-size="800,600"
-                           href="#">用户列表</a>
+                           href="#">查看</a>
                     </td>
                     <td>
-                        <a class="open-popup" data-title="编辑岗位" th:attr="data-url=@{'/system/role/edit/'+${item.id}}"
+                        <form style="text-align: center">
+                            <button type="button"  lay-submit th:data-id="${item.id}" lay-filter="skill" class="layui-btn layui-btn-xs">查看</button>
+                        </form>
+                    </td>
+                    <td>
+                        <a class="open-popup" data-title="编辑岗位" th:attr="data-url=@{'/system/role/edit/'+${item.id}+'?id='+${item.id} }"
                            shiro:hasPermission="system:role:edit"
-                           data-size="460,357" href="#">编辑</a>
+                           data-size="760,577" href="#">编辑</a>
                         <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/system/role/detail/'+${item.id}}"
                            shiro:hasPermission="system:role:detail"
                            data-size="800,600" href="#">详细</a>
@@ -107,5 +113,19 @@
     </div>
 </div>
 <script th:replace="/common/template :: script"></script>
+<script>
+    layui.use(['form','jquery'],function () {
+        var form = layui.form,
+               $ =  layui.jquery;
+        form.on('submit(skill)',function (obj) {
+
+            $.get('/base/skill/findAllByRoleId?roleId='+obj.elem.getAttribute('data-id'),function (res) {
+                if(res.code===200){
+
+                }
+            })
+        })
+    })
+</script>
 </body>
 </html>

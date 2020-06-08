@@ -9,19 +9,28 @@
         <div class="layui-form-item">
             <label class="layui-form-label required">岗位标识</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="name"  placeholder="请输入岗位编号" th:value="${role?.name}">
+                <input class="layui-input" autocomplete="off" type="text" name="name"  placeholder="请输入岗位编号" th:value="${role?.name}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label required">岗位名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="title"  placeholder="请输入岗位名称" th:value="${role?.title}">
+                <input class="layui-input" autocomplete="off" type="text" name="title"  placeholder="请输入岗位名称" th:value="${role?.title}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">技能</label>
+            <div class="layui-input-block">
+                <div class="" id="skillDiv" style="overflow-y:auto;width: 324px;height:100px;border:1px solid #ccc;box-sizing: border-box;padding:10px;">
+                    请选择技能
+                </div>
+                <textarea  style="display: none" id="skill" class="layui-textarea" name="skillIds" placeholder="请选择技能"></textarea>
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">备注</label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">[[${role?.remark}]]</textarea>
+                <textarea placeholder="请输入内容" autocomplete="off" class="layui-textarea" name="remark">[[${role?.remark}]]</textarea>
             </div>
         </div>
         <div class="layui-form-item timo-finally">
@@ -31,5 +40,64 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+<script src="../../../js/common.js" ></script>
+<script>
+    var a='';
+    layui.use(['jquery','layer'],function () {
+        var layer = layui.layer,
+                $ = layui.jquery;
+        if(getQueryString('type')=='add'){
+            $('#skillDiv').on('click',function () {
+                var skillList = layer.open({
+                    type:2,
+                    area:['90%','90%'],
+                    title:"技能列表",
+                    content:'/system/role/skillTable',
+                    success: function (i, index) {
+                        a=function (data) {
+                            layer.close(skillList);
+                            var lookStr = data.map(function (t) {return t.skill_name}).join('，');
+                            var ids = data.map(function (t) {return t.id}).join(',');
+                            $('#skillDiv').html(lookStr);
+                            $('#skill').val(ids);
+                        }
+                    }
+                })
+
+            })
+        }else{
+            $.get('/base/skill/findAllByRoleId?roleId='+getQueryString('id'),function (res) {
+                if(res.code===200){
+                    var ids = res.data.map(function (t) {return t.id});
+                    var skillName = res.data.map(function (t) {return t.skill_name}).join('，');
+                    $('#skillDiv').html(skillName);
+                    $('#skill').val(ids.join(','));
+                    $('#skillDiv').on('click',function () {
+                        console.log(123)
+                        var skillList = layer.open({
+                            type:2,
+                            area:['90%','90%'],
+                            title:"技能列表",
+                            content:'/system/role/skillTable?ids='+ids,
+                            success: function (i, index) {
+                                a=function (data) {
+                                    layer.close(skillList);
+                                    var lookStr = data.map(function (t) {return t.skill_name}).join('，');
+                                    var ids = data.map(function (t) {return t.id}).join(',');
+                                    $('#skillDiv').html(lookStr);
+                                    $('#skill').val(ids);
+                                }
+                            }
+                        })
+
+                    })
+                }
+            })
+        }
+
+
+    })
+
+</script>
 </body>
 </html>

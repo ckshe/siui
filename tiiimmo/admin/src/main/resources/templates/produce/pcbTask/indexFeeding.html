@@ -87,10 +87,11 @@
                         <th>计划完成时间</th>
                         <th>生产完成时间</th>
                         <th>工单状态</th>
+                        <th>齐套率</th>
                         <th>优先级</th>
                         <th>完成数量</th>
                         <th>备注</th>
-                        <th>操作</th>
+<!--                        <th>操作</th>-->
                     </tr>
                     </thead>
                     <tbody>
@@ -108,11 +109,11 @@
                         <td th:text="${item.factory}">厂区</td>
                         <td th:text="${item.workshop}">车间</td>
                         <td th:text="${item.model_name}">机型名称</td>
-                        <td>机型型号</td>
-                        <td>规格型号</td>
+                        <td th:text="${item.model_ver}">机型型号</td>
+                        <td th:text="${item.pcb_id}">规格型号</td>
                         <td th:text="${item.pcb_name}">物料名称</td>
                         <td th:text="${item.pcb_plate_id}">光板号</td>
-                        <td>计划生产数量</td>
+                        <td th:text="${item.pcb_quantity}">计划生产数量</td>
                         <td th:text="${item.is_rohs}">RoHS</td>
                         <td th:text="${item.batch_id}">板编号</td>
                         <td th:text="${item.feeding_task_code}">投料单号</td>
@@ -121,20 +122,21 @@
                         </td>
                         <td th:text="${item.produce_plan_date}">安排启动日期</td>
                         <td th:text="${item.produce_date}">实际启动日期</td>
-                        <td th:text="${item.plan_complete_date}">计划完成时间</td>
+                        <td th:text="${item.produce_plan_complete_date}">计划完成时间</td>
                         <td th:text="${item.produce_complete_date}">生产完成时间</td>
                         <td th:text="${item.pcb_task_status}">工单状态</td>
-                        <td>优先级</td>
+                        <td th:text="${item.id}+'%'">齐套率</td>
+                        <td th:text="${item.priority}">优先级</td>
                         <td th:text="${item.quantity}">完成数量</td>
                         <td>备注</td>
-                        <td>
-                            <form class="layui-form">
-                                <input  type="hidden" name="id" th:value="${item.id}">
-                                <button lay-submit lay-filter="sub" data-type="tou" class="layui-btn  layui-btn-sm " type="button">投产</button>
-                                <button lay-submit lay-filter="sub" th:style="${item.pcb_task_status=='已下达已投产'?'':'background-color:#e4e4e4'}" th:disabled="${item.pcb_task_status=='已下达已投产'?false:true}" data-type="kan" class="layui-btn  layui-btn-sm" type="button">查看工序计划</button>
-                                <button lay-submit lay-filter="sub" data-type="edit" class="layui-btn  layui-btn-sm" type="button">编辑</button>
-                            </form>
-                        </td>
+<!--                        <td>-->
+<!--                            <form class="layui-form">-->
+<!--                                <input  type="hidden" name="id" th:value="${item.id}">-->
+<!--                                <button lay-submit lay-filter="sub" data-type="tou" class="layui-btn  layui-btn-sm " type="button">投产</button>-->
+<!--                                <button lay-submit lay-filter="sub" th:style="${item.pcb_task_status=='已下达已投产'?'':'background-color:#e4e4e4'}" th:disabled="${item.pcb_task_status=='已下达已投产'?false:true}" data-type="kan" class="layui-btn  layui-btn-sm" type="button">查看工序计划</button>-->
+<!--                                <button lay-submit lay-filter="sub" data-type="edit" class="layui-btn  layui-btn-sm" type="button">编辑</button>-->
+<!--                            </form>-->
+<!--                        </td>-->
                     </tr>
                     </tbody>
                 </table>
