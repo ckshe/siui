@@ -8,9 +8,10 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../css/windowPad/productInfo.css">
 
-    <link rel="stylesheet" href="../../css/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <div class="mainBox">
@@ -19,70 +20,97 @@
         <button id="imState" class="greenButton">工作中</button>
     </div>
     <div class="taskBox">
-        <div class="title">当前工单</div>
-        <form class="layui-form" lay-filter="formNode">
+        <div class="title">当前生产工序</div>
+        <form class="layui-form" lay-filter="formNode" id="formNode">
+            <div id="statusBox" class=""></div>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">工单编号</label>
+                    <label class="layui-form-label">工序任务号:</label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="phone" lay-verify="phone" autocomplete="off" class="layui-input">
+                        <input type="text" disabled name="process_task_code" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">验证邮箱</label>
+                    <label class="layui-form-label">生产批次:</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                        <input type="text" disabled name="task_sheet_code" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">机型名称:</label>
+                    <div class="layui-input-inline">
+                        <input type="tel" disabled name="model_name"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">验证邮箱</label>
+                    <label class="layui-form-label">规格型号:</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                        <input type="text" disabled name="pcb_code"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">验证手机</label>
+                    <label class="layui-form-label">计划生产数量:</label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="phone" lay-verify="phone" autocomplete="off" class="layui-input">
+                        <input type="number" disabled  name="pcb_quantity"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">验证邮箱</label>
+                    <label class="layui-form-label">实际生产数量:</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                        <input type="number" disabled name="amount_completed"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">计划生产时间:</label>
+                    <div class="layui-input-inline">
+                        <input type="tel" disabled name="plan_start_time" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">验证邮箱</label>
+                    <label class="layui-form-label">计划结束时间:</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                        <input type="text" disabled name="plan_finish_time" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">验证手机</label>
+                    <label class="layui-form-label">板编号:</label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="phone" lay-verify="phone" autocomplete="off" class="layui-input">
+                        <input type="tel" disabled name="phone" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">验证邮箱</label>
+                    <label class="layui-form-label"></label>
                     <div class="layui-input-inline">
-                        <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                        <input type="tel" disabled name="phone" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">RoHS:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" disabled name="email"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">验证邮箱</label>
+                    <label class="layui-form-label"></label>
                     <div class="layui-input-inline">
-                        <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                        <input type="text" disabled  autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
             </form>
-        <div class="title">生产工单</div>
+        <div class="title">生产工序</div>
         <table class="layui-hide" id="table" lay-filter="table"></table>
     </div>
 </div>
@@ -90,78 +118,123 @@
 <script src="../../lib/layui-v2.3.0/layui.js" ></script>
 <script src="../../js/common.js" ></script>
 </body>
-
 <script>
+    function getQueryString2(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = parent.window.location.search.substr(1).match(reg);
+        if (r != null)
+            return decodeURI(r[2]);
+        return null;
+    }
+    function color (status){
+        switch (status) {
+            case "进行中":return 'greenBg';
+            case "生产中":return 'greenBg';
+            case "暂停":return 'redBg';
+            case "结束":return 'yellowBg';
+        }
+    }
     window.onload = function () {
         layui.use(['jquery', 'form','table'], function () {
-
             var $ = layui.jquery,
                 table = layui.table,
                 form = layui.form;
             //展示已知数据
             table.render({
                 elem: '#table'
+                ,url: '/produce/pcbTask/findProcessTaskByDevice' //数据接口
+                ,page: false //开启分页
+                ,method:'POST'
+                ,loading:false
+                ,contentType: 'application/json'
+                ,response: {
+                    statusCode: 200
+                },
+                where:{
+                    deviceCode:getQueryString2('deviceCode'),
+                }
+                ,parseData: function(res){
+                    res.data.some(function (t,i) {
+                        if(t.is_now_flag==1){
+                            t.plan_start_time = timeToDate(t.plan_start_time);
+                            t.plan_finish_time = timeToDate(t.plan_finish_time);
+                            parent.nowGonDan=t;
+                           var  statusBox = document.getElementById('statusBox');
+                            statusBox.className = color(t.process_task_status);
+                            statusBox.innerHTML = t.process_task_status
+                            form.val('formNode',t);
+                            res.data.splice(i,1)
+                            return true
+                        }
+                    });
+
+                    return {
+                        "code": res.code, //解析接口状态
+                        "data": res.data, //解析数据列表
+                        "count": res.total, //解析数据长度
+                    };
+                }
                 ,cols: [
                     [ //标题栏
-                    {field: 'id', title: 'ID', width: 80, sort: true}
-                    ,{field: 'username', title: '用户名', width: 120}
-                    ,{field: 'email', title: '邮箱', minWidth: 150}
-                    ,{field: 'sign', title: '签名', minWidth: 160}
-                    ,{field: 'sex', title: '性别', width: 80}
-                    ,{field: 'city', title: '城市', width: 100}
-                    ,{field: 'experience', title: '积分', width: 80, sort: true}
+                        {field: 'process_task_code', title: '工序任务号', width: 188}
+                        ,{field: 'process_name', title: '工序名称', width: 120}
+                        ,{field: 'process_task_status', title: '工单状态', minWidth: 110}
+                        ,{field: 'task_sheet_code', title: '生产批次', width: 164}
+                        ,{field: 'model_name', title: '机型名称', minWidth: 274}
+                        ,{field: 'pcb_code', title: '规格型号', minWidth: 208}
+                        ,{field: 'pcb_quantity', title: '计划生产数量', minWidth: 120}
+                        ,{field: 'amount_completed', title: '实际生产数量', minWidth: 120}
+                        ,{field: 'RoHS', title: 'RoHS标志', minWidth: 100}
+                        ,{field: 'plan_start_time', title: '计划生产时间', minWidth: 170,templet:function (d) {
+                                return timeToDate(d.plan_start_time)
+                        }}
+                        ,{field: 'plan_finish_time', title: '计划结束时间', minWidth: 170,templet:function (d) {
+                                return timeToDate(d.plan_finish_time)
+                        }}
+                        ,{ field: 'qwe',title: '操作',fixed:'right', minWidth: 100,templet:function (d) {
+                            return  '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-sm" type="button">查看详情</button> '
+                        }}
+                    ]
                 ]
-                ]
-                ,data: [
-                    {
-                    "id": "10001"
-                    ,"username": "杜甫"
-                    ,"email": "xianxin@layui.com"
-                    ,"sex": "男"
-                    ,"city": "浙江杭州"
-                    ,"sign": "人生恰似一场修行"
-                    ,"experience": "116"
-                    ,"ip": "192.168.0.8"
-                    ,"logins": "108"
-                    ,"joinTime": "2016-10-14"
-                }, {
-                    "id": "10002"
-                    ,"username": "李白"
-                    ,"email": "xianxin@layui.com"
-                    ,"sex": "男"
-                    ,"city": "浙江杭州"
-                    ,"sign": "人生恰似一场修行"
-                    ,"experience": "12"
-                    ,"ip": "192.168.0.8"
-                    ,"logins": "106"
-                    ,"joinTime": "2016-10-14"
-                    ,"LAY_CHECKED": true
-                }, {
-                    "id": "10003"
-                    ,"username": "王勃"
-                    ,"email": "xianxin@layui.com"
-                    ,"sex": "男"
-                    ,"city": "浙江杭州"
-                    ,"sign": "人生恰似一场修行"
-                    ,"experience": "65"
-                    ,"ip": "192.168.0.8"
-                    ,"logins": "106"
-                    ,"joinTime": "2016-10-14"
-                }, {
-                    "id": "10004"
-                    ,"username": "贤心"
-                    ,"email": "xianxin@layui.com"
-                    ,"sex": "男"
-                    ,"city": "浙江杭州"
-                    ,"sign": "人生恰似一场修行"
-                    ,"experience": "666"
-                    ,"ip": "192.168.0.8"
-                    ,"logins": "106"
-                    ,"joinTime": "2016-10-14"
-                }]
-
             });
 
+            table.on('tool(table)',function (obj) {
+                var data = obj.data;
+                switch (obj.event) {
+                    case 'set':
+                        if(parentLogin()){
+
+                        layer.open({
+                            type:2,
+                            area:['90%','90%'],
+                            title:"详情",
+                            content:'/detail',
+                            success: function (i, index) {
+                                var iframeWin = window[i.find('iframe')[0]['name']];
+                                data.plan_start_time = timeToDate(data.plan_start_time)
+                                data.plan_finish_time = timeToDate(data.plan_finish_time)
+                                var title = {
+                                    process_task_code: '工序任务号',
+                                    process_name: '工序名称',
+                                    task_sheet_code: '生产批次',
+                                    process_task_status: '工单状态',
+                                    model_name: '机型名称',
+                                    pcb_code: '规格型号',
+                                    pcb_quantity: '计划生产数量',
+                                    amount_completed: '实际生产数量',
+                                    RoHS: 'RoHS',
+                                    plan_start_time: '计划生产时间',
+                                    plan_finish_time: '计划结束时间',
+                                    qqq: '板编号',
+                                };
+                                iframeWin.render(data,title,1)
+                            }
+                        })
+                        }
+
+                        break;
+                }
+            })
 
         });
 

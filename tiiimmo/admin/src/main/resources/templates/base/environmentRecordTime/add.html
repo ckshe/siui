@@ -15,7 +15,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">记录时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="recordDate" placeholder="请输入记录时间" th:value="${environmentRecordTime?.recordDate}">
+                <input class="layui-input" id="startTime" type="text" name="recordDate" placeholder="请输入记录时间" th:value="${environmentRecordTime?.recordDate}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -31,5 +31,15 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['laydate'],function () {
+            var laydate = layui.laydate;
+            laydate.render({
+                elem: '#startTime',
+                type:'datetime'
+            });
+
+        })
+    </script>
 </body>
 </html>

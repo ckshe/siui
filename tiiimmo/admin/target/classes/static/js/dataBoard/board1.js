@@ -17,7 +17,7 @@ var db1P1Option = {
     },
     tooltip: {
         trigger: 'item',
-        // formatter: '{a} <br/>{b} : {c} ({d}%)',
+        formatter: '{a} <br/>{b} : {c}%',
         textStyle: {
             fontSize: 18
         },
@@ -66,6 +66,8 @@ var db1P1Option = {
                 fontSize: 20
             }
         },
+        max:100,
+        min:0,
         // nameLocation:'middle',
         nameTextStyle: {
             color: "#fff",
@@ -112,7 +114,7 @@ var db1P2Option = {
     },
     xAxis: {
         type: 'category',
-        data: ['TCL-01-09', 'TCL-01-10', 'TCL-01-11', 'TCL-01-12', 'TCL-01-13'],
+        data: ['周一', '周二', '周三', '周四', '周五','周六','周日'],
         axisLabel: {
             textStyle: {
                 show: true,
@@ -130,9 +132,9 @@ var db1P2Option = {
                 fontSize: 18
             }
         },
-        min: 0,
-        max: 100
-        // data: ['TCL-01-09', 'TCL-01-12', 'TCL-01-13'],
+        // min: 0,
+        // max: 100
+        // // data: ['TCL-01-09', 'TCL-01-12', 'TCL-01-13'],
     },
     series: [
         {
@@ -144,7 +146,7 @@ var db1P2Option = {
             // 	show: true,
             // 	position: 'insideRight'
             // },
-            data: [85, 90, 88, 98, 68],
+            data: [85, 90, 88, 98, 68,12,0],
             itemStyle: {
                 normal: {
                     label: {
@@ -185,7 +187,7 @@ var orderOption1 = {
     },
     tooltip: {
         trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)',
+        formatter: '{a} <br/>{b}:({d}%)',
         textStyle: {
             fontSize: 18
         }
@@ -207,7 +209,16 @@ var orderOption1 = {
                     label: {
                         show: true,
                         position: 'inner',
-                        formatter: '{c}',
+                        // formatter: '{d}%',
+                        formatter: function(prams){
+                            var value;
+                            if(prams.data.value==0){
+                                value = ''
+                            }else{
+                                value = prams.data.value+"%"
+                            }
+                            return value;
+                        },
                         fontSize: 20
                     }
                 }
@@ -221,7 +232,7 @@ var orderOption2 = {
     },
     tooltip: {
         trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)',
+        formatter: '{a} <br/>{b} : ({d}%)',
         textStyle: {
             fontSize: 18
         }
@@ -243,7 +254,16 @@ var orderOption2 = {
                     label: {
                         show: true,
                         position: 'inner',
-                        formatter: '{c}',
+                        // formatter: '{d}%',
+                        formatter: function(prams){
+                            var value;
+                            if(prams.data.value==0){
+                                value = ''
+                            }else{
+                                value = prams.data.value+"%"
+                            }
+                            return value;
+                        },
                         fontSize: 20
                     }
                 }
@@ -257,7 +277,7 @@ var orderOption3 = {
     },
     tooltip: {
         trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)',
+        formatter: '{a} <br/>{b} : ({d}%)',
         textStyle: {
             fontSize: 18
         }
@@ -279,7 +299,16 @@ var orderOption3 = {
                     label: {
                         show: true,
                         position: 'inner',
-                        formatter: '{c}',
+                        // formatter: '{d}%',
+                        formatter: function(prams){
+                            var value;
+                            if(prams.data.value==0){
+                                value = ''
+                            }else{
+                                value = prams.data.value+"%"
+                            }
+                            return value;
+                        },
                         fontSize: 20
                     }
                 }
@@ -296,13 +325,20 @@ function setDataBoard1(params) {
     var queryStrWeek = "select@@@*@@@from@@@produce_pcb_task@@@where@@@datediff(week,produce_plan_date,'2020-06-10')=0;"
     // var queryStrWeek = "select@@@*@@@from@@@produce_pcb_task@@@where@@@datediff(week,produce_plan_date,GETDATE())=0;"
     var queryStrDate = "select@@@*@@@from@@@produce_process_task@@@where@@@DateDiff(dd,plan_start_time,getdate())=0";
-    var queryStrRate1 = "select@@@*@@@from@@@view_produce_pcb_task"
+    var queryStrRate1 = "select@@@*@@@from@@@view_produce_pcb_task";
+    var queryStrRate2 = "select@@@*@@@from@@@view_finish_process_day";
+    var queryTiepeiweek = "select@@@*@@@from@@@view_piece_week";
+    var queryWeldiweek = "select@@@*@@@from@@@view_weld_week";
+    var queryTestiweek = "select@@@*@@@from@@@view_test_week";
+    var querytiepeiday = "select@@@*@@@from@@@view_piece_day";
+    var queryWeldday = "select@@@*@@@from@@@view_weld_day";
+    var queryTestday = "select@@@*@@@from@@@view_test_day";
     if(hsaClassOn){
         data = returnData(queryStrWeek)
     }else{
         data = returnData(queryStrDate)
     }
-    console.log(JSON.stringify(data))
+    //console.log(JSON.stringify(data))
     $.ajax({
         contentType: 'application/json',
         type: 'POST',
@@ -310,7 +346,7 @@ function setDataBoard1(params) {
         dataType: "json",
         data: JSON.stringify(data),
         success: function (message) {
-            console.log(message)
+            
             addHtml(message,hsaClassOn);
         }
     });
@@ -321,15 +357,13 @@ function setDataBoard1(params) {
         dataType: "json",
         data: JSON.stringify(returnData(queryStrRate1)),
         success: function (message) {
-            console.log("百分比==",message)
+            //console.log("百分比==",message)
             for(var i=0;i<message.data.length;i++){
-                console.log(new Date(message.data[i].produce_plan_complete_date).getDay())
+                //console.log(new Date(message.data[i].produce_plan_complete_date).getDay())
             }
 
         }
     });
-
-    console.log("进入DataBoard133553")
     setOption();
     function setOption() {
         db1P1.clear();
@@ -346,77 +380,177 @@ function setDataBoard1(params) {
                 dataType: "json",
                 data: JSON.stringify(returnData(queryStrRate1)),
                 success: function (message) {
-                    console.log("百分比==",message)
+                    var sum=0,sumtemp=0 ,weekArr = [0,0,0,0,0,0,0],weekArrdata=[];
                     for(var i=0;i<message.data.length;i++){
-                        console.log(new Date(message.data[i].produce_plan_complete_date).getDay())
+                        var index = new Date(message.data[i].produce_plan_complete_date).getDay();
+                        weekArr[index] = message.data[i].allcount
+                        sum += message.data[i].count;
                     }
-                    db1P1Option.series[0].data = [10, 20, 35, 60, 75, 20]
+                    console.log(new Date().getDay())
+                    for(var j=0;j<new Date().getDay();j++){
+                        sumtemp+=weekArr[j];
+                        weekArrdata.push(((sumtemp/sum)*100).toFixed(2))
+                    }
+                    //console.log(weekArr,sum,weekArrdata)
+                    db1P1Option.series[0].data = weekArrdata;
                     db1P1.setOption(db1P1Option);
                 }
             });
 
             $('.box1 .basicInfo  .border-green').html('周任务达成率')
-            orderOption1.series[0].data = [{
-                name: '已完成',
-                value: 10
-            }, {
-                name: '未完成',
-                value: 20
-            }]
-            orderOption2.series[0].data = [{
-                name: '已完成',
-                value: 10
-            }, {
-                name: '未完成',
-                value: 20
-            }]
-            orderOption3.series[0].data = [{
-                name: '已完成',
-                value: 10
-            }, {
-                name: '未完成',
-                value: 20
-            }]
-            order1.setOption(orderOption1);
-            order2.setOption(orderOption2);
-            order3.setOption(orderOption3);
+            $.ajax({
+                contentType: 'application/json',
+                type: 'POST',
+                url: url,
+                dataType: "json",
+                data: JSON.stringify(returnData(queryTiepeiweek)),
+                success: function (message) {
+                    
+                    if(message.data[0].sum_piece==0)
+                        message.data[0].sum_piece = 1;
+
+                    orderOption1.series[0].data = [{
+                        name: '已完成',
+                        value: Math.floor((message.data[0].finish_piece/message.data[0].sum_piece)*100)
+                    }, {
+                        name: '未完成',
+                        value: 100-Math.floor((message.data[0].finish_piece/message.data[0].sum_piece)*100)
+                    }]
+                    order1.setOption(orderOption1);
+                }
+            });
+            $.ajax({
+                contentType: 'application/json',
+                type: 'POST',
+                url: url,
+                dataType: "json",
+                data: JSON.stringify(returnData(queryWeldiweek)),
+                success: function (message) {
+                    
+                    if(message.data[0].sum_weld==0)
+                        message.data[0].sum_weld = 1;
+                    orderOption2.series[0].data = [{
+                        name: '已完成',
+                        value: Math.floor((message.data[0].finish_weld/message.data[0].sum_weld)*100)
+                    }, {
+                        name: '未完成',
+                        value: 100-Math.floor((message.data[0].finish_weld/message.data[0].sum_weld)*100)
+                    }]
+                    order2.setOption(orderOption2);
+                }
+            });
+            $.ajax({
+                contentType: 'application/json',
+                type: 'POST',
+                url: url,
+                dataType: "json",
+                data: JSON.stringify(returnData(queryTestiweek)),
+                success: function (message) {
+                    
+                    if(message.data[0].sum_test==0)
+                    message.data[0].sum_test = 1;
+                    orderOption3.series[0].data = [{
+                        name: '已完成',
+                        value:  Math.floor((message.data[0].finish_test/message.data[0].sum_test)*100)
+                    }, {
+                        name: '未完成',
+                        value: 100-Math.floor((message.data[0].finish_test/message.data[0].sum_test)*100)
+                    }]
+                    order3.setOption(orderOption3);
+                }
+            });
             $('.box1 .basicInfo  .border-yellow').html('产线周任务达成率')
 
-            db1P2Option.series[0].data = [85, 90, 88, 98, 68]
+            db1P2Option.series[0].data = [85, 90, 88, 98, 68,23,0]
             db1P2.setOption(db1P2Option);
             $('.box1 .basicInfo .border-blue').html('各批次完成率')
         } else {
-            db1P1Option.series[0].data = [30, 30, 45, 60, 75, 80]
-            db1P1.setOption(db1P1Option);
+            $.ajax({
+                contentType: 'application/json',
+                type: 'POST',
+                url: url,
+                dataType: "json",
+                data: JSON.stringify(returnData(queryStrRate2)),
+                success: function (message) {
+                    
+
+
+                    var weekArr = [0,0,0,0,0,0,0];
+                    for(var i=0;i<message.data.length;i++){
+                        var index = new Date(message.data[i].plan_finish_name).getDay();
+                        weekArr[index] = Math.floor((message.data[i].finish_count/message.data[i].sum_count)*100)
+                        // sum += message.data[i].count;
+                    }
+                    //console.log(weekArr)
+                    db1P1Option.series[0].data = weekArr;
+                    db1P1.setOption(db1P1Option);
+                }
+            });
             $('.box1 .basicInfo .border-green').html('日任务达成率')
-            db1P2Option.series[0].data = [85, 75, 88, 86, 81]
+            db1P2Option.series[0].data = [85, 75, 88, 86, 81,13,0]
             db1P2.setOption(db1P2Option);
             $('.box1 .basicInfo .border-blue').html('周任务完成数量')
-            orderOption1.series[0].data = [{
-                name: '已完成',
-                value: 60
-            }, {
-                name: '未完成',
-                value: 80
-            }]
-            orderOption2.series[0].data = [{
-                name: '已完成',
-                value: 74
-            }, {
-                name: '未完成',
-                value: 98
-            }]
-            orderOption3.series[0].data = [{
-                name: '已完成',
-                value: 33
-            }, {
-                name: '未完成',
-                value: 54
-            }]
+            $.ajax({
+                contentType: 'application/json',
+                type: 'POST',
+                url: url,
+                dataType: "json",
+                data: JSON.stringify(returnData(querytiepeiday)),
+                success: function (message) {
+                    
+                    if(message.data[0].sum_piece==0)
+                    message.data[0].sum_piece = 1;
+                    orderOption1.series[0].data = [{
+                        name: '已完成',
+                        value:  Math.floor((message.data[0].finish_piece/message.data[0].sum_piece)*100)
+                    }, {
+                        name: '未完成',
+                        value: 100-Math.floor((message.data[0].finish_piece/message.data[0].sum_piece)*100)
+                    }]
+                    order1.setOption(orderOption1);
+                }
+            });
+            $.ajax({
+                contentType: 'application/json',
+                type: 'POST',
+                url: url,
+                dataType: "json",
+                data: JSON.stringify(returnData(queryWeldday)),
+                success: function (message) {
+                    console.log(message)
+                    if(message.data[0].sum_weld==0)
+                    message.data[0].sum_weld = 1;
+                    orderOption2.series[0].data = [{
+                        name: '已完成',
+                        value:  Math.floor((message.data[0].finish_weld/message.data[0].sum_weld)*100)
+                    }, {
+                        name: '未完成',
+                        value: 100-Math.floor((message.data[0].finish_weld/message.data[0].sum_weld)*100)
+                    }]
+                    order2.setOption(orderOption2);
+                }
+            });
+            $.ajax({
+                contentType: 'application/json',
+                type: 'POST',
+                url: url,
+                dataType: "json",
+                data: JSON.stringify(returnData(queryTestday)),
+                success: function (message) {
+                    console.log(message)
+                    if(message.data[0].sum_test==0)
+                    message.data[0].sum_test = 1;
+                    orderOption3.series[0].data = [{
+                        name: '已完成',
+                        value:  Math.floor((message.data[0].finish_test/message.data[0].sum_test)*100)
+                    }, {
+                        name: '未完成',
+                        value: 100-Math.floor((message.data[0].finish_test/message.data[0].sum_test)*100)
+                    }]
+                    order3.setOption(orderOption3);
+                }
+            });
             $('.box1  .basicInfo .border-yellow').html('产线日任务达成率')
-            order1.setOption(orderOption1);
-            order2.setOption(orderOption2);
-            order3.setOption(orderOption3);
         }
     }
 
@@ -429,7 +563,7 @@ function setDataBoard1(params) {
         }else{
             data = returnData(queryStrDate)
         }
-        console.log(JSON.stringify(data))
+        //console.log(JSON.stringify(data))
         $.ajax({
             contentType: 'application/json',
             type: 'POST',
@@ -437,7 +571,7 @@ function setDataBoard1(params) {
             dataType: "json",
             data: JSON.stringify(data),
             success: function (message) {
-                console.log(message)
+                
                 addHtml(message,hsaClassOn);
             }
         });
@@ -448,7 +582,7 @@ function setDataBoard1(params) {
         var theadHtml = '', tbodyHtml = '', widthPercent = 1;
         if (hsaClassOn) {
             var theadData = ['生产任务单号', '机型名称', '规格型号', '物料名称', '生产批次', '计划启动日期', '计划完成时间', '计划生产数量', '完成数量', '工单状态'];
-            console.log(message.data)
+            //console.log(message.data)
             var tbodyData = message.data;
             if (theadData.length > 0) {
                 widthPercent = (99 / theadData.length).toFixed(2)
@@ -485,7 +619,7 @@ function setDataBoard1(params) {
             tbodyHtml += '<ul></div>';
         } else {
             var theadData = ['工序任务号', '规格型号', '物料名称', '生产任务单号', '生产批次', '工序', '计划生产时间', '计划生产数量', '完成生产数量', '工时', '工单状态']
-            console.log(message.data)
+            //console.log(message.data)
             var tbodyData = message.data;
 
             if (theadData.length > 0) {
