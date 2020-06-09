@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="layui-form timo-compile">
+    <form th:action="@{/base/program/save}">
+        <input type="hidden" name="id" th:if="${program}" th:value="${program.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">设备编号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="code" placeholder="请输入设备编号" th:value="${program?.code}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">设备名称</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="name" placeholder="请输入设备名称" th:value="${program?.name}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">PCB光板号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="pcbCode" placeholder="请输入PCB光板号" th:value="${program?.pcbCode}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">AB面</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="face" placeholder="请输入AB面" th:value="${program?.face}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">成品号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="productNo" placeholder="请输入成品号" th:value="${program?.productNo}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">程序名称</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="processName" placeholder="请输入程序名称" th:value="${program?.processName}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">修改日期</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="modifyDate" placeholder="请输入修改日期" th:value="${program?.modifyDate}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">程序文件</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="processFile" placeholder="请输入程序文件" th:value="${program?.processFile}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">[[${program?.remark}]]</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

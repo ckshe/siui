@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="layui-form timo-compile">
+    <form th:action="@{/base/taskInstruction/save}">
+        <input type="hidden" name="id" th:if="${taskInstruction}" th:value="${taskInstruction.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">作业指导书编号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="code" placeholder="请输入作业指导书编号" th:value="${taskInstruction?.code}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">作业指导书名称</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="name" placeholder="请输入作业指导书名称" th:value="${taskInstruction?.name}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上传人</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="uploadPeople" placeholder="请输入上传人" th:value="${taskInstruction?.uploadPeople}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上传时间</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="uploadTime" placeholder="请输入上传时间" th:value="${taskInstruction?.uploadTime}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">文件</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="uploadFile" placeholder="请输入文件" th:value="${taskInstruction?.uploadFile}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属工序</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" type="text" name="processName" placeholder="请输入所属工序" th:value="${taskInstruction?.processName}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">[[${taskInstruction?.remark}]]</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>
