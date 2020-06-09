@@ -269,6 +269,7 @@
                             layer.closeAll();
                             if(res.code === 200){
                                 layer.msg(res.msg,{icon:1});
+                                res.data.loginTime = timeToDate(new Date());
                                 localStorage.setItem('padUserData',JSON.stringify(res.data));
                                 setTimeout(function () {
                                     window.location.reload();
@@ -432,14 +433,15 @@
                 })
             })
             $('#bad').on('click',function () {
-                layer.open({
-                    title:'操作指导',
-                    type:2,
-                    offset:10,
-                    area:['680px','700px'],
-                    content:'/windowPad/badAdd'
-                })
-
+                if(isLogin()) {
+                    layer.open({
+                        title: '操作指导',
+                        type: 2,
+                        offset: 10,
+                        area: ['680px', '700px'],
+                        content: '/windowPad/badAdd'
+                    })
+                }
             })
 
 
@@ -465,9 +467,15 @@
         var workTime = document.getElementById('workTime');
         var upTime = document.getElementById('upTime');
         systemTime.innerHTML=timeToDate(new Date());
+
         setInterval(function () {
             systemTime.innerHTML=timeToDate(new Date())
-            workTime.innerHTML = diffTime('2020-06-08 08:00:00',timeToDate(new Date()))
+            if(localStorage.getItem('padUserData')){
+                var data = JSON.parse(localStorage.getItem('padUserData'))
+                upTime.innerHTML=data.loginTime
+                workTime.innerHTML = diffTime(data.loginTime,timeToDate(new Date()))
+
+            }
         },1000)
     //    暂停工单
 
