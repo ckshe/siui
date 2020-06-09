@@ -24,14 +24,14 @@ public class ProcessTaskDevice {
     private String time_stamp;
     //计数
     private Integer amount;
+
+    //临时数量，暂停工单写入
+    private Integer last_amount;
     //状态 0停用1启用2暂停
     private String td_status;
 
     //是否重新计数
     private String reCount;
-
-
-
 
     private Byte status;
 }
