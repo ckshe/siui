@@ -47,7 +47,7 @@ var db1P1Option = {
     },
     //x轴
     xAxis: {
-        data: ["周一", "周二", "周三", "周四", "周五", "周六"],
+        data: ["第一周", "第二周", "第三周", "第四周"],
         axisLabel: {
             textStyle: {
                 show: true,
@@ -468,27 +468,10 @@ function setDataBoard1(params) {
                 }
             });
             $('.box1 .basicInfo  .border-yellow').html('产线周任务达成率')
+            db1P2Option.series[0].data = [85, 90, 88, 98, 68,23,0]
+            db1P2.setOption(db1P2Option);
+            $('.box1 .basicInfo .border-blue').html('各批次完成率')
 
-            $.ajax({
-                contentType: 'application/json',
-                type: 'POST',
-                url: url,
-                dataType: "json",
-                data: JSON.stringify(returnData(queryTaskFinishWeek)),
-                success: function (message) {
-                    // console.log(message)
-                    var weekArr1 = [0,0,0,0,0,0,0];
-                    for(var i=0;i<message.data.length;i++){
-                        var index = new Date(message.data[i].produce_plan_complete_date).getDay();
-                        weekArr1[index] = message.data[i].finish_num;
-                        // sum += message.data[i].count;
-                    }
-                    db1P2Option.series[0].data = weekArr1
-                    db1P2.setOption(db1P2Option);
-                }
-            });
-
-            $('.box1 .basicInfo .border-blue').html('周任务完成数量')
 
         } else {
             $.ajax({
@@ -510,9 +493,26 @@ function setDataBoard1(params) {
             });
             $('.box1 .basicInfo .border-green').html('日任务达成率')
 
-            db1P2Option.series[0].data = [85, 90, 88, 98, 68,23,0]
-            db1P2.setOption(db1P2Option);
-            $('.box1 .basicInfo .border-blue').html('各批次完成率')
+            $.ajax({
+                contentType: 'application/json',
+                type: 'POST',
+                url: url,
+                dataType: "json",
+                data: JSON.stringify(returnData(queryTaskFinishWeek)),
+                success: function (message) {
+                    // console.log(message)
+                    var weekArr1 = [0,0,0,0,0,0,0];
+                    for(var i=0;i<message.data.length;i++){
+                        var index = new Date(message.data[i].produce_plan_complete_date).getDay();
+                        weekArr1[index] = message.data[i].finish_num;
+                        // sum += message.data[i].count;
+                    }
+                    db1P2Option.series[0].data = weekArr1
+                    db1P2.setOption(db1P2Option);
+                }
+            });
+
+            $('.box1 .basicInfo .border-blue').html('周任务完成数量')
 
             $.ajax({
                 contentType: 'application/json',
@@ -602,21 +602,22 @@ function setDataBoard1(params) {
     })
     function addHtml(message,hsaClassOn) {
         // 动态生成模板
-        var theadHtml = '', tbodyHtml = '', widthPercent = 1;
+        var theadHtml = '', tbodyHtml = '', widthPercent = 1,popData='';
+        var widthWW = parseInt($('#firstBoard').css('width'));
         if (hsaClassOn) {
             var theadData = ['生产任务单号', '机型名称', '规格型号', '物料名称', '生产批次', '启动日期', '完成时间', '生产数量', '完成数量', '工单状态'];
             //console.log(message.data)
             var tbodyData = message.data;
             if (theadData.length > 0) {
-                widthPercent = (99 / theadData.length).toFixed(2)
+                widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) +"px"
             }
             theadHtml = '<div class="StateTit">';
             for (var i = 0; i < theadData.length; i++) {
-                theadHtml += '<span style="width:' + widthPercent + '%">' + theadData[i] + '</span>';
+                theadHtml += '<span style="width:' + widthPercent + '">' + theadData[i] + '</span>';
             }
             theadHtml += '</div>';
-            tbodyHtml = '<div id="FontScroll" class="fontScroll"><ul><div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">';
-            var tbodyDataS = tbodyData;
+            tbodyHtml = '<div id="FontScroll" class="fontScroll"><ul>';
+            var tbodyDataS = popData = tbodyData;
             for (var j = 0; j < tbodyDataS.length; j++) {
                 if(tbodyDataS[j].produce_date==null){
                     tbodyDataS[j].produce_date = ""
@@ -624,70 +625,36 @@ function setDataBoard1(params) {
                 if(tbodyDataS[j].amount_completed==null){
                     tbodyDataS[j].amount_completed = 0
                 }
-                tbodyHtml += '<div class="panel panel-default">' +
-				'<div class="panel-heading" role="tab" id="headingOne">' +
-					'<h4 class="panel-title">' +
-						'<a role="button" data-toggle="collapse" data-parent="#accordion" href="#'+tbodyDataS[j].pcb_task_code+'" aria-expanded="false" aria-controls="collapseOne" class="collapsed">' +
+                tbodyHtml += 
                     '<li>' +
                         '<div class="fontInner clearfix">' +
-                        '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].pcb_task_code + '</span>' +
-                        '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].model_name + '</span>' +
-                        '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].model_ver + '</span>' +
-                        '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].pcb_name + '</span>' +
-                        '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].task_sheet_code + '</span>' +
-                        '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].produce_plan_date.split('T')[0] + '</span>' +
-                        '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].produce_date + '</span>' +
-                        '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].pcb_quantity + '</span>' +
-                        '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].amount_completed + '</span>' +
-                        '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].pcb_task_status + '</span>' +
+                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_code + '</span>' +
+                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].model_name + '</span>' +
+                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].model_ver + '</span>' +
+                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_name + '</span>' +
+                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].task_sheet_code + '</span>' +
+                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].produce_plan_date.split('T')[0] + '</span>' +
+                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].produce_date + '</span>' +
+                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_quantity + '</span>' +
+                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].amount_completed + '</span>' +
+                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_status + '</span>' +
                         '</div>' +
-                    '</li>'+
-                    '</a></h4></div>'+
-                    '<div id="'+tbodyDataS[j].pcb_task_code+'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">'+
-                        '<div class="panel-body">'+
-                            '<div class="fontInner clearfix">'+
-                                '<span style="width:' + widthPercent + '%">光板号</span>'+
-                                '<span style="width:' + widthPercent + '%">通知日期</span>'+
-                                '<span style="width:' + widthPercent + '%">厂区</span>'+
-                                '<span style="width:' + widthPercent + '%">车间</span>'+
-                                '<span style="width:' + widthPercent + '%">板编号</span>'+
-                                '<span style="width:' + widthPercent + '%">投料单号</span>'+
-                                '<span style="width:' + widthPercent + '%">计划启动时间</span>'+
-                                '<span style="width:' + widthPercent + '%">计划完成时间</span>'+
-                                '<span style="width:' + widthPercent + '%">优先级</span>'+
-                                '<span style="width:' + widthPercent + '%"></span>'+
-                            '</div>'+
-                            '<div class="fontInner clearfix">'+
-                            '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].pcb_plate_id + '</span>'+
-                            '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].task_sheet_date + '</span>'+
-                            '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].factory + '</span>'+
-                            '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].workshop + '</span>'+
-                            '<span style="width:9.90%">' + tbodyDataS[j].batch_id + '</span>'+
-                            '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].feeding_task_code + '</span>'+
-                            '<span style="width:9.90%">' + tbodyDataS[j].produce_plan_date.split('T')[0] + '</span>'+
-                            '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].produce_plan_complete_date.split('T')[0] + '</span>'+
-                            '<span style="width:9.90%">' + tbodyDataS[j].priority + '</span>'+
-                            '<span style="width:' + widthPercent + '%"></span>'+
-                            '</div>'+
-                        '</div>'+
-                    '</div>'+
-                    '</div>';
+                    '</li>';
             }
-            tbodyHtml += '</div></ul></div>';
+            tbodyHtml += '</ul></div>';
         } else {
-            var theadData = ['工序任务号', '工序', '计划生产时间', '实际生产时间', '计划完成时间', '生产完成时间', '计划生产数量', '完成生产数量', '工单状态','工时']
+            var theadData = ['工序任务号', '工序', '计划生产时间', '实际生产时间', '计划完成时间', '生产完成时间', '计划生产数量', '完成生产数量', '工单状态','工时 (分)']
             //console.log(message.data)
-            var tbodyData = message.data;
-
+            var tbodyData = popData = message.data;
             if (theadData.length > 0) {
-                widthPercent = (99 / theadData.length).toFixed(2)
+                widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) +"px"
             }
             theadHtml = '<div class="StateTit">';
             for (var i = 0; i < theadData.length; i++) {
-                theadHtml += '<span style="width:' + widthPercent + '%">' + theadData[i] + '</span>';
+                theadHtml += '<span style="width:' + widthPercent + '">' + theadData[i] + '</span>';
             }
             theadHtml += '</div>';
-            tbodyHtml = '<div id="FontScroll" class="fontScroll"><ul><div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">';
+            tbodyHtml = '<div id="FontScroll" class="fontScroll"><ul>';
             var tbodyDataS = tbodyData;
             for (var j = 0; j < tbodyDataS.length; j++) {
                 if(tbodyDataS[j].pcb_quantity==null){
@@ -699,65 +666,97 @@ function setDataBoard1(params) {
                 if(tbodyDataS[j].work_time==null){
                     tbodyDataS[j].work_time = 0
                 }
-                tbodyHtml += '<div class="panel panel-default">' +
-				'<div class="panel-heading" role="tab" id="headingOne">' +
-					'<h4 class="panel-title">' +
-						'<a role="button" data-toggle="collapse" data-parent="#accordion" href="#pcb_'+j+'" aria-expanded="false" aria-controls="collapseOne" class="collapsed">' +
+                tbodyHtml += 
                 '<li>' +
                     '<div class="fontInner clearfix">' +
-                    '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].pcb_task_code + '</span>' +
-                    '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].process_name + '</span>' +
-                    '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].plan_start_time.split("T")[0] + '</span>' +
-                    '<span style="width:' + widthPercent + '%"></span>' +
-                    '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].plan_finish_time.split("T")[0] + '</span>' +
-                    '<span style="width:' + widthPercent + '%"></span>' +
-                    '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].pcb_quantity+ '</span>' +
-                    '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].amount_completed + '</span>' +
-                    '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].process_task_status + '</span>' +
-                    '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].work_time + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_code + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_name + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].plan_start_time.split("T")[0] + '</span>' +
+                    '<span style="width:' + widthPercent + '"></span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].plan_finish_time.split("T")[0] + '</span>' +
+                    '<span style="width:' + widthPercent + '"></span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_quantity+ '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].amount_completed + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_task_status + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].work_time + '</span>' +
                     '</div>' +
-                    '</li>'+
-                    '</a></h4></div>'+
-                    '<div id="pcb_'+j+'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">'+
-                        '<div class="panel-body">'+
-                            '<div class="fontInner clearfix">'+
-                                '<span style="width:' + widthPercent + '%">制造编号</span>'+
-                                '<span style="width:' + widthPercent + '%">机型版本</span>'+
-                                '<span style="width:' + widthPercent + '%">PCB名称</span>'+
-                                '<span style="width:' + widthPercent + '%">pcb编码</span>'+
-                                '<span style="width:' + widthPercent + '%">RoHS</span>'+
-                                '<span style="width:' + widthPercent + '%">机台名称</span>'+
-                                '<span style="width:' + widthPercent + '%">机台编号</span>'+
-                                '<span style="width:' + widthPercent + '%">工序单状态</span>'+
-                                '<span style="width:' + widthPercent + '%">工序订单编号</span>'+
-                                '<span style="width:' + widthPercent + '%">是否当前工单</span>'+
-                            '</div>'+
-                            '<div class="fontInner clearfix">'+
-                            '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].task_sheet_code + '</span>'+
-                            '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].model_ver + '</span>'+
-                            '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].pcb_name + '</span>'+
-                            '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].pcb_code + '</span>'+
-                            '<span style="width:9.90%">' + tbodyDataS[j].is_rohs + '</span>'+
-                            '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].device_name + '</span>'+
-                            '<span style="width:9.90%">' + tbodyDataS[j].device_code + '</span>'+
-                            '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].process_task_status+ '</span>'+
-                            '<span style="width:9.90%">' + tbodyDataS[j].process_task_code + '</span>'+
-                            '<span style="width:' + widthPercent + '%">' + tbodyDataS[j].is_now_flag + '</span>'+
-                            '</div>'+
-                        '</div>'+
-                    '</div>'+
-                    '</div>';
+                    '</li>';
             }
             
-            tbodyHtml += '</div></ul></div>';
+            tbodyHtml += '</ul></div>';
         }
         $(".firstBoard").html(theadHtml + tbodyHtml);
-
+        $(".firstBoard ul li").off().on('click',popData, function (params) {
+            $('.filterbg').show();
+            $('.popup').show();
+            $('.popup').width('3px');
+            $('.popup').animate({height: '76%'},400,function(){
+                $('.popup').animate({width: '82%'},400);
+            });
+            setTimeout(dataShow(popData[$(this).index()],hsaClassOn),800);
+        })
         //运单状态文字滚动
         if(tbodyData.length>12) {
             $('.fontScroll').FontScroll({time: 3000, num: 1});
         }
     }
+
+	function dataShow(data,hsaClassOn){
+		$('.popupClose').css('display','block');
+        $('.summary').show();
+        if(hsaClassOn){
+            addDataHtml(data);
+        }else{
+            addProcessDataHtml(data);
+        }
+    };
+    function addDataHtml(data) {
+            var theadHtmlP1 ='<div class="item summaryP1" style="">'+
+            '   <div class="itemTit">'+
+            '       <span class="border-blue">任务详情</span>'+
+            '   </div>'+
+            '   <div class="itemCon itembg itembg_popupfirt">'+
+            '       <ul class="listStyle">'+
+            '           <li class="clearfix">'+
+            '               <span>光板号:<strong>'+data.pcb_plate_id+'</strong></span>'+
+            '               <span>通知日期:<strong>'+data.task_sheet_date.split('T')[0]+'</strong></span>'+
+            '               <span>厂区:<strong>'+data.factory+'</strong></span>'+
+            '               <span>车间:<strong>'+data.workshop+'</strong></span>'+
+            '               <span>板编号:<strong>'+data.batch_id+'</strong></span>'+
+            '               <span>投料单号:<strong>'+data.feeding_task_code+'</strong></span>'+
+            '               <span>计划启动时间:<strong>'+data.produce_plan_date.split('T')[0]+'</strong></span>'+
+            '               <span>计划完成时间:<strong>'+data.produce_plan_complete_date.split('T')[0]+'</strong></span>'+
+            '               <span>优先级:<strong>'+data.priority+'</strong></span>'+
+            '           </li>'+
+            '       </ul>'+
+            '   </div>'+
+            '</div>';
+        $(".summary").html(theadHtmlP1).css("display", "block");
+    }
+    function addProcessDataHtml(data) {
+        var theadHtmlP1 ='<div class="item summaryP1" style="">'+
+        '   <div class="itemTit">'+
+        '       <span class="border-blue">任务详情</span>'+
+        '   </div>'+
+        '   <div class="itemCon itembg itembg_popupfirt">'+
+        '       <ul class="listStyle">'+
+        '           <li class="clearfix">'+
+        '               <span>制造编号:<strong>'+data.task_sheet_code+'</strong></span>'+
+        '               <span>机型版本:<strong>'+data.model_ver+'</strong></span>'+
+        '               <span>pcb编码:<strong>'+data.pcb_code+'</strong></span>'+
+        '               <span>RoHS:<strong>'+data.is_rohs+'</strong></span>'+
+        '               <span>机台名称:<strong>'+data.device_name+'</strong></span>'+
+        '               <span>机台编号:<strong>'+data.device_code+'</strong></span>'+
+        '               <span>工序单状态:<strong>'+data.process_task_status+'</strong></span>'+
+        '               <span>工序订单编号:<strong>'+data.process_task_code+'</strong></span>'+
+        '               <span>是否当前工单:<strong>'+data.is_now_flag+'</strong></span>'+
+        '               <span class="col2">PCB名称:<strong>'+data.pcb_name+'</strong></span>'+
+        '           </li>'+
+        '       </ul>'+
+        '   </div>'+
+        '</div>';
+    $(".summary").html(theadHtmlP1).css("display", "block");
+}
 }
 
 
