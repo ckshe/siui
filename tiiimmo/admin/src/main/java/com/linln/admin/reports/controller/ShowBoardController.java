@@ -27,7 +27,7 @@ public class ShowBoardController {
     public ResultVo pcbTaskBoard(){
         List<PcbTask> pcbTasks = showBoardService.pcbTaskBoard();
         Map<String,Object> mapWeekRate = showBoardService.getPcbTaskThisWeek();
-        Map<String, String> mapProcessWeekRate = showBoardService.getProcessTaskThisWeek();
+        Map<String, Object> mapProcessWeekRate = showBoardService.getProcessTaskThisWeek();
         Map<String,Object> map = new HashMap<>();
         map.put("pcbTasks",pcbTasks);
         map.put("mapWeekRate",mapWeekRate);

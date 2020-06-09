@@ -96,15 +96,15 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         BigDecimal all1 = new BigDecimal(week1All);
         BigDecimal rate1 = finish1.divide(all1).setScale(4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
 
-        map.put("week1",rate1+"%");
-        map.put("week2",rate2+"%");
-        map.put("week3",rate3+"%");
-        map.put("week4",rate4+"%");
+        map.put("week1",rate1);
+        map.put("week2",rate2);
+        map.put("week3",rate3);
+        map.put("week4",rate4);
         return map;
     }
 
     @Override
-    public Map<String,String> getProcessTaskThisWeek() {
+    public Map<String,Object> getProcessTaskThisWeek() {
         Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
         String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
         String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
@@ -133,12 +133,27 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         BigDecimal all3 = new BigDecimal(all3Count);
         BigDecimal rate3 = finish3.divide(all3).setScale(4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
 
-        Map<String,String> map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>();
 
-        map.put("tiepian",rate1+"%");
-        map.put("houhan",rate2+"%");
-        map.put("tiaoshi",rate1+"%");
+        map.put("tiepian",rate1);
+        map.put("houhan",rate2);
+        map.put("tiaoshi",rate1);
 
         return map;
+    }
+
+    @Override
+    public Map<String, Object> getTaskFinishRate() {
+
+        StringBuffer sql = new StringBuffer("SELECT\n" +
+                "\t( CASE SUM ( ISNULL( pcb_quantity, 0 ) ) WHEN 0 THEN 1 ELSE SUM ( ISNULL( pcb_quantity, 0 ) ) END ) AS plancount,\n" +
+                "\tSUM ( ISNULL( amount_completed, 0 ) ) AS finishcount,\n" +
+                "\ttask_sheet_code,\n" +
+                "\tROUND(SUM ( ISNULL( amount_completed, 0 ) ) / ( CASE SUM ( ISNULL( pcb_quantity, 0 ) ) WHEN 0 THEN 1 ELSE SUM ( ISNULL( pcb_quantity, 0 ) ) END ),4) AS rate \n" +
+                "FROM\n" +
+                "\tproduce_pcb_task \n" +
+                "GROUP BY\n" +
+                "\ttask_sheet_code");
+        return null;
     }
 }

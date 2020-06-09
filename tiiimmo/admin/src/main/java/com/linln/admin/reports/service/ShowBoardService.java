@@ -11,5 +11,7 @@ public interface ShowBoardService {
 
     public Map<String,Object> getPcbTaskThisWeek();
 
-    public Map<String,String> getProcessTaskThisWeek();
+    public Map<String,Object> getProcessTaskThisWeek();
+
+    public Map<String,Object> getTaskFinishRate();
 }
