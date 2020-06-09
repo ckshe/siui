@@ -119,20 +119,23 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Override
     public ResultVo getPcbTaskFromERP(String dataBetween) {
-
-        ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("stkd_PCWLRCL");
+        System.out.println("-----------开始同步-------------");
+        ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCRWDCX");
         ScheduleJobReq scheduleJobReq = new ScheduleJobReq();
         scheduleJobReq.setDesc(jobApi.getRemark() == null ? "" : jobApi.getRemark());
         scheduleJobReq.setKey(jobApi.getKey() == null ? "" : jobApi.getKey());
         scheduleJobReq.setWhere(jobApi.getCondition() == null ? "" : jobApi.getCondition());
         scheduleJobReq.setAction(jobApi.getApiName() == null ? "" : jobApi.getApiName());
-        //JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
+        List<String> paramList = new ArrayList<>();
+        scheduleJobReq.setParamList(paramList);
+        JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
+        System.out.println("-----------list-------------"+lists.size());
 
-        String path = "D:\\workspace\\timosecond\\tiiimmo\\admin\\src\\main\\resources\\task.json";
+        /*String path = "D:\\workspace\\timosecond\\tiiimmo\\admin\\src\\main\\resources\\task.json";
 
         String s = ReadUtill.readJsonFile(path);
         JSONObject jobj = JSON.parseObject(s);
-        JSONArray lists = jobj.getJSONArray("data");
+        JSONArray lists = jobj.getJSONArray("data");*/
         List<PcbTask> pckTaskList = new ArrayList<>();
         List<PCBPlateNo> plateNoList = new ArrayList<>();
         for(int i = 0 ; i<lists.size();i++){
@@ -213,27 +216,29 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }
         pcbPlateNoRepository.saveAll(plateNoList);
         pcbTaskRepository.saveAll(pckTaskList);
+        System.out.println("-----------结束同步-------------");
+
         return ResultVoUtil.success("同步完成");
     }
 
 
     @Override
     public ResultVo getFeedingTaskFromERP(String dataBetween) {
-        String path = "D:\\workspace\\timosecond\\tiiimmo\\admin\\src\\main\\resources\\feeding.json";
 
-        ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("stkd_PCWLRCL");
+        ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCTLDCX");
         ScheduleJobReq scheduleJobReq = new ScheduleJobReq();
         scheduleJobReq.setKey(jobApi.getKey() == null ? "" : jobApi.getKey());
         scheduleJobReq.setDesc(jobApi.getRemark() == null ? "" : jobApi.getRemark());
         scheduleJobReq.setWhere(jobApi.getCondition() == null ? "" : jobApi.getCondition());
         scheduleJobReq.setAction(jobApi.getApiName() == null ? "" : jobApi.getApiName());
-        //JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
+        JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
 
+       /* String path = "D:\\workspace\\timosecond\\tiiimmo\\admin\\src\\main\\resources\\feeding.json";
 
         String s = ReadUtill.readJsonFile(path);
         JSONObject jobj = JSON.parseObject(s);
+        JSONArray lists = jobj.getJSONArray("data");*/
         List<FeedingTask> feedingTaskList = new ArrayList<>();
-        JSONArray lists = jobj.getJSONArray("data");
         for(int i =0;i<lists.size();i++){
             JSONObject param = lists.getJSONObject(i);
 
@@ -379,7 +384,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         processTask.setDevice_name(pcbTaskReq.getDeviceName());
         processTask.setPlan_start_time(pcbTaskReq.getPlanStartTime());
         processTask.setPlan_finish_time(pcbTaskReq.getPlanFinishTime());
-        processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
+        //processTask.setAmount_completed(0);
         processTask.setProcess_task_status("已下达");
         processTaskRepository.save(processTask);
         String[] split = pcbTaskReq.getDeviceCode().split(",");
@@ -393,6 +398,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTaskDevice.setPlant_code("");
             processTaskDevice.setTd_status("");
             processTaskDevice.setReCount("0");
+            processTaskDevice.setLast_amount(0);
             list.add(processTaskDevice);
         }
         processTaskDeviceRepository.saveAll(list);
@@ -450,30 +456,56 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             String reCount = device.getRe_count();
             //是，记录数据返回清零标志
             resp.setReCount(reCount);
-
+            //这里直接传完清零信号后改状态还是等下一次调用改清零状态
+            /*if("1".equals(reCount)){
+                device.setRe_count("0");
+            }*/
+            if(req.getAmount()==0){
+                device.setRe_count("0");
+            }
             ProcessTask processTask = processTaskRepository.findProducingByDevice_code(req.getDeviceCode());
             //查无生产中的单怎么办
             if(processTask==null){
 
             }else {
-                ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(processTask.getProcess_task_code(),req.getDeviceCode());
+                ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getDeviceCode(),processTask.getProcess_task_code());
                 processTaskDevice.setTd_status(req.getStatus());
-                processTaskDevice.setAmount(req.getAmount());
+                processTaskDevice.setAmount(req.getAmount()+processTaskDevice.getLast_amount());
                 processTaskDevice.setTime_stamp(pcbTaskReq.getTimeStamp());
                 processTaskDeviceRepository.save(processTaskDevice);
-
+                String deviceCodes = processTask.getDevice_code();
+                String  bigone = findDeviceBigIdCode(deviceCodes);
+                if(bigone.equals(device.getDevice_code())){
+                    //工序最后机台数量计入工序任务
+                    processTask.setAmount_completed(processTaskDevice.getAmount());
+                    processTaskRepository.save(processTask);
+                }
             }
-            //todo 当前版编号 是否重新计数 手动结束工单重新计数
+
 
             resp.setDeviceCode(req.getDeviceCode());
             list.add(resp);
         }
         Map<String,Object> map = new HashMap<>();
-        map.put("result","OK");
+        map.put("result","200");
         map.put("data",list);
         map.put("timeStamp",pcbTaskReq.getTimeStamp());
         map.put("msg","");
         return map;
+    }
+
+    public String  findDeviceBigIdCode(String deviceCodes){
+        String devicecode [] = deviceCodes.split(",");
+        Long bigone = 0L;
+        String bigCode = "";
+        for(String code : devicecode){
+            Device device = deviceRepository.findbyDeviceCode(code);
+            if(device.getId()>bigone){
+                bigone = device.getId();
+                bigCode = code;
+            }
+        }
+        return bigCode;
     }
 
     @Override
@@ -498,7 +530,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Override
     public ResultVo modifyProcessTaskStatus(PcbTaskReq pcbTaskReq) {
-        //todo 需考虑备料工序的状态更改
         ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
         processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
         if(!"备料".equals(processTask.getProcess_name())){
@@ -524,27 +555,44 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             //启动工序计划 生产中
             if("生产中".equals(pcbTaskReq.getProcessTaskStatus())){
 
-
-            }
-            //暂停工序计划 暂停
-            if("暂停".equals(pcbTaskReq.getProcessTaskStatus())){
+                //所在工序计划的所有机台一同清零
                 //重新计数记录在设备处
                 List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(pcbTaskReq.getProcessTaskCode());
                 for(ProcessTaskDevice de:prl){
                     Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
                     device.setRe_count("1");
                     deviceRepository.save(device);
+                    de.setLast_amount(de.getAmount());
+                    processTaskDeviceRepository.save(de);
+                }
+            }
+            //暂停工序计划 暂停
+            if("暂停".equals(pcbTaskReq.getProcessTaskStatus())){
+
+                //所在工序计划的所有机台一同清零
+                //重新计数记录在设备处
+                List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(pcbTaskReq.getProcessTaskCode());
+                for(ProcessTaskDevice de:prl){
+                    Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
+                    device.setRe_count("1");
+                    deviceRepository.save(device);
+                    de.setLast_amount(de.getAmount());
+                    processTaskDeviceRepository.save(de);
                 }
 
             }
             //结束工序计划 完成
             if("完成".equals(pcbTaskReq.getProcessTaskStatus())){
+                processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
                 //重新计数
                 List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(pcbTaskReq.getProcessTaskCode());
                 for(ProcessTaskDevice de:prl){
                     Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
                     device.setRe_count("1");
                     deviceRepository.save(device);
+                    de.setLast_amount(de.getAmount());
+                    processTaskDeviceRepository.save(de);
+
                 }
             }
         }

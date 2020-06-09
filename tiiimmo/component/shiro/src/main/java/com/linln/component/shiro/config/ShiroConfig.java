@@ -53,6 +53,7 @@ public class ShiroConfig {
         filterMap.put("/cardCrashLogin", "anon");
         filterMap.put("/produce/pcbTask/findProcessTaskByDevice", "anon");
         filterMap.put("/logout", "anon");
+        filterMap.put("/ShowBoard/**", "anon");
         filterMap.put("/error", "anon");
         filterMap.put("/404", "anon");
         filterMap.put("/open/**", "anon");

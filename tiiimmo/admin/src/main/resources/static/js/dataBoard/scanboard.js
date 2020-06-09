@@ -74,6 +74,38 @@ $(function(){
 			},1);
 		}
 	}
+	setTimeout(function(){
+		$('.progress').each(function(i,ele){
+			var PG = $(ele).attr('progress');
+			var PGNum = parseInt(PG);
+			var zero = 0;
+			var speed = 50;
+			var timer;
+			
+			$(ele).find('h4').html(zero+'%');
+			if(PGNum<10){
+				$(ele).find('.progressBar span').addClass('bg-red');
+				$(ele).find('h3 i').addClass('color-red');
+			}else if(PGNum>=10 && PGNum<50){
+				$(ele).find('.progressBar span').addClass('bg-yellow');
+				$(ele).find('h3 i').addClass('color-yellow');
+			}else if(PGNum>=50 && PGNum<100){
+				$(ele).find('.progressBar span').addClass('bg-blue');
+				$(ele).find('h3 i').addClass('color-blue');
+			}else{
+				$(ele).find('.progressBar span').addClass('bg-green');
+				$(ele).find('h3 i').addClass('color-green');
+			}
+			$(ele).find('.progressBar span').animate({width: PG},PGNum*speed);
+			timer = setInterval(function(){
+				zero++;
+				$(ele).find('h4').html(zero+'%');
+				if(zero==PGNum){
+					clearInterval(timer);
+				}
+			},speed);
+		});
+	},500);
 	
 	// setDataBoard4();
 	// addfourBoardHtml();
@@ -84,7 +116,20 @@ $(function(){
 		setDataBoard3();
 		setDataBoard4();
 	},10)
-
+	//关掉界面
+	$('.popupClose').on('click',function(){
+		$('.popupClose').css('display','none');
+		$('.summary').hide().empty();
+		$('.popup').animate({width: '3px'},400,function(){
+			$('.popup').animate({height: 0},400);
+		});
+		setTimeout(summaryHide,800);
+	});
+	function summaryHide(){
+		$('.filterbg').hide();
+		$('.popup').hide();
+		$('.popup').width(0);
+	};
 	$(window).resize(function(){
 		// myChart1.resize();
 		// try{
