@@ -21,13 +21,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">开始时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" id="startTime" type="text" name="start_time" placeholder="请输入开始时间" th:value="${classInfo?.start_time}">
+                <input class="layui-input" autocomplete="off" id="startTime" type="text" name="start_time" placeholder="请输入开始时间" th:value="${classInfo?.start_time}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">结束时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input"  id="endTime" type="text" name="end_time" placeholder="请输入结束时间" th:value="${classInfo?.end_time}">
+                <input class="layui-input"  autocomplete="off" id="endTime" type="text" name="end_time" placeholder="请输入结束时间" th:value="${classInfo?.end_time}">
             </div>
         </div>
         <div class="layui-form-item timo-finally">
@@ -42,11 +42,11 @@
             var laydate = layui.laydate;
             laydate.render({
                 elem: '#startTime',
-                type:'datetime'
+                type:'time'
             });
             laydate.render({
                 elem: '#endTime',
-                type:'datetime'
+                type:'time'
             });
         })
     </script>
