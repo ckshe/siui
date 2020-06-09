@@ -72,19 +72,19 @@ public class OpenController {
      */
     @RequestMapping("/showPDF")
     @ResponseBody
-    public void showPDF(HttpServletResponse response, Long deviceId)throws IOException, DocumentException {
+    public void showPDF(HttpServletResponse response, String  deviceCode)throws IOException, DocumentException {
         //需要填充的数据
         Map<String, Object> data = new HashMap<>(16);
         data.put("name", "kevin");
         // 读取pdf并预览
-        readPDF(response,deviceId);
+        readPDF(response,deviceCode);
     }
 
     /**
      * 读取本地pdf,这里设置的是预览
      */
-    private void readPDF(HttpServletResponse response,Long deviceId) {
-        Device device= deviceRepository.findById(deviceId).get();
+    private void readPDF(HttpServletResponse response,String  deviceCode) {
+        Device device= deviceRepository.findbyDeviceCode(deviceCode);
         response.reset();
         response.setContentType("application/pdf");
         try {

@@ -296,7 +296,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         // DCY2.908.H1339B-AL06-A
         // DCY2.909.0186GS-RC
         // DCY2.908.0186GS-RC
-        //todo 假设符合
         String split[] = pcbTask.getPcb_id().split("\\.");
         String code1 = split[1];
         String code2[] = split[2].split("-");
@@ -417,7 +416,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
         StringBuffer sql = new StringBuffer("select * from(\n" +
                 "select *, ROW_NUMBER() OVER(order by t4.Id asc) row from\n" +
-                "(SELECT t1.*,t2.pcb_id,t2.feeding_task_code from produce_process_task t1 LEFT JOIN produce_pcb_task t2 on t2.pcb_task_code = t1.pcb_task_code where process_name = '备料')t4)t3\n");
+                "(SELECT t1.*,t2.pcb_id,t2.feeding_task_code from produce_process_task t1 LEFT JOIN produce_pcb_task t2 on t2.pcb_task_code = t1.pcb_task_code where t1.process_name = '备料' and t1.process_task_status != '未下达')t4)t3\n");
         Integer page = 1;
         Integer size = 10;
         if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){

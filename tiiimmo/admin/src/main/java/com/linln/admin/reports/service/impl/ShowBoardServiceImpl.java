@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ShowBoardServiceImpl implements ShowBoardService {
@@ -41,15 +42,15 @@ public class ShowBoardServiceImpl implements ShowBoardService {
     }
 
     @Override
-    public Map<String,Object> getProcessTaskThisWeekProcess() {
+    public Map<String,Object> getPcbTaskThisWeek() {
         Map<String,Object> map = new HashMap<>();
         //本周即第四周
         Map<String,String> thisWeekDate4 = DateUtil.getThisWeek(new Date());
         String startTime4 = thisWeekDate4.get("weekBegin")+" 00:00:00";
         String endTime4 = thisWeekDate4.get("weekEnd")+" 23:59:59";
-        List<ProcessTask> processTaskList4 = processTaskRepository.findByStartEndTime(startTime4,endTime4);
-        int week4Finish = (int) processTaskList4.stream().filter(p -> "完成".equals(p.getProcess_task_status())).count();
-        int week4All = processTaskList4.size()==0?1:processTaskList4.size();
+        List<PcbTask> pcbTask4 = pcbTaskRepository.findAllByStartEndTime(startTime4,endTime4);
+        int week4Finish = (int) pcbTask4.stream().filter(p -> "完成".equals(p.getPcb_task_status())).count();
+        int week4All = pcbTask4.size()==0?1:pcbTask4.size();
         BigDecimal finish4 = new BigDecimal(week4Finish);
         BigDecimal all4 = new BigDecimal(week4All);
         BigDecimal rate4 = finish4.divide(all4).setScale(4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
@@ -60,9 +61,10 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         Map<String,String> thisWeekDate3 = DateUtil.getThisWeek(week3);
         String startTime3 = thisWeekDate3.get("weekBegin")+" 00:00:00";
         String endTime3 = thisWeekDate3.get("weekEnd")+" 23:59:59";
-        List<ProcessTask> processTaskList3 = processTaskRepository.findByStartEndTime(startTime3,endTime3);
-        int week3Finish = (int) processTaskList3.stream().filter(p -> "完成".equals(p.getProcess_task_status())).count();
-        int week3All = processTaskList3.size()==0?1:processTaskList3.size();
+        List<PcbTask> pcbTask3 = pcbTaskRepository.findAllByStartEndTime(startTime3,endTime3);
+
+        int week3Finish = (int) pcbTask3.stream().filter(p -> "完成".equals(p.getPcb_task_status())).count();
+        int week3All = pcbTask3.size()==0?1:pcbTask3.size();
         BigDecimal finish3 = new BigDecimal(week3Finish);
         BigDecimal all3 = new BigDecimal(week3All);
         BigDecimal rate3 = finish3.divide(all3).setScale(4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
@@ -73,9 +75,10 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         Map<String,String> thisWeekDate2 = DateUtil.getThisWeek(week2);
         String startTime2 = thisWeekDate2.get("weekBegin")+" 00:00:00";
         String endTime2 = thisWeekDate2.get("weekEnd")+" 22:59:59";
-        List<ProcessTask> processTaskList2 = processTaskRepository.findByStartEndTime(startTime2,endTime2);
-        int week2Finish = (int) processTaskList2.stream().filter(p -> "完成".equals(p.getProcess_task_status())).count();
-        int week2All = processTaskList2.size()==0?1:processTaskList2.size();
+        List<PcbTask> pcbTask2 = pcbTaskRepository.findAllByStartEndTime(startTime2,endTime2);
+
+        int week2Finish = (int) pcbTask2.stream().filter(p -> "完成".equals(p.getPcb_task_status())).count();
+        int week2All = pcbTask2.size()==0?1:pcbTask2.size();
         BigDecimal finish2 = new BigDecimal(week2Finish);
         BigDecimal all2 = new BigDecimal(week2All);
         BigDecimal rate2 = finish2.divide(all2).setScale(4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
@@ -86,17 +89,56 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         Map<String,String> thisWeekDate1 = DateUtil.getThisWeek(week1);
         String startTime1 = thisWeekDate1.get("weekBegin")+" 00:00:00";
         String endTime1 = thisWeekDate1.get("weekEnd")+" 11:59:59";
-        List<ProcessTask> processTaskList1 = processTaskRepository.findByStartEndTime(startTime1,endTime1);
-        int week1Finish = (int) processTaskList1.stream().filter(p -> "完成".equals(p.getProcess_task_status())).count();
-        int week1All = processTaskList1.size()==0?1:processTaskList1.size();
+        List<PcbTask> pcbTask1 = pcbTaskRepository.findAllByStartEndTime(startTime1,endTime1);
+        int week1Finish = (int) pcbTask1.stream().filter(p -> "完成".equals(p.getPcb_task_status())).count();
+        int week1All = pcbTask1.size()==0?1:pcbTask1.size();
         BigDecimal finish1 = new BigDecimal(week1Finish);
         BigDecimal all1 = new BigDecimal(week1All);
         BigDecimal rate1 = finish1.divide(all1).setScale(4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
 
-        map.put("第一周",rate1);
-        map.put("第二周",rate2);
-        map.put("第三周",rate3);
-        map.put("第四周",rate4);
+        map.put("week1",rate1+"%");
+        map.put("week2",rate2+"%");
+        map.put("week3",rate3+"%");
+        map.put("week4",rate4+"%");
+        return map;
+    }
+
+    @Override
+    public Map<String,String> getProcessTaskThisWeek() {
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
+        String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
+        List<ProcessTask> processTaskList = processTaskRepository.findByStartEndTime(startTime, endTime);
+        //贴片工序任务
+        List<ProcessTask> processTaskListTiepian = processTaskList.stream().filter(p -> "贴片A".equals(p.getProcess_name())||"贴片B".equals(p.getProcess_name())||"备料".equals(p.getProcess_name())||"贴片质检".equals(p.getProcess_name())).collect(Collectors.toList());
+        int finish1Count = (int)processTaskListTiepian.stream().filter(processTask -> "完成".equals(processTask.getProcess_task_status())).count();
+        int all1Count = processTaskListTiepian.size()==0?1:processTaskListTiepian.size();
+        BigDecimal finish1 = new BigDecimal(finish1Count);
+        BigDecimal all1 = new BigDecimal(all1Count);
+        BigDecimal rate1 = finish1.divide(all1).setScale(4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
+
+        //后焊工序任务
+        List<ProcessTask> processTaskListhouhan = processTaskList.stream().filter(p -> "手插质检".equals(p.getProcess_name())||"手插".equals(p.getProcess_name())||"波峰焊".equals(p.getProcess_name())||"自动焊".equals(p.getProcess_name())||"人工焊".equals(p.getProcess_name())||"后焊终检".equals(p.getProcess_name())).collect(Collectors.toList());
+        int finish2Count = (int)processTaskListhouhan.stream().filter(processTask -> "完成".equals(processTask.getProcess_task_status())).count();
+        int all2Count = processTaskListhouhan.size()==0?1:processTaskListhouhan.size();
+        BigDecimal finish2 = new BigDecimal(finish2Count);
+        BigDecimal all2 = new BigDecimal(all2Count);
+        BigDecimal rate2 = finish2.divide(all2).setScale(4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
+
+        //调试工序任务
+        List<ProcessTask> processTaskListtiaoshi = processTaskList.stream().filter(p -> "单板调试".equals(p.getProcess_name())).collect(Collectors.toList());
+        int finish3Count = (int)processTaskListtiaoshi.stream().filter(processTask -> "完成".equals(processTask.getProcess_task_status())).count();
+        int all3Count = processTaskListtiaoshi.size()==0?1:processTaskListtiaoshi.size();
+        BigDecimal finish3 = new BigDecimal(finish3Count);
+        BigDecimal all3 = new BigDecimal(all3Count);
+        BigDecimal rate3 = finish3.divide(all3).setScale(4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
+
+        Map<String,String> map = new HashMap<>();
+
+        map.put("tiepian",rate1+"%");
+        map.put("houhan",rate2+"%");
+        map.put("tiaoshi",rate1+"%");
+
         return map;
     }
 }

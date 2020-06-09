@@ -26,10 +26,12 @@ public class ShowBoardController {
     @ResponseBody
     public ResultVo pcbTaskBoard(){
         List<PcbTask> pcbTasks = showBoardService.pcbTaskBoard();
-        Map<String,Object> mapWeekRate = showBoardService.getProcessTaskThisWeekProcess();
+        Map<String,Object> mapWeekRate = showBoardService.getPcbTaskThisWeek();
+        Map<String, String> mapProcessWeekRate = showBoardService.getProcessTaskThisWeek();
         Map<String,Object> map = new HashMap<>();
         map.put("pcbTasks",pcbTasks);
         map.put("mapWeekRate",mapWeekRate);
+        map.put("mapProcessWeekRate",mapProcessWeekRate);
 
         return ResultVoUtil.success(map);
     }

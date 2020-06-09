@@ -9,5 +9,7 @@ public interface ShowBoardService {
 
     public List<PcbTask> pcbTaskBoard();
 
-    public Map<String,Object> getProcessTaskThisWeekProcess();
+    public Map<String,Object> getPcbTaskThisWeek();
+
+    public Map<String,String> getProcessTaskThisWeek();
 }
