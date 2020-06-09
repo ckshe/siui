@@ -1,7 +1,44 @@
 	// 第二看板========================================================================
 	//看板二弹框
 	var summaryPie1;
-
+	function setDataBoard2(params) {
+		var url = '/open/excute',data='';
+		var queryStr2view_tiepian ="select@@@*@@@from@@@view_tiepian";
+		$.ajax({
+			contentType: 'application/json',
+			type: 'POST',
+			url: url,
+			dataType: "json",
+			data: JSON.stringify(returnData(queryStr2view_tiepian)),
+			success: function (message) {
+				console.log(message)
+				var sum=0,sumtemp=0 ,weekArr = [],weekArrdata=[];
+				for(var i=0;i<message.data.length;i++){
+					if(message.data[i].sum_count==0){message.data[i].sum_count = 1}
+					weekArr[i] = Math.floor((message.data[i].finish_count/message.data[i].sum_count)*100)
+					weekArrdata[i]  = message.data[i].pcb_task_code;
+				}
+				console.log(weekArr,weekArrdata)
+				// for(var j=0;j<new Date().getDay();j++){
+				// 	sumtemp+=weekArr[j];
+				// 	weekArrdata.push(((sumtemp/sum)*100).toFixed(2))
+				// }
+				// console.log(weekArr,sum,weekArrdata)
+				db2POption1.yAxis.data = weekArrdata;
+				db2POption1.series[0].data = weekArr;
+				db2P1.setOption(db2POption1);
+				db2P1.on('click', function (params) {
+					console.log(params.dataIndex,message.data[params.dataIndex])
+					setClick(message.data[params.dataIndex]);
+				});
+			}
+		});
+		db2P2.setOption(db2POption2);
+		db2P3.setOption(db2POption3);
+		db2P4.setOption(db2POption4);
+		db2P5.setOption(db2POption5);
+		db2P6.setOption(db2POption6);
+	}
 	var summaryPie1Option = {
 		title: {
 		},
@@ -46,14 +83,7 @@
 			}
 		]
 	};
-	function setDataBoard2(params) {
-		db2P1.setOption(db2POption1);
-		db2P2.setOption(db2POption2);
-		db2P3.setOption(db2POption3);
-		db2P4.setOption(db2POption4);
-		db2P5.setOption(db2POption5);
-		db2P6.setOption(db2POption6);
-	}
+
 	var db2P1,db2P2,db2P3,db2P4,db2P5,db2P6;
 	db2P1 = echarts.init(document.getElementById('db2P1'),'macarons');
 	db2P2 = echarts.init(document.getElementById('db2P2'),'macarons');
@@ -78,6 +108,7 @@
             axisPointer: {
                 type: 'shadow'
 			},
+			formatter: '{a} <br/> {b} :{c}%',
 			textStyle:{
 				fontSize:22
 			}
@@ -112,13 +143,13 @@
                     fontSize:20
 				}
             },
-
-            data: ["任务1","任务2","任务3","任务4","任务5"]
+            data: []
 		},
 		series: [{
 			name: '完成率',
 			type: 'bar',
-            data: [5, 20, 36, 10, 10],
+			data: [],
+			barWidth: 50,
             itemStyle:{
                 normal:{
                     label:{
@@ -129,7 +160,7 @@
                         },
                         position:'right',
                         formatter:function(params){
-                            return  params.value
+                            return  params.value+"%"
                         }
                     },
                 }
@@ -152,6 +183,7 @@
             axisPointer: {
                 type: 'shadow'
 			},
+			formatter: '{a} <br/> {b} :{c}%',
 			textStyle:{
 				fontSize:22
 			}
@@ -203,7 +235,7 @@
                         },
                         position:'right',
                         formatter:function(params){
-                            return  params.value
+                            return  params.value +"%"
                         }
                     },
                 }
@@ -225,7 +257,8 @@
             trigger:'axis',
             axisPointer: {
                 type: 'shadow'
-            },
+			},
+			formatter: '{a} <br/> {b} :{c}%',
 			textStyle:{
 				fontSize:22
 			}
@@ -277,7 +310,7 @@
                         },
                         position:'right',
                         formatter:function(params){
-                            return  params.value
+                            return  params.value +"%"
                         }
                     },
                 }
@@ -299,7 +332,8 @@
             trigger:'axis',
             axisPointer: {
                 type: 'shadow'
-            },
+			},
+			formatter: '{a} <br/> {b} :{c}%',
 			textStyle:{
 				fontSize:22
 			}
@@ -351,7 +385,7 @@
                         },
                         position:'right',
                         formatter:function(params){
-                            return  params.value
+                            return  params.value+"%"
                         }
                     },
                 }
@@ -373,7 +407,8 @@
             trigger:'axis',
             axisPointer: {
                 type: 'shadow'
-            },
+			},
+			formatter: '{a} <br/> {b} :{c}%',
 			textStyle:{
 				fontSize:22
 			}
@@ -425,7 +460,7 @@
                         },
                         position:'right',
                         formatter:function(params){
-                            return  params.value
+                            return  params.value+"%"
                         }
                     },
                 }
@@ -447,7 +482,8 @@
             trigger:'axis',
             axisPointer: {
                 type: 'shadow'
-            },
+			},
+			formatter: '{a} <br/> {b} :{c}%',
 			textStyle:{
 				fontSize:22
 			}
@@ -498,7 +534,7 @@
                         },
                         position:'right',
                         formatter:function(params){
-                            return  params.value
+                            return  params.value+"%"
                         }
                     },
                 }
@@ -506,24 +542,20 @@
 		}]
 	};
 
-	function setClick(n){
+	function setClick(data){
 		$('.filterbg').show();
 		$('.popup').show();
 		$('.popup').width('3px');
 		$('.popup').animate({height: '76%'},400,function(){
 			$('.popup').animate({width: '82%'},400);
 		});
-		setTimeout(summaryShow(n),800);
+		setTimeout(summaryShow(data),800);
 
 	}
-	function summaryShow(n){
+	function summaryShow(data){
 		$('.popupClose').css('display','block');
 		$('.summary').show();
-		if(n==1){
-			setCharts1();
-		}else{
-			setCharts();
-		}
+			setCharts(data);
 		
 	};
 	$('.popupClose').on('click',function(){
@@ -544,70 +576,10 @@
 		$('.popup').hide();
 		$('.popup').width(0);
 	};
-	function setCharts1(){
+	
+	function setCharts(data){
 		// 动态生成模板
-		var theadHtml='',tbodyHtml='';
-		var theadData = ['物料代码','物料名称','规格型号','计划投料数','已领数量','齐套率']
-		var tbodyData = [
-			['ZC1712120023','电源板1','MK-525523','200','100','50%'],
-			['ZC1712120024','电源板2','MK-525523','200','100','50%'],
-			['ZC1712120025','电源板3','MK-525523','200','100','50%'],
-			['ZC1712120026','电源板4','MK-525523','200','100','50%'],
-			['ZC1712120027','电源板5','MK-525523','200','100','50%'],
-			['ZC1712120028','电源板6','MK-525523','200','100','50%'],
-			['ZC1712120029','电源板7','MK-525523','200','100','50%'],
-			['ZC1712120030','电源板8','MK-525523','200','100','50%'],
-			['ZC1712120031','电源板9','MK-525523','200','100','50%'],
-			['ZC1712120032','电源板10','MK-525523','200','100','50%'],
-			['ZC1712120033','电源板11','MK-525523','200','100','50%'],
-			['ZC1712120034','电源板12','MK-525523','200','100','50%'],
-			['ZC1712120035','电源板13','MK-525523','200','100','50%'],
-			['ZC1712120036','电源板14','MK-525523','200','100','50%'],
-			['ZC1712120037','电源板15','MK-525523','200','100','50%'],
-			['ZC1712120038','电源板16','MK-525523','200','100','50%'],
-			['ZC1712120039','电源板17','MK-525523','200','100','50%'],
-			['ZC1712120040','电源板18','MK-525523','200','100','50%'],
-			['ZC1712120054','电源板19','MK-525523','200','100','50%'],
-			['ZC1712120055','电源板20','MK-525523','200','100','50%'],
-			['ZC1712120056','电源板21','MK-525523','200','100','50%'],
-		]
-		addHtml1();
-		function addHtml1(){
-			theadHtml = '<div class="item billState">'+
-			'<div class="itemTit">'+
-				'<span class="border-green">贴片生产任务</span>'+
-			'</div>'+
-			'<div class="itemCon">'+
-			'	<div class="StateBox firstBoard" id="firstBoard">'+
-			'<div class="StateTit">';
-
-			if(tbodyData.length>0){
-				colwidth = (98/theadData.length).toFixed(2)+'%';
-			}else{
-				colwidth = 'auto';
-			}
-			for(var i=0;i<theadData.length;i++){
-				theadHtml += '<span style="width:'+colwidth+'">'+theadData[i]+'</span>';
-			}
-			theadHtml += '</div>';
-			tbodyHtml = '<div id="FontScroll" class="board2Scroll"><ul>';
-			for(var j=0;j<tbodyData.length;j++){
-				tbodyHtml += '<li><div class="fontInner clearfix">';
-					var spanHtml = '';
-					for(var k=0;k<theadData.length;k++){
-						spanHtml += '<span style="width:'+colwidth+'">'+tbodyData[j][k]+'</span>';
-					}
-				tbodyHtml += spanHtml + '</div></li>';
-			}
-			tbodyHtml  += '<ul></div></div></div></div>';
-			$(".summary").html(theadHtml+tbodyHtml).css("display","block");
-					//运单状态文字滚动
-			$('.board2Scroll').FontScroll({time: 3000,num: 2,styleName:'line2'});
-		}
-	}
-	function setCharts(){
-		// 动态生成模板
-		var theadHtml='',tbodyHtml='';
+		var theadHtml='';
 
 		addHtml1();
 		function addHtml1(){
@@ -619,19 +591,19 @@
 			'	<div class="itemCon itembg" style="height: 665px;">'+
 			'		<ul class="listStyle dblist2">'+
 			'			<li class="clearfix">'+
-			'				<span>日制令号:<strong>23234</strong></span>'+
-			'				<span>生产任务单号:<strong>s-01</strong></span>'+
-			'				<span>车间:<strong>SMT-25</strong></span>'+
-			'				<span>机型名称:<strong>abc2-2</strong></span>'+
-			'				<span>机型版本:<strong>v2.0</strong></span>'+
-			'				<span>PCB编码:<strong>pcbabc</strong></span>'+
-			'				<span>PCB名称:<strong>电路板1</strong></span>'+
-			'				<span>PCB数量:<strong>100</strong></span>'+
-			'				<span>RoHS标志:<strong>RO</strong></span>'+
-			'				<span>工序:<strong>贴片</strong></span>'+
-			'				<span>生产计划开始时间:<strong>2020-05-28</strong></span>'+
-			'				<span>生产计划结束时间:<strong>2020-05-28</strong></span>'+
-			'				<span>完成数量:<strong>200</strong></span>'+
+			'				<span>工序任务号:<strong>'+data.task_sheet_code+'</strong></span>'+
+			'				<span>生产任务单号:<strong>'+data.pcb_task_code+'</strong></span>'+
+			'				<span>车间:<strong>'+data.workshop+'</strong></span>'+
+			'				<span>机型名称:<strong>'+data.model_name+'</strong></span>'+
+			'				<span>机型型号:<strong>'+data.model_ver+'</strong></span>'+
+			'				<span>PCB编码:<strong>'+data.pcb_id+'</strong></span>'+
+			'				<span>PCB名称:<strong>'+data.pcb_name+'</strong></span>'+
+			'				<span>PCB数量:<strong>'+data.pcb_quantity+'</strong></span>'+
+			'				<span>RoHS标志:<strong>'+data.is_rohs+'</strong></span>'+
+			// '				<span>工序:<strong>'+data.pcb_task_code+'</strong></span>'+
+			'				<span>生产计划开始时间:<strong>'+data.produce_plan_date+'</strong></span>'+
+			'				<span>生产计划结束时间:<strong>'+data.produce_plan_complete_date+'</strong></span>'+
+			'				<span>完成数量:<strong>'+data.amount_completed+'</strong></span>'+
 			'			</li>'+
 			'		</ul>'+
 			'	</div>'+
@@ -647,13 +619,12 @@
 			$(".summary").html(theadHtml).css("display","flex");
 		}
 		summaryPie1 = echarts.init(document.getElementById('summaryPie1'),'macarons');
+		summaryPie1Option.
 		summaryPie1.setOption(summaryPie1Option)
 	}
-	db2P1.on('click', function (params) {
-		// window.open('https://www.baidu.com/s?wd=' + encodeURIComponent(params.name));
-		setClick(1);
-	});
+
 	db2P2.on('click', function (params) {
+		console.log(params.dataIndex)
 		setClick(2);
 	});
 	db2P3.on('click', function (params) {

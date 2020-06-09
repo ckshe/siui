@@ -67,4 +67,6 @@ public class SteelMesh implements Serializable {
     private User updateBy;
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
+    // 货架编号
+    private String shelvesNo;
 }
