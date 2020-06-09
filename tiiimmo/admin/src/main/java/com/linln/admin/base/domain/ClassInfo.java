@@ -16,7 +16,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.Date;
+import java.util.TimeZone;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -45,11 +47,13 @@ public class ClassInfo implements Serializable {
     private String code;
     private String name;
     // 开始时间
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date start_time;
+    //@DateTimeFormat(pattern="HH:mm:ss")
+    //private Date start_time;
+    private String start_time;
     // 结束时间
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date end_time;
+    //@DateTimeFormat(pattern="HH:mm:ss")
+    private String  end_time;
+    //private Timer end_time;
     // 创建时间
     @CreatedDate
     private Date createDate;

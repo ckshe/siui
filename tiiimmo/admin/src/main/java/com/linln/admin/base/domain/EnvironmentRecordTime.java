@@ -60,6 +60,6 @@ public class EnvironmentRecordTime implements Serializable {
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
     // 记录时间
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date recordDate;
+    //@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private String recordDate;
 }
