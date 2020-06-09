@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>添加不良</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+      <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+      <style type="text/css">
+		.label_width {
+			width: 100px;
+		}
+        #testEquipment input{
+            padding-left: 0px!important;
+            border: 1px solid rgb(255, 255, 255)!important;
+        }
+        .xm-select-dl{
+            height: 200px!important;
+        }
+      </style>
+  </head>
+  <body>
+        <form class="layui-form" style="padding-top:20px;" lay-filter="form2">
+            <input type="hidden" name="id">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">日制令号<span style="color:red">*</span></label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="taskSerial" name="taskSerial"  autocomplete="off" class="layui-input">
+                        <input type="hidden" id="taskId" name="taskId">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">机台号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="imSerial" name="imSerial" autocomplete="off" class="layui-input" placeholder="选择日制令后自动填入" disabled>
+                        <input type="hidden" id="imConfigId" name="imConfigId">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">模具名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="mouldName" name="mouldName" autocomplete="off" class="layui-input" placeholder="选择日制令后自动填入" disabled>
+                        <input type="hidden" id="mouldId" name="mouldId">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">类型</label>
+                    <div class="layui-input-inline">
+                        <select name="dataType" id="dataType" lay-filter='dataType'>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">抽检数量</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="samplingNum"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">检验人</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="user"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">不良数量<span style="color:red">*</span></label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="badNum"  autocomplete="off" class="layui-input" min="0" lay-verify="badNum">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">巡机时间<span style="color:red">*</span></label>
+                    <div class="layui-input-inline">
+                        <input id="inspectionTime" type="text" name="inspectionTime"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item" id="badBox">
+                <div class="layui-inline" >
+                    <label class="layui-form-label">不良描述</label>
+                    <div class="layui-input-inline" >
+                        <div id="badSay" style="display: none; width:518px!important;border:1px solid #e6e6e6;color:#666;min-height:30px;padding:10px" ></div>
+                        <div id="badCheck" style="width:518px">
+                            <input class="check" type="checkbox" value="无" lay-filter="bad" lay-skin="primary" title="无">
+                            <input class="check" type="checkbox" value="缺模" lay-filter="bad" lay-skin="primary" title="缺模">
+                            <input class="check" type="checkbox" value="粘模" lay-filter="bad" lay-skin="primary" title="粘模">
+                            <input class="check" type="checkbox" value="缩水" lay-filter="bad" lay-skin="primary" title="缩水">
+                            <input class="check" type="checkbox" value="烧胶" lay-filter="bad" lay-skin="primary" title="烧胶">
+                            <input class="check" type="checkbox" value="披峰" lay-filter="bad" lay-skin="primary" title="披峰">
+                            <input class="check" type="checkbox" value="孔偏" lay-filter="bad" lay-skin="primary" title="孔偏">
+                            <input class="check" type="checkbox" value="孔大" lay-filter="bad" lay-skin="primary" title="孔大">
+                            <input class="check" type="checkbox" value="孔小" lay-filter="bad" lay-skin="primary" title="孔小">
+                            <input class="check" type="checkbox" value="堵孔、穿孔" lay-filter="bad" lay-skin="primary" title="堵孔、穿孔">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline" >
+                    <label class="layui-form-label">不良描述补充</label>
+                    <div class="layui-input-inline" >
+                        <input class="layui-input" name="remark" placeholder="补充不良描述" style="width:518px!important;" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" style="text-align: center;">
+                <button class="layui-btn" type="button" lay-submit lay-filter="add">保存</button>
+            </div>
+      </form>
+    <script src="../../lib/layui-v2.3.0/layui.js" ></script>
+        <script src="../../js/common.js" ></script>
+        <script type="text/javascript">
+        var a='';
+        layui.use(['form','layer','laydate','jquery'], function(){
+          var form = layui.form,
+          	layer = layui.layer,
+          	laydate = layui.laydate,
+            $ = layui.jquery;
+            laydate.render({
+              elem: '#inspectionTime',
+              type: 'datetime'
+            });
+
+
+
+
+
+
+          //自定义验证规则
+            form.on('submit(add)', function (data2) {
+                layer.load(1);
+                setTimeout(function () {
+                    parent.layer.closeAll();
+                    parent.layer.msg('提交成功！',{icon:1});
+                },1000)
+                return
+                var data = data2.field;
+                data.id===""&&(data.id=null);
+                data.badDescription = $('#badSay').html();
+                data.testEquipment = $('[name=testEquipment]').val();
+                $.ajax({
+                    url: "/processInspection/updateIprocessInspection",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.code === 200) {
+                            //发异步，把数据提交给后台
+                            layer.alert(result.message, { icon: 6 }, function () {
+                                if(window.Android){
+                                    // js中数据类型为var 传递给Android时需要指定数据类型 否则Android收到的参数值不对
+                                    window.Android.returnBadNum(parseInt(data.badNum),1);
+                                } else {
+                                    //发异步，把数据提交给后台
+                                        parent.layui.table.reload('articleList');
+                                        // 获得frame索引
+                                        var index = parent.layer.getFrameIndex(window.name);
+                                        // 关闭当前frame
+                                        parent.layer.close(index);
+                                }
+
+
+                            });
+                        }else{
+                            layer.alert(result.message)
+                        }
+                    }
+                });
+            });
+
+        });
+    </script>
+  </body>
+
+</html>

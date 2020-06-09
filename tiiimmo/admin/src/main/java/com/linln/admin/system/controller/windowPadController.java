@@ -28,4 +28,9 @@ public class windowPadController {
         return "/windowPad/productInfo";
     }
 
+    @GetMapping("/badAdd")
+    public String badAdd(){
+        return "/windowPad/badAdd";
+    }
+
 }
