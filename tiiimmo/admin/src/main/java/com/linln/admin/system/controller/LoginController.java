@@ -11,6 +11,7 @@ import com.linln.admin.produce.repository.UserDeviceHistoryRepository;
 import com.linln.common.config.properties.ProjectProperties;
 import com.linln.common.data.URL;
 import com.linln.common.enums.ResultEnum;
+import com.linln.common.enums.StatusEnum;
 import com.linln.common.exception.ResultException;
 import com.linln.common.utils.CaptchaUtil;
 import com.linln.common.utils.ResultVoUtil;
@@ -19,6 +20,7 @@ import com.linln.common.vo.ResultVo;
 import com.linln.component.actionLog.action.UserAction;
 import com.linln.component.actionLog.annotation.ActionLog;
 import com.linln.component.shiro.ShiroUtil;
+import com.linln.modules.system.domain.Role;
 import com.linln.modules.system.domain.User;
 import com.linln.modules.system.service.RoleService;
 import com.linln.modules.system.service.UserService;
@@ -40,6 +42,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author 小懒虫
@@ -136,6 +140,13 @@ public class LoginController implements ErrorController {
             return ResultVoUtil.error("参数错误");
         }
         User user = userService.findUserByCardNo(req.getCardSequence());
+
+        Set<Role>  roleSet = roleService.getUserOkRoleList(user.getId());
+        String roleNames = "";
+        for(Role role : roleSet){
+            roleNames = roleNames + role.getTitle() + "|";
+        }
+        user.setRoleNames(roleNames);
         if(user==null){
             //该工号不存在
             return ResultVoUtil.error("该工号不存在");

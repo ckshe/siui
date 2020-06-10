@@ -457,7 +457,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         for(PcbTaskReq req : pcbTaskReq.getData()){
             PTDeviceResp resp = new PTDeviceResp();
 
-            Device device = deviceRepository.findbyDeviceCode(req.getDeviceCode());
+            Device device = deviceRepository.fingDeviceBySort(req.getDeviceCode());
+
             String reCount = device.getRe_count();
             //是，记录数据返回清零标志
             resp.setReCount(reCount);
