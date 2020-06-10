@@ -276,13 +276,14 @@
                                 layer.msg(res.msg,{icon:1});
                                 res.data.loginTime = timeToDate(new Date());
                                 localStorage.setItem('padUserData',JSON.stringify(res.data));
+                                func13=function () {}
+
                                 setTimeout(function () {
                                     window.location.reload();
                                 },1000)
                             }else{
                                 layer.alert(res.msg,{icon:5})
                             }
-                            func13=function () {}
                         }
                     })
                 }
