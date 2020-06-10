@@ -14,8 +14,11 @@ public class UserDeviceHistory {
     private Long id ;
     //机台编号
     private String device_code;
-    //上下机时间
-    private Date do_time;
+    //上机时间
+    private Date up_time;
+
+    //下机时间
+    private Date down_time;
     //员工id
     private Long user_id;
     //员工姓名

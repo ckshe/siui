@@ -83,4 +83,8 @@ public class User implements Serializable {
 
     //技能
     private String skill_list;
+
+    //岗位
+    @Transient
+    private String roleNames;
 }

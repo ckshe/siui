@@ -16,7 +16,7 @@ public interface UserDeviceHistoryRepository extends BaseRepository<UserDeviceHi
     @Query(value = "SELECT * FROM produce_user_device_history WHERE process_task_code=?1 AND  CONVERT(varchar(100), do_time, 23) = ?2 AND device_code = ?3 and user_id = ?4  AND do_type = '上机'",nativeQuery = true)
     UserDeviceHistory findAllByProcessTaskDateDeviceUser(String processTaskCode,String date,String deviceCode,Long userId);
 
-    @Query(value = "SELECT * FROM produce_user_device_history WHERE process_task_code= '未分配' and device_code =?1  AND do_type = '上机'",nativeQuery = true)
+    @Query(value = "SELECT * FROM produce_user_device_history WHERE process_task_code= ?1 and device_code =?1  AND do_type = '上机'",nativeQuery = true)
     UserDeviceHistory findAllByNoInputDevice(String deviceCode);
 
 

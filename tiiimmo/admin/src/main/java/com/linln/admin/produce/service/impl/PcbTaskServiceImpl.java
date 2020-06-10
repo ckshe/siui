@@ -557,7 +557,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     UserDeviceHistory tow = userDeviceHistoryRepository.findAllByNoInputDevice(pcbTaskReq.getDeviceCode());
                     UserDeviceHistory newhistory = new UserDeviceHistory();
                     newhistory.setDo_type(tow.getDo_type());
-                    newhistory.setDo_time(tow.getDo_time());
+                    newhistory.setUp_time(tow.getUp_time());
                     newhistory.setProcess_task_code(processTask.getProcess_task_code());
                     newhistory.setUser_name(tow.getUser_name());
                     newhistory.setUser_id(tow.getUser_id());

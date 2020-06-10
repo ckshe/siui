@@ -166,7 +166,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public List<Device> getDeviceStatus() {
-        return deviceRepository.findAll();
+        return deviceRepository.findAllbyDeviceSort();
     }
 
     @Override

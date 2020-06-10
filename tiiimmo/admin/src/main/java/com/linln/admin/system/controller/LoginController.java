@@ -156,13 +156,13 @@ public class LoginController implements ErrorController {
             history.setUser_id(user.getId());
             history.setUser_name(user.getNickname());
             history.setProcess_task_code(req.getProcessTaskCode());
-            history.setDo_time(new Date());
+            history.setUp_time(new Date());
             history.setDo_type("上机");
             userDeviceHistoryRepository.save(history);
         }else {
             old.setUser_id(user.getId());
             old.setUser_name(user.getNickname());
-            old.setDo_time(new Date());
+            old.setUp_time(new Date());
             userDeviceHistoryRepository.save(old);
 
         }
@@ -185,7 +185,7 @@ public class LoginController implements ErrorController {
         history.setUser_id(user.getId());
         history.setUser_name(user.getNickname());
         history.setProcess_task_code(req.getProcessTaskCode());
-        history.setDo_time(new Date());
+        history.setUp_time(new Date());
         history.setDo_type("下机");
         userDeviceHistoryRepository.save(history);
         SecurityUtils.getSubject().logout();
