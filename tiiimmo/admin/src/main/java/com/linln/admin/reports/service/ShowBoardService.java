@@ -1,5 +1,6 @@
 package com.linln.admin.reports.service;
 
+import com.linln.admin.base.domain.Device;
 import com.linln.admin.produce.domain.PcbTask;
 
 import java.util.List;
@@ -14,4 +15,9 @@ public interface ShowBoardService {
     public Map<String,Object> getProcessTaskThisWeek();
 
     public Map<String,Object> getTaskFinishRate();
+
+
+    public List<Device> getDeviceStatus();
+
+    public void staffOnBoard();
 }

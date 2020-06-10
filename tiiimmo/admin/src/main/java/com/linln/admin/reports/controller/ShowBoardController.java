@@ -36,6 +36,12 @@ public class ShowBoardController {
         return ResultVoUtil.success(map);
     }
 
+    @GetMapping("/getDeviceStatus")
+    @ResponseBody
+    public ResultVo getDeviceStatus(){
+        return ResultVoUtil.success(showBoardService.getDeviceStatus());
+    }
+
 
 
 

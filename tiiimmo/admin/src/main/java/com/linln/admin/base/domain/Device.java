@@ -96,4 +96,7 @@ public class Device implements Serializable {
     private String current_plate_no;
     //是否重新计数
     private String re_count;
+
+    //设备启停状态
+    private String device_status;
 }

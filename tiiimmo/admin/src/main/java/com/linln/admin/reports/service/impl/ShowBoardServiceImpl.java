@@ -1,7 +1,10 @@
 package com.linln.admin.reports.service.impl;
 
+import com.linln.admin.base.domain.Device;
+import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.domain.ProcessTask;
+import com.linln.admin.produce.domain.UserDeviceHistory;
 import com.linln.admin.produce.repository.PcbTaskRepository;
 import com.linln.admin.produce.repository.ProcessTaskRepository;
 import com.linln.admin.reports.service.ShowBoardService;
@@ -29,6 +32,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Autowired
     private ProcessTaskRepository processTaskRepository;
+
+    @Autowired
+    private DeviceRepository deviceRepository;
 
     @Override
     public List<PcbTask> pcbTaskBoard() {
@@ -155,5 +161,18 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "GROUP BY\n" +
                 "\ttask_sheet_code");
         return null;
+    }
+
+
+    @Override
+    public List<Device> getDeviceStatus() {
+        return deviceRepository.findAll();
+    }
+
+    @Override
+    public void staffOnBoard() {
+
+
+
     }
 }

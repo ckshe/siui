@@ -144,17 +144,29 @@ public class LoginController implements ErrorController {
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername()+"|","password");
         currentUser.login(token);
         //记录上机人员
-        ProcessTaskDevice ptd = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getDeviceCode(),req.getProcessTaskCode() );
-        ptd.setUser_ids(user.getNickname());
-        processTaskDeviceRepository.save(ptd);
-        UserDeviceHistory history = new UserDeviceHistory();
-        history.setDevice_code(req.getDeviceCode());
-        history.setUser_id(user.getId());
-        history.setUser_name(user.getNickname());
-        history.setProcess_task_code(req.getProcessTaskCode());
-        history.setDo_time(new Date());
-        history.setDo_type("上机");
-        userDeviceHistoryRepository.save(history);
+//        ProcessTaskDevice ptd = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getDeviceCode(),req.getProcessTaskCode() );
+//        if(ptd!=null){
+//            ptd.setUser_ids(user.getNickname());
+//            processTaskDeviceRepository.save(ptd);
+//        }
+        UserDeviceHistory old = userDeviceHistoryRepository.findAllByNoInputDevice(req.getDeviceCode());
+        if(old==null){
+            UserDeviceHistory history = new UserDeviceHistory();
+            history.setDevice_code(req.getDeviceCode());
+            history.setUser_id(user.getId());
+            history.setUser_name(user.getNickname());
+            history.setProcess_task_code(req.getProcessTaskCode());
+            history.setDo_time(new Date());
+            history.setDo_type("上机");
+            userDeviceHistoryRepository.save(history);
+        }else {
+            old.setUser_id(user.getId());
+            old.setUser_name(user.getNickname());
+            old.setDo_time(new Date());
+            userDeviceHistoryRepository.save(old);
+
+        }
+
         return ResultVoUtil.success("上机成功",user);
 
     }
