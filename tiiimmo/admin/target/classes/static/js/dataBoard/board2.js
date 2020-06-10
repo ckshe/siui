@@ -4,6 +4,7 @@
 	function setDataBoard2(params) {
 		var url = '/open/excute',data='';
 		var queryStr2view_tiepian ="select@@@*@@@from@@@view_tiepian";
+		var queryStr2view_han ="select@@@*@@@from@@@view_danban";
 		$.ajax({
 			contentType: 'application/json',
 			type: 'POST',
@@ -19,11 +20,6 @@
 					weekArrdata[i]  = message.data[i].pcb_task_code;
 				}
 				console.log(weekArr,weekArrdata)
-				// for(var j=0;j<new Date().getDay();j++){
-				// 	sumtemp+=weekArr[j];
-				// 	weekArrdata.push(((sumtemp/sum)*100).toFixed(2))
-				// }
-				// console.log(weekArr,sum,weekArrdata)
 				db2POption1.yAxis.data = weekArrdata;
 				db2POption1.series[0].data = weekArr;
 				db2P1.setOption(db2POption1);
@@ -33,7 +29,30 @@
 				});
 			}
 		});
-		db2P2.setOption(db2POption2);
+		$.ajax({
+			contentType: 'application/json',
+			type: 'POST',
+			url: url,
+			dataType: "json",
+			data: JSON.stringify(returnData(queryStr2view_han)),
+			success: function (message) {
+				console.log("========",message)
+				var sum=0,sumtemp=0 ,weekArr = [],weekArrdata=[];
+				for(var i=0;i<message.data.length;i++){
+					if(message.data[i].sum_count==0){message.data[i].sum_count = 1}
+					weekArr[i] = Math.floor((message.data[i].finish_count/message.data[i].sum_count)*100)
+					weekArrdata[i]  = message.data[i].pcb_task_code;
+				}
+				console.log(weekArr,weekArrdata)
+				db2POption2.yAxis.data = weekArrdata;
+				db2POption2.series[0].data = weekArr;
+				db2P2.setOption(db2POption2);
+				db2P2.on('click', function (params) {
+					console.log(params.dataIndex,message.data[params.dataIndex])
+					setClick(message.data[params.dataIndex]);
+				});
+			}
+		});
 		db2P3.setOption(db2POption3);
 		db2P4.setOption(db2POption4);
 		db2P5.setOption(db2POption5);
@@ -108,7 +127,7 @@
             axisPointer: {
                 type: 'shadow'
 			},
-			formatter: '{a} <br/> {b} :{c}%',
+			formatter: '{b}<br/>{a} :{c}%',
 			textStyle:{
 				fontSize:22
 			}
@@ -116,8 +135,8 @@
 		grid: {
 			left: '3%',
 			right: '5%',
-			bottom: '3%',
-			containLabel: true
+			bottom: '10%',
+			// containLabel: true
 		},
 		xAxis: {
             type:'value',
@@ -135,12 +154,13 @@
             max:100,
 		},
 		yAxis: {
+			show : false,
             type:'category',
             axisLabel:{
                 textStyle:{
                     show:true,
                     color:'rgba(255,255,255,1)',
-                    fontSize:20
+					fontSize:20,
 				}
             },
             data: []
@@ -183,7 +203,7 @@
             axisPointer: {
                 type: 'shadow'
 			},
-			formatter: '{a} <br/> {b} :{c}%',
+			formatter: '{b}<br/>{a} :{c}%',
 			textStyle:{
 				fontSize:22
 			}
@@ -191,8 +211,8 @@
 		grid: {
 			left: '3%',
 			right: '5%',
-			bottom: '3%',
-			containLabel: true
+			bottom: '10%',
+			// containLabel: true
 		},
 		xAxis: {
             type:'value',
@@ -210,6 +230,7 @@
             max:100,
 		},
 		yAxis: {
+			show : false,
             type:'category',
             axisLabel:{
                 textStyle:{
@@ -224,7 +245,8 @@
 		series: [{
 			name: '完成率',
 			type: 'bar',
-            data: [5, 20, 36, 10, 10],
+			data: [5, 20, 36, 10, 10],
+			barWidth: 50,
             itemStyle:{
                 normal:{
                     label:{
@@ -258,7 +280,7 @@
             axisPointer: {
                 type: 'shadow'
 			},
-			formatter: '{a} <br/> {b} :{c}%',
+			formatter: '{b}<br/>{a} :{c}%',
 			textStyle:{
 				fontSize:22
 			}
@@ -266,8 +288,8 @@
 		grid: {
 			left: '3%',
 			right: '5%',
-			bottom: '3%',
-			containLabel: true
+			bottom: '10%',
+			// containLabel: true
 		},
 		xAxis: {
             type:'value',
@@ -285,6 +307,7 @@
             max:100,
 		},
 		yAxis: {
+			show : false,
             type:'category',
             axisLabel:{
                 textStyle:{
@@ -299,7 +322,8 @@
 		series: [{
 			name: '完成率',
 			type: 'bar',
-            data: [5, 20, 36, 10, 10],
+			data: [5, 20, 36, 10, 10],
+			barWidth: 50,
             itemStyle:{
                 normal:{
                     label:{
@@ -333,7 +357,7 @@
             axisPointer: {
                 type: 'shadow'
 			},
-			formatter: '{a} <br/> {b} :{c}%',
+			formatter: '{b}<br/>{a} :{c}%',
 			textStyle:{
 				fontSize:22
 			}
@@ -341,8 +365,8 @@
 		grid: {
 			left: '3%',
 			right: '5%',
-			bottom: '3%',
-			containLabel: true
+			bottom: '10%',
+			// containLabel: true
 		},
 		xAxis: {
             type:'value',
@@ -360,6 +384,7 @@
             max:100,
 		},
 		yAxis: {
+			show : false,
             type:'category',
             axisLabel:{
                 textStyle:{
@@ -374,7 +399,8 @@
 		series: [{
 			name: '齐套率',
 			type: 'bar',
-            data: [5, 20, 36, 10, 10],
+			data: [5, 20, 36, 10, 10],
+			barWidth: 50,
             itemStyle:{
                 normal:{
                     label:{
@@ -408,7 +434,7 @@
             axisPointer: {
                 type: 'shadow'
 			},
-			formatter: '{a} <br/> {b} :{c}%',
+			formatter: '{b}<br/>{a} :{c}%',
 			textStyle:{
 				fontSize:22
 			}
@@ -416,8 +442,8 @@
 		grid: {
 			left: '3%',
 			right: '5%',
-			bottom: '3%',
-			containLabel: true
+			bottom: '10%',
+			// containLabel: true
 		},
 		xAxis: {
             type:'value',
@@ -435,6 +461,7 @@
             max:100,
 		},
 		yAxis: {
+			show : false,
             type:'category',
             axisLabel:{
                 textStyle:{
@@ -449,7 +476,8 @@
 		series: [{
 			name: '质检率',
 			type: 'bar',
-            data: [5, 20, 36, 10, 10],
+			data: [5, 20, 36, 10, 10],
+			barWidth: 50,
             itemStyle:{
                 normal:{
                     label:{
@@ -483,7 +511,7 @@
             axisPointer: {
                 type: 'shadow'
 			},
-			formatter: '{a} <br/> {b} :{c}%',
+			formatter: '{b}<br/>{a} :{c}%',
 			textStyle:{
 				fontSize:22
 			}
@@ -491,8 +519,8 @@
 		grid: {
 			left: '3%',
 			right: '5%',
-			bottom: '3%',
-			containLabel: true
+			bottom: '10%',
+			// containLabel: true
 		},
 		xAxis: {
             type:'value',
@@ -510,6 +538,7 @@
             max:100,
 		},
 		yAxis: {
+			show : false,
             type:'category',
             axisLabel:{
                 textStyle:{
@@ -558,29 +587,11 @@
 			setCharts(data);
 		
 	};
-	$('.popupClose').on('click',function(){
-		$('.popupClose').css('display','none');
-		$('.summary').hide().empty();
-		// try{
-		// 	summaryPie1.clear();
-		// }catch{
 
-		// }
-		$('.popup').animate({width: '3px'},400,function(){
-			$('.popup').animate({height: 0},400);
-		});
-		setTimeout(summaryHide,800);
-	});
-	function summaryHide(){
-		$('.filterbg').hide();
-		$('.popup').hide();
-		$('.popup').width(0);
-	};
 	
 	function setCharts(data){
 		// 动态生成模板
 		var theadHtml='';
-
 		addHtml1();
 		function addHtml1(){
 			//<!--任务信息-->
@@ -591,19 +602,19 @@
 			'	<div class="itemCon itembg" style="height: 665px;">'+
 			'		<ul class="listStyle dblist2">'+
 			'			<li class="clearfix">'+
-			'				<span>工序任务号:<strong>'+data.task_sheet_code+'</strong></span>'+
-			'				<span>生产任务单号:<strong>'+data.pcb_task_code+'</strong></span>'+
-			'				<span>车间:<strong>'+data.workshop+'</strong></span>'+
-			'				<span>机型名称:<strong>'+data.model_name+'</strong></span>'+
-			'				<span>机型型号:<strong>'+data.model_ver+'</strong></span>'+
-			'				<span>PCB编码:<strong>'+data.pcb_id+'</strong></span>'+
-			'				<span>PCB名称:<strong>'+data.pcb_name+'</strong></span>'+
-			'				<span>PCB数量:<strong>'+data.pcb_quantity+'</strong></span>'+
-			'				<span>RoHS标志:<strong>'+data.is_rohs+'</strong></span>'+
+			'				<span class="col2">工序任务号:<strong>'+data.task_sheet_code+'</strong></span>'+
+			'				<span class="col2">生产任务单号:<strong>'+data.pcb_task_code+'</strong></span>'+
+			'				<span class="col1">车间:<strong>'+data.workshop+'</strong></span>'+
+			'				<span class="col1">机型名称:<strong>'+data.model_name+'</strong></span>'+
+			'				<span class="col1">机型型号:<strong>'+data.model_ver+'</strong></span>'+
+			'				<span class="col1">PCB编码:<strong>'+data.pcb_id+'</strong></span>'+
+			'				<span class="col1">PCB名称:<strong>'+data.pcb_name+'</strong></span>'+
+			'				<span class="col2">PCB数量:<strong>'+data.pcb_quantity+'</strong></span>'+
+			'				<span class="col2">RoHS标志:<strong>'+data.is_rohs+'</strong></span>'+
 			// '				<span>工序:<strong>'+data.pcb_task_code+'</strong></span>'+
-			'				<span>生产计划开始时间:<strong>'+data.produce_plan_date+'</strong></span>'+
-			'				<span>生产计划结束时间:<strong>'+data.produce_plan_complete_date+'</strong></span>'+
-			'				<span>完成数量:<strong>'+data.amount_completed+'</strong></span>'+
+			'				<span class="col1">生产计划开始时间:<strong>'+data.produce_plan_date+'</strong></span>'+
+			'				<span class="col1">生产计划结束时间:<strong>'+data.produce_plan_complete_date+'</strong></span>'+
+			'				<span class="col1">完成数量:<strong>'+data.amount_completed+'</strong></span>'+
 			'			</li>'+
 			'		</ul>'+
 			'	</div>'+
@@ -619,7 +630,10 @@
 			$(".summary").html(theadHtml).css("display","flex");
 		}
 		summaryPie1 = echarts.init(document.getElementById('summaryPie1'),'macarons');
-		summaryPie1Option.
+		summaryPie1Option.series[0].data =  [
+												{value: data.finish_count, name: '已完成'},
+												{value: data.sum_count-data.finish_count, name: '未完成'}
+											]
 		summaryPie1.setOption(summaryPie1Option)
 	}
 

@@ -38,4 +38,10 @@ public interface PlantAreaService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    /**
+     * 查询厂区所有数据
+     * @return
+     */
+    List<PlantArea> list();
 }

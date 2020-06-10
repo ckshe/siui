@@ -1,21 +1,21 @@
 /*最新最全最好的Bootstrap模板：http://www.bootstrapmb.com*/
 /* @font-face {
-    font-family: 'tapeworm';
-    src: url('../fonts/tapeworm.eot');
-    src: url('../fonts/tapeworm.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/tapeworm.woff2') format('woff2'),
-         url('../fonts/tapeworm.woff') format('woff'),
-         url('../fonts/tapeworm.ttf') format('truetype'),
-         url('../fonts/tapeworm.svg#tapewormregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
+ font-family: 'tapeworm';
+ src: url('../fonts/tapeworm.eot');
+ src: url('../fonts/tapeworm.eot?#iefix') format('embedded-opentype'),
+url('../fonts/tapeworm.woff2') format('woff2'),
+url('../fonts/tapeworm.woff') format('woff'),
+url('../fonts/tapeworm.ttf') format('truetype'),
+url('../fonts/tapeworm.svg#tapewormregular') format('svg');
+ font-weight: normal;
+ font-style: normal;
 
 } */
 @font-face {
-    font-family: 'alibaba';
-    src:url('../dataBoard/fonts/alibaba.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+ font-family: 'alibaba';
+ src:url('../dataBoard/fonts/alibaba.ttf') format('truetype');
+ font-weight: normal;
+ font-style: normal;
 
 }
 html,body{
@@ -149,7 +149,7 @@ body{
 	text-align: center;
 	/* width: 28%; */
 	width: 100%;
-    margin-right: -30%;
+ margin-right: -30%;
 }
 #top .topLogo img{
 	height: 90%;
@@ -477,7 +477,7 @@ body{
 }
 
 
-.filterbg,.filterbgdev,.filterbgfirt,.filterbg4{
+.filterbg,.filterbg1,.filterbgfirt,.filterbg4{
 	width: 100%;
 	height: 100%;
 	background: rgba(30,182,254,0.5);
@@ -487,7 +487,7 @@ body{
 	z-index: 998;
 	display: none;
 }
-.popup,.popupdev,.popupfirt,.popup4{
+.popup,.popup1,.popupfirt,.popup4{
 	width: 0;
 	height: 0;
 	background: #061f3e;
@@ -503,7 +503,7 @@ body{
 	-o-transform: translate(-50%,-50%);
 	transform: translate(-50%,-50%);
 }
-.popup .popupClose,.popupdev .popupClosedev,.popupfirt .popupClosefirt,.popup4 .popupClose4{
+.popup .popupClose,.popup1 .popupClose1,.popupfirt .popupClosefirt,.popup4 .popupClose4{
 	display: block;
 	width: 44px;
 	height: 44px;
@@ -515,10 +515,10 @@ body{
 	display: none;
 	transition: 0.3s;
 }
-.popup .popupClose:hover,.popupdev .popupClosedev:hover,.popupfirt .popupClosefirt:hover,.popup4 .popupClose4:hover{
+.popup .popupClose:hover,.popup1 .popupClose1:hover,.popupfirt .popupClosefirt:hover,.popup4 .popupClose4:hover{
 	transform: rotate(180deg);
 }
-.summary{
+.summary,.filterData{
 	width: 96%;
 	height: 92%;
 	margin: 2% auto;
@@ -1297,16 +1297,10 @@ body{
 .db2{height: 220px; width: 50%;}
 .db4{height: 500px; width: 100%;}
 .db3{top: 310px;}
-.itembg_popupfirt .listStyle li span{
-	width: 33% !important;
-	height: 45px !important;
-	line-height: 45px !important;
-	font-size: 16px;
-}
 .downEchar .char3:last-child ,.downEchar .char3.db3:last-child{border-right: 1px solid #1e5b6b;}
 .downEchar .char3  .char3iner{width:100%;  height: 145px; }
 .downEchar .char{width: 100%; height: 140px;}
-.dataBoard2{width: 94%;	position: absolute;    top: 0;    margin-top: 10px;}
+.dataBoard2{width: 94%;	position: absolute; top: 0; margin-top: 10px;}
 .dataBoard2-iner{display: flex;	display: -webkit-flex; 	flex-wrap: wrap;}
 .dataBoard2-iner .char3{width: 33.3%;  height: 250px;  box-sizing: border-box;}
 .dataBoard-slide{align-items: flex-start !important;}
@@ -1412,7 +1406,7 @@ body{
 }
 
 
-.downEchar{	width: 94%;	position: absolute;	    height: 320px;}
+.downEchar{	width: 94%;	position: absolute;	 height: 320px;}
 .downEchar .char3,.item .char3{width: 33.3%;  height: 100%; float: left; 
 	border: 1px solid #1e5b6b ; box-sizing: border-box; 
 	border-right: none;
@@ -1427,7 +1421,7 @@ body{
 .downEchar .char3:last-child ,.downEchar .char3.db3:last-child,.item .char3:last-child,.item .char3:nth-child(3){border-right: 1px solid #1e5b6b;}
 .downEchar .char3  .char3iner{width:100%;  height: 225px; }
 .downEchar .char{width: 100%; height: 140px;}
-.dataBoard2{width: 94%;	position: absolute;    top: 0;    margin-top: 10px; z-index: 1;}
+.dataBoard2{width: 94%;	position: absolute; top: 0; margin-top: 10px; z-index: 1;}
 .dataBoard2-iner{display: flex;	display: -webkit-flex; 	flex-wrap: wrap;}
 .dataBoard2-iner .char3{width: 33.3%;  height: 440px;  box-sizing: border-box;}
 .dataBoard-slide{align-items: flex-start !important;}
@@ -1496,8 +1490,8 @@ body{
 }
 .deviceFlex .imagesflex div span{
 	margin-bottom: -37px;
-    display: block;
-    z-index: 100;
+ display: block;
+ z-index: 100;
 	position: relative;
 	text-align: center;
 }
@@ -1538,6 +1532,19 @@ body{
 .summaryBottom  .itembg_popupfirt .listStyle li span{
 	font-size: 22px;
 }
+.summaryP1 {
+	width: 100%; float:right; height:750px
+}
+.summaryP1 .itembg_popupfirt {
+	height: 650px;
+}
+.summaryP3 {
+	width: 100%; float:right; height:230px;
+}
+.summaryP3 .itembg_popupfirt {
+	height:230px;
+}
+
 .itembg_popupfirt.col2 .listStyle li span{
 	width: 50% !important;
 }
@@ -1547,10 +1554,28 @@ body{
 	line-height: 50px !important;
 	font-size: 22px;
 }
+ .listStyle li span.col4{
+	width: 25% !important;
+}
+ .listStyle li span.col3{
+	width: 33% !important;
+}
+ .listStyle li span.col2{
+	width: 50% !important;
+}
+ .listStyle li span.col1{
+	width: 100% !important;
+}
+.summaryP1 .itembg_popupfirt .listStyle li span{
+	height: 60px !important;
+	line-height: 50px !important;
+	font-size: 25px;
+}
 .deviceFlex img{cursor:pointer}
 .devBottom .imgDiv{
 	width: 20%; height: 380px; float: left; text-align: center;padding-top: 20px; font-size: 22px;
 }
+.devBottom .imgDiv img{ border-radius: 50%; padding-bottom: 20px;}
 .itembg_popupfirt.col2{
 	height: 280px;
 }
@@ -1558,7 +1583,10 @@ body{
 .button-span{
 	float: right;
 }
-.button-span button{width: 80px;   height: 40px;   background: #061f3e;   font-size: 25px; cursor: pointer; color: #000;}
+.fontScroll ul li:hover,.board4Scroll ul li:hover{
+	cursor: pointer;
+}
+.button-span button{width: 80px;height: 40px;background: #061f3e;font-size: 25px; cursor: pointer; color: #000;}
 .button-span button:nth-child(1){border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
 .button-span button:nth-child(2){border-top-right-radius: 8px; border-bottom-right-radius: 8px;}
 .button-span button.on{font-weight: bolder; color: #fff;}

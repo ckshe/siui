@@ -2,6 +2,7 @@ package com.linln.admin.base.controller;
 
 import com.linln.admin.base.domain.Line;
 import com.linln.admin.base.service.LineService;
+import com.linln.admin.base.service.PlantAreaService;
 import com.linln.admin.base.validator.LineValid;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.EntityBeanUtil;
@@ -30,6 +31,8 @@ public class LineController {
 
     @Autowired
     private LineService lineService;
+    @Autowired
+    private PlantAreaService plantAreaService;
 
     /**
      * 列表页面
@@ -58,7 +61,8 @@ public class LineController {
      */
     @GetMapping("/add")
     @RequiresPermissions("line:line:add")
-    public String toAdd() {
+    public String toAdd(Model model) {
+        //model.addAttribute("plantAreaList",plantAreaService.list());
         return "/base/line/add";
     }
 

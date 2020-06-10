@@ -63,4 +63,9 @@ public class PlantAreaServiceImpl implements PlantAreaService {
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return plantAreaRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
+
+    @Override
+    public List<PlantArea> list() {
+        return plantAreaRepository.findAll();
+    }
 }
