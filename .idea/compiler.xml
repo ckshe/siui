@@ -12,10 +12,10 @@
         <module name="devtools" />
         <module name="excel" />
         <module name="system" />
-        <module name="fileUpload" />
+        <module name="admin" />
         <module name="jwt" />
         <module name="shiro" />
-        <module name="admin" />
+        <module name="fileUpload" />
       </profile>
     </annotationProcessing>
   </component>

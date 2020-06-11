@@ -35,7 +35,7 @@ public class TaskInstructionController {
      * 列表页面
      */
     @GetMapping("/index")
-    @RequiresPermissions("base:taskInstruction:index:index")
+    @RequiresPermissions("base:taskInstructio:index")
     public String index(Model model, TaskInstruction taskInstruction) {
 
         // 创建匹配器，进行动态查询匹配
@@ -56,19 +56,19 @@ public class TaskInstructionController {
      * 跳转到添加页面
      */
     @GetMapping("/add")
-    @RequiresPermissions("base:taskInstruction:index:add")
+    @RequiresPermissions("base:taskInstruction:add")
     public String toAdd() {
-        return "/base/taskInstruction/index/add";
+        return "/base/taskInstruction/add";
     }
 
     /**
      * 跳转到编辑页面
      */
     @GetMapping("/edit/{id}")
-    @RequiresPermissions("base:taskInstruction:index:edit")
+    @RequiresPermissions("base:taskInstruction:edit")
     public String toEdit(@PathVariable("id") TaskInstruction taskInstruction, Model model) {
         model.addAttribute("taskInstruction", taskInstruction);
-        return "/base/taskInstruction/index/add";
+        return "/base/taskInstruction/add";
     }
 
     /**
@@ -76,7 +76,7 @@ public class TaskInstructionController {
      * @param valid 验证对象
      */
     @PostMapping("/save")
-    @RequiresPermissions({"base:taskInstruction:index:add", "base:taskInstruction:index:edit"})
+    @RequiresPermissions({"base:taskInstruction:add", "base:taskInstruction:edit"})
     @ResponseBody
     public ResultVo save(@Validated TaskInstructionValid valid, TaskInstruction taskInstruction) {
         // 复制保留无需修改的数据
@@ -94,17 +94,17 @@ public class TaskInstructionController {
      * 跳转到详细页面
      */
     @GetMapping("/detail/{id}")
-    @RequiresPermissions("base:taskInstruction:index:detail")
+    @RequiresPermissions("base:taskInstruction:detail")
     public String toDetail(@PathVariable("id") TaskInstruction taskInstruction, Model model) {
         model.addAttribute("taskInstruction",taskInstruction);
-        return "/base/taskInstruction/index/detail";
+        return "/base/taskInstruction/detail";
     }
 
     /**
      * 设置一条或者多条数据的状态
      */
     @RequestMapping("/status/{param}")
-    @RequiresPermissions("base:taskInstruction:index:status")
+    @RequiresPermissions("base:taskInstruction:status")
     @ResponseBody
     public ResultVo status(
             @PathVariable("param") String param,

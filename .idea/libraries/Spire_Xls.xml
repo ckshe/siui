@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Spire.Xls">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/tiiimmo/admin/lib/Spire.Xls.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

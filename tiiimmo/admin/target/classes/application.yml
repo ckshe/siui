@@ -1,6 +1,6 @@
 ### 服务器配置
 server:
-  port: 8755
+  port: 8756
 
 ### TIMO配置
 project:
@@ -49,3 +49,10 @@ spring:
   ## json配置
   jackson:
     time-zone: Asia/Shanghai
+
+upload-path: c:/image/
+userPicture-path: c:/userPicture/
+operationManual-path: c:/userManual/
+apkVersion-path: c:/apkVersion/
+#E-SOP 模具编号格式设置   奥飞需要加上AD
+ESOPFormat: AD{0}-
