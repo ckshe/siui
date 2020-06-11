@@ -44,7 +44,7 @@ var db1P1Option = {
     },
     //x轴
     xAxis: {
-        data: ["第一周", "第二周", "第三周", "第四周"],
+        data: [],
         axisLabel: {
             textStyle: {
                 show: true,
@@ -339,7 +339,8 @@ var orderOption3 = {
 }
 var board1Api = {
     pcbTaskBoard:'/ShowBoard/pcbTaskBoard',
-
+    findProcessTaskByDate:'/ShowBoard/findProcessTaskByDate',
+    getMapProcessThisWeekRate:'/ShowBoard/getMapProcessThisWeekRate',
 }
 function setDataBoard1(params) {
     // console.log(board1Api.pcbTaskBoard)
@@ -352,19 +353,29 @@ function setDataBoard1(params) {
     var queryTestday = "select@@@*@@@from@@@view_test_day";
     var queryTaskFinishWeek = "select@@@*@@@from@@@view_task_finish_week";
     if (hsaClassOn) {
+        $.ajax({
+            contentType: 'application/json',
+            type: 'get',
+            url: board1Api.pcbTaskBoard,
+            dataType: "json",
+            success: function (response) {
+                addHtml(response.data.pcbTasks, hsaClassOn);
+                setOption(response.data);
+            }
+        });
     } else {
-        data = returnData(queryStrDate)
+        $.ajax({
+            contentType: 'application/json',
+            type: 'get',
+            url: board1Api.findProcessTaskByDate,
+            dataType: "json",
+            success: function (response) {
+                console.log("abc==",response)
+                addHtml(response.data.pcbTasks, hsaClassOn);
+                setOption(response.data);
+            }
+        });
     }
-    $.ajax({
-        contentType: 'application/json',
-        type: 'get',
-        url: board1Api.pcbTaskBoard,
-        dataType: "json",
-        success: function (response) {
-            addHtml(response.data.pcbTasks, hsaClassOn);
-            setOption(response.data);
-        }
-    });
     function setOption(response) {
         db1P1.clear();
         db1P2.clear();
@@ -376,6 +387,7 @@ function setDataBoard1(params) {
             var weeks = response.mapWeekRate
             var weekArrdata = [weeks.week1, weeks.week2, weeks.week3, weeks.week4]
             db1P1Option.series[0].data = weekArrdata;
+            db1P1Option.xAxis.data =["第一周", "第二周", "第三周", "第四周"]
             db1P1.setOption(db1P1Option);
             $('.box1 .basicInfo  .border-green').html('周任务达成率')
             var mapProcessWeekRate = response.mapProcessWeekRate;
@@ -421,22 +433,23 @@ function setDataBoard1(params) {
             db1P2Option.series[0].data = taskFinishRateArr
             db1P2.setOption(db1P2Option);
             $('.box1 .basicInfo .border-blue').html('各批次完成率')
-
         } else {
             $.ajax({
                 contentType: 'application/json',
-                type: 'POST',
-                url: url,
+                type: 'get',
+                url: board1Api.getMapProcessThisWeekRate,
                 dataType: "json",
-                data: JSON.stringify(returnData(queryStrRate2)),
-                success: function (message) {
-                    var weekArr = [0, 0, 0, 0, 0, 0, 0];
-                    for (var i = 0; i < message.data.length; i++) {
-                        var index = new Date(message.data[i].plan_finish_time).getDay();
-                        weekArr[index] = Math.floor((message.data[i].finish_count / message.data[i].sum_count) * 100)
-                        // sum += message.data[i].count;
+                success: function (response) {
+                    console.log("cds==",response)
+                    var weekRateArr = [],axisWeekRateArr=[];
+                    for(var i=0;i<response.data.length;i++){
+                        weekRateArr.push(response.data[i].rate)
+                        axisWeekRateArr.push(response.data[i].theDay)
                     }
-                    db1P1Option.series[0].data = weekArr;
+                    db1P1Option.series[0].data = weekRateArr;
+                    console.log(weekRateArr)
+                    axisWeekRateArr = ['周一','周二','周三','周四','周五','周六']
+                    db1P1Option.xAxis.data = axisWeekRateArr;
                     db1P1.setOption(db1P1Option);
                 }
             });
@@ -544,7 +557,17 @@ function setDataBoard1(params) {
                 }
             });
         } else {
-            // data = returnData(queryStrDate)
+            $.ajax({
+                contentType: 'application/json',
+                type: 'get',
+                url: board1Api.findProcessTaskByDate,
+                dataType: "json",
+                success: function (response) {
+                    console.log("abc==",response)
+                    addHtml(response.data, hsaClassOn);
+                    setOption(response.data);
+                }
+            });
         }
     })
     function addHtml(data, hsaClassOn) {
@@ -599,8 +622,8 @@ function setDataBoard1(params) {
             tbodyHtml += '</ul></div>';
         } else {
             var theadData = ['工序任务号', '工序', '计划生产时间', '实际生产时间', '计划完成时间', '生产完成时间', '计划生产数量', '完成生产数量', '工单状态', '工时 (分)']
-            //console.log(message.data)
-            var tbodyData = popData = message.data;
+            console.log(data)
+            var tbodyData = popData = data;
             if (theadData.length > 0) {
                 widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) + "px"
             }
@@ -716,7 +739,7 @@ function setDataBoard1(params) {
             '       <ul class="listStyle">' +
             '           <li class="clearfix">' +
             '               <span>制造编号:<strong>' + data.task_sheet_code + '</strong></span>' +
-            '               <span>机型版本:<strong>' + data.model_ver + '</strong></span>' +
+            '               <span>机型版本:<strong>' + data.pcb_name + '</strong></span>' +
             '               <span>pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
             '               <span>RoHS:<strong>' + data.is_rohs + '</strong></span>' +
             '               <span>机台名称:<strong>' + data.device_name + '</strong></span>' +
