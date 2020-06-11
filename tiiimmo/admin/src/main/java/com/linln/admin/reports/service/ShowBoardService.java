@@ -15,7 +15,7 @@ public interface ShowBoardService {
 
     public Map<String,Object> getProcessTaskThisWeek();
 
-    public Map<String,Object> getTaskFinishRate();
+    public List<Map<String, Object>> getTaskFinishRate();
 
 
     public List<Device> getDeviceStatus();

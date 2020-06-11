@@ -26,10 +26,12 @@ public class ShowBoardController {
         List<PcbTask> pcbTasks = showBoardService.pcbTaskBoard();
         Map<String,Object> mapWeekRate = showBoardService.getPcbTaskThisWeek();
         Map<String, Object> mapProcessWeekRate = showBoardService.getProcessTaskThisWeek();
+        List<Map<String,Object>> taskFinishRate = showBoardService.getTaskFinishRate();
         Map<String,Object> map = new HashMap<>();
         map.put("pcbTasks",pcbTasks);
         map.put("mapWeekRate",mapWeekRate);
         map.put("mapProcessWeekRate",mapProcessWeekRate);
+        map.put("taskFinishRate",taskFinishRate);
 
         return ResultVoUtil.success(map);
     }
@@ -52,6 +54,8 @@ public class ShowBoardController {
     public ResultVo findByProcessTaskCode( @PathVariable String processTaskCode){
         return ResultVoUtil.success(showBoardService.findByProcessTaskCode(processTaskCode));
     }
+
+
 
 
 }

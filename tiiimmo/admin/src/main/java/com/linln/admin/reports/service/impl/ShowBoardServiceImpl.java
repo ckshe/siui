@@ -145,18 +145,25 @@ public class ShowBoardServiceImpl implements ShowBoardService {
     }
 
     @Override
-    public Map<String, Object> getTaskFinishRate() {
-
+    public List<Map<String, Object>> getTaskFinishRate() {
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
+        String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
         StringBuffer sql = new StringBuffer("SELECT\n" +
                 "\t( CASE SUM ( ISNULL( pcb_quantity, 0 ) ) WHEN 0 THEN 1 ELSE SUM ( ISNULL( pcb_quantity, 0 ) ) END ) AS plancount,\n" +
                 "\tSUM ( ISNULL( amount_completed, 0 ) ) AS finishcount,\n" +
                 "\ttask_sheet_code,\n" +
                 "\tROUND(SUM ( ISNULL( amount_completed, 0 ) ) / ( CASE SUM ( ISNULL( pcb_quantity, 0 ) ) WHEN 0 THEN 1 ELSE SUM ( ISNULL( pcb_quantity, 0 ) ) END ),4) AS rate \n" +
                 "FROM\n" +
-                "\tproduce_pcb_task \n" +
-                "GROUP BY\n" +
+                "\tproduce_pcb_task WHERE produce_plan_date >= '" +
+                startTime +
+                "'\n and produce_plan_complete_date<= '" +
+                endTime +
+                "'" +
+                " GROUP BY\n" +
                 "\ttask_sheet_code");
-        return null;
+        List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+        return mapList;
     }
 
 
@@ -189,8 +196,6 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "'");
 
         List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
-
-
         return mapList;
     }
 
