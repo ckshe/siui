@@ -65,6 +65,14 @@ public class OpenController {
         return pcbTaskService.deviceProduceAmount(req.get(0));
     }
 
+    //扫码计数接口
+    @PostMapping("/scanCountPlate")
+    @ResponseBody
+    public Map<String,Object> scanCountPlate(String data){
+        System.out.println(data);
+        List<PcbTaskReq> req = (List<PcbTaskReq> ) JSON.parseArray(data,PcbTaskReq.class);
+        return pcbTaskService.scanCountPlate(req.get(0));
+    }
 
     /**
      * 在线浏览PDF文件

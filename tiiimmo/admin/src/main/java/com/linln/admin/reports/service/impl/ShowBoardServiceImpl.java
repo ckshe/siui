@@ -1,5 +1,6 @@
 package com.linln.admin.reports.service.impl;
 
+import com.linln.RespAndReqs.responce.ProcessThisWeekRateResp;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.produce.domain.PcbTask;
@@ -17,10 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -53,7 +51,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
     }
 
     @Override
-    public Map<String,Object> getPcbTaskThisWeek() {
+    public Map<String,Object> getMapWeekRate() {
         Map<String,Object> map = new HashMap<>();
         //本周即第四周
         Map<String,String> thisWeekDate4 = DateUtil.getThisWeek(new Date());
@@ -106,7 +104,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
     }
 
     @Override
-    public Map<String,Object> getProcessTaskThisWeek() {
+    public Map<String,Object> getMapProcessWeekRate() {
         Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
         String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
         String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
@@ -202,5 +200,90 @@ public class ShowBoardServiceImpl implements ShowBoardService {
     @Override
     public ProcessTask findByProcessTaskCode(String processTaskCode) {
         return processTaskRepository.findByProcessTaskCode(processTaskCode);
+    }
+
+    @Override
+    public List<ProcessTask> findProcessTaskByDate() {
+        String today = DateUtil.date2String(new Date(),"");
+        String startTime = today +" 00:00:00";
+        String endTime = today +" 23:59:59";
+        List<ProcessTask> processTaskList = processTaskRepository.findByStartEndTime(startTime, endTime);
+        return processTaskList;
+    }
+
+    @Override
+    public List<ProcessThisWeekRateResp> getMapProcessThisWeekRate() {
+        Date end = new Date();
+        Date start = DateUtil.dateAddNum(end,-6);
+        String startTime = DateUtil.date2String(start,"") +" 00:00:00";
+        String endTime = DateUtil.date2String(end,"") +" 23:59:59";
+        List<String> dayList = DateUtil.dayBetweenTwoDate(start,end);
+        StringBuffer allsql = new StringBuffer("SELECT\n" +
+                "\tCOUNT(id) allcount,\n" +
+                "\tCONVERT ( VARCHAR ( 100 ), plan_finish_time, 23 ) theday\n" +
+                "FROM\n" +
+                "\tproduce_process_task \n" +
+                "WHERE\n" +
+                "\tplan_finish_time > = '" +
+                startTime +
+                "' \n" +
+                "\tAND plan_finish_time <= '" +
+                endTime  +
+                "' \n"+
+                "GROUP BY\n" +
+                "\tCONVERT ( VARCHAR ( 100 ), plan_finish_time, 23 )");
+        StringBuffer finishsql = new StringBuffer("SELECT\n" +
+                "\tCOUNT(id) finishCount,\n" +
+                "\tCONVERT ( VARCHAR ( 100 ), plan_finish_time, 23 ) theday\n" +
+                "FROM\n" +
+                "\tproduce_process_task \n" +
+                "WHERE\n" +
+                "\tplan_finish_time > = '" +
+                startTime +
+                "' \n" +
+                "\tAND plan_finish_time <= '" +
+                endTime +
+
+                "' AND process_task_status = '完成'\n" +
+                "GROUP BY\n" +
+                "\t CONVERT ( VARCHAR ( 100 ), plan_finish_time, 23 )");
+        List<Map<String,Object>> allList = jdbcTemplate.queryForList(allsql.toString());
+        List<Map<String,Object>> finishList = jdbcTemplate.queryForList(finishsql.toString());
+        List<ProcessThisWeekRateResp> result = new ArrayList<>();
+        for(String day : dayList){
+            ProcessThisWeekRateResp resp = new ProcessThisWeekRateResp();
+            resp.setTheDay(day);
+            resp.setAllCount(0);
+            resp.setFinishCount(0);
+            resp.setRate(BigDecimal.ZERO);
+            result.add(resp);
+        }
+        for(ProcessThisWeekRateResp resp : result){
+            for(Map<String,Object> all : allList){
+                String theday = (String) all.get("theday");
+                Integer allcount = (Integer) all.get("allcount");
+                if(theday.equals(resp.getTheDay())){
+                    resp.setAllCount(allcount);
+                }
+            }
+        }
+        for(ProcessThisWeekRateResp resp : result){
+            for(Map<String,Object> finish : finishList){
+                String theday = (String) finish.get("theday");
+                Integer finishcount = (Integer) finish.get("finishCount");
+                if(theday.equals(resp.getTheDay())){
+                    resp.setFinishCount(finishcount);
+                }
+            }
+        }
+        for(ProcessThisWeekRateResp resp : result){
+            Integer allcount = resp.getAllCount()==0?1:resp.getAllCount();
+            Integer finishcount = resp.getFinishCount();
+            BigDecimal rate = new BigDecimal(finishcount/allcount).setScale(4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
+            resp.setRate(rate);
+        }
+
+
+        return result;
     }
 }

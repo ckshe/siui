@@ -58,6 +58,8 @@ public interface PcbTaskService {
 
     Map<String,Object> deviceProduceAmount(PcbTaskReq pcbTaskReq);
 
+    Map<String,Object> scanCountPlate(PcbTaskReq pcbTaskReq);
+
     ResultVo findProcessTaskByDevice(PcbTaskReq pcbTaskReq);
 
     ResultVo modifyProcessTaskStatus(PcbTaskReq pcbTaskReq);

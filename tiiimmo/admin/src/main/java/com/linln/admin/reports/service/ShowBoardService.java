@@ -1,5 +1,6 @@
 package com.linln.admin.reports.service;
 
+import com.linln.RespAndReqs.responce.ProcessThisWeekRateResp;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.domain.ProcessTask;
@@ -11,9 +12,9 @@ public interface ShowBoardService {
 
     public List<PcbTask> pcbTaskBoard();
 
-    public Map<String,Object> getPcbTaskThisWeek();
+    public Map<String,Object> getMapWeekRate();
 
-    public Map<String,Object> getProcessTaskThisWeek();
+    public Map<String,Object> getMapProcessWeekRate();
 
     public List<Map<String, Object>> getTaskFinishRate();
 
@@ -23,4 +24,8 @@ public interface ShowBoardService {
     public  List<Map<String,Object>> staffOnBoard();
 
     public ProcessTask findByProcessTaskCode(String processTaskCode);
+
+    public List<ProcessTask> findProcessTaskByDate();
+
+    public List<ProcessThisWeekRateResp> getMapProcessThisWeekRate();
 }

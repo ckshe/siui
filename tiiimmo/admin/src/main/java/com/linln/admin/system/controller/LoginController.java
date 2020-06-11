@@ -137,7 +137,10 @@ public class LoginController implements ErrorController {
     @ResponseBody
     public ResultVo cardCrashLogin(@RequestBody CardLoginReq req){
         if(req.getCardSequence()==null||"".equals(req.getCardSequence())){
-            return ResultVoUtil.error("参数错误");
+            return ResultVoUtil.error("参数错误：请输入工号");
+        }
+        if(req.getDeviceCode()==null||"".equals(req.getDeviceCode())){
+            return ResultVoUtil.error("参数错误：检测不到设备");
         }
         User user = userService.findUserByCardNo(req.getCardSequence());
 

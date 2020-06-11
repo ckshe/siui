@@ -2,12 +2,12 @@ package com.linln.utill;
 
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
 @Component
 public class DateUtil {
 
@@ -73,6 +73,35 @@ public class DateUtil {
         cal.add(Calendar.DATE,num);
         Date newDate = cal.getTime();
         return newDate;
+    }
+    //返回两个时间差的分钟数
+    public static BigDecimal differTwoDate(Date startTime ,Date endTime){
+        long differ = endTime.getTime() - startTime.getTime();
+        BigDecimal result = new BigDecimal(differ/(1000*60)).setScale(0,BigDecimal.ROUND_UP);
+
+        return result;
+    }
+
+    public static List<String> dayBetweenTwoDate(Date start,Date end){
+    // 返回的日期集合
+        List<String> days = new ArrayList<String>();
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+
+        Calendar tempStart = Calendar.getInstance();
+        tempStart.setTime(start);
+
+        Calendar tempEnd = Calendar.getInstance();
+        tempEnd.setTime(end);
+        tempEnd.add(Calendar.DATE,1);
+        while (tempStart.before(tempEnd)) {
+            days.add(dateFormat.format(tempStart.getTime()));
+            tempStart.add(Calendar.DAY_OF_YEAR, 1);
+        }
+
+        return days;
+
     }
 
 

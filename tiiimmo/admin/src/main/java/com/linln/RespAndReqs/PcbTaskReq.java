@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public class PcbTaskReq {
     private Long pcbTaskId;
+    private String plateNo;
     private Integer amountCompleted;
     private Date startTime;
     private Date finishTime;

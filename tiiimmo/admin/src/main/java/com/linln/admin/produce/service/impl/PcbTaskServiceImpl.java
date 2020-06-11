@@ -38,6 +38,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -360,6 +361,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTask.setPcb_code(pcbTask.getPcb_id());
             processTask.setAmount_completed(0);
             processTask.setProcess_name(p.getName());
+            processTask.setWork_time(BigDecimal.ZERO);
             processTask.setTask_sheet_code(pcbTask.getTask_sheet_code());
             processTask.setPcb_name(pcbTask.getPcb_name());
             processTask.setProcess_task_status("未下达");
@@ -450,15 +452,27 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         return ResultVoUtil.success(list);
     }
 
+
+
+    @Override
+    public  Map<String,Object> scanCountPlate(PcbTaskReq pcbTaskReq) {
+
+
+        //todo
+        Map<String,Object> map = new HashMap<>();
+        map.put("result","200");
+        map.put("timeStamp",pcbTaskReq.getTimeStamp());
+        map.put("msg","scanCountPlate");
+        return map;
+    }
+
     @Override
     public  Map<String,Object> deviceProduceAmount(PcbTaskReq pcbTaskReq) {
 
         List<PTDeviceResp> list = new ArrayList<>();
         for(PcbTaskReq req : pcbTaskReq.getData()){
             PTDeviceResp resp = new PTDeviceResp();
-
             Device device = deviceRepository.fingDeviceBySort(req.getDeviceCode());
-
             String reCount = device.getRe_count();
             //是，记录数据返回清零标志
             resp.setReCount(reCount);
@@ -499,7 +513,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         map.put("result","200");
         map.put("data",list);
         map.put("timeStamp",pcbTaskReq.getTimeStamp());
-        map.put("msg","");
+        map.put("msg","deviceProduceAmount");
         return map;
     }
 
@@ -601,8 +615,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
             }
             //结束工序计划 完成
-            if("完成".equals(pcbTaskReq.getProcessTaskStatus())){
+            if("已完成".equals(pcbTaskReq.getProcessTaskStatus())){
                 processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
+                Date finishTime = new Date();
+                processTask.setFinish_time(finishTime);
+                BigDecimal workTime = DateUtil.differTwoDate(finishTime,processTask.getStart_time());
+                processTask.setWork_time(workTime);
                 //重新计数
                 List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(pcbTaskReq.getProcessTaskCode());
                 for(ProcessTaskDevice de:prl){
