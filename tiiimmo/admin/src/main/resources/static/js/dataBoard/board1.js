@@ -337,35 +337,30 @@ var orderOption3 = {
         }
     ]
 }
+var board1Api = {
+    pcbTaskBoard:'/ShowBoard/pcbTaskBoard',
 
+}
 function setDataBoard1(params) {
+    // console.log(board1Api.pcbTaskBoard)
     var url = '/open/excute', data = '';
-    var apiUrl = '/ShowBoard/pcbTaskBoard';
     var hsaClassOn = $(".button-span button:first").hasClass("on");
-    // var queryStrWeek = "select@@@*@@@from@@@produce_pcb_task@@@where@@@datediff(week,produce_plan_date,'2020-06-10')=0;"
-    var queryStrWeek = "select@@@*@@@from@@@produce_pcb_task@@@where@@@datediff(week,produce_plan_date,GETDATE())=0;"
     var queryStrDate = "select@@@*@@@from@@@produce_process_task@@@where@@@DateDiff(dd,plan_start_time,getdate())=0";
-    var queryStrRate1 = "select@@@*@@@from@@@view_produce_pcb_task";
     var queryStrRate2 = "select@@@*@@@from@@@view_finish_process_day";
-    var queryTiepeiweek = "select@@@*@@@from@@@view_piece_week";
-    var queryWeldiweek = "select@@@*@@@from@@@view_weld_week";
-    var queryTestiweek = "select@@@*@@@from@@@view_test_week";
     var querytiepeiday = "select@@@*@@@from@@@view_piece_day";
     var queryWeldday = "select@@@*@@@from@@@view_weld_day";
     var queryTestday = "select@@@*@@@from@@@view_test_day";
     var queryTaskFinishWeek = "select@@@*@@@from@@@view_task_finish_week";
     if (hsaClassOn) {
-        data = returnData(queryStrWeek)
     } else {
         data = returnData(queryStrDate)
     }
     $.ajax({
         contentType: 'application/json',
         type: 'get',
-        url: apiUrl,
+        url: board1Api.pcbTaskBoard,
         dataType: "json",
         success: function (response) {
-            console.log("message===", response)
             addHtml(response.data.pcbTasks, hsaClassOn);
             setOption(response.data);
         }
@@ -384,7 +379,6 @@ function setDataBoard1(params) {
             db1P1.setOption(db1P1Option);
             $('.box1 .basicInfo  .border-green').html('周任务达成率')
             var mapProcessWeekRate = response.mapProcessWeekRate;
-
             mapProcessWeekRate.tiepian = 0;
             mapProcessWeekRate.houhan = 0;
             mapProcessWeekRate.tiaoshi = 0;
@@ -415,12 +409,10 @@ function setDataBoard1(params) {
                 value: 100 - mapProcessWeekRate.tiaoshi
             }]
             order3.setOption(orderOption3);
-
             $('.box1 .basicInfo  .border-yellow').html('产线周任务达成率')
             db1P2Option.series[0].data = [85, 90, 88, 98, 68, 23, 0]
             db1P2.setOption(db1P2Option);
             $('.box1 .basicInfo .border-blue').html('各批次完成率')
-
 
         } else {
             $.ajax({
@@ -535,10 +527,10 @@ function setDataBoard1(params) {
             $.ajax({
                 contentType: 'application/json',
                 type: 'get',
-                url: apiUrl,
+                url: board1Api.pcbTaskBoard,
                 dataType: "json",
                 success: function (response) {
-                    console.log("message===", response)
+                    // console.log("message===", response)
                     addHtml(response.data.pcbTasks, hsaClassOn);
                     setOption(response.data);
                 }
@@ -546,19 +538,6 @@ function setDataBoard1(params) {
         } else {
             // data = returnData(queryStrDate)
         }
-        //console.log(JSON.stringify(data))
-        // $.ajax({
-        //     contentType: 'application/json',
-        //     type: 'POST',
-        //     url: url,
-        //     dataType: "json",
-        //     data: JSON.stringify(data),
-        //     success: function (message) {
-        //         addHtml(message, hsaClassOn);
-        //     }
-        // });
-
-
     })
     function addHtml(data, hsaClassOn) {
         // 动态生成模板
@@ -566,7 +545,6 @@ function setDataBoard1(params) {
         var widthWW = parseInt($('#firstBoard').css('width'));
         if (hsaClassOn) {
             var theadData = ['生产任务单号', '机型名称', '规格型号', '物料名称', '生产批次', '启动日期', '完成时间', '生产数量', '完成数量', '工单状态'];
-            console.log(data)
             var tbodyData = data;
             if (theadData.length > 0) {
                 widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) + "px"
@@ -689,7 +667,6 @@ function setDataBoard1(params) {
         if (data.pcb_task_status == "已下达已完成") {
             data.pcb_task_status = "已完成"
         }
-
         var theadHtmlP1 = '<div class="item summaryP1" style="">' +
             '   <div class="itemTit">' +
             '       <span class="border-blue">任务详情</span>' +
@@ -698,9 +675,9 @@ function setDataBoard1(params) {
             '       <ul class="listStyle">' +
             '           <li class="clearfix">' +
             '               <span>生产任务单号:<strong>' + data.pcb_task_code + '</strong></span>' +
-            '               <span>机型名称:<strong>' + data.model_name + '</strong></span>' +
+            '               <span class="col2">机型名称:<strong>' + data.model_name + '</strong></span>' +
             '               <span>规格型号:<strong>' + data.model_ver + '</strong></span>' +
-            '               <span>物料名称:<strong>' + data.pcb_name + '</strong></span>' +
+            '               <span class="col2">物料名称:<strong>' + data.pcb_name + '</strong></span>' +
             '               <span>生产批次:<strong>' + data.task_sheet_code + '</strong></span>' +
             '               <span>启动日期:<strong>' + data.produce_plan_date.split('T')[0] + '</strong></span>' +
             '               <span>完成时间:<strong>' + data.produce_date + '</strong></span>' +

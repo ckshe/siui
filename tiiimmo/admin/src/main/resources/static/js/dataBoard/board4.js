@@ -154,8 +154,7 @@ var db4POption2 = {
 	}]
 };
 // 动态生成模板
-var theadHtml = '', tbodyHtml = '';
-var theadData = ['员工名称2', '工位', '所在工序', '任务信息', '当前完成率']
+
 var task = [{
 	"id": 6144,
 	"batch_id": null,
@@ -198,144 +197,12 @@ var task = [{
 	"finish_count": 10,
 	"sum_count": 20
 }]
-var tbodyData = [
-	{
-		username: '林燕芳',
-		titleName: '备料组组长',
-		process_name: '备料',
-		pcb_task_code: "MDW19062-3",
-		progress: '30',
-		task: task
-	},
-	{
-		username: '林泽娟',
-		titleName: '备料组组员',
-		process_name: '备料',
-		pcb_task_code: "MDW19062-3",
-		progress: '20',
-		task: task
-	},
-	{
-		username: '辛灿欣',
-		titleName: '备料组组员',
-		process_name: '备料',
-		pcb_task_code: "MDW19062-3",
-		progress: '30',
-		task: task
-	},
-	{
-		username: '陈曙灿',
-		titleName: '贴片组组长',
-		process_name: '贴片',
-		pcb_task_code: "MDW19062-3",
-		progress: '10%',
-		task: task
-	},
-	{
-		username: '张滨鸿',
-		titleName: '贴片组组员',
-		process_name: '贴片',
-		pcb_task_code: "MDW19062-3",
-		progress: '20',
-		task: task
-	},
-	{
-		username: '林燕芳',
-		titleName: '备料组组长',
-		process_name: '贴片',
-		pcb_task_code: "MDW19062-3",
-		progress: '20',
-		task: task
-	},
-	{
-		username: '罗舜培',
-		titleName: '贴片组组员',
-		process_name: '贴片',
-		pcb_task_code: "MDW19062-3",
-		progress: '20',
-		task: task
-	},
-	{
-		username: '陈桦栓',
-		titleName: '贴片组组员',
-		process_name: '贴片',
-		pcb_task_code: "MDW19062-3",
-		progress: '20',
-		task: task
-	},
-	{
-		username: '李佩英',
-		titleName: '后焊组组长',
-		process_name: '后焊',
-		pcb_task_code: "MDW19062-3",
-		progress: '20',
-		task: task
-	},
-	{
-		username: '黄淑芬',
-		titleName: '后焊组组员',
-		process_name: '后焊',
-		pcb_task_code: "MDW19062-3",
-		progress: '20',
-		task: task
-	},
-	{
-		username: '林伟东',
-		titleName: '主管/质检组组长',
-		process_name: '主管',
-		pcb_task_code: "MDW19062-3",
-		progress: '20',
-		task: task
-	},
-	{
-		username: '林佳娜',
-		titleName: '质检组组员',
-		process_name: '质检',
-		pcb_task_code: "MDW19062-3",
-		progress: '20',
-		task: task
-	},
-	{
-		username: '张洁',
-		titleName: '质检组组员',
-		process_name: '质检',
-		pcb_task_code: "MDW19062-3",
-		progress: '20',
-		task: task
-	},
-	{
-		username: '张楚如',
-		titleName: '质检组组员',
-		process_name: '质检',
-		pcb_task_code: "MDW19062-3",
-		progress: '20',
-		task: task
-	},
-	{
-		username: '周戈',
-		titleName: '单板调试员',
-		process_name: '单板调试',
-		pcb_task_code: "MDW19062-3",
-		progress: '20',
-		task: task
-	},
-	{
-		username: '陈升洲',
-		titleName: '单板调试员',
-		process_name: '单板调试',
-		pcb_task_code: "MDW19062-3",
-		progress: '20',
-		task: task
-	},
 
-]
-
-function addfourBoardHtml() {
-	if (tbodyData.length > 0) {
-		colwidth = (($("#fourBoard").width() / theadData.length) - 10) + "px";
-	} else {
-		colwidth = 'auto';
-	}
+function addfourBoardHtml(data) {
+	var theadHtml = '', tbodyHtml = '',tbodyData = data;
+	console.log(tbodyData.length)
+	var theadData = ['员工名称', '工位', '所在工序', '任务信息', '当前完成率']
+	colwidth = (($("#fourBoard").width() / theadData.length) - 10) + "px";
 	theadHtml = '<div class="StateTit">';
 	for (var i = 0; i < theadData.length; i++) {
 		theadHtml += '<span  style="width:' + colwidth + '">' + theadData[i] + '</span>';
@@ -345,12 +212,12 @@ function addfourBoardHtml() {
 	for (var j = 0; j < tbodyData.length; j++) {
 		tbodyHtml += '<li>' +
 			'<div class="fontInner clearfix">' +
-			'<span  style="width:' + colwidth + '">' + tbodyData[j].username + '</span>' +
-			'<span  style="width:' + colwidth + '">' + tbodyData[j].titleName + '</span>' +
+			'<span  style="width:' + colwidth + '">' + tbodyData[j].user_name + '</span>' +
+			'<span  style="width:' + colwidth + '">' + tbodyData[j].device_code + '</span>' +
 			'<span  style="width:' + colwidth + '">' + tbodyData[j].process_name + '</span>' +
-			'<span  style="width:' + colwidth + '">' + tbodyData[j].pcb_task_code + '</span>' +
+			'<span  style="width:' + colwidth + '">' + tbodyData[j].process_task_code + '</span>' +
 			'<span  style="width:' + colwidth + '">' +
-				'<div class="progress" progress="'+tbodyData[j].progress+'%">' +
+				'<div class="progress" progress="'+tbodyData[j].rate+'%">' +
 				'	<div class="progressBar">' +
 				'		<span></span>' +
 				'	</div>' +
@@ -364,13 +231,22 @@ function addfourBoardHtml() {
 	tbodyHtml += '<ul></div>';
 	$("#fourBoard").html(theadHtml + tbodyHtml);
 	$(".board4Scroll ul li").off().on('click', tbodyData, function (params) {
-		$('.filterbg').show();
-		$('.popup').show();
-		$('.popup').width('3px');
-		$('.popup').animate({ height: '76%' }, 400, function () {
-			$('.popup').animate({ width: '82%' }, 400);
+		$.ajax({
+			contentType: 'application/json',
+			type: 'get',
+			url: board4Api.findByProcessTaskCode+tbodyData[$(this).index()].process_task_code,
+			dataType: "json",
+			success: function (response) {
+				console.log("abc========",response)
+				$('.filterbg').show();
+				$('.popup').show();
+				$('.popup').width('3px');
+				$('.popup').animate({ height: '76%' }, 400, function () {
+					$('.popup').animate({ width: '82%' }, 400);
+				});
+				setTimeout(data4Show(response.data), 800);
+			}
 		});
-		setTimeout(data4Show(tbodyData[$(this).index()]), 800);
 	})
 	//运单状态文字滚动
 	if (tbodyData.length > 16) {
@@ -383,8 +259,7 @@ function data4Show(data) {
 	addData4Html(data);
 };
 function addData4Html(data) {
-	console.log("data===",data.task)
-	var data  = data.task[0];
+	console.log("data===",data.task_sheet_code)
 	var theadHtmlP1 = '<div class="item summaryP1" style="">' +
 		'   <div class="itemTit">' +
 		'       <span class="border-blue">任务详情</span>' +
@@ -394,25 +269,37 @@ function addData4Html(data) {
 		'           <li class="clearfix">' +
 			'				<span class="col2">工序任务号:<strong>'+data.task_sheet_code+'</strong></span>'+
 			'				<span class="col2">生产任务单号:<strong>'+data.pcb_task_code+'</strong></span>'+
-			'				<span class="col2">车间:<strong>'+data.workshop+'</strong></span>'+
-			'				<span class="col2">机型名称:<strong>'+data.model_name+'</strong></span>'+
-			'				<span class="col2">机型型号:<strong>'+data.model_ver+'</strong></span>'+
-			'				<span class="col2">PCB编码:<strong>'+data.pcb_id+'</strong></span>'+
+			// '				<span class="col2">车间:<strong>'+data.workshop+'</strong></span>'+
+			'				<span class="col2">机型名称:<strong>'+data.device_name+'</strong></span>'+
+			'				<span class="col2">机型型号:<strong>'+data.device_code+'</strong></span>'+
+			'				<span class="col2">PCB编码:<strong>'+data.pcb_code+'</strong></span>'+
 			'				<span class="col2">PCB名称:<strong>'+data.pcb_name+'</strong></span>'+
 			'				<span class="col2">PCB数量:<strong>'+data.pcb_quantity+'</strong></span>'+
 			'				<span class="col2">RoHS标志:<strong>'+data.is_rohs+'</strong></span>'+
-			// '				<span>工序:<strong>'+data.pcb_task_code+'</strong></span>'+
-			'				<span class="col2">生产计划开始时间:<strong>'+data.produce_plan_date+'</strong></span>'+
-			'				<span class="col2">生产计划结束时间:<strong>'+data.produce_plan_complete_date+'</strong></span>'+
-			'				<span class="col2">完成数量:<strong>'+data.amount_completed+'</strong></span>'+
+			'				<span class="col2">生产计划开始时间:<strong>'+data.plan_finish_time.split('T')[0] +'</strong></span>'+
+			'				<span class="col2">生产计划结束时间:<strong>'+data.plan_finish_time.split('T')[0] +'</strong></span>'+
+			'				<span class="col2">任务状态:<strong>'+data.process_task_status+'</strong></span>'+
 			'			</li>'+
 		'       </ul>' +
 		'   </div>' +
 		'</div>';
 	$(".summary").html(theadHtmlP1).css("display", "block");
 }
+var board4Api = {
+    staffOnBoard:'/ShowBoard/staffOnBoard',
+    findByProcessTaskCode:'/ShowBoard/findByProcessTaskCode/',
+}
 function setDataBoard4(params) {
 	db4P1.setOption(db4POption1);
 	db4P2.setOption(db4POption2);
-	addfourBoardHtml();
+	$.ajax({
+        contentType: 'application/json',
+        type: 'get',
+        url: board4Api.staffOnBoard,
+        dataType: "json",
+        success: function (response) {
+			console.log("response===",response)
+			addfourBoardHtml(response.data);
+        }
+    });
 }

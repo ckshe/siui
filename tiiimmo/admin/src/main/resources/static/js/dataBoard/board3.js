@@ -26,10 +26,15 @@ function getData() {
         dataType: "json",
         success: function (response) {
             $(".imagesflex").find('i').each(function (i) {
-                // console.log("aaa===", response.data[i].device_status)
-                if (response.data[i].device_status == 1) {
+                if (response.data[i].device_status == 0) {
                     $(this).removeClass('state1-gray');
-                } else {
+                    $(this).removeClass('state1-yellow');
+                    $(this).addClass('state1-green');
+                } else if(response.data[i].device_status == 1) {
+                    $(this).removeClass('state1-gray');
+                    $(this).addClass('state1-yellow');
+                }else{
+                    $(this).removeClass('state1-yellow');
                     $(this).addClass('state1-gray');
                 }
             });

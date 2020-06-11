@@ -1,11 +1,4 @@
-
-var commonFn = {
-	setDataBoard:1,
-	setDataBoard2:2,
-	
-}
 $(function(){
-	console.log(commonFn.setDataBoard)
 	//页面淡入效果
 	$(".animsition").animsition({
 	    inClass               :   'fade-in',
@@ -97,6 +90,7 @@ $(function(){
 				$(ele).find('h3 i').addClass('color-green');
 			}
 			$(ele).find('.progressBar span').animate({width: PG},PGNum*speed);
+			if(PGNum>0){
 			timer = setInterval(function(){
 				zero++;
 				$(ele).find('h4').html(zero+'%');
@@ -104,12 +98,9 @@ $(function(){
 					clearInterval(timer);
 				}
 			},speed);
+		}
 		});
 	},500);
-	
-	// setDataBoard4();
-	// addfourBoardHtml();
-
 	setTimeout(function(){
 		setDataBoard1();
 		setDataBoard2();
@@ -131,69 +122,6 @@ $(function(){
 		$('.popup').width(0);
 	};
 	$(window).resize(function(){
-		// myChart1.resize();
-		// try{
-		// 	summaryPie1.resize();
-		// 	summaryPie2.resize();
-		// 	summaryLine.resize();
-		// }catch(err){
-		// 	return false;
-		// }
-	});
 
-	// var mySwiper = new Swiper('#container', {
-	// 	slidesPerView: 1,
-	// 	spaceBetween: 30,
-	// 	observer:true,//修改swiper自己或子元素时，自动初始化swiper 
-	// 	observeParents:false,//修改swiper的父元素时，自动初始化swiper
-	//     loop: true,
-	// 	on: {
-	// 	transitionEnd:function(){
-	// 		// console.log("========="+this.realIndex)
-	// 		// if(this.activeIndex==1){
-	// 		// 	setDataBoard2();
-	// 		// }
-	// 		// if(this.activeIndex==2){
-	// 		// 	setDataBoard4();
-	// 		// 	addfourBoardHtml()
-	// 		// }else{
-				
-				
-	// 		// }
-	// 		// setDataBoard3();
-	// 	},
-	// 	slideChangeTransitionEnd: function(){
-	// 		if(this.realIndex==0){
-	// 			setDataBoard1();
-	// 			console.log(this.realIndex)
-	// 		}
-	// 		if(this.realIndex==1){
-	// 			setDataBoard2();
-	// 			console.log(this.realIndex)
-	// 		}
-	// 		if(this.realIndex==2){
-	// 			setDataBoard3();
-	// 			console.log(this.realIndex)
-	// 		}
-	// 		if(this.realIndex==3){
-	// 			setDataBoard4();
-	// 			console.log(this.realIndex)
-	// 		}
-	// 	}
-	// 	},
-		
-	// 	// onSlideChangeEnd: function(swiper){ 
-	// 	// 　　　swiper.update();  
-	// 	// 　　　mySwiper.startAutoplay();
-	// 	// 　　  mySwiper.reLoop();  
-	// 	// },
-	// 	pagination: {
-	// 	el: '.swiper-pagination',
-	// 	clickable: true,
-	// 	},
-	// 	navigation: {
-	// 	nextEl: '.swiper-button-next',
-	// 	prevEl: '.swiper-button-prev',
-	// 	},
-	// });
+	});
 });
