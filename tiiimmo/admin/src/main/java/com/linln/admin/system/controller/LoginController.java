@@ -170,7 +170,7 @@ public class LoginController implements ErrorController {
             history.setUser_name(user.getNickname());
             history.setProcess_task_code(req.getProcessTaskCode());
             history.setUp_time(new Date());
-            history.setDo_type("上机");
+            history.setDo_type("");
             userDeviceHistoryRepository.save(history);
         }else {
            return ResultVoUtil.error("请先下机！");

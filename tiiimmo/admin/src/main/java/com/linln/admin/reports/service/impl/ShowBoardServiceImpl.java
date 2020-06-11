@@ -12,6 +12,7 @@ import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
 import com.linln.utill.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -35,6 +36,10 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Autowired
     private DeviceRepository deviceRepository;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
 
     @Override
     public List<PcbTask> pcbTaskBoard() {
@@ -161,9 +166,36 @@ public class ShowBoardServiceImpl implements ShowBoardService {
     }
 
     @Override
-    public void staffOnBoard() {
+    public  List<Map<String,Object>> staffOnBoard() {
+
+        String today = DateUtil.date2String(new Date(),"");
+        StringBuffer sql = new StringBuffer("\n" +
+                "SELECT\n" +
+                "\tt1.device_code,\n" +
+                "\tt1.process_task_code,\n" +
+                "\tt1.user_id,\n" +
+                "\tt1.user_name,\n" +
+                "\tt1.up_time,\n" +
+                "\tt1.down_time,\n" +
+                "\tISNULL(t2.amount_completed, 0) finishcount,\n" +
+                "\tt2.process_name,\n" +
+                "\tISNULL(t2.pcb_quantity, 0) plancount,\n" +
+                "\tROUND((ISNULL(t2.amount_completed, 0)/ISNULL(t2.pcb_quantity, 1)),4)*100 rate\n" +
+                "FROM\n" +
+                "\tproduce_user_device_history t1\n" +
+                "\tLEFT JOIN produce_process_task t2 ON t2.process_task_code = t1.process_task_code\n" +
+                "\tWHERE t1.process_task_code != '未分配' and t1.process_task_code is not null AND  CONVERT(varchar(100), t1.up_time, 23) = '" +
+                today +
+                "'");
+
+        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
 
 
+        return mapList;
+    }
 
+    @Override
+    public ProcessTask findByProcessTaskCode(String processTaskCode) {
+        return processTaskRepository.findByProcessTaskCode(processTaskCode);
     }
 }
