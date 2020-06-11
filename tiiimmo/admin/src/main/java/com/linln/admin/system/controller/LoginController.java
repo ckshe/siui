@@ -143,17 +143,17 @@ public class LoginController implements ErrorController {
             return ResultVoUtil.error("参数错误：检测不到设备");
         }
         User user = userService.findUserByCardNo(req.getCardSequence());
-
+        if(user==null){
+            //该工号不存在
+            return ResultVoUtil.error("该工号不存在");
+        }
         Set<Role>  roleSet = roleService.getUserOkRoleList(user.getId());
         String roleNames = "";
         for(Role role : roleSet){
             roleNames = roleNames + role.getTitle() + "|";
         }
         user.setRoleNames(roleNames);
-        if(user==null){
-            //该工号不存在
-            return ResultVoUtil.error("该工号不存在");
-        }
+
         Subject currentUser = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername()+"|","password");
         currentUser.login(token);
