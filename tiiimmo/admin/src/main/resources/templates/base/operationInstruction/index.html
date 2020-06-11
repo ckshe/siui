@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="pull-right screen-btn-group">
-                    <button class="layui-btn open-popup" data-title="添加operationInstruction" th:attr="data-url=@{/base/operationInstruction/add}" data-size="auto">
+                    <button class="layui-btn open-popup" data-title="添加" th:attr="data-url=@{/base/operationInstruction/add}" data-size="auto">
                         <i class="fa fa-plus"></i> 添加</button>
                     <div class="btn-group">
                         <button class="layui-btn">操作<span class="caret"></span></button>
@@ -75,7 +75,7 @@
                         <td th:text="${item.uploadTime}">上传时间</td>
                         <!--<td th:text="${item.uploadFile}">文件</td>-->
                         <td>
-                            <button id="file" th:width="60px" >查看</button>
+                            <button class="layui-btn layui-btn-sm" th:width="60px" >查看</button>
                         </td>
                         <!--<td>
                             <button id="file" th:width="60px" onclick="this" >查看</button>

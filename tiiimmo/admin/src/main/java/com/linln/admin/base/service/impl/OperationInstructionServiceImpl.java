@@ -1,5 +1,4 @@
 package com.linln.admin.base.service.impl;
-
 import com.linln.admin.base.domain.OperationInstruction;
 import com.linln.admin.base.domain.OperationManual;
 import com.linln.admin.base.repository.OperationInstructionRepository;
