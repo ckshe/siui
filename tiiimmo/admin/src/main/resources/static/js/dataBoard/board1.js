@@ -111,7 +111,7 @@ var db1P2Option = {
     },
     xAxis: {
         type: 'category',
-        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+        data: [],
         axisLabel: {
             textStyle: {
                 show: true,
@@ -410,7 +410,15 @@ function setDataBoard1(params) {
             }]
             order3.setOption(orderOption3);
             $('.box1 .basicInfo  .border-yellow').html('产线周任务达成率')
-            db1P2Option.series[0].data = [85, 90, 88, 98, 68, 23, 0]
+            var taskFinishRateAxisArr = [];
+            var taskFinishRateArr =[];
+            for(var i=0;i<response.taskFinishRate.length;i++){
+                taskFinishRateAxisArr.push(response.taskFinishRate[i].task_sheet_code);
+                taskFinishRateArr.push(response.taskFinishRate[i].rate);
+            }
+
+            db1P2Option.xAxis.data = taskFinishRateAxisArr
+            db1P2Option.series[0].data = taskFinishRateArr
             db1P2.setOption(db1P2Option);
             $('.box1 .basicInfo .border-blue').html('各批次完成率')
 
