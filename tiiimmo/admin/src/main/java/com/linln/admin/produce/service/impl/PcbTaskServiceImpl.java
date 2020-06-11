@@ -555,19 +555,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 UserDeviceHistory one = userDeviceHistoryRepository.findAllByProcessTaskDateDeviceUser(processTask.getProcess_task_code(),date,pcbTaskReq.getDeviceCode(),user.getId());
                 if(one!=null){
                 }else {
-                    UserDeviceHistory tow = userDeviceHistoryRepository.findAllByNoInputDevice(pcbTaskReq.getDeviceCode());
-                    UserDeviceHistory newhistory = new UserDeviceHistory();
-                    newhistory.setDo_type(tow.getDo_type());
-                    newhistory.setUp_time(tow.getUp_time());
-                    newhistory.setProcess_task_code(processTask.getProcess_task_code());
-                    newhistory.setUser_name(tow.getUser_name());
-                    newhistory.setUser_id(tow.getUser_id());
-                    newhistory.setDevice_code(tow.getDevice_code());
-                    userDeviceHistoryRepository.save(newhistory);
-                    tow.setUser_id(0L);
-                    tow.setUser_name("");
+                    UserDeviceHistory tow = userDeviceHistoryRepository.findOnlyUpTimeRecord(pcbTaskReq.getDeviceCode());
+                    tow.setProcess_task_code(processTask.getProcess_task_code());
                     userDeviceHistoryRepository.save(tow);
-
                 }
                /* ProcessTaskDevice now = processTaskDeviceRepository.findByPTCodeDeviceCode(pcbTaskReq.getDeviceCode(),processTask.getProcess_task_code());
 

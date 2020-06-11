@@ -160,7 +160,9 @@ public class LoginController implements ErrorController {
 //            ptd.setUser_ids(user.getNickname());
 //            processTaskDeviceRepository.save(ptd);
 //        }
-        UserDeviceHistory old = userDeviceHistoryRepository.findAllByNoInputDevice(req.getDeviceCode());
+
+        UserDeviceHistory old = userDeviceHistoryRepository.findOnlyUpTimeRecord(req.getDeviceCode());
+
         if(old==null){
             UserDeviceHistory history = new UserDeviceHistory();
             history.setDevice_code(req.getDeviceCode());
@@ -171,10 +173,7 @@ public class LoginController implements ErrorController {
             history.setDo_type("上机");
             userDeviceHistoryRepository.save(history);
         }else {
-            old.setUser_id(user.getId());
-            old.setUser_name(user.getNickname());
-            old.setUp_time(new Date());
-            userDeviceHistoryRepository.save(old);
+           return ResultVoUtil.error("请先下机！");
 
         }
 
@@ -191,13 +190,12 @@ public class LoginController implements ErrorController {
             //该工号不存在
             return ResultVoUtil.error("该工号不存在");
         }
-        UserDeviceHistory history = new UserDeviceHistory();
-        history.setDevice_code(req.getDeviceCode());
-        history.setUser_id(user.getId());
-        history.setUser_name(user.getNickname());
-        history.setProcess_task_code(req.getProcessTaskCode());
-        history.setUp_time(new Date());
-        history.setDo_type("下机");
+        UserDeviceHistory history = userDeviceHistoryRepository.findOnlyUpTimeRecord(req.getDeviceCode());
+
+        if(!user.getId().equals(history.getUser_id())){
+            return ResultVoUtil.error("上下机员工不一致!");
+        }
+        history.setDown_time(new Date());
         userDeviceHistoryRepository.save(history);
         SecurityUtils.getSubject().logout();
 
