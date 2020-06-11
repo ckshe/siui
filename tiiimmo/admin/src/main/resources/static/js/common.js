@@ -60,6 +60,7 @@ function parentLogin() {
         layer.alert('请先上机后操作！',{icon:5});
         return false
     }else{
+
         return true
     }
 }
@@ -68,6 +69,7 @@ function isLogin() {
         layer.alert('请先上机后操作！',{icon:5});
         return false
     }else{
+
         return true
     }
 }

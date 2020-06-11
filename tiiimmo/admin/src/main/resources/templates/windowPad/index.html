@@ -155,7 +155,7 @@
                     </li>
                     <li class="userLi">
                         <div class="title cu">工作时长</div>
-                        <div class="title hui" id="workTime"></div>
+                        <div class="title hui" id="workTime">0</div>
                     </li>
                 </ul>
                 </div>
@@ -187,7 +187,7 @@
 <script>
     var func13 = function () {};
     document.onkeydown=function (e) {
-        console.log(e.keyCode)
+        console.log(e.keyCode);
         if(e.keyCode===13){
             func13()
         }
@@ -202,8 +202,8 @@
 
                 if(localStorage.getItem('padUserData')){
                     var data = JSON.parse(localStorage.getItem('padUserData'))
-                    $('#userName').html(data.username)
-                    $('#juese').html(data.roleNames)
+                    $('#userName').html(data.username);
+                    $('#juese').html(data.roleNames);
                     $('#upTime').html('无')
                 }
                     for(var i=0;i<navLis.length;i++){
@@ -378,7 +378,6 @@
                                     nowGonDan=data
                                     setTimeout(function () {
                                         window.location.reload();
-
                                     },1000);
 
                                 }else{
@@ -388,7 +387,6 @@
                         })
                     }
                 }
-
             });
             //暂停工单
             $('#stop').on('click',function () {
@@ -476,11 +474,15 @@
         systemTime.innerHTML=timeToDate(new Date());
 
         setInterval(function () {
-            systemTime.innerHTML=timeToDate(new Date())
+            systemTime.innerHTML=timeToDate(new Date());
             if(localStorage.getItem('padUserData')){
-                var data = JSON.parse(localStorage.getItem('padUserData'))
-                upTime.innerHTML=data.loginTime
-                workTime.innerHTML = diffTime(data.loginTime,timeToDate(new Date()))
+                var data = JSON.parse(localStorage.getItem('padUserData'));
+                upTime.innerHTML=data.loginTime;
+                var nn =diffTime(data.loginTime,timeToDate(new Date()));
+                if(diffTime(data.loginTime,timeToDate(new Date()))==''){
+                    nn=0
+                }
+                workTime.innerHTML = nn
             }
         },1000)
     //    暂停工单
