@@ -32,7 +32,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">工序任务号</label>
             <div class="layui-input-block">
-                <input type="text" name="pcb_task_code" disabled autocomplete="off" class="layui-input">
+                <input type="text" name="process_task_code" disabled autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -145,7 +145,7 @@
             ,cols: [
                 [
                      // {type: 'checkbox'}
-                    {field: 'task_sheet_code', title: '工序任务号', minWidth:140}
+                    {field: 'process_task_code', title: '工序任务号', minWidth:140}
                     ,{field: 'process_name', title: '工序名称', minWidth:120}
                     ,{field: 'feeding_task_code', title: '领料编号', minWidth:120}
                     ,{field: 'is_rohs', title: '是否RoHS', minWidth:120}
@@ -162,7 +162,11 @@
                     ,{field: 'pcb_quantity', title: '计划生产数量', minWidth:120}
                     ,{field: 'amount_completed', title: '实际生产数量', minWidth:120}
                     ,{ title: '操作',fixed:'right', minWidth: 100,templet:function (d) {
-                        return '<button class=" layui-btn layui-btn-xs  layui-btn-normal"  lay-event="edit" type="button" >编辑</button>'
+                        if(d.process_task_status=='已完成'){
+                            return ''
+                        }else{
+                            return '<button class=" layui-btn layui-btn-xs  layui-btn-normal"  lay-event="edit" type="button" >编辑</button>'
+                        }
                     }}
                     ]
                 ]
@@ -183,7 +187,30 @@
             }
         });
         form.on('submit(sub2)',function (obj) {
-            console.log(obj.field)
+            console.log(obj.field);
+            return
+            $.ajax({
+                url: '/produce/pcbTask/modifyProcessTaskStatus',
+                type: "post",
+                dataType: "json",
+                data: JSON.stringify({
+                    processTaskId: nowGonDan.id,
+                    processTaskStatus: "暂停",
+                    deviceCode: getQueryString('deviceCode')
+                }),
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    layer.closeAll();
+                    if (res.code === 200) {
+                        layer.msg(res.msg, {icon: 1});
+                        setTimeout(function () {
+                            window.location.reload()
+                        },1000);
+                    } else {
+                        layer.alert(res.msg, {icon: 5})
+                    }
+                }
+            })
         })
         table.on('tool(table)',function (obj) {
             var data = obj.data;

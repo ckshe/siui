@@ -106,7 +106,7 @@
         <div class="container">
             <div class="navBox">
                 <ul class="navUl">
-                    <li class="navLi " data-url="/windowPad/productInfo">
+                    <li class="navLi this-navLi" data-url="/windowPad/productInfo">
                         <span  class="layui-icon">&#xe62c;</span><span>生产工序</span>
                     </li>
                     <li class="navLi" data-url="/404">
@@ -130,7 +130,7 @@
                     </li>
                 </ul>
             </div>
-            <iframe id="iframe" class="mainBox" src="">
+            <iframe id="iframe" class="mainBox" src="/windowPad/productInfo">
             </iframe>
         </div>
     </div>
@@ -147,7 +147,7 @@
                 <ul class="userUl">
                     <li class="userLi">
                         <div class="title cu">生产数</div>
-                        <div class="title hui">90000</div>
+                        <div class="title hui">0</div>
                     </li>
                     <li class="userLi">
                         <div class="title cu">不良数</div>
@@ -155,7 +155,7 @@
                     </li>
                     <li class="userLi">
                         <div class="title cu">工作时长</div>
-                        <div class="title hui" id="workTime"></div>
+                        <div class="title hui" id="workTime">0</div>
                     </li>
                 </ul>
                 </div>
@@ -187,7 +187,7 @@
 <script>
     var func13 = function () {};
     document.onkeydown=function (e) {
-        console.log(e.keyCode)
+        console.log(e.keyCode);
         if(e.keyCode===13){
             func13()
         }
@@ -202,7 +202,8 @@
 
                 if(localStorage.getItem('padUserData')){
                     var data = JSON.parse(localStorage.getItem('padUserData'))
-                    $('#userName').html(data.username)
+                    $('#userName').html(data.username);
+                    $('#juese').html(data.roleNames);
                     $('#upTime').html('无')
                 }
                     for(var i=0;i<navLis.length;i++){
@@ -243,6 +244,10 @@
             // 上机功能
             $('#login').on('click',function(){
                 console.log('上机');
+                if(localStorage.getItem('padUserData')){
+                    layer.alert('当前设备有人，请先下机，后上机',{icon:5});
+                    return
+                }
                 document.getElementById('zezao').style.display='block';
                 document.getElementById('loginCode').focus();
                 func13=function () {
@@ -261,7 +266,7 @@
                         dataType : "json",
                         data : JSON.stringify({
                             cardSequence:$('#loginCode').val(),
-                            processTaskCode:"未分配",
+                            processTaskCode:nowGonDan===""?"未分配":nowGonDan.process_task_code,
                             deviceCode:getQueryString('deviceCode'),
                         }),
                         contentType : "application/json;charset=UTF-8",
@@ -271,13 +276,14 @@
                                 layer.msg(res.msg,{icon:1});
                                 res.data.loginTime = timeToDate(new Date());
                                 localStorage.setItem('padUserData',JSON.stringify(res.data));
+                                func13=function () {}
+
                                 setTimeout(function () {
                                     window.location.reload();
                                 },1000)
                             }else{
                                 layer.alert(res.msg,{icon:5})
                             }
-                            func13=function () {}
                         }
                     })
                 }
@@ -311,13 +317,14 @@
                             if(res.code === 200){
                                 layer.msg(res.msg,{icon:1});
                                 localStorage.removeItem("padUserData");
+                                func13=function () {}
                                 setTimeout(function () {
                                     window.location.reload();
                                 },1000)
                             }else{
                                 layer.alert(res.msg,{icon:5})
                             }
-                            func13=function () {}
+
                         }
                     })
                 }
@@ -371,7 +378,6 @@
                                     nowGonDan=data
                                     setTimeout(function () {
                                         window.location.reload();
-
                                     },1000);
 
                                 }else{
@@ -381,7 +387,6 @@
                         })
                     }
                 }
-
             });
             //暂停工单
             $('#stop').on('click',function () {
@@ -420,7 +425,7 @@
                         })
                     })
                 }
-            })
+            });
             //操作指导
             $('#pdf').on('click',function () {
                 document.getElementById('zhidao').src='/open/showPDF?deviceCode='+getQueryString('deviceCode');
@@ -435,7 +440,7 @@
             $('#bad').on('click',function () {
                 if(isLogin()) {
                     layer.open({
-                        title: '操作指导',
+                        title: '不良录入',
                         type: 2,
                         offset: 10,
                         area: ['680px', '700px'],
@@ -469,12 +474,15 @@
         systemTime.innerHTML=timeToDate(new Date());
 
         setInterval(function () {
-            systemTime.innerHTML=timeToDate(new Date())
+            systemTime.innerHTML=timeToDate(new Date());
             if(localStorage.getItem('padUserData')){
-                var data = JSON.parse(localStorage.getItem('padUserData'))
-                upTime.innerHTML=data.loginTime
-                workTime.innerHTML = diffTime(data.loginTime,timeToDate(new Date()))
-
+                var data = JSON.parse(localStorage.getItem('padUserData'));
+                upTime.innerHTML=data.loginTime;
+                var nn =diffTime(data.loginTime,timeToDate(new Date()));
+                if(diffTime(data.loginTime,timeToDate(new Date()))==''){
+                    nn=0
+                }
+                workTime.innerHTML = nn
             }
         },1000)
     //    暂停工单
