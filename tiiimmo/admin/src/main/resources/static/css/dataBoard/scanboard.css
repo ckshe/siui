@@ -383,7 +383,7 @@ body{
 	color: #fff;
 	overflow: hidden;
 	text-overflow:ellipsis;
-	font-size: 22px;
+	font-size: 25px;
 	padding: 0 5px;
 }
 /* .billState .StateBox span:nth-child(1){
@@ -1367,7 +1367,7 @@ body{
 .state-red{
 	background-color: #f53333;
 }
-.state1-green,.state1-gray{
+.state1-green{
 	width: 20px;
 	height: 20px;
 	background-color: green;
@@ -1377,7 +1377,7 @@ body{
 	border-radius: 50%;
 }
 .state1-gray{
-	background-color: #f53333;
+	background-color: #9a9;
 }
 
 .threeBoard,.threeBoard3{
@@ -1568,9 +1568,10 @@ body{
 }
 .summaryP1 .itembg_popupfirt .listStyle li span{
 	height: 60px !important;
-	line-height: 50px !important;
+	line-height: 25px !important;
 	font-size: 25px;
 }
+.summaryP1 .itembg_popupfirt .listStyle li span strong{padding: 0 5px;}
 .deviceFlex img{cursor:pointer}
 .devBottom .imgDiv{
 	width: 20%; height: 380px; float: left; text-align: center;padding-top: 20px; font-size: 22px;
@@ -1586,7 +1587,8 @@ body{
 .fontScroll ul li:hover,.board4Scroll ul li:hover{
 	cursor: pointer;
 }
-.button-span button{width: 80px;height: 40px;background: #061f3e;font-size: 25px; cursor: pointer; color: #000;}
+.button-span button{width: 80px;height: 40px;background: #061f3e;font-size: 25px; cursor: pointer; color: #fff;}
 .button-span button:nth-child(1){border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
 .button-span button:nth-child(2){border-top-right-radius: 8px; border-bottom-right-radius: 8px;}
-.button-span button.on{font-weight: bolder; color: #fff;}
+.button-span button.on{font-weight: bolder;  color: #e60d0d;
+    background: #32ffc7;}

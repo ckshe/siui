@@ -1,8 +1,5 @@
 
 //第一看板=========================================
-// setTimeout(function(){
-//     setDataBoard1();
-// },500);
 
 var db1P1, db1P2, order1, order2, order3;
 db1P1 = echarts.init(document.getElementsByClassName('db1P1')[0], 'macarons');
@@ -17,7 +14,7 @@ var db1P1Option = {
     },
     tooltip: {
         trigger: 'item',
-        formatter: '{a} <br/>{b} : {c}%',
+        formatter: '{b} <br/>{a} : {c}%',
         textStyle: {
             fontSize: 18
         },
@@ -66,8 +63,8 @@ var db1P1Option = {
                 fontSize: 20
             }
         },
-        max:100,
-        min:0,
+        max: 100,
+        min: 0,
         // nameLocation:'middle',
         nameTextStyle: {
             color: "#fff",
@@ -114,7 +111,7 @@ var db1P2Option = {
     },
     xAxis: {
         type: 'category',
-        data: ['周一', '周二', '周三', '周四', '周五','周六','周日'],
+        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
         axisLabel: {
             textStyle: {
                 show: true,
@@ -146,7 +143,7 @@ var db1P2Option = {
             // 	show: true,
             // 	position: 'insideRight'
             // },
-            data: [85, 90, 88, 98, 68,12,0],
+            data: [85, 90, 88, 98, 68, 12, 0],
             itemStyle: {
                 normal: {
                     label: {
@@ -193,12 +190,12 @@ var orderOption1 = {
         }
     },
     legend: {
-        data: ['已完成','未完成'],
+        data: ['已完成', '未完成'],
         // x: 'right',
         textStyle: {
             show: true,
             color: 'rgba(255,255,255,1)',
-            fontSize:16
+            fontSize: 16
         },
         y: 10
     },
@@ -218,12 +215,12 @@ var orderOption1 = {
                         show: true,
                         position: 'inner',
                         // formatter: '{d}%',
-                        formatter: function(prams){
+                        formatter: function (prams) {
                             var value;
-                            if(prams.data.value==0){
+                            if (prams.data.value == 0) {
                                 value = ''
-                            }else{
-                                value = prams.data.value+"%"
+                            } else {
+                                value = prams.data.value + "%"
                             }
                             return value;
                         },
@@ -246,12 +243,12 @@ var orderOption2 = {
         }
     },
     legend: {
-        data: ['已完成','未完成'],
+        data: ['已完成', '未完成'],
         // x: 'right',
         textStyle: {
             show: true,
             color: 'rgba(255,255,255,1)',
-            fontSize:16
+            fontSize: 16
         },
         y: 10
     },
@@ -271,12 +268,12 @@ var orderOption2 = {
                         show: true,
                         position: 'inner',
                         // formatter: '{d}%',
-                        formatter: function(prams){
+                        formatter: function (prams) {
                             var value;
-                            if(prams.data.value==0){
+                            if (prams.data.value == 0) {
                                 value = ''
-                            }else{
-                                value = prams.data.value+"%"
+                            } else {
+                                value = prams.data.value + "%"
                             }
                             return value;
                         },
@@ -299,12 +296,12 @@ var orderOption3 = {
         }
     },
     legend: {
-        data: ['已完成','未完成'],
+        data: ['已完成', '未完成'],
         // x: 'right',
         textStyle: {
             show: true,
             color: 'rgba(255,255,255,1)',
-            fontSize:16
+            fontSize: 16
         },
         y: 10
     },
@@ -324,12 +321,12 @@ var orderOption3 = {
                         show: true,
                         position: 'inner',
                         // formatter: '{d}%',
-                        formatter: function(prams){
+                        formatter: function (prams) {
                             var value;
-                            if(prams.data.value==0){
+                            if (prams.data.value == 0) {
                                 value = ''
-                            }else{
-                                value = prams.data.value+"%"
+                            } else {
+                                value = prams.data.value + "%"
                             }
                             return value;
                         },
@@ -341,10 +338,9 @@ var orderOption3 = {
     ]
 }
 
-
-
 function setDataBoard1(params) {
-    var url = '/open/excute',data='';
+    var url = '/open/excute', data = '';
+    var apiUrl = '/ShowBoard/pcbTaskBoard';
     var hsaClassOn = $(".button-span button:first").hasClass("on");
     // var queryStrWeek = "select@@@*@@@from@@@produce_pcb_task@@@where@@@datediff(week,produce_plan_date,'2020-06-10')=0;"
     var queryStrWeek = "select@@@*@@@from@@@produce_pcb_task@@@where@@@datediff(week,produce_plan_date,GETDATE())=0;"
@@ -358,23 +354,23 @@ function setDataBoard1(params) {
     var queryWeldday = "select@@@*@@@from@@@view_weld_day";
     var queryTestday = "select@@@*@@@from@@@view_test_day";
     var queryTaskFinishWeek = "select@@@*@@@from@@@view_task_finish_week";
-    if(hsaClassOn){
+    if (hsaClassOn) {
         data = returnData(queryStrWeek)
-    }else{
+    } else {
         data = returnData(queryStrDate)
     }
     $.ajax({
         contentType: 'application/json',
-        type: 'POST',
-        url: url,
+        type: 'get',
+        url: apiUrl,
         dataType: "json",
-        data: JSON.stringify(data),
-        success: function (message) {
-            addHtml(message,hsaClassOn);
+        success: function (response) {
+            console.log("message===", response)
+            addHtml(response.data.pcbTasks, hsaClassOn);
+            setOption(response.data);
         }
     });
-    setOption();
-    function setOption() {
+    function setOption(response) {
         db1P1.clear();
         db1P2.clear();
         order1.clear();
@@ -382,93 +378,46 @@ function setDataBoard1(params) {
         order3.clear();
         var hsaClassOn = $(".button-span button:first").hasClass("on");
         if (hsaClassOn) {
-            $.ajax({
-                contentType: 'application/json',
-                type: 'POST',
-                url: url,
-                dataType: "json",
-                data: JSON.stringify(returnData(queryStrRate1)),
-                success: function (message) {
-                    var sum=0,sumtemp=0 ,weekArr = [0,0,0,0,0,0,0],weekArrdata=[];
-                    for(var i=0;i<message.data.length;i++){
-                        var index = new Date(message.data[i].produce_plan_complete_date).getDay();
-                        weekArr[index] = message.data[i].allcount
-                        sum += message.data[i].count;
-                    }
-                    // console.log(new Date().getDay())
-                    for(var j=0;j<new Date().getDay();j++){
-                        sumtemp+=weekArr[j];
-                        weekArrdata.push(((sumtemp/sum)*100).toFixed(2))
-                    }
-                    db1P1Option.series[0].data = weekArrdata;
-                    db1P1.setOption(db1P1Option);
-                }
-            });
-
+            var weeks = response.mapWeekRate
+            var weekArrdata = [weeks.week1, weeks.week2, weeks.week3, weeks.week4]
+            db1P1Option.series[0].data = weekArrdata;
+            db1P1.setOption(db1P1Option);
             $('.box1 .basicInfo  .border-green').html('周任务达成率')
-            $.ajax({
-                contentType: 'application/json',
-                type: 'POST',
-                url: url,
-                dataType: "json",
-                data: JSON.stringify(returnData(queryTiepeiweek)),
-                success: function (message) {
-                    console.log(message)
-                    if(message.data[0].sum_piece==0)
-                        message.data[0].sum_piece = 1;
+            var mapProcessWeekRate = response.mapProcessWeekRate;
 
-                    orderOption1.series[0].data = [{
-                        name: '已完成',
-                        value: Math.floor((message.data[0].finish_piece/message.data[0].sum_piece)*100)
-                    }, {
-                        name: '未完成',
-                        value: 100-Math.floor((message.data[0].finish_piece/message.data[0].sum_piece)*100)
-                    }]
-                    order1.setOption(orderOption1);
-                }
-            });
-            $.ajax({
-                contentType: 'application/json',
-                type: 'POST',
-                url: url,
-                dataType: "json",
-                data: JSON.stringify(returnData(queryWeldiweek)),
-                success: function (message) {
-                    
-                    if(message.data[0].sum_weld==0)
-                        message.data[0].sum_weld = 1;
-                    orderOption2.series[0].data = [{
-                        name: '已完成',
-                        value: Math.floor((message.data[0].finish_weld/message.data[0].sum_weld)*100)
-                    }, {
-                        name: '未完成',
-                        value: 100-Math.floor((message.data[0].finish_weld/message.data[0].sum_weld)*100)
-                    }]
-                    order2.setOption(orderOption2);
-                }
-            });
-            $.ajax({
-                contentType: 'application/json',
-                type: 'POST',
-                url: url,
-                dataType: "json",
-                data: JSON.stringify(returnData(queryTestiweek)),
-                success: function (message) {
-                    
-                    if(message.data[0].sum_test==0)
-                    message.data[0].sum_test = 1;
-                    orderOption3.series[0].data = [{
-                        name: '已完成',
-                        value:  Math.floor((message.data[0].finish_test/message.data[0].sum_test)*100)
-                    }, {
-                        name: '未完成',
-                        value: 100-Math.floor((message.data[0].finish_test/message.data[0].sum_test)*100)
-                    }]
-                    order3.setOption(orderOption3);
-                }
-            });
+            mapProcessWeekRate.tiepian = 0;
+            mapProcessWeekRate.houhan = 0;
+            mapProcessWeekRate.tiaoshi = 0;
+            //贴片
+            orderOption1.series[0].data = [{
+                name: '已完成',
+                value: mapProcessWeekRate.tiepian
+            }, {
+                name: '未完成',
+                value: 100 - mapProcessWeekRate.tiepian
+            }]
+            order1.setOption(orderOption1);
+            //后焊
+            orderOption2.series[0].data = [{
+                name: '已完成',
+                value: mapProcessWeekRate.houhan
+            }, {
+                name: '未完成',
+                value: 100 - mapProcessWeekRate.houhan
+            }]
+            order2.setOption(orderOption2);
+            // 调试
+            orderOption3.series[0].data = [{
+                name: '已完成',
+                value: mapProcessWeekRate.tiaoshi
+            }, {
+                name: '未完成',
+                value: 100 - mapProcessWeekRate.tiaoshi
+            }]
+            order3.setOption(orderOption3);
+
             $('.box1 .basicInfo  .border-yellow').html('产线周任务达成率')
-            db1P2Option.series[0].data = [85, 90, 88, 98, 68,23,0]
+            db1P2Option.series[0].data = [85, 90, 88, 98, 68, 23, 0]
             db1P2.setOption(db1P2Option);
             $('.box1 .basicInfo .border-blue').html('各批次完成率')
 
@@ -481,10 +430,10 @@ function setDataBoard1(params) {
                 dataType: "json",
                 data: JSON.stringify(returnData(queryStrRate2)),
                 success: function (message) {
-                    var weekArr = [0,0,0,0,0,0,0];
-                    for(var i=0;i<message.data.length;i++){
+                    var weekArr = [0, 0, 0, 0, 0, 0, 0];
+                    for (var i = 0; i < message.data.length; i++) {
                         var index = new Date(message.data[i].plan_finish_time).getDay();
-                        weekArr[index] = Math.floor((message.data[i].finish_count/message.data[i].sum_count)*100)
+                        weekArr[index] = Math.floor((message.data[i].finish_count / message.data[i].sum_count) * 100)
                         // sum += message.data[i].count;
                     }
                     db1P1Option.series[0].data = weekArr;
@@ -501,8 +450,8 @@ function setDataBoard1(params) {
                 data: JSON.stringify(returnData(queryTaskFinishWeek)),
                 success: function (message) {
                     // console.log(message)
-                    var weekArr1 = [0,0,0,0,0,0,0];
-                    for(var i=0;i<message.data.length;i++){
+                    var weekArr1 = [0, 0, 0, 0, 0, 0, 0];
+                    for (var i = 0; i < message.data.length; i++) {
                         var index = new Date(message.data[i].produce_plan_complete_date).getDay();
                         weekArr1[index] = message.data[i].finish_num;
                         // sum += message.data[i].count;
@@ -521,15 +470,15 @@ function setDataBoard1(params) {
                 dataType: "json",
                 data: JSON.stringify(returnData(querytiepeiday)),
                 success: function (message) {
-                    
-                    if(message.data[0].sum_piece==0)
-                    message.data[0].sum_piece = 1;
+
+                    if (message.data[0].sum_piece == 0)
+                        message.data[0].sum_piece = 1;
                     orderOption1.series[0].data = [{
                         name: '已完成',
-                        value:  Math.floor((message.data[0].finish_piece/message.data[0].sum_piece)*100)
+                        value: Math.floor((message.data[0].finish_piece / message.data[0].sum_piece) * 100)
                     }, {
                         name: '未完成',
-                        value: 100-Math.floor((message.data[0].finish_piece/message.data[0].sum_piece)*100)
+                        value: 100 - Math.floor((message.data[0].finish_piece / message.data[0].sum_piece) * 100)
                     }]
                     order1.setOption(orderOption1);
                 }
@@ -542,14 +491,14 @@ function setDataBoard1(params) {
                 data: JSON.stringify(returnData(queryWeldday)),
                 success: function (message) {
                     // console.log(message)
-                    if(message.data[0].sum_weld==0)
-                    message.data[0].sum_weld = 1;
+                    if (message.data[0].sum_weld == 0)
+                        message.data[0].sum_weld = 1;
                     orderOption2.series[0].data = [{
                         name: '已完成',
-                        value:  Math.floor((message.data[0].finish_weld/message.data[0].sum_weld)*100)
+                        value: Math.floor((message.data[0].finish_weld / message.data[0].sum_weld) * 100)
                     }, {
                         name: '未完成',
-                        value: 100-Math.floor((message.data[0].finish_weld/message.data[0].sum_weld)*100)
+                        value: 100 - Math.floor((message.data[0].finish_weld / message.data[0].sum_weld) * 100)
                     }]
                     order2.setOption(orderOption2);
                 }
@@ -562,14 +511,14 @@ function setDataBoard1(params) {
                 data: JSON.stringify(returnData(queryTestday)),
                 success: function (message) {
                     // console.log(message)
-                    if(message.data[0].sum_test==0)
-                    message.data[0].sum_test = 1;
+                    if (message.data[0].sum_test == 0)
+                        message.data[0].sum_test = 1;
                     orderOption3.series[0].data = [{
                         name: '已完成',
-                        value:  Math.floor((message.data[0].finish_test/message.data[0].sum_test)*100)
+                        value: Math.floor((message.data[0].finish_test / message.data[0].sum_test) * 100)
                     }, {
                         name: '未完成',
-                        value: 100-Math.floor((message.data[0].finish_test/message.data[0].sum_test)*100)
+                        value: 100 - Math.floor((message.data[0].finish_test / message.data[0].sum_test) * 100)
                     }]
                     order3.setOption(orderOption3);
                 }
@@ -582,34 +531,45 @@ function setDataBoard1(params) {
         $(this).siblings('button').removeClass('on');
         $(this).addClass('on');
         var hsaClassOn = $(".button-span button:first").hasClass("on");
-        if(hsaClassOn){
-            data = returnData(queryStrWeek)
-        }else{
-            data = returnData(queryStrDate)
+        if (hsaClassOn) {
+            $.ajax({
+                contentType: 'application/json',
+                type: 'get',
+                url: apiUrl,
+                dataType: "json",
+                success: function (response) {
+                    console.log("message===", response)
+                    addHtml(response.data.pcbTasks, hsaClassOn);
+                    setOption(response.data);
+                }
+            });
+        } else {
+            // data = returnData(queryStrDate)
         }
         //console.log(JSON.stringify(data))
-        $.ajax({
-            contentType: 'application/json',
-            type: 'POST',
-            url: url,
-            dataType: "json",
-            data: JSON.stringify(data),
-            success: function (message) {
-                addHtml(message,hsaClassOn);
-            }
-        });
-        setOption();
+        // $.ajax({
+        //     contentType: 'application/json',
+        //     type: 'POST',
+        //     url: url,
+        //     dataType: "json",
+        //     data: JSON.stringify(data),
+        //     success: function (message) {
+        //         addHtml(message, hsaClassOn);
+        //     }
+        // });
+
+
     })
-    function addHtml(message,hsaClassOn) {
+    function addHtml(data, hsaClassOn) {
         // 动态生成模板
-        var theadHtml = '', tbodyHtml = '', widthPercent = 1,popData='';
+        var theadHtml = '', tbodyHtml = '', widthPercent = 1, popData = '';
         var widthWW = parseInt($('#firstBoard').css('width'));
         if (hsaClassOn) {
             var theadData = ['生产任务单号', '机型名称', '规格型号', '物料名称', '生产批次', '启动日期', '完成时间', '生产数量', '完成数量', '工单状态'];
-            //console.log(message.data)
-            var tbodyData = message.data;
+            console.log(data)
+            var tbodyData = data;
             if (theadData.length > 0) {
-                widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) +"px"
+                widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) + "px"
             }
             theadHtml = '<div class="StateTit">';
             for (var i = 0; i < theadData.length; i++) {
@@ -619,35 +579,44 @@ function setDataBoard1(params) {
             tbodyHtml = '<div id="FontScroll" class="fontScroll"><ul>';
             var tbodyDataS = popData = tbodyData;
             for (var j = 0; j < tbodyDataS.length; j++) {
-                if(tbodyDataS[j].produce_date==null){
+                if (tbodyDataS[j].produce_date == null) {
                     tbodyDataS[j].produce_date = ""
                 }
-                if(tbodyDataS[j].amount_completed==null){
+                if (tbodyDataS[j].amount_completed == null) {
                     tbodyDataS[j].amount_completed = 0
                 }
-                tbodyHtml += 
+                if (tbodyDataS[j].pcb_task_status == "已下达未投产") {
+                    tbodyDataS[j].pcb_task_status = "未启动"
+                }
+                if (tbodyDataS[j].pcb_task_status == "已下达已投产") {
+                    tbodyDataS[j].pcb_task_status = "进行中"
+                }
+                if (tbodyDataS[j].pcb_task_status == "已下达已完成") {
+                    tbodyDataS[j].pcb_task_status = "已完成"
+                }
+                tbodyHtml +=
                     '<li>' +
-                        '<div class="fontInner clearfix">' +
-                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_code + '</span>' +
-                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].model_name + '</span>' +
-                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].model_ver + '</span>' +
-                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_name + '</span>' +
-                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].task_sheet_code + '</span>' +
-                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].produce_plan_date.split('T')[0] + '</span>' +
-                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].produce_date + '</span>' +
-                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_quantity + '</span>' +
-                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].amount_completed + '</span>' +
-                        '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_status + '</span>' +
-                        '</div>' +
+                    '<div class="fontInner clearfix">' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_code + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].model_name + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].model_ver + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_name + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].task_sheet_code + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].produce_plan_date.split('T')[0] + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].produce_date + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_quantity + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].amount_completed + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_status + '</span>' +
+                    '</div>' +
                     '</li>';
             }
             tbodyHtml += '</ul></div>';
         } else {
-            var theadData = ['工序任务号', '工序', '计划生产时间', '实际生产时间', '计划完成时间', '生产完成时间', '计划生产数量', '完成生产数量', '工单状态','工时 (分)']
+            var theadData = ['工序任务号', '工序', '计划生产时间', '实际生产时间', '计划完成时间', '生产完成时间', '计划生产数量', '完成生产数量', '工单状态', '工时 (分)']
             //console.log(message.data)
             var tbodyData = popData = message.data;
             if (theadData.length > 0) {
-                widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) +"px"
+                widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) + "px"
             }
             theadHtml = '<div class="StateTit">';
             for (var i = 0; i < theadData.length; i++) {
@@ -657,17 +626,17 @@ function setDataBoard1(params) {
             tbodyHtml = '<div id="FontScroll" class="fontScroll"><ul>';
             var tbodyDataS = tbodyData;
             for (var j = 0; j < tbodyDataS.length; j++) {
-                if(tbodyDataS[j].pcb_quantity==null){
+                if (tbodyDataS[j].pcb_quantity == null) {
                     tbodyDataS[j].pcb_quantity = 0
                 }
-                if(tbodyDataS[j].amount_completed==null){
+                if (tbodyDataS[j].amount_completed == null) {
                     tbodyDataS[j].amount_completed = 0
                 }
-                if(tbodyDataS[j].work_time==null){
+                if (tbodyDataS[j].work_time == null) {
                     tbodyDataS[j].work_time = 0
                 }
-                tbodyHtml += 
-                '<li>' +
+                tbodyHtml +=
+                    '<li>' +
                     '<div class="fontInner clearfix">' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_code + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_name + '</span>' +
@@ -675,88 +644,108 @@ function setDataBoard1(params) {
                     '<span style="width:' + widthPercent + '"></span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].plan_finish_time.split("T")[0] + '</span>' +
                     '<span style="width:' + widthPercent + '"></span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_quantity+ '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_quantity + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].amount_completed + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_task_status + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].work_time + '</span>' +
                     '</div>' +
                     '</li>';
             }
-            
+
             tbodyHtml += '</ul></div>';
         }
         $(".firstBoard").html(theadHtml + tbodyHtml);
-        $(".firstBoard ul li").off().on('click',popData, function (params) {
+        $(".firstBoard ul li").off().on('click', popData, function (params) {
             $('.filterbg').show();
             $('.popup').show();
             $('.popup').width('3px');
-            $('.popup').animate({height: '76%'},400,function(){
-                $('.popup').animate({width: '82%'},400);
+            $('.popup').animate({ height: '76%' }, 400, function () {
+                $('.popup').animate({ width: '82%' }, 400);
             });
-            setTimeout(dataShow(popData[$(this).index()],hsaClassOn),800);
+            setTimeout(dataShow(popData[$(this).index()], hsaClassOn), 800);
         })
         //运单状态文字滚动
-        if(tbodyData.length>12) {
-            $('.fontScroll').FontScroll({time: 3000, num: 1});
+        if (tbodyData.length > 12) {
+            $('.fontScroll').FontScroll({ time: 3000, num: 1 });
         }
     }
 
-	function dataShow(data,hsaClassOn){
-		$('.popupClose').css('display','block');
+    function dataShow(data, hsaClassOn) {
+        $('.popupClose').css('display', 'block');
         $('.summary').show();
-        if(hsaClassOn){
+        if (hsaClassOn) {
             addDataHtml(data);
-        }else{
+        } else {
             addProcessDataHtml(data);
         }
     };
     function addDataHtml(data) {
-            var theadHtmlP1 ='<div class="item summaryP1" style="">'+
-            '   <div class="itemTit">'+
-            '       <span class="border-blue">任务详情</span>'+
-            '   </div>'+
-            '   <div class="itemCon itembg itembg_popupfirt">'+
-            '       <ul class="listStyle">'+
-            '           <li class="clearfix">'+
-            '               <span>光板号:<strong>'+data.pcb_plate_id+'</strong></span>'+
-            '               <span>通知日期:<strong>'+data.task_sheet_date.split('T')[0]+'</strong></span>'+
-            '               <span>厂区:<strong>'+data.factory+'</strong></span>'+
-            '               <span>车间:<strong>'+data.workshop+'</strong></span>'+
-            '               <span>板编号:<strong>'+data.batch_id+'</strong></span>'+
-            '               <span>投料单号:<strong>'+data.feeding_task_code+'</strong></span>'+
-            '               <span>计划启动时间:<strong>'+data.produce_plan_date.split('T')[0]+'</strong></span>'+
-            '               <span>计划完成时间:<strong>'+data.produce_plan_complete_date.split('T')[0]+'</strong></span>'+
-            '               <span>优先级:<strong>'+data.priority+'</strong></span>'+
-            '           </li>'+
-            '       </ul>'+
-            '   </div>'+
+        if (data.pcb_task_status == "已下达未投产") {
+            data.pcb_task_status = "未启动"
+        }
+        if (data.pcb_task_status == "已下达已投产") {
+            data.pcb_task_status = "进行中"
+        }
+        if (data.pcb_task_status == "已下达已完成") {
+            data.pcb_task_status = "已完成"
+        }
+
+        var theadHtmlP1 = '<div class="item summaryP1" style="">' +
+            '   <div class="itemTit">' +
+            '       <span class="border-blue">任务详情</span>' +
+            '   </div>' +
+            '   <div class="itemCon itembg itembg_popupfirt">' +
+            '       <ul class="listStyle">' +
+            '           <li class="clearfix">' +
+            '               <span>生产任务单号:<strong>' + data.pcb_task_code + '</strong></span>' +
+            '               <span>机型名称:<strong>' + data.model_name + '</strong></span>' +
+            '               <span>规格型号:<strong>' + data.model_ver + '</strong></span>' +
+            '               <span>物料名称:<strong>' + data.pcb_name + '</strong></span>' +
+            '               <span>生产批次:<strong>' + data.task_sheet_code + '</strong></span>' +
+            '               <span>启动日期:<strong>' + data.produce_plan_date.split('T')[0] + '</strong></span>' +
+            '               <span>完成时间:<strong>' + data.produce_date + '</strong></span>' +
+            '               <span>生产数量:<strong>' + data.pcb_quantity + '</strong></span>' +
+            '               <span>完成数量:<strong>' + data.amount_completed + '</strong></span>' +
+            '               <span>工单状态:<strong>' + data.pcb_task_status + '</strong></span>' +
+            '               <span>光板号:<strong>' + data.pcb_plate_id + '</strong></span>' +
+            '               <span>通知日期:<strong>' + data.task_sheet_date.split('T')[0] + '</strong></span>' +
+            '               <span>厂区:<strong>' + data.factory + '</strong></span>' +
+            '               <span>车间:<strong>' + data.workshop + '</strong></span>' +
+            '               <span>板编号:<strong>' + data.batch_id + '</strong></span>' +
+            '               <span>投料单号:<strong>' + data.feeding_task_code + '</strong></span>' +
+            '               <span>计划启动时间:<strong>' + data.produce_plan_date.split('T')[0] + '</strong></span>' +
+            '               <span>计划完成时间:<strong>' + data.produce_plan_complete_date.split('T')[0] + '</strong></span>' +
+            '               <span>优先级:<strong>' + data.priority + '</strong></span>' +
+            '           </li>' +
+            '       </ul>' +
+            '   </div>' +
             '</div>';
         $(".summary").html(theadHtmlP1).css("display", "block");
     }
     function addProcessDataHtml(data) {
-        var theadHtmlP1 ='<div class="item summaryP1" style="">'+
-        '   <div class="itemTit">'+
-        '       <span class="border-blue">任务详情</span>'+
-        '   </div>'+
-        '   <div class="itemCon itembg itembg_popupfirt">'+
-        '       <ul class="listStyle">'+
-        '           <li class="clearfix">'+
-        '               <span>制造编号:<strong>'+data.task_sheet_code+'</strong></span>'+
-        '               <span>机型版本:<strong>'+data.model_ver+'</strong></span>'+
-        '               <span>pcb编码:<strong>'+data.pcb_code+'</strong></span>'+
-        '               <span>RoHS:<strong>'+data.is_rohs+'</strong></span>'+
-        '               <span>机台名称:<strong>'+data.device_name+'</strong></span>'+
-        '               <span>机台编号:<strong>'+data.device_code+'</strong></span>'+
-        '               <span>工序单状态:<strong>'+data.process_task_status+'</strong></span>'+
-        '               <span>工序订单编号:<strong>'+data.process_task_code+'</strong></span>'+
-        '               <span>是否当前工单:<strong>'+data.is_now_flag+'</strong></span>'+
-        '               <span class="col2">PCB名称:<strong>'+data.pcb_name+'</strong></span>'+
-        '           </li>'+
-        '       </ul>'+
-        '   </div>'+
-        '</div>';
-    $(".summary").html(theadHtmlP1).css("display", "block");
-}
+        var theadHtmlP1 = '<div class="item summaryP1" style="">' +
+            '   <div class="itemTit">' +
+            '       <span class="border-blue">任务详情</span>' +
+            '   </div>' +
+            '   <div class="itemCon itembg itembg_popupfirt">' +
+            '       <ul class="listStyle">' +
+            '           <li class="clearfix">' +
+            '               <span>制造编号:<strong>' + data.task_sheet_code + '</strong></span>' +
+            '               <span>机型版本:<strong>' + data.model_ver + '</strong></span>' +
+            '               <span>pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
+            '               <span>RoHS:<strong>' + data.is_rohs + '</strong></span>' +
+            '               <span>机台名称:<strong>' + data.device_name + '</strong></span>' +
+            '               <span>机台编号:<strong>' + data.device_code + '</strong></span>' +
+            '               <span>工序单状态:<strong>' + data.process_task_status + '</strong></span>' +
+            '               <span>工序订单编号:<strong>' + data.process_task_code + '</strong></span>' +
+            '               <span>是否当前工单:<strong>' + data.is_now_flag + '</strong></span>' +
+            '               <span class="col2">PCB名称:<strong>' + data.pcb_name + '</strong></span>' +
+            '           </li>' +
+            '       </ul>' +
+            '   </div>' +
+            '</div>';
+        $(".summary").html(theadHtmlP1).css("display", "block");
+    }
 }
 
 

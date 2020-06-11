@@ -20,7 +20,10 @@ import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
+import com.linln.component.shiro.ShiroUtil;
+import com.linln.modules.system.domain.User;
 import com.linln.utill.ApiUtil;
+import com.linln.utill.DateUtil;
 import com.linln.utill.ReadUtill;
 import io.swagger.models.auth.In;
 import org.apache.xmlbeans.impl.common.ResolverUtil;
@@ -75,6 +78,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Autowired
     private DeviceRepository deviceRepository;
+
+    @Autowired
+    private UserDeviceHistoryRepository userDeviceHistoryRepository;
 
 
     /**
@@ -451,7 +457,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         for(PcbTaskReq req : pcbTaskReq.getData()){
             PTDeviceResp resp = new PTDeviceResp();
 
-            Device device = deviceRepository.findbyDeviceCode(req.getDeviceCode());
+            Device device = deviceRepository.fingDeviceBySort(req.getDeviceCode());
+
             String reCount = device.getRe_count();
             //是，记录数据返回清零标志
             resp.setReCount(reCount);
@@ -462,6 +469,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             if(req.getAmount()==0){
                 device.setRe_count("0");
             }
+            //记录设备启停状态
+            device.setDevice_status(req.getStatus());
+            deviceRepository.save(device);
             ProcessTask processTask = processTaskRepository.findProducingByDevice_code(req.getDeviceCode());
             //查无生产中的单怎么办
             if(processTask==null){
@@ -531,6 +541,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     public ResultVo modifyProcessTaskStatus(PcbTaskReq pcbTaskReq) {
         ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
         processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
+        User user = ShiroUtil.getSubject();
         if(!"备料".equals(processTask.getProcess_name())){
             List<ProcessTask> list = processTaskRepository.findByDevice_code(pcbTaskReq.getDeviceCode());
             list.forEach(p -> p.setIs_now_flag("0"));
@@ -540,7 +551,16 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             //将未分配的上机员工转移到这里
             if("进行中".equals(pcbTaskReq.getProcessTaskStatus())){
                 processTask.setStart_time(new Date());
-                ProcessTaskDevice now = processTaskDeviceRepository.findByPTCodeDeviceCode(pcbTaskReq.getDeviceCode(),processTask.getProcess_task_code());
+                String date = DateUtil.date2String(new Date(),"");
+                UserDeviceHistory one = userDeviceHistoryRepository.findAllByProcessTaskDateDeviceUser(processTask.getProcess_task_code(),date,pcbTaskReq.getDeviceCode(),user.getId());
+                if(one!=null){
+                }else {
+                    UserDeviceHistory tow = userDeviceHistoryRepository.findOnlyUpTimeRecord(pcbTaskReq.getDeviceCode());
+                    tow.setProcess_task_code(processTask.getProcess_task_code());
+                    userDeviceHistoryRepository.save(tow);
+                }
+               /* ProcessTaskDevice now = processTaskDeviceRepository.findByPTCodeDeviceCode(pcbTaskReq.getDeviceCode(),processTask.getProcess_task_code());
+
                 if(now !=null){
 
                 }else {
@@ -549,7 +569,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     processTaskDeviceRepository.save(now);
                     no.setUser_ids("");
                     processTaskDeviceRepository.save(no);
-                }
+                }*/
             }
             //启动工序计划 生产中
             if("生产中".equals(pcbTaskReq.getProcessTaskStatus())){
@@ -591,7 +611,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     deviceRepository.save(device);
                     de.setLast_amount(de.getAmount());
                     processTaskDeviceRepository.save(de);
-
                 }
             }
         }

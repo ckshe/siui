@@ -11,6 +11,30 @@ function setDataBoard3(params) {
     $('.imagesflex img').off().on('click', function () {
         setdievClick();
     })
+    getData(); // 第一次加载数据
+    // 开启定时任务，时间间隔为3000 ms。
+    var deviceInterval = setInterval(function () {
+        getData();
+    }, 5000);
+}
+var deviceUrl = "/ShowBoard/getDeviceStatus";
+function getData() {
+    $.ajax({
+        contentType: 'application/json',
+        type: 'get',
+        url: deviceUrl,
+        dataType: "json",
+        success: function (response) {
+            $(".imagesflex").find('i').each(function (i) {
+                // console.log("aaa===", response.data[i].device_status)
+                if (response.data[i].device_status == 1) {
+                    $(this).removeClass('state1-gray');
+                } else {
+                    $(this).addClass('state1-gray');
+                }
+            });
+        }
+    });
 }
 function setdievClick() {
     $('.filterbg').show();

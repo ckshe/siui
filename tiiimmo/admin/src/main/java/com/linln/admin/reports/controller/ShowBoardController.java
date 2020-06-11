@@ -6,9 +6,7 @@ import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +34,24 @@ public class ShowBoardController {
         return ResultVoUtil.success(map);
     }
 
+    @GetMapping("/getDeviceStatus")
+    @ResponseBody
+    public ResultVo getDeviceStatus(){
+        return ResultVoUtil.success(showBoardService.getDeviceStatus());
+    }
 
+
+    @GetMapping("/staffOnBoard")
+    @ResponseBody
+    public ResultVo staffOnBoard(){
+        return ResultVoUtil.success(showBoardService.staffOnBoard());
+    }
+
+    @GetMapping("/findByProcessTaskCode/{processTaskCode}")
+    @ResponseBody
+    public ResultVo findByProcessTaskCode( @PathVariable String processTaskCode){
+        return ResultVoUtil.success(showBoardService.findByProcessTaskCode(processTaskCode));
+    }
 
 
 }

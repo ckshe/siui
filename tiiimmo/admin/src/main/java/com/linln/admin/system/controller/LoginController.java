@@ -11,6 +11,7 @@ import com.linln.admin.produce.repository.UserDeviceHistoryRepository;
 import com.linln.common.config.properties.ProjectProperties;
 import com.linln.common.data.URL;
 import com.linln.common.enums.ResultEnum;
+import com.linln.common.enums.StatusEnum;
 import com.linln.common.exception.ResultException;
 import com.linln.common.utils.CaptchaUtil;
 import com.linln.common.utils.ResultVoUtil;
@@ -19,6 +20,7 @@ import com.linln.common.vo.ResultVo;
 import com.linln.component.actionLog.action.UserAction;
 import com.linln.component.actionLog.annotation.ActionLog;
 import com.linln.component.shiro.ShiroUtil;
+import com.linln.modules.system.domain.Role;
 import com.linln.modules.system.domain.User;
 import com.linln.modules.system.service.RoleService;
 import com.linln.modules.system.service.UserService;
@@ -40,6 +42,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author 小懒虫
@@ -136,6 +140,13 @@ public class LoginController implements ErrorController {
             return ResultVoUtil.error("参数错误");
         }
         User user = userService.findUserByCardNo(req.getCardSequence());
+
+        Set<Role>  roleSet = roleService.getUserOkRoleList(user.getId());
+        String roleNames = "";
+        for(Role role : roleSet){
+            roleNames = roleNames + role.getTitle() + "|";
+        }
+        user.setRoleNames(roleNames);
         if(user==null){
             //该工号不存在
             return ResultVoUtil.error("该工号不存在");
@@ -144,17 +155,28 @@ public class LoginController implements ErrorController {
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername()+"|","password");
         currentUser.login(token);
         //记录上机人员
-        ProcessTaskDevice ptd = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getDeviceCode(),req.getProcessTaskCode() );
-        ptd.setUser_ids(user.getNickname());
-        processTaskDeviceRepository.save(ptd);
-        UserDeviceHistory history = new UserDeviceHistory();
-        history.setDevice_code(req.getDeviceCode());
-        history.setUser_id(user.getId());
-        history.setUser_name(user.getNickname());
-        history.setProcess_task_code(req.getProcessTaskCode());
-        history.setDo_time(new Date());
-        history.setDo_type("上机");
-        userDeviceHistoryRepository.save(history);
+//        ProcessTaskDevice ptd = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getDeviceCode(),req.getProcessTaskCode() );
+//        if(ptd!=null){
+//            ptd.setUser_ids(user.getNickname());
+//            processTaskDeviceRepository.save(ptd);
+//        }
+
+        UserDeviceHistory old = userDeviceHistoryRepository.findOnlyUpTimeRecord(req.getDeviceCode());
+
+        if(old==null){
+            UserDeviceHistory history = new UserDeviceHistory();
+            history.setDevice_code(req.getDeviceCode());
+            history.setUser_id(user.getId());
+            history.setUser_name(user.getNickname());
+            history.setProcess_task_code(req.getProcessTaskCode());
+            history.setUp_time(new Date());
+            history.setDo_type("");
+            userDeviceHistoryRepository.save(history);
+        }else {
+           return ResultVoUtil.error("请先下机！");
+
+        }
+
         return ResultVoUtil.success("上机成功",user);
 
     }
@@ -168,13 +190,12 @@ public class LoginController implements ErrorController {
             //该工号不存在
             return ResultVoUtil.error("该工号不存在");
         }
-        UserDeviceHistory history = new UserDeviceHistory();
-        history.setDevice_code(req.getDeviceCode());
-        history.setUser_id(user.getId());
-        history.setUser_name(user.getNickname());
-        history.setProcess_task_code(req.getProcessTaskCode());
-        history.setDo_time(new Date());
-        history.setDo_type("下机");
+        UserDeviceHistory history = userDeviceHistoryRepository.findOnlyUpTimeRecord(req.getDeviceCode());
+
+        if(!user.getId().equals(history.getUser_id())){
+            return ResultVoUtil.error("上下机员工不一致!");
+        }
+        history.setDown_time(new Date());
         userDeviceHistoryRepository.save(history);
         SecurityUtils.getSubject().logout();
 
