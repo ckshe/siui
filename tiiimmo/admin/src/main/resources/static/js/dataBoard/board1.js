@@ -429,8 +429,10 @@ function setDataBoard1(params) {
                 taskFinishRateArr.push(response.taskFinishRate[i].rate);
             }
 
-            db1P2Option.xAxis.data = taskFinishRateAxisArr
-            db1P2Option.series[0].data = taskFinishRateArr
+            db1P2Option.xAxis.data = taskFinishRateAxisArr;
+            db1P2Option.yAxis.max = 100;
+            db1P2Option.yAxis.min = 0;
+            db1P2Option.series[0].data = taskFinishRateArr;
             db1P2.setOption(db1P2Option);
             $('.box1 .basicInfo .border-blue').html('各批次完成率')
         } else {

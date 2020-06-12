@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${productionShift.id}"></td>
+                    <th>员工名称</th>
+                    <td th:text="${productionShift.userName}"></td>
+                </tr>
+                <tr>
+                    <th>岗位</th>
+                    <td th:text="${productionShift.station}"></td>
+                    <th>班次</th>
+                    <td th:text="${productionShift.shift}"></td>
+                </tr>
+                <tr>
+                    <th>工序</th>
+                    <td th:text="${productionShift.procedure}"></td>
+                    <th>排班日期</th>
+                    <td th:text="${productionShift.shiftDate}"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${productionShift.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${productionShift.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(productionShift.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(productionShift.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${productionShift.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>
