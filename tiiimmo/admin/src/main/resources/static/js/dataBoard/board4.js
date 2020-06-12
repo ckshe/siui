@@ -154,50 +154,6 @@ var db4POption2 = {
 	}]
 };
 // 动态生成模板
-
-var task = [{
-	"id": 6144,
-	"batch_id": null,
-	"create_date": "2020-06-05T14:28:03.000+0800",
-	"factory": "万吉厂区",
-	"is_rohs": "否",
-	"model_id": null,
-	"model_name": "匹配板 DCY2.908.H1343-AG05 版本A",
-	"model_ver": "DCY2.908.H1343-AG05-A",
-	"patch_pick": null,
-	"pcb_id": "DCY2.908.H1343-AG05-A",
-	"pcb_is_ab": null,
-	"pcb_modify_tag": null,
-	"pcb_name": "匹配板 DCY2.908.H1343-AG05 版本A",
-	"pcb_plate_id": "H134A200001~H134A200020",
-	"pcb_quantity": 20,
-	"pcb_task_code": "MDW19062-3",
-	"pcb_task_status": "已下达已投产",
-	"pcb_update_time": null,
-	"plan_complete_date": null,
-	"produce_complete_date": null,
-	"produce_date": null,
-	"produce_plan_complete_date": "2020-02-07T00:00:00.000+0800",
-	"produce_plan_date": "2019-11-28T00:00:00.000+0800",
-	"quantity": null,
-	"remark": null,
-	"status": 1,
-	"task_sheet_date": "2019-11-28T00:00:00.000+0800",
-	"update_date": "2020-06-05T14:29:08.000+0800",
-	"workshop": "电路板及工业仪器生产车间",
-	"create_by": 1,
-	"update_by": 1,
-	"amount_completed": 1,
-	"feeding_task_code": "PBOM024413",
-	"task_sheet_code": "MDW19062",
-	"pcb_task_id": null,
-	"task_sheet_id": null,
-	"priority": 1,
-	"plan_finish_time": "2020-06-08T00:00:00.000+0800",
-	"finish_count": 10,
-	"sum_count": 20
-}]
-
 function addfourBoardHtml(data) {
 	var theadHtml = '', tbodyHtml = '',tbodyData = data;
 	console.log(tbodyData.length)

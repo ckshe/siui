@@ -1,62 +1,122 @@
 	// 第二看板========================================================================
 	//看板二弹框
 	var summaryPie1;
+	var board2Api = {
+		mapProcessTypeDayRate:'/ShowBoard/getMapProcessTypeDayRate',//生产进度看板A部分五个柱状图接口
+		findByProcessTaskCode:'/ShowBoard/findByProcessTaskCode/',//详情
+	}
 	function setDataBoard2(params) {
-		var url = '/open/excute',data='';
-		var queryStr2view_tiepian ="select@@@*@@@from@@@view_tiepian";
-		var queryStr2view_han ="select@@@*@@@from@@@view_danban";
 		$.ajax({
-			contentType: 'application/json',
-			type: 'POST',
-			url: url,
-			dataType: "json",
-			data: JSON.stringify(returnData(queryStr2view_tiepian)),
-			success: function (message) {
-				console.log(message)
-				var sum=0,sumtemp=0 ,weekArr = [],weekArrdata=[];
-				for(var i=0;i<message.data.length;i++){
-					if(message.data[i].sum_count==0){message.data[i].sum_count = 1}
-					weekArr[i] = Math.floor((message.data[i].finish_count/message.data[i].sum_count)*100)
-					weekArrdata[i]  = message.data[i].pcb_task_code;
+            contentType: 'application/json',
+            type: 'get',
+            url: board2Api.mapProcessTypeDayRate,
+            dataType: "json",
+            success: function (response) {
+				var tiepianArr = [],houhanArr = [],tiaoshiArr = [],zhijianArr = [],rukuArr = [];
+				var tiepianTaskArr = [],houhanTaskArr = [],tiaoshiTaskArr = [],zhijianTaskArr = [],rukuTaskArr = [];
+				for(var ia=0;ia<response.data.tiepian.length;ia++){
+					tiepianTaskArr.push(response.data.tiepian[ia].process_task_code);
+					tiepianArr.push(response.data.tiepian[ia].rate);
 				}
-				console.log(weekArr,weekArrdata)
-				db2POption1.yAxis.data = weekArrdata;
-				db2POption1.series[0].data = weekArr;
+				db2POption1.yAxis.data = tiepianTaskArr;
+				db2POption1.series[0].data = tiepianArr;
 				db2P1.setOption(db2POption1);
 				db2P1.on('click', function (params) {
-					console.log(params.dataIndex,message.data[params.dataIndex])
-					setClick(message.data[params.dataIndex]);
+					console.log(params.dataIndex,response.data.tiepian[params.dataIndex])
+					setClick(response.data.tiepian[params.dataIndex]);
 				});
-			}
-		});
-		$.ajax({
-			contentType: 'application/json',
-			type: 'POST',
-			url: url,
-			dataType: "json",
-			data: JSON.stringify(returnData(queryStr2view_han)),
-			success: function (message) {
-				console.log("========",message)
-				var sum=0,sumtemp=0 ,weekArr = [],weekArrdata=[];
-				for(var i=0;i<message.data.length;i++){
-					if(message.data[i].sum_count==0){message.data[i].sum_count = 1}
-					weekArr[i] = Math.floor((message.data[i].finish_count/message.data[i].sum_count)*100)
-					weekArrdata[i]  = message.data[i].pcb_task_code;
+
+				for(var ib=0;ib<response.data.houhan.length;ib++){
+					houhanTaskArr.push(response.data.houhan[ib].process_task_code);
+					houhanArr.push(response.data.houhan[ib].rate);
+					
 				}
-				console.log(weekArr,weekArrdata)
-				db2POption2.yAxis.data = weekArrdata;
-				db2POption2.series[0].data = weekArr;
+				db2POption2.yAxis.data = houhanTaskArr;
+				db2POption2.series[0].data = houhanArr;
 				db2P2.setOption(db2POption2);
-				db2P2.on('click', function (params) {
-					console.log(params.dataIndex,message.data[params.dataIndex])
-					setClick(message.data[params.dataIndex]);
-				});
-			}
+				
+				for(var ic=0;ic<response.data.tiaoshi.length;ic++){
+					tiaoshiTaskArr.push(response.data.tiaoshi[ic].process_task_code);
+					tiaoshiArr.push(response.data.tiaoshi[ic].rate);
+				}
+				db2POption3.yAxis.data = tiaoshiTaskArr;
+				db2POption3.series[0].data = tiaoshiArr;
+				db2P3.setOption(db2POption3);
+
+				for(var id=0;id<response.data.zhijian.length;id++){
+					zhijianTaskArr.push(response.data.zhijian[id].process_task_code);
+					zhijianArr.push(response.data.zhijian[id].rate);
+				}
+				db2POption5.yAxis.data = zhijianTaskArr;
+				db2POption5.series[0].data = zhijianArr;
+				db2P5.setOption(db2POption5);
+
+				for(var ie=0;ie<response.data.ruku.length;ie++){
+					rukuTaskArr.push(response.data.ruku[ie].process_task_code);
+					rukuArr.push(response.data.ruku[ie].rate);
+				}
+				db2POption6.yAxis.data = rukuTaskArr;
+				db2POption6.series[0].data = rukuArr;
+				db2P6.setOption(db2POption6);
+				//齐套率未完成，假的
+				db2POption4.yAxis.data = tiepianTaskArr;
+				db2POption4.series[0].data = tiepianArr;
+				db2P4.setOption(db2POption4);
+            }
 		});
-		db2P3.setOption(db2POption3);
-		db2P4.setOption(db2POption4);
-		db2P5.setOption(db2POption5);
-		db2P6.setOption(db2POption6);
+		
+		// $.ajax({
+		// 	contentType: 'application/json',
+		// 	type: 'POST',
+		// 	url: url,
+		// 	dataType: "json",
+		// 	data: JSON.stringify(returnData(queryStr2view_tiepian)),
+		// 	success: function (message) {
+		// 		console.log(message)
+		// 		var sum=0,sumtemp=0 ,weekArr = [],weekArrdata=[];
+		// 		for(var i=0;i<message.data.length;i++){
+		// 			if(message.data[i].sum_count==0){message.data[i].sum_count = 1}
+		// 			weekArr[i] = Math.floor((message.data[i].finish_count/message.data[i].sum_count)*100)
+		// 			weekArrdata[i]  = message.data[i].pcb_task_code;
+		// 		}
+		// 		console.log(weekArr,weekArrdata)
+		// 		db2POption1.yAxis.data = weekArrdata;
+		// 		db2POption1.series[0].data = weekArr;
+		// 		db2P1.setOption(db2POption1);
+		// 		db2P1.on('click', function (params) {
+		// 			console.log(params.dataIndex,message.data[params.dataIndex])
+		// 			setClick(message.data[params.dataIndex]);
+		// 		});
+		// 	}
+		// });
+		// $.ajax({
+		// 	contentType: 'application/json',
+		// 	type: 'POST',
+		// 	url: url,
+		// 	dataType: "json",
+		// 	data: JSON.stringify(returnData(queryStr2view_han)),
+		// 	success: function (message) {
+		// 		console.log("========",message)
+		// 		var sum=0,sumtemp=0 ,weekArr = [],weekArrdata=[];
+		// 		for(var i=0;i<message.data.length;i++){
+		// 			if(message.data[i].sum_count==0){message.data[i].sum_count = 1}
+		// 			weekArr[i] = Math.floor((message.data[i].finish_count/message.data[i].sum_count)*100)
+		// 			weekArrdata[i]  = message.data[i].pcb_task_code;
+		// 		}
+		// 		console.log(weekArr,weekArrdata)
+		// 		db2POption2.yAxis.data = weekArrdata;
+		// 		db2POption2.series[0].data = weekArr;
+		// 		db2P2.setOption(db2POption2);
+		// 		db2P2.on('click', function (params) {
+		// 			console.log(params.dataIndex,message.data[params.dataIndex])
+		// 			setClick(message.data[params.dataIndex]);
+		// 		});
+		// 	}
+		// });
+		// db2P3.setOption(db2POption3);
+		// db2P4.setOption(db2POption4);
+		// db2P5.setOption(db2POption5);
+		// db2P6.setOption(db2POption6);
 	}
 	var summaryPie1Option = {
 		title: {
@@ -572,14 +632,23 @@
 	};
 
 	function setClick(data){
-		$('.filterbg').show();
-		$('.popup').show();
-		$('.popup').width('3px');
-		$('.popup').animate({height: '76%'},400,function(){
-			$('.popup').animate({width: '82%'},400);
+		console.log("1111111111==",data)
+		$.ajax({
+			contentType: 'application/json',
+			type: 'get',
+			url: board2Api.findByProcessTaskCode+data.process_task_code,
+			dataType: "json",
+			success: function (response) {
+				console.log("abc========",response)
+				$('.filterbg').show();
+				$('.popup').show();
+				$('.popup').width('3px');
+				$('.popup').animate({ height: '76%' }, 400, function () {
+					$('.popup').animate({ width: '82%' }, 400);
+				});
+				setTimeout(data4Show(response.data), 800);
+			}
 		});
-		setTimeout(summaryShow(data),800);
-
 	}
 	function summaryShow(data){
 		$('.popupClose').css('display','block');
