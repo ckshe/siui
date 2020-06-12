@@ -46,7 +46,7 @@ public class ProductionStatus implements Serializable {
     // 设备名称
     private String deviceName;
     // 所属工序
-    private String workingProcedure;
+    private String workingprocess;
     // 制造编码
     private String manufactureCode;
     // PCB编码

@@ -33,7 +33,7 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
-@Table(name="base_productionShift")
+@Table(name="base_production_shift")
 @EntityListeners(AuditingEntityListener.class)
 @Where(clause = StatusUtil.NOT_DELETE)
 public class ProductionShift implements Serializable {
@@ -48,7 +48,7 @@ public class ProductionShift implements Serializable {
     // 班次
     private String shift;
     // 工序
-    private String procedure;
+    private String process;
     // 排班日期
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date shiftDate;

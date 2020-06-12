@@ -33,7 +33,7 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
-@Table(name="base_onDuty")
+@Table(name="base_on_duty")
 @EntityListeners(AuditingEntityListener.class)
 @Where(clause = StatusUtil.NOT_DELETE)
 public class OnDuty implements Serializable {
@@ -49,7 +49,7 @@ public class OnDuty implements Serializable {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date shiftTime;
     // 工序
-    private String procedure;
+    private String process;
     // 排班日期
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date shiftDate;
