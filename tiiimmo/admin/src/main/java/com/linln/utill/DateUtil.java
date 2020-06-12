@@ -11,6 +11,7 @@ import java.util.*;
 @Component
 public class DateUtil {
 
+    //date转string
     public static String date2String (Date date, String format){
         if(format==null||"".equals(format)){
             format = "yyyy-MM-dd";
@@ -19,7 +20,7 @@ public class DateUtil {
         return sdf.format(date);
     }
 
-
+    //string 转date
     public static Date string2Date (String datestr, String format){
         if(format==null||"".equals(format)){
             format = "yyyy-MM-dd";
@@ -43,7 +44,7 @@ public class DateUtil {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        //设置一个星期的第一天，按中国的习惯一个星期的第一天是星期一
+        //设置一个星期的第一天
         cal.setFirstDayOfWeek(Calendar.SUNDAY);
         int firstDayOfWeek = cal.getFirstDayOfWeek();
         //获得当前日期是一个星期的第几天
@@ -67,6 +68,7 @@ public class DateUtil {
         return map;
     }
 
+    //日期加减
     public static Date dateAddNum(Date date,Integer num){
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -82,6 +84,7 @@ public class DateUtil {
         return result;
     }
 
+    //返回两天之间的日期集合
     public static List<String> dayBetweenTwoDate(Date start,Date end){
     // 返回的日期集合
         List<String> days = new ArrayList<String>();
@@ -101,6 +104,20 @@ public class DateUtil {
         }
 
         return days;
+
+    }
+    
+    //返回截至当天所在周的日期集合
+    public static List<String> getThisWeekDayListUtillToday(Date date){
+        Map<String, String> thisWeek = getThisWeek(date);
+        String startTime = thisWeek.get("weekBegin")+" 00:00:00";
+        String endTime = thisWeek.get("weekEnd")+" 23:59:59";
+        List<String> daylist = dayBetweenTwoDate(string2Date(startTime, ""), string2Date(endTime, ""));
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int dayWeek = cal.get(Calendar.DAY_OF_WEEK);
+        List<String> daylistresult = daylist.subList(1,dayWeek);
+        return daylistresult;
 
     }
 

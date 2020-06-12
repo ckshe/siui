@@ -23,4 +23,14 @@ public interface ProcessTaskRepository extends BaseRepository<ProcessTask,Long> 
     @Query(value = "SELECT * FROM produce_process_task where process_task_code = ?1",nativeQuery = true)
     ProcessTask findByProcessTaskCode(String processTaskCode);
 
+
+    @Query(value = "SELECT\n" +
+            "    t1.*\n" +
+            "    FROM\n" +
+            "    produce_process_task t1\n" +
+            "    LEFT JOIN base_process t2 ON t2.name = t1.process_name\n" +
+            "    WHERE  t1.plan_finish_time >= ?1 AND t1.plan_finish_time <= ?2 and t2.process_type = ?3 ",nativeQuery = true)
+    List<ProcessTask> findByStartEndTimeProcessType(String startTime,String endTime,String processType);
+
+
 }

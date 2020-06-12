@@ -636,4 +636,22 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         processTaskRepository.save(processTask);
         return ResultVoUtil.success("操作成功");
     }
+
+
+    @Override
+    public ResultVo countProcessTaskAmount(PcbTaskReq pcbTaskReq) {
+        ProcessTask processTask = processTaskRepository.findByProcessTaskCode(pcbTaskReq.getProcessTaskCode());
+        if(processTask==null){
+            return ResultVoUtil.error("该单号不存在");
+        }
+        if("已完成".equals(processTask.getProcess_task_status())){
+            return ResultVoUtil.error("该任务单已完成");
+        }
+        if("进行中".equals(processTask.getProcess_task_status())||"生产中".equals(processTask.getProcess_task_status())){
+            processTask.setAmount_completed(processTask.getAmount_completed()+1);
+            processTaskRepository.save(processTask);
+            return ResultVoUtil.success("计数成功");
+        }
+        return ResultVoUtil.error("该任务单未启动");
+    }
 }

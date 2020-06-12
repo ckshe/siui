@@ -151,7 +151,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "\t( CASE SUM ( ISNULL( pcb_quantity, 0 ) ) WHEN 0 THEN 1 ELSE SUM ( ISNULL( pcb_quantity, 0 ) ) END ) AS plancount,\n" +
                 "\tSUM ( ISNULL( amount_completed, 0 ) ) AS finishcount,\n" +
                 "\ttask_sheet_code,\n" +
-                "\tROUND(SUM ( ISNULL( amount_completed, 0 ) ) / ( CASE SUM ( ISNULL( pcb_quantity, 0 ) ) WHEN 0 THEN 1 ELSE SUM ( ISNULL( pcb_quantity, 0 ) ) END ),4) AS rate \n" +
+                "\t cast(CAST((SUM ( ISNULL( amount_completed, 0 ) ))*1.0 / ( CASE SUM ( ISNULL( pcb_quantity, 0 ) ) WHEN 0 THEN 1 ELSE SUM ( ISNULL( pcb_quantity, 0 ) ) END ) as decimal(8,2)) AS varchar(100)) AS rate  \n" +
                 "FROM\n" +
                 "\tproduce_pcb_task WHERE produce_plan_date >= '" +
                 startTime +
@@ -185,7 +185,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "\tISNULL(t2.amount_completed, 0) finishcount,\n" +
                 "\tt2.process_name,\n" +
                 "\tISNULL(t2.pcb_quantity, 0) plancount,\n" +
-                "\tROUND((ISNULL(t2.amount_completed, 0)/ISNULL(t2.pcb_quantity, 1)),4)*100 rate\n" +
+                "\t\tcast(100*CAST(ISNULL(t2.amount_completed, 0)*1.0/ISNULL(t2.pcb_quantity, 1) as decimal(8,2)) AS varchar(100))  AS rate\n\n" +
                 "FROM\n" +
                 "\tproduce_user_device_history t1\n" +
                 "\tLEFT JOIN produce_process_task t2 ON t2.process_task_code = t1.process_task_code\n" +
@@ -213,11 +213,12 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public List<ProcessThisWeekRateResp> getMapProcessThisWeekRate() {
-        Date end = new Date();
-        Date start = DateUtil.dateAddNum(end,-6);
-        String startTime = DateUtil.date2String(start,"") +" 00:00:00";
-        String endTime = DateUtil.date2String(end,"") +" 23:59:59";
-        List<String> dayList = DateUtil.dayBetweenTwoDate(start,end);
+
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
+        String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
+
+        List<String> dayList = DateUtil.getThisWeekDayListUtillToday(new Date());
         StringBuffer allsql = new StringBuffer("SELECT\n" +
                 "\tCOUNT(id) allcount,\n" +
                 "\tCONVERT ( VARCHAR ( 100 ), plan_finish_time, 23 ) theday\n" +
@@ -234,7 +235,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "\tCONVERT ( VARCHAR ( 100 ), plan_finish_time, 23 )");
         StringBuffer finishsql = new StringBuffer("SELECT\n" +
                 "\tCOUNT(id) finishCount,\n" +
-                "\tCONVERT ( VARCHAR ( 100 ), plan_finish_time, 23 ) theday\n" +
+                "\tCONVERT ( VARCHAR ( 100 ), plan_finish_time, 23 ) theday,SUM(amount_completed) sumfinishcount\n" +
                 "FROM\n" +
                 "\tproduce_process_task \n" +
                 "WHERE\n" +
@@ -256,6 +257,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
             resp.setAllCount(0);
             resp.setFinishCount(0);
             resp.setRate(BigDecimal.ZERO);
+            resp.setSumFinishAmount(0);
             result.add(resp);
         }
         for(ProcessThisWeekRateResp resp : result){
@@ -271,7 +273,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
             for(Map<String,Object> finish : finishList){
                 String theday = (String) finish.get("theday");
                 Integer finishcount = (Integer) finish.get("finishCount");
+                Integer sumFinishAmount = (Integer)finish.get("sumfinishcount");
                 if(theday.equals(resp.getTheDay())){
+                    resp.setSumFinishAmount(sumFinishAmount);
                     resp.setFinishCount(finishcount);
                 }
             }
@@ -283,7 +287,95 @@ public class ShowBoardServiceImpl implements ShowBoardService {
             resp.setRate(rate);
         }
 
+        return result;
+    }
 
+
+    @Override
+    public Map<String, Object> getMapProcessDayRate() {
+        String today = DateUtil.date2String(new Date(),"");
+        String startTime = today+" 00:00:00";
+        String endTime = today+" 23:59:59";
+        List<ProcessTask> processTaskList = processTaskRepository.findByStartEndTime(startTime, endTime);
+        //贴片工序任务
+        List<ProcessTask> processTaskListTiepian = processTaskList.stream().filter(p -> "贴片A".equals(p.getProcess_name())||"贴片B".equals(p.getProcess_name())||"备料".equals(p.getProcess_name())||"贴片质检".equals(p.getProcess_name())).collect(Collectors.toList());
+        int finish1Count = (int)processTaskListTiepian.stream().filter(processTask -> "完成".equals(processTask.getProcess_task_status())).count();
+        int all1Count = processTaskListTiepian.size()==0?1:processTaskListTiepian.size();
+        BigDecimal rate1 = caculateRate(finish1Count, all1Count);
+
+        //后焊工序任务
+        List<ProcessTask> processTaskListhouhan = processTaskList.stream().filter(p -> "手插质检".equals(p.getProcess_name())||"手插".equals(p.getProcess_name())||"波峰焊".equals(p.getProcess_name())||"自动焊".equals(p.getProcess_name())||"人工焊".equals(p.getProcess_name())||"后焊终检".equals(p.getProcess_name())).collect(Collectors.toList());
+        int finish2Count = (int)processTaskListhouhan.stream().filter(processTask -> "完成".equals(processTask.getProcess_task_status())).count();
+        int all2Count = processTaskListhouhan.size()==0?1:processTaskListhouhan.size();
+        BigDecimal rate2 = caculateRate(finish2Count, all2Count);
+
+        //调试工序任务
+        List<ProcessTask> processTaskListtiaoshi = processTaskList.stream().filter(p -> "单板调试".equals(p.getProcess_name())).collect(Collectors.toList());
+        int finish3Count = (int)processTaskListtiaoshi.stream().filter(processTask -> "完成".equals(processTask.getProcess_task_status())).count();
+        int all3Count = processTaskListtiaoshi.size()==0?1:processTaskListtiaoshi.size();
+        BigDecimal rate3 = caculateRate(finish3Count, all3Count);
+
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("tiepian",rate1);
+        map.put("houhan",rate2);
+        map.put("tiaoshi",rate1);
+
+        return map;
+    }
+
+
+
+    @Override
+    public  Map<String,Object> getMapProcessTypeDayRate() {
+        String today = DateUtil.date2String(new Date(),"");
+        String startTime = today+" 00:00:00";
+        String endTime = today+" 23:59:59";
+
+        StringBuffer sql = new StringBuffer("\n" +
+                "SELECT\n" +
+                "\tt1.process_task_code,t1.pcb_quantity,t1.amount_completed ,t2.process_type,\n" +
+                "\tISNULL(t1.amount_completed, 0)/ISNULL(t1.pcb_quantity, 1)  rate2,\n" +
+                "\t\tcast(100*CAST(ISNULL(t1.amount_completed, 0)*1.0/ISNULL(t1.pcb_quantity, 1) as decimal(8,2)) AS varchar(100))  AS rate\n" +
+                "FROM \n" +
+                "\tproduce_process_task t1\n" +
+                "\tLEFT JOIN base_process t2 ON t2.name = t1.process_name \n" +
+                "WHERE  t1.process_task_status != '已完成' AND t1.plan_finish_time  >= '" +
+                startTime +
+                "' AND t1.plan_finish_time  <= '" +
+                endTime +
+                "'");
+        List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+        List<Map<String, Object>> tiepianList = new ArrayList<>();
+        List<Map<String, Object>> houhanList = new ArrayList<>();
+        List<Map<String, Object>> zhijianList = new ArrayList<>();
+        List<Map<String, Object>> rukuList = new ArrayList<>();
+        List<Map<String, Object>> tiaoshiList = new ArrayList<>();
+
+        for(Map<String,Object> map:mapList){
+            String  process_type = (String)map.get("process_type");
+            if("贴片".equals(process_type)){
+                tiepianList.add(map);
+            }
+            if("后焊".equals(process_type)){
+                houhanList.add(map);
+            }
+            if("质检".equals(process_type)){
+                zhijianList.add(map);
+            }
+            if("调试".equals(process_type)){
+                tiaoshiList.add(map);
+            }
+            if("入库".equals(process_type)){
+                rukuList.add(map);
+            }
+        }
+        Map<String,Object> result = new HashMap<>();
+        result.put("tiepian",tiepianList);
+        result.put("houhan",houhanList);
+        result.put("zhijian",zhijianList);
+        result.put("tiaoshi",tiaoshiList);
+        result.put("ruku",rukuList);
         return result;
     }
 }

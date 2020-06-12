@@ -222,5 +222,12 @@ public class PcbTaskController {
     }
 
 
+    //工单计数
+    @PostMapping("/countProcessTaskAmount")
+    @ResponseBody
+    public ResultVo countProcessTaskAmount(@RequestBody PcbTaskReq req){
+        return pcbTaskService.countProcessTaskAmount(req);
+    }
+
     
 }

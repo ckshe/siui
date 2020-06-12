@@ -10,4 +10,5 @@ public class ProcessThisWeekRateResp {
     private Integer allCount;
     private Integer finishCount;
     private BigDecimal rate;
+    private Integer sumFinishAmount;
 }

@@ -69,12 +69,28 @@ public class ShowBoardController {
     }
 
 
-    //日计划日任务达成率
+    //日计划日任务达成率&周任务完成数量
     @GetMapping("/getMapProcessThisWeekRate")
     @ResponseBody
     public ResultVo getMapProcessThisWeekRate(){
         return ResultVoUtil.success(showBoardService.getMapProcessThisWeekRate());
     }
+
+    //产线日任务达成率
+    @GetMapping("/getMapProcessDayRate")
+    @ResponseBody
+    public ResultVo getMapProcessDayRate(){
+        return ResultVoUtil.success(showBoardService.getMapProcessDayRate());
+    }
+
+
+    //生产进度统计
+    @GetMapping("/getMapProcessTypeDayRate")
+    @ResponseBody
+    public ResultVo getMapProcessTypeDayRate(){
+        return ResultVoUtil.success(showBoardService.getMapProcessTypeDayRate());
+    }
+
 
 
 

@@ -1,6 +1,7 @@
 package com.linln.admin.produce.service;
 
 import com.linln.RespAndReqs.PcbTaskReq;
+import com.linln.admin.base.repository.PcbRepository;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.vo.ResultVo;
@@ -63,5 +64,7 @@ public interface PcbTaskService {
     ResultVo findProcessTaskByDevice(PcbTaskReq pcbTaskReq);
 
     ResultVo modifyProcessTaskStatus(PcbTaskReq pcbTaskReq);
+
+    ResultVo countProcessTaskAmount(PcbTaskReq pcbTaskReq);
 
 }

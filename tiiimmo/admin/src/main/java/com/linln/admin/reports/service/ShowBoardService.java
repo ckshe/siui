@@ -21,11 +21,15 @@ public interface ShowBoardService {
 
     public List<Device> getDeviceStatus();
 
-    public  List<Map<String,Object>> staffOnBoard();
+    public List<Map<String,Object>> staffOnBoard();
 
     public ProcessTask findByProcessTaskCode(String processTaskCode);
 
     public List<ProcessTask> findProcessTaskByDate();
 
     public List<ProcessThisWeekRateResp> getMapProcessThisWeekRate();
+
+    public Map<String,Object> getMapProcessDayRate();
+
+    public  Map<String,Object> getMapProcessTypeDayRate();
 }
