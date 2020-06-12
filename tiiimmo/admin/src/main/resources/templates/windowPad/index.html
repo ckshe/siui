@@ -244,10 +244,7 @@
             // 上机功能
             $('#login').on('click',function(){
                 console.log('上机');
-                if(localStorage.getItem('padUserData')){
-                    layer.alert('当前设备有人，请先下机，后上机',{icon:5});
-                    return
-                }
+
                 document.getElementById('zezao').style.display='block';
                 document.getElementById('loginCode').focus();
                 func13=function () {
