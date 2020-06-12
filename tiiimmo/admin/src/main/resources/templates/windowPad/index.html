@@ -79,6 +79,7 @@
 <iframe id="zhidao" style="display: none;width: 880px;height: 650px;" src="">
 
 </iframe>
+
 <div id="zezao" class="zezao" style="display: none">
     <div  id="loginBox" class="loginBox">
         <div id="xx"  class="xx layui-icon layui-icon-close"></div>
@@ -96,6 +97,15 @@
         <label >员工号：</label>
         <input class="loginInput" id="outCode" type="text" name="userCode"  autocomplete="off">
         <button class="blueButton" id="outClear" type="button">清除</button>
+    </div>
+</div>
+<div id="zezao3" class="zezao"  style="display: none">
+    <div  id="loginBox3" class="loginBox">
+        <div id="xx3"  class="xx layui-icon layui-icon-close"></div>
+        <h2>扫码计数</h2>
+        <label >员工号：</label>
+        <input class="loginInput" id="productCode" type="text" name="userCode"  autocomplete="off">
+        <button class="blueButton" id="productClear" type="button">清除</button>
     </div>
 </div>
     <div class="bigLeftBox">
@@ -145,9 +155,9 @@
                     </div>
                 </div>
                 <ul class="userUl">
-                    <li class="userLi">
+                    <li class="userLi" id="produtNum">
                         <div class="title cu">生产数</div>
-                        <div class="title hui">0</div>
+                        <div class="title hui" id="scs">0</div>
                     </li>
                     <li class="userLi">
                         <div class="title cu">不良数</div>
@@ -185,6 +195,7 @@
 <script src="../../js/common.js" ></script>
 </body>
 <script>
+
     var func13 = function () {};
     document.onkeydown=function (e) {
         console.log(e.keyCode);
@@ -193,13 +204,35 @@
         }
     };
     var nowGonDan="";
+
     window.onload = function () {
         layui.use(['jquery', 'form'], function () {
             var $ = layui.jquery,
                 form = layui.form;
                 var navLis = document.getElementsByClassName('navLi');
                 var iframe = document.getElementById('iframe');
-
+            function getNodwData(){
+                $.ajax({
+                    url:"/produce/pcbTask/findProcessTaskByDevice",
+                    type:'post',
+                    dataType : "json",
+                    data : JSON.stringify({
+                        deviceCode:getQueryString('deviceCode'),
+                    }),
+                    contentType : "application/json;charset=UTF-8",
+                    success: function (res) {
+                        layer.closeAll();
+                        res.data.some(function (t,i) {
+                            if(t.is_now_flag==1){
+                                nowGonDan=t;
+                                $('#scs').html(t.amount_completed)
+                                return true
+                            }
+                        });
+                    }
+                })
+            }
+            getNodwData()
                 if(localStorage.getItem('padUserData')){
                     var data = JSON.parse(localStorage.getItem('padUserData'))
                     $('#userName').html(data.nickname);
@@ -333,11 +366,18 @@
                 document.getElementById('zezao2').style.display='none';
                 func13=function () {}
             })
+            $('#xx3').on('click',function () {
+                document.getElementById('zezao3').style.display='none';
+                func13=function () {}
+            })
             $('#outClear').on('click',function () {
                 $('#outCode').val('')
             });
             $('#loginClear').on('click',function () {
                 $('#loginCode').val('')
+            });
+            $('#productClear').on('click',function () {
+                $('#productCode').val('')
             });
             //启动工单
             $('#run').on('click',function () {
@@ -446,7 +486,45 @@
                 }
             })
 
+//生产计数
+            $('#produtNum').on('click',function () {
+                document.getElementById('zezao3').style.display='block';
+                document.getElementById('productCode').focus();
+                func13=function () {
+                    layer.load(1,{
+                        content: '添加中...',
+                        success: function (layero) {
+                            layero.find('.layui-layer-content').css({
+                                'padding-top': '39px',
+                                'width': '60px'
+                            });
+                        }
+                    })
+                    $.ajax({
+                        url: '/produce/pcbTask/countProcessTaskAmount',
+                        type: "post",
+                        dataType : "json",
+                        data : JSON.stringify({
+                            processTaskCode:nowGonDan.process_task_code,
+                            deviceCode:getQueryString('deviceCode'),
+                        }),
+                        contentType : "application/json;charset=UTF-8",
+                        success: function (res) {
+                            layer.closeAll();
+                            if(res.code === 200){
+                                layer.msg(res.msg,{icon:1});
+                                func13=function () {};
+                                setTimeout(function () {
+                                    window.location.reload();
+                                },1000)
+                            }else{
+                                layer.alert(res.msg,{icon:5})
+                            }
 
+                        }
+                    })
+                }
+            })
 
 
 
