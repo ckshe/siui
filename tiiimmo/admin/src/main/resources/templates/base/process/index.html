@@ -74,14 +74,14 @@
                         <td th:text="${item.id}">主键ID</td>
                         <td th:text="${item.code}">编号</td>
                         <td th:text="${item.name}">工序名称</td>
-                        <th>
+                        <td>
                             <button class="field-up layui-btn layui-btn-primary layui-btn-xs">
                                 <i class="fa fa-arrow-up"></i>上移
                             </button>
                             <button class="field-down layui-btn layui-btn-primary layui-btn-xs">
                                 <i class="fa fa-arrow-down"></i>下移
                             </button>
-                        </th>
+                        </td>
                         <td style="display: none" th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
                         <td style="display: none" th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
                         <td style="display: none" th:text="${#dicts.dataStatus(item.status)}">数据状态</td>
@@ -99,33 +99,6 @@
     </div>
 <script th:replace="/common/template :: script"></script>
 <script>
-    /*// 上移字段
-    var field = null;
-    $(".field-up").on("click", function () {
-        if(field != null){
-            var parent = $(field).parent();
-            if(parent.prev().length === 1){
-                parent.insertBefore(parent.prev());
-                resetNumber();
-            }
-        }
-    });
-    // 下移字段
-    $(".field-down").on("click", function () {
-        if(field != null){
-            var parent = $(field).parent();
-            if(parent.next().length === 1){
-                parent.insertAfter(parent.next());
-                resetNumber();
-            }
-        }
-    });
-    // 重置字段编号
-    var resetNumber = function(){
-        entity.children().each(function (key, val) {
-            $(val).children(".entity-number").text(key + 1);
-        });
-    };*/
 </script>
 </body>
 </html>
