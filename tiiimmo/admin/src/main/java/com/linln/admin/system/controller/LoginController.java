@@ -206,6 +206,8 @@ public class LoginController implements ErrorController {
 
     }
 
+
+
     /**
      * 验证码图片
      */

@@ -103,6 +103,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     public Page<PcbTask> getPageList(Example<PcbTask> example) {
         // 创建分页对象
         PageRequest page = PageSort.pageRequest();
+
         return pcbTaskRepository.findAll(example, page);
     }
 
@@ -127,7 +128,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     @Override
     public ResultVo getPcbTaskFromERP(String dataBetween) {
         System.out.println("-----------开始同步-------------");
-        ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCRWDCX");
+    /*    ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCRWDCX");
         ScheduleJobReq scheduleJobReq = new ScheduleJobReq();
         scheduleJobReq.setDesc(jobApi.getRemark() == null ? "" : jobApi.getRemark());
         scheduleJobReq.setKey(jobApi.getKey() == null ? "" : jobApi.getKey());
@@ -136,13 +137,22 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         List<String> paramList = new ArrayList<>();
         scheduleJobReq.setParamList(paramList);
         JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
-        System.out.println("-----------list-------------"+lists.size());
-
-        /*String path = "D:\\workspace\\timosecond\\tiiimmo\\admin\\src\\main\\resources\\task.json";
+        System.out.println(lists.toString());
+        System.out.println("-----------list-------------"+lists.size());*/
+        ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCRWDCX");
+        ScheduleJobReq scheduleJobReq = new ScheduleJobReq();
+        scheduleJobReq.setDesc(jobApi.getRemark() == null ? "" : jobApi.getRemark());
+        scheduleJobReq.setKey(jobApi.getKey() == null ? "" : jobApi.getKey());
+        scheduleJobReq.setWhere(jobApi.getCondition() == null ? "" : jobApi.getCondition());
+        scheduleJobReq.setAction(jobApi.getApiName() == null ? "" : jobApi.getApiName());
+        List<String> paramList = new ArrayList<>();
+        scheduleJobReq.setParamList(paramList);
+        System.out.println(scheduleJobReq.toString());
+        String path = "C:\\chaosheng_file\\task.json";
 
         String s = ReadUtill.readJsonFile(path);
         JSONObject jobj = JSON.parseObject(s);
-        JSONArray lists = jobj.getJSONArray("data");*/
+        JSONArray lists = jobj.getJSONArray("data");
         List<PcbTask> pckTaskList = new ArrayList<>();
         List<PCBPlateNo> plateNoList = new ArrayList<>();
         for(int i = 0 ; i<lists.size();i++){
@@ -653,5 +663,30 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             return ResultVoUtil.success("计数成功");
         }
         return ResultVoUtil.error("该任务单未启动");
+    }
+
+    @Override
+    public ResultVo tempChangeTaskrocess(PcbTaskReq pcbTaskReq) {
+        if(pcbTaskReq.getPcbTaskCode()!=null&&!"".equals(pcbTaskReq.getPcbTaskCode())){
+            List<PcbTask> pcbTasks = pcbTaskRepository.findAllByPcb_task_code(pcbTaskReq.getPcbTaskCode());
+            if(pcbTasks.size()>0){
+                PcbTask pcbTask = pcbTasks.get(0);
+                pcbTask.setPcb_task_status(pcbTaskReq.getStatus());
+                pcbTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
+                pcbTask.setPlan_complete_date(pcbTaskReq.getPlanFinishTime());
+                pcbTaskRepository.save(pcbTask);
+            }
+
+        }
+        if(pcbTaskReq.getProcessTaskCode()!=null&&!"".equals(pcbTaskReq.getProcessTaskCode())){
+            ProcessTask processTask = processTaskRepository.findByProcessTaskCode(pcbTaskReq.getProcessTaskCode());
+            processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
+            processTask.setWork_time(pcbTaskReq.getWorkTime());
+            processTask.setFinish_time(pcbTaskReq.getFinishTime());
+            processTask.setPlan_finish_time(pcbTaskReq.getPlanFinishTime());
+            processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
+            processTaskRepository.save(processTask);
+        }
+        return ResultVoUtil.success();
     }
 }

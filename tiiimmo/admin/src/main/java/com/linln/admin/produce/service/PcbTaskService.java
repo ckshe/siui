@@ -67,4 +67,6 @@ public interface PcbTaskService {
 
     ResultVo countProcessTaskAmount(PcbTaskReq pcbTaskReq);
 
+    ResultVo tempChangeTaskrocess(PcbTaskReq pcbTaskReq);
+
 }

@@ -92,6 +92,13 @@ public class ShowBoardController {
     }
 
 
+    //上岗率
+    @GetMapping("/staffTodayOntimeRate")
+    @ResponseBody
+    public ResultVo staffTodayOntimeRate(){
+        return ResultVoUtil.success(showBoardService.staffTodayOntimeRate());
+    }
+
 
 
 }

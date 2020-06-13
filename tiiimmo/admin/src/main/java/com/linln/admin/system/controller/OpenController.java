@@ -74,6 +74,14 @@ public class OpenController {
         return pcbTaskService.scanCountPlate(req.get(0));
     }
 
+
+    //临时修改任务单数据
+    @PostMapping("/tempChangeTaskrocess")
+    @ResponseBody
+    public ResultVo tempChangeTaskrocess(@RequestBody PcbTaskReq pcbTaskReq){
+        return pcbTaskService.tempChangeTaskrocess(pcbTaskReq);
+    }
+
     /**
      * 在线浏览PDF文件
      * @return

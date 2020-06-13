@@ -2,6 +2,7 @@ package com.linln.RespAndReqs;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class PcbTaskReq {
     private String processTaskStatus;
     private String processTaskCode;
     private String pcbTaskCode;
+
+    private BigDecimal workTime;
 
 
 }

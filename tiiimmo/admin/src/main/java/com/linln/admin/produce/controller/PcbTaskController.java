@@ -214,7 +214,7 @@ public class PcbTaskController {
     }
 
 
-    //机台启动工单
+    //工序任务单状态修改
     @PostMapping("/modifyProcessTaskStatus")
     @ResponseBody
     public ResultVo modifyProcessTaskStatus(@RequestBody PcbTaskReq req){

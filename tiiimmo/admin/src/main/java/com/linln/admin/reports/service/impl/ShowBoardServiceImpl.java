@@ -1,6 +1,7 @@
 package com.linln.admin.reports.service.impl;
 
 import com.linln.RespAndReqs.responce.ProcessThisWeekRateResp;
+import com.linln.RespAndReqs.responce.StaffOntimeRateResp;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.produce.domain.PcbTask;
@@ -138,7 +139,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     private BigDecimal caculateRate(int finishCount, int allcount) {
         BigDecimal finish2 = new BigDecimal(finishCount);
-        BigDecimal all2 = new BigDecimal(allcount);
+        BigDecimal all2 = new BigDecimal(allcount==0?1:allcount);
         return finish2.divide(all2).setScale(4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
     }
 
@@ -377,5 +378,65 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         result.put("tiaoshi",tiaoshiList);
         result.put("ruku",rukuList);
         return result;
+    }
+    //linltheory
+    @Override
+    public List<StaffOntimeRateResp>  staffTodayOntimeRate() {
+        String today = DateUtil.date2String(new Date(),"");
+        String startTime = today+" 00:00:00";
+        String endTime = today+" 23:59:59";
+        StringBuffer staffOntimeSql = new StringBuffer("\n" +
+                "SELECT COUNT(t4.userid) countOnTime,t4.process_type FROM(\n" +
+                "\tSELECT\n" +
+                "\t\tMAX(t1.user_id) userid ,t3.process_type\n" +
+                "\tFROM\n" +
+                "\t\tproduce_user_device_history t1\n" +
+                "\t\tLEFT JOIN produce_process_task t2 ON t2.process_task_code = t1.process_task_code\n" +
+                "\t\tLEFT JOIN base_process t3 on t3.name = t2.process_name\n" +
+                "\t\tWHERE t1.up_time >= '" +
+                startTime +
+                "' and t1.up_time <= '" +
+                endTime +
+                "' \n" +
+                "\tGROUP BY t3.process_type ,t1.user_id\n" +
+                "\t\n" +
+                "\t) t4 GROUP BY t4.process_type");
+
+        StringBuffer countStaffClassSql =  new StringBuffer("SELECT COUNT(id) staffAllCount, process FROM base_production_shift GROUP BY process");
+
+        StringBuffer processTypeSql = new StringBuffer("SELECT process_type FROM base_process GROUP BY process_type");
+
+        List<Map<String, Object>> processTypeSqlList = jdbcTemplate.queryForList(processTypeSql.toString());
+        List<Map<String, Object>> countStaffClassSqlList = jdbcTemplate.queryForList(countStaffClassSql.toString());
+        List<Map<String, Object>> staffOntimeSqlList = jdbcTemplate.queryForList(staffOntimeSql.toString());
+        List<StaffOntimeRateResp> staffOntimeRateRespList = new ArrayList<>();
+        for(Map<String, Object> processType:processTypeSqlList ){
+            StaffOntimeRateResp staffOntimeRateResp = new StaffOntimeRateResp();
+            String processTypeName = (String)processType.get("process_type");
+            staffOntimeRateResp.setProcessType(processTypeName);
+            staffOntimeRateResp.setProcessTypeStaffOnTimeCount(0);
+            staffOntimeRateResp.setProcessTypeStaffAllCount(0);
+            staffOntimeRateResp.setRate(BigDecimal.ZERO);
+            for(Map<String, Object> staffOnTime :staffOntimeSqlList){
+                String processName = (String)staffOnTime.get("process_type");
+                if(processName.equals(processTypeName)){
+                    Integer countOnTime = (Integer) staffOnTime.get("countOnTime");
+                    staffOntimeRateResp.setProcessTypeStaffOnTimeCount(countOnTime);
+                }
+            }
+            for(Map<String, Object> countStaffClass :countStaffClassSqlList){
+                String processName = (String)countStaffClass.get("process");
+                if(processName.equals(processTypeName)){
+                    Integer staffAllCount = (Integer) countStaffClass.get("staffAllCount");
+                    staffOntimeRateResp.setProcessTypeStaffAllCount(staffAllCount);
+                }
+            }
+            staffOntimeRateRespList.add(staffOntimeRateResp);
+        }
+        for(StaffOntimeRateResp resp : staffOntimeRateRespList){
+            BigDecimal rate = caculateRate(resp.getProcessTypeStaffOnTimeCount(),resp.getProcessTypeStaffAllCount());
+            resp.setRate(rate);
+        }
+        return staffOntimeRateRespList;
     }
 }

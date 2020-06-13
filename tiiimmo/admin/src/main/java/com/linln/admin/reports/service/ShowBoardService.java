@@ -1,6 +1,7 @@
 package com.linln.admin.reports.service;
 
 import com.linln.RespAndReqs.responce.ProcessThisWeekRateResp;
+import com.linln.RespAndReqs.responce.StaffOntimeRateResp;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.domain.ProcessTask;
@@ -32,4 +33,6 @@ public interface ShowBoardService {
     public Map<String,Object> getMapProcessDayRate();
 
     public  Map<String,Object> getMapProcessTypeDayRate();
+
+    public List<StaffOntimeRateResp>  staffTodayOntimeRate();
 }
