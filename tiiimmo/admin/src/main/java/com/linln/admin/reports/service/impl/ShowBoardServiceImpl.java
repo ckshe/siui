@@ -18,6 +18,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -59,7 +60,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         String startTime4 = thisWeekDate4.get("weekBegin")+" 00:00:00";
         String endTime4 = thisWeekDate4.get("weekEnd")+" 23:59:59";
         List<PcbTask> pcbTask4 = pcbTaskRepository.findAllByStartEndTime(startTime4,endTime4);
-        int week4Finish = (int) pcbTask4.stream().filter(p -> "完成".equals(p.getPcb_task_status())).count();
+        int week4Finish = (int) pcbTask4.stream().filter(p -> "已完成".equals(p.getPcb_task_status())).count();
         int week4All = pcbTask4.size()==0?1:pcbTask4.size();
         BigDecimal rate4 = caculateRate(week4Finish, week4All);
 
@@ -70,7 +71,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         String startTime3 = thisWeekDate3.get("weekBegin")+" 00:00:00";
         String endTime3 = thisWeekDate3.get("weekEnd")+" 23:59:59";
         List<PcbTask> pcbTask3 = pcbTaskRepository.findAllByStartEndTime(startTime3,endTime3);
-        int week3Finish = (int) pcbTask3.stream().filter(p -> "完成".equals(p.getPcb_task_status())).count();
+        int week3Finish = (int) pcbTask3.stream().filter(p -> "已完成".equals(p.getPcb_task_status())).count();
         int week3All = pcbTask3.size()==0?1:pcbTask3.size();
         BigDecimal rate3 = caculateRate(week3Finish, week3All);
 
@@ -82,7 +83,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         String endTime2 = thisWeekDate2.get("weekEnd")+" 22:59:59";
         List<PcbTask> pcbTask2 = pcbTaskRepository.findAllByStartEndTime(startTime2,endTime2);
 
-        int week2Finish = (int) pcbTask2.stream().filter(p -> "完成".equals(p.getPcb_task_status())).count();
+        int week2Finish = (int) pcbTask2.stream().filter(p -> "已完成".equals(p.getPcb_task_status())).count();
         int week2All = pcbTask2.size()==0?1:pcbTask2.size();
         BigDecimal rate2 = caculateRate(week2Finish, week2All);
 
@@ -93,7 +94,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         String startTime1 = thisWeekDate1.get("weekBegin")+" 00:00:00";
         String endTime1 = thisWeekDate1.get("weekEnd")+" 11:59:59";
         List<PcbTask> pcbTask1 = pcbTaskRepository.findAllByStartEndTime(startTime1,endTime1);
-        int week1Finish = (int) pcbTask1.stream().filter(p -> "完成".equals(p.getPcb_task_status())).count();
+        int week1Finish = (int) pcbTask1.stream().filter(p -> "已完成".equals(p.getPcb_task_status())).count();
         int week1All = pcbTask1.size()==0?1:pcbTask1.size();
         BigDecimal rate1 = caculateRate(week1Finish, week1All);
 
@@ -112,19 +113,19 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         List<ProcessTask> processTaskList = processTaskRepository.findByStartEndTime(startTime, endTime);
         //贴片工序任务
         List<ProcessTask> processTaskListTiepian = processTaskList.stream().filter(p -> "贴片A".equals(p.getProcess_name())||"贴片B".equals(p.getProcess_name())||"备料".equals(p.getProcess_name())||"贴片质检".equals(p.getProcess_name())).collect(Collectors.toList());
-        int finish1Count = (int)processTaskListTiepian.stream().filter(processTask -> "完成".equals(processTask.getProcess_task_status())).count();
+        int finish1Count = (int)processTaskListTiepian.stream().filter(processTask -> "已完成".equals(processTask.getProcess_task_status())).count();
         int all1Count = processTaskListTiepian.size()==0?1:processTaskListTiepian.size();
         BigDecimal rate1 = caculateRate(finish1Count, all1Count);
 
         //后焊工序任务
         List<ProcessTask> processTaskListhouhan = processTaskList.stream().filter(p -> "手插质检".equals(p.getProcess_name())||"手插".equals(p.getProcess_name())||"波峰焊".equals(p.getProcess_name())||"自动焊".equals(p.getProcess_name())||"人工焊".equals(p.getProcess_name())||"后焊终检".equals(p.getProcess_name())).collect(Collectors.toList());
-        int finish2Count = (int)processTaskListhouhan.stream().filter(processTask -> "完成".equals(processTask.getProcess_task_status())).count();
+        int finish2Count = (int)processTaskListhouhan.stream().filter(processTask -> "已完成".equals(processTask.getProcess_task_status())).count();
         int all2Count = processTaskListhouhan.size()==0?1:processTaskListhouhan.size();
         BigDecimal rate2 = caculateRate(finish2Count, all2Count);
 
         //调试工序任务
         List<ProcessTask> processTaskListtiaoshi = processTaskList.stream().filter(p -> "单板调试".equals(p.getProcess_name())).collect(Collectors.toList());
-        int finish3Count = (int)processTaskListtiaoshi.stream().filter(processTask -> "完成".equals(processTask.getProcess_task_status())).count();
+        int finish3Count = (int)processTaskListtiaoshi.stream().filter(processTask -> "已完成".equals(processTask.getProcess_task_status())).count();
         int all3Count = processTaskListtiaoshi.size()==0?1:processTaskListtiaoshi.size();
         BigDecimal rate3 = caculateRate(finish3Count, all3Count);
 
@@ -140,7 +141,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
     private BigDecimal caculateRate(int finishCount, int allcount) {
         BigDecimal finish2 = new BigDecimal(finishCount);
         BigDecimal all2 = new BigDecimal(allcount==0?1:allcount);
-        return finish2.divide(all2).setScale(4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
+        return finish2.divide(all2,4, RoundingMode.HALF_DOWN).multiply(new BigDecimal(100));
     }
 
     @Override
@@ -246,7 +247,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "\tAND plan_finish_time <= '" +
                 endTime +
 
-                "' AND process_task_status = '完成'\n" +
+                "' AND process_task_status = '已完成'\n" +
                 "GROUP BY\n" +
                 "\t CONVERT ( VARCHAR ( 100 ), plan_finish_time, 23 )");
         List<Map<String,Object>> allList = jdbcTemplate.queryForList(allsql.toString());
@@ -300,19 +301,19 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         List<ProcessTask> processTaskList = processTaskRepository.findByStartEndTime(startTime, endTime);
         //贴片工序任务
         List<ProcessTask> processTaskListTiepian = processTaskList.stream().filter(p -> "贴片A".equals(p.getProcess_name())||"贴片B".equals(p.getProcess_name())||"备料".equals(p.getProcess_name())||"贴片质检".equals(p.getProcess_name())).collect(Collectors.toList());
-        int finish1Count = (int)processTaskListTiepian.stream().filter(processTask -> "完成".equals(processTask.getProcess_task_status())).count();
+        int finish1Count = (int)processTaskListTiepian.stream().filter(processTask -> "已完成".equals(processTask.getProcess_task_status())).count();
         int all1Count = processTaskListTiepian.size()==0?1:processTaskListTiepian.size();
         BigDecimal rate1 = caculateRate(finish1Count, all1Count);
 
         //后焊工序任务
         List<ProcessTask> processTaskListhouhan = processTaskList.stream().filter(p -> "手插质检".equals(p.getProcess_name())||"手插".equals(p.getProcess_name())||"波峰焊".equals(p.getProcess_name())||"自动焊".equals(p.getProcess_name())||"人工焊".equals(p.getProcess_name())||"后焊终检".equals(p.getProcess_name())).collect(Collectors.toList());
-        int finish2Count = (int)processTaskListhouhan.stream().filter(processTask -> "完成".equals(processTask.getProcess_task_status())).count();
+        int finish2Count = (int)processTaskListhouhan.stream().filter(processTask -> "已完成".equals(processTask.getProcess_task_status())).count();
         int all2Count = processTaskListhouhan.size()==0?1:processTaskListhouhan.size();
         BigDecimal rate2 = caculateRate(finish2Count, all2Count);
 
         //调试工序任务
         List<ProcessTask> processTaskListtiaoshi = processTaskList.stream().filter(p -> "单板调试".equals(p.getProcess_name())).collect(Collectors.toList());
-        int finish3Count = (int)processTaskListtiaoshi.stream().filter(processTask -> "完成".equals(processTask.getProcess_task_status())).count();
+        int finish3Count = (int)processTaskListtiaoshi.stream().filter(processTask -> "已完成".equals(processTask.getProcess_task_status())).count();
         int all3Count = processTaskListtiaoshi.size()==0?1:processTaskListtiaoshi.size();
         BigDecimal rate3 = caculateRate(finish3Count, all3Count);
 
