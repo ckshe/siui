@@ -52,7 +52,10 @@ var db4POption1 = {
 				show: true,
 				color: 'rgba(255,255,255,1)',
 				fontSize: 20
-			}
+			},
+			formatter:function(value){
+                return value+'%'
+            }
 		},
 		axisLine: {
 			lineStyle: {
@@ -72,7 +75,7 @@ var db4POption1 = {
 			normal: {
 				show: true,
 				position: 'inside',
-				formatter: '{c}',
+				formatter: '{c}%',
 				color: '#fff',
 				fontSize: 20
 			}
@@ -126,7 +129,10 @@ var db4POption2 = {
 				show: true,
 				color: 'rgba(255,255,255,1)',
 				fontSize: 20
-			}
+			},
+			formatter:function(value){
+                return value+'%'
+            }
 		},
 		axisLine: {
 			lineStyle: {
@@ -146,7 +152,7 @@ var db4POption2 = {
 			normal: {
 				show: true,
 				position: 'inside',
-				formatter: '{c}',
+				formatter: '{c}%',
 				color: '#fff',
 				fontSize: 20
 			}

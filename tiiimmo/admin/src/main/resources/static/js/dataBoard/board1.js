@@ -197,21 +197,21 @@ var orderOption1 = {
         }
     },
     legend: {
-        // data: ['已完成', '未完成'],
-        // // x: 'right',
-        // textStyle: {
-        //     show: true,
-        //     color: 'rgba(255,255,255,1)',
-        //     fontSize: 16
-        // },
-        // y: 10
+        data: ['已完成', '未完成'],
+        // x: 'right',
+        textStyle: {
+            show: true,
+            color: 'rgba(255,255,255,1)',
+            fontSize: 16
+        },
+        y: 10
     },
     series: [
         {
             name: '',
             type: 'pie',
             radius: '80%',
-            center: ['50%', '50%'],
+            center: ['50%', '60%'],
             data: [
                 { value: 10, name: '已完成' },
                 { value: 20, name: '未完成' }
@@ -221,16 +221,16 @@ var orderOption1 = {
                     label: {
                         show: true,
                         position: 'inner',
-                        // formatter: '{b}:{d}%',
-                        formatter: function (prams) {
-                            var value;
-                            if (prams.data.value == 0) {
-                                value = ''
-                            } else {
-                                value = prams.data.name+'\n'+ prams.data.value + "%"
-                            }
-                            return value;
-                        },
+                        formatter: '{d}%',
+                        // formatter: function (prams) {
+                        //     var value;
+                        //     if (prams.data.value == 0) {
+                        //         value = ''
+                        //     } else {
+                        //         value = prams.data.name+'\n'+ prams.data.value + "%"
+                        //     }
+                        //     return value;
+                        // },
                         fontSize: 20
                     }
                 }
@@ -250,21 +250,21 @@ var orderOption2 = {
         }
     },
     legend: {
-        // data: ['已完成', '未完成'],
-        // // x: 'right',
-        // textStyle: {
-        //     show: true,
-        //     color: 'rgba(255,255,255,1)',
-        //     fontSize: 16
-        // },
-        // y: 10
+        data: ['已完成', '未完成'],
+        // x: 'right',
+        textStyle: {
+            show: true,
+            color: 'rgba(255,255,255,1)',
+            fontSize: 16
+        },
+        y: 10
     },
     series: [
         {
             name: '',
             type: 'pie',
             radius: '80%',
-            center: ['50%', '50%'],
+            center: ['50%', '60%'],
             data: [
                 { value: 10, name: '已完成' },
                 { value: 20, name: '未完成' }
@@ -274,16 +274,16 @@ var orderOption2 = {
                     label: {
                         show: true,
                         position: 'inner',
-                        // formatter: '{b}:{d}%',
-                        formatter: function (prams) {
-                            var value;
-                            if (prams.data.value == 0) {
-                                value = ''
-                            } else {
-                                value = prams.data.name+'\n'+ prams.data.value + "%"
-                            }
-                            return value;
-                        },
+                        formatter: '{d}%',
+                        // formatter: function (prams) {
+                        //     var value;
+                        //     if (prams.data.value == 0) {
+                        //         value = ''
+                        //     } else {
+                        //         value = prams.data.name+'\n'+ prams.data.value + "%"
+                        //     }
+                        //     return value;
+                        // },
                         fontSize: 20
                     }
                 }
@@ -303,21 +303,21 @@ var orderOption3 = {
         }
     },
     legend: {
-        // data: ['已完成', '未完成'],
-        // // x: 'right',
-        // textStyle: {
-        //     show: true,
-        //     color: 'rgba(255,255,255,1)',
-        //     fontSize: 16
-        // },
-        // y: 10
+        data: ['已完成', '未完成'],
+        // x: 'right',
+        textStyle: {
+            show: true,
+            color: 'rgba(255,255,255,1)',
+            fontSize: 16
+        },
+        y: 10
     },
     series: [
         {
             name: '',
             type: 'pie',
             radius: '80%',
-            center: ['50%', '50%'],
+            center: ['50%', '60%'],
             data: [
                 { value: 10, name: '已完成' },
                 { value: 20, name: '未完成' }
@@ -327,16 +327,16 @@ var orderOption3 = {
                     label: {
                         show: true,
                         position: 'inner',
-                        // formatter: '{b}:{d}%',
-                        formatter: function (prams) {
-                            var value;
-                            if (prams.data.value == 0) {
-                                value = ''
-                            } else {
-                                value = prams.data.name+'\n'+ prams.data.value + "%"
-                            }
-                            return value;
-                        },
+                        formatter: '{d}%',
+                        // formatter: function (prams) {
+                        //     var value;
+                        //     if (prams.data.value == 0) {
+                        //         value = ''
+                        //     } else {
+                        //         value = prams.data.name+'\n'+ prams.data.value + "%"
+                        //     }
+                        //     return value;
+                        // },
                         fontSize: 20
                     }
                 }
