@@ -439,6 +439,8 @@ public class ShowBoardServiceImpl implements ShowBoardService {
             staffOntimeRateResp.setProcessType(processTypeName);
             staffOntimeRateResp.setProcessTypeStaffOnTimeCount(0);
             staffOntimeRateResp.setProcessTypeStaffAllCount(0);
+            staffOntimeRateResp.setSumTheoryTime(0);
+            staffOntimeRateResp.setWorkTime(0);
             staffOntimeRateResp.setRate(BigDecimal.ZERO);
             for(Map<String, Object> staffOnTime :staffOntimeSqlList){
                 String processName = (String)staffOnTime.get("process_type");
