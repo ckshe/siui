@@ -43,7 +43,8 @@ public class LineServiceImpl implements LineService {
     public Page<Line> getPageList(Example<Line> example) {
         // 创建分页对象
         PageRequest page = PageSort.pageRequest();
-        return lineRepository.findAll(example, page);
+        Page<Line> lines = lineRepository.findAll(example, page);
+        return lines;
     }
 
     /**

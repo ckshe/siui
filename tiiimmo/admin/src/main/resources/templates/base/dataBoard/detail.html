@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+	<title>看板</title>
+	<!-- <link rel="stylesheet" type="text/css" href="../../css/dataBoard/bootstrap.min.css" /> -->
+	<link rel="stylesheet" type="text/css" href="../../css/dataBoard/reset.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/dataBoard/scanboard.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/dataBoard/animsition.css" />
+
+	<script type="text/javascript" src="../../js/dataBoard/jquery.min.js"></script>
+	<script type="text/javascript" src="../../js/dataBoard/echarts.min.js"></script>
+	<script type="text/javascript" src="../../js/dataBoard/macarons.js"></script>
+	<script type="text/javascript" src="../../js/dataBoard/util.js"></script>
+	<style>
+		.box {
+			height: 990px;
+			width: 1920px;
+			margin: 0 auto;
+			position: relative;
+		}
+
+		.slidebox {
+			height: 990px;
+			width: 1920px;
+			margin: 0 auto;
+			position: relative;
+			box-sizing: border-box;
+		}
+
+		.swiper-button {
+			width: 55px;
+			position: absolute;
+			top: 0;
+			height: 100%;
+			z-index: 1;
+		}
+	</style>
+</head>
+
+<body>
+	<!--Top Start!-->
+	<div class="scanboardWp animsition">
+		<div id="top">
+			<div class="wp clearfix">
+				<div class="center topLogo">
+					<a href="#"><img src="../../images/dataBoard/logo.png"></a>
+				</div>
+				<div class="right topBar">
+					<div class="topTime"></div>
+				</div>
+			</div>
+		</div>
+		<!--Top End!-->
+
+		<!-- Swiper -->
+		<div class="swiper-container" id="container">
+			<div class="swiper-wrapper box">
+				<div class="slidebox box1">
+					<div id="main" class="wp clearfix">
+						<div class="left">
+							<!--生产计划-->
+							<div class="item billState">
+								<div class="itemTit">
+									<span class="border-green">生产计划</span>
+									<span class="button-span"><button class="on">周</button><button>日</button></span>
+								</div>
+								<div class="itemCon">
+									<div class="StateBox firstBoard" id="firstBoard">
+									</div>
+								</div>
+							</div>
+							<!-- 底部图形 -->
+							<div class="item downEchar">
+								<div class="char3">
+									<!--日生产进度表-->
+									<div class="item basicInfo">
+										<div class="itemTit">
+											<span class="border-green">周任务完成率</span>
+										</div>
+										<div class="itemCon itembg">
+											<div id="db1P1" class="char3iner db1P1"></div>
+										</div>
+									</div>
+								</div>
+								<div class="char3">
+									<!--基本信息-->
+									<div class="item basicInfo">
+										<div class="itemTit">
+											<span class="border-yellow">产线周任务达成率</span>
+										</div>
+										<div class="itemCon itembg orderPiePie">
+											<div class="infoPie ">
+												<ul class="clearfix ">
+													<li class="color-yellow">
+														<div id="order1" class="summaryPie orderPie order1"></div>
+														<p>贴片线</p>
+													</li>
+													<li class="color-green">
+														<div id="order2" class="summaryPie orderPie order2"></div>
+														<p>后焊线</p>
+													</li>
+													<li class="color-blue">
+														<div id="order3" class="summaryPie orderPie order3"></div>
+														<p>调试线</p>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="char3">
+									<!--日处理任务表-->
+									<div class="item basicInfo">
+										<div class="itemTit">
+											<span class="border-blue">各批次完成率</span>
+										</div>
+										<div class="itemCon itembg">
+											<div id="db1P2" class="char3iner db1P2"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="slidebox box2">
+					<div class="item billState dataBoard2">
+						<div class="itemTit">
+							<span class="border-green">生产进度统计</span>
+						</div>
+						<div class="dataBoard2-iner">
+							<div id="db2P1" class="char3"></div>
+							<div id="db2P2" class="char3"></div>
+							<div id="db2P3" class="char3"></div>
+							<div id="db2P4" class="char3"></div>
+							<div id="db2P5" class="char3"></div>
+							<div id="db2P6" class="char3"></div>
+						</div>
+					</div>
+				</div>
+				<div class="slidebox box3">
+					<div class="item dataBoard2">
+						<div class="itemTit">
+							<span class="border-green">工序日上人员统计</span>
+						</div>
+						<div class="dataBoarder">
+							<div class="left item billState" style="height: 850px;">
+								<div class="itemTit">
+									<span class="border-yellow">人员工作信息表</span>
+								</div>
+								<div class="itemCon">
+									<div class="StateBox fourBoard" id="fourBoard">
+									</div>
+								</div>
+							</div>
+							<div class="right item" style="height: 850px;">
+								<div id="db4P1" class="db4p1"></div>
+								<div id="db4P2" class="db4p1" style="border-top: 1px solid #1e5b6b;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="dataBoard-slide slidebox box4">
+					<!-- <div><img src="../../images/dataBoard/11.png"></div> -->
+					<div class="wp clearfix">
+						<div class="deviceFlex">
+							<div class="left">
+								<div class="itemTit">
+									<span class="border-yellow">车间设备</span>
+									<span style="float: right; position: relative;">
+										<span style="display: inline-block; padding-right: 50px;">温度状态<i
+												class="state-green state-blue"></i></span>
+										<span style="display: inline-block;padding-right: 50px;">湿度状态<i
+												class="state-green state-yellow"></i></span>
+									</span>
+								</div>
+								<div class="imagesflex">
+									<div><span><i class="state1-green"></i></span><img
+											src="../../images/dataBoard/s1.png"></div>
+									<div><span><i class="state1-green"></i></span><img
+											src="../../images/dataBoard/s2.png"></div>
+									<div><span><i class="state1-green"></i></span><img
+											src="../../images/dataBoard/s3.png"></div>
+									<div><span><i class="state1-green"></i></span><img
+											src="../../images/dataBoard/s4.png"></div>
+									<div><span><i class="state1-green"></i></span><img
+											src="../../images/dataBoard/s5.png"></div>
+									<div><span><i class="state1-green"></i></span><img
+											src="../../images/dataBoard/s6.png"></div>
+									<div><span><i class="state1-green"></i></span><img
+											src="../../images/dataBoard/s7.png"></div>
+									<div><span><i class="state1-green"></i></span><img
+											src="../../images/dataBoard/s8.png"></div>
+									<div><span><i class="state1-green"></i></span><img
+											src="../../images/dataBoard/s9.png"></div>
+									<div><span><i class="state1-green"></i></span><img
+											src="../../images/dataBoard/s10.png"></div>
+									<div><span><i class="state1-green"></i></span><img
+											src="../../images/dataBoard/s11.png"></div>
+									<div><span><i class="state1-green"></i></span><img
+											src="../../images/dataBoard/s12.png"></div>
+								</div>
+							</div>
+							<!-- <div class="right">
+								<div class="itemTit">
+									<span class="border-green">产线日状态信息</span>
+								</div>
+								<div id="db3P1" class="threeBoard char"></div>
+							</div> -->
+						</div>
+					</div>
+					<div class="wp clearfix devicePosion borderTop">
+						<div class="deviceFlex">
+							<div class="left">
+								<div class="itemTit">
+									<span class="border-yellow">生产信息</span>
+								</div>
+								<div class="itembg" id="htmlPTask">
+									
+								</div>
+							</div>
+							<div class="right">
+								<div class="itemTit">
+									<span class="border-green">不良率</span>
+								</div>
+								<div id="db3P5" class="threeBoard3 char"></div>
+							</div>
+						</div>
+					</div>
+					<div class="wp clearfix devicePosion1 borderTop">
+						<div class="deviceFlex">
+							<div class="left">
+								<div class="itemTit">
+									<span class="border-yellow">日计划完成情况</span>
+								</div>
+								<div class="itembg">
+									<div id="db3P2" class="threeBoard2 char"></div>
+								</div>
+							</div>
+							<div class="right">
+								<div class="itemTit">
+									<span class="border-green">设备日运行时长</span>
+								</div>
+								<div id="db3P3" class="threeBoard3 char"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Add Arrows -->
+			<div class="swiper-button"></div>
+			<div class="swiper-button" style="right: 0;"></div>
+		</div>
+		<!--Main Start!-->
+		<!--Main End!-->
+		<!-- </div> -->
+
+
+		<!-- 弹框 -->
+		<div class="filterbg"></div>
+		<div class="popup">
+			<a href="javascript:;" class="popupClose"></a>
+			<div class="summary" style="display: flex;">
+
+			</div>
+		</div>
+
+	</div>
+</body>
+<script src="../../js/dataBoard/banner.js"></script>
+<script>
+	// $(".banner") 这是调用插件的对象为轮播图的父级框
+	// banner() 轮播图插件函数，接收两个参数
+	// 第一个参数要切换图片的集合，必填
+	// 第二个参数是轮播图的轮播方式属性，选填，有默认规则
+	// but:true,    // 左右按钮默认为true
+	// butahidden:true,    // 是否自动隐藏左右按钮默认隐藏
+	// list:true,  // 导航按钮
+	// index:3,    //初始从第几个开始默认为0
+	// autoPlay:true,  // 自动轮播默认为true
+	// delayTiem:2000,  // 延迟时间默认为2000
+	// moveTime:500    // 远动时间默认为300
+	$("#container").banner($(".swiper-wrapper").find(".slidebox"), {
+		list: false,
+		autoPlay: false,
+	});
+
+</script>
+<script type="text/javascript" src="../../js/dataBoard/scanboard.js"></script>
+<script type="text/javascript" src="../../js/dataBoard/board1.js"></script>
+<script type="text/javascript" src="../../js/dataBoard/board2.js"></script>
+<script type="text/javascript" src="../../js/dataBoard/board3.js"></script>
+<script type="text/javascript" src="../../js/dataBoard/board4.js"></script>
+<script type="text/javascript" src="../../js/dataBoard/fontscroll.js"></script>
+<script type="text/javascript" src="../../js/dataBoard/jquery.animsition.js"></script>
+<script type="text/javascript" src="../../js/dataBoard/jquery.nicescroll.js"></script>
+<!-- <script type="text/javascript" src="../../js/dataBoard/bootstrap.min.js"></script> -->
+
+</html>

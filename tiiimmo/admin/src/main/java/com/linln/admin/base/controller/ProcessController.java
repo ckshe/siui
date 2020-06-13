@@ -2,6 +2,7 @@ package com.linln.admin.base.controller;
 
 import com.linln.admin.base.domain.Process;
 import com.linln.admin.base.service.ProcessService;
+import com.linln.admin.base.util.ApiResponse;
 import com.linln.admin.base.validator.ProcessValid;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.EntityBeanUtil;
@@ -118,4 +119,25 @@ public class ProcessController {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
     }
+
+    /**
+     * 排序更新
+     * @param sort
+     * @param id
+     * @return
+     */
+    @RequestMapping("move")
+    public ApiResponse move(String sort, Long id) {
+        try {
+            if ("down".equals(sort)) {
+                processService.moveDown(id);
+            } else if ("up".equals(sort)) {
+                processService.moveUp(id);
+            }
+            return ApiResponse.ofSuccess("成功");
+        } catch (Exception e) {
+            return ApiResponse.ofError("失败");
+        }
+    }
+
 }

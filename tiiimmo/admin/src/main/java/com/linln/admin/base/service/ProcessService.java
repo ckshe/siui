@@ -38,4 +38,16 @@ public interface ProcessService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    /**
+     * 下移
+     * @param id
+     */
+    void moveDown(Long id);
+
+    /**
+     * 上移
+     * @param id
+     */
+    void moveUp(Long id);
 }

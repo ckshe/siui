@@ -59,4 +59,11 @@ public class Line implements Serializable {
     private Byte status = StatusEnum.OK.getCode();
     // 所在产区
     private String area;
+    /*@ManyToOne(fetch=FetchType.LAZY)
+    @NotFound(action=NotFoundAction.IGNORE)
+    @JoinColumn(name="area")
+    private PlantArea area;*/
+    /*@OneToOne(targetEntity=PlantArea.class)
+    @JoinColumn(name="base_plant_area",referencedColumnName="area")
+    private PlantArea area;*/
 }

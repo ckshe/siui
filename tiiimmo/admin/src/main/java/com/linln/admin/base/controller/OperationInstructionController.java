@@ -10,6 +10,9 @@ import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.utils.StatusUtil;
 import com.linln.common.vo.ResultVo;
 import com.linln.component.shiro.ShiroUtil;
+import com.linln.utill.FileUtil;
+import com.sun.prism.shader.Solid_TextureYV12_AlphaTest_Loader;
+import org.apache.commons.io.IOUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -23,8 +26,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author 连
@@ -94,7 +101,8 @@ public class OperationInstructionController {
         }
         operationInstruction.setUploadTime(new Date());
         operationInstruction.setUploadPeople(ShiroUtil.getSubject().getUsername());
-        upload(file,request);
+        FileUtil.upload(file);
+        operationInstruction.setUploadFile(file.getOriginalFilename());
 
         // 保存数据
         operationInstructionService.save(operationInstruction);
@@ -136,11 +144,34 @@ public class OperationInstructionController {
         return operationInstructionService.importOperationManual(file);
     }
 
-    @ResponseBody
+    /*@ResponseBody
     @RequestMapping("/file/upload")
     public ApiResponse upload(@RequestParam("file")MultipartFile file,
-                             HttpServletRequest request){
-        if(!file.isEmpty()) {
+                             HttpServletRequest request) {
+        String path = "D:\\test";
+        String fileName = UUID.randomUUID().toString().replace("-","");
+        File tFile = new File(path + File.pathSeparator + fileName);
+
+        FileOutputStream fileOutputStream  = null;
+        try {
+            fileOutputStream = new FileOutputStream(tFile);
+            IOUtils.copy(file.getInputStream(),fileOutputStream);
+            System.out.println("上传成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ApiResponse.ofError("异常");
+        } finally {
+            try {
+                fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return ApiResponse.ofSuccess("文件上传成功");
+    }*/
+
+
+        /*if(!file.isEmpty()) {
             String path = "D:/test/";
             path = request.getServletContext().getRealPath("");
             //上传文件名
@@ -167,7 +198,8 @@ public class OperationInstructionController {
         }
         return ApiResponse.ofError("异常");
 
-    }
+    }*/
+
 
 
 

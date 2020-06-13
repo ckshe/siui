@@ -1,5 +1,10 @@
-package com.linln.devtools.generate.utils;
+package com.linln.utill;
 
+import com.linln.admin.base.util.ApiResponse;
+import com.linln.devtools.generate.utils.CodeUtil;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +21,8 @@ import java.util.UUID;
  * @date 2019/3/2
  */
 public class FileUtil {
+
+    private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
     /**
      * 获取模板文件路径
@@ -62,5 +69,28 @@ public class FileUtil {
         }
     }
 
+    public static ApiResponse upload(MultipartFile file) {
+        String path = "D:\\test\\";
+        String fileName = UUID.randomUUID().toString().replace("-","");
+        File tFile = new File(path + File.pathSeparator + fileName);
 
+        FileOutputStream fileOutputStream  = null;
+        try {
+            fileOutputStream = new FileOutputStream(tFile);
+            IOUtils.copy(file.getInputStream(),fileOutputStream);
+            logger.info("上传成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("异常");
+            return ApiResponse.ofError("异常");
+        } finally {
+            try {
+                fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        logger.info("文件上传成功");
+        return ApiResponse.ofSuccess("文件上传成功");
+    }
 }

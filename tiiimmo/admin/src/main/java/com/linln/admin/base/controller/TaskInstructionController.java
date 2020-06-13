@@ -8,6 +8,7 @@ import com.linln.common.utils.EntityBeanUtil;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.utils.StatusUtil;
 import com.linln.common.vo.ResultVo;
+import com.linln.component.shiro.ShiroUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -85,6 +87,8 @@ public class TaskInstructionController {
             EntityBeanUtil.copyProperties(beTaskInstruction, taskInstruction);
         }
 
+        taskInstruction.setUploadTime(new Date());
+        taskInstruction.setUploadPeople(ShiroUtil.getSubject().getUsername());
         // 保存数据
         taskInstructionService.save(taskInstruction);
         return ResultVoUtil.SAVE_SUCCESS;

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author www
@@ -62,5 +63,60 @@ public class ProcessServiceImpl implements ProcessService {
     @Transactional
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return processRepository.updateStatus(statusEnum.getCode(), idList) > 0;
+    }
+
+    /**
+     * 列表数据下移
+     * @param id
+     */
+    @Override
+    public void moveDown(Long id) {
+        //获取当前的数据信息（即准备下移的数据）
+        Process process = processRepository.findByPId(id);
+        //查询下一条的数据信息
+        Process processNext = processRepository.moveDown(process.getSort_no());
+        //最下面的数据信息不能下移
+        if (processNext == null) {
+            return;
+        }
+        //交换两条数据信息的sort_no值
+        Integer temp = process.getSort_no();
+        process.setSort_no(processNext.getSort_no());
+        processNext.setSort_no(temp);
+        //更新到数据库
+        processRepository.save(process);
+        processRepository.save(processNext);
+    }
+
+    @Override
+    public void moveUp(Long id) {
+        //获取当前的数据信息（即准备下移的数据）
+        Process process = processRepository.findByPId(id);
+        //查询上一条的数据信息
+        Process processBefore = processRepository.moveUp(process.getSort_no());
+        //最上面的数据不能上移
+        if (processBefore == null){
+            return;
+        }
+        //交换两条数据信息的sort_no值
+        Integer temp = process.getSort_no();
+        process.setSort_no(processBefore.getSort_no());
+        processBefore.setSort_no(temp);
+        //更新到数据库
+        processRepository.save(process);
+        processRepository.save(processBefore);
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
