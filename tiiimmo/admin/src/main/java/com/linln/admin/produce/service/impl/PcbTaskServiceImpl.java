@@ -671,20 +671,40 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             List<PcbTask> pcbTasks = pcbTaskRepository.findAllByPcb_task_code(pcbTaskReq.getPcbTaskCode());
             if(pcbTasks.size()>0){
                 PcbTask pcbTask = pcbTasks.get(0);
-                pcbTask.setPcb_task_status(pcbTaskReq.getStatus());
-                pcbTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
-                pcbTask.setPlan_complete_date(pcbTaskReq.getPlanFinishTime());
+                if(pcbTaskReq.getStatus()!=null&&!"".equals(pcbTaskReq.getStatus())){
+                    pcbTask.setPcb_task_status(pcbTaskReq.getStatus());
+                }
+                if(pcbTaskReq.getAmountCompleted()!=null&&!"".equals(pcbTaskReq.getAmountCompleted())){
+                    pcbTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
+                }
+                if(pcbTaskReq.getPlanFinishTime()!=null&&!"".equals(pcbTaskReq.getPlanFinishTime())){
+                    pcbTask.setPlan_complete_date(pcbTaskReq.getPlanFinishTime());
+                }
                 pcbTaskRepository.save(pcbTask);
             }
 
         }
         if(pcbTaskReq.getProcessTaskCode()!=null&&!"".equals(pcbTaskReq.getProcessTaskCode())){
             ProcessTask processTask = processTaskRepository.findByProcessTaskCode(pcbTaskReq.getProcessTaskCode());
-            processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
-            processTask.setWork_time(pcbTaskReq.getWorkTime());
-            processTask.setFinish_time(pcbTaskReq.getFinishTime());
-            processTask.setPlan_finish_time(pcbTaskReq.getPlanFinishTime());
-            processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
+            if(pcbTaskReq.getPlanFinishTime()!=null&&!"".equals(pcbTaskReq.getPlanFinishTime())){
+                processTask.setPlan_finish_time(pcbTaskReq.getPlanFinishTime());
+            }
+            if(pcbTaskReq.getAmountCompleted()!=null&&!"".equals(pcbTaskReq.getAmountCompleted())){
+                processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
+            }
+            if(pcbTaskReq.getWorkTime()!=null&&!"".equals(pcbTaskReq.getWorkTime())){
+                processTask.setWork_time(pcbTaskReq.getWorkTime());
+
+            }
+            if(pcbTaskReq.getFinishTime()!=null&&!"".equals(pcbTaskReq.getFinishTime())){
+                processTask.setFinish_time(pcbTaskReq.getFinishTime());
+
+            }
+            if(pcbTaskReq.getProcessTaskStatus()!=null&&!"".equals(pcbTaskReq.getProcessTaskStatus())){
+                processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
+
+            }
+
             processTaskRepository.save(processTask);
         }
         return ResultVoUtil.success();
