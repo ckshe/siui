@@ -566,10 +566,10 @@ function setDataBoard1(params) {
                 }else{
                     tbodyDataS[j].produce_plan_date = ''
                 }
-                if(tbodyDataS[j].plan_complete_date!=null){
-                    tbodyDataS[j].plan_complete_date = tbodyDataS[j].plan_complete_date.split('T')[0] ;
+                if(tbodyDataS[j].produce_plan_complete_date!=null){
+                    tbodyDataS[j].produce_plan_complete_date = tbodyDataS[j].produce_plan_complete_date.split('T')[0] ;
                 }else{
-                    tbodyDataS[j].plan_complete_date = ''
+                    tbodyDataS[j].produce_plan_complete_date = ''
                 }
                 tbodyHtml +=
                     '<li>' +
@@ -580,7 +580,7 @@ function setDataBoard1(params) {
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_name + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].task_sheet_code + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].produce_plan_date + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].plan_complete_date + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].produce_plan_complete_date + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_quantity + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].amount_completed + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_status + '</span>' +
