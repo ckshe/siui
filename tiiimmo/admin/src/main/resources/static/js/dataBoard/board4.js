@@ -25,7 +25,8 @@ var db4POption1 = {
 			color: '#fff',
 			fontSize: 22,
 			fontWeight: 'normal',
-		}
+		},
+		formatter: '{b} <br/>{a} : {c}%',
 	},
 	grid: {
 		top: "10%",
@@ -43,7 +44,6 @@ var db4POption1 = {
 				fontSize: 20
 			}
 		},
-		data: ["贴片", "后焊", "插件", "调试"]
 	},
 	yAxis: {
 		name: '',
@@ -67,9 +67,9 @@ var db4POption1 = {
 		max: 100
 	},
 	series: [{
-		name: '',
+		name: '上岗率',
 		type: 'bar',
-		data: [50, 79, 66, 92],
+		data: [],
 		barWidth: 50,
 		label: {
 			normal: {
@@ -102,7 +102,8 @@ var db4POption2 = {
 			color: '#fff',
 			fontSize: 22,
 			fontWeight: 'normal',
-		}
+		},
+		formatter: '{b} <br/>{a} : {c}%',
 	},
 	grid: {
 		top: "10%",
@@ -120,7 +121,7 @@ var db4POption2 = {
 				fontSize: 20
 			}
 		},
-		data: ["贴片", "后焊", "插件", "调试"]
+		data: []
 	},
 	yAxis: {
 		name: '',
@@ -144,9 +145,9 @@ var db4POption2 = {
 		max: 100
 	},
 	series: [{
-		name: '',
+		name: '工时利用率',
 		type: 'bar',
-		data: [56, 88, 77, 95],
+		data: [],
 		barWidth: 50,
 		label: {
 			normal: {
@@ -178,13 +179,13 @@ function addfourBoardHtml(data) {
 			'<span  style="width:' + colwidth + '">' + tbodyData[j].device_code + '</span>' +
 			'<span  style="width:' + colwidth + '">' + tbodyData[j].process_name + '</span>' +
 			'<span  style="width:' + colwidth + '">' + tbodyData[j].process_task_code + '</span>' +
-			'<span  style="width:' + colwidth + '">' +
-				'<div class="progress" progress="'+tbodyData[j].rate+'%">' +
-				'	<div class="progressBar">' +
-				'		<span></span>' +
-				'	</div>' +
-				'	<h3><i><h4></h4></i></h3>' +
-				'</div>' +
+			'<span  style="width:' + colwidth + '">' +tbodyData[j].rate+'%'+
+				// '<div class="progress" progress="'+tbodyData[j].rate+'%">' +
+				// '	<div class="progressBar">' +
+				// '		<span></span>' +
+				// '	</div>' +
+				// '	<h3><i><h4></h4></i></h3>' +
+				// '</div>' +
 			 '</span>' +
 			
 			'</div>' +
@@ -221,26 +222,37 @@ function data4Show(data) {
 	addData4Html(data);
 };
 function addData4Html(data) {
-	console.log("data===",data.task_sheet_code)
+	if (data.plan_start_time != null) {
+		data.plan_start_time = data.plan_start_time.split('T')[0];
+	} else {
+		data.plan_start_time = ''
+	}
+	if (data.plan_finish_time != null) {
+		data.plan_finish_time = data.plan_finish_time.split('T')[0];
+	} else {
+		data.plan_finish_time = ''
+	}
 	var theadHtmlP1 = '<div class="item summaryP1" style="">' +
 		'   <div class="itemTit">' +
 		'       <span class="border-blue">任务详情</span>' +
 		'   </div>' +
 		'   <div class="itemCon itembg itembg_popupfirt">' +
 		'       <ul class="listStyle">' +
-		'           <li class="clearfix">' +
-			'				<span class="col2">工序任务号:<strong>'+data.task_sheet_code+'</strong></span>'+
-			'				<span class="col2">生产任务单号:<strong>'+data.pcb_task_code+'</strong></span>'+
-			// '				<span class="col2">车间:<strong>'+data.workshop+'</strong></span>'+
-			'				<span class="col2">机型名称:<strong>'+data.device_name+'</strong></span>'+
-			'				<span class="col2">机型型号:<strong>'+data.device_code+'</strong></span>'+
-			'				<span class="col2">PCB编码:<strong>'+data.pcb_code+'</strong></span>'+
-			'				<span class="col2">PCB名称:<strong>'+data.pcb_name+'</strong></span>'+
-			'				<span class="col2">PCB数量:<strong>'+data.pcb_quantity+'</strong></span>'+
-			'				<span class="col2">RoHS标志:<strong>'+data.is_rohs+'</strong></span>'+
-			'				<span class="col2">生产计划开始时间:<strong>'+data.plan_finish_time.split('T')[0] +'</strong></span>'+
-			'				<span class="col2">生产计划结束时间:<strong>'+data.plan_finish_time.split('T')[0] +'</strong></span>'+
-			'				<span class="col2">任务状态:<strong>'+data.process_task_status+'</strong></span>'+
+		'           <li class="clearfix">' +	
+			'				<span class="col2">生产任务号:<strong>' + data.pcb_task_code + '</strong></span>' +
+			'				<span class="col2">机台名称:<strong>' + data.device_name + '</strong></span>' +
+			'				<span class="col2">机台编号:<strong>' + data.device_code + '</strong></span>' +
+			'				<span class="col2">工序名称:<strong>' + data.process_name + '</strong></span>' +
+			'				<span class="col2">工序单状态:<strong>' + data.process_task_status + '</strong></span>' +
+			'				<span class="col2">完成数量:<strong>' + data.amount_completed + '</strong></span>' +
+			'				<span class="col2">计划开始时间:<strong>' + data.plan_start_time + '</strong></span>' +
+			'				<span class="col2">计划结束时间:<strong>' + data.plan_finish_time + '</strong></span>' +
+			'				<span class="col2">工时:<strong>' + data.work_time + '</strong></span>' +
+			'				<span class="col2">pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
+			'				<span class="col2">PCB数量:<strong>' + data.pcb_quantity + '</strong></span>' +
+			'				<span class="col2">RoHS标志:<strong>' + data.is_rohs + '</strong></span>' +
+			'				<span class="col1">工序订单编号:<strong>' + data.process_task_code + '</strong></span>' +
+			'				<span class="col1">PCB名称:<strong>' + data.pcb_name + '</strong></span>' +
 			'			</li>'+
 		'       </ul>' +
 		'   </div>' +
@@ -250,18 +262,43 @@ function addData4Html(data) {
 var board4Api = {
     staffOnBoard:'/ShowBoard/staffOnBoard',
     findByProcessTaskCode:'/ShowBoard/findByProcessTaskCode/',
+    staffTodayOntimeRate:'/ShowBoard/staffTodayOntimeRate',
 }
 function setDataBoard4(params) {
-	db4P1.setOption(db4POption1);
-	db4P2.setOption(db4POption2);
+	// db4P1.setOption(db4POption1);
+	// db4P2.setOption(db4POption2);
 	$.ajax({
         contentType: 'application/json',
         type: 'get',
         url: board4Api.staffOnBoard,
         dataType: "json",
         success: function (response) {
-			console.log("response===",response)
 			addfourBoardHtml(response.data);
         }
     });
+	$.ajax({
+		contentType: 'application/json',
+        type: 'get',
+        url: board4Api.staffTodayOntimeRate,
+        dataType: "json",
+        success: function (response) {
+			var kRateArr = [],useRateArr = [],axiskRateArr=[];
+			for(var i=0;i<response.data.length;i++){
+				kRateArr.push(response.data[i].rate);
+				useRateArr.push(response.data[i].useRate);
+				axiskRateArr.push(response.data[i].processType);
+			}
+			console.log(kRateArr,useRateArr,axiskRateArr)
+			db4POption1.series[0].data = kRateArr;
+			db4POption1.xAxis.data = axiskRateArr;
+			db4P1.setOption(db4POption1);
+
+			db4POption2.series[0].data = useRateArr;
+			db4POption2.xAxis.data = axiskRateArr;
+			db4P2.setOption(db4POption2);
+
+        }
+    });
+
+
 }
