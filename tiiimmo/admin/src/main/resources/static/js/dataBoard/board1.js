@@ -55,12 +55,15 @@ var db1P1Option = {
     },
     //y轴没有显式设置，根据值自动生成y轴
     yAxis: {
-        name: '百分比',
+        name: '',
         axisLabel: {
             textStyle: {
                 show: true,
                 color: 'rgba(255,255,255,1)',
                 fontSize: 20
+            },
+            formatter:function(value){
+                return value+'%'
             }
         },
         max: 100,
@@ -127,8 +130,12 @@ var db1P2Option = {
                 show: true,
                 color: 'rgba(255,255,255,1)',
                 fontSize: 20
+            },
+            formatter:function(value){
+                return value+'%'
             }
         },
+        minInterval:10
         // min: 0,
         // max: 100
         // // data: ['TCL-01-09', 'TCL-01-12', 'TCL-01-13'],
@@ -444,6 +451,9 @@ function setDataBoard1(params) {
 
                     db1P2Option.series[0].data = axisWeekNumArr;
                     db1P2Option.xAxis.data = axisWeekRateArr;
+                    db1P2Option.yAxis.axisLabel.formatter=function(value){
+                        return value
+                    }
                     db1P2Option.yAxis.max = null;
                     db1P2Option.yAxis.min = null;
                     db1P2.setOption(db1P2Option);
@@ -553,9 +563,13 @@ function setDataBoard1(params) {
                 }
                 if(tbodyDataS[j].produce_plan_date!=null){
                     tbodyDataS[j].produce_plan_date = tbodyDataS[j].produce_plan_date.split('T')[0] ;
+                }else{
+                    tbodyDataS[j].produce_plan_date = ''
                 }
-                if(tbodyDataS[j].produce_date!=null){
-                    tbodyDataS[j].produce_date = tbodyDataS[j].produce_date.split('T')[0] ;
+                if(tbodyDataS[j].plan_complete_date!=null){
+                    tbodyDataS[j].plan_complete_date = tbodyDataS[j].plan_complete_date.split('T')[0] ;
+                }else{
+                    tbodyDataS[j].plan_complete_date = ''
                 }
                 tbodyHtml +=
                     '<li>' +
@@ -566,7 +580,7 @@ function setDataBoard1(params) {
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_name + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].task_sheet_code + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].produce_plan_date + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].produce_date + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].plan_complete_date + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_quantity + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].amount_completed + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_status + '</span>' +
@@ -600,9 +614,23 @@ function setDataBoard1(params) {
                 }
                 if(tbodyDataS[j].plan_start_time!=null){
                     tbodyDataS[j].plan_start_time = tbodyDataS[j].plan_start_time.split('T')[0] ;
+                }else{
+                    tbodyDataS[j].plan_start_time=''
                 }
                 if(tbodyDataS[j].plan_finish_time!=null){
                     tbodyDataS[j].plan_finish_time = tbodyDataS[j].plan_finish_time.split('T')[0] ;
+                }else{
+                    tbodyDataS[j].plan_finish_time=''
+                }
+                if(tbodyDataS[j].start_time!=null){
+                    tbodyDataS[j].start_time = tbodyDataS[j].start_time.split('T')[0] ;
+                }else{
+                    tbodyDataS[j].start_time=''
+                }
+                if(tbodyDataS[j].finish_time!=null){
+                    tbodyDataS[j].finish_time = tbodyDataS[j].finish_time.split('T')[0] ;
+                }else{
+                    tbodyDataS[j].finish_time =''
                 }
                 tbodyHtml +=
                     '<li>' +
@@ -610,9 +638,9 @@ function setDataBoard1(params) {
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_task_code + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_name + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].plan_start_time + '</span>' +
-                    '<span style="width:' + widthPercent + '"></span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].start_time + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].plan_finish_time + '</span>' +
-                    '<span style="width:' + widthPercent + '"></span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].finish_time + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_quantity + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].amount_completed + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_task_status + '</span>' +
@@ -663,12 +691,18 @@ function setDataBoard1(params) {
         }
         if(data.task_sheet_date!=null){
             data.task_sheet_date = data.task_sheet_date.split('T')[0] ;
+        }else{
+            data.task_sheet_date = ''
         }
-        if(data.produce_date!=null){
-            data.produce_date = data.produce_date.split('T')[0] ;
+        if(data.plan_complete_date!=null){
+            data.plan_complete_date = data.plan_complete_date.split('T')[0] ;
+        }else{
+            data.plan_complete_date=''
         }
         if(data.produce_plan_complete_date!=null){
             data.produce_plan_complete_date = data.produce_plan_complete_date.split('T')[0] ;
+        }else{
+            data.produce_plan_complete_date=''
         }
         var theadHtmlP1 = '<div class="item summaryP1" style="">' +
             '   <div class="itemTit">' +
@@ -682,7 +716,7 @@ function setDataBoard1(params) {
             '               <span>规格型号:<strong>' + data.model_ver + '</strong></span>' +
             '               <span class="col2">物料名称:<strong>' + data.pcb_name + '</strong></span>' +
             '               <span>生产批次:<strong>' + data.task_sheet_code + '</strong></span>' +
-            '               <span>完成时间:<strong>' + data.produce_date + '</strong></span>' +
+            '               <span>完成时间:<strong>' + data.plan_complete_date + '</strong></span>' +
             '               <span>生产数量:<strong>' + data.pcb_quantity + '</strong></span>' +
             '               <span>完成数量:<strong>' + data.amount_completed + '</strong></span>' +
             '               <span>工单状态:<strong>' + data.pcb_task_status + '</strong></span>' +
