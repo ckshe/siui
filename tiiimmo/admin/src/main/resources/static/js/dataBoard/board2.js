@@ -59,8 +59,8 @@
 				db2POption6.series[0].data = rukuArr;
 				db2P6.setOption(db2POption6);
 				//齐套率未完成，假的
-				db2POption4.yAxis.data = tiepianTaskArr;
-				db2POption4.series[0].data = tiepianArr;
+				// db2POption4.yAxis.data = tiepianTaskArr;
+				// db2POption4.series[0].data = tiepianArr;
 				db2P4.setOption(db2POption4);
             }
 		});
@@ -705,20 +705,3 @@
 											]
 		summaryPie1.setOption(summaryPie1Option)
 	}
-
-	db2P2.on('click', function (params) {
-		console.log(params.dataIndex)
-		setClick(2);
-	});
-	db2P3.on('click', function (params) {
-		setClick(3);
-	});
-	db2P4.on('click', function (params) {
-		setClick(4);
-	});
-	db2P5.on('click', function (params) {
-		setClick(5);
-	});
-	db2P6.on('click', function (params) {
-		setClick(6);
-	});

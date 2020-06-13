@@ -549,8 +549,6 @@ var db3POption5 = {
                 { value: 50, name: '贴片' },
                 { value: 60, name: '后焊' },
                 { value: 45, name: '插件' },
-                { value: 36, name: '调试' },
-                { value: 95, name: '入库' }
             ],
             emphasis: {
                 itemStyle: {

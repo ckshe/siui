@@ -607,7 +607,7 @@ function setDataBoard1(params) {
                 tbodyHtml +=
                     '<li>' +
                     '<div class="fontInner clearfix">' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_code + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_task_code + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_name + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].plan_start_time + '</span>' +
                     '<span style="width:' + widthPercent + '"></span>' +
@@ -718,6 +718,7 @@ function setDataBoard1(params) {
             '   <div class="itemCon itembg itembg_popupfirt">' +
             '       <ul class="listStyle">' +
             '           <li class="clearfix">' +
+            '               <span>工序任务号:<strong>' + data.process_task_code + '</strong></span>' +
             '               <span>制造编号:<strong>' + data.task_sheet_code + '</strong></span>' +
             '               <span>实际生产数量:<strong>' + data.amount_completed + '</strong></span>' +
             '               <span>设备编号:<strong>' + data.device_code + '</strong></span>' +
@@ -727,7 +728,6 @@ function setDataBoard1(params) {
             '               <span>pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
             '               <span>RoHS:<strong>' + data.is_rohs + '</strong></span>' +
             '               <span>计划生产数量:<strong>' + data.pcb_quantity + '</strong></span>' +
-            '               <span>工序任务号:<strong>' + data.process_task_code + '</strong></span>' +
             '               <span>工序名称:<strong>' + data.process_name + '</strong></span>' +
             '               <span>工序状态:<strong>' + data.process_task_status + '</strong></span>' +
             '               <span>计划完成时间:<strong>' + data.plan_finish_time+ '</strong></span>' +

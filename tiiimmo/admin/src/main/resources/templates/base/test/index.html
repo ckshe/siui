@@ -1,7 +1,166 @@
 ﻿<!DOCTYPE html>
 <html>
 
-<head></head>
-11111
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>看板</title>
+    <script type="text/javascript" src="../../js/dataBoard/jquery.min.js"></script>
+    
+    <style type="text/css">
+        body{
+            font-size: 25px;
+        }
+        table.gridtable {
+            font-family: verdana, arial, sans-serif;
+            font-size: 11px;
+            color: #333333;
+            border-width: 1px;
+            border-color: #666666;
+            border-collapse: collapse;
+        }
+
+        table.gridtable th {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #dedede;
+        }
+
+        table.gridtable td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #ffffff;
+        }
+
+        input {
+            outline-style: none;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            /* padding: 5px; */
+            width: 100%;
+            font-size: 24px;
+            font-family: "Microsoft soft";
+        }
+        
+    </style>
+</head>
+
+<body>
+    <!--Top Start!-->
+    <div class="scanboardWp animsition">
+        <div id="top">
+            <div>生产计划看板（排产计划）</div>
+            <table class="gridtable">
+                <tr>
+                    <th>生产任务单号</th>
+                    <th>完成数量</th>
+                    <th>工单状态</th>
+                    <th>实际完成时间</th>
+                    <th>操作</th>
+                </tr>
+                <tr>
+                    <td><input id="week_pcb_task_code"></td>
+                    <td><input id="week_quantity"></td>
+                    <td><input id="week_pcb_task_status"></td>
+                    <td><input id="week_produce_complete_date"></td>
+                    <td><button id="weekButton">更新</button></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>备注：整数</td>
+                    <td>可选: 确认/已下达未投产/已下达已投产/已完成</td>
+                    <td>格式：2020-06-16</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <div id="two" style="margin-top: 20px;">
+            <div>生产计划看板（工序计划）</div>
+            <table class="gridtable">
+                <tr>
+                    <th>工序任务号</th>
+                    <th>实际生产时间</th>
+                    <th>生产完成时间</th>
+                    <th>完成生产数量</th>
+                    <th>工单状态</th>
+                    <th>工时 (分)</th>
+                    <th>操作</th>
+                </tr>
+                <tr>
+                    <td><input id="data_processTaskCode"></td>
+                    <td><input id="data_planFinishTime"></td>
+                    <td><input id="data_finishTime"></td>
+                    <td><input id="data_amountCompleted"></td>
+                    <td><input id="data_processTaskStatus"></td>
+                    <td><input id="data_workTime"></td>
+                    <td><button id="dataButton">更新</button></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>格式：2020-06-16</td>
+                    <td>格式：2020-06-16</td>
+                    <td>备注：整数</td>
+                    <td>可选: 未下达/已下达/进行中/生产中/已完成</td>
+                    <td>整数（分钟）</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <!--Top End!-->
+    </div>
+    <script>
+            $("#weekButton").off().on('click',function(){
+                if(!$("#week_pcb_task_code").val()){
+                    alert("生产任务单号必填");
+                    return;
+                }
+                $.ajax({
+                        url: '/open/tempChangeTaskrocess',
+                        type: "post",
+                        dataType : "json",
+                        data : JSON.stringify({
+                            pcbTaskCode:$("#week_pcb_task_code").val(),
+                            amountCompleted:$("#week_quantity").val(),
+                            status:$("#week_pcb_task_status").val(),
+                            planFinishTime: $("#week_produce_complete_date").val(),
+                        }),
+                        contentType : "application/json;charset=UTF-8",
+                        success: function (res) {
+                            alert('执行成功')
+                        },
+                        
+                    })
+            })
+            $("#dataButton").off().on('click',function(){
+                if(!$("#data_processTaskCode").val()){
+                    alert("工序任务号必填");
+                    return;
+                }
+                $.ajax({
+                        url: '/open/tempChangeTaskrocess',
+                        type: "post",
+                        dataType : "json",
+                        data : JSON.stringify({
+                            processTaskStatus:$('#data_processTaskStatus').val(),
+                            amountCompleted:$("#data_amountCompleted").val(),
+                            planFinishTime:$("#data_planFinishTime").val(),
+                            finishTime:$("#data_finishTime").val(),
+                            workTime:$("#data_workTime").val(),
+                            processTaskCode:$("#data_processTaskCode").val(),
+                        }),
+                        contentType : "application/json;charset=UTF-8",
+                        success: function (res) {
+                            alert('执行成功')
+
+                        }
+                    })
+            })
+    </script>
+</body>
+
 
 </html>
