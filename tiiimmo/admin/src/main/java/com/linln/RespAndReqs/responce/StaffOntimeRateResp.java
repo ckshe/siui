@@ -10,4 +10,7 @@ public class StaffOntimeRateResp {
     private BigDecimal rate;
     private Integer processTypeStaffOnTimeCount;
     private Integer processTypeStaffAllCount;
+    private Integer sumTheoryTime;
+    private Integer workTime;
+    private BigDecimal useRate;
 }

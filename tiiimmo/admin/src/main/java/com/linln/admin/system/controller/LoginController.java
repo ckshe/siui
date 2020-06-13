@@ -275,7 +275,7 @@ public class LoginController implements ErrorController {
     //    公共基础数据选择页面
     @GetMapping("/imTable")
     public String choseTable() {
-        return "/common/imTable";
+        return "/common/imtable";
     }
     //   工序选择
     @GetMapping("/gonxvTable")

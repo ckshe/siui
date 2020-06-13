@@ -153,7 +153,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "\t( CASE SUM ( ISNULL( pcb_quantity, 0 ) ) WHEN 0 THEN 1 ELSE SUM ( ISNULL( pcb_quantity, 0 ) ) END ) AS plancount,\n" +
                 "\tSUM ( ISNULL( amount_completed, 0 ) ) AS finishcount,\n" +
                 "\ttask_sheet_code,\n" +
-                "\t cast(CAST((SUM ( ISNULL( amount_completed, 0 ) ))*1.0 / ( CASE SUM ( ISNULL( pcb_quantity, 0 ) ) WHEN 0 THEN 1 ELSE SUM ( ISNULL( pcb_quantity, 0 ) ) END ) as decimal(8,2)) AS varchar(100)) AS rate  \n" +
+                "\t cast(CAST((SUM ( ISNULL( amount_completed, 0 ) ))*100.0 / ( CASE SUM ( ISNULL( pcb_quantity, 0 ) ) WHEN 0 THEN 1 ELSE SUM ( ISNULL( pcb_quantity, 0 ) ) END ) as decimal(8,2)) AS varchar(100)) AS rate  \n" +
                 "FROM\n" +
                 "\tproduce_pcb_task WHERE produce_plan_date >= '" +
                 startTime +
@@ -380,7 +380,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         result.put("ruku",rukuList);
         return result;
     }
-    //linltheory
+
     @Override
     public List<StaffOntimeRateResp>  staffTodayOntimeRate() {
         String today = DateUtil.date2String(new Date(),"");
@@ -407,9 +407,31 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
         StringBuffer processTypeSql = new StringBuffer("SELECT process_type FROM base_process GROUP BY process_type");
 
+        StringBuffer processTypeUseRateSql = new StringBuffer("\n" +
+                "SELECT SUM\n" +
+                "\t( t1.pcb_quantity* ISNULL( t2.theory_time, 0 ) ) sumTheoryTime,\n" +
+                "\tSUM ( ISNULL( t1.work_time, 0 ) ) workTime,\n" +
+                "\tt3.process_type \n" +
+                "FROM\n" +
+                "\tproduce_process_task t1\n" +
+                "\tLEFT JOIN produce_process_theory_time t2 ON t1.process_name = t2.process_name \n" +
+                "\tAND t1.pcb_name = t2.product_name\n" +
+                "\tLEFT JOIN base_process t3 ON t1.process_name = t3.name \n" +
+                "WHERE\n" +
+                "\tt1.plan_finish_time >= '" +
+                startTime+
+                "' \n" +
+                "\tAND t1.plan_finish_time <= '" +
+                endTime +
+                "' \n" +
+                "GROUP BY\n" +
+                "\tt3.process_type");
+
         List<Map<String, Object>> processTypeSqlList = jdbcTemplate.queryForList(processTypeSql.toString());
         List<Map<String, Object>> countStaffClassSqlList = jdbcTemplate.queryForList(countStaffClassSql.toString());
         List<Map<String, Object>> staffOntimeSqlList = jdbcTemplate.queryForList(staffOntimeSql.toString());
+        List<Map<String, Object>> processTypeUseRateSqlList = jdbcTemplate.queryForList(processTypeUseRateSql.toString());
+
         List<StaffOntimeRateResp> staffOntimeRateRespList = new ArrayList<>();
         for(Map<String, Object> processType:processTypeSqlList ){
             StaffOntimeRateResp staffOntimeRateResp = new StaffOntimeRateResp();
@@ -432,10 +454,21 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                     staffOntimeRateResp.setProcessTypeStaffAllCount(staffAllCount);
                 }
             }
+            for(Map<String, Object> useRate: processTypeUseRateSqlList){
+                String processName = (String)useRate.get("process_type");
+                if(processName.equals(processTypeName)){
+                    BigDecimal workTime =(BigDecimal) useRate.get("workTime") ;
+                    Integer sumTheoryTime = (Integer) useRate.get("sumTheoryTime");
+                    staffOntimeRateResp.setWorkTime(workTime.intValue());
+                    staffOntimeRateResp.setSumTheoryTime(sumTheoryTime);
+                }
+            }
             staffOntimeRateRespList.add(staffOntimeRateResp);
         }
         for(StaffOntimeRateResp resp : staffOntimeRateRespList){
             BigDecimal rate = caculateRate(resp.getProcessTypeStaffOnTimeCount(),resp.getProcessTypeStaffAllCount());
+            BigDecimal useRate = caculateRate(resp.getSumTheoryTime(),resp.getWorkTime());
+            resp.setUseRate(useRate);
             resp.setRate(rate);
         }
         return staffOntimeRateRespList;

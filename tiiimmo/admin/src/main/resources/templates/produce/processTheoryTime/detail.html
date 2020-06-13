@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${processTheoryTime.id}"></td>
+                    <th>规格型号</th>
+                    <td th:text="${processTheoryTime.pcb_code}"></td>
+                </tr>
+                <tr>
+                    <th>物料名称</th>
+                    <td th:text="${processTheoryTime.product_name}"></td>
+                    <th>工序名称</th>
+                    <td th:text="${processTheoryTime.process_name}"></td>
+                </tr>
+                <tr>
+                    <th>理论工时</th>
+                    <td th:text="${processTheoryTime.theory_time}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${processTheoryTime.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${processTheoryTime.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(processTheoryTime.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(processTheoryTime.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${processTheoryTime.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

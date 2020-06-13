@@ -678,7 +678,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     pcbTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
                 }
                 if(pcbTaskReq.getPlanFinishTime()!=null&&!"".equals(pcbTaskReq.getPlanFinishTime())){
-                    pcbTask.setPlan_complete_date(pcbTaskReq.getPlanFinishTime());
+                    pcbTask.setProduce_plan_complete_date(pcbTaskReq.getPlanFinishTime());
                 }
                 pcbTaskRepository.save(pcbTask);
             }
