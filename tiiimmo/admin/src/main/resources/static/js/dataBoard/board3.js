@@ -1,21 +1,44 @@
 
 //看板三=====================
 var board3Api = {
-    deviceUrl:'/ShowBoard/getDeviceStatus',//设备接口
-    excute:'/open/excute',//执行数据查询接口
-    processBadRate:'/ShowBoard/processBadRate',//不良率
-    findProcessTaskByDevice:'/ShowBoard/findProcessTaskByDevice',//不良率
-
+    deviceUrl: '/ShowBoard/getDeviceStatus',//设备接口
+    excute: '/open/excute',//执行数据查询接口
+    processBadRate: '/ShowBoard/processBadRate',//不良率
+    findProcessTaskByDevice: '/ShowBoard/findProcessTaskByDevice',//根据设备编号查询工序任务
+    getDeviceByCode: '/ShowBoard/getDeviceByCode/',//查看设备接口
+    getMapProcessThisWeekRate:'/ShowBoard/getMapProcessThisWeekRate',//周每天任务完成数量及百分比
 }
 function setDataBoard3(params) {
     setTimeout(function () {
-        db3P2.setOption(db3POption2);
+        
+        $.ajax({
+            contentType: 'application/json',
+            type: 'get',
+            url: board3Api.getMapProcessThisWeekRate,
+            dataType: "json",
+            success: function (response) {
+                var numArr1 = [],axisWeekRateArr=[],numArr2=[];
+                for(var i=0;i<response.data.length;i++){
+                    axisWeekRateArr.push(response.data[i].theDay)
+                    numArr1.push(response.data[i].sumFinishAmount)
+                    numArr2.push(response.data[i].allCount)
+                }
+                console.log(numArr1,numArr2,axisWeekRateArr)
+                // axisWeekRateArr = ['周日','周一','周二','周三','周四','周五','周六']
+                db3POption2.xAxis[0].data = axisWeekRateArr;
+                db3POption2.series[0].data = numArr2;
+                db3POption2.series[1].data = numArr1;
+                db3P2.setOption(db3POption2);
+            }
+        });
         db3P3.setOption(db3POption3);
-        db3P5.setOption(db3POption5);
-        addDataTaskHtml();
+
+
+        addDataTaskHtml(); //生产信息 
     }, 10)
-    $('.imagesflex img').off().on('click', function () {
-        setdievClick($(this).index());
+    $('.imagesflex div').off().on('click', function () {
+        var deviceName = $(this).attr("name");
+        setdievClick(deviceName, $(this).index());
     })
     getData(); // 设备状态
     getEnvironmentRecord();//环境
@@ -41,10 +64,10 @@ function getData() {
                     $(this).removeClass('state-gray');
                     $(this).removeClass('state-yellow');
                     $(this).addClass('state-green');
-                } else if(response.data[i].device_status == 1) {
+                } else if (response.data[i].device_status == 1) {
                     $(this).removeClass('state-gray');
                     $(this).addClass('state-yellow');
-                }else{
+                } else {
                     $(this).removeClass('state-yellow');
                     $(this).addClass('state-gray');
                 }
@@ -53,23 +76,23 @@ function getData() {
     });
 }
 //温湿度 
-function getEnvironmentRecord(){
-    var environment_record ="SELECT@@@*@@@FROM@@@base_environment_record@@@order@@@by@@@update_date@@@desc";
+function getEnvironmentRecord() {
+    var environment_record = "SELECT@@@*@@@FROM@@@base_environment_record@@@order@@@by@@@update_date@@@desc";
     $.ajax({
         contentType: 'application/json',
         type: 'POST',
-        url:board3Api.excute,
+        url: board3Api.excute,
         dataType: "json",
         data: JSON.stringify(returnData(environment_record)),
         success: function (response) {
-            if(response.data.length>0){
+            if (response.data.length > 0) {
                 var temperature = response.data[0].temperature;
                 var humidity = response.data[0].humidity;
-                console.log(temperature,humidity)
-                if(temperature>40){
+                console.log(temperature, humidity)
+                if (temperature > 40) {
                     $("#temperature i").removeClass('state-blue').addClass('state-red');
                 }
-                if(humidity>70){
+                if (humidity > 70) {
                     $("#humidity i").removeClass('state-blue').addClass('state-red');
                 }
             }
@@ -77,19 +100,43 @@ function getEnvironmentRecord(){
     });
 }
 //不良率
-function processBadRate(){
+function processBadRate() {
     $.ajax({
         contentType: 'application/json',
         type: 'get',
         url: board3Api.processBadRate,
         dataType: "json",
         success: function (response) {
-            console.log('我是不良率=',response)
+            console.log('我是不良率=', response)
+            var badRateArr = [], BadRateAxisArr = [];
+            for (var i = 0; i < response.data.length; i++) {
+                if (i == 2) {
+                    continue;
+                }
+                badRateArr.push({ value: response.data[i].rate, name: response.data[i].processType })
+            }
+            console.log(badRateArr)
+            // db2POption2.yAxis.data = houhanTaskArr1.reverse();
+            db3POption5.series[0].data = badRateArr;
+            db3P5.setOption(db3POption5);
         }
     });
+}
+function setdievClick(deviceName, n) {
+    $('.filterbg').show();
+    $('.popup').show();
+    $('.popup').width('3px');
+    $('.popup').animate({ height: '76%' }, 400, function () {
+        $('.popup').animate({ width: '82%' }, 400);
+    });
+    setTimeout(deviceShow(deviceName, n), 800);
+}
+function deviceShow(deviceName, n) {
+    $('.popupClose').css('display', 'block');
+    $('.summary').show().css('display', 'block');
     var data = {
-        "deviceCode":"sB1811015"
-       }
+        "deviceCode": deviceName
+    }
     $.ajax({
         contentType: 'application/json',
         type: 'post',
@@ -97,24 +144,22 @@ function processBadRate(){
         dataType: "json",
         data: JSON.stringify(data),
         success: function (response) {
-            console.log('设备信息=',response)
+            console.log('设备信息=', response)
+            var responseData = response.data;
+            $.ajax({
+                contentType: 'application/json',
+                type: 'get',
+                url: board3Api.getDeviceByCode+data.deviceCode,
+                dataType: "json",
+                success: function (response) {
+                    var deviceresponse = response.data
+                    addHtml(responseData,deviceresponse,deviceName, n);
+                    setDevice();
+                }
+            });
         }
     });
-}
-function setdievClick(n) {
-    $('.filterbg').show();
-    $('.popup').show();
-    $('.popup').width('3px');
-    $('.popup').animate({ height: '76%' }, 400, function () {
-        $('.popup').animate({ width: '82%' }, 400);
-    });
-    setTimeout(deviceShow(n), 800);
-}
-function deviceShow(n) {
-    $('.popupClose').css('display', 'block');
-    $('.summary').show().css('display', 'block');
-    addHtml(n);
-    setDevice();
+
 
 };
 var devicePie1, devicePie3;
@@ -291,44 +336,84 @@ function setDevice() {
     devicePie1.setOption(pieOption1);
     devicePie3.setOption(pieOption3);
 }
-function addHtml(n) {
-    
-    var display = 'none',summaryWidth='60%'
-    console.log("n===",n)
-        if(n==3||n==4||n==5){
-            display = "block"
-            summaryWidth='100%'
-        }
+function addHtml(responseData,deviceresponse,deviceName,n) {
+    var display, summaryWidth,data;
+    if (n == 3 || n == 4 || n == 5) {
+        display = "block"
+        summaryWidth = '60%'
+    }else{
+        display = "none"
+        summaryWidth = '100%'
+    }
+    if(responseData.data.length>0){
+        data = responseData.data[0];
+    }else{
+        data=responseData.data;
+    }
+ 
     var html = '<div style="height:400px">' +
-        '<div class="left" style="width: 40%; height: 320px; display:'+display+'">' +
+        '<div class="left" style="width: 40%; height: 320px; display:' + display + '">' +
         '   <div class="">' +
         '       <div id="devicePie1" class="threeBoard4 char"></div>' +
         '   </div>' +
         '</div>' +
-        '<div class="item summaryBottom" style=" width:'+summaryWidth+'">' +
+        '<div class="item summaryBottom" style=" width:' + summaryWidth + '">' +
         '   <div class="itemTit">' +
         '       <span class="border-blue">设备任务</span>' +
-        '   </div>' +
-        '   <div class="itemCon itembg itembg_popupfirt">' +
-        '       <ul class="listStyle">' +
-        '           <li class="clearfix">' +
-        '               <span>日制令号:<strong>s-tesf</strong></span>' +
-        '               <span>生产任务单号：<strong>s-52</strong></span>' +
-        '               <span>车间：<strong>万吉</strong></span>' +
-        '               <span>设备名称：<strong>贴片机1</strong></span>' +
-        '               <span>机型版本：<strong>s-955</strong></span>' +
-        '               <span>PCB编码：<strong>0asw_23</strong></span>' +
-        '               <span>PCB名称：<strong>T100</strong></span>' +
-        '               <span>PCB数量：<strong>522</strong></span>' +
-        '               <span>RoHS标志：<strong>OPK</strong></span>' +
-        '               <span>工序：<strong>贴片</strong></span>' +
-        '               <span>计划开始时间:<strong>2020.04.22</strong></span>' +
-        '               <span>计划结束时间:<strong>2021.04.25</strong></span>' +
-        '               <span>完成数量：<strong>300</strong></span>' +
-        '           </li>' +
-        '       </ul>' +
-        '   </div>' +
-        '</div>' +
+        '   </div>';
+        if(data.length != 0){
+            if(data.plan_start_time!=null){
+                data.plan_start_time = data.plan_start_time.split('T')[0] ;
+            }else{
+                data.plan_start_time=''
+            }
+            if(data.plan_finish_time!=null){
+                data.plan_finish_time = data.plan_finish_time.split('T')[0] ;
+            }else{
+                data.plan_finish_time=''
+            }
+            html += '   <div class="itemCon itembg itembg_popupfirt">' +
+            '       <ul class="listStyle">' +
+            '           <li class="clearfix">' +
+            '				<span class="col2">生产任务号:<strong>' + data.pcb_task_code + '</strong></span>' +
+            '				<span class="col2">机台名称:<strong>' + deviceName+ '</strong></span>' +
+            // '				<span class="col2">机台编号:<strong>' + data.device_code + '</strong></span>' +
+            '				<span class="col2">工序名称:<strong>' + data.process_name + '</strong></span>' +
+            '				<span class="col2">工序单状态:<strong>' + data.process_task_status + '</strong></span>' +
+            '				<span class="col2">完成数量:<strong>' + data.amount_completed + '</strong></span>' +
+            '				<span class="col2">计划开始时间:<strong>' + data.plan_start_time + '</strong></span>' +
+            '				<span class="col2">计划结束时间:<strong>' + data.plan_finish_time + '</strong></span>' +
+            '				<span class="col2">工时:<strong>' + data.work_time + '</strong></span>' +
+            '				<span class="col2">pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
+            '				<span class="col2">PCB数量:<strong>' + data.pcb_quantity + '</strong></span>' +
+            // '				<span class="col2">RoHS标志:<strong>' + data.is_rohs + '</strong></span>' +
+            // '				<span class="col1">工序订单编号:<strong>' + data.process_task_code + '</strong></span>' +
+            '				<span class="col1">PCB名称:<strong>' + data.pcb_name + '</strong></span>' +
+            '           </li>' +
+            '       </ul>' +
+            '   </div>';
+        }else{
+            html += '   <div class="itemCon itembg itembg_popupfirt">' +
+            '       <ul class="listStyle">' +
+            '           <li class="clearfix">' +
+            '				<span class="col2">机台名称:<strong>' + deviceName+ '</strong></span>' +
+            '				<span class="col2">任务状态:<strong>无</strong></span>' +
+            '           </li>' +
+            '       </ul>' +
+            '   </div>';
+        }
+        if(deviceresponse.last_check_time!=null){
+            deviceresponse.last_check_time = deviceresponse.last_check_time.split('T')[0] ;
+        }else{
+            deviceresponse.last_check_time=''
+        }
+        if(deviceresponse.next_check_time!=null){
+            deviceresponse.next_check_time = deviceresponse.next_check_time.split('T')[0] ;
+        }else{
+            deviceresponse.next_check_time=''
+        }
+
+        html += '</div>' +
         '</div>' +
         '<div class="devBottom">' +
         '<div class="item" style="width: 40%;">' +
@@ -338,12 +423,15 @@ function addHtml(n) {
         '   <div class="itemCon itembg itembg_popupfirt col2">' +
         '       <ul class="listStyle">' +
         '           <li class="clearfix">' +
-        '               <span>车间：<strong>万吉</strong></span>' +
-        '               <span>设备编号：<strong>524555wwa</strong></span>' +
-        '               <span>设备名称:<strong>贴片机</strong></span>' +
-        '               <span>站位:<strong>A1</strong></span>' +
-        '               <span>上次检测时间:<strong>2020.04.22</strong></span>' +
-        '               <span>下次检测时间:<strong>2021.04.22</strong></span>' +
+        '				<span class="col2">所属厂区:<strong>' + deviceresponse.belong_plant_area + '</strong></span>' +
+        '				<span class="col2">所属产线:<strong>' + deviceresponse.belong_line + '</strong></span>' +
+        '				<span class="col1">设备名称:<strong>' + deviceresponse.device_name + '</strong></span>' +
+        '				<span class="col2">所属工序:<strong>' + deviceresponse.belong_process + '</strong></span>' +
+        '				<span class="col2">设备型号:<strong>' + deviceresponse.device_model + '</strong></span>' +
+        '				<span class="col2">设备站位:<strong>' + deviceresponse.device_sort + '</strong></span>' +
+        '				<span class="col2">设备状态:<strong>' + deviceresponse.device_status + '</strong></span>' +
+        '               <span class="col2">上次检测时间:<strong>' + deviceresponse.last_check_time + '</strong></span>' +
+        '               <span class="col2">下次检测时间:<strong>' + deviceresponse.next_check_time + '</strong></span>' +
         '           </li>' +
         '       </ul>' +
         '   </div>' +
@@ -456,7 +544,7 @@ var db3POption2 = {
     xAxis: [
         {
             type: 'category',
-            data: ['1号', '2号', '3号', '4号', '5号', '6号', '7号'],
+            data: [],
             axisLabel: {
                 textStyle: {
                     show: true,
