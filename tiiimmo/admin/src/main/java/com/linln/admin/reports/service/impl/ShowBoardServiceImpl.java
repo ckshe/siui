@@ -405,6 +405,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "' and t1.up_time <= '" +
                 endTime +
                 "' \n" +
+                "\t\tand t1.process_task_code != '未分配' \n" +        //去掉未分配防止查出process_type为NULL的情况 SSR-0614
                 "\tGROUP BY t3.process_type ,t1.user_id\n" +
                 "\t\n" +
                 "\t) t4 GROUP BY t4.process_type");
