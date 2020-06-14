@@ -59,6 +59,7 @@
                     <th>生产任务单号</th>
                     <th>完成数量</th>
                     <th>工单状态</th>
+                    <th>计划完成时间</th>
                     <th>实际完成时间</th>
                     <th>操作</th>
                 </tr>
@@ -67,12 +68,14 @@
                     <td><input id="week_quantity"></td>
                     <td><input id="week_pcb_task_status"></td>
                     <td><input id="week_produce_complete_date"></td>
+                    <td><input id="week_finishTime"></td>
                     <td><button id="weekButton">更新</button></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>备注：整数</td>
                     <td>可选: 确认/已下达未投产/已下达已投产/已完成</td>
+                    <td>格式：2020-06-16</td>
                     <td>格式：2020-06-16</td>
                     <td></td>
                 </tr>
@@ -83,8 +86,10 @@
             <table class="gridtable">
                 <tr>
                     <th>工序任务号</th>
+                    <th>计划生产时间</th>
+                    <th>计划完成时间</th>
                     <th>实际生产时间</th>
-                    <th>生产完成时间</th>
+                    <th>实际完成时间</th>
                     <th>完成生产数量</th>
                     <th>工单状态</th>
                     <th>工时 (分)</th>
@@ -92,7 +97,9 @@
                 </tr>
                 <tr>
                     <td><input id="data_processTaskCode"></td>
+                    <td><input id="data_planStartTime"></td>
                     <td><input id="data_planFinishTime"></td>
+                    <td><input id="data_startTime"></td>
                     <td><input id="data_finishTime"></td>
                     <td><input id="data_amountCompleted"></td>
                     <td><input id="data_processTaskStatus"></td>
@@ -101,6 +108,8 @@
                 </tr>
                 <tr>
                     <td></td>
+                    <td>格式：2020-06-16</td>
+                    <td>格式：2020-06-16</td>
                     <td>格式：2020-06-16</td>
                     <td>格式：2020-06-16</td>
                     <td>备注：整数</td>
@@ -127,6 +136,7 @@
                             amountCompleted:$("#week_quantity").val(),
                             status:$("#week_pcb_task_status").val(),
                             planFinishTime: $("#week_produce_complete_date").val(),
+                            finishTime: $("#week_finishTime").val(),
                         }),
                         contentType : "application/json;charset=UTF-8",
                         success: function (res) {
@@ -147,7 +157,9 @@
                         data : JSON.stringify({
                             processTaskStatus:$('#data_processTaskStatus').val(),
                             amountCompleted:$("#data_amountCompleted").val(),
+                            planStartTime:$("#data_planStartTime").val(),
                             planFinishTime:$("#data_planFinishTime").val(),
+                            startTime:$("#data_startTime").val(),
                             finishTime:$("#data_finishTime").val(),
                             workTime:$("#data_workTime").val(),
                             processTaskCode:$("#data_processTaskCode").val(),
