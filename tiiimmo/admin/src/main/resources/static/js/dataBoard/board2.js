@@ -603,6 +603,7 @@ var db2POption6 = {
 	series: [{
 		name: '入库率',
 		type: 'bar',
+		barWidth: 50,
 		data: [5, 20, 36, 10, 10],
 		itemStyle: {
 			normal: {
@@ -623,7 +624,6 @@ var db2POption6 = {
 };
 
 function setClick(data, percentage) {
-	console.log("1111111111==", data, percentage)
 	$.ajax({
 		contentType: 'application/json',
 		type: 'get',
