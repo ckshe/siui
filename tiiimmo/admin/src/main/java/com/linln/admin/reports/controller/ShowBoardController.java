@@ -116,4 +116,13 @@ public class ShowBoardController {
         return ResultVoUtil.success(showBoardService.processBadRate());
     }
 
+
+    //查看设备
+    @GetMapping("/getDeviceByCode/{deviceCode}")
+    @ResponseBody
+    public ResultVo getDeviceByCode( @PathVariable String deviceCode){
+        return ResultVoUtil.success(showBoardService.getDeviceByCode(deviceCode));
+    }
+
+
 }

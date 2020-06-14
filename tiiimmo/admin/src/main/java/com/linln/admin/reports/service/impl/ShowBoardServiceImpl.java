@@ -44,6 +44,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
     private JdbcTemplate jdbcTemplate;
 
 
+
     @Override
     public List<PcbTask> pcbTaskBoard() {
 
@@ -288,7 +289,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         for(ProcessThisWeekRateResp resp : result){
             Integer allcount = resp.getAllCount()==0?1:resp.getAllCount();
             Integer finishcount = resp.getFinishCount();
-            BigDecimal rate = new BigDecimal(finishcount/allcount).setScale(4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
+            BigDecimal rate = new BigDecimal(finishcount*100/allcount).setScale(4, BigDecimal.ROUND_HALF_UP);
+
+            //BigDecimal rate = new BigDecimal(finishcount/allcount).setScale(4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
             resp.setRate(rate);
         }
 
@@ -555,5 +558,11 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         }
 
         return list;
+    }
+
+    @Override
+    public Device getDeviceByCode(String deviceCode) {
+
+        return deviceRepository.findbyDeviceCode(deviceCode);
     }
 }

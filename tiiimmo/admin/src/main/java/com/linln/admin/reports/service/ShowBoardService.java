@@ -42,4 +42,6 @@ public interface ShowBoardService {
     ResultVo findProcessTaskByDevice(PcbTaskReq pcbTaskReq);
 
     public List<BadRateResp> processBadRate();
+
+    public Device getDeviceByCode(String deviceCode);
 }
