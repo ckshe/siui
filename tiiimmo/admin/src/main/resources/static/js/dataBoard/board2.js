@@ -445,12 +445,12 @@ var db2POption4 = {
 			}
 		},
 
-		data: []
+		data: ['任务1']
 	},
 	series: [{
 		name: '齐套率',
 		type: 'bar',
-		data: [],
+		data: [10],
 		barWidth: 50,
 		itemStyle: {
 			normal: {

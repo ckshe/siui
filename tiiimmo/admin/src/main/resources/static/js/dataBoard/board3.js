@@ -108,15 +108,17 @@ function processBadRate() {
         dataType: "json",
         success: function (response) {
             console.log('我是不良率=', response)
-            var badRateArr = [], BadRateAxisArr = [];
+            var badRateArr = [], legendAxisArr = [];
             for (var i = 0; i < response.data.length; i++) {
                 if (i == 2) {
                     continue;
                 }
+                legendAxisArr.push(response.data[i].processType)
                 badRateArr.push({ value: response.data[i].rate, name: response.data[i].processType })
             }
-            console.log(badRateArr)
+            console.log("===========",legendAxisArr)
             // db2POption2.yAxis.data = houhanTaskArr1.reverse();
+            db3POption5.legend.data=legendAxisArr
             db3POption5.series[0].data = badRateArr;
             db3P5.setOption(db3POption5);
         }
