@@ -223,7 +223,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
         String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
 
-        List<String> dayList = DateUtil.getThisWeekDayListUtillToday(new Date());
+        List<String> dayList = DateUtil.dayBetweenTwoDate(DateUtil.string2Date(startTime, ""),DateUtil.string2Date(endTime, ""));
         StringBuffer allsql = new StringBuffer("SELECT\n" +
                 "\tCOUNT(id) allcount,\n" +
                 "\tCONVERT ( VARCHAR ( 100 ), plan_finish_time, 23 ) theday\n" +
