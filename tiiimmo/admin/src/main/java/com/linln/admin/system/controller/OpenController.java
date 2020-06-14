@@ -48,7 +48,7 @@ public class OpenController {
             return ResultVoUtil.error("参数为空");
         }
         if(req.getExcuteParam().contains("update")||req.getExcuteParam().contains("delete")||req.getExcuteParam().contains("alter")){
-            return ResultVoUtil.error("敏感语句不可执行");
+           // return ResultVoUtil.error("敏感语句不可执行");
         }
         String sql = req.getExcuteParam().replace("@@@"," ");
 
