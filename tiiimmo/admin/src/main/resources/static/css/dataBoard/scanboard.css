@@ -1367,21 +1367,6 @@ body{
 .state-red{
 	background-color: #f53333;
 }
-.state1-green{
-	width: 20px;
-	height: 20px;
-	background-color: green;
-	vertical-align: baseline;
-	display: inline-block;
-	border: 1px solid #00deff;
-	border-radius: 50%;
-}
-.state1-gray{
-	background-color: #9a9;
-}
-.state1-yellow{
-	background-color: yellow;
-}
 
 .threeBoard,.threeBoard3{
 	width: 520px;

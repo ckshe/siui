@@ -1,6 +1,12 @@
 
 //看板三=====================
+var board3Api = {
+    deviceUrl:'/ShowBoard/getDeviceStatus',//设备接口
+    excute:'/open/excute',//执行数据查询接口
+    processBadRate:'/ShowBoard/processBadRate',//不良率
+    findProcessTaskByDevice:'/ShowBoard/findProcessTaskByDevice',//不良率
 
+}
 function setDataBoard3(params) {
     setTimeout(function () {
         db3P2.setOption(db3POption2);
@@ -9,10 +15,11 @@ function setDataBoard3(params) {
         addDataTaskHtml();
     }, 10)
     $('.imagesflex img').off().on('click', function () {
-        setdievClick();
+        setdievClick($(this).index());
     })
-    getData(); // 第一次加载数据
-    getEnvironmentRecord();
+    getData(); // 设备状态
+    getEnvironmentRecord();//环境
+    processBadRate();//不良率
     // 开启定时任务，时间间隔为3000 ms。
     var deviceInterval = setInterval(function () {
         getData();
@@ -22,30 +29,28 @@ function setDataBoard3(params) {
         getEnvironmentRecord();
     }, 60000);
 }
-var deviceUrl = "/ShowBoard/getDeviceStatus";
 function getData() {
     $.ajax({
         contentType: 'application/json',
         type: 'get',
-        url: deviceUrl,
+        url: board3Api.deviceUrl,
         dataType: "json",
         success: function (response) {
             $(".imagesflex").find('i').each(function (i) {
                 if (response.data[i].device_status == 0) {
-                    $(this).removeClass('state1-gray');
-                    $(this).removeClass('state1-yellow');
-                    $(this).addClass('state1-green');
+                    $(this).removeClass('state-gray');
+                    $(this).removeClass('state-yellow');
+                    $(this).addClass('state-green');
                 } else if(response.data[i].device_status == 1) {
-                    $(this).removeClass('state1-gray');
-                    $(this).addClass('state1-yellow');
+                    $(this).removeClass('state-gray');
+                    $(this).addClass('state-yellow');
                 }else{
-                    $(this).removeClass('state1-yellow');
-                    $(this).addClass('state1-gray');
+                    $(this).removeClass('state-yellow');
+                    $(this).addClass('state-gray');
                 }
             });
         }
     });
-    
 }
 //温湿度 
 function getEnvironmentRecord(){
@@ -53,7 +58,7 @@ function getEnvironmentRecord(){
     $.ajax({
         contentType: 'application/json',
         type: 'POST',
-        url: '/open/excute',
+        url:board3Api.excute,
         dataType: "json",
         data: JSON.stringify(returnData(environment_record)),
         success: function (response) {
@@ -71,19 +76,44 @@ function getEnvironmentRecord(){
         }
     });
 }
-function setdievClick() {
+//不良率
+function processBadRate(){
+    $.ajax({
+        contentType: 'application/json',
+        type: 'get',
+        url: board3Api.processBadRate,
+        dataType: "json",
+        success: function (response) {
+            console.log('我是不良率=',response)
+        }
+    });
+    var data = {
+        "deviceCode":"sB1811015"
+       }
+    $.ajax({
+        contentType: 'application/json',
+        type: 'post',
+        url: board3Api.findProcessTaskByDevice,
+        dataType: "json",
+        data: JSON.stringify(data),
+        success: function (response) {
+            console.log('设备信息=',response)
+        }
+    });
+}
+function setdievClick(n) {
     $('.filterbg').show();
     $('.popup').show();
     $('.popup').width('3px');
     $('.popup').animate({ height: '76%' }, 400, function () {
         $('.popup').animate({ width: '82%' }, 400);
     });
-    setTimeout(deviceShow, 800);
+    setTimeout(deviceShow(n), 800);
 }
-function deviceShow() {
+function deviceShow(n) {
     $('.popupClose').css('display', 'block');
     $('.summary').show().css('display', 'block');
-    addHtml();
+    addHtml(n);
     setDevice();
 
 };
@@ -143,7 +173,7 @@ function setDevice() {
                 name: '设备',
                 type: 'gauge',
                 detail: { formatter: '{value}%' },
-                data: [{ value: 60, name: '' }],
+                data: [{ value: 0, name: '' }],
                 itemStyle: {
                     normal: {
                         color: '#ffffff',
@@ -261,14 +291,21 @@ function setDevice() {
     devicePie1.setOption(pieOption1);
     devicePie3.setOption(pieOption3);
 }
-function addHtml() {
+function addHtml(n) {
+    
+    var display = 'none',summaryWidth='60%'
+    console.log("n===",n)
+        if(n==3||n==4||n==5){
+            display = "block"
+            summaryWidth='100%'
+        }
     var html = '<div style="height:400px">' +
-        '<div class="left" style="width: 40%; height: 320px;">' +
+        '<div class="left" style="width: 40%; height: 320px; display:'+display+'">' +
         '   <div class="">' +
         '       <div id="devicePie1" class="threeBoard4 char"></div>' +
         '   </div>' +
         '</div>' +
-        '<div class="item summaryBottom" style="">' +
+        '<div class="item summaryBottom" style=" width:'+summaryWidth+'">' +
         '   <div class="itemTit">' +
         '       <span class="border-blue">设备任务</span>' +
         '   </div>' +
@@ -558,7 +595,7 @@ var db3POption5 = {
     },
     legend: {
         orient: 'vertical',
-        data: ['贴片', '后焊', '插件', '调试', '入库'],
+        data: ['贴片', '后焊', '调试', '调试', '入库'],
         type: 'scroll',
         orient: 'vertical',
         right: 10,
@@ -578,7 +615,9 @@ var db3POption5 = {
             data: [
                 { value: 50, name: '贴片' },
                 { value: 60, name: '后焊' },
-                { value: 45, name: '插件' },
+                { value: 45, name: '调试' },
+                { value: 45, name: '质检' },
+                { value: 45, name: '入库' },
             ],
             emphasis: {
                 itemStyle: {

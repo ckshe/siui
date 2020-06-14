@@ -444,7 +444,7 @@ function setDataBoard1(params) {
                         // axisWeekRateArr.push(response.data[i].theDay)
                         axisWeekNumArr.push(response.data[i].sumFinishAmount)
                     }
-                    axisWeekRateArr = ['周一','周二','周三','周四','周五','周六']
+                    axisWeekRateArr = ['周日','周一','周二','周三','周四','周五','周六']
                     db1P1Option.series[0].data = weekRateArr;
                     db1P1Option.xAxis.data = axisWeekRateArr;
                     db1P1.setOption(db1P1Option);

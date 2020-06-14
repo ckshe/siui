@@ -15,12 +15,14 @@ function setDataBoard2(params) {
 		success: function (response) {
 			var tiepianArr = [], houhanArr = [], tiaoshiArr = [], zhijianArr = [], rukuArr = [];
 			var tiepianTaskArr = [], houhanTaskArr = [], tiaoshiTaskArr = [], zhijianTaskArr = [], rukuTaskArr = [];
+			var tiepianTaskArr1 = [], houhanTaskArr1 = [], tiaoshiTaskArr1 = [], zhijianTaskArr1 = [], rukuTaskArr1 = [];
 			for (var ia = 0; ia < response.data.tiepian.length; ia++) {
 				tiepianTaskArr.push(response.data.tiepian[ia].process_task_code);
+				tiepianTaskArr1.push('任务'+(ia+1));
 				tiepianArr.push(response.data.tiepian[ia].rate);
 			}
-			db2POption1.yAxis.data = tiepianTaskArr;
-			db2POption1.series[0].data = tiepianArr;
+			db2POption1.yAxis.data = tiepianTaskArr1.reverse();
+			db2POption1.series[0].data = tiepianArr.reverse();
 			db2P1.setOption(db2POption1);
 			if (tiepianArr.length > 0) {
 				db2P1.getZr().on('click', params => {
@@ -33,11 +35,11 @@ function setDataBoard2(params) {
 			}
 			for (var ib = 0; ib < response.data.houhan.length; ib++) {
 				houhanTaskArr.push(response.data.houhan[ib].process_task_code);
+				houhanTaskArr1.push('任务'+(ib+1));
 				houhanArr.push(response.data.houhan[ib].rate);
-
 			}
-			db2POption2.yAxis.data = houhanTaskArr;
-			db2POption2.series[0].data = houhanArr;
+			db2POption2.yAxis.data = houhanTaskArr1.reverse();
+			db2POption2.series[0].data = houhanArr.reverse();
 			db2P2.setOption(db2POption2);
 			if (houhanArr.length > 0) {
 				db2P2.getZr().on('click', params => {
@@ -50,10 +52,12 @@ function setDataBoard2(params) {
 			}
 			for (var ic = 0; ic < response.data.tiaoshi.length; ic++) {
 				tiaoshiTaskArr.push(response.data.tiaoshi[ic].process_task_code);
+				tiaoshiTaskArr1.push('任务'+(ic+1));
 				tiaoshiArr.push(response.data.tiaoshi[ic].rate);
 			}
-			db2POption3.yAxis.data = tiaoshiTaskArr;
-			db2POption3.series[0].data = tiaoshiArr;
+			console.log(tiaoshiTaskArr1)
+			db2POption3.yAxis.data = tiaoshiTaskArr1.reverse();
+			db2POption3.series[0].data = tiaoshiArr.reverse();
 			db2P3.setOption(db2POption3);
 			if (tiaoshiArr.length > 0) {
 				db2P3.getZr().on('click', params => {
@@ -66,10 +70,11 @@ function setDataBoard2(params) {
 			}
 			for (var id = 0; id < response.data.zhijian.length; id++) {
 				zhijianTaskArr.push(response.data.zhijian[id].process_task_code);
+				zhijianTaskArr1.push('任务'+(id+1));
 				zhijianArr.push(response.data.zhijian[id].rate);
 			}
-			db2POption5.yAxis.data = zhijianTaskArr;
-			db2POption5.series[0].data = zhijianArr;
+			db2POption5.yAxis.data = zhijianTaskArr1.reverse();
+			db2POption5.series[0].data = zhijianArr.reverse();
 			db2P5.setOption(db2POption5);
 			if (zhijianArr.length > 0) {
 				db2P5.getZr().on('click', params => {
@@ -82,10 +87,11 @@ function setDataBoard2(params) {
 			}
 			for (var ie = 0; ie < response.data.ruku.length; ie++) {
 				rukuTaskArr.push(response.data.ruku[ie].process_task_code);
+				rukuTaskArr1.push('任务'+(ie+1));
 				rukuArr.push(response.data.ruku[ie].rate);
 			}
-			db2POption6.yAxis.data = rukuTaskArr;
-			db2POption6.series[0].data = rukuArr;
+			db2POption6.yAxis.data = rukuTaskArr1.reverse();
+			db2POption6.series[0].data = rukuArr.reverse();
 			db2P6.setOption(db2POption6);
 			if (rukuArr.length > 0) {
 				db2P6.getZr().on('click', params => {
@@ -181,7 +187,7 @@ var db2POption1 = {
 		left: '3%',
 		right: '5%',
 		bottom: '10%',
-		// containLabel: true
+		containLabel: true
 	},
 	xAxis: {
 		type: 'value',
@@ -199,7 +205,7 @@ var db2POption1 = {
 		max: 100,
 	},
 	yAxis: {
-		show: false,
+		// show: false,
 		type: 'category',
 		axisLabel: {
 			textStyle: {
@@ -257,7 +263,7 @@ var db2POption2 = {
 		left: '3%',
 		right: '5%',
 		bottom: '10%',
-		// containLabel: true
+		containLabel: true
 	},
 	xAxis: {
 		type: 'value',
@@ -275,7 +281,7 @@ var db2POption2 = {
 		max: 100,
 	},
 	yAxis: {
-		show: false,
+		// show: false,
 		type: 'category',
 		axisLabel: {
 			textStyle: {
@@ -285,12 +291,12 @@ var db2POption2 = {
 			}
 		},
 
-		data: ["任务1", "任务2", "任务3", "任务4", "任务5"]
+		data: []
 	},
 	series: [{
 		name: '完成率',
 		type: 'bar',
-		data: [5, 20, 36, 10, 10],
+		data: [],
 		barWidth: 50,
 		itemStyle: {
 			normal: {
@@ -334,7 +340,7 @@ var db2POption3 = {
 		left: '3%',
 		right: '5%',
 		bottom: '10%',
-		// containLabel: true
+		containLabel: true
 	},
 	xAxis: {
 		type: 'value',
@@ -352,7 +358,7 @@ var db2POption3 = {
 		max: 100,
 	},
 	yAxis: {
-		show: false,
+		// show: false,
 		type: 'category',
 		axisLabel: {
 			textStyle: {
@@ -362,7 +368,7 @@ var db2POption3 = {
 			}
 		},
 
-		data: ["任务1", "任务2", "任务3", "任务4", "任务5"]
+		data: []
 	},
 	series: [{
 		name: '完成率',
@@ -411,7 +417,7 @@ var db2POption4 = {
 		left: '3%',
 		right: '5%',
 		bottom: '10%',
-		// containLabel: true
+		containLabel: true
 	},
 	xAxis: {
 		type: 'value',
@@ -429,7 +435,7 @@ var db2POption4 = {
 		max: 100,
 	},
 	yAxis: {
-		show: false,
+		// show: false,
 		type: 'category',
 		axisLabel: {
 			textStyle: {
@@ -488,7 +494,7 @@ var db2POption5 = {
 		left: '3%',
 		right: '5%',
 		bottom: '10%',
-		// containLabel: true
+		containLabel: true
 	},
 	xAxis: {
 		type: 'value',
@@ -506,7 +512,7 @@ var db2POption5 = {
 		max: 100,
 	},
 	yAxis: {
-		show: false,
+		// show: false,
 		type: 'category',
 		axisLabel: {
 			textStyle: {
@@ -516,7 +522,7 @@ var db2POption5 = {
 			}
 		},
 
-		data: ["任务1", "任务2", "任务3", "任务4", "任务5"]
+		data: []
 	},
 	series: [{
 		name: '质检率',
@@ -565,7 +571,7 @@ var db2POption6 = {
 		left: '3%',
 		right: '5%',
 		bottom: '10%',
-		// containLabel: true
+		containLabel: true
 	},
 	xAxis: {
 		type: 'value',
@@ -583,7 +589,7 @@ var db2POption6 = {
 		max: 100,
 	},
 	yAxis: {
-		show: false,
+		// show: false,
 		type: 'category',
 		axisLabel: {
 			textStyle: {
@@ -592,7 +598,7 @@ var db2POption6 = {
 				fontSize: 20
 			}
 		},
-		data: ["任务1", "任务2", "任务3", "任务4", "任务5"]
+		data: []
 	},
 	series: [{
 		name: '入库率',
