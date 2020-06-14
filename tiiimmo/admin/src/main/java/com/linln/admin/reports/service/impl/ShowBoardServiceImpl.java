@@ -136,7 +136,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
         map.put("tiepian",rate1);
         map.put("houhan",rate2);
-        map.put("tiaoshi",rate1);
+        map.put("tiaoshi",rate3);
 
         return map;
     }
@@ -324,7 +324,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
         map.put("tiepian",rate1);
         map.put("houhan",rate2);
-        map.put("tiaoshi",rate1);
+        map.put("tiaoshi",rate3);
 
         return map;
     }
