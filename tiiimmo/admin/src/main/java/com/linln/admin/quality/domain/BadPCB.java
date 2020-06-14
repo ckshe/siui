@@ -88,4 +88,6 @@ public class BadPCB implements Serializable {
     private User updateBy;
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
+
+    private String processName;
 }

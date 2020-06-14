@@ -1,5 +1,7 @@
 package com.linln.admin.reports.service.impl;
 
+import com.linln.RespAndReqs.PcbTaskReq;
+import com.linln.RespAndReqs.responce.BadRateResp;
 import com.linln.RespAndReqs.responce.ProcessThisWeekRateResp;
 import com.linln.RespAndReqs.responce.StaffOntimeRateResp;
 import com.linln.admin.base.domain.Device;
@@ -16,6 +18,7 @@ import com.linln.utill.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -474,5 +477,83 @@ public class ShowBoardServiceImpl implements ShowBoardService {
             resp.setRate(rate);
         }
         return staffOntimeRateRespList;
+    }
+
+
+
+    @Override
+    public ResultVo findProcessTaskByDevice(PcbTaskReq pcbTaskReq) {
+        StringBuffer sql = new StringBuffer("SELECT\n" +
+                "\tt1.*,\n" +
+                "\tt2.pcb_id,\n" +
+                "\tt2.feeding_task_code,t2.model_name \n" +
+                "FROM\n" +
+                "\tproduce_process_task t1\n" +
+                "\tLEFT JOIN produce_pcb_task t2 ON t2.pcb_task_code = t1.pcb_task_code \n" +
+                "WHERE\n" +
+                "\tt1.device_code LIKE '%" +
+                pcbTaskReq.getDeviceCode() +
+                "%' \n" +
+                "\tAND ( t1.process_task_status = '生产中' OR t1.process_task_status LIKE '%已下达%' OR t1.process_task_status LIKE '%暂停%' OR t1.process_task_status LIKE '%进行中%' )\n" +
+                "\tORDER BY t2.priority DESC ,t1.plan_start_time");
+        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+
+        return ResultVoUtil.success(mapList);
+    }
+
+    @Override
+    public List<BadRateResp> processBadRate() {
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
+        String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
+        StringBuffer sql  = new StringBuffer("\tSELECT sum(amount_completed) sumamoumt FROM produce_process_task WHERE plan_finish_time >='" +
+                startTime +
+                "' and plan_finish_time <= '" +
+                endTime +
+                "'");
+
+
+        StringBuffer badnumSql = new StringBuffer("SELECT\n" +
+                "\tt2.process_type,\n" +
+                "\tSUM ( t1.number ) badnum \n" +
+                "FROM\n" +
+                "\tbase_badpcb t1\n" +
+                "\tLEFT JOIN base_process t2 ON t2.name= t1.process_name \n" +
+                "WHERE\n" +
+                "\tt1.update_date >= '" +
+                startTime +
+                "' \n" +
+                "\tAND t1.update_date < = '" +
+                endTime +
+                "' \n" +
+                "GROUP BY\n" +
+                "\tt2.process_type");
+
+        StringBuffer processTypeSql = new StringBuffer("\tSELECT process_type FROM base_process GROUP BY process_type\n");
+
+        List<Map<String,Object>> processTypeMap = jdbcTemplate.queryForList(processTypeSql.toString());
+        List<Map<String,Object>> badNum = jdbcTemplate.queryForList(badnumSql.toString());
+        List<Map<String,Object>> sum = jdbcTemplate.queryForList(sql.toString());
+        Integer allAmount = (Integer)sum.get(0).get("sumamoumt");
+        List<BadRateResp> list =  new ArrayList<>();
+        for(Map<String,Object> processType : processTypeMap){
+            BadRateResp badRateResp = new BadRateResp();
+            String processTypeName = (String)processType.get("process_type");
+            badRateResp.setProcessType(processTypeName);
+            badRateResp.setAllAmount(allAmount);
+            badRateResp.setBadNum(0);
+            badRateResp.setRate(BigDecimal.ZERO);
+            for(Map<String,Object> bad : badNum){
+                String badProcessType = (String)bad.get("process_type");
+                if(badProcessType.equals(processTypeName)){
+                    Integer badAmount = (Integer) bad.get("badnum") ;
+                    badRateResp.setBadNum(badAmount);
+                    badRateResp.setRate(caculateRate(badAmount,allAmount));
+                }
+            }
+            list.add(badRateResp);
+        }
+
+        return list;
     }
 }

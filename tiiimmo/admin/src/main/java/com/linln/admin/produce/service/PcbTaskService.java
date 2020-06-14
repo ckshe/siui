@@ -46,7 +46,7 @@ public interface PcbTaskService {
     ResultVo getPcbTaskFromERP(String dataBetween) ;
 
 
-    ResultVo getFeedingTaskFromERP(String dataBetween) ;
+    ResultVo getFeedingTaskFromERP(String FRWFBillNo) ;
     ResultVo putIntoProduceBefore(Long pcbTaskId);
 
     ResultVo putIntoProduce(PcbTaskReq pcbTaskReq);

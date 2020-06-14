@@ -1,10 +1,13 @@
 package com.linln.admin.reports.service;
 
+import com.linln.RespAndReqs.PcbTaskReq;
+import com.linln.RespAndReqs.responce.BadRateResp;
 import com.linln.RespAndReqs.responce.ProcessThisWeekRateResp;
 import com.linln.RespAndReqs.responce.StaffOntimeRateResp;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.domain.ProcessTask;
+import com.linln.common.vo.ResultVo;
 
 import java.util.List;
 import java.util.Map;
@@ -35,4 +38,8 @@ public interface ShowBoardService {
     public  Map<String,Object> getMapProcessTypeDayRate();
 
     public List<StaffOntimeRateResp>  staffTodayOntimeRate();
+
+    ResultVo findProcessTaskByDevice(PcbTaskReq pcbTaskReq);
+
+    public List<BadRateResp> processBadRate();
 }

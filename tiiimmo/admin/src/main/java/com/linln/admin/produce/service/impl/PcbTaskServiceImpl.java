@@ -128,37 +128,35 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     @Override
     public ResultVo getPcbTaskFromERP(String dataBetween) {
         System.out.println("-----------开始同步-------------");
-    /*    ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCRWDCX");
-        ScheduleJobReq scheduleJobReq = new ScheduleJobReq();
-        scheduleJobReq.setDesc(jobApi.getRemark() == null ? "" : jobApi.getRemark());
-        scheduleJobReq.setKey(jobApi.getKey() == null ? "" : jobApi.getKey());
-        scheduleJobReq.setWhere(jobApi.getCondition() == null ? "" : jobApi.getCondition());
-        scheduleJobReq.setAction(jobApi.getApiName() == null ? "" : jobApi.getApiName());
-        List<String> paramList = new ArrayList<>();
-        scheduleJobReq.setParamList(paramList);
-        JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
-        System.out.println(lists.toString());
-        System.out.println("-----------list-------------"+lists.size());*/
+
         ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCRWDCX");
         ScheduleJobReq scheduleJobReq = new ScheduleJobReq();
-        scheduleJobReq.setDesc(jobApi.getRemark() == null ? "" : jobApi.getRemark());
-        scheduleJobReq.setKey(jobApi.getKey() == null ? "" : jobApi.getKey());
-        scheduleJobReq.setWhere(jobApi.getCondition() == null ? "" : jobApi.getCondition());
-        scheduleJobReq.setAction(jobApi.getApiName() == null ? "" : jobApi.getApiName());
+        scheduleJobReq.setDesc(jobApi.getRemark() == null ? "\"\"" : jobApi.getRemark());
+        scheduleJobReq.setKey(jobApi.getKey() == null ? "\"\"" : jobApi.getKey());
+        scheduleJobReq.setWhere(jobApi.getCondition() == null ? "\"\"" : jobApi.getCondition());
+        scheduleJobReq.setAction(jobApi.getApiName() == null ? "\"\"" : jobApi.getApiName());
         List<String> paramList = new ArrayList<>();
+        paramList.add("\"\"");
         scheduleJobReq.setParamList(paramList);
+        //JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
+
         System.out.println(scheduleJobReq.toString());
         String path = "C:\\chaosheng_file\\task.json";
 
         String s = ReadUtill.readJsonFile(path);
         JSONObject jobj = JSON.parseObject(s);
         JSONArray lists = jobj.getJSONArray("data");
+        System.out.println("-----------list-------------"+lists.size());
         List<PcbTask> pckTaskList = new ArrayList<>();
         List<PCBPlateNo> plateNoList = new ArrayList<>();
         for(int i = 0 ; i<lists.size();i++){
             JSONObject param = lists.getJSONObject(i);
             //生产任务单号
             String pcb_task_code = param.getString("FRWFBillNo");
+            //同步领料单
+            //getFeedingTaskFromERP(pcb_task_code);
+
+
             //pcb编码
             String pcb_id = param.getString("FPCBModel");
             //工单状态
@@ -169,18 +167,36 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             //这里需要匹配是否已同步过的
             PcbTask pcbTask = new PcbTask();
             List<PcbTask> oldPcbTasks = pcbTaskRepository.findAllByPcb_task_code(pcb_task_code);
-            if(oldPcbTasks!=null&&oldPcbTasks.size()!=0&&pcb_task_status.contains("已下达")){
+            //计划投产时间
+            Date produce_plan_date =  param.getDate("FPlanCommitDate");
+            //计划完成时间
+            Date produce_plan_complete_date =  param.getDate("FPlanFinishDate");
+            //pcb 生产数量
+            Integer pcb_quantity = param.getInteger("FPCBQty");
+
+            if(oldPcbTasks!=null&&oldPcbTasks.size()!=0){
                 pcbTask = oldPcbTasks.get(0);
-                continue;
+                if(pcbTask.getPcb_task_status().contains("已下达未投产")||"确认".equals(pcbTask.getPcb_task_status())){
+                    pcbTask.setProduce_plan_complete_date(produce_plan_complete_date);
+                    pcbTask.setProduce_plan_date(produce_plan_date);
+                    pcbTask.setPcb_quantity(pcb_quantity);
+                    pcbTaskRepository.save(pcbTask);
+                    continue;
+                }
+                if(!"已完成".equals(pcbTask.getPcb_task_status())){
+                    pcbTask.setProduce_plan_complete_date(produce_plan_complete_date);
+                    pcbTask.setProduce_plan_date(produce_plan_date);
+                    pcbTaskRepository.save(pcbTask);
+                    continue;
+
+                }
             }
             //制造编号
             String task_sheet_code = param.getString("FProduceNo");
-            //计划投产时间
-            Date produce_plan_date =  param.getDate("FPlanCommitDate");
+
             //pcb名称
             String pcb_name = param.getString("FPCBName");
-            //计划完成时间
-            Date produce_plan_complete_date =  param.getDate("FPlanFinishDate");
+
             //实际投产时间
             Date produce_date =  param.getDate("FStartDate");
             //生产完成时间
@@ -191,8 +207,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             //机型版本
             String model_ver = param.getString("FProduceModel");
 
-            //pcb 生产数量
-            Integer pcb_quantity = param.getInteger("FPCBQty");
+
             //投料单号
             String feeding_code = param.getString("FTLFBillno");
             //车间
@@ -240,14 +255,19 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
 
     @Override
-    public ResultVo getFeedingTaskFromERP(String dataBetween) {
+    public ResultVo getFeedingTaskFromERP(String FRWFBillNo) {
 
         ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCTLDCX");
         ScheduleJobReq scheduleJobReq = new ScheduleJobReq();
-        scheduleJobReq.setKey(jobApi.getKey() == null ? "" : jobApi.getKey());
-        scheduleJobReq.setDesc(jobApi.getRemark() == null ? "" : jobApi.getRemark());
-        scheduleJobReq.setWhere(jobApi.getCondition() == null ? "" : jobApi.getCondition());
-        scheduleJobReq.setAction(jobApi.getApiName() == null ? "" : jobApi.getApiName());
+        scheduleJobReq.setKey(jobApi.getKey() == null ? "\"\"" : jobApi.getKey());
+        scheduleJobReq.setDesc(jobApi.getRemark() == null ? "\"\"" : jobApi.getRemark());
+        scheduleJobReq.setWhere(jobApi.getCondition() == null ? "\"\"" : jobApi.getCondition());
+        scheduleJobReq.setAction(jobApi.getApiName() == null ? "\"\"" : jobApi.getApiName());
+        List<String> paramList = new ArrayList<>();
+        paramList.add("\"" +
+                FRWFBillNo +
+                "\"");
+        scheduleJobReq.setParamList(paramList);
         JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
 
        /* String path = "D:\\workspace\\timosecond\\tiiimmo\\admin\\src\\main\\resources\\feeding.json";
@@ -258,7 +278,13 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         List<FeedingTask> feedingTaskList = new ArrayList<>();
         for(int i =0;i<lists.size();i++){
             JSONObject param = lists.getJSONObject(i);
+            String feedingTaskCode = param.getString("FTLFBillno");
+            List<FeedingTask> olds = feedingTaskRepository.findByFeeding_task_code(feedingTaskCode);
+            if(olds.size()>0){
 
+                olds.get(0);
+
+            }
             FeedingTask feedingTask = new FeedingTask();
             feedingTask.setProduct_code(param.getString("FNumber"));
             feedingTask.setProduct_name(param.getString("FName"));
@@ -680,12 +706,16 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 if(pcbTaskReq.getPlanFinishTime()!=null&&!"".equals(pcbTaskReq.getPlanFinishTime())){
                     pcbTask.setProduce_plan_complete_date(pcbTaskReq.getPlanFinishTime());
                 }
+                if(pcbTaskReq.getFinishTime()!=null&&!"".equals(pcbTaskReq.getFinishTime())){
+                    pcbTask.setProduce_complete_date(pcbTaskReq.getFinishTime());
+                }
                 pcbTaskRepository.save(pcbTask);
             }
 
         }
         if(pcbTaskReq.getProcessTaskCode()!=null&&!"".equals(pcbTaskReq.getProcessTaskCode())){
             ProcessTask processTask = processTaskRepository.findByProcessTaskCode(pcbTaskReq.getProcessTaskCode());
+            //计划结束
             if(pcbTaskReq.getPlanFinishTime()!=null&&!"".equals(pcbTaskReq.getPlanFinishTime())){
                 processTask.setPlan_finish_time(pcbTaskReq.getPlanFinishTime());
             }
@@ -696,13 +726,20 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 processTask.setWork_time(pcbTaskReq.getWorkTime());
 
             }
+            //实际结束
             if(pcbTaskReq.getFinishTime()!=null&&!"".equals(pcbTaskReq.getFinishTime())){
                 processTask.setFinish_time(pcbTaskReq.getFinishTime());
-
+            }
+            //计划开始
+            if(pcbTaskReq.getPlanStartTime()!=null&&!"".equals(pcbTaskReq.getPlanStartTime())){
+                processTask.setPlan_start_time(pcbTaskReq.getPlanStartTime());
+            }
+            //实际开始
+            if(pcbTaskReq.getStartTime()!=null&&!"".equals(pcbTaskReq.getStartTime())){
+                processTask.setStart_time(pcbTaskReq.getStartTime());
             }
             if(pcbTaskReq.getProcessTaskStatus()!=null&&!"".equals(pcbTaskReq.getProcessTaskStatus())){
                 processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
-
             }
 
             processTaskRepository.save(processTask);

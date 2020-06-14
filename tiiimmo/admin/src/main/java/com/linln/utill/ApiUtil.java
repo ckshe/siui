@@ -46,6 +46,8 @@ public class ApiUtil {
                 tempSum = tempSum + size;
                 scheduleJobReq.setPageIndex(pageIndex);
                 s = (JSONObject) JSON.toJSON(scheduleJobReq);
+                System.out.println(s.toString());
+                System.out.println("---------url:"+scheduleJobUrl);
                 logger.info("Begin get data by page " + pageIndex.toString() + "...");
                 JSONObject dd2 = restTemplate.postForEntity(scheduleJobUrl,s, JSONObject.class).getBody();
                 logger.info("Finish get data by page " + pageIndex.toString() + ".");

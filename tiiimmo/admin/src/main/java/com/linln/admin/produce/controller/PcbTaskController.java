@@ -47,7 +47,7 @@ public class PcbTaskController {
                 .withMatcher("task_sheet_code", match -> match.contains())
                 .withMatcher("task_sheet_date", match -> match.contains())
                 .withMatcher("pcb_task_status",match -> match.contains());
-        pcbTask.setPcb_task_status("已下达");
+        pcbTask.setPcb_task_status("下达");
         // 获取数据列表
         Example<PcbTask> example = Example.of(pcbTask, matcher);
         Page<PcbTask> list = pcbTaskService.getPageList(example);
