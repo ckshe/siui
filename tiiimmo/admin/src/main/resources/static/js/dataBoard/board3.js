@@ -12,10 +12,15 @@ function setDataBoard3(params) {
         setdievClick();
     })
     getData(); // 第一次加载数据
+    getEnvironmentRecord();
     // 开启定时任务，时间间隔为3000 ms。
     var deviceInterval = setInterval(function () {
         getData();
     }, 5000);
+    //1分钟
+    setInterval(function () {
+        getEnvironmentRecord();
+    }, 60000);
 }
 var deviceUrl = "/ShowBoard/getDeviceStatus";
 function getData() {
@@ -38,6 +43,31 @@ function getData() {
                     $(this).addClass('state1-gray');
                 }
             });
+        }
+    });
+    
+}
+//温湿度 
+function getEnvironmentRecord(){
+    var environment_record ="SELECT@@@*@@@FROM@@@base_environment_record@@@order@@@by@@@update_date@@@desc";
+    $.ajax({
+        contentType: 'application/json',
+        type: 'POST',
+        url: '/open/excute',
+        dataType: "json",
+        data: JSON.stringify(returnData(environment_record)),
+        success: function (response) {
+            if(response.data.length>0){
+                var temperature = response.data[0].temperature;
+                var humidity = response.data[0].humidity;
+                console.log(temperature,humidity)
+                if(temperature>40){
+                    $("#temperature i").removeClass('state-blue').addClass('state-red');
+                }
+                if(humidity>70){
+                    $("#humidity i").removeClass('state-blue').addClass('state-red');
+                }
+            }
         }
     });
 }
