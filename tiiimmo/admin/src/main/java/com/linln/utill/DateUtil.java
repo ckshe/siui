@@ -49,9 +49,9 @@ public class DateUtil {
         int firstDayOfWeek = cal.getFirstDayOfWeek();
         //获得当前日期是一个星期的第几天
         int dayWeek = cal.get(Calendar.DAY_OF_WEEK);
-        if(dayWeek==1){
-            dayWeek = 8;
-        }
+//        if(dayWeek==1){
+//            dayWeek = -7;
+//        }
         // 根据日历的规则，给当前日期减去星期几与一个星期第一天的差值
         cal.add(Calendar.DATE, cal.getFirstDayOfWeek() - dayWeek);
         Date Sunday = cal.getTime();
@@ -120,6 +120,7 @@ public class DateUtil {
         return daylistresult;
 
     }
+
 
 
 }

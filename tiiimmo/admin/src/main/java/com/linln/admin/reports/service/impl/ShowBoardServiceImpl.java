@@ -158,7 +158,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "\ttask_sheet_code,\n" +
                 "\t cast(CAST((SUM ( ISNULL( amount_completed, 0 ) ))*100.0 / ( CASE SUM ( ISNULL( pcb_quantity, 0 ) ) WHEN 0 THEN 1 ELSE SUM ( ISNULL( pcb_quantity, 0 ) ) END ) as decimal(8,2)) AS varchar(100)) AS rate  \n" +
                 "FROM\n" +
-                "\tproduce_pcb_task WHERE produce_plan_date >= '" +
+                "\tproduce_pcb_task WHERE produce_plan_complete_date >= '" +
                 startTime +
                 "'\n and produce_plan_complete_date<= '" +
                 endTime +

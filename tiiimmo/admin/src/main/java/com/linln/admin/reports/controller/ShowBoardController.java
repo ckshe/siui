@@ -104,7 +104,7 @@ public class ShowBoardController {
 
 
     //设备工序计划
-    @GetMapping("/findProcessTaskByDevice")
+    @PostMapping("/findProcessTaskByDevice")
     @ResponseBody
     public ResultVo findProcessTaskByDevice(@RequestBody PcbTaskReq req){
         return ResultVoUtil.success(showBoardService.findProcessTaskByDevice(req));}
