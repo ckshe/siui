@@ -12,9 +12,14 @@ import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.UserDeviceHistory;
 import com.linln.admin.produce.repository.PcbTaskRepository;
 import com.linln.admin.produce.repository.ProcessTaskRepository;
+import com.linln.admin.produce.repository.UserDeviceHistoryRepository;
 import com.linln.admin.reports.service.ShowBoardService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
+import com.linln.modules.system.domain.Role;
+import com.linln.modules.system.domain.User;
+import com.linln.modules.system.repository.UserRepository;
+import com.linln.modules.system.service.RoleService;
 import com.linln.utill.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -44,7 +49,14 @@ public class ShowBoardServiceImpl implements ShowBoardService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private UserRepository userRepository;
 
+    @Autowired
+    private UserDeviceHistoryRepository userDeviceHistoryRepository;
+
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public List<PcbTask> pcbTaskBoard() {
@@ -618,5 +630,35 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         }
 
         return list;
+    }
+
+
+    @Override
+    public List<ProcessTask> findByStartEndTimeBy3TiePian() {
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
+        String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
+        return processTaskRepository.findByStartEndTimeBy3TiePian(startTime,endTime);
+    }
+
+    @Override
+    public User findOneLastOnTimeUser(String deviceCode) {
+
+        List<UserDeviceHistory> histories = userDeviceHistoryRepository.findOneLastOnTime(deviceCode);
+        if(histories==null||histories.size()==0){
+            return  new User();
+        }
+        User user = userRepository.findById(histories.get(0).getUser_id()).get();
+        if(user == null){
+            return  new User();
+        }
+        Set<Role>  roleSet = roleService.getUserOkRoleList(user.getId());
+        String roleNames = "";
+        for(Role role : roleSet){
+            roleNames = roleNames + role.getTitle() + "|";
+        }
+        user.setRoleNames(roleNames);
+
+        return user;
     }
 }

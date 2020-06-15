@@ -8,7 +8,9 @@ import com.linln.RespAndReqs.responce.StaffOntimeRateResp;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.domain.ProcessTask;
+import com.linln.admin.produce.domain.UserDeviceHistory;
 import com.linln.common.vo.ResultVo;
+import com.linln.modules.system.domain.User;
 
 import java.util.List;
 import java.util.Map;
@@ -47,4 +49,10 @@ public interface ShowBoardService {
     public Device getDeviceByCode(String deviceCode);
 
     public  List<DeviceRunTimeResp> getDeviceRunTime(String deviceCode);
+
+    public List<ProcessTask> findByStartEndTimeBy3TiePian();
+
+    public User findOneLastOnTimeUser(String deviceCode);
+
+
 }

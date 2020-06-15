@@ -33,4 +33,17 @@ public interface ProcessTaskRepository extends BaseRepository<ProcessTask,Long> 
     List<ProcessTask> findByStartEndTimeProcessType(String startTime,String endTime,String processType);
 
 
+    @Query(value = "SELECT\n" +
+            "\t*\n" +
+            "    FROM\n" +
+            "            produce_process_task\n" +
+            "    WHERE\n" +
+            "            (device_code LIKE '%B15002%'\n" +
+            "                    OR device_code LIKE '%B15003%'\n" +
+            "                    OR device_code LIKE '%B1902001%') AND plan_finish_time >= ?1 AND plan_finish_time <=?2",nativeQuery = true)
+    List<ProcessTask> findByStartEndTimeBy3TiePian(String startTime,String endTime);
+
+
+
+
 }

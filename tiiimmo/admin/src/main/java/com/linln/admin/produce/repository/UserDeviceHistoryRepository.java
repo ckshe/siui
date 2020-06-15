@@ -19,6 +19,9 @@ public interface UserDeviceHistoryRepository extends BaseRepository<UserDeviceHi
     @Query(value = "SELECT * FROM produce_user_device_history WHERE process_task_code= ?1 and device_code =?1  AND do_type = '上机'",nativeQuery = true)
     UserDeviceHistory findAllByNoInputDevice(String deviceCode);
 
+    @Query(value = "SELECT * FROM produce_user_device_history WHERE device_code = ?1 ORDER BY id DESC ",nativeQuery = true)
+    List<UserDeviceHistory> findOneLastOnTime(String device);
+
 
 
 

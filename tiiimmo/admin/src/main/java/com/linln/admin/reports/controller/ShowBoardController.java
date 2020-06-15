@@ -1,12 +1,14 @@
 package com.linln.admin.reports.controller;
 
 import com.linln.RespAndReqs.PcbTaskReq;
+import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.service.PcbService;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.service.PcbTaskService;
 import com.linln.admin.reports.service.ShowBoardService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
+import com.linln.modules.system.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -121,7 +123,12 @@ public class ShowBoardController {
     @GetMapping("/getDeviceByCode/{deviceCode}")
     @ResponseBody
     public ResultVo getDeviceByCode( @PathVariable String deviceCode){
-        return ResultVoUtil.success(showBoardService.getDeviceByCode(deviceCode));
+        Device  device = showBoardService.getDeviceByCode(deviceCode);
+        User user  = showBoardService.findOneLastOnTimeUser(deviceCode);
+        Map<String,Object> map = new HashMap<>();
+        map.put("device",device);
+        map.put("user",user);
+        return ResultVoUtil.success(map);
     }
 
     //查看设备状态运行
@@ -136,6 +143,13 @@ public class ShowBoardController {
     @ResponseBody
     public ResultVo getDeviceRunTimeAll( ){
         return ResultVoUtil.success(showBoardService.getDeviceRunTime(null));
+    }
+
+    //查看三个贴片机的工序任务
+    @GetMapping("/findByStartEndTimeBy3TiePian")
+    @ResponseBody
+    public ResultVo findByStartEndTimeBy3TiePian( ){
+        return ResultVoUtil.success(showBoardService.findByStartEndTimeBy3TiePian());
     }
 
 
