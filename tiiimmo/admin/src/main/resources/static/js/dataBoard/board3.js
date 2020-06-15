@@ -7,6 +7,8 @@ var board3Api = {
     findProcessTaskByDevice: '/ShowBoard/findProcessTaskByDevice',//根据设备编号查询工序任务
     getDeviceByCode: '/ShowBoard/getDeviceByCode/',//查看设备接口
     getMapProcessThisWeekRate: '/ShowBoard/getMapProcessThisWeekRate',//周每天任务完成数量及百分比
+    getDeviceRunTimeAll: '/ShowBoard/getDeviceRunTimeAll',//设备日状态接口（全部设备）
+    getDeviceRunTime: '/ShowBoard/getDeviceRunTime/',//单个设备日状态运行时长接口
 }
 function setDataBoard3(params) {
     setTimeout(function () {
@@ -21,9 +23,9 @@ function setDataBoard3(params) {
                 for (var i = 0; i < response.data.length; i++) {
                     axisWeekRateArr.push(response.data[i].theDay)
                     numArr1.push(response.data[i].sumFinishAmount)
-                    numArr2.push(response.data[i].allCount)
+                    numArr2.push(response.data[i].sumPlanAmount)
                 }
-                console.log(numArr1, numArr2, axisWeekRateArr)
+                //console.log(numArr1, numArr2, axisWeekRateArr)
                 // axisWeekRateArr = ['周日','周一','周二','周三','周四','周五','周六']
                 db3POption2.xAxis[0].data = axisWeekRateArr;
                 db3POption2.series[0].data = numArr2;
@@ -31,7 +33,22 @@ function setDataBoard3(params) {
                 db3P2.setOption(db3POption2);
             }
         });
-        db3P3.setOption(db3POption3);
+        $.ajax({
+            contentType: 'application/json',
+            type: 'get',
+            url: board3Api.getDeviceRunTimeAll,
+            dataType: "json",
+            success: function (response) {
+                var timeArr = [];
+                //console.log(response.data)
+                for (var i = 0; i < response.data.length; i++) {
+                    timeArr.push(response.data[i].runTime)
+                }
+                //console.log(timeArr)
+                db3POption3.series[0].data = timeArr;
+                db3P3.setOption(db3POption3);
+            }
+        });
 
 
         addDataTaskHtml(); //生产信息 
@@ -88,7 +105,7 @@ function getEnvironmentRecord() {
             if (response.data.length > 0) {
                 var temperature = response.data[0].temperature;
                 var humidity = response.data[0].humidity;
-                console.log(temperature, humidity)
+                //console.log(temperature, humidity)
                 if (temperature > 40) {
                     $("#temperature i").removeClass('state-blue').addClass('state-red');
                 }
@@ -107,7 +124,7 @@ function processBadRate() {
         url: board3Api.processBadRate,
         dataType: "json",
         success: function (response) {
-            console.log('我是不良率=', response)
+            //console.log('我是不良率=', response)
             var badRateArr = [], legendAxisArr = [];
             for (var i = 0; i < response.data.length; i++) {
                 if (i == 2) {
@@ -145,7 +162,7 @@ function deviceShow(deviceCode, n) {
         dataType: "json",
         data: JSON.stringify(data),
         success: function (response) {
-            console.log('设备信息=', response)
+            //console.log('设备信息=', response)
             var responseData = response.data;
             $.ajax({
                 contentType: 'application/json',
@@ -155,7 +172,17 @@ function deviceShow(deviceCode, n) {
                 success: function (response) {
                     var deviceresponse = response.data
                     addHtml(responseData, deviceresponse, n);
-                    setDevice();
+                    $.ajax({
+                        contentType: 'application/json',
+                        type: 'get',
+                        url: board3Api.getDeviceRunTime + data.deviceCode,
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response)
+                            var responseRunData = response.data;
+                            setDevice(responseRunData);
+                        }
+                    });
                 }
             });
         }
@@ -165,7 +192,7 @@ function deviceShow(deviceCode, n) {
 };
 var devicePie1, devicePie3;
 var pieData;
-function setDevice() {
+function setDevice(data) {
     devicePie1 = echarts.init(document.getElementById('devicePie1'), 'macarons');
     devicePie3 = echarts.init(document.getElementById('devicePie3'), 'macarons');
 
@@ -240,13 +267,17 @@ function setDevice() {
             trigger: 'axis',
             axisPointer: {            // 坐标轴指示器，坐标轴触发有效
                 type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            },
+            // formatter: '{b}<br/>{a} :{c}%',
+            textStyle: {
+                fontSize: 22
             }
         },
         legend: {
             data: ['停止', '运行'],
             textStyle: {
                 color: '#fff',
-                fontSize: 20
+                fontSize: 22
             },
             y: 10
         },
@@ -262,7 +293,7 @@ function setDevice() {
                 textStyle: {
                     show: true,
                     color: 'rgba(255,255,255,1)',
-                    fontSize: 20
+                    fontSize: 22
                 },
                 formatter: function (value) {
                     return value + '%'
@@ -273,12 +304,12 @@ function setDevice() {
         },
         xAxis: {
             type: 'category',
-            data: ['1号', '2号', '3号', '4号', '5号', '6号'],
+            data: ['周日','周一','周二','周三','周四','周五','周六'],
             axisLabel: {
                 textStyle: {
                     show: true,
                     color: 'rgba(255,255,255,1)',
-                    fontSize: 20
+                    fontSize: 22
                 }
             },
         },
@@ -298,10 +329,11 @@ function setDevice() {
                         label: {
                             show: true,
                             textStyle: {
-                                fontSize: 20,
+                                fontSize: 22,
                                 color: '#fff'
                             },
                             position: 'inside',
+                            formatter: '{c}%',
                             // formatter: function (params) {
                             //     return params.value + "%"
                             // }
@@ -324,10 +356,11 @@ function setDevice() {
                         label: {
                             show: true,
                             textStyle: {
-                                fontSize: 20,
+                                fontSize: 22,
                                 color: '#fff'
                             },
                             position: 'inside',
+                            formatter: '{c}%',
                             // formatter: function (params) {
                             //     return params.value + "%"
                             // }
@@ -338,6 +371,16 @@ function setDevice() {
         ]
     };
     devicePie1.setOption(pieOption1);
+
+    var brunTimeArr = [], noBrunTimeArr = [];
+    for (var i = 0; i < data.length; i++) {
+        brunTimeArr.push((data[i].runTime/240).toFixed(2)*100)
+        noBrunTimeArr.push(100-((data[i].runTime/240).toFixed(2))*100)
+    }
+    // db2POption2.yAxis.data = houhanTaskArr1.reverse();
+    // pieOption3.legend.data = legendAxisArr
+    pieOption3.series[0].data = noBrunTimeArr;
+    pieOption3.series[1].data = brunTimeArr;
     devicePie3.setOption(pieOption3);
 }
 function addHtml(responseData, deviceresponse, n) {
@@ -680,7 +723,7 @@ var db3POption3 = {
                 fontSize: 20
             }
         },
-        data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+        data: ['周日','周一','周二','周三','周四','周五','周六']
     },
     yAxis: {
         axisLabel: {

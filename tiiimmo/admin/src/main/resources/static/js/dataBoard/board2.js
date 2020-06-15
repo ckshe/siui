@@ -55,7 +55,7 @@ function setDataBoard2(params) {
 				tiaoshiTaskArr1.push('任务'+(ic+1));
 				tiaoshiArr.push(response.data.tiaoshi[ic].rate);
 			}
-			console.log(tiaoshiTaskArr1)
+			//console.log(tiaoshiTaskArr1)
 			db2POption3.yAxis.data = tiaoshiTaskArr1.reverse();
 			db2POption3.series[0].data = tiaoshiArr.reverse();
 			db2P3.setOption(db2POption3);

@@ -163,7 +163,7 @@ var db4POption2 = {
 // 动态生成模板
 function addfourBoardHtml(data) {
 	var theadHtml = '', tbodyHtml = '',tbodyData = data;
-	console.log(tbodyData.length)
+	//console.log(tbodyData.length)
 	var theadData = ['员工名称', '工位', '所在工序', '任务信息', '当前完成率']
 	colwidth = (($("#fourBoard").width() / theadData.length) - 10) + "px";
 	theadHtml = '<div class="StateTit">';
@@ -200,7 +200,7 @@ function addfourBoardHtml(data) {
 			url: board4Api.findByProcessTaskCode+tbodyData[$(this).index()].process_task_code,
 			dataType: "json",
 			success: function (response) {
-				console.log("abc========",response)
+				//console.log("abc========",response)
 				$('.filterbg').show();
 				$('.popup').show();
 				$('.popup').width('3px');
@@ -288,7 +288,7 @@ function setDataBoard4(params) {
 				useRateArr.push(response.data[i].useRate);
 				axiskRateArr.push(response.data[i].processType);
 			}
-			console.log(kRateArr,useRateArr,axiskRateArr)
+			//console.log(kRateArr,useRateArr,axiskRateArr)
 			db4POption1.series[0].data = kRateArr;
 			db4POption1.xAxis.data = axiskRateArr;
 			db4P1.setOption(db4POption1);

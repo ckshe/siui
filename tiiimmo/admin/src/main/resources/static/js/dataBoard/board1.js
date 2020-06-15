@@ -467,7 +467,7 @@ function setDataBoard1(params) {
                 url: board1Api.getMapProcessDayRate,
                 dataType: "json",
                 success: function (response) {
-                    console.log("cds==",response)
+                    ////console.log("cds==",response)
                     var mapProcessDayRate = response.data;
                     orderOption1.series[0].data = [{
                         name: '已完成',
@@ -510,7 +510,7 @@ function setDataBoard1(params) {
                 url: board1Api.pcbTaskBoard,
                 dataType: "json",
                 success: function (response) {
-                    // console.log("message===", response)
+                    // ////console.log("message===", response)
                     addHtml(response.data.pcbTasks, hsaClassOn);
                     setOption(response.data);
                 }
@@ -576,7 +576,7 @@ function setDataBoard1(params) {
                     '<div class="fontInner clearfix">' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_code + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].model_name + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_code + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_id + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_name + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].task_sheet_code + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].produce_plan_date + '</span>' +
@@ -590,7 +590,7 @@ function setDataBoard1(params) {
             tbodyHtml += '</ul></div>';
         } else {
             var theadData = ['工序任务号','规格型号','物料型号', '工序','生产任务号','生产批次','生产时间',  '生产数量', '完成数量', '工时 (分)' , '工单状态']
-            console.log(data)
+            ////console.log(data)
             var tbodyData = popData = data;
             if (theadData.length > 0) {
                 widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) + "px"
@@ -714,7 +714,7 @@ function setDataBoard1(params) {
             '           <li class="clearfix">' +
             '               <span>生产任务单号:<strong>' + data.pcb_task_code + '</strong></span>' +
             '               <span class="col2">机型名称:<strong>' + data.model_name + '</strong></span>' +
-            '               <span>规格型号:<strong>' + data.pcb_code + '</strong></span>' +
+            '               <span>规格型号:<strong>' + data.pcb_id + '</strong></span>' +
             '               <span class="col2">物料名称:<strong>' + data.pcb_name + '</strong></span>' +
             '               <span>生产批次:<strong>' + data.task_sheet_code + '</strong></span>' +
             '               <span>完成时间:<strong>' + data.plan_complete_date + '</strong></span>' +
