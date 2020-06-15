@@ -6,24 +6,24 @@ var board3Api = {
     processBadRate: '/ShowBoard/processBadRate',//不良率
     findProcessTaskByDevice: '/ShowBoard/findProcessTaskByDevice',//根据设备编号查询工序任务
     getDeviceByCode: '/ShowBoard/getDeviceByCode/',//查看设备接口
-    getMapProcessThisWeekRate:'/ShowBoard/getMapProcessThisWeekRate',//周每天任务完成数量及百分比
+    getMapProcessThisWeekRate: '/ShowBoard/getMapProcessThisWeekRate',//周每天任务完成数量及百分比
 }
 function setDataBoard3(params) {
     setTimeout(function () {
-        
+
         $.ajax({
             contentType: 'application/json',
             type: 'get',
             url: board3Api.getMapProcessThisWeekRate,
             dataType: "json",
             success: function (response) {
-                var numArr1 = [],axisWeekRateArr=[],numArr2=[];
-                for(var i=0;i<response.data.length;i++){
+                var numArr1 = [], axisWeekRateArr = [], numArr2 = [];
+                for (var i = 0; i < response.data.length; i++) {
                     axisWeekRateArr.push(response.data[i].theDay)
                     numArr1.push(response.data[i].sumFinishAmount)
                     numArr2.push(response.data[i].allCount)
                 }
-                console.log(numArr1,numArr2,axisWeekRateArr)
+                console.log(numArr1, numArr2, axisWeekRateArr)
                 // axisWeekRateArr = ['周日','周一','周二','周三','周四','周五','周六']
                 db3POption2.xAxis[0].data = axisWeekRateArr;
                 db3POption2.series[0].data = numArr2;
@@ -37,8 +37,8 @@ function setDataBoard3(params) {
         addDataTaskHtml(); //生产信息 
     }, 10)
     $('.imagesflex div').off().on('click', function () {
-        var deviceName = $(this).attr("name");
-        setdievClick(deviceName, $(this).index());
+        var deviceCode = $(this).attr("name");
+        setdievClick(deviceCode, $(this).index());
     })
     getData(); // 设备状态
     getEnvironmentRecord();//环境
@@ -116,28 +116,27 @@ function processBadRate() {
                 legendAxisArr.push(response.data[i].processType)
                 badRateArr.push({ value: response.data[i].rate, name: response.data[i].processType })
             }
-            console.log("===========",legendAxisArr)
             // db2POption2.yAxis.data = houhanTaskArr1.reverse();
-            db3POption5.legend.data=legendAxisArr
+            db3POption5.legend.data = legendAxisArr
             db3POption5.series[0].data = badRateArr;
             db3P5.setOption(db3POption5);
         }
     });
 }
-function setdievClick(deviceName, n) {
+function setdievClick(deviceCode, n) {
     $('.filterbg').show();
     $('.popup').show();
     $('.popup').width('3px');
     $('.popup').animate({ height: '76%' }, 400, function () {
         $('.popup').animate({ width: '82%' }, 400);
     });
-    setTimeout(deviceShow(deviceName, n), 800);
+    setTimeout(deviceShow(deviceCode, n), 800);
 }
-function deviceShow(deviceName, n) {
+function deviceShow(deviceCode, n) {
     $('.popupClose').css('display', 'block');
     $('.summary').show().css('display', 'block');
     var data = {
-        "deviceCode": deviceName
+        "deviceCode": deviceCode
     }
     $.ajax({
         contentType: 'application/json',
@@ -151,11 +150,11 @@ function deviceShow(deviceName, n) {
             $.ajax({
                 contentType: 'application/json',
                 type: 'get',
-                url: board3Api.getDeviceByCode+data.deviceCode,
+                url: board3Api.getDeviceByCode + data.deviceCode,
                 dataType: "json",
                 success: function (response) {
                     var deviceresponse = response.data
-                    addHtml(responseData,deviceresponse,deviceName, n);
+                    addHtml(responseData, deviceresponse, n);
                     setDevice();
                 }
             });
@@ -264,6 +263,9 @@ function setDevice() {
                     show: true,
                     color: 'rgba(255,255,255,1)',
                     fontSize: 20
+                },
+                formatter: function (value) {
+                    return value + '%'
                 }
             },
             min: 0,
@@ -300,9 +302,9 @@ function setDevice() {
                                 color: '#fff'
                             },
                             position: 'inside',
-                            formatter: function (params) {
-                                return params.value + "%"
-                            }
+                            // formatter: function (params) {
+                            //     return params.value + "%"
+                            // }
                         },
                     }
                 }
@@ -326,9 +328,9 @@ function setDevice() {
                                 color: '#fff'
                             },
                             position: 'inside',
-                            formatter: function (params) {
-                                return params.value + "%"
-                            }
+                            // formatter: function (params) {
+                            //     return params.value + "%"
+                            // }
                         },
                     }
                 }
@@ -338,21 +340,21 @@ function setDevice() {
     devicePie1.setOption(pieOption1);
     devicePie3.setOption(pieOption3);
 }
-function addHtml(responseData,deviceresponse,deviceName,n) {
-    var display, summaryWidth,data;
+function addHtml(responseData, deviceresponse, n) {
+    var display, summaryWidth, data;
     if (n == 3 || n == 4 || n == 5) {
         display = "block"
         summaryWidth = '60%'
-    }else{
+    } else {
         display = "none"
         summaryWidth = '100%'
     }
-    if(responseData.data.length>0){
+    if (responseData.data.length > 0) {
         data = responseData.data[0];
-    }else{
-        data=responseData.data;
+    } else {
+        data = responseData.data;
     }
- 
+
     var html = '<div style="height:400px">' +
         '<div class="left" style="width: 40%; height: 320px; display:' + display + '">' +
         '   <div class="">' +
@@ -363,22 +365,22 @@ function addHtml(responseData,deviceresponse,deviceName,n) {
         '   <div class="itemTit">' +
         '       <span class="border-blue">设备任务</span>' +
         '   </div>';
-        if(data.length != 0){
-            if(data.plan_start_time!=null){
-                data.plan_start_time = data.plan_start_time.split('T')[0] ;
-            }else{
-                data.plan_start_time=''
-            }
-            if(data.plan_finish_time!=null){
-                data.plan_finish_time = data.plan_finish_time.split('T')[0] ;
-            }else{
-                data.plan_finish_time=''
-            }
-            html += '   <div class="itemCon itembg itembg_popupfirt">' +
+    if (data.length != 0) {
+        if (data.plan_start_time != null) {
+            data.plan_start_time = data.plan_start_time.split('T')[0];
+        } else {
+            data.plan_start_time = ''
+        }
+        if (data.plan_finish_time != null) {
+            data.plan_finish_time = data.plan_finish_time.split('T')[0];
+        } else {
+            data.plan_finish_time = ''
+        }
+        html += '   <div class="itemCon itembg itembg_popupfirt">' +
             '       <ul class="listStyle">' +
             '           <li class="clearfix">' +
             '				<span class="col2">生产任务号:<strong>' + data.pcb_task_code + '</strong></span>' +
-            '				<span class="col2">机台名称:<strong>' + deviceName+ '</strong></span>' +
+            '				<span class="col2">机台名称:<strong>' + deviceInfo[n].deviceName + '</strong></span>' +
             // '				<span class="col2">机台编号:<strong>' + data.device_code + '</strong></span>' +
             '				<span class="col2">工序名称:<strong>' + data.process_name + '</strong></span>' +
             '				<span class="col2">工序单状态:<strong>' + data.process_task_status + '</strong></span>' +
@@ -394,28 +396,28 @@ function addHtml(responseData,deviceresponse,deviceName,n) {
             '           </li>' +
             '       </ul>' +
             '   </div>';
-        }else{
-            html += '   <div class="itemCon itembg itembg_popupfirt">' +
+    } else {
+        html += '   <div class="itemCon itembg itembg_popupfirt">' +
             '       <ul class="listStyle">' +
             '           <li class="clearfix">' +
-            '				<span class="col2">机台名称:<strong>' + deviceName+ '</strong></span>' +
+            '				<span class="col2">机台名称:<strong>' + deviceInfo[n].deviceName  + '</strong></span>' +
             '				<span class="col2">任务状态:<strong>无</strong></span>' +
             '           </li>' +
             '       </ul>' +
             '   </div>';
-        }
-        if(deviceresponse.last_check_time!=null){
-            deviceresponse.last_check_time = deviceresponse.last_check_time.split('T')[0] ;
-        }else{
-            deviceresponse.last_check_time=''
-        }
-        if(deviceresponse.next_check_time!=null){
-            deviceresponse.next_check_time = deviceresponse.next_check_time.split('T')[0] ;
-        }else{
-            deviceresponse.next_check_time=''
-        }
+    }
+    if (deviceresponse.last_check_time != null) {
+        deviceresponse.last_check_time = deviceresponse.last_check_time.split('T')[0];
+    } else {
+        deviceresponse.last_check_time = ''
+    }
+    if (deviceresponse.next_check_time != null) {
+        deviceresponse.next_check_time = deviceresponse.next_check_time.split('T')[0];
+    } else {
+        deviceresponse.next_check_time = ''
+    }
 
-        html += '</div>' +
+    html += '</div>' +
         '</div>' +
         '<div class="devBottom">' +
         '<div class="item" style="width: 40%;">' +
@@ -444,7 +446,15 @@ function addHtml(responseData,deviceresponse,deviceName,n) {
         '    </div>' +
         '    <div id="devicePie3" class="threeBoard5 char"></div>' +
         '</div>' +
-        '<div class="imgDiv"><img src="../../images/dataBoard/photo.jpg"><p><span>姓名：</span><span>风陵苑主</span></p><p><span>工号：</span><span>965486</span></p></div>' +
+        '<div class="imgDiv">' +
+        '    <div class="itemTit">' +
+        '        <span class="border-green">上岗人员信息</span>' +
+        '    </div>' +
+        '        <div class="itemConDevice">' +
+        '        <img src="../../images/dataBoard/photo.jpg">' +
+        '        <p><span>姓名：</span><span>风陵苑主</span></p><p><span>工号：</span><span>965486</span></p>' +
+        '    </div>' +
+        '</div>' +
         '</div>';
     $('.summary').html(html)
 }
@@ -491,24 +501,56 @@ function addDataTaskHtml(data) {
         "finish_count": 10,
         "sum_count": 20
     }
-    var theadHtmlPTask = '<div class="item summaryP3" style="">' +
-        '   <div class="itemCon itembg itembg_popupfirt">' +
+    var theadHtmlPTask = '<div class="item summaryP3" >' +
+        '   <div class="itemCon itembg itembg_popupfirt"  id="taskList">' +
         '       <ul class="listStyle">' +
         '           <li class="clearfix">' +
-        '               <span>光板号:<strong>' + data.pcb_plate_id + '</strong></span>' +
-        '               <span>通知日期:<strong>' + data.task_sheet_date.split('T')[0] + '</strong></span>' +
-        '               <span>厂区:<strong>' + data.factory + '</strong></span>' +
-        '               <span>车间:<strong>' + data.workshop + '</strong></span>' +
-        '               <span>板编号:<strong>' + data.batch_id + '</strong></span>' +
-        '               <span>投料单号:<strong>' + data.feeding_task_code + '</strong></span>' +
-        '               <span>计划启动时间:<strong>' + data.produce_plan_date.split('T')[0] + '</strong></span>' +
-        '               <span>计划完成时间:<strong>' + data.produce_plan_complete_date.split('T')[0] + '</strong></span>' +
-        '               <span>优先级:<strong>' + data.priority + '</strong></span>' +
+        '               <span class="col3">生产任务号:<strong>' + 1111 + '</strong></span>' +
+        '               <span class="col3">工序名称:<strong>' + data.task_sheet_date.split('T')[0] + '</strong></span>' +
+        '               <span class="col3">机台名称:<strong>' + data.factory + '</strong></span>' +
+        '               <span class="col3">工序单状态:<strong>' + data.device_name + '</strong></span>' +
+        '               <span class="col3">完成数量:<strong>' + data.batch_id + '</strong></span>' +
+        '               <span class="col3">计划开始时间:<strong>' + data.feeding_task_code + '</strong></span>' +
+        '               <span class="col3">计划结束时间:<strong>' + data.produce_plan_date.split('T')[0] + '</strong></span>' +
+        '               <span class="col3">PCB名称:<strong>' + data.priority + '</strong></span>' +
+        '               <span class="col3">pcb编码:<strong>' + data.produce_plan_complete_date.split('T')[0] + '</strong></span>' +
+        '               <span class="col3">PCB数量:<strong>' + data.priority + '</strong></span>' +
         '           </li>' +
+        '           <li class="clearfix">' +
+        '               <span class="col3">生产任务号:<strong>' + 2222 + '</strong></span>' +
+        '               <span class="col3">工序名称:<strong>' + data.task_sheet_date.split('T')[0] + '</strong></span>' +
+        '               <span class="col3">机台名称:<strong>' + data.factory + '</strong></span>' +
+        '               <span class="col3">工序单状态:<strong>' + data.device_name + '</strong></span>' +
+        '               <span class="col3">完成数量:<strong>' + data.batch_id + '</strong></span>' +
+        '               <span class="col3">计划开始时间:<strong>' + data.feeding_task_code + '</strong></span>' +
+        '               <span class="col3">计划结束时间:<strong>' + data.produce_plan_date.split('T')[0] + '</strong></span>' +
+        '               <span class="col3">PCB名称:<strong>' + data.priority + '</strong></span>' +
+        '               <span class="col3">pcb编码:<strong>' + data.produce_plan_complete_date.split('T')[0] + '</strong></span>' +
+        '               <span class="col3">PCB数量:<strong>' + data.priority + '</strong></span>' +
+        '           </li>' +
+        '           <li class="clearfix">' +
+        '               <span class="col3">生产任务号:<strong>' + 33333 + '</strong></span>' +
+        '               <span class="col3">工序名称:<strong>' + data.task_sheet_date.split('T')[0] + '</strong></span>' +
+        '               <span class="col3">机台名称:<strong>' + data.factory + '</strong></span>' +
+        '               <span class="col3">工序单状态:<strong>' + data.device_name + '</strong></span>' +
+        '               <span class="col3">完成数量:<strong>' + data.batch_id + '</strong></span>' +
+        '               <span class="col3">计划开始时间:<strong>' + data.feeding_task_code + '</strong></span>' +
+        '               <span class="col3">计划结束时间:<strong>' + data.produce_plan_date.split('T')[0] + '</strong></span>' +
+        '               <span class="col3">PCB名称:<strong>' + data.priority + '</strong></span>' +
+        '               <span class="col3">pcb编码:<strong>' + data.produce_plan_complete_date.split('T')[0] + '</strong></span>' +
+        '               <span class="col3">PCB数量:<strong>' + data.priority + '</strong></span>' +
+        '           </li>' +
+        
         '       </ul>' +
         '   </div>' +
         '</div>';
     $("#htmlPTask").html(theadHtmlPTask).css("display", "block");
+    $("#taskList").banner($("#taskList").find(".listStyle li"), {
+        list: false,
+        autoPlay: true,
+        delayTiem: 5000,  // 延迟时间默认为2000
+        moveTime: 500    // 远动时间默认为300
+    });
 }
 var db3P1, db3P2;
 db3P2 = echarts.init(document.getElementById('db3P2'), 'macarons');
@@ -617,7 +659,7 @@ var db3POption2 = {
 var db3POption3 = {
     tooltip: {
         trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} H',
+        formatter: '{a} <br/>{b} : {c} 分钟',
         textStyle: {
             color: '#fff',
             fontSize: 20

@@ -1389,7 +1389,7 @@ body{
 	height: 400px;
 }
 .threeBoard5{
-	width: 520px;
+	width: 600px;
 	height: 300px;
 }
 
@@ -1562,7 +1562,7 @@ body{
 .summaryP1 .itembg_popupfirt .listStyle li span strong{padding: 0 5px;}
 .deviceFlex img{cursor:pointer}
 .devBottom .imgDiv{
-	width: 20%; height: 380px; float: left; text-align: center;padding-top: 20px; font-size: 22px;
+	width: 20%; height: 380px; float: left; text-align: center;padding-top: 1px; font-size: 22px;
 }
 .devBottom .imgDiv img{ border-radius: 50%; padding-bottom: 20px;}
 .itembg_popupfirt.col2{
@@ -1578,5 +1578,7 @@ body{
 .button-span button{width: 80px;height: 40px;background: #061f3e;font-size: 25px; cursor: pointer; color: #fff;}
 .button-span button:nth-child(1){border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
 .button-span button:nth-child(2){border-top-right-radius: 8px; border-bottom-right-radius: 8px;}
-.button-span button.on{font-weight: bolder;  color: #e60d0d;
-    background: #32ffc7;}
+.button-span button.on{font-weight: bolder;  color: #e60d0d;	background: #32ffc7;}
+.itemConDevice{margin: 20px auto;}
+#taskList{margin: 0 auto;position: relative;}
+#taskList ul li{width: 1284px !important; padding: 10px;}
