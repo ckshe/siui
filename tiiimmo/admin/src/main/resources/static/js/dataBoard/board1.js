@@ -576,7 +576,7 @@ function setDataBoard1(params) {
                     '<div class="fontInner clearfix">' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_code + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].model_name + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_id + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_code + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_name + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].task_sheet_code + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].produce_plan_date + '</span>' +
@@ -636,7 +636,7 @@ function setDataBoard1(params) {
                     '<li>' +
                     '<div class="fontInner clearfix">' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_task_code + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_id + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_code + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_name + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_name + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_code + '</span>' +
@@ -714,7 +714,7 @@ function setDataBoard1(params) {
             '           <li class="clearfix">' +
             '               <span>生产任务单号:<strong>' + data.pcb_task_code + '</strong></span>' +
             '               <span class="col2">机型名称:<strong>' + data.model_name + '</strong></span>' +
-            '               <span>规格型号:<strong>' + data.pcb_id + '</strong></span>' +
+            '               <span>规格型号:<strong>' + data.pcb_code + '</strong></span>' +
             '               <span class="col2">物料名称:<strong>' + data.pcb_name + '</strong></span>' +
             '               <span>生产批次:<strong>' + data.task_sheet_code + '</strong></span>' +
             '               <span>完成时间:<strong>' + data.plan_complete_date + '</strong></span>' +
