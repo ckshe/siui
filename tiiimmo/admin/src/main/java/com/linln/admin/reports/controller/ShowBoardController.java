@@ -124,5 +124,19 @@ public class ShowBoardController {
         return ResultVoUtil.success(showBoardService.getDeviceByCode(deviceCode));
     }
 
+    //查看设备状态运行
+    @GetMapping("/getDeviceRunTime/{deviceCode}")
+    @ResponseBody
+    public ResultVo getDeviceRunTime( @PathVariable String deviceCode){
+        return ResultVoUtil.success(showBoardService.getDeviceRunTime(deviceCode));
+    }
+
+    //查看设备状态运行
+    @GetMapping("/getDeviceRunTimeAll")
+    @ResponseBody
+    public ResultVo getDeviceRunTimeAll( ){
+        return ResultVoUtil.success(showBoardService.getDeviceRunTime(null));
+    }
+
 
 }

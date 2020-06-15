@@ -2,6 +2,7 @@ package com.linln.admin.reports.service.impl;
 
 import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.RespAndReqs.responce.BadRateResp;
+import com.linln.RespAndReqs.responce.DeviceRunTimeResp;
 import com.linln.RespAndReqs.responce.ProcessThisWeekRateResp;
 import com.linln.RespAndReqs.responce.StaffOntimeRateResp;
 import com.linln.admin.base.domain.Device;
@@ -226,7 +227,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
         List<String> dayList = DateUtil.dayBetweenTwoDate(DateUtil.string2Date(startTime, ""),DateUtil.string2Date(endTime, ""));
         StringBuffer allsql = new StringBuffer("SELECT\n" +
-                "\tCOUNT(id) allcount,\n" +
+                "\tCOUNT(id) allcount,sum(pcb_quantity) sumPlanCount,sum(amount_completed) sumCompleted,\n" +
                 "\tCONVERT ( VARCHAR ( 100 ), plan_finish_time, 23 ) theday\n" +
                 "FROM\n" +
                 "\tproduce_process_task \n" +
@@ -264,14 +265,19 @@ public class ShowBoardServiceImpl implements ShowBoardService {
             resp.setFinishCount(0);
             resp.setRate(BigDecimal.ZERO);
             resp.setSumFinishAmount(0);
+            resp.setSumPlanAmount(0);
             result.add(resp);
         }
         for(ProcessThisWeekRateResp resp : result){
             for(Map<String,Object> all : allList){
                 String theday = (String) all.get("theday");
                 Integer allcount = (Integer) all.get("allcount");
+                Integer sumPlanCount = (Integer) all.get("sumPlanCount");
+                Integer sumCompleted = (Integer) all.get("sumCompleted");
                 if(theday.equals(resp.getTheDay())){
                     resp.setAllCount(allcount);
+                    resp.setSumPlanAmount(sumPlanCount);
+                    resp.setSumFinishAmount(sumCompleted);
                 }
             }
         }
@@ -279,9 +285,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
             for(Map<String,Object> finish : finishList){
                 String theday = (String) finish.get("theday");
                 Integer finishcount = (Integer) finish.get("finishCount");
-                Integer sumFinishAmount = (Integer)finish.get("sumfinishcount");
+                //Integer sumFinishAmount = (Integer)finish.get("sumfinishcount");
                 if(theday.equals(resp.getTheDay())){
-                    resp.setSumFinishAmount(sumFinishAmount);
+                    //resp.setSumFinishAmount(sumFinishAmount);
                     resp.setFinishCount(finishcount);
                 }
             }
@@ -565,5 +571,52 @@ public class ShowBoardServiceImpl implements ShowBoardService {
     public Device getDeviceByCode(String deviceCode) {
 
         return deviceRepository.findbyDeviceCode(deviceCode);
+    }
+
+    @Override
+    public  List<DeviceRunTimeResp> getDeviceRunTime(String deviceCode) {
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
+        String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
+        List<String> dayList = DateUtil.dayBetweenTwoDate(DateUtil.string2Date(startTime, ""),DateUtil.string2Date(endTime, ""));
+
+        StringBuffer wheresql = new StringBuffer(" and device_status = 0 ");
+        if(deviceCode!=null&&!"".equals(deviceCode)){
+            wheresql.append(" and device_code = '" +
+                    deviceCode +
+                    "' ");
+        }
+        StringBuffer sql = new StringBuffer("SELECT CONVERT\n" +
+                "\t( VARCHAR ( 100 ), start_time, 23 ) theday,\n" +
+                "\tSUM ( continue_time ) runtime\n" +
+                "FROM\n" +
+                "\tbase_device_status_record \n" +
+                "WHERE\n" +
+                "\tstart_time >= '" +
+                startTime +
+                "' and start_time <= '" +
+                endTime +
+                "'  \n");
+
+        sql.append(wheresql);
+        sql.append("GROUP BY\n" +
+                "\t( CONVERT ( VARCHAR ( 100 ), start_time, 23 ) )");
+        List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+        List<DeviceRunTimeResp> list = new ArrayList<>();
+        for(String day : dayList){
+            DeviceRunTimeResp resp = new DeviceRunTimeResp();
+            resp.setTheDay(day);
+            resp.setRunTime(0);
+            for(Map<String, Object> map : mapList){
+                String today = (String)map.get("theday");
+                Integer runTime = (Integer)map.get("runtime");
+                if(today.equals(day)){
+                    resp.setRunTime(runTime/60);
+                }
+            }
+            list.add(resp);
+        }
+
+        return list;
     }
 }

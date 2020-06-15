@@ -27,7 +27,7 @@ import java.util.Map;
  * @date 2020/05/18
  */
 @Controller
-@RequestMapping("/produce/pcbTask")
+@RequestMapping("/produce/pcbTask/")
 public class PcbTaskController {
 
 
@@ -46,8 +46,8 @@ public class PcbTaskController {
                 .withMatcher("pcb_task_code", match -> match.contains())
                 .withMatcher("task_sheet_code", match -> match.contains())
                 .withMatcher("task_sheet_date", match -> match.contains())
-                .withMatcher("pcb_task_status",match -> match.contains());
-        pcbTask.setPcb_task_status("下达");
+                .withMatcher("temp_status_useless",match -> match.contains());
+        pcbTask.setTemp_status_useless("下达");
         // 获取数据列表
         Example<PcbTask> example = Example.of(pcbTask, matcher);
         Page<PcbTask> list = pcbTaskService.getPageList(example);

@@ -16,6 +16,7 @@ import com.linln.admin.base.repository.ProcessRepository;
 import com.linln.admin.produce.domain.*;
 import com.linln.admin.produce.repository.*;
 import com.linln.admin.produce.service.PcbTaskService;
+import com.linln.admin.quality.domain.DeviceStatusRecord;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.ResultVoUtil;
@@ -33,12 +34,14 @@ import org.springframework.core.task.TaskDecorator;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,6 +58,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Autowired
     private ModelsRepository modelsRepository;
+
+    @Autowired
+    private DeviceStatusRecordRepository deviceStatusRecordRepository;
 
     @Autowired
     private ProcessTaskRepository processTaskRepository;
@@ -103,8 +109,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     public Page<PcbTask> getPageList(Example<PcbTask> example) {
         // 创建分页对象
         PageRequest page = PageSort.pageRequest();
+        Sort sort = new Sort(Sort.Direction.DESC, "\\Qproduce_plan_complete_date\\E");
+        PageRequest newpage = new PageRequest(page.getPageNumber(),page.getPageSize(),sort);
 
-        return pcbTaskRepository.findAll(example, page);
+
+        return pcbTaskRepository.findAll(example, newpage);
     }
 
     /**
@@ -131,21 +140,24 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
         ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCRWDCX");
         ScheduleJobReq scheduleJobReq = new ScheduleJobReq();
-        scheduleJobReq.setDesc(jobApi.getRemark() == null ? "\"\"" : jobApi.getRemark());
-        scheduleJobReq.setKey(jobApi.getKey() == null ? "\"\"" : jobApi.getKey());
-        scheduleJobReq.setWhere(jobApi.getCondition() == null ? "\"\"" : jobApi.getCondition());
-        scheduleJobReq.setAction(jobApi.getApiName() == null ? "\"\"" : jobApi.getApiName());
+        scheduleJobReq.setDesc(jobApi.getRemark() == null ? "" : jobApi.getRemark());
+        scheduleJobReq.setKey(jobApi.getKey() == null ? "" : jobApi.getKey());
+        scheduleJobReq.setWhere(jobApi.getCondition() == null ? "" : jobApi.getCondition());
+        scheduleJobReq.setAction(jobApi.getApiName() == null ? "" : jobApi.getApiName());
+        scheduleJobReq.setSelect("");
+
+        scheduleJobReq.setUrl(jobApi.getApiUrl());
         List<String> paramList = new ArrayList<>();
-        paramList.add("\"\"");
+        paramList.add("");
         scheduleJobReq.setParamList(paramList);
-        //JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
+        JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
 
         System.out.println(scheduleJobReq.toString());
         String path = "C:\\chaosheng_file\\task.json";
 
         String s = ReadUtill.readJsonFile(path);
         JSONObject jobj = JSON.parseObject(s);
-        JSONArray lists = jobj.getJSONArray("data");
+        //JSONArray lists = jobj.getJSONArray("data");
         System.out.println("-----------list-------------"+lists.size());
         List<PcbTask> pckTaskList = new ArrayList<>();
         List<PCBPlateNo> plateNoList = new ArrayList<>();
@@ -153,8 +165,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             JSONObject param = lists.getJSONObject(i);
             //生产任务单号
             String pcb_task_code = param.getString("FRWFBillNo");
-            //同步领料单
-            //getFeedingTaskFromERP(pcb_task_code);
 
 
             //pcb编码
@@ -166,6 +176,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             }
             //这里需要匹配是否已同步过的
             PcbTask pcbTask = new PcbTask();
+
             List<PcbTask> oldPcbTasks = pcbTaskRepository.findAllByPcb_task_code(pcb_task_code);
             //计划投产时间
             Date produce_plan_date =  param.getDate("FPlanCommitDate");
@@ -176,7 +187,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
             if(oldPcbTasks!=null&&oldPcbTasks.size()!=0){
                 pcbTask = oldPcbTasks.get(0);
-                if(pcbTask.getPcb_task_status().contains("已下达未投产")||"确认".equals(pcbTask.getPcb_task_status())){
+                if(pcbTask.getPcb_task_status().contains("下达")||"确认".equals(pcbTask.getPcb_task_status())){
                     pcbTask.setProduce_plan_complete_date(produce_plan_complete_date);
                     pcbTask.setProduce_plan_date(produce_plan_date);
                     pcbTask.setPcb_quantity(pcb_quantity);
@@ -191,6 +202,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
                 }
             }
+
+            //同步领料单
+            ResultVo resultVo = getFeedingTaskFromERP(pcb_task_code);
+            String qtl = resultVo.getMsg();
+            qtl = qtl==null||"".equals(qtl)?"0":qtl;
+            pcbTask.setQi_tao_lv(qtl);
             //制造编号
             String task_sheet_code = param.getString("FProduceNo");
 
@@ -233,6 +250,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             pcbTask.setFeeding_task_code(feeding_code);
             pcbTask.setPcb_quantity(pcb_quantity);
             pcbTask.setWorkshop(workshop);
+            pcbTask.setTemp_status_useless(pcb_task_status);
 
 
             //pcbPlateNoRepository.save(pcbPlateNo);
@@ -259,33 +277,33 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
         ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCTLDCX");
         ScheduleJobReq scheduleJobReq = new ScheduleJobReq();
-        scheduleJobReq.setKey(jobApi.getKey() == null ? "\"\"" : jobApi.getKey());
-        scheduleJobReq.setDesc(jobApi.getRemark() == null ? "\"\"" : jobApi.getRemark());
-        scheduleJobReq.setWhere(jobApi.getCondition() == null ? "\"\"" : jobApi.getCondition());
-        scheduleJobReq.setAction(jobApi.getApiName() == null ? "\"\"" : jobApi.getApiName());
+        scheduleJobReq.setKey(jobApi.getKey() == null ? "" : jobApi.getKey());
+        scheduleJobReq.setDesc(jobApi.getRemark() == null ? "" : jobApi.getRemark());
+        scheduleJobReq.setWhere(jobApi.getCondition() == null ? "" : jobApi.getCondition());
+        scheduleJobReq.setAction(jobApi.getApiName() == null ? "" : jobApi.getApiName());
+        scheduleJobReq.setSelect("");
+        scheduleJobReq.setUrl(jobApi.getApiUrl());
         List<String> paramList = new ArrayList<>();
-        paramList.add("\"" +
-                FRWFBillNo +
-                "\"");
+        paramList.add(FRWFBillNo);
         scheduleJobReq.setParamList(paramList);
         JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
 
-       /* String path = "D:\\workspace\\timosecond\\tiiimmo\\admin\\src\\main\\resources\\feeding.json";
+        String path = "C:\\chaosheng_file\\feeding.json";
 
         String s = ReadUtill.readJsonFile(path);
         JSONObject jobj = JSON.parseObject(s);
-        JSONArray lists = jobj.getJSONArray("data");*/
+        //JSONArray lists = jobj.getJSONArray("data");
         List<FeedingTask> feedingTaskList = new ArrayList<>();
+        BigDecimal sumQTLv = BigDecimal.ZERO;
         for(int i =0;i<lists.size();i++){
             JSONObject param = lists.getJSONObject(i);
             String feedingTaskCode = param.getString("FTLFBillno");
             List<FeedingTask> olds = feedingTaskRepository.findByFeeding_task_code(feedingTaskCode);
+            FeedingTask feedingTask = new FeedingTask();
             if(olds.size()>0){
-
-                olds.get(0);
+                feedingTask = olds.get(0);
 
             }
-            FeedingTask feedingTask = new FeedingTask();
             feedingTask.setProduct_code(param.getString("FNumber"));
             feedingTask.setProduct_name(param.getString("FName"));
             feedingTask.setSpecification_model(param.getString("FModel"));
@@ -296,13 +314,19 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             feedingTask.setFStockQty(param.getBigDecimal("FStockQty"));
             feedingTask.setFNStockQty(param.getBigDecimal("FNStockQty"));
             feedingTask.setFQty(param.getBigDecimal("FQty"));
-            feedingTask.setFQtlv(param.getString("FQty"));
+            feedingTask.setFQtlv(param.getString("FQtlv"));
+            String qtl = param.getString("FQtlv").replace("%","");
+            BigDecimal deqtl = new BigDecimal(qtl);
+            sumQTLv.add(deqtl);
             feedingTask.setPcb_task_code(param.getString("FRWFBillno"));
             feedingTask.setFeeding_task_code(param.getString("FTLFBillno"));
             feedingTaskList.add(feedingTask);
         }
+        BigDecimal size = new BigDecimal(lists.size()==0?1:lists.size());
+        BigDecimal qtlRate = sumQTLv.divide(size,4, RoundingMode.HALF_DOWN).multiply(new BigDecimal(100));
+        System.out.println("------FRWFBillNo:"+FRWFBillNo+"----"+feedingTaskList.size());
         feedingTaskRepository.saveAll(feedingTaskList);
-        return ResultVoUtil.success("同步完成");
+        return ResultVoUtil.success(qtlRate+"","");
 
     }
 
@@ -509,6 +533,28 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         for(PcbTaskReq req : pcbTaskReq.getData()){
             PTDeviceResp resp = new PTDeviceResp();
             Device device = deviceRepository.fingDeviceBySort(req.getDeviceCode());
+            //加入设备状态记录表
+            //step1:找到设备最后一条没有结束时间的记录
+            DeviceStatusRecord deviceStatusRecord = deviceStatusRecordRepository.findByDevice_code(device.getDevice_code());
+            //step2:状态相同则跳过
+            if(req.getStatus().equals(deviceStatusRecord.getDevice_status())){
+
+            }else {
+                //step3:状态不同结束上一条并计算持续时间，新增一条
+                Date today = new Date();
+                deviceStatusRecord.setEnd_time(today);
+                Long cha = (today.getTime()-deviceStatusRecord.getStart_time().getTime())/1000;
+                deviceStatusRecord.setContinue_time(Integer.parseInt(cha+""));
+                deviceStatusRecordRepository.save(deviceStatusRecord);
+                //新增
+                DeviceStatusRecord newRecord = new DeviceStatusRecord();
+                newRecord.setContinue_time(0);
+                newRecord.setStart_time(today);
+                newRecord.setDevice_code(device.getDevice_code());
+                newRecord.setDevice_name(device.getDevice_name());
+                newRecord.setDevice_status(req.getStatus());
+                deviceStatusRecordRepository.save(newRecord);
+            }
             String reCount = device.getRe_count();
             //是，记录数据返回清零标志
             resp.setReCount(reCount);

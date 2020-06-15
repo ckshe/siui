@@ -2,6 +2,7 @@ package com.linln.admin.reports.service;
 
 import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.RespAndReqs.responce.BadRateResp;
+import com.linln.RespAndReqs.responce.DeviceRunTimeResp;
 import com.linln.RespAndReqs.responce.ProcessThisWeekRateResp;
 import com.linln.RespAndReqs.responce.StaffOntimeRateResp;
 import com.linln.admin.base.domain.Device;
@@ -44,4 +45,6 @@ public interface ShowBoardService {
     public List<BadRateResp> processBadRate();
 
     public Device getDeviceByCode(String deviceCode);
+
+    public  List<DeviceRunTimeResp> getDeviceRunTime(String deviceCode);
 }

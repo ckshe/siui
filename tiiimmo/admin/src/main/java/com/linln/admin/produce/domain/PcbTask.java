@@ -130,4 +130,10 @@ public class PcbTask implements Serializable {
 
     //优先级
     private Integer priority;
+
+    //没卵用的状态，只用来筛选前端显示ERP排产计划
+    private String temp_status_useless;
+
+    //齐套率
+    private String qi_tao_lv;
 }
