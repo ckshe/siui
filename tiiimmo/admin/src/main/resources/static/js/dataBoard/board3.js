@@ -9,6 +9,7 @@ var board3Api = {
     getMapProcessThisWeekRate: '/ShowBoard/getMapProcessThisWeekRate',//周每天任务完成数量及百分比
     getDeviceRunTimeAll: '/ShowBoard/getDeviceRunTimeAll',//设备日状态接口（全部设备）
     getDeviceRunTime: '/ShowBoard/getDeviceRunTime/',//单个设备日状态运行时长接口
+    findByStartEndTimeBy3TiePian: '/ShowBoard/findByStartEndTimeBy3TiePian',//查看三台贴片机的当周工序任务
 }
 function setDataBoard3(params) {
     setTimeout(function () {
@@ -49,9 +50,18 @@ function setDataBoard3(params) {
                 db3P3.setOption(db3POption3);
             }
         });
+        $.ajax({
+            contentType: 'application/json',
+            type: 'get',
+            url: board3Api.findByStartEndTimeBy3TiePian,
+            dataType: "json",
+            success: function (response) {
+                console.log('shenkc',response)
+                addDataTaskHtml(response.data); //生产信息 
+            }
+        });
 
 
-        addDataTaskHtml(); //生产信息 
     }, 10)
     $('.imagesflex div').off().on('click', function () {
         var deviceCode = $(this).attr("name");
@@ -170,8 +180,11 @@ function deviceShow(deviceCode, n) {
                 url: board3Api.getDeviceByCode + data.deviceCode,
                 dataType: "json",
                 success: function (response) {
-                    var deviceresponse = response.data
-                    addHtml(responseData, deviceresponse, n);
+                    console.log("====",response)
+                    var device = response.data.device
+                    var user = response.data.user
+                    console.log(user)
+                    addHtml(responseData, device, n,user);
                     $.ajax({
                         contentType: 'application/json',
                         type: 'get',
@@ -180,7 +193,7 @@ function deviceShow(deviceCode, n) {
                         success: function (response) {
                             console.log(response)
                             var responseRunData = response.data;
-                            setDevice(responseRunData);
+                            setDevice(responseRunData,responseData.device_name);
                         }
                     });
                 }
@@ -192,7 +205,7 @@ function deviceShow(deviceCode, n) {
 };
 var devicePie1, devicePie3;
 var pieData;
-function setDevice(data) {
+function setDevice(data,deviceName) {
     devicePie1 = echarts.init(document.getElementById('devicePie1'), 'macarons');
     devicePie3 = echarts.init(document.getElementById('devicePie3'), 'macarons');
 
@@ -370,6 +383,7 @@ function setDevice(data) {
             }
         ]
     };
+    pieOption1.title.text=deviceName;
     devicePie1.setOption(pieOption1);
 
     var brunTimeArr = [], noBrunTimeArr = [];
@@ -383,7 +397,7 @@ function setDevice(data) {
     pieOption3.series[1].data = brunTimeArr;
     devicePie3.setOption(pieOption3);
 }
-function addHtml(responseData, deviceresponse, n) {
+function addHtml(responseData, deviceresponse, n,user) {
     var display, summaryWidth, data;
     if (n == 3 || n == 4 || n == 5) {
         display = "block"
@@ -467,18 +481,18 @@ function addHtml(responseData, deviceresponse, n) {
         '   <div class="itemTit">' +
         '       <span class="border-blue">设备信息</span>' +
         '   </div>' +
-        '   <div class="itemCon itembg itembg_popupfirt col2">' +
+        '   <div class="itemCon itembg itembg_popupfirt ">' +
         '       <ul class="listStyle">' +
         '           <li class="clearfix">' +
         '				<span class="col2">所属厂区:<strong>' + deviceresponse.belong_plant_area + '</strong></span>' +
-        '				<span class="col2">所属产线:<strong>' + deviceresponse.belong_line + '</strong></span>' +
-        '				<span class="col1">设备名称:<strong>' + deviceresponse.device_name + '</strong></span>' +
         '				<span class="col2">所属工序:<strong>' + deviceresponse.belong_process + '</strong></span>' +
         '				<span class="col2">设备型号:<strong>' + deviceresponse.device_model + '</strong></span>' +
         '				<span class="col2">设备站位:<strong>' + deviceresponse.device_sort + '</strong></span>' +
-        '				<span class="col2">设备状态:<strong>' + deviceresponse.device_status + '</strong></span>' +
         '               <span class="col2">上次检测时间:<strong>' + deviceresponse.last_check_time + '</strong></span>' +
         '               <span class="col2">下次检测时间:<strong>' + deviceresponse.next_check_time + '</strong></span>' +
+        '				<span class="col2">设备状态:<strong>' + deviceresponse.device_status + '</strong></span>' +
+        '				<span class="col2">设备名称:<strong>' + deviceresponse.device_name + '</strong></span>' +
+        '				<span class="col1">所属产线:<strong>' + deviceresponse.belong_line + '</strong></span>' +
         '           </li>' +
         '       </ul>' +
         '   </div>' +
@@ -494,97 +508,52 @@ function addHtml(responseData, deviceresponse, n) {
         '        <span class="border-green">上岗人员信息</span>' +
         '    </div>' +
         '        <div class="itemConDevice">' +
-        '        <img src="../../images/dataBoard/photo.jpg">' +
-        '        <p><span>姓名：</span><span>风陵苑主</span></p><p><span>工号：</span><span>965486</span></p>' +
+        '        <img src="../../images/dataBoard/photo.jpg">';
+        if(user.nickname==null){
+            user.nickname='无';
+        }
+        if(user.username==null){
+            user.username='无';
+        }
+         html += '        <p><span>姓名：</span><span>'+user.nickname+'</span></p><p><span>工号：</span><span>'+user.username+'</span></p>' +
         '    </div>' +
         '</div>' +
         '</div>';
     $('.summary').html(html)
 }
 function addDataTaskHtml(data) {
-    var data = {
-        "id": 6144,
-        "batch_id": null,
-        "create_date": "2020-06-05T14:28:03.000+0800",
-        "factory": "万吉厂区",
-        "is_rohs": "否",
-        "model_id": null,
-        "model_name": "匹配板 DCY2.908.H1343-AG05 版本A",
-        "model_ver": "DCY2.908.H1343-AG05-A",
-        "patch_pick": null,
-        "pcb_id": "DCY2.908.H1343-AG05-A",
-        "pcb_is_ab": null,
-        "pcb_modify_tag": null,
-        "pcb_name": "匹配板 DCY2.908.H1343-AG05 版本A",
-        "pcb_plate_id": "H134A200001~H134A200020",
-        "pcb_quantity": 20,
-        "pcb_task_code": "MDW19062-3",
-        "pcb_task_status": "已下达已投产",
-        "pcb_update_time": null,
-        "plan_complete_date": null,
-        "produce_complete_date": null,
-        "produce_date": null,
-        "produce_plan_complete_date": "2020-02-07T00:00:00.000+0800",
-        "produce_plan_date": "2019-11-28T00:00:00.000+0800",
-        "quantity": null,
-        "remark": null,
-        "status": 1,
-        "task_sheet_date": "2019-11-28T00:00:00.000+0800",
-        "update_date": "2020-06-05T14:29:08.000+0800",
-        "workshop": "电路板及工业仪器生产车间",
-        "create_by": 1,
-        "update_by": 1,
-        "amount_completed": 1,
-        "feeding_task_code": "PBOM024413",
-        "task_sheet_code": "MDW19062",
-        "pcb_task_id": null,
-        "task_sheet_id": null,
-        "priority": 1,
-        "plan_finish_time": "2020-06-08T00:00:00.000+0800",
-        "finish_count": 10,
-        "sum_count": 20
-    }
+    var htmlPiepian = '';
     var theadHtmlPTask = '<div class="item summaryP3" >' +
         '   <div class="itemCon itembg itembg_popupfirt"  id="taskList">' +
-        '       <ul class="listStyle">' +
-        '           <li class="clearfix">' +
-        '               <span class="col3">生产任务号:<strong>' + 1111 + '</strong></span>' +
-        '               <span class="col3">工序名称:<strong>' + data.task_sheet_date.split('T')[0] + '</strong></span>' +
-        '               <span class="col3">机台名称:<strong>' + data.factory + '</strong></span>' +
-        '               <span class="col3">工序单状态:<strong>' + data.device_name + '</strong></span>' +
-        '               <span class="col3">完成数量:<strong>' + data.batch_id + '</strong></span>' +
-        '               <span class="col3">计划开始时间:<strong>' + data.feeding_task_code + '</strong></span>' +
-        '               <span class="col3">计划结束时间:<strong>' + data.produce_plan_date.split('T')[0] + '</strong></span>' +
-        '               <span class="col3">PCB名称:<strong>' + data.priority + '</strong></span>' +
-        '               <span class="col3">pcb编码:<strong>' + data.produce_plan_complete_date.split('T')[0] + '</strong></span>' +
-        '               <span class="col3">PCB数量:<strong>' + data.priority + '</strong></span>' +
-        '           </li>' +
-        '           <li class="clearfix">' +
-        '               <span class="col3">生产任务号:<strong>' + 2222 + '</strong></span>' +
-        '               <span class="col3">工序名称:<strong>' + data.task_sheet_date.split('T')[0] + '</strong></span>' +
-        '               <span class="col3">机台名称:<strong>' + data.factory + '</strong></span>' +
-        '               <span class="col3">工序单状态:<strong>' + data.device_name + '</strong></span>' +
-        '               <span class="col3">完成数量:<strong>' + data.batch_id + '</strong></span>' +
-        '               <span class="col3">计划开始时间:<strong>' + data.feeding_task_code + '</strong></span>' +
-        '               <span class="col3">计划结束时间:<strong>' + data.produce_plan_date.split('T')[0] + '</strong></span>' +
-        '               <span class="col3">PCB名称:<strong>' + data.priority + '</strong></span>' +
-        '               <span class="col3">pcb编码:<strong>' + data.produce_plan_complete_date.split('T')[0] + '</strong></span>' +
-        '               <span class="col3">PCB数量:<strong>' + data.priority + '</strong></span>' +
-        '           </li>' +
-        '           <li class="clearfix">' +
-        '               <span class="col3">生产任务号:<strong>' + 33333 + '</strong></span>' +
-        '               <span class="col3">工序名称:<strong>' + data.task_sheet_date.split('T')[0] + '</strong></span>' +
-        '               <span class="col3">机台名称:<strong>' + data.factory + '</strong></span>' +
-        '               <span class="col3">工序单状态:<strong>' + data.device_name + '</strong></span>' +
-        '               <span class="col3">完成数量:<strong>' + data.batch_id + '</strong></span>' +
-        '               <span class="col3">计划开始时间:<strong>' + data.feeding_task_code + '</strong></span>' +
-        '               <span class="col3">计划结束时间:<strong>' + data.produce_plan_date.split('T')[0] + '</strong></span>' +
-        '               <span class="col3">PCB名称:<strong>' + data.priority + '</strong></span>' +
-        '               <span class="col3">pcb编码:<strong>' + data.produce_plan_complete_date.split('T')[0] + '</strong></span>' +
-        '               <span class="col3">PCB数量:<strong>' + data.priority + '</strong></span>' +
-        '           </li>' +
-        
-        '       </ul>' +
+        '       <ul class="listStyle">' ;
+        if(data.length>0){
+            for(var i=0;i<data.length;i++){
+                if (data[i].plan_start_time != null) {
+                    data[i].plan_start_time = data[i].plan_start_time.split('T')[0];
+                } else {
+                    data[i].plan_start_time = ''
+                }
+                if (data[i].plan_finish_time != null) {
+                    data[i].plan_finish_time = data[i].plan_finish_time.split('T')[0];
+                } else {
+                    data[i].plan_finish_time = ''
+                }
+                htmlPiepian += '           <li class="clearfix">' +
+                '               <span class="col3">生产任务号:<strong>' + data[i].pcb_task_code + '</strong></span>' +
+                '               <span class="col3">工序任务:<strong>' + data[i].process_task_code + '</strong></span>' +
+                '               <span class="col3">工序:<strong>' + data[i].process_name + '</strong></span>' +
+                '               <span class="col3">工序单状态:<strong>' + data[i].process_task_status + '</strong></span>' +
+                '               <span class="col3">完成数量:<strong>' + data[i].amount_completed + '</strong></span>' +
+                '               <span class="col3">计划开始时间:<strong>' + data[i].plan_start_time + '</strong></span>' +
+                '               <span class="col3">计划结束时间:<strong>' + data[i].plan_finish_time + '</strong></span>' +
+                '               <span class="col3">pcb编码:<strong>' + data[i].pcb_code + '</strong></span>' +
+                '               <span class="col3">PCB数量:<strong>' + data[i].pcb_quantity + '</strong></span>' +
+                '               <span class="col2">PCB名称:<strong>' + data[i].pcb_name + '</strong></span>' +
+                '           </li>';
+            }
+        }
+        theadHtmlPTask+=htmlPiepian;
+        theadHtmlPTask+='       </ul>' +
         '   </div>' +
         '</div>';
     $("#htmlPTask").html(theadHtmlPTask).css("display", "block");
@@ -598,9 +567,7 @@ function addDataTaskHtml(data) {
 var db3P1, db3P2;
 db3P2 = echarts.init(document.getElementById('db3P2'), 'macarons');
 db3P3 = echarts.init(document.getElementById('db3P3'), 'macarons');
-
 db3P5 = echarts.init(document.getElementById('db3P5'), 'macarons');
-
 var db3POption2 = {
     grid: {
         left: '5%',
