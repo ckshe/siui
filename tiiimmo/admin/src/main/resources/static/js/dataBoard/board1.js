@@ -589,7 +589,7 @@ function setDataBoard1(params) {
             }
             tbodyHtml += '</ul></div>';
         } else {
-            var theadData = ['工序任务号', '工序', '计划生产时间', '实际生产时间', '计划完成时间', '生产完成时间', '计划生产数量', '完成生产数量', '工单状态', '工时 (分)']
+            var theadData = ['工序任务号','规格型号','物料型号', '工序','生产任务号','生产批次','生产时间',  '生产数量', '完成数量', '工时 (分)' , '工单状态']
             console.log(data)
             var tbodyData = popData = data;
             if (theadData.length > 0) {
@@ -636,15 +636,16 @@ function setDataBoard1(params) {
                     '<li>' +
                     '<div class="fontInner clearfix">' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_task_code + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_id + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_name + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_name + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_code + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].task_sheet_code + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].plan_start_time + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].start_time + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].plan_finish_time + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].finish_time + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_quantity + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].amount_completed + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_task_status + '</span>' +
                     '<span style="width:' + widthPercent + '">' + tbodyDataS[j].work_time + '</span>' +
+                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_task_status + '</span>' +
                     '</div>' +
                     '</li>';
             }
