@@ -150,10 +150,18 @@ body{
 	/* width: 28%; */
 	width: 100%;
  margin-right: -30%;
+ z-index: 100;
 }
 #top .topLogo img{
 	height: 90%;
 	width: auto;
+	z-index:99;
+	top: 0;
+	position: relative;
+	-webkit-transition: top 1s;
+	-moz-transition: top 1s;
+	-o-transition: top 1s;
+	transition: top 1s;
 }
 #top .topBar{
 	height: 100%;

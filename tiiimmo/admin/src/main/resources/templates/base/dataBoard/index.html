@@ -287,7 +287,20 @@
 		list: false,
 		autoPlay: false,
 	});
-
+	var clicked=false;
+	$(".topLogo").off().on('click', function(){
+		if(clicked)
+		{
+			clicked=false;
+			$(".topLogo img").css({"top": 0});
+		}
+		else
+		{
+			clicked=true;
+			$(".topLogo img").css({"top": "-68px"});
+		}
+	});
+	
 </script>
 <script type="text/javascript" src="../../js/dataBoard/scanboard.js"></script>
 <script type="text/javascript" src="../../js/dataBoard/board1.js"></script>
