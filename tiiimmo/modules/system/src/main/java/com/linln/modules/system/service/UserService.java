@@ -70,5 +70,5 @@ public interface UserService {
      * 查询员工对象
      * @return 员工集合
      */
-    List<User> queryUsers();
+    List<User> findAll();
 }

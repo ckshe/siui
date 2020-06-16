@@ -64,7 +64,7 @@ public class ProductionShiftController {
     @GetMapping("/add")
     @RequiresPermissions("base:productionShift:add")
     public String toAdd(Model model) {
-        model.addAttribute("users",userService.queryUsers());
+        model.addAttribute("users",userService.findAll());
         return "/base/productionShift/add";
     }
 
@@ -74,7 +74,7 @@ public class ProductionShiftController {
     @GetMapping("/edit/{id}")
     @RequiresPermissions("base:productionShift:edit")
     public String toEdit(@PathVariable("id") ProductionShift productionShift, Model model) {
-        model.addAttribute("users",userService.queryUsers());
+        model.addAttribute("users",userService.findAll());
         model.addAttribute("productionShift", productionShift);
         return "/base/productionShift/add";
     }

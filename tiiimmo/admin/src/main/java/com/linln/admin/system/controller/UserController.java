@@ -310,13 +310,11 @@ public class UserController {
      * 查询员工对象
      * @return 员工集合
      */
-    @RequestMapping("/queryUsers")
+    @GetMapping("/queryUsers")
+    @ResponseBody
     public List<User> queryUsers(){
-        return userService.queryUsers();
+        System.out.println(userService.findAll());
+        return userService.findAll();
     }
-
-
-
-
 
 }
