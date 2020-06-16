@@ -157,7 +157,25 @@
                 ,type:'datetime'
             });
             $("#sync").on('click',function () {
-
+                layer.load(1,{
+                    content: '同步中...',
+                    success: function (layero) {
+                        layero.find('.layui-layer-content').css({
+                            'padding-top': '39px',
+                            'width': '60px'
+                        });
+                    }
+                })
+                $.get("/produce/pcbTask/getPcbTaskFromERP",function (res) {
+                    layer.closeAll();
+                    if(res.code==200){
+                        layer.msg(res.msg,{icon:1,time:1000},function () {
+                            window.location.reload()
+                        })
+                    }else{
+                        layer.alert(res.msg,{icon:5})
+                    }
+                })
             });
             form.on('submit(sub)',function (obj) {
                 var id=obj.field.id;

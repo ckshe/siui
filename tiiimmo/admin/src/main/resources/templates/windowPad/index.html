@@ -73,6 +73,7 @@
             font-size: 30px;
             border:1px solid #dedede;
         }
+
     </style>
 </head>
 <body>
@@ -110,7 +111,10 @@
 </div>
     <div class="bigLeftBox">
         <div class="topBox">
-            <div class="topLeft"><img style="height:70%;margin:12px" src="../../images/logo2.jpg" alt=""></div>
+            <div class="topLeft">
+                <img style="height:70%;margin:12px" src="../../images/logo2.jpg" alt="">
+                <div id="qrcode" style="position: absolute;left:194px;top:5px"></div>
+            </div>
             <div class="topRight"><span id="systemTime"></span></div>
         </div>
         <div class="container">
@@ -193,9 +197,9 @@
 </div>
 <script src="../../lib/layui-v2.3.0/layui.js" ></script>
 <script src="../../js/common.js" ></script>
+<script src="../../lib/qrcode.min.js"></script>
 </body>
 <script>
-
     var func13 = function () {};
     document.onkeydown=function (e) {
         console.log(e.keyCode);
@@ -526,22 +530,13 @@
                 }
             })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //二维码生产
+            var qrcode = new QRCode("qrcode",{
+                height:80,
+                width:80
+            });
+            var s= getQueryString('deviceCode');
+            qrcode.makeCode(s);
         });
         var systemTime = document.getElementById('systemTime');
         var workTime = document.getElementById('workTime');
