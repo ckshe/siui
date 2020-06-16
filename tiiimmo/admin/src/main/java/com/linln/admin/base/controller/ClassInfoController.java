@@ -118,4 +118,17 @@ public class ClassInfoController {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
     }
+
+    @GetMapping("/findClassInfo")
+    @ResponseBody
+    public ResultVo findClassInfo(){
+
+        List<ClassInfo> classInfos = classInfoService.list();
+        if (classInfos!= null){
+            return ResultVoUtil.success("查询成功",classInfos,classInfoService.getSize().intValue());
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
+    }
 }

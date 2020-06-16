@@ -118,4 +118,17 @@ public class PlantAreaController {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
     }
+
+    @GetMapping("/findArea")
+    @ResponseBody
+    public ResultVo findArea(){
+        List<PlantArea> areas = plantAreaService.list();
+        if (areas!= null){
+            return ResultVoUtil.success("查询成功",areas,plantAreaService.getSize().intValue());
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
+    }
+
 }

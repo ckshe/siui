@@ -106,17 +106,10 @@ public class ProcessServiceImpl implements ProcessService {
         processRepository.save(process);
         processRepository.save(processBefore);
 
+    }
 
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public List<Process> list() {
+        return processRepository.findAll();
     }
 }

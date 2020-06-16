@@ -1,5 +1,6 @@
 package com.linln.admin.base.controller;
 
+import com.linln.admin.base.domain.ClassInfo;
 import com.linln.admin.base.domain.Process;
 import com.linln.admin.base.service.ProcessService;
 import com.linln.admin.base.util.ApiResponse;
@@ -138,6 +139,19 @@ public class ProcessController {
         } catch (Exception e) {
             return ApiResponse.ofError("失败");
         }
+    }
+
+    @GetMapping("/findProcess")
+    @ResponseBody
+    public ResultVo findProcess(){
+
+        List<Process> processes = processService.list();
+        if (processes!= null){
+            return ResultVoUtil.success("查询成功",processes);
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
     }
 
 }

@@ -50,4 +50,6 @@ public interface ProcessService {
      * @param id
      */
     void moveUp(Long id);
+
+    List<Process> list();
 }

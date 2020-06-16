@@ -63,4 +63,14 @@ public class ClassInfoServiceImpl implements ClassInfoService {
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return classInfoRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
+
+    @Override
+    public List<ClassInfo> list() {
+        return classInfoRepository.findAll();
+    }
+
+    @Override
+    public Long getSize() {
+        return classInfoRepository.count();
+    }
 }

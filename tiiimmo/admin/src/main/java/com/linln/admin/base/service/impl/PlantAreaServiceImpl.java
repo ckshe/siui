@@ -68,4 +68,11 @@ public class PlantAreaServiceImpl implements PlantAreaService {
     public List<PlantArea> list() {
         return plantAreaRepository.findAll();
     }
+
+
+
+    @Override
+    public Long getSize() {
+        return plantAreaRepository.count();
+    }
 }

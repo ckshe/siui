@@ -44,4 +44,7 @@ public interface PlantAreaService {
      * @return
      */
     List<PlantArea> list();
+
+
+    Long getSize();
 }
