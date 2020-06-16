@@ -8,6 +8,8 @@ import com.linln.common.utils.EntityBeanUtil;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.utils.StatusUtil;
 import com.linln.common.vo.ResultVo;
+import com.linln.modules.system.domain.User;
+import com.linln.modules.system.service.UserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -30,6 +32,9 @@ public class ProductionShiftController {
 
     @Autowired
     private ProductionShiftService productionShiftService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 列表页面
@@ -58,7 +63,8 @@ public class ProductionShiftController {
      */
     @GetMapping("/add")
     @RequiresPermissions("base:productionShift:add")
-    public String toAdd() {
+    public String toAdd(Model model) {
+        model.addAttribute("users",userService.queryUsers());
         return "/base/productionShift/add";
     }
 
@@ -68,6 +74,7 @@ public class ProductionShiftController {
     @GetMapping("/edit/{id}")
     @RequiresPermissions("base:productionShift:edit")
     public String toEdit(@PathVariable("id") ProductionShift productionShift, Model model) {
+        model.addAttribute("users",userService.queryUsers());
         model.addAttribute("productionShift", productionShift);
         return "/base/productionShift/add";
     }

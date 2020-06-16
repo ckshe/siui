@@ -150,4 +150,9 @@ public class UserServiceImpl implements UserService {
     public User findUserByCardNo(String cardSequence) {
         return userRepository.findByCard_sequence(cardSequence);
     }
+
+    @Override
+    public List<User> queryUsers() {
+        return userRepository.findAll();
+    }
 }

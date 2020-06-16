@@ -306,4 +306,17 @@ public class UserController {
         }
     }
 
+    /**
+     * 查询员工对象
+     * @return 员工集合
+     */
+    @RequestMapping("/queryUsers")
+    public List<User> queryUsers(){
+        return userService.queryUsers();
+    }
+
+
+
+
+
 }

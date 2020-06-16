@@ -65,4 +65,10 @@ public interface UserService {
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
 
     User findUserByCardNo(String cardSequence );
+
+    /**
+     * 查询员工对象
+     * @return 员工集合
+     */
+    List<User> queryUsers();
 }

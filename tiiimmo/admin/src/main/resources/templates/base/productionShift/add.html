@@ -9,8 +9,14 @@
         <div class="layui-form-item">
             <label class="layui-form-label">员工名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="userName" placeholder="请输入员工名称" th:value="${productionShift?.userName}">
+                <!--<input class="layui-input" type="text" name="userName" placeholder="请输入员工名称" th:value="${productionShift?.userName}">-->
+                <select class="form-control" id="userName" name="userName">
+                    <!--<option value="-1">全部</option>-->
+
+                    <option value="${user.id}">${user.name}</option>
+                </select>
             </div>
+
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">岗位</label>
