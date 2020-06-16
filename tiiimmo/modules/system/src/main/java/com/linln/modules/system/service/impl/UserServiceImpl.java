@@ -156,5 +156,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    @Override
+    public Long getSize() {
+        return userRepository.count();
+    }
+
 
 }

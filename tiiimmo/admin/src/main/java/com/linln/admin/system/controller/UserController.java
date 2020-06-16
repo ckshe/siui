@@ -315,10 +315,22 @@ public class UserController {
     public ResultVo queryUsers(){
         List<User> users = userService.findAll();
         if (users != null) {
-            return ResultVoUtil.success("查询成功",users);
+            return ResultVoUtil.success("查询成功",users,userService.getSize().intValue());
         } else {
             return ResultVoUtil.error( 400,"查询失败");
         }
     }
+
+    /*@GetMapping("/queryUsers")
+    @ResponseBody
+    public ResultVo queryUsers(User user){
+        Page<User> users = userService.getPageList(user);
+        if (users != null) {
+            return ResultVoUtil.success("查询成功",users);
+        } else {
+            return ResultVoUtil.error( 400,"查询失败");
+        }
+    }*/
+
 
 }

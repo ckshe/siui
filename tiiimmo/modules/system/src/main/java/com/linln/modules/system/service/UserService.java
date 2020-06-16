@@ -71,4 +71,10 @@ public interface UserService {
      * @return 员工集合
      */
     List<User> findAll();
+
+    /**
+     * 查询数据总条数
+     * @return
+     */
+    Long getSize();
 }
