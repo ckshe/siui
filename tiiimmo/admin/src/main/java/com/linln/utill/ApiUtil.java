@@ -30,7 +30,7 @@ public class ApiUtil {
         RestTemplate restTemplate = new RestTemplateBuilder().setConnectTimeout(Duration.ZERO).setReadTimeout(Duration.ZERO).build();
         JSONObject s = (JSONObject) JSON.toJSON(scheduleJobReq);
         JSONArray result = new JSONArray();
-        logger.info("-----json:"+s.toJSONString());
+        //logger.info("-----json:"+s.toJSONString());
         try {
             logger.info("Begin get data by first page ...");
             JSONObject dd = restTemplate.postForEntity(scheduleJobUrl,s, JSONObject.class).getBody();
@@ -42,7 +42,7 @@ public class ApiUtil {
             if(result == null){
                 return new JSONArray();
             }
-            logger.info("-----result:"+result.toJSONString());
+            //logger.info("-----result:"+result.toJSONString());
             Integer tempSum = size;
             boolean flag = (total>0 && total>size);
             while (flag) {

@@ -360,7 +360,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
         StringBuffer sql = new StringBuffer("\n" +
                 "SELECT\n" +
-                "\tt1.process_task_code,t1.pcb_quantity,t1.amount_completed ,t2.process_type,\n" +
+                "\tt1.process_task_code,t1.process_name,t1.pcb_quantity,t1.amount_completed ,t2.process_type,\n" +
                 "\tISNULL(t1.amount_completed, 0)/ISNULL(t1.pcb_quantity, 1)  rate2,\n" +
                 "\t\tcast(100*CAST(ISNULL(t1.amount_completed, 0)*1.0/ISNULL(t1.pcb_quantity, 1) as decimal(8,2)) AS varchar(100))  AS rate\n" +
                 "FROM \n" +
@@ -377,9 +377,12 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         List<Map<String, Object>> zhijianList = new ArrayList<>();
         List<Map<String, Object>> rukuList = new ArrayList<>();
         List<Map<String, Object>> tiaoshiList = new ArrayList<>();
+        List<Map<String, Object>> beiliaoList = new ArrayList<>();
+
 
         for(Map<String,Object> map:mapList){
             String  process_type = (String)map.get("process_type");
+            String process_name = (String)map.get("process_name");
             if("贴片".equals(process_type)){
                 tiepianList.add(map);
             }
@@ -395,6 +398,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
             if("入库".equals(process_type)){
                 rukuList.add(map);
             }
+            if("备料".equals(process_name)){
+                beiliaoList.add(map);
+            }
         }
         Map<String,Object> result = new HashMap<>();
         result.put("tiepian",tiepianList);
@@ -402,6 +408,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         result.put("zhijian",zhijianList);
         result.put("tiaoshi",tiaoshiList);
         result.put("ruku",rukuList);
+        result.put("beiliao",beiliaoList);
         return result;
     }
 

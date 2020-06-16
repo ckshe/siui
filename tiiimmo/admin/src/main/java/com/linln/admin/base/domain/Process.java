@@ -63,5 +63,7 @@ public class Process implements Serializable {
     private String process_type;
     //首字母前缀
     private String process_pre;
+    //最后工序编号
+    private Integer last_no;
 }
 

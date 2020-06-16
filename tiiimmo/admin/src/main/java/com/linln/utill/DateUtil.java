@@ -121,5 +121,12 @@ public class DateUtil {
 
     }
 
+    //获取当天日期 201010格式
+    public static String getTodayStringForProcessTaskCode(){
+        String[] strNow = new SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString().split("-");
+        String result = strNow[0].substring(2,strNow[0].length())+strNow[1]+strNow[2];
+
+        return result;
+    }
 
 }

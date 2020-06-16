@@ -74,6 +74,16 @@ public class PcbTaskController {
         Example<PcbTask> example = Example.of(pcbTask, matcher);
         Page<PcbTask> list = pcbTaskService.getPageList(example);
 
+        //同步领料单
+        for(PcbTask pcbTask2 : list.getContent()){
+            ResultVo resultVo = pcbTaskService.getFeedingTaskFromERP(pcbTask2.getPcb_task_code());
+            String qtl = resultVo.getMsg();
+            qtl = qtl==null||"".equals(qtl)?"0":qtl;
+            pcbTask2.setQi_tao_lv(qtl);
+            pcbTaskService.save(pcbTask2);
+
+        }
+
         // 封装数据
         model.addAttribute("list", list.getContent());
         model.addAttribute("page", list);

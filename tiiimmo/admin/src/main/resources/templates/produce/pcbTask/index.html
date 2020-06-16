@@ -131,9 +131,9 @@
                         <td>
                             <form class="layui-form" >
                                 <input  type="hidden" name="id" th:value="${item.id}">
-                                <button lay-submit lay-filter="sub" th:text="${item.pcb_task_status=='已下达已投产'?'已投产':'投产'}" th:style="${item.pcb_task_status=='已下达已投产'?'background-color:#e4e4e4':''}" th:disabled="${item.pcb_task_status=='已下达已投产'?true:false}" data-type="tou" class="layui-btn  layui-btn-sm " type="button">投产</button>
-                                <button lay-submit lay-filter="sub" th:style="${item.pcb_task_status=='已下达已投产'?'':'background-color:#e4e4e4'}" th:disabled="${item.pcb_task_status=='已下达已投产'?false:true}" data-type="kan" class="layui-btn  layui-btn-sm" type="button">查看工序计划</button>
-                                <button lay-submit lay-filter="sub" th:style="${item.pcb_task_status=='已下达已投产'?'background-color:#e4e4e4':''}" th:disabled="${item.pcb_task_status=='已下达已投产'?true:false}" data-type="edit" class="layui-btn  layui-btn-sm" type="button">编辑</button>
+                                <button lay-submit lay-filter="sub" th:text="${item.pcb_task_status=='已投产'?'已投产':'投产'}" th:style="${item.pcb_task_status=='已投产'?'background-color:#e4e4e4':''}" th:disabled="${item.pcb_task_status=='已投产'?true:false}" data-type="tou" class="layui-btn  layui-btn-sm " type="button">投产</button>
+                                <button lay-submit lay-filter="sub" th:style="${item.pcb_task_status=='已投产'?'':'background-color:#e4e4e4'}" th:disabled="${item.pcb_task_status=='已投产'?false:true}" data-type="kan" class="layui-btn  layui-btn-sm" type="button">查看工序计划</button>
+                                <button lay-submit lay-filter="sub" th:style="${item.pcb_task_status=='已投产'?'background-color:#e4e4e4':''}" th:disabled="${item.pcb_task_status=='已投产'?true:false}" data-type="edit" class="layui-btn  layui-btn-sm" type="button">编辑</button>
                             </form>
                         </td>
                     </tr>

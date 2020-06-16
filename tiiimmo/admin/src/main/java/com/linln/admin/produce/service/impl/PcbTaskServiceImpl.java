@@ -152,12 +152,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         scheduleJobReq.setParamList(paramList);
         JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
 
-        System.out.println(scheduleJobReq.toString());
+       /* System.out.println(scheduleJobReq.toString());
         String path = "C:\\chaosheng_file\\task.json";
 
         String s = ReadUtill.readJsonFile(path);
         JSONObject jobj = JSON.parseObject(s);
-        //JSONArray lists = jobj.getJSONArray("data");
+        JSONArray lists = jobj.getJSONArray("data");*/
         System.out.println("-----------list-------------"+lists.size());
         List<PcbTask> pckTaskList = new ArrayList<>();
         List<PCBPlateNo> plateNoList = new ArrayList<>();
@@ -199,15 +199,13 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     pcbTask.setProduce_plan_date(produce_plan_date);
                     pcbTaskRepository.save(pcbTask);
                     continue;
-
+                }
+                if("已完成".equals(pcbTask.getPcb_task_status())){
+                    continue;
                 }
             }
 
-            //同步领料单
-            ResultVo resultVo = getFeedingTaskFromERP(pcb_task_code);
-            String qtl = resultVo.getMsg();
-            qtl = qtl==null||"".equals(qtl)?"0":qtl;
-            pcbTask.setQi_tao_lv(qtl);
+
             //制造编号
             String task_sheet_code = param.getString("FProduceNo");
 
@@ -288,22 +286,19 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         scheduleJobReq.setParamList(paramList);
         JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
 
-        String path = "C:\\chaosheng_file\\feeding.json";
+        /*String path = "C:\\chaosheng_file\\feeding.json";
 
         String s = ReadUtill.readJsonFile(path);
         JSONObject jobj = JSON.parseObject(s);
-        //JSONArray lists = jobj.getJSONArray("data");
+        JSONArray lists = jobj.getJSONArray("data");*/
         List<FeedingTask> feedingTaskList = new ArrayList<>();
         BigDecimal sumQTLv = BigDecimal.ZERO;
+        String feedingTaskCode = "";
         for(int i =0;i<lists.size();i++){
             JSONObject param = lists.getJSONObject(i);
-            String feedingTaskCode = param.getString("FTLFBillno");
-            List<FeedingTask> olds = feedingTaskRepository.findByFeeding_task_code(feedingTaskCode);
+            feedingTaskCode = param.getString("FTLFBillno");
             FeedingTask feedingTask = new FeedingTask();
-            if(olds.size()>0){
-                feedingTask = olds.get(0);
 
-            }
             feedingTask.setProduct_code(param.getString("FNumber"));
             feedingTask.setProduct_name(param.getString("FName"));
             feedingTask.setSpecification_model(param.getString("FModel"));
@@ -315,16 +310,21 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             feedingTask.setFNStockQty(param.getBigDecimal("FNStockQty"));
             feedingTask.setFQty(param.getBigDecimal("FQty"));
             feedingTask.setFQtlv(param.getString("FQtlv"));
+            feedingTask.setStatus(StatusEnum.OK.getCode());
             String qtl = param.getString("FQtlv").replace("%","");
             BigDecimal deqtl = new BigDecimal(qtl);
-            sumQTLv.add(deqtl);
+            sumQTLv = sumQTLv.add(deqtl);
             feedingTask.setPcb_task_code(param.getString("FRWFBillno"));
             feedingTask.setFeeding_task_code(param.getString("FTLFBillno"));
+            //feedingTask = feedingTaskRepository.save(feedingTask);
+            //System.out.println("------------"+feedingTask.getId());
             feedingTaskList.add(feedingTask);
         }
+        feedingTaskRepository.deleteByFeeding_task_code(feedingTaskCode);
+
         BigDecimal size = new BigDecimal(lists.size()==0?1:lists.size());
-        BigDecimal qtlRate = sumQTLv.divide(size,4, RoundingMode.HALF_DOWN).multiply(new BigDecimal(100));
-        System.out.println("------FRWFBillNo:"+FRWFBillNo+"----"+feedingTaskList.size());
+        BigDecimal qtlRate = sumQTLv.divide(size,2, RoundingMode.HALF_DOWN);
+        System.out.println("------FRWFBillNo:"+FRWFBillNo+"----"+feedingTaskList.size()+"----rate:"+qtlRate);
         feedingTaskRepository.saveAll(feedingTaskList);
         return ResultVoUtil.success(qtlRate+"","");
 
@@ -407,11 +407,33 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }
         String firstPlate = prefix+firstStr+suffix;
         String lastPlate = prefix+lastStr+suffix;
+        //通过生产数量生成每一块板的记录
+        for(int o = 0;o<pcbTask.getPcb_quantity();o++){
+
+        }
+
         pcbTask.setPcb_plate_id(firstPlate+"~"+lastPlate);
         pcbPlateNo.setLast_plate_no(lastPlate);
         pcbPlateNoRepository.save(pcbPlateNo);
-
+        String todayStr = DateUtil.getTodayStringForProcessTaskCode();
         for(Process p : processList){
+            String oldDayStr = "";
+            Integer last_no = 0;
+            if(p.getLast_no()==null){
+                last_no = Integer.parseInt(todayStr+"001");
+            }else {
+                oldDayStr =  p.getLast_no().toString().substring(0,6);
+                //如果是同一天，则累加
+                if(oldDayStr.equals(todayStr)){
+                    last_no = p.getLast_no()+1;
+                }else {
+                    last_no = Integer.parseInt(todayStr+"001");
+                }
+            }
+            String pre = p.getProcess_pre();
+            p.setLast_no(last_no);
+            processRepository.save(p);
+
             ProcessTask processTask = new ProcessTask();
             processTask.setPcb_task_code(pcbTask.getPcb_task_code());
             processTask.setIs_rohs(pcbTask.getIs_rohs());
@@ -425,14 +447,14 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTask.setTask_sheet_code(pcbTask.getTask_sheet_code());
             processTask.setPcb_name(pcbTask.getPcb_name());
             processTask.setProcess_task_status("未下达");
-            String processTaskCode = "BL"+pcbTask.getPcb_task_code()+"_00"+i;
+            String processTaskCode = pre+last_no;
             i++;
             processTask.setProcess_task_code(processTaskCode);
             processTaskList.add(processTask);
 
         }
         processTaskRepository.saveAll(processTaskList);
-        pcbTask.setPcb_task_status("已下达已投产");
+        pcbTask.setPcb_task_status("已投产");
         pcbTaskRepository.save(pcbTask);
         return  ResultVoUtil.success("下达切分完成");
     }

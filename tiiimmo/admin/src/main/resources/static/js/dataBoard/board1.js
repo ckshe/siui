@@ -555,7 +555,7 @@ function setDataBoard1(params) {
                 if (tbodyDataS[j].pcb_task_status == "已下达未投产") {
                     tbodyDataS[j].pcb_task_status = "未启动"
                 }
-                if (tbodyDataS[j].pcb_task_status == "已下达已投产") {
+                if (tbodyDataS[j].pcb_task_status == "已投产") {
                     tbodyDataS[j].pcb_task_status = "进行中"
                 }
                 if (tbodyDataS[j].pcb_task_status == "已下达已完成") {
@@ -681,7 +681,7 @@ function setDataBoard1(params) {
         if (data.pcb_task_status == "已下达未投产") {
             data.pcb_task_status = "未启动"
         }
-        if (data.pcb_task_status == "已下达已投产") {
+        if (data.pcb_task_status == "已投产") {
             data.pcb_task_status = "进行中"
         }
         if (data.pcb_task_status == "已下达已完成") {
