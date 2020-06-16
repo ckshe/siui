@@ -127,7 +127,8 @@ public class ProcessController {
      * @param id
      * @return
      */
-    @RequestMapping("move")
+    @RequestMapping("/move")
+    @ResponseBody
     public ApiResponse move(String sort, Long id) {
         try {
             if ("down".equals(sort)) {

@@ -156,7 +156,6 @@
                 elem: '#time'
                 ,type:'datetime'
             });
-
             $("#sync").on('click',function () {
                 layer.load(1,{
                     content: '同步中...',
@@ -167,9 +166,9 @@
                         });
                     }
                 })
-                http.get("/produce/pcbTask/getPcbTaskFromERP",function (res) {
+                $.get("/produce/pcbTask/getPcbTaskFromERP",function (res) {
                     layer.closeAll();
-                    if(res.code===200){
+                    if(res.code==200){
                         layer.msg(res.msg,{icon:1,time:1000},function () {
                             window.location.reload()
                         })
@@ -203,12 +202,7 @@
                         });
                         break;
                     case 'lin':
-                        layer.open({
-
-                        })
-                        return
-
-                        http.post('/produce/pcbTask/findFeedingTask',{feedindTaskCode:obj.elem.getAttribute('data-code')},function (res) {
+                                http.post('/produce/pcbTask/findFeedingTask',{feedindTaskCode:obj.elem.getAttribute('data-code')},function (res) {
                                     if (res.code === 200) {
                                         if (res.data.length > 0) {
                                             layer.open({
