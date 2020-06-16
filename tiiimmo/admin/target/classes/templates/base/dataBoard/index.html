@@ -144,7 +144,7 @@
 				<div class="slidebox box3">
 					<div class="item dataBoard2">
 						<div class="itemTit">
-							<span class="border-green">工序日上人员统计</span>
+							<span class="border-green">人员统计</span>
 						</div>
 						<div class="dataBoarder">
 							<div class="left item billState" style="height: 850px;">
@@ -171,36 +171,36 @@
 								<div class="itemTit">
 									<span class="border-yellow">车间设备</span>
 									<span style="float: right; position: relative;">
-										<span style="display: inline-block; padding-right: 50px;">温度状态<i
+										<span id="temperature" style="display: inline-block; padding-right: 50px;">温度状态<i
 												class="state-green state-blue"></i></span>
-										<span style="display: inline-block;padding-right: 50px;">湿度状态<i
-												class="state-green state-yellow"></i></span>
+										<span  id="humidity" style="display: inline-block;padding-right: 50px;">湿度状态<i
+												class="state-green state-blue"></i></span>
 									</span>
 								</div>
 								<div class="imagesflex">
-									<div><span><i class="state1-green"></i></span><img
+									<div name="B16011"><span><i class="state-green"></i></span><img
 											src="../../images/dataBoard/s1.png"></div>
-									<div><span><i class="state1-green"></i></span><img
+									<div name="S16001"><span><i class="state-green"></i></span><img
 											src="../../images/dataBoard/s2.png"></div>
-									<div><span><i class="state1-green"></i></span><img
+									<div name="B15001"><span><i class="state-green"></i></span><img
 											src="../../images/dataBoard/s3.png"></div>
-									<div><span><i class="state1-green"></i></span><img
+									<div name="B15002"><span><i class="state-green"></i></span><img
 											src="../../images/dataBoard/s4.png"></div>
-									<div><span><i class="state1-green"></i></span><img
+									<div name="B15003"><span><i class="state-green"></i></span><img
 											src="../../images/dataBoard/s5.png"></div>
-									<div><span><i class="state1-green"></i></span><img
+									<div name="B1902001"><span><i class="state-green"></i></span><img
 											src="../../images/dataBoard/s6.png"></div>
-									<div><span><i class="state1-green"></i></span><img
+									<div name="B15004"><span><i class="state-green"></i></span><img
 											src="../../images/dataBoard/s7.png"></div>
-									<div><span><i class="state1-green"></i></span><img
+									<div name="B16012"><span><i class="state-green"></i></span><img
 											src="../../images/dataBoard/s8.png"></div>
-									<div><span><i class="state1-green"></i></span><img
+									<div name="S16002"><span><i class="state-green"></i></span><img
 											src="../../images/dataBoard/s9.png"></div>
-									<div><span><i class="state1-green"></i></span><img
+									<div name="sB1811015"><span><i class="state-green"></i></span><img
 											src="../../images/dataBoard/s10.png"></div>
-									<div><span><i class="state1-green"></i></span><img
+									<div name="B16013"><span><i class="state-green"></i></span><img
 											src="../../images/dataBoard/s11.png"></div>
-									<div><span><i class="state1-green"></i></span><img
+									<div name="B170101"><span><i class="state-green"></i></span><img
 											src="../../images/dataBoard/s12.png"></div>
 								</div>
 							</div>
@@ -287,7 +287,20 @@
 		list: false,
 		autoPlay: false,
 	});
-
+	var clicked=false;
+	$(".topLogo").off().on('click', function(){
+		if(clicked)
+		{
+			clicked=false;
+			$(".topLogo img").css({"top": 0});
+		}
+		else
+		{
+			clicked=true;
+			$(".topLogo img").css({"top": "-68px"});
+		}
+	});
+	
 </script>
 <script type="text/javascript" src="../../js/dataBoard/scanboard.js"></script>
 <script type="text/javascript" src="../../js/dataBoard/board1.js"></script>

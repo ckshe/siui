@@ -4,42 +4,44 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/productionShift/save}">
+    <form class="layui-form" lay-filter="form2" th:action="@{/base/productionShift/save}">
         <input type="hidden" name="id" th:if="${productionShift}" th:value="${productionShift.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">员工名称</label>
             <div class="layui-input-inline">
                 <!--<input class="layui-input" type="text" name="userName" placeholder="请输入员工名称" th:value="${productionShift?.userName}">-->
-                <select class="form-control" id="userName" name="userName">
-                    <!--<option value="-1">全部</option>-->
+<!--                <select class="form-control" id="userName" name="userName">-->
+<!--                    &lt;!&ndash;<option value="-1">全部</option>&ndash;&gt;-->
 
-                    <option value="${user.id}">${user.name}</option>
-                </select>
+<!--                    <option value="${user.id}">${user.name}</option>-->
+<!--                </select>-->
+                <input class="layui-input" autocomplete="off" id="username" type="text" name="userName" placeholder="请选择用户名" th:value="${productionShift?.userName}">
             </div>
 
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">岗位</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" autocomplete="off" name="station" placeholder="请输入岗位" th:value="${productionShift?.station}">
-            </div>
-        </div>
+<!--        <div class="layui-form-item">-->
+<!--            <label class="layui-form-label">岗位</label>-->
+<!--            <div class="layui-input-inline">-->
+<!--                <input class="layui-input" type="text" name="station" placeholder="请输入岗位" th:value="${productionShift?.station}">-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="layui-form-item">
             <label class="layui-form-label">班次</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" autocomplete="off" name="shift" placeholder="请输入班次" th:value="${productionShift?.shift}">
+                <select name="shift" id="className" th:value="${productionShift?.shift}"></select>
+<!--                <input class="layui-input" type="text" name="shift" placeholder="请输入班次" th:value="${productionShift?.shift}">-->
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">工序</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" autocomplete="off" name="process" placeholder="请输入工序" th:value="${productionShift?.process}">
+                <input class="layui-input" autocomplete="off" type="text" name="process" placeholder="请输入工序" th:value="${productionShift?.process}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">排班日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" autocomplete="off" name="shiftDate" placeholder="请输入排班日期" th:value="${productionShift?.shiftDate}">
+                <input class="layui-input" autocomplete="off" id="time" type="text" name="shiftDate" placeholder="请输入排班日期" th:value="${productionShift?.shiftDate}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -55,5 +57,46 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        var a="";
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var     $ = layui.jquery,
+                 form = layui.form,
+                 laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+               elem:"#time",
+               type:'datetime',
+                trigger:'click'
+            });
+            $.get('/base/classInfo/findClassInfo',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('className');
+                    var str = "";
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.name+'班'+"'>"+t.name+"班</option>"
+                    })
+                    select.innerHTML=str
+                    form.render()
+
+                }
+            })
+            $("#username").on('click',function () {
+               var userBox =  layer.open({
+                    title:'用户列表',
+                    type:2,
+                    area:['98%',"94%"],
+                    content:'/userTable'
+                });
+                a=function (data) {
+                    layer.close(userBox);
+                    var d=data[0];
+                    form.val('form2',{userName:d.nickname})
+
+                }
+            })
+
+        })
+    </script>
 </body>
 </html>

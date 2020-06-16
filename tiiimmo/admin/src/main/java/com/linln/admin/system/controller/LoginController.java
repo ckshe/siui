@@ -277,6 +277,13 @@ public class LoginController implements ErrorController {
     public String choseTable() {
         return "/common/imtable";
     }
+
+    //    公共基础数据选择页面
+    @GetMapping("/userTable")
+    public String userTable() {
+        return "/common/userTable";
+    }
+
     //   工序选择
     @GetMapping("/gonxvTable")
     public String gonxvTable() {

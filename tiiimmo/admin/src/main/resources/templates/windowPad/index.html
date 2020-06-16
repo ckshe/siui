@@ -8,74 +8,74 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+<!--    <link rel="stylesheet" href="../../lib/oneCode.css">-->
     <link rel="stylesheet" href="../../css/windowPad/index.css">
     <link rel="stylesheet" href="../../css/windowPad/animation.css">
-    <style>
-        html{
-            overflow-x: auto!important;
-        }
-        .zezao{
-              width:100%;
-              height:100%;
-              background: rgba(0,0,0, .5);
-              border:1px solid #999;
-              position: absolute;
-              z-index: 100;
-              box-sizing: border-box;
-              padding:20px;
-                top:0;
-                left:0
-          }
-        .loginBox{
-            width:500px;
-            height:154px;
-            background: #fff;
-            border:1px solid #999;
-            position: absolute;
-            top:0;
-            right:0;
-            bottom:0;
-            left:0;
-            margin: auto;
-            z-index: 100;
-            box-sizing: border-box;
-            padding:20px 20px 40px 20px;
-        }
-        .loginBox h2{
-            margin-bottom:20px;
-            text-align: center;
-
-        }
-        .loginBox input{
-            margin-bottom:20px;
-            width:280px;
-            height:38px;
-            padding:0 10px;
-            border:1px solid #999;
-        }
-        .blueButton{
-            width: 90px;height:38px;
-        }
-        .blueButton:active{
-            opacity: 0.5;
-        }
-        .xx{
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: #fff;
-            text-align: center;
-            line-height: 48px;
-            position: absolute;
-            top: -22px;
-            right: -22px;
-            font-size: 30px;
-            border:1px solid #dedede;
-        }
-
-    </style>
 </head>
+<style>
+    html{
+        overflow-x: auto!important;
+    }
+    .zezao{
+        width:100%;
+        height:100%;
+        background: rgba(0,0,0, .5);
+        border:1px solid #999;
+        position: absolute;
+        z-index: 100;
+        box-sizing: border-box;
+        padding:20px;
+        top:0;
+        left:0
+    }
+    .loginBox{
+        width:500px;
+        height:154px;
+        background: #fff;
+        border:1px solid #999;
+        position: absolute;
+        top:0;
+        right:0;
+        bottom:0;
+        left:0;
+        margin: auto;
+        z-index: 100;
+        box-sizing: border-box;
+        padding:20px 20px 40px 20px;
+    }
+    .loginBox h2{
+        margin-bottom:20px;
+        text-align: center;
+
+    }
+    .loginBox input{
+        margin-bottom:20px;
+        width:280px;
+        height:38px;
+        padding:0 10px;
+        border:1px solid #999;
+    }
+    .blueButton{
+        width: 90px;height:38px;
+    }
+    .blueButton:active{
+        opacity: 0.5;
+    }
+    .xx{
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #fff;
+        text-align: center;
+        line-height: 48px;
+        position: absolute;
+        top: -22px;
+        right: -22px;
+        font-size: 30px;
+        border:1px solid #dedede;
+    }
+</style>
 <body>
 <iframe id="zhidao" style="display: none;width: 880px;height: 650px;" src="">
 
@@ -113,20 +113,22 @@
         <div class="topBox">
             <div class="topLeft">
                 <img style="height:70%;margin:12px" src="../../images/logo2.jpg" alt="">
-                <div id="qrcode" style="position: absolute;left:194px;top:5px"></div>
+                <div id="qrcode" class="barcode2" style="position: absolute;height:64px;left:194px;top:5px"></div>
             </div>
             <div class="topRight"><span id="systemTime"></span></div>
         </div>
         <div class="container">
             <div class="navBox">
                 <ul class="navUl">
-                    <li class="navLi this-navLi" data-url="/windowPad/productInfo">
+                    <li class="navLi " data-url="/windowPad/productInfo">
                         <span  class="layui-icon">&#xe62c;</span><span>生产工序</span>
+                    </li>
+                    <li class="navLi" data-url="/windowPad/scancalc">
+                        <span class="layui-icon" >&#xe624;</span><span>扫码计数</span>
                     </li>
                     <li class="navLi" data-url="/404">
                         <span  class="layui-icon">&#xe6b2;</span><span>首检</span>
                     </li>
-
                     <li class="navLi" data-url="/404">
                         <span class="layui-icon" >&#xe629;</span><span>设备参数</span>
                     </li>
@@ -144,7 +146,7 @@
                     </li>
                 </ul>
             </div>
-            <iframe id="iframe" class="mainBox" src="/windowPad/productInfo">
+            <iframe id="iframe" class="mainBox" src="">
             </iframe>
         </div>
     </div>
@@ -198,6 +200,7 @@
 <script src="../../lib/layui-v2.3.0/layui.js" ></script>
 <script src="../../js/common.js" ></script>
 <script src="../../lib/qrcode.min.js"></script>
+<!--<script src="../../lib/oneCode.js"></script>-->
 </body>
 <script>
     var func13 = function () {};
@@ -323,7 +326,7 @@
                 }
             })
             $('#out').on('click',function(){
-                console.log('下机')
+                console.log('下机');
                 document.getElementById('zezao2').style.display='block';
                 document.getElementById('outCode').focus();
                 func13=function () {
@@ -529,7 +532,7 @@
                     })
                 }
             })
-
+            // createBarcode('qrcode','ACG-G1234X','B')
         //二维码生产
             var qrcode = new QRCode("qrcode",{
                 height:80,
@@ -537,6 +540,7 @@
             });
             var s= getQueryString('deviceCode');
             qrcode.makeCode(s);
+
         });
         var systemTime = document.getElementById('systemTime');
         var workTime = document.getElementById('workTime');

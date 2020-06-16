@@ -94,6 +94,10 @@ public class PcbTaskController {
         return "/produce/pcbTask/plan";
     }
 
+    @GetMapping("/pickDetail")
+    public String pickDetail() {
+        return "/produce/pcbTask/pickDetail";
+    }
 
     @GetMapping("/beiliao")
     public String beiliao() {return "/produce/beiliao/index"; }
