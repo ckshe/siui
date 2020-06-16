@@ -1,0 +1,15 @@
+.imBox{
+    color:red!important;
+}
+.mainBox{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.taskBox {
+    width: 100%;
+    background-color: #fff;
+    box-sizing: border-box;
+    border: 1px solid #eee;
+    padding: 20px;
+}

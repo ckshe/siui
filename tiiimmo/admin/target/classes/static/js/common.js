@@ -56,7 +56,7 @@ var http = {
     }
 }
 function parentLogin() {
-    if(!parent.localStorage.getItem('padUserData')){
+    if(parent.document.getElementById('userName').innerHTML=='无'){
         layer.alert('请先上机后操作！',{icon:5});
         return false
     }else{
@@ -65,7 +65,7 @@ function parentLogin() {
     }
 }
 function isLogin() {
-    if(!localStorage.getItem('padUserData')){
+    if(document.getElementById('userName').innerHTML=='无'){
         layer.alert('请先上机后操作！',{icon:5});
         return false
     }else{

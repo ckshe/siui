@@ -155,17 +155,6 @@
                 var id=obj.field.id;
                 switch (obj.elem.getAttribute('data-type')) {
                     case 'tou':
-                           // var load= layer.load(2,{
-                           //      shade: [0.5, 'gray'],
-                           //      content: '下达中...',
-                           //      success: function (layero) {
-                           //          layero.find('.layui-layer-content').css({
-                           //              'padding-top': '39px',
-                           //              'width': '60px'
-                           //          });
-                           //      }
-                           //  });
-                        // layer.alert('asfd',{icon:1})
                             $.get('/produce/pcbTask/putIntoProduceBefore/'+id,function(res){
                                     if(res.code===200){
                                         layer.alert(res.msg,{icon:1},function () {

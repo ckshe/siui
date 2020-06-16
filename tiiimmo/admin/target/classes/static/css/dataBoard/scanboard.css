@@ -150,10 +150,18 @@ body{
 	/* width: 28%; */
 	width: 100%;
  margin-right: -30%;
+ z-index: 100;
 }
 #top .topLogo img{
 	height: 90%;
 	width: auto;
+	z-index:99;
+	top: 0;
+	position: relative;
+	-webkit-transition: top 1s;
+	-moz-transition: top 1s;
+	-o-transition: top 1s;
+	transition: top 1s;
 }
 #top .topBar{
 	height: 100%;
@@ -1367,18 +1375,6 @@ body{
 .state-red{
 	background-color: #f53333;
 }
-.state1-green{
-	width: 20px;
-	height: 20px;
-	background-color: green;
-	vertical-align: baseline;
-	display: inline-block;
-	border: 1px solid #00deff;
-	border-radius: 50%;
-}
-.state1-gray{
-	background-color: #9a9;
-}
 
 .threeBoard,.threeBoard3{
 	width: 520px;
@@ -1401,7 +1397,7 @@ body{
 	height: 400px;
 }
 .threeBoard5{
-	width: 520px;
+	width: 600px;
 	height: 300px;
 }
 
@@ -1574,7 +1570,7 @@ body{
 .summaryP1 .itembg_popupfirt .listStyle li span strong{padding: 0 5px;}
 .deviceFlex img{cursor:pointer}
 .devBottom .imgDiv{
-	width: 20%; height: 380px; float: left; text-align: center;padding-top: 20px; font-size: 22px;
+	width: 20%; height: 380px; float: left; text-align: center;padding-top: 1px; font-size: 22px;
 }
 .devBottom .imgDiv img{ border-radius: 50%; padding-bottom: 20px;}
 .itembg_popupfirt.col2{
@@ -1590,5 +1586,7 @@ body{
 .button-span button{width: 80px;height: 40px;background: #061f3e;font-size: 25px; cursor: pointer; color: #fff;}
 .button-span button:nth-child(1){border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
 .button-span button:nth-child(2){border-top-right-radius: 8px; border-bottom-right-radius: 8px;}
-.button-span button.on{font-weight: bolder;  color: #e60d0d;
-    background: #32ffc7;}
+.button-span button.on{font-weight: bolder;  color: #e60d0d;	background: #32ffc7;}
+.itemConDevice{margin: 20px auto;}
+#taskList{margin: 0 auto;position: relative;}
+#taskList ul li{width: 1284px !important; padding: 10px;}

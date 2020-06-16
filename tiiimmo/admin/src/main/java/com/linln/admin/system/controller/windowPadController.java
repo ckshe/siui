@@ -33,4 +33,9 @@ public class windowPadController {
         return "/windowPad/badAdd";
     }
 
+    @GetMapping("/scancalc")
+    public String scancalc(){
+        return "/windowPad/scancalc/scancalc";
+    }
+
 }
