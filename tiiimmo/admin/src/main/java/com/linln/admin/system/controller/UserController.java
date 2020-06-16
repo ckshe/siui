@@ -312,9 +312,13 @@ public class UserController {
      */
     @GetMapping("/queryUsers")
     @ResponseBody
-    public List<User> queryUsers(){
-        System.out.println(userService.findAll());
-        return userService.findAll();
+    public ResultVo queryUsers(){
+        List<User> users = userService.findAll();
+        if (users != null) {
+            return ResultVoUtil.success("查询成功",users);
+        } else {
+            return ResultVoUtil.error( 400,"查询失败");
+        }
     }
 
 }
