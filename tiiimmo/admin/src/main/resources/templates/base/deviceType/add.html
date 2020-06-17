@@ -21,7 +21,10 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属工序</label>
             <div class="layui-input-inline">
+<!--
                 <input class="layui-input" type="text" name="process_name" placeholder="请输入类型名称" th:value="${deviceType?.process_name}">
+-->
+                <select name="process" id="process"  th:value="${deviceType?.process_name}"></select>
             </div>
         </div>
         <div class="layui-form-item timo-finally">
@@ -31,5 +34,34 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        var a="";
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#time",
+                type:'datetime',
+                trigger:'click'
+            });
+
+            $.get('/base/process/findProcessType',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('process');
+                    var str = "";
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.process_type+"'>"+t.process_type+"</option>"
+
+                    })
+                    select.innerHTML=str
+                    form.render()
+                }
+            })
+
+
+        })
+    </script>
 </body>
 </html>

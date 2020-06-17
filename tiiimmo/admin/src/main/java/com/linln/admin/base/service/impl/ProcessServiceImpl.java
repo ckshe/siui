@@ -130,4 +130,9 @@ public class ProcessServiceImpl implements ProcessService {
     public List<Process> list() {
         return processRepository.findAll();
     }
+
+    @Override
+    public List<String> queryProcessType() {
+        return processRepository.queryProcessType();
+    }
 }

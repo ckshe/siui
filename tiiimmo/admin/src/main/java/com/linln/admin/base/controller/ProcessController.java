@@ -142,9 +142,22 @@ public class ProcessController {
         }
     }
 
-    @GetMapping("/findProcess")
+    @GetMapping("/findProcessType")
     @ResponseBody
-    public ResultVo findProcess(){
+    public ResultVo findProcessType(){
+
+        List<String> processes = processService.queryProcessType();
+        if (processes!= null){
+            return ResultVoUtil.success("查询成功",processes);
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
+    }
+/*
+    @GetMapping("/findProcessType")
+    @ResponseBody
+    public ResultVo findProcessType(){
 
         List<Process> processes = processService.list();
         if (processes!= null){
@@ -154,5 +167,8 @@ public class ProcessController {
         }
 
     }
+*/
+
+
 
 }

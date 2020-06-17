@@ -52,4 +52,6 @@ public interface ProcessService {
     void moveUp(Long id);
 
     List<Process> list();
+
+    List<String> queryProcessType();
 }

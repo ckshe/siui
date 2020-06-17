@@ -7,22 +7,22 @@
     <form th:action="@{/base/line/save}">
         <input type="hidden" name="id" th:if="${line}" th:value="${line.id}">
         <div class="layui-form-item">
-            <label class="layui-form-label">产线编号</label>
+            <label class="layui-form-label">车间编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="text" name="code" placeholder="请输入产线编号" th:value="${line?.code}">
+                <input class="layui-input" autocomplete="off" type="text" name="code" placeholder="请输入车间编号" th:value="${line?.code}">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">产线名称</label>
+            <label class="layui-form-label">车间名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="text" name="name" placeholder="请输入产线名称" th:value="${line?.name}">
+                <input class="layui-input" autocomplete="off" type="text" name="name" placeholder="请输入车间名称" th:value="${line?.name}">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">所在产区</label>
-
+            <label class="layui-form-label">所在厂区</label>
                 <div class="layui-input-inline">
-                    <input class="layui-input" type="text" name="area" placeholder="请输入所在产区" th:value="${line?.area}">
+                    <!--<input class="layui-input" type="text" name="area" placeholder="请输入所在产区" th:value="${line?.area}">-->
+                    <select name="area" id="area" th:value="${line?.area}"></select>
                 </div>
         </div>
 
@@ -35,5 +35,31 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        var a="";
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var     $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#time",
+                type:'datetime',
+                trigger:'click'
+            });
+
+            $.get('/base/plantArea/findArea',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('area');
+                    var str = "";
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.name+"'>"+t.name+"</option>"
+                    })
+                    select.innerHTML=str
+                    form.render()
+                }
+            })
+        })
+    </script>
 </body>
 </html>

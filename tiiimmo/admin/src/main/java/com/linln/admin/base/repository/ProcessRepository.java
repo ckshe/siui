@@ -20,5 +20,6 @@ public interface ProcessRepository extends BaseRepository<Process, Long> {
     Process moveDown(Integer sort_no);
     @Query(value = "select  * from base_process where sort_no = ?1",nativeQuery = true)
     Process moveUp(Integer sort_no);
-
+    @Query(value = "select distinct  process_type from base_process",nativeQuery = true)
+    List<String> queryProcessType();
 }

@@ -35,7 +35,10 @@
         <div class="layui-form-item">
             <label class="layui-form-label">工序</label>
             <div class="layui-input-inline">
+                <select name="process" id="process" th:value="${productionShift?.process}"></select>
+<!--
                 <input class="layui-input" autocomplete="off" type="text" name="process" placeholder="请输入工序" th:value="${productionShift?.process}">
+-->
             </div>
         </div>
         <div class="layui-form-item">
@@ -78,9 +81,21 @@
                     })
                     select.innerHTML=str
                     form.render()
-
                 }
             })
+
+            $.get('/base/process/findProcess ',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('process');
+                    var str = "";
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.name+"'>"+t.name+"</option>"
+                    })
+                    select.innerHTML=str
+                    form.render()
+                }
+            })
+
             $("#username").on('click',function () {
                var userBox =  layer.open({
                     title:'用户列表',

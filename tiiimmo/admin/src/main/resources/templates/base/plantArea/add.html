@@ -9,13 +9,14 @@
         <div class="layui-form-item">
             <label class="layui-form-label">厂区编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="code" placeholder="请输入厂区编号" th:value="${plantArea?.code}">
+                <input class="layui-input" autocomplete="off" type="text" name="code" placeholder="请输入厂区编号" th:value="${plantArea?.code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">厂区名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="name" placeholder="请输入厂区名称" th:value="${plantArea?.name}">
+                <input class="layui-input" autocomplete="off" type="text" name="name" placeholder="请输入厂区名称" th:value="${plantArea?.name}">
+
             </div>
         </div>
         <div class="layui-form-item timo-finally">
@@ -25,5 +26,9 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+<script>
+
+
+</script>
 </body>
 </html>
