@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+    <title>添加编辑设备</title>
 </head>
 <body>
     <div class="layui-form timo-compile">
@@ -145,9 +146,7 @@
                         str+="<option value='"+t.code+"'>"+t.code+"</option>"
                     });
                     select.innerHTML=str;
-                    console.log($('#deviceTypeValue').val())
-
-                    form.val('lay_form',{device_type:$('#deviceTypeValue').val()});
+                    form.val('lay_form',{device_type:$('#deviceTypeValue').val().trim()});
                 }
             })
 
