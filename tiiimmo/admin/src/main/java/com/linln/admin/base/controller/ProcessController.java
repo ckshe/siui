@@ -154,10 +154,9 @@ public class ProcessController {
         }
 
     }
-/*
-    @GetMapping("/findProcessType")
+    @GetMapping("/findProcess")
     @ResponseBody
-    public ResultVo findProcessType(){
+    public ResultVo findProcess(){
 
         List<Process> processes = processService.list();
         if (processes!= null){
@@ -167,7 +166,6 @@ public class ProcessController {
         }
 
     }
-*/
 
 
 

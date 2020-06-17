@@ -51,7 +51,10 @@
                 if(res.code===200){
                     var select = document.getElementById('process');
                     var str = "";
-                    res.data.forEach(function (t) {
+                    var d = res.data.map(function (t) {
+                        return {process_type:t}
+                    })
+                    d.forEach(function (t) {
                         str+="<option value='"+t.process_type+"'>"+t.process_type+"</option>"
 
                     })
