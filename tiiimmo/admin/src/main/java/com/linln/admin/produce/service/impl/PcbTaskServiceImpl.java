@@ -89,6 +89,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     @Autowired
     private UserDeviceHistoryRepository userDeviceHistoryRepository;
 
+    @Autowired
+    private PcbTaskPlateNoRepository pcbTaskPlateNoRepository;
+
 
     /**
      * 根据ID查询数据
@@ -353,7 +356,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             pcbPlateNo.setPcb_code(pcbTask.getPcb_id());
             pcbPlateNo.setLast_plate_no("");
             pcbPlateNo.setAll_count(pcbTask.getPcb_quantity());
-            last = pcbTask.getPcb_quantity();
+            first = first + 200000;
+            last = pcbTask.getPcb_quantity()+200000;
         }else {
             first = pcbPlateNo.getAll_count()+1;
             last = pcbPlateNo.getAll_count()+pcbTask.getPcb_quantity();
@@ -372,12 +376,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         String trim = code3.substring(0,4);
         String prefix = "";
         String suffix = "";
-            char lastLetter = code4.charAt(code4.length()-1);
+        char lastLetter = code4.charAt(code4.length()-1);
         if("908".equals(code1)&&"H".equals(code3.charAt(0))){
             trim = code2[1];
-            prefix = trim+lastLetter+"20";
+            prefix = trim+lastLetter;
         }else {
-            prefix = trim+lastLetter+"20";
+            prefix = trim+lastLetter;
             if("909".equals(code1)){
                 prefix = "X"+prefix;
             }
@@ -388,7 +392,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }
         String firstStr = first+"";
         String lastStr = last+"";
-        if(firstStr.length()<5){
+        /*if(firstStr.length()<5){
             Integer fleng = firstStr.length();
             int need = 4-fleng;
             String add = "";
@@ -396,7 +400,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 add = "0"+add;
             }
             firstStr = add+firstStr;
-        } if(lastStr.length()<5){
+        }
+        if(lastStr.length()<5){
             Integer fleng = lastStr.length();
             int need = 4-fleng;
             String add = "";
@@ -404,11 +409,19 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 add = "0"+add;
             }
             lastStr = add+lastStr;
-        }
+        }*/
         String firstPlate = prefix+firstStr+suffix;
         String lastPlate = prefix+lastStr+suffix;
         //通过生产数量生成每一块板的记录
+        Integer tempCount = first;
         for(int o = 0;o<pcbTask.getPcb_quantity();o++){
+            String tempPlanNo = prefix+tempCount+suffix;
+            tempCount ++;
+            PcbTaskPlateNo pcbTaskPlateNo = new PcbTaskPlateNo();
+            pcbTaskPlateNo.setPlate_no(tempPlanNo);
+            pcbTaskPlateNo.setPcb_task_code(pcbTask.getPcb_task_code());
+            pcbTaskPlateNo.setPcb_code(pcbTask.getPcb_id());
+            pcbTaskPlateNoRepository.save(pcbTaskPlateNo);
 
         }
 

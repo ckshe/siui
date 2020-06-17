@@ -1,13 +1,14 @@
 package com.linln.admin.produce.domain;
 
+
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name ="produce_pcb_plate_no")
-public class PCBPlateNo {
+@Table(name ="produce_pcbtask_plate_no")
+public class PcbTaskPlateNo {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -15,11 +16,9 @@ public class PCBPlateNo {
 
     private String pcb_code;
 
-    private String last_plate_no;
+    private String pcb_task_code;
 
-    private Integer all_count;
+    private String plate_no;
 
     private Byte status;
-
-
 }
