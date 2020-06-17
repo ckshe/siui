@@ -4,42 +4,33 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/taskInstruction/save}">
+    <form class="layui-form" lay-filter="lay_form" th:action="@{/base/taskInstruction/save}">
         <input type="hidden" name="id" th:if="${taskInstruction}" th:value="${taskInstruction.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">作业指导书编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="code" placeholder="请输入作业指导书编号" th:value="${taskInstruction?.code}">
+                <input class="layui-input" autocomplete="off" type="text" name="code" placeholder="请输入作业指导书编号" th:value="${taskInstruction?.code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">作业指导书名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="name" placeholder="请输入作业指导书名称" th:value="${taskInstruction?.name}">
+                <input class="layui-input" autocomplete="off" type="text" name="name" placeholder="请输入作业指导书名称" th:value="${taskInstruction?.name}">
             </div>
         </div>
-        <!--<div class="layui-form-item">
-            <label class="layui-form-label">上传人</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="uploadPeople" placeholder="请输入上传人" th:value="${taskInstruction?.uploadPeople}">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">上传时间</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="uploadTime" placeholder="请输入上传时间" th:value="${taskInstruction?.uploadTime}">
-            </div>
-        </div>-->
         <div class="layui-form-item">
             <label class="layui-form-label">文件</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="uploadFile" placeholder="请输入文件" th:value="${taskInstruction?.uploadFile}">
+                <input class="layui-input" autocomplete="off" type="text" name="uploadFile" placeholder="请输入文件" th:value="${taskInstruction?.uploadFile}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">所属工序</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" type="text" name="processName" placeholder="请输入所属工序" th:value="${taskInstruction?.processName}">
+                <!--<input autocomplete="off" class="layui-input" type="text" name="processName" placeholder="请输入所属工序" th:value="${taskInstruction?.processName}">-->
+                <input type="hidden" id="processNameValue" th:value="${taskInstruction?.processName}">
+                <select name="processName" id="processName"></select>
+
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -55,5 +46,29 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['form','jquery','layer'], function() {
+            var form = layui.form,
+                layer = layui.layer,
+                $ = layui.jquery;
+
+            $.get('/base/process/findProcessType',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('processName');
+                    var str = "";
+                    var d = res.data.map(function (t) {
+                        return {process_type:t}
+                    })
+                    d.forEach(function (t) {
+                        str+="<option value='"+t.process_type+"'>"+t.process_type+"</option>"
+                    })
+                    select.innerHTML=str;
+                    form.val('lay_form',{processName:$('#processNameValue').val()});
+                }
+            })
+
+        })
+
+    </script>
 </body>
 </html>

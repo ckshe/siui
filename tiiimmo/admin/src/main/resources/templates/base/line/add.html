@@ -4,8 +4,8 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/line/save}">
-        <input type="hidden" name="id" th:if="${line}" th:value="${line.id}">
+    <form class="layui-form" lay-filter="lay_form" th:action="@{/base/line/save}">
+        <input type="hidden"  name="id" th:if="${line}" th:value="${line.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">车间编号</label>
             <div class="layui-input-inline">
@@ -22,7 +22,8 @@
             <label class="layui-form-label">所在厂区</label>
                 <div class="layui-input-inline">
                     <!--<input class="layui-input" type="text" name="area" placeholder="请输入所在产区" th:value="${line?.area}">-->
-                    <select name="area" id="area" th:value="${line?.area}"></select>
+                    <input type="hidden" id="areaValue" th:value="${line?.area}">
+                    <select name="area" id="area"></select>
                 </div>
         </div>
 
@@ -38,7 +39,7 @@
     <script>
         var a="";
         layui.use(['jquery','layer','form','laydate'],function () {
-            var     $ = layui.jquery,
+            var $ = layui.jquery,
                 form = layui.form,
                 laydate = layui.laydate,
                 layer = layui.layer;
@@ -54,9 +55,9 @@
                     var str = "";
                     res.data.forEach(function (t) {
                         str+="<option value='"+t.name+"'>"+t.name+"</option>"
-                    })
-                    select.innerHTML=str
-                    form.render()
+                    });
+                    select.innerHTML=str;
+                    form.val('lay_form',{area:$('#areaValue').val()});
                 }
             })
         })

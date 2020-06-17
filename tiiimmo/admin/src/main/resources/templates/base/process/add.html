@@ -9,13 +9,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="code" placeholder="请输入编号" th:value="${process?.code}">
+                <input class="layui-input" autocomplete="off" type="text" name="code" placeholder="请输入编号" th:value="${process?.code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">工序名称</label>
             <div class="layui-input-inline">
-                <select name="name" id="processName" th:value="${process?.name}"></select>
+                <input class="layui-input" autocomplete="off" type="text" name="name" placeholder="请输入名称" th:value="${process?.name}">
             </div>
         </div>
         <div class="layui-form-item timo-finally">
@@ -25,7 +25,7 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
-    <script>
+    <!--<script>
         var a="";
         layui.use(['jquery','layer','form','laydate'],function () {
             var     $ = layui.jquery,
@@ -38,18 +38,8 @@
                 trigger:'click'
             });
 
-            $.get('/base/process/findProcessType',function (res) {
-                if(res.code===200){
-                    var select = document.getElementById('processName');
-                    var str = "";
-                    res.data.forEach(function (t) {
-                        str+="<option value='"+t.process_type+"'>"+t.process_type+"</option>"
-                    })
-                    select.innerHTML=str
-                    form.render()
-                }
-            })
+
         })
-    </script>
+    </script>-->
 </body>
 </html>

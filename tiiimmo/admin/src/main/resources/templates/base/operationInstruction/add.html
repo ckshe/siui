@@ -4,32 +4,20 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/operationInstruction/save}" enctype="multipart/form-data">
+    <form  class="layui-form" lay-filter="lay_form" th:action="@{/base/operationInstruction/save}" enctype="multipart/form-data">
         <input type="hidden" name="id" th:if="${operationInstruction}" th:value="${operationInstruction.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">操作指导书编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="code" placeholder="请输入操作指导书编号" th:value="${operationInstruction?.code}">
+                <input class="layui-input" autocomplete="off" type="text" name="code" placeholder="请输入操作指导书编号" th:value="${operationInstruction?.code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">操作指导书名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="name" placeholder="请输入操作指导书名称" th:value="${operationInstruction?.name}">
+                <input class="layui-input" autocomplete="off" type="text" name="name" placeholder="请输入操作指导书名称" th:value="${operationInstruction?.name}">
             </div>
         </div>
-        <!--<div class="layui-form-item">
-            <label class="layui-form-label">上传人</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="uploadPeople" placeholder="请输入上传人" th:value="${operationInstruction?.uploadPeople}">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">上传时间</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="uploadTime" placeholder="请输入上传时间" th:value="${operationInstruction?.uploadTime}">
-            </div>
-        </div>-->
 
         <div class="layui-form-item">
                 <label class="layui-form-label">文件</label>
@@ -50,7 +38,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属工序</label>
             <div class="layui-input-inline">
-                <input class="layui-input"  type="text" name="processName" placeholder="请输入所属工序" th:value="${operationInstruction?.processName}">
+                <!--<input class="layui-input"  type="text" name="processName" placeholder="请输入所属工序" th:value="${operationInstruction?.processName}">-->
+                <input type="hidden" id="processNameValue" th:value="${operationInstruction?.processName}">
+                <select name="processName" id="processName"></select>
             </div>
         </div>
             <div class="layui-form-item layui-form-text">
@@ -71,6 +61,21 @@
             var form = layui.form,
             layer = layui.layer,
                 $ = layui.jquery;
+
+            $.get('/base/process/findProcessType',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('processName');
+                    var str = "";
+                    var d = res.data.map(function (t) {
+                        return {process_type:t}
+                    });
+                    d.forEach(function (t) {
+                        str+="<option value='"+t.process_type+"'>"+t.process_type+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('lay_form',{processName:$('#processNameValue').val()});
+                }
+            })
 
           form.on('submit(sub)',function (obj) {
                 var data=obj.field;

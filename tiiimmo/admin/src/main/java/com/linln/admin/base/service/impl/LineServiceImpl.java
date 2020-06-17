@@ -64,4 +64,9 @@ public class LineServiceImpl implements LineService {
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return lineRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
+
+    @Override
+    public List<Line> list() {
+        return lineRepository.findAll();
+    }
 }

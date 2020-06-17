@@ -10,25 +10,26 @@
             <label class="layui-form-label">员工名称</label>
             <div class="layui-input-inline">
                 <!--<input class="layui-input" type="text" name="userName" placeholder="请输入员工名称" th:value="${productionShift?.userName}">-->
-<!--                <select class="form-control" id="userName" name="userName">-->
-<!--                    &lt;!&ndash;<option value="-1">全部</option>&ndash;&gt;-->
+<!--                <select class="form-control" id="userName" name="userName">
+                    &lt;!&ndash;<option value="-1">全部</option>&ndash;&gt;
 
-<!--                    <option value="${user.id}">${user.name}</option>-->
-<!--                </select>-->
+                    <option value="${user.id}">${user.name}</option>
+                </select>-->
                 <input class="layui-input" autocomplete="off" id="username" type="text" name="userName" placeholder="请选择用户名" th:value="${productionShift?.userName}">
             </div>
 
         </div>
-<!--        <div class="layui-form-item">-->
-<!--            <label class="layui-form-label">岗位</label>-->
-<!--            <div class="layui-input-inline">-->
-<!--                <input class="layui-input" type="text" name="station" placeholder="请输入岗位" th:value="${productionShift?.station}">-->
-<!--            </div>-->
-<!--        </div>-->
+<!--        <div class="layui-form-item">
+            <label class="layui-form-label">岗位</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="station" placeholder="请输入岗位" th:value="${productionShift?.station}">
+            </div>
+        </div>-->
         <div class="layui-form-item">
             <label class="layui-form-label">班次</label>
             <div class="layui-input-inline">
-                <select name="shift" id="className" th:value="${productionShift?.shift}"></select>
+                <input type="hidden" id="classNameValue" th:value="${productionShift?.shift}">
+                <select name="className" id="className"></select>
 <!--                <input class="layui-input" type="text" name="shift" placeholder="请输入班次" th:value="${productionShift?.shift}">-->
             </div>
         </div>
@@ -78,10 +79,10 @@
                     var select = document.getElementById('className');
                     var str = "";
                     res.data.forEach(function (t) {
-                        str+="<option value='"+t.name+'班'+"'>"+t.name+"班</option>"
+                        str+="<option value='"+t.name+"'>"+t.name+"</option>"
                     })
                     select.innerHTML=str;
-                    form.render()
+                    form.val('form2',{className:$('#classNameValue').val()})
 
                 }
             })

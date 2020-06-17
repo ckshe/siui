@@ -119,4 +119,30 @@ public class DeviceTechnologyController {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
     }
+
+
+    /*@GetMapping("/findDeviceTechnologyCode")
+    @ResponseBody
+    public ResultVo findDeviceTechnologyCode(){
+        List<DeviceTechnology> deviceTechnologies = deviceTechnologyService.list();
+        if (deviceTechnologies!= null){
+            return ResultVoUtil.success("查询成功",deviceTechnologies);
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
+    }*/
+
+    //查询设备工艺编号
+    @GetMapping("/findDeviceTechnologyCode")
+    @ResponseBody
+    public ResultVo findDeviceTechnologyCode(){
+        List<String> deviceTechnologyCodes = deviceTechnologyService.queryDeviceTechnologyCode();
+        if (deviceTechnologyCodes!= null){
+            return ResultVoUtil.success("查询成功",deviceTechnologyCodes);
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
+    }
 }

@@ -4,27 +4,26 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/deviceType/save}">
+    <form  class="layui-form" lay-filter="lay_form" th:action="@{/base/deviceType/save}">
         <input type="hidden" name="id" th:if="${deviceType}" th:value="${deviceType.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">类型编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="code" placeholder="请输入类型编号" th:value="${deviceType?.code}">
+                <input class="layui-input" autocomplete="off" type="text" name="code" placeholder="请输入类型编号" th:value="${deviceType?.code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">类型名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="name" placeholder="请输入类型名称" th:value="${deviceType?.name}">
+                <input class="layui-input" autocomplete="off" type="text" name="name" placeholder="请输入类型名称" th:value="${deviceType?.name}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">所属工序</label>
             <div class="layui-input-inline">
-<!--
-                <input class="layui-input" type="text" name="process_name" placeholder="请输入类型名称" th:value="${deviceType?.process_name}">
--->
-                <select name="process" id="process"  th:value="${deviceType?.process_name}"></select>
+                <!--<input class="layui-input" type="text" name="process_name" placeholder="请输入类型名称" th:value="${deviceType?.process_name}">-->
+                <input type="hidden" id="processNameValue" th:value="${deviceType?.process_name}">
+                <select name="processName" id="processName"></select>
             </div>
         </div>
         <div class="layui-form-item timo-finally">
@@ -49,16 +48,16 @@
 
             $.get('/base/process/findProcessType',function (res) {
                 if(res.code===200){
-                    var select = document.getElementById('process');
+                    var select = document.getElementById('processName');
                     var str = "";
                     var d = res.data.map(function (t) {
                         return {process_type:t}
-                    })
+                    });
                     d.forEach(function (t) {
                         str+="<option value='"+t.process_type+"'>"+t.process_type+"</option>"
-                    })
+                    });
                     select.innerHTML=str;
-                    form.render()
+                    form.val('lay_form',{processName:$('#processNameValue').val()});
                 }
             })
 

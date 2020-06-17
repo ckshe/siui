@@ -63,4 +63,14 @@ public class DeviceTechnologyServiceImpl implements DeviceTechnologyService {
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return deviceTechnologyRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
+
+    @Override
+    public List<DeviceTechnology> list() {
+        return deviceTechnologyRepository.findAll();
+    }
+
+    @Override
+    public List<String> queryDeviceTechnologyCode() {
+        return deviceTechnologyRepository.queryDeviceTechnologyCode();
+    }
 }

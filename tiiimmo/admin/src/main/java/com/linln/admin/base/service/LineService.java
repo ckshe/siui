@@ -38,4 +38,6 @@ public interface LineService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    List<Line> list();
 }

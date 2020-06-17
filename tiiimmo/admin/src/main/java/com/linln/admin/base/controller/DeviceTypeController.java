@@ -1,6 +1,7 @@
 package com.linln.admin.base.controller;
 
 import com.linln.admin.base.domain.DeviceType;
+import com.linln.admin.base.domain.Line;
 import com.linln.admin.base.service.DeviceTypeService;
 import com.linln.admin.base.validator.DeviceTypeValid;
 import com.linln.common.enums.StatusEnum;
@@ -117,5 +118,17 @@ public class DeviceTypeController {
         } else {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
+    }
+
+    @GetMapping("/findDeviceType")
+    @ResponseBody
+    public ResultVo findDeviceType(){
+        List<DeviceType> deviceTypes = deviceTypeService.list();
+        if (deviceTypes!= null){
+            return ResultVoUtil.success("查询成功",deviceTypes);
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
     }
 }

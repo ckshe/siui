@@ -122,4 +122,16 @@ public class LineController {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
     }
+
+    @GetMapping("/findLine")
+    @ResponseBody
+    public ResultVo findLine(){
+        List<Line> lines = lineService.list();
+        if (lines!= null){
+            return ResultVoUtil.success("查询成功",lines);
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
+    }
 }

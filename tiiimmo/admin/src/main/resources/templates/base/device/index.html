@@ -25,9 +25,9 @@
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">所属产线</label>
+                        <label class="layui-form-label">所属车间</label>
                         <div class="layui-input-block">
-                            <input type="text" name="belong_line" th:value="${param.belong_line}" placeholder="请输入所属产线" autocomplete="off" class="layui-input">
+                            <input type="text" name="belong_line" th:value="${param.belong_line}" placeholder="请输入所属车间" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -83,7 +83,7 @@
                         </th>
                         <th>主键ID</th>
                         <th>所属厂区</th>
-                        <th>所属产线</th>
+                        <th>所属车间</th>
                         <th>设备类型</th>
                         <th>设备编号</th>
                         <th>设备名称</th>
@@ -107,7 +107,7 @@
                             <i class="layui-icon layui-icon-ok"></i></label></td>
                         <td th:text="${item.id}">主键ID</td>
                         <td th:text="${item.belong_plant_area}">所属厂区</td>
-                        <td th:text="${item.belong_line}">所属产线</td>
+                        <td th:text="${item.belong_line}">所属车间</td>
                         <td th:text="${item.device_type}">设备类型</td>
                         <td th:text="${item.device_code}">设备编号</td>
                         <td th:text="${item.device_name}">设备名称</td>

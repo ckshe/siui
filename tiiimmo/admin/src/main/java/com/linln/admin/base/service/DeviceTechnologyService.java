@@ -38,4 +38,8 @@ public interface DeviceTechnologyService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    List<DeviceTechnology> list();
+
+    List<String> queryDeviceTechnologyCode();
 }
