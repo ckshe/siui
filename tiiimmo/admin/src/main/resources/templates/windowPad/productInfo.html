@@ -118,13 +118,7 @@
 <script src="../../js/common.js" ></script>
 </body>
 <script>
-    function getQueryString2(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var r = parent.window.location.search.substr(1).match(reg);
-        if (r != null)
-            return decodeURI(r[2]);
-        return null;
-    }
+
     function color (status){
         switch (status) {
             case "进行中":return 'greenBg';

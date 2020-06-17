@@ -100,15 +100,6 @@
         <button class="blueButton" id="outClear" type="button">清除</button>
     </div>
 </div>
-<div id="zezao3" class="zezao"  style="display: none">
-    <div  id="loginBox3" class="loginBox">
-        <div id="xx3"  class="xx layui-icon layui-icon-close"></div>
-        <h2>扫码计数</h2>
-        <label >员工号：</label>
-        <input class="loginInput" id="productCode" type="text" name="userCode"  autocomplete="off">
-        <button class="blueButton" id="productClear" type="button">清除</button>
-    </div>
-</div>
     <div class="bigLeftBox">
         <div class="topBox">
             <div class="topLeft">
@@ -204,12 +195,7 @@
 </body>
 <script>
     var func13 = function () {};
-    document.onkeydown=function (e) {
-        console.log(e.keyCode);
-        if(e.keyCode===13){
-            func13()
-        }
-    };
+
     var nowGonDan="";
 
     window.onload = function () {
@@ -282,109 +268,106 @@
 
                     }
             // 上机功能
+            var loginCode =  document.getElementById('loginCode');
+            var outCode =  document.getElementById('outCode');
             $('#login').on('click',function(){
                 console.log('上机');
-
                 document.getElementById('zezao').style.display='block';
-                document.getElementById('loginCode').focus();
-                func13=function () {
-                    layer.load(1,{
-                        content: '上机中...',
-                        success: function (layero) {
-                            layero.find('.layui-layer-content').css({
-                                'padding-top': '39px',
-                                'width': '60px'
-                            });
-                        }
-                    });
-                    $.ajax({
-                        url: '/cardCrashLogin',
-                        type: "post",
-                        dataType : "json",
-                        data : JSON.stringify({
-                            cardSequence:$('#loginCode').val(),
-                            processTaskCode:nowGonDan===""?"未分配":nowGonDan.process_task_code,
-                            deviceCode:getQueryString('deviceCode'),
-                        }),
-                        contentType : "application/json;charset=UTF-8",
-                        success: function (res) {
-                            layer.closeAll();
-                            if(res.code === 200){
-                                layer.msg(res.msg,{icon:1});
-                                res.data.loginTime = timeToDate(new Date());
-                                localStorage.setItem('padUserData',JSON.stringify(res.data));
-                                func13=function () {}
-
-                                setTimeout(function () {
-                                    window.location.reload();
-                                },1000)
-                            }else{
-                                layer.alert(res.msg,{icon:5})
-                            }
-                        }
-                    })
-                }
+                loginCode.focus();
             })
             $('#out').on('click',function(){
                 console.log('下机');
                 document.getElementById('zezao2').style.display='block';
-                document.getElementById('outCode').focus();
-                func13=function () {
-                    layer.load(1,{
-                        content: '下机中...',
-                        success: function (layero) {
-                            layero.find('.layui-layer-content').css({
-                                'padding-top': '39px',
-                                'width': '60px'
-                            });
-                        }
-                    })
-                    $.ajax({
-                        url: '/logoutDevice',
-                        type: "post",
-                        dataType : "json",
-                        data : JSON.stringify({
-                            cardSequence:$('#outCode').val(),
-                            processTaskCode:nowGonDan.process_task_code,
-                            deviceCode:getQueryString('deviceCode'),
-                        }),
-                        contentType : "application/json;charset=UTF-8",
-                        success: function (res) {
-                            layer.closeAll();
-                            if(res.code === 200){
-                                layer.msg(res.msg,{icon:1});
-                                localStorage.removeItem("padUserData");
-                                func13=function () {}
-                                setTimeout(function () {
-                                    window.location.reload();
-                                },1000)
-                            }else{
-                                layer.alert(res.msg,{icon:5})
-                            }
-
-                        }
-                    })
-                }
+                outCode.focus();
             });
+            document.onkeydown=function (e) {
+                if(e.keyCode===13){
+                   if(loginCode == document.activeElement){
+                       layer.load(1,{
+                           content: '上机中...',
+                           success: function (layero) {
+                               layero.find('.layui-layer-content').css({
+                                   'padding-top': '39px',
+                                   'width': '60px'
+                               });
+                           }
+                       });
+                       $.ajax({
+                           url: '/cardCrashLogin',
+                           type: "post",
+                           dataType : "json",
+                           data : JSON.stringify({
+                               cardSequence:$('#loginCode').val(),
+                               processTaskCode:nowGonDan===""?"未分配":nowGonDan.process_task_code,
+                               deviceCode:getQueryString('deviceCode'),
+                           }),
+                           contentType : "application/json;charset=UTF-8",
+                           success: function (res) {
+                               layer.closeAll();
+                               if(res.code === 200){
+                                   layer.msg(res.msg,{icon:1});
+                                   res.data.loginTime = timeToDate(new Date());
+                                   localStorage.setItem('padUserData',JSON.stringify(res.data));
+                                   func13=function () {}
+
+                                   setTimeout(function () {
+                                       window.location.reload();
+                                   },1000)
+                               }else{
+                                   layer.alert(res.msg,{icon:5})
+                               }
+                           }
+                       })
+                   }else if(outCode == document.activeElement){
+                       layer.load(1,{
+                           content: '下机中...',
+                           success: function (layero) {
+                               layero.find('.layui-layer-content').css({
+                                   'padding-top': '39px',
+                                   'width': '60px'
+                               });
+                           }
+                       })
+                       $.ajax({
+                           url: '/logoutDevice',
+                           type: "post",
+                           dataType : "json",
+                           data : JSON.stringify({
+                               cardSequence:$('#outCode').val(),
+                               processTaskCode:nowGonDan.process_task_code,
+                               deviceCode:getQueryString('deviceCode'),
+                           }),
+                           contentType : "application/json;charset=UTF-8",
+                           success: function (res) {
+                               layer.closeAll();
+                               if(res.code === 200){
+                                   layer.msg(res.msg,{icon:1});
+                                   localStorage.removeItem("padUserData");
+                                   func13=function () {}
+                                   setTimeout(function () {
+                                       window.location.reload();
+                                   },1000)
+                               }else{
+                                   layer.alert(res.msg,{icon:5})
+                               }
+
+                           }
+                       })
+                   }
+                }
+            };
+
             $('#xx').on('click',function () {
                 document.getElementById('zezao').style.display='none';
             })
             $('#xx2').on('click',function () {
                 document.getElementById('zezao2').style.display='none';
-                func13=function () {}
-            })
-            $('#xx3').on('click',function () {
-                document.getElementById('zezao3').style.display='none';
-                func13=function () {}
             })
             $('#outClear').on('click',function () {
                 $('#outCode').val('')
             });
             $('#loginClear').on('click',function () {
                 $('#loginCode').val('')
-            });
-            $('#productClear').on('click',function () {
-                $('#productCode').val('')
             });
             //启动工单
             $('#run').on('click',function () {
@@ -489,46 +472,6 @@
                         offset: 10,
                         area: ['680px', '700px'],
                         content: '/windowPad/badAdd'
-                    })
-                }
-            })
-
-//生产计数
-            $('#produtNum').on('click',function () {
-                document.getElementById('zezao3').style.display='block';
-                document.getElementById('productCode').focus();
-                func13=function () {
-                    layer.load(1,{
-                        content: '添加中...',
-                        success: function (layero) {
-                            layero.find('.layui-layer-content').css({
-                                'padding-top': '39px',
-                                'width': '60px'
-                            });
-                        }
-                    })
-                    $.ajax({
-                        url: '/produce/pcbTask/countProcessTaskAmount',
-                        type: "post",
-                        dataType : "json",
-                        data : JSON.stringify({
-                            processTaskCode:nowGonDan.process_task_code,
-                            deviceCode:getQueryString('deviceCode'),
-                        }),
-                        contentType : "application/json;charset=UTF-8",
-                        success: function (res) {
-                            layer.closeAll();
-                            if(res.code === 200){
-                                layer.msg(res.msg,{icon:1});
-                                func13=function () {};
-                                setTimeout(function () {
-                                    window.location.reload();
-                                },1000)
-                            }else{
-                                layer.alert(res.msg,{icon:5})
-                            }
-
-                        }
                     })
                 }
             })
