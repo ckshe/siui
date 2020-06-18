@@ -13,9 +13,9 @@ function setDataBoard2(params) {
 		url: board2Api.mapProcessTypeDayRate,
 		dataType: "json",
 		success: function (response) {
-			var tiepianArr = [], houhanArr = [], tiaoshiArr = [], zhijianArr = [], rukuArr = [];
-			var tiepianTaskArr = [], houhanTaskArr = [], tiaoshiTaskArr = [], zhijianTaskArr = [], rukuTaskArr = [];
-			var tiepianTaskArr1 = [], houhanTaskArr1 = [], tiaoshiTaskArr1 = [], zhijianTaskArr1 = [], rukuTaskArr1 = [];
+			var tiepianArr = [], houhanArr = [], tiaoshiArr = [], zhijianArr = [], rukuArr = [],beiliaoArr=[];
+			var tiepianTaskArr = [], houhanTaskArr = [], tiaoshiTaskArr = [], zhijianTaskArr = [], rukuTaskArr = [],beiliaoTaskArr=[];
+			var tiepianTaskArr1 = [], houhanTaskArr1 = [], tiaoshiTaskArr1 = [], zhijianTaskArr1 = [], rukuTaskArr1 = [],beiliaoTaskArr1=[];
 			for (var ia = 0; ia < response.data.tiepian.length; ia++) {
 				tiepianTaskArr.push(response.data.tiepian[ia].process_task_code);
 				tiepianTaskArr1.push('任务'+(ia+1));
@@ -102,10 +102,28 @@ function setDataBoard2(params) {
 					}
 				})
 			}
+			
+
+			for (var ig = 0; ig < response.data.beiliao.length; ig++) {
+				beiliaoTaskArr.push(response.data.beiliao[ig].process_task_code);
+				beiliaoTaskArr1.push('任务'+(ig+1));
+				beiliaoArr.push(response.data.beiliao[ig].rate);
+			}
+			db2POption4.yAxis.data = beiliaoTaskArr1.reverse();
+			db2POption4.series[0].data = beiliaoArr.reverse();
+			db2P4.setOption(db2POption4);
+			if (beiliaoArr.length > 0) {
+				db2P4.getZr().on('click', params => {
+					var pointInPixel = [params.offsetX, params.offsetY]
+					if (db2P4.containPixel('grid', pointInPixel)) {
+						var xIndex = db2P4.convertFromPixel({ seriesIndex: 0 }, [params.offsetX, params.offsetY])[1]
+						setClick(beiliaoTaskArr[xIndex], beiliaoArr[xIndex]);
+					}
+				})
+			}
 			//齐套率未完成，假的
 			// db2POption4.yAxis.data = tiepianTaskArr;
 			// db2POption4.series[0].data = tiepianArr;
-			db2P4.setOption(db2POption4);
 		}
 	});
 }

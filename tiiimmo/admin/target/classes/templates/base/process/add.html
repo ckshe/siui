@@ -9,13 +9,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="code" placeholder="请输入编号" th:value="${process?.code}">
+                <input class="layui-input" autocomplete="off" type="text" name="code" placeholder="请输入编号" th:value="${process?.code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">工序名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="name" placeholder="请输入工序名称" th:value="${process?.name}">
+                <input class="layui-input" autocomplete="off" type="text" name="name" placeholder="请输入名称" th:value="${process?.name}">
             </div>
         </div>
         <div class="layui-form-item timo-finally">
@@ -25,5 +25,21 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <!--<script>
+        var a="";
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var     $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#time",
+                type:'datetime',
+                trigger:'click'
+            });
+
+
+        })
+    </script>-->
 </body>
 </html>

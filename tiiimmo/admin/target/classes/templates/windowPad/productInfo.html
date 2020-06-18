@@ -98,13 +98,13 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">RoHS:</label>
                     <div class="layui-input-inline">
-                        <input type="text" disabled name="email"  autocomplete="off" class="layui-input">
+                        <input type="text" disabled name="is_rohs"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label"></label>
+                    <label class="layui-form-label">排产任务号</label>
                     <div class="layui-input-inline">
-                        <input type="text" disabled  autocomplete="off" class="layui-input">
+                        <input type="text" disabled name="pcb_task_code" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -118,13 +118,7 @@
 <script src="../../js/common.js" ></script>
 </body>
 <script>
-    function getQueryString2(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var r = parent.window.location.search.substr(1).match(reg);
-        if (r != null)
-            return decodeURI(r[2]);
-        return null;
-    }
+
     function color (status){
         switch (status) {
             case "进行中":return 'greenBg';
@@ -179,11 +173,12 @@
                         ,{field: 'process_name', title: '工序名称', width: 120}
                         ,{field: 'process_task_status', title: '工单状态', minWidth: 110}
                         ,{field: 'task_sheet_code', title: '生产批次', width: 164}
+                        ,{field: 'pcb_task_code', title: '排产任务号', width: 164}
                         ,{field: 'model_name', title: '机型名称', minWidth: 274}
                         ,{field: 'pcb_code', title: '规格型号', minWidth: 208}
                         ,{field: 'pcb_quantity', title: '计划生产数量', minWidth: 120}
                         ,{field: 'amount_completed', title: '实际生产数量', minWidth: 120}
-                        ,{field: 'RoHS', title: 'RoHS标志', minWidth: 100}
+                        ,{field: 'is_rohs', title: 'RoHS标志', minWidth: 100}
                         ,{field: 'plan_start_time', title: '计划生产时间', minWidth: 170,templet:function (d) {
                                 return timeToDate(d.plan_start_time)
                         }}

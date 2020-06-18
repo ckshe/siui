@@ -69,7 +69,8 @@
 <body class="timo-layout-page">
     <div class="layui-card">
         <div class="layui-card-header timo-card-header">
-            <span><i class="fa fa-bars"></i></span>
+            <span><i class="fa fa-bars"></i> 备料工序计划</span>
+            <i class="layui-icon layui-icon-refresh refresh-btn"></i>
         </div>
         <div class="layui-card-body">
         <form class="layui-form pull-left layui-form-pane timo-search-box "  lay-filter='search'>
@@ -127,6 +128,7 @@
                 statusCode: 200
             }
             ,page:true
+            ,limit:20
             ,parseData: function(res){
                 // var page = this.page.curr;
                 // if(res.data.length===0&&page>1){
@@ -145,7 +147,9 @@
             ,cols: [
                 [
                      // {type: 'checkbox'}
-                    {field: 'process_task_code', title: '工序任务号', minWidth:172}
+                    {field: 'task_sheet_code', title: '生产批次', minWidth:172}
+                    ,{field: 'pcb_task_code', title: '排产任务号', minWidth:172}
+                    ,{field: 'process_task_code', title: '工序任务号', minWidth:172}
                     ,{field: 'process_name', title: '工序名称', minWidth:120}
                     ,{field: 'feeding_task_code', title: '领料编号', minWidth:120}
                     ,{field: 'is_rohs', title: '是否RoHS', minWidth:120}

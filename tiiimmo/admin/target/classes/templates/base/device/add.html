@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+    <title>添加编辑设备</title>
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/device/save}">
+    <form class="layui-form" lay-filter="lay_form" th:action="@{/base/device/save}">
         <input type="hidden" name="id" th:if="${device}" th:value="${device.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">所属厂区</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="belong_plant_area" placeholder="请输入所属厂区" th:value="${device?.belong_plant_area}">
+                <input type="hidden" id="areaValue" th:value="${device?.belong_plant_area}">
+                <select name="belong_plant_area" id="area"></select>
+                <!--<input class="layui-input" type="text" name="belong_plant_area" placeholder="请输入所属厂区" th:value="${device?.belong_plant_area}">-->
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">所属产线</label>
+            <label class="layui-form-label">所属车间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="belong_line" placeholder="请输入所属产线" th:value="${device?.belong_line}">
+                <input type="hidden" id="lineValue" th:value="${device?.belong_line}">
+                <select name="belong_line" id="line"></select>
+                <!--<input class="layui-input" type="text" name="belong_line" placeholder="请输入所属车间" th:value="${device?.belong_line}">-->
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">设备类型</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="device_type" placeholder="请输入设备类型" th:value="${device?.device_type}">
+                <input type="hidden" id="deviceTypeValue" th:value="${device?.device_type}">
+                <select name="device_type" id="device_type"></select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">设备编号</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="device_code" placeholder="请输入设备编号" th:value="${device?.device_code}">
+                <!--<input type="hidden" id="deviceTechnologyCodeValue" th:value="${device?.device_code}">
+                <select name="device_code" id="deviceTechnologyCode"></select>-->
             </div>
         </div>
         <div class="layui-form-item">
@@ -39,7 +47,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属工序</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="belong_process" placeholder="请输入所属工序" th:value="${device?.belong_process}">
+                <!--<input class="layui-input" type="text" name="belong_process" placeholder="请输入所属工序" th:value="${device?.belong_process}">-->
+                <input type="hidden" id="processNameValue" th:value="${device?.belong_process}">
+                <select name="belong_process" id="processName"></select>
             </div>
         </div>
         <div class="layui-form-item">
@@ -91,5 +101,74 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        var a="";
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#time",
+                type:'datetime',
+                trigger:'click'
+            });
+
+            $.get('/base/plantArea/findArea',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('area');
+                    var str = "";
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.name+"'>"+t.name+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('lay_form',{belong_plant_area:$('#areaValue').val()});
+                }
+            })
+
+            $.get('/base/line/findLine',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('line');
+                    var str = "";
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.name+"'>"+t.name+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('lay_form',{belong_line:$('#lineValue').val()});
+                }
+            })
+
+            $.get('/base/deviceType/findDeviceType',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('device_type');
+                    var str = "";
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.code+"'>"+t.code+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('lay_form',{device_type:$('#deviceTypeValue').val().trim()});
+                }
+            })
+
+
+
+            $.get('/base/process/findProcessType',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('processName');
+                    var str = "";
+                    var d = res.data.map(function (t) {
+                        return {process_type:t}
+                    });
+                    d.forEach(function (t) {
+                        str+="<option value='"+t.process_type+"'>"+t.process_type+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('lay_form',{belong_process:$('#processNameValue').val()});
+                }
+            })
+
+
+        })
+    </script>
 </body>
 </html>

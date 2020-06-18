@@ -531,16 +531,17 @@ function setDataBoard1(params) {
     function addHtml(data, hsaClassOn) {
         // 动态生成模板
         var theadHtml = '', tbodyHtml = '', widthPercent = 1, popData = '';
+        var arr=[10,9,15,10,10,9,9,7,7,8],arr1 = [10,15,9,6,12,8,8,6,6,5,7]
         var widthWW = parseInt($('#firstBoard').css('width'));
         if (hsaClassOn) {
             var theadData = ['生产任务单号', '机型名称', '规格型号', '物料名称', '生产批次', '启动日期', '完成时间', '生产数量', '完成数量', '工单状态'];
             var tbodyData = data;
-            if (theadData.length > 0) {
-                widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) + "px"
-            }
+            // if (theadData.length > 0) {
+            //     widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) + "px"
+            // }
             theadHtml = '<div class="StateTit">';
             for (var i = 0; i < theadData.length; i++) {
-                theadHtml += '<span style="width:' + widthPercent + '">' + theadData[i] + '</span>';
+                theadHtml += '<span style="width:' + arr[i] + '%">' + theadData[i] + '</span>';
             }
             theadHtml += '</div>';
             tbodyHtml = '<div id="FontScroll" class="fontScroll"><ul>';
@@ -555,7 +556,7 @@ function setDataBoard1(params) {
                 if (tbodyDataS[j].pcb_task_status == "已下达未投产") {
                     tbodyDataS[j].pcb_task_status = "未启动"
                 }
-                if (tbodyDataS[j].pcb_task_status == "已下达已投产") {
+                if (tbodyDataS[j].pcb_task_status == "已投产") {
                     tbodyDataS[j].pcb_task_status = "进行中"
                 }
                 if (tbodyDataS[j].pcb_task_status == "已下达已完成") {
@@ -574,16 +575,16 @@ function setDataBoard1(params) {
                 tbodyHtml +=
                     '<li>' +
                     '<div class="fontInner clearfix">' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_code + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].model_name + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_id + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_name + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].task_sheet_code + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].produce_plan_date + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].produce_plan_complete_date + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_quantity + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].amount_completed + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_status + '</span>' +
+                    '<span style="width:' + arr[0] + '%">' + tbodyDataS[j].pcb_task_code + '</span>' +
+                    '<span style="width:' + arr[1] + '%">' + tbodyDataS[j].model_name + '</span>' +
+                    '<span style="width:' + arr[2] + '%">' + tbodyDataS[j].pcb_id + '</span>' +
+                    '<span style="width:' + arr[3] + '%">' + tbodyDataS[j].pcb_name + '</span>' +
+                    '<span style="width:' + arr[4] + '%">' + tbodyDataS[j].task_sheet_code + '</span>' +
+                    '<span style="width:' + arr[5] + '%">' + tbodyDataS[j].produce_plan_date + '</span>' +
+                    '<span style="width:' + arr[6] + '%">' + tbodyDataS[j].produce_plan_complete_date + '</span>' +
+                    '<span style="width:' + arr[7] + '%">' + tbodyDataS[j].pcb_quantity + '</span>' +
+                    '<span style="width:' + arr[8] + '%">' + tbodyDataS[j].amount_completed + '</span>' +
+                    '<span style="width:' + arr[9] + '%">' + tbodyDataS[j].pcb_task_status + '</span>' +
                     '</div>' +
                     '</li>';
             }
@@ -592,12 +593,12 @@ function setDataBoard1(params) {
             var theadData = ['工序任务号','规格型号','物料型号', '工序','生产任务号','生产批次','生产时间',  '生产数量', '完成数量', '工时 (分)' , '工单状态']
             ////console.log(data)
             var tbodyData = popData = data;
-            if (theadData.length > 0) {
-                widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) + "px"
-            }
+            // if (theadData.length > 0) {
+            //     widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) + "px"
+            // }
             theadHtml = '<div class="StateTit">';
             for (var i = 0; i < theadData.length; i++) {
-                theadHtml += '<span style="width:' + widthPercent + '">' + theadData[i] + '</span>';
+                theadHtml += '<span style="width:' + arr1[i] + '%">'+ theadData[i] + '</span>';
             }
             theadHtml += '</div>';
             tbodyHtml = '<div id="FontScroll" class="fontScroll"><ul>';
@@ -635,17 +636,17 @@ function setDataBoard1(params) {
                 tbodyHtml +=
                     '<li>' +
                     '<div class="fontInner clearfix">' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_task_code + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_code + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_name + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_name + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_task_code + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].task_sheet_code + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].plan_start_time + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].pcb_quantity + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].amount_completed + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].work_time + '</span>' +
-                    '<span style="width:' + widthPercent + '">' + tbodyDataS[j].process_task_status + '</span>' +
+                    '<span style="width:' + arr1[0] + '%">' + tbodyDataS[j].process_task_code + '</span>' +
+                    '<span style="width:' + arr1[1] + '%">'+ tbodyDataS[j].pcb_code + '</span>' +
+                    '<span style="width:' + arr1[2] + '%">'+ tbodyDataS[j].pcb_name + '</span>' +
+                    '<span style="width:' + arr1[3] + '%">'+ tbodyDataS[j].process_name + '</span>' +
+                    '<span style="width:' + arr1[4] + '%">'+ tbodyDataS[j].pcb_task_code + '</span>' +
+                    '<span style="width:' + arr1[5] + '%">'+ tbodyDataS[j].task_sheet_code + '</span>' +
+                    '<span style="width:' + arr1[6] + '%">'+ tbodyDataS[j].plan_start_time + '</span>' +
+                    '<span style="width:' + arr1[7] + '%">'+ tbodyDataS[j].pcb_quantity + '</span>' +
+                    '<span style="width:' + arr1[8] + '%">'+ tbodyDataS[j].amount_completed + '</span>' +
+                    '<span style="width:' + arr1[9] + '%">'+ tbodyDataS[j].work_time + '</span>' +
+                    '<span style="width:' + arr1[10] + '%">'+ tbodyDataS[j].process_task_status + '</span>' +
                     '</div>' +
                     '</li>';
             }
@@ -681,7 +682,7 @@ function setDataBoard1(params) {
         if (data.pcb_task_status == "已下达未投产") {
             data.pcb_task_status = "未启动"
         }
-        if (data.pcb_task_status == "已下达已投产") {
+        if (data.pcb_task_status == "已投产") {
             data.pcb_task_status = "进行中"
         }
         if (data.pcb_task_status == "已下达已完成") {

@@ -7,6 +7,14 @@ function getQueryString(name) {
         return decodeURI(r[2]);
     return null;
 }
+// 获取父页面URL参数
+function getQueryString2(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = parent.window.location.search.substr(1).match(reg);
+    if (r != null)
+        return decodeURI(r[2]);
+    return null;
+}
 //时间戳转日期
 function timeToDate(timestamp,bool){ //bool为true不展示时分秒
     var date = new Date(timestamp);
