@@ -90,4 +90,16 @@ public class ResultVoUtil {
         return error(null);
     }
 
+
+    public static <T> ResultVo<T> success(String msg, T object,Integer total,Integer page,Integer size) {
+        ResultVo<T> resultVo = new ResultVo<>();
+        resultVo.setMsg(msg);
+        resultVo.setCode(ResultEnum.SUCCESS.getCode());
+        resultVo.setData(object);
+        resultVo.setTotal(total);
+        /*resultVo.setPage(page);
+        resultVo.setSize(size);*/
+        return resultVo;
+    }
+
 }

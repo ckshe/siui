@@ -27,7 +27,7 @@ import java.util.Map;
  * @date 2020/05/18
  */
 @Controller
-@RequestMapping("/produce/pcbTask/")
+@RequestMapping("/produce/pcbTask")
 public class PcbTaskController {
 
 
@@ -214,7 +214,7 @@ public class PcbTaskController {
     //获取排产计划
     @PostMapping("/findScheduling")
     @ResponseBody
-    public ResultVo findScheduling(@RequestBody(required=false) PcbTaskReq req){
+    public ResultVo findScheduling(@RequestBody PcbTaskReq req){
         return pcbTaskService.findScheduling(req);
     }
 

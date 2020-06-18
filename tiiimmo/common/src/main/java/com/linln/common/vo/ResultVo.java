@@ -26,4 +26,8 @@ public class ResultVo<T> {
     private T data;
 
     private Integer total;
+
+    /*private Integer page;
+
+    private Integer size;*/
 }

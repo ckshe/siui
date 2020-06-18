@@ -541,6 +541,43 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     }
 
     @Override
+    public ResultVo findScheduling(PcbTaskReq pcbTaskReq) {
+//        StringBuffer sql = new StringBuffer("select * from produce_pcb_task ");
+        /*select v.* from (select row_number() over (order by id)) as index, * from produce_pcb_task) as v
+
+                where v.index between ((page-1)*size+1) and (page*size)*/
+        StringBuffer sql = new StringBuffer("select  *\n" +
+                "                from (select row_number()\n" +
+                "                        over(order by id asc) as rownumber,*\n" +
+                "                from produce_pcb_task) temp_row ");
+        /*select top 100 *
+                from (select row_number()
+                        over(order by id asc) as rownumber,*
+                from produce_pcb_task) temp_row*/
+        /*where rownumber>((1-1)*10);*/
+
+        Integer page = pcbTaskReq.getPage();
+        Integer size = pcbTaskReq.getSize();
+        String pcbTaskCode = pcbTaskReq.getPcbTaskCode();  //任务号
+        if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
+            page = pcbTaskReq.getPage();
+            size = pcbTaskReq.getSize();
+        }
+
+        List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
+
+        sql.append("where rownumber between " +
+                ((page-1)*size+1) +
+                " and " +
+                (page*size) +
+                "");
+
+
+        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+        return ResultVoUtil.success("查询成功",mapList,count.size());
+    }
+
+    @Override
     public ResultVo findFeedingTask(PcbTaskReq pcbTaskReq) {
         List<FeedingTask> list = feedingTaskRepository.findByFeeding_task_code(pcbTaskReq.getFeedindTaskCode());
 
@@ -828,26 +865,5 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         return ResultVoUtil.success();
     }
 
-    @Override
-    public ResultVo findScheduling(PcbTaskReq pcbTaskReq) {
-        StringBuffer sql = new StringBuffer("select * from produce_pcb_task ");
-        /*Integer page = 1;
-        Integer size = 10;
-        if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
-            page = pcbTaskReq.getPage();
-            size = pcbTaskReq.getSize();
-        }*/
 
-        List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
-
-        /*sql.append("where t3.Row between " +
-                ((page-1)*size+1) +
-                " and " +
-                (page*size) +
-                "");*/
-
-
-        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
-        return ResultVoUtil.success("查询成功",mapList,count.size());
-    }
 }
