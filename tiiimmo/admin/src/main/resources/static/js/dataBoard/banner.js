@@ -51,10 +51,11 @@
                 height: 1080,
                 position: "absolute",
                 left: 0,
-                top:0,
+                // top:0,
+                top:515,
                 display: "flex",
                 justifyContent:"space-between",
-                alignItems: "center"
+                // alignItems: "center"
             }).children().css({
                 border: 0,
                 width: 50,

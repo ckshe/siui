@@ -560,6 +560,7 @@ function addDataTaskHtml(data) {
     $("#taskList").banner($("#taskList").find(".listStyle li"), {
         list: false,
         autoPlay: true,
+        but:false,
         delayTiem: 5000,  // 延迟时间默认为2000
         moveTime: 500    // 远动时间默认为300
     });

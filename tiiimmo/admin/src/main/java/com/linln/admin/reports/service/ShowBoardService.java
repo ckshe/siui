@@ -50,7 +50,7 @@ public interface ShowBoardService {
 
     public  List<DeviceRunTimeResp> getDeviceRunTime(String deviceCode);
 
-    public List<ProcessTask> findByStartEndTimeBy3TiePian();
+    public Map<String,Map<String,Object>> findByStartEndTimeBy3TiePian();
 
     public User findOneLastOnTimeUser(String deviceCode);
 

@@ -31,7 +31,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"dept", "roles"})
 @EntityListeners(AuditingEntityListener.class)
 @SQLDelete(sql = "update sys_user" + StatusUtil.SLICE_DELETE)
-@Where(clause = StatusUtil.NOT_DELETE)
+//@Where(clause = StatusUtil.NOT_DELETE)
 @Excel("用户数据")
 public class User implements Serializable {
     @Id

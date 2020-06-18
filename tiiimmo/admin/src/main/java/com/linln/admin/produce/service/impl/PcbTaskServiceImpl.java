@@ -609,17 +609,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             //加入设备状态记录表
             //step1:找到设备最后一条没有结束时间的记录
             DeviceStatusRecord deviceStatusRecord = deviceStatusRecordRepository.findByDevice_code(device.getDevice_code());
-            //step2:状态相同则跳过
-            if(req.getStatus().equals(deviceStatusRecord.getDevice_status())){
-
-            }else {
-                //step3:状态不同结束上一条并计算持续时间，新增一条
-                Date today = new Date();
-                deviceStatusRecord.setEnd_time(today);
-                Long cha = (today.getTime()-deviceStatusRecord.getStart_time().getTime())/1000;
-                deviceStatusRecord.setContinue_time(Integer.parseInt(cha+""));
-                deviceStatusRecordRepository.save(deviceStatusRecord);
-                //新增
+            Date today = new Date();
+            if(deviceStatusRecord==null){
                 DeviceStatusRecord newRecord = new DeviceStatusRecord();
                 newRecord.setContinue_time(0);
                 newRecord.setStart_time(today);
@@ -627,7 +618,27 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 newRecord.setDevice_name(device.getDevice_name());
                 newRecord.setDevice_status(req.getStatus());
                 deviceStatusRecordRepository.save(newRecord);
+            }else {
+                //step2:状态相同则跳过
+                if(req.getStatus().equals(deviceStatusRecord.getDevice_status())){
+
+                }else {
+                    //step3:状态不同结束上一条并计算持续时间，新增一条
+                    deviceStatusRecord.setEnd_time(today);
+                    Long cha = (today.getTime()-deviceStatusRecord.getStart_time().getTime())/1000;
+                    deviceStatusRecord.setContinue_time(Integer.parseInt(cha+""));
+                    deviceStatusRecordRepository.save(deviceStatusRecord);
+                    //新增
+                    DeviceStatusRecord newRecord = new DeviceStatusRecord();
+                    newRecord.setContinue_time(0);
+                    newRecord.setStart_time(today);
+                    newRecord.setDevice_code(device.getDevice_code());
+                    newRecord.setDevice_name(device.getDevice_name());
+                    newRecord.setDevice_status(req.getStatus());
+                    deviceStatusRecordRepository.save(newRecord);
+                }
             }
+
             String reCount = device.getRe_count();
             //是，记录数据返回清零标志
             resp.setReCount(reCount);

@@ -366,7 +366,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "FROM \n" +
                 "\tproduce_process_task t1\n" +
                 "\tLEFT JOIN base_process t2 ON t2.name = t1.process_name \n" +
-                "WHERE  t1.process_task_status != '已完成' AND t1.plan_finish_time  >= '" +
+                "WHERE   t1.plan_finish_time  >= '" +
                 startTime +
                 "' AND t1.plan_finish_time  <= '" +
                 endTime +
@@ -441,7 +441,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
         StringBuffer processTypeUseRateSql = new StringBuffer("\n" +
                 "SELECT SUM\n" +
-                "\t( t1.pcb_quantity* ISNULL( t2.theory_time, 0 ) ) sumTheoryTime,\n" +
+                "\t( t1.amount_completed * ISNULL( t2.theory_time, 0 ) ) sumTheoryTime,\n" +
                 "\tSUM ( ISNULL( t1.work_time, 0 ) ) workTime,\n" +
                 "\tt3.process_type \n" +
                 "FROM\n" +
@@ -455,7 +455,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "' \n" +
                 "\tAND t1.plan_finish_time <= '" +
                 endTime +
-                "' \n" +
+                "' AND process_task_status = '已完成' \n" +
                 "GROUP BY\n" +
                 "\tt3.process_type");
 
@@ -641,11 +641,34 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
 
     @Override
-    public List<ProcessTask> findByStartEndTimeBy3TiePian() {
+    public Map<String,Map<String,Object>> findByStartEndTimeBy3TiePian() {
         Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
         String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
         String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
-        return processTaskRepository.findByStartEndTimeBy3TiePian(startTime,endTime);
+
+        //正在进行的贴片任务
+        StringBuffer runningSql = new StringBuffer("SELECT * FROM produce_process_task WHERE (process_name = '贴片A' or process_name= '贴片B') AND is_now_flag = 1");
+
+        StringBuffer waitingSql = new StringBuffer("SELECT * FROM produce_process_task WHERE (process_name = '贴片A' or process_name= '贴片B') AND is_now_flag != 1 ORDER BY priority DESC ,plan_finish_time ");
+
+        StringBuffer beiliaoSql = new StringBuffer("SELECT * FROM produce_process_task WHERE process_name = '备料' AND is_now_flag = 1  ");
+
+        List<Map<String,Object>> runningMapList = jdbcTemplate.queryForList(runningSql.toString());
+        List<Map<String,Object>> waitingMapList = jdbcTemplate.queryForList(waitingSql.toString());
+        List<Map<String,Object>> beiliaoMapList = jdbcTemplate.queryForList(beiliaoSql.toString());
+
+        Map<String,Object> runningMap = runningMapList.size()!=0?runningMapList.get(0):new HashMap<>();
+        Map<String,Object> waitingMap = waitingMapList.size()!=0?waitingMapList.get(0):new HashMap<>();
+        Map<String,Object> beiliaoMap = beiliaoMapList.size()!=0?beiliaoMapList.get(0):new HashMap<>();
+
+        Map<String,Map<String,Object>> result = new HashMap<>();
+        result.put("running",runningMap);
+        result.put("waiting",waitingMap);
+        result.put("beiliao",beiliaoMap);
+
+
+
+        return result;
     }
 
     @Override

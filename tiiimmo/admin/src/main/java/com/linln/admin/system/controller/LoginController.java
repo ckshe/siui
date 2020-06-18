@@ -196,7 +196,9 @@ public class LoginController implements ErrorController {
         UserDeviceHistory history = userDeviceHistoryRepository.findOnlyUpTimeRecord(req.getDeviceCode());
 
         if(!user.getId().equals(history.getUser_id())){
-            return ResultVoUtil.error("上下机员工不一致!");
+            return ResultVoUtil.error("上下机员工不一致！当前该员工：‘" +
+                     history.getUser_name()+
+                    "’ 未下机！");
         }
         history.setDown_time(new Date());
         userDeviceHistoryRepository.save(history);
