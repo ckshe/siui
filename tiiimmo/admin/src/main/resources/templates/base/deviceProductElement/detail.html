@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${deviceProductElement.id}"></td>
+                    <th>图样名</th>
+                    <td th:text="${deviceProductElement.sample_name}"></td>
+                </tr>
+                <tr>
+                    <th>跳过状态</th>
+                    <td th:text="${deviceProductElement.skip_status}"></td>
+                    <th>机台编号</th>
+                    <td th:text="${deviceProductElement.device_code}"></td>
+                </tr>
+                <tr>
+                    <th>元件号码</th>
+                    <td th:text="${deviceProductElement.element_no}"></td>
+                    <th>元件名</th>
+                    <td th:text="${deviceProductElement.element_name}"></td>
+                </tr>
+                <tr>
+                    <th>物料编号</th>
+                    <td th:text="${deviceProductElement.product_code}"></td>
+                    <th>安装位置</th>
+                    <td th:text="${deviceProductElement.position}"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${deviceProductElement.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${deviceProductElement.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(deviceProductElement.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(deviceProductElement.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>
