@@ -548,7 +548,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 where v.index between ((page-1)*size+1) and (page*size)*/
         StringBuffer sql = new StringBuffer("select  *\n" +
                 "                from (select row_number()\n" +
-                "                        over(order by id asc) as rownumber,*\n" +
+                "                        over(order by produce_plan_date desc) as rownumber,*\n" +
                 "                from produce_pcb_task) temp_row ");
         /*select top 100 *
                 from (select row_number()
