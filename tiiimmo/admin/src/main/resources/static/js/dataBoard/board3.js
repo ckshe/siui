@@ -522,40 +522,132 @@ function addHtml(responseData, deviceresponse, n,user) {
     $('.summary').html(html)
 }
 function addDataTaskHtml(data) {
-    var htmlPiepian = '';
+    console.log(data,'====')
+    var htmlPiepian = '',beiliaoTask='',beiliaoTask='',beiliaoTask='';
+    var beiliao=Object.keys(data.beiliao);
+    var running=Object.keys(data.running);
+    var waiting=Object.keys(data.waiting);
+    console.log(beiliao,running,waiting)
+    if (data.beiliao.plan_start_time != null) {
+        data.beiliao.plan_start_time = data.beiliao.plan_start_time.split('T')[0];
+    } else {
+        data.beiliao.plan_start_time = ''
+    }
+    if (data.beiliao.plan_finish_time != null) {
+        data.beiliao.plan_finish_time = data.beiliao.plan_finish_time.split('T')[0];
+    } else {
+        data.beiliao.plan_finish_time = ''
+    }
+
+    if (data.running.plan_start_time != null) {
+        data.running.plan_start_time = data.running.plan_start_time.split('T')[0];
+    } else {
+        data.running.plan_start_time = ''
+    }
+    if (data.running.plan_finish_time != null) {
+        data.running.plan_finish_time = data.running.plan_finish_time.split('T')[0];
+    } else {
+        data.running.plan_finish_time = ''
+    }
+
+    if (data.waiting.plan_start_time != null) {
+        data.waiting.plan_start_time = data.waiting.plan_start_time.split('T')[0];
+    } else {
+        data.waiting.plan_start_time = ''
+    }
+    if (data.waiting.plan_finish_time != null) {
+        data.waiting.plan_finish_time = data.waiting.plan_finish_time.split('T')[0];
+    } else {
+        data.waiting.plan_finish_time = ''
+    }
+
+    if(beiliao.length>0){
+    beiliaoTask = '           <li class="clearfix">' +
+                '               <span class="col3">工序任务号:<strong>' + data.beiliao.process_task_code + '</strong></span>' +
+                '               <span class="col3">排产任务号:<strong>' + data.beiliao.pcb_task_code + '</strong></span>' +
+                '               <span class="col3">生产批次:<strong>' + data.beiliao.task_sheet_code + '</strong></span>' +
+                '               <span class="col3">规格型号:<strong>' + data.beiliao.pcb_code + '</strong></span>' +
+                '               <span class="col3">计划生产数量:<strong>' + data.beiliao.pcb_quantity + '</strong></span>' +
+                '               <span class="col3">实际生产数量:<strong>' + data.beiliao.amount_completed + '</strong></span>' +
+                '               <span class="col3">计划开始时间:<strong>' + data.beiliao.plan_start_time + '</strong></span>' +
+                '               <span class="col3">计划结束时间:<strong>' + data.beiliao.plan_finish_time + '</strong></span>' +
+                // '               <span class="col3">板编号:<strong>' + data.beiliao.pcb_quantity + '</strong></span>' +
+                '               <span class="col2">RoHS:<strong>' + data.beiliao.is_rohs + '</strong></span>' +
+                '           </li>';
+        
+    }
+    if(running.length>0){
+    runningTask = '           <li class="clearfix">' +
+                '               <span class="col3">工序任务号:<strong>' + data.running.process_task_code + '</strong></span>' +
+                '               <span class="col3">排产任务号:<strong>' + data.running.pcb_task_code + '</strong></span>' +
+                '               <span class="col3">生产批次:<strong>' + data.running.task_sheet_code + '</strong></span>' +
+                '               <span class="col3">规格型号:<strong>' + data.running.pcb_code + '</strong></span>' +
+                '               <span class="col3">计划生产数量:<strong>' + data.running.pcb_quantity + '</strong></span>' +
+                '               <span class="col3">实际生产数量:<strong>' + data.running.amount_completed + '</strong></span>' +
+                '               <span class="col3">计划开始时间:<strong>' + data.running.plan_start_time + '</strong></span>' +
+                '               <span class="col3">计划结束时间:<strong>' + data.running.plan_finish_time + '</strong></span>' +
+                // '               <span class="col3">板编号:<strong>' + data.running.pcb_quantity + '</strong></span>' +
+                '               <span class="col2">RoHS:<strong>' + data.running.is_rohs + '</strong></span>' +
+                '           </li>';
+    }
+    if(waiting.length>0){
+    waitingPTask ='           <li class="clearfix">' +
+                '               <span class="col3">工序任务号:<strong>' + data.waiting.process_task_code + '</strong></span>' +
+                '               <span class="col3">排产任务号:<strong>' + data.waiting.pcb_task_code + '</strong></span>' +
+                '               <span class="col3">生产批次:<strong>' + data.waiting.task_sheet_code + '</strong></span>' +
+                '               <span class="col3">规格型号:<strong>' + data.waiting.pcb_code + '</strong></span>' +
+                '               <span class="col3">计划生产数量:<strong>' + data.waiting.pcb_quantity + '</strong></span>' +
+                '               <span class="col3">实际生产数量:<strong>' + data.waiting.amount_completed + '</strong></span>' +
+                '               <span class="col3">计划开始时间:<strong>' + data.waiting.plan_start_time + '</strong></span>' +
+                '               <span class="col3">计划结束时间:<strong>' + data.waiting.plan_finish_time + '</strong></span>' +
+                // '               <span class="col3">板编号:<strong>' + data.waiting.pcb_quantity + '</strong></span>' +
+                '               <span class="col2">RoHS:<strong>' + data.waiting.is_rohs + '</strong></span>' +
+                '           </li>';
+    }
+    htmlPiepian += beiliaoTask+runningTask+waitingPTask;
+    console.log(htmlPiepian)
     var theadHtmlPTask = '<div class="item summaryP3" >' +
         '   <div class="itemCon itembg itembg_popupfirt"  id="taskList">' +
         '       <ul class="listStyle">' ;
-        if(data.length>0){
-            for(var i=0;i<data.length;i++){
-                if (data[i].plan_start_time != null) {
-                    data[i].plan_start_time = data[i].plan_start_time.split('T')[0];
-                } else {
-                    data[i].plan_start_time = ''
-                }
-                if (data[i].plan_finish_time != null) {
-                    data[i].plan_finish_time = data[i].plan_finish_time.split('T')[0];
-                } else {
-                    data[i].plan_finish_time = ''
-                }
-                htmlPiepian += '           <li class="clearfix">' +
-                '               <span class="col3">生产任务号:<strong>' + data[i].pcb_task_code + '</strong></span>' +
-                '               <span class="col3">工序任务:<strong>' + data[i].process_task_code + '</strong></span>' +
-                '               <span class="col3">工序:<strong>' + data[i].process_name + '</strong></span>' +
-                '               <span class="col3">工序单状态:<strong>' + data[i].process_task_status + '</strong></span>' +
-                '               <span class="col3">完成数量:<strong>' + data[i].amount_completed + '</strong></span>' +
-                '               <span class="col3">计划开始时间:<strong>' + data[i].plan_start_time + '</strong></span>' +
-                '               <span class="col3">计划结束时间:<strong>' + data[i].plan_finish_time + '</strong></span>' +
-                '               <span class="col3">pcb编码:<strong>' + data[i].pcb_code + '</strong></span>' +
-                '               <span class="col3">PCB数量:<strong>' + data[i].pcb_quantity + '</strong></span>' +
-                '               <span class="col2">PCB名称:<strong>' + data[i].pcb_name + '</strong></span>' +
-                '           </li>';
-            }
-        }
+
         theadHtmlPTask+=htmlPiepian;
         theadHtmlPTask+='       </ul>' +
         '   </div>' +
         '</div>';
+
+    // var theadHtmlPTask = '<div class="item summaryP3" >' +
+    //     '   <div class="itemCon itembg itembg_popupfirt"  id="taskList">' +
+    //     '       <ul class="listStyle">' ;
+    //     if(data.length>0){
+    //         for(var i=0;i<data.length;i++){
+    //             if (data[i].plan_start_time != null) {
+    //                 data[i].plan_start_time = data[i].plan_start_time.split('T')[0];
+    //             } else {
+    //                 data[i].plan_start_time = ''
+    //             }
+    //             if (data[i].plan_finish_time != null) {
+    //                 data[i].plan_finish_time = data[i].plan_finish_time.split('T')[0];
+    //             } else {
+    //                 data[i].plan_finish_time = ''
+    //             }
+    //             htmlPiepian += '           <li class="clearfix">' +
+    //             '               <span class="col3">生产任务号:<strong>' + data[i].pcb_task_code + '</strong></span>' +
+    //             '               <span class="col3">工序任务:<strong>' + data[i].process_task_code + '</strong></span>' +
+    //             '               <span class="col3">工序:<strong>' + data[i].process_name + '</strong></span>' +
+    //             '               <span class="col3">工序单状态:<strong>' + data[i].process_task_status + '</strong></span>' +
+    //             '               <span class="col3">完成数量:<strong>' + data[i].amount_completed + '</strong></span>' +
+    //             '               <span class="col3">计划开始时间:<strong>' + data[i].plan_start_time + '</strong></span>' +
+    //             '               <span class="col3">计划结束时间:<strong>' + data[i].plan_finish_time + '</strong></span>' +
+    //             '               <span class="col3">pcb编码:<strong>' + data[i].pcb_code + '</strong></span>' +
+    //             '               <span class="col3">PCB数量:<strong>' + data[i].pcb_quantity + '</strong></span>' +
+    //             '               <span class="col2">PCB名称:<strong>' + data[i].pcb_name + '</strong></span>' +
+    //             '           </li>';
+    //         }
+    //     }
+    //     theadHtmlPTask+=htmlPiepian;
+    //     theadHtmlPTask+='       </ul>' +
+    //     '   </div>' +
+    //     '</div>';
     $("#htmlPTask").html(theadHtmlPTask).css("display", "block");
     $("#taskList").banner($("#taskList").find(".listStyle li"), {
         list: false,
