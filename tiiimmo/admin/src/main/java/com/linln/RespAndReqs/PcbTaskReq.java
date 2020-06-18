@@ -29,6 +29,9 @@ public class PcbTaskReq {
     private String processTaskStatus;
     private String processTaskCode;
     private String pcbTaskCode;
+    private String pcbId;
+    private String pcbName;
+
 
     private BigDecimal workTime;
 

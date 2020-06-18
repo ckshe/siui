@@ -559,7 +559,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         Integer page = pcbTaskReq.getPage();
         Integer size = pcbTaskReq.getSize();
         String pcbTaskCode = pcbTaskReq.getPcbTaskCode();  //任务号
-
+        String pcbId = pcbTaskReq.getPcbId(); //规格型号
+        String pcbName = pcbTaskReq.getPcbName(); //物料名称
         if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
             page = pcbTaskReq.getPage();
             size = pcbTaskReq.getSize();
@@ -567,7 +568,27 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
         List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
 
-        sql.append("where rownumber between " +
+
+
+        StringBuffer wheresql = new StringBuffer(" where 1=1 ");
+        if(pcbTaskCode!=null&&!"".equals(pcbTaskCode)){
+            wheresql.append(" and pcb_task_code = '" +
+                    pcbTaskCode +
+                    "' ");
+        }
+        if(pcbId!=null&&!"".equals(pcbId)){
+            wheresql.append(" and pcb_id = '" +
+                    pcbId +
+                    "' ");
+        }
+        if(pcbName!=null&&!"".equals(pcbName)){
+            wheresql.append(" and pcb_name = '" +
+                    pcbName +
+                    "' ");
+        }
+
+        sql.append(wheresql);
+        sql.append(" and rownumber between " +
                 ((page-1)*size+1) +
                 " and " +
                 (page*size) +
