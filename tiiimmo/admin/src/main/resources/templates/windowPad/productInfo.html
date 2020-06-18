@@ -98,7 +98,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">RoHS:</label>
                     <div class="layui-input-inline">
-                        <input type="text" disabled name="email"  autocomplete="off" class="layui-input">
+                        <input type="text" disabled name="is_rohs"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -177,7 +177,7 @@
                         ,{field: 'pcb_code', title: '规格型号', minWidth: 208}
                         ,{field: 'pcb_quantity', title: '计划生产数量', minWidth: 120}
                         ,{field: 'amount_completed', title: '实际生产数量', minWidth: 120}
-                        ,{field: 'RoHS', title: 'RoHS标志', minWidth: 100}
+                        ,{field: 'is_rohs', title: 'RoHS标志', minWidth: 100}
                         ,{field: 'plan_start_time', title: '计划生产时间', minWidth: 170,templet:function (d) {
                                 return timeToDate(d.plan_start_time)
                         }}
