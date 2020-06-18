@@ -556,8 +556,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 from produce_pcb_task) temp_row*/
         /*where rownumber>((1-1)*10);*/
 
-        Integer page = pcbTaskReq.getPage();
-        Integer size = pcbTaskReq.getSize();
+        Integer page = pcbTaskReq.getPage(); //当前页
+        Integer size = pcbTaskReq.getSize(); //每页条数
         String pcbTaskCode = pcbTaskReq.getPcbTaskCode();  //任务号
         String pcbId = pcbTaskReq.getPcbId(); //规格型号
         String pcbName = pcbTaskReq.getPcbName(); //物料名称
