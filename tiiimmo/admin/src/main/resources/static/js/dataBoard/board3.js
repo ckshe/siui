@@ -433,6 +433,7 @@ function addHtml(responseData, deviceresponse, n,user) {
         } else {
             data.plan_finish_time = ''
         }
+
         html += '   <div class="itemCon itembg itembg_popupfirt">' +
             '       <ul class="listStyle">' +
             '           <li class="clearfix">' +
@@ -473,7 +474,12 @@ function addHtml(responseData, deviceresponse, n,user) {
     } else {
         deviceresponse.next_check_time = ''
     }
-
+    var devstatus = {
+        "0":"停机",
+        "1":"暂停",
+        "2":"运行中",
+        null:"",
+    }
     html += '</div>' +
         '</div>' +
         '<div class="devBottom">' +
@@ -487,10 +493,10 @@ function addHtml(responseData, deviceresponse, n,user) {
         '				<span class="col2">所属厂区:<strong>' + deviceresponse.belong_plant_area + '</strong></span>' +
         '				<span class="col2">所属工序:<strong>' + deviceresponse.belong_process + '</strong></span>' +
         '				<span class="col2">设备型号:<strong>' + deviceresponse.device_model + '</strong></span>' +
-        '				<span class="col2">设备站位:<strong>' + deviceresponse.device_sort + '</strong></span>' +
+        // '				<span class="col2">设备站位:<strong>' + deviceresponse.device_sort + '</strong></span>' +
         '               <span class="col2">上次检测时间:<strong>' + deviceresponse.last_check_time + '</strong></span>' +
         '               <span class="col2">下次检测时间:<strong>' + deviceresponse.next_check_time + '</strong></span>' +
-        '				<span class="col2">设备状态:<strong>' + deviceresponse.device_status + '</strong></span>' +
+        '				<span class="col2">设备状态:<strong>' + devstatus[deviceresponse.device_status] + '</strong></span>' +
         '				<span class="col2">设备名称:<strong>' + deviceresponse.device_name + '</strong></span>' +
         '				<span class="col1">所属产线:<strong>' + deviceresponse.belong_line + '</strong></span>' +
         '           </li>' +
