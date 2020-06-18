@@ -827,4 +827,27 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }
         return ResultVoUtil.success();
     }
+
+    @Override
+    public ResultVo findScheduling(PcbTaskReq pcbTaskReq) {
+        StringBuffer sql = new StringBuffer("select * from produce_pcb_task ");
+        /*Integer page = 1;
+        Integer size = 10;
+        if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
+            page = pcbTaskReq.getPage();
+            size = pcbTaskReq.getSize();
+        }*/
+
+        List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
+
+        /*sql.append("where t3.Row between " +
+                ((page-1)*size+1) +
+                " and " +
+                (page*size) +
+                "");*/
+
+
+        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+        return ResultVoUtil.success("查询成功",mapList,count.size());
+    }
 }

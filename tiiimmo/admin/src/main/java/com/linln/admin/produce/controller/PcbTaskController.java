@@ -211,6 +211,13 @@ public class PcbTaskController {
         return pcbTaskService.findProcessTaskByProcessName(req);
     }
 
+    //获取排产计划
+    @PostMapping("/findScheduling")
+    @ResponseBody
+    public ResultVo findScheduling(@RequestBody(required=false) PcbTaskReq req){
+        return pcbTaskService.findScheduling(req);
+    }
+
 
     //查询投料单
     @PostMapping("/findFeedingTask")

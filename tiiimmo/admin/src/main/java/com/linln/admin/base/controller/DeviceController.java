@@ -138,6 +138,18 @@ public class DeviceController {
     }
 
 
+    //查询设备编号
+    @GetMapping("/findDeviceCode")
+    @ResponseBody
+    public ResultVo findDeviceTechnologyCode(){
+        List<Device> devices = deviceService.list();
+        if (devices!= null){
+            return ResultVoUtil.success("查询成功",devices);
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
+    }
 }
 
 

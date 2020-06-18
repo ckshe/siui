@@ -85,4 +85,9 @@ public class DeviceServiceImpl implements DeviceService {
         List<Device> devices = deviceRepository.findAll();
         return ResultVoUtil.success(devices);
     }
+
+    @Override
+    public List<Device> list() {
+        return deviceRepository.findAll();
+    }
 }

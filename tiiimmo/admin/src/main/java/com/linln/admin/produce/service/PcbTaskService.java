@@ -69,4 +69,5 @@ public interface PcbTaskService {
 
     ResultVo tempChangeTaskrocess(PcbTaskReq pcbTaskReq);
 
+    ResultVo findScheduling(PcbTaskReq req);
 }

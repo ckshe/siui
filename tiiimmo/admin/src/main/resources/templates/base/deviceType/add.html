@@ -23,7 +23,7 @@
             <div class="layui-input-inline">
                 <!--<input class="layui-input" type="text" name="process_name" placeholder="请输入类型名称" th:value="${deviceType?.process_name}">-->
                 <input type="hidden" id="processNameValue" th:value="${deviceType?.process_name}">
-                <select name="processName" id="processName"></select>
+                <select name="process_name" id="processName"></select>
             </div>
         </div>
         <div class="layui-form-item timo-finally">
@@ -46,6 +46,7 @@
                 trigger:'click'
             });
 
+
             $.get('/base/process/findProcessType',function (res) {
                 if(res.code===200){
                     var select = document.getElementById('processName');
@@ -57,7 +58,7 @@
                         str+="<option value='"+t.process_type+"'>"+t.process_type+"</option>"
                     });
                     select.innerHTML=str;
-                    form.val('lay_form',{processName:$('#processNameValue').val()});
+                    form.val('lay_form',{process_name:$('#processNameValue').val()});
                 }
             })
 
