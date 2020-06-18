@@ -446,7 +446,7 @@ function addHtml(responseData, deviceresponse, n,user) {
             '				<span class="col2">实际生产数量:<strong>' + data.amount_completed + '</strong></span>' +
             '				<span class="col2">计划生产时间:<strong>' + data.plan_start_time + '</strong></span>' +
             '				<span class="col2">计划结束时间:<strong>' + data.plan_finish_time + '</strong></span>' +
-            '				<span class="col2">板编号:<strong></strong></span>' +
+            // '				<span class="col2">板编号:<strong></strong></span>' +
             '				<span class="col2">RoHS:<strong>' + data.is_rohs + '</strong></span>' +
             // '				<span class="col2">RoHS标志:<strong>' + data.is_rohs + '</strong></span>' +
             // '				<span class="col1">工序订单编号:<strong>' + data.process_task_code + '</strong></span>' +
