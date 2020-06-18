@@ -758,7 +758,7 @@ function setDataBoard1(params) {
             '               <span>制造编号:<strong>' + data.task_sheet_code + '</strong></span>' +
             '               <span>实际生产数量:<strong>' + data.amount_completed + '</strong></span>' +
             '               <span>设备编号:<strong>' + data.device_code + '</strong></span>' +
-            '               <span>设备名称:<strong>' + data.device_name + '</strong></span>' +
+            '               <span>SMT生产线:<strong>' + data.device_name + '</strong></span>' +
             '               <span>实际完成时间:<strong>' + data.finish_time + '</strong></span>' +
             '               <span>机型型号:<strong>' + data.model_ver + '</strong></span>' +
             '               <span>pcb编码:<strong>' + data.pcb_code + '</strong></span>' +

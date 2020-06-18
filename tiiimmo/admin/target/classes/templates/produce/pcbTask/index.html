@@ -44,7 +44,7 @@
                         <button class="layui-btn" id="sync" type="button">同步数据</button>
                     </div>
                 </div>
-              
+
             </div>
             <div class="timo-table-wrap">
                 <table class="layui-hide" id="table" lay-filter="table"></table>
@@ -94,11 +94,14 @@
                 ,cols: [
                     [
                         // {type: 'checkbox'}
-                        {field: 'pcb_task_code', title: '生产任务单号', minWidth:160}
-                        ,{field: 'task_sheet_code', title: '生产批次', minWidth:120}
+                        {field: 'pcb_task_code', title: '生产任务单号', minWidth:140}
+                        ,{field: 'task_sheet_code', title: '生产批次', minWidth:140}
                         ,{field: 'task_sheet_date', title: '通知日期', minWidth:170,templet:function (d) {
                             return d.task_sheet_date?timeToDate(d.task_sheet_date):"";}}
-                        ,{field: 'factory', title: '厂区', minWidth:110}
+                        ,{field: 'feeding_task_code', title: '投料单号', minWidth:120}
+                        ,{title: '领料单', minWidth:120,templet:function (d) {
+                            return "<span style='color:#1e9fff;cursor: pointer' lay-event='lin'>查看领料单</span>"
+                        }}
                         ,{field: 'workshop', title: '车间', minWidth:200}
                         ,{field: 'model_name', title: '机型名称', minWidth:206}
                         ,{field: 'model_ver', title: '机型型号', minWidth:206}
@@ -107,11 +110,8 @@
                         ,{field: 'batch_id', title: '光板号', minWidth:120}
                         ,{field: 'pcb_quantity', title: '计划生产数量', minWidth:120}
                         ,{field: 'is_rohs', title: 'RoHS', minWidth:120}
-                        ,{field: 'pcb_plate_id', title: '板编号', minWidth:120}
-                        ,{field: 'feeding_task_code', title: '投料单号', minWidth:120}
-                        ,{title: '领料单', minWidth:120,templet:function (d) {
-                            return "<span style='color:blue'>查看领料单</span>"
-                        }}
+                        ,{field: 'pcb_plate_id', title: '板编号', minWidth:237}
+
                         ,{field: 'produce_plan_date', title: '安排启动日期', minWidth:170,templet:function (d) {
                             return d.produce_plan_date?timeToDate(d.produce_plan_date):"";}}
                         ,{field: 'produce_date', title: '实际启动日期', minWidth:170,templet:function (d) {
@@ -123,6 +123,7 @@
                         ,{field: 'pcb_task_status', title: '工单状态', minWidth:120}
                         ,{field: 'priority', title: '优先级', minWidth:120}
                         ,{field: 'quantity}', title: '完成数量', minWidth:120}
+                        ,{field: 'factory', title: '厂区', minWidth:110}
                         ,{field: 'remark', title: '备注', minWidth:120}
                         ,{ title: '操作',fixed:'right', minWidth: 210,templet:function (d) {
                             return  '<button lay-event="tou" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">'+(d.pcb_task_status==="已投产"?"已投产":"投产")+'</button>'
@@ -186,6 +187,9 @@
                             area:['96%','96%'],
                             content:'/produce/pcbTask/plan?id='+data.id
                         });
+                        break;
+                    case "lin":
+                        alert(123)
                         break;
                 }
             })
