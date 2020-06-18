@@ -559,6 +559,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         Integer page = pcbTaskReq.getPage();
         Integer size = pcbTaskReq.getSize();
         String pcbTaskCode = pcbTaskReq.getPcbTaskCode();  //任务号
+
         if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
             page = pcbTaskReq.getPage();
             size = pcbTaskReq.getSize();
