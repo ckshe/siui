@@ -12,11 +12,11 @@
         </div>
         <div class="layui-card-body">
             <div class="layui-row timo-card-screen">
-                <form  class="pull-left layui-form-pane timo-search-box">
+                <form  class="layui-form pull-left layui-form-pane timo-search-box">
                     <div class="layui-inline">
                         <label class="layui-form-label">任务号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="pcb_task_code" placeholder="请输入任务号" autocomplete="off" class="layui-input">
+                            <input type="text" name="pcbTaskCode" placeholder="请输入任务号" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -44,6 +44,7 @@
                         <button class="layui-btn" id="sync" type="button">同步数据</button>
                     </div>
                 </div>
+
             </div>
             <div class="timo-table-wrap">
                 <table class="layui-hide" id="table" lay-filter="table"></table>
@@ -135,6 +136,10 @@
             });
             form.on('submit(search)',function (obj) {
                 var data = obj.field;
+                console.log(data)
+                table.reload('table',{
+                    where:obj.field
+                })
             })
             $("#sync").on('click',function () {
                 layer.load(1,{
