@@ -17,7 +17,7 @@ public interface ProcessTaskRepository extends BaseRepository<ProcessTask,Long> 
     @Query(value = "select * from produce_process_task where device_code like ?1 and (process_task_status = '生产中' or process_task_status like '%已下达%' or process_task_status like '%暂停%')",nativeQuery = true)
     List<ProcessTask> findByDevice_code(String device);
 
-    @Query(value = "SELECT * FROM produce_process_task where plan_finish_time >= ?1 AND plan_finish_time <= ?2",nativeQuery = true)
+    @Query(value = "SELECT * FROM produce_process_task where plan_finish_time >= ?1 AND plan_finish_time <= ?2 order by finish_time desc",nativeQuery = true)
     List<ProcessTask> findByStartEndTime(String startTime,String endTime);
 
     @Query(value = "SELECT * FROM produce_process_task where process_task_code = ?1",nativeQuery = true)

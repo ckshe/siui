@@ -6,6 +6,7 @@ import com.linln.RespAndReqs.responce.DeviceRunTimeResp;
 import com.linln.RespAndReqs.responce.ProcessThisWeekRateResp;
 import com.linln.RespAndReqs.responce.StaffOntimeRateResp;
 import com.linln.admin.base.domain.Device;
+import com.linln.admin.base.domain.DeviceCropRate;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.UserDeviceHistory;
@@ -53,6 +54,8 @@ public interface ShowBoardService {
     public Map<String,Map<String,Object>> findByStartEndTimeBy3TiePian();
 
     public User findOneLastOnTimeUser(String deviceCode);
+
+    public Map<String,Object>  findCropRate(String deviceCode);
 
 
 }

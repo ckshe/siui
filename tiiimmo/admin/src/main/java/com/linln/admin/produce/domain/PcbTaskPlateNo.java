@@ -21,4 +21,7 @@ public class PcbTaskPlateNo {
     private String plate_no;
 
     private Byte status;
+
+    //是否已经计数
+    private String is_count;
 }

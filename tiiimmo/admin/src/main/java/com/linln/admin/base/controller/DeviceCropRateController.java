@@ -1,8 +1,8 @@
 package com.linln.admin.base.controller;
 
-import com.linln.admin.base.domain.BadType;
-import com.linln.admin.base.service.BadTypeService;
-import com.linln.admin.base.validator.BadTypeValid;
+import com.linln.admin.base.domain.DeviceCropRate;
+import com.linln.admin.base.service.DeviceCropRateService;
+import com.linln.admin.base.validator.DeviceCropRateValid;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.EntityBeanUtil;
 import com.linln.common.utils.ResultVoUtil;
@@ -21,55 +21,54 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @author www
- * @date 2020/05/13
+ * @author ww
+ * @date 2020/06/19
  */
 @Controller
-@RequestMapping("/base/badType")
-public class BadTypeController {
+@RequestMapping("/base/deviceCropRate")
+public class DeviceCropRateController {
 
     @Autowired
-    private BadTypeService badTypeService;
+    private DeviceCropRateService deviceCropRateService;
 
     /**
      * 列表页面
      */
     @GetMapping("/index")
-    @RequiresPermissions("badType:badType:index")
-    public String index(Model model, BadType badType) {
+    @RequiresPermissions("base:deviceCropRate:index")
+    public String index(Model model, DeviceCropRate deviceCropRate) {
 
         // 创建匹配器，进行动态查询匹配
         ExampleMatcher matcher = ExampleMatcher.matching()
-                .withMatcher("code", match -> match.contains())
-                .withMatcher("name", match -> match.contains());
+                .withMatcher("device_code", match -> match.contains());
 
         // 获取数据列表
-        Example<BadType> example = Example.of(badType, matcher);
-        Page<BadType> list = badTypeService.getPageList(example);
+        Example<DeviceCropRate> example = Example.of(deviceCropRate, matcher);
+        Page<DeviceCropRate> list = deviceCropRateService.getPageList(example);
 
         // 封装数据
         model.addAttribute("list", list.getContent());
         model.addAttribute("page", list);
-        return "/base/badType/index";
+        return "/base/deviceCropRate/index";
     }
 
     /**
      * 跳转到添加页面
      */
     @GetMapping("/add")
-    @RequiresPermissions("badType:badType:add")
+    @RequiresPermissions("base:deviceCropRate:add")
     public String toAdd() {
-        return "/base/badType/add";
+        return "/base/deviceCropRate/add";
     }
 
     /**
      * 跳转到编辑页面
      */
     @GetMapping("/edit/{id}")
-    @RequiresPermissions("badType:badType:edit")
-    public String toEdit(@PathVariable("id") BadType badType, Model model) {
-        model.addAttribute("badType", badType);
-        return "/base/badType/add";
+    @RequiresPermissions("base:deviceCropRate:edit")
+    public String toEdit(@PathVariable("id") DeviceCropRate deviceCropRate, Model model) {
+        model.addAttribute("deviceCropRate", deviceCropRate);
+        return "/base/deviceCropRate/add";
     }
 
     /**
@@ -77,17 +76,17 @@ public class BadTypeController {
      * @param valid 验证对象
      */
     @PostMapping("/save")
-    @RequiresPermissions({"badType:badType:add", "badType:badType:edit"})
+    @RequiresPermissions({"base:deviceCropRate:add", "base:deviceCropRate:edit"})
     @ResponseBody
-    public ResultVo save(@Validated BadTypeValid valid, BadType badType) {
+    public ResultVo save(@Validated DeviceCropRateValid valid, DeviceCropRate deviceCropRate) {
         // 复制保留无需修改的数据
-        if (badType.getId() != null) {
-            BadType beBadType = badTypeService.getById(badType.getId());
-            EntityBeanUtil.copyProperties(beBadType, badType);
+        if (deviceCropRate.getId() != null) {
+            DeviceCropRate beDeviceCropRate = deviceCropRateService.getById(deviceCropRate.getId());
+            EntityBeanUtil.copyProperties(beDeviceCropRate, deviceCropRate);
         }
 
         // 保存数据
-        badTypeService.save(badType);
+        deviceCropRateService.save(deviceCropRate);
         return ResultVoUtil.SAVE_SUCCESS;
     }
 
@@ -95,35 +94,27 @@ public class BadTypeController {
      * 跳转到详细页面
      */
     @GetMapping("/detail/{id}")
-    @RequiresPermissions("badType:badType:detail")
-    public String toDetail(@PathVariable("id") BadType badType, Model model) {
-        model.addAttribute("badType",badType);
-        return "/base/badType/detail";
+    @RequiresPermissions("base:deviceCropRate:detail")
+    public String toDetail(@PathVariable("id") DeviceCropRate deviceCropRate, Model model) {
+        model.addAttribute("deviceCropRate",deviceCropRate);
+        return "/base/deviceCropRate/detail";
     }
 
     /**
      * 设置一条或者多条数据的状态
      */
     @RequestMapping("/status/{param}")
-    @RequiresPermissions("badType:badType:status")
+    @RequiresPermissions("base:deviceCropRate:status")
     @ResponseBody
     public ResultVo status(
             @PathVariable("param") String param,
             @RequestParam(value = "ids", required = false) List<Long> ids) {
         // 更新状态
         StatusEnum statusEnum = StatusUtil.getStatusEnum(param);
-        if (badTypeService.updateStatus(statusEnum, ids)) {
+        if (deviceCropRateService.updateStatus(statusEnum, ids)) {
             return ResultVoUtil.success(statusEnum.getMessage() + "成功");
         } else {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
     }
-
-    @GetMapping("findByBadClass")
-    public ResultVo findByBadClass(){
-        List<BadType> list = badTypeService.findByBadClass("贴片不良");
-        return ResultVoUtil.success(list);
-
-    }
-
 }

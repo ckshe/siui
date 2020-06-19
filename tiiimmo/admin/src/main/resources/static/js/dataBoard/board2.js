@@ -690,8 +690,8 @@ function setCharts(data, percentage) {
 			'		<ul class="listStyle dblist2">' +
 			'			<li class="clearfix">' +
 			'				<span class="col2">生产任务号:<strong>' + data.pcb_task_code + '</strong></span>' +
-			'				<span class="col2">机台名称:<strong>' + data.device_name + '</strong></span>' +
-			'				<span class="col2">机台编号:<strong>' + data.device_code + '</strong></span>' +
+			// '				<span class="col2">机台名称:<strong>' + data.device_name + '</strong></span>' +
+			// '				<span class="col2">机台编号:<strong>' + data.device_code + '</strong></span>' +
 			'				<span class="col2">工序名称:<strong>' + data.process_name + '</strong></span>' +
 			'				<span class="col2">工序单状态:<strong>' + data.process_task_status + '</strong></span>' +
 			'				<span class="col2">完成数量:<strong>' + data.amount_completed + '</strong></span>' +

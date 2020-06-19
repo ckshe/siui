@@ -55,4 +55,14 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
         recordDetailRepositoty.saveAll(detailList);
 
     }
+
+    @Override
+    public List<PcbTaskPositionRecordDetail> getPositionRecord(PcbTaskReq req) {
+
+        List<PcbTaskPositionRecordDetail> detailList = recordDetailRepositoty.findByPcb_task_code(req.getPcbTaskCode());
+
+        return detailList;
+
+
+    }
 }

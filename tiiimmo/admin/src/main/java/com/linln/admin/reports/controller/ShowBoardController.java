@@ -152,5 +152,13 @@ public class ShowBoardController {
         return ResultVoUtil.success(showBoardService.findByStartEndTimeBy3TiePian());
     }
 
+    //查看设备稼动率
+    @GetMapping("/findCropRate/{deviceCode}")
+    @ResponseBody
+    public ResultVo findCropRate( @PathVariable String deviceCode){
+        return ResultVoUtil.success(showBoardService.findCropRate(deviceCode));
+    }
+
+
 
 }

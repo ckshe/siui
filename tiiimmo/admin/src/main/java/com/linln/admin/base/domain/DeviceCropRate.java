@@ -13,6 +13,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -27,22 +28,28 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * @author www
- * @date 2020/05/13
+ * @author ww
+ * @date 2020/06/19
  */
 @Data
 @Entity
-@Table(name="base_bad_type")
+@Table(name="base_device_crop_rate")
 @EntityListeners(AuditingEntityListener.class)
 @Where(clause = StatusUtil.NOT_DELETE)
-public class BadType implements Serializable {
+public class DeviceCropRate implements Serializable {
     // 主键ID
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    // 编号
-    private String code;
-    private String name;
+    // 机台编号
+    private String device_code;
+    // 稼动率
+    private String crop_rate;
+    // 记录时间
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date record_time;
+    // 备注
+    private String remark;
     // 创建时间
     @CreatedDate
     private Date createDate;
@@ -65,7 +72,4 @@ public class BadType implements Serializable {
     private User updateBy;
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
-
-    //不良类别
-    private String bad_class;
 }

@@ -437,20 +437,20 @@ function addHtml(responseData, deviceresponse, n,user) {
         html += '   <div class="itemCon itembg itembg_popupfirt">' +
             '       <ul class="listStyle">' +
             '           <li class="clearfix">' +
-            '				<span class="col2">工序任务号:<strong>' + data.process_task_code + '</strong></span>' +
-            '				<span class="col2">生产批次:<strong>' + data.task_sheet_code + '</strong></span>' +
+            '				<span class="col2">生产任务号:<strong>' + data.pcb_task_code + '</strong></span>' +
+            // '				<span class="col2">机台名称:<strong>' + deviceInfo[n].deviceName + '</strong></span>' +
             // '				<span class="col2">机台编号:<strong>' + data.device_code + '</strong></span>' +
-            '				<span class="col2">机型名称:<strong>' + data.model_name + '</strong></span>' +
-            '				<span class="col2">规格型号:<strong>' + data.pcb_code + '</strong></span>' +
-            '				<span class="col2">计划生产数量:<strong>' + data.pcb_quantity + '</strong></span>' +
-            '				<span class="col2">实际生产数量:<strong>' + data.amount_completed + '</strong></span>' +
-            '				<span class="col2">计划生产时间:<strong>' + data.plan_start_time + '</strong></span>' +
+            '				<span class="col2">工序名称:<strong>' + data.process_name + '</strong></span>' +
+            '				<span class="col2">工序单状态:<strong>' + data.process_task_status + '</strong></span>' +
+            '				<span class="col2">完成数量:<strong>' + data.amount_completed + '</strong></span>' +
+            '				<span class="col2">计划开始时间:<strong>' + data.plan_start_time + '</strong></span>' +
             '				<span class="col2">计划结束时间:<strong>' + data.plan_finish_time + '</strong></span>' +
-            // '				<span class="col2">板编号:<strong></strong></span>' +
-            '				<span class="col2">RoHS:<strong>' + data.is_rohs + '</strong></span>' +
+            '				<span class="col2">工时:<strong>' + data.work_time + '</strong></span>' +
+            '				<span class="col2">pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
+            '				<span class="col2">PCB数量:<strong>' + data.pcb_quantity + '</strong></span>' +
             // '				<span class="col2">RoHS标志:<strong>' + data.is_rohs + '</strong></span>' +
             // '				<span class="col1">工序订单编号:<strong>' + data.process_task_code + '</strong></span>' +
-            '				<span class="col1">排产任务号:<strong>' + data.pcb_task_code + '</strong></span>' +
+            '				<span class="col1">PCB名称:<strong>' + data.pcb_name + '</strong></span>' +
             '           </li>' +
             '       </ul>' +
             '   </div>';

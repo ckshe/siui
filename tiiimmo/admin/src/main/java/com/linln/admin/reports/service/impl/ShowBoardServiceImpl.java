@@ -6,6 +6,8 @@ import com.linln.RespAndReqs.responce.DeviceRunTimeResp;
 import com.linln.RespAndReqs.responce.ProcessThisWeekRateResp;
 import com.linln.RespAndReqs.responce.StaffOntimeRateResp;
 import com.linln.admin.base.domain.Device;
+import com.linln.admin.base.domain.DeviceCropRate;
+import com.linln.admin.base.repository.DeviceCropRateRepository;
 import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.domain.ProcessTask;
@@ -54,6 +56,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Autowired
     private UserDeviceHistoryRepository userDeviceHistoryRepository;
+
+    @Autowired
+    private DeviceCropRateRepository deviceCropRateRepository;
 
     @Autowired
     private RoleService roleService;
@@ -195,24 +200,39 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         String today = DateUtil.date2String(new Date(),"");
         StringBuffer sql = new StringBuffer("\n" +
                 "SELECT\n" +
-                "\tt1.device_code,\n" +
-                "\tt1.process_task_code,\n" +
-                "\tt1.user_id,\n" +
-                "\tt1.user_name,\n" +
-                "\tt1.up_time,\n" +
-                "\tt1.down_time,\n" +
-                "\tISNULL(t2.amount_completed, 0) finishcount,\n" +
-                "\tt2.process_name,\n" +
-                "\tISNULL(t2.pcb_quantity, 0) plancount,\n" +
-                "\t\tcast(100*CAST(ISNULL(t2.amount_completed, 0)*1.0/ISNULL(t2.pcb_quantity, 1) as decimal(8,2)) AS varchar(100))  AS rate\n\n" +
+                "\t* \n" +
                 "FROM\n" +
-                "\tproduce_user_device_history t1\n" +
-                "\tLEFT JOIN produce_process_task t2 ON t2.process_task_code = t1.process_task_code\n" +
-                "\tWHERE t1.process_task_code != '未分配' and t1.process_task_code is not null AND  CONVERT(varchar(100), t1.up_time, 23) = '" +
+                "\t(\n" +
+                "\tSELECT\n" +
+                "\t\tt1.device_code,\n" +
+                "\t\tt1.process_task_code,\n" +
+                "\t\tt1.user_id,\n" +
+                "\t\tt1.user_name,\n" +
+                "\t\tt1.up_time,\n" +
+                "\t\tt1.down_time,\n" +
+                "\t\tISNULL( t2.amount_completed, 0 ) finishcount,\n" +
+                "\t\tt2.process_name,\n" +
+                "\t\tISNULL( t2.pcb_quantity, 0 ) plancount,\n" +
+                "\t\tROW_NUMBER ( ) OVER ( partition BY t1.user_name, t1.device_code ORDER BY t1.id DESC ) AS rn,\n" +
+                "\t\tCAST (\n" +
+                "\t\t\t100 * CAST ( ISNULL( t2.amount_completed, 0 ) * 1.0 / ISNULL( t2.pcb_quantity, 1 ) AS DECIMAL ( 8, 2 ) ) AS VARCHAR ( 100 ) \n" +
+                "\t\t) AS rate \n" +
+                "\tFROM\n" +
+                "\t\tproduce_user_device_history t1\n" +
+                "\t\tLEFT JOIN produce_process_task t2 ON t2.process_task_code = t1.process_task_code \n" +
+                "\tWHERE\n" +
+                "\t\tt1.process_task_code != '未分配' \n" +
+                "\t\tAND t1.process_task_code IS NOT NULL \n" +
+                "\t\tAND CONVERT ( VARCHAR ( 100 ), t1.up_time, 23 ) = '" +
                 today +
-                "'");
+                "' \n" +
+                "\t) AS u \n" +
+                "WHERE\n" +
+                "\tu.rn = 1");
 
         List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+
+
         return mapList;
     }
 
@@ -455,7 +475,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "' \n" +
                 "\tAND t1.plan_finish_time <= '" +
                 endTime +
-                "' AND process_task_status = '已完成' \n" +
+                "'  \n" +
                 "GROUP BY\n" +
                 "\tt3.process_type");
 
@@ -690,5 +710,19 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         user.setRoleNames(roleNames);
 
         return user;
+    }
+
+    @Override
+    public Map<String,Object>  findCropRate(String deviceCode) {
+        String today = DateUtil.date2String(new Date(),"");
+        List<DeviceCropRate> rateList = deviceCropRateRepository.findByDevice_codeAndRecord_time(deviceCode, today);
+        Map<String,Object>  map = new HashMap<>();
+        if(rateList!=null&&rateList.size()!=0){
+            map.put("cropRate",rateList.get(0).getCrop_rate());
+        }else {
+            map.put("cropRate","0");
+        }
+
+        return map;
     }
 }

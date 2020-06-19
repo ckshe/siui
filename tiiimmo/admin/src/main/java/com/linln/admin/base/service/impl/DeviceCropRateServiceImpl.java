@@ -1,8 +1,8 @@
 package com.linln.admin.base.service.impl;
 
-import com.linln.admin.base.domain.BadType;
-import com.linln.admin.base.repository.BadTypeRepository;
-import com.linln.admin.base.service.BadTypeService;
+import com.linln.admin.base.domain.DeviceCropRate;
+import com.linln.admin.base.repository.DeviceCropRateRepository;
+import com.linln.admin.base.service.DeviceCropRateService;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * @author www
- * @date 2020/05/13
+ * @author ww
+ * @date 2020/06/19
  */
 @Service
-public class BadTypeServiceImpl implements BadTypeService {
+public class DeviceCropRateServiceImpl implements DeviceCropRateService {
 
     @Autowired
-    private BadTypeRepository badTypeRepository;
+    private DeviceCropRateRepository deviceCropRateRepository;
 
     /**
      * 根据ID查询数据
@@ -30,8 +30,8 @@ public class BadTypeServiceImpl implements BadTypeService {
      */
     @Override
     @Transactional
-    public BadType getById(Long id) {
-        return badTypeRepository.findById(id).orElse(null);
+    public DeviceCropRate getById(Long id) {
+        return deviceCropRateRepository.findById(id).orElse(null);
     }
 
     /**
@@ -40,19 +40,19 @@ public class BadTypeServiceImpl implements BadTypeService {
      * @return 返回分页数据
      */
     @Override
-    public Page<BadType> getPageList(Example<BadType> example) {
+    public Page<DeviceCropRate> getPageList(Example<DeviceCropRate> example) {
         // 创建分页对象
         PageRequest page = PageSort.pageRequest();
-        return badTypeRepository.findAll(example, page);
+        return deviceCropRateRepository.findAll(example, page);
     }
 
     /**
      * 保存数据
-     * @param badType 实体对象
+     * @param deviceCropRate 实体对象
      */
     @Override
-    public BadType save(BadType badType) {
-        return badTypeRepository.save(badType);
+    public DeviceCropRate save(DeviceCropRate deviceCropRate) {
+        return deviceCropRateRepository.save(deviceCropRate);
     }
 
     /**
@@ -61,12 +61,6 @@ public class BadTypeServiceImpl implements BadTypeService {
     @Override
     @Transactional
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
-        return badTypeRepository.updateStatus(statusEnum.getCode(), idList) > 0;
-    }
-
-    @Override
-    public List<BadType> findByBadClass(String badClass) {
-        List<BadType> byBadClass = badTypeRepository.findByBadClass(badClass);
-        return byBadClass;
+        return deviceCropRateRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
 }

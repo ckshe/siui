@@ -35,4 +35,6 @@ public interface BaseRepository<T, ID> extends JpaRepository<T,ID> {
     @Transactional
     @Query("update #{#entityName} set status = ?1  where id in ?2 and status <> " + StatusConst.DELETE)
     public Integer updateStatus(Byte status, List<ID> id);
+
+
 }

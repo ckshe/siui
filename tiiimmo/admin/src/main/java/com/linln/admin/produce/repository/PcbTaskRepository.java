@@ -15,6 +15,6 @@ public interface PcbTaskRepository extends BaseRepository<PcbTask, Long> {
     @Query(value = "select * from produce_pcb_task where pcb_task_code = ?1 ",nativeQuery = true)
     List<PcbTask> findAllByPcb_task_code(String pcbTaskCode);
 
-    @Query(value = "SELECT * FROM produce_pcb_task where produce_plan_complete_date >= ?1 AND produce_plan_complete_date <= ?2",nativeQuery = true)
+    @Query(value = "SELECT * FROM produce_pcb_task where produce_plan_complete_date >= ?1 AND produce_plan_complete_date <= ?2 order by produce_complete_date desc ",nativeQuery = true)
     List<PcbTask> findAllByStartEndTime(String startTime,String endTime);
 }
