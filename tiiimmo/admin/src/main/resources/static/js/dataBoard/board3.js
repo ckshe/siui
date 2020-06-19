@@ -10,6 +10,7 @@ var board3Api = {
     getDeviceRunTimeAll: '/ShowBoard/getDeviceRunTimeAll',//设备日状态接口（全部设备）
     getDeviceRunTime: '/ShowBoard/getDeviceRunTime/',//单个设备日状态运行时长接口
     findByStartEndTimeBy3TiePian: '/ShowBoard/findByStartEndTimeBy3TiePian',//查看三台贴片机的当周工序任务
+    findCropRate:'/ShowBoard/findCropRate/'//查看家动力
 }
 function setDataBoard3(params) {
     setTimeout(function () {
@@ -172,7 +173,7 @@ function deviceShow(deviceCode, n) {
         dataType: "json",
         data: JSON.stringify(data),
         success: function (response) {
-            //console.log('设备信息=', response)
+            console.log('设备信息=', response)
             var responseData = response.data;
             $.ajax({
                 contentType: 'application/json',
@@ -193,7 +194,7 @@ function deviceShow(deviceCode, n) {
                         success: function (response) {
                             console.log(response)
                             var responseRunData = response.data;
-                            setDevice(responseRunData,responseData.device_name);
+                            setDevice(responseRunData,responseData.device_name,device.device_code);
                         }
                     });
                 }
@@ -205,7 +206,7 @@ function deviceShow(deviceCode, n) {
 };
 var devicePie1, devicePie3;
 var pieData;
-function setDevice(data,deviceName) {
+function setDevice(data,deviceName,device_code) {
     devicePie1 = echarts.init(document.getElementById('devicePie1'), 'macarons');
     devicePie3 = echarts.init(document.getElementById('devicePie3'), 'macarons');
 
@@ -383,8 +384,21 @@ function setDevice(data,deviceName) {
             }
         ]
     };
+
     pieOption1.title.text=deviceName;
     devicePie1.setOption(pieOption1);
+    $.ajax({
+        contentType: 'application/json',
+        type: 'get',
+        url: board3Api.findCropRate+device_code,
+        dataType: "json",
+        success: function (response) {
+            console.log('jiadng',response)
+            pieOption1.series[0].data = [{ value: response.data.cropRate||0, name: '' }];
+            devicePie1.setOption(pieOption1);
+        }
+    });
+
 
     var brunTimeArr = [], noBrunTimeArr = [];
     for (var i = 0; i < data.length; i++) {
@@ -399,13 +413,13 @@ function setDevice(data,deviceName) {
 }
 function addHtml(responseData, deviceresponse, n,user) {
     var display, summaryWidth, data;
-    if (n == 3 || n == 4 || n == 5) {
+    // if (n == 3 || n == 4 || n == 5) {
         display = "block"
         summaryWidth = '60%'
-    } else {
-        display = "none"
-        summaryWidth = '100%'
-    }
+    // } else {
+    //     display = "none"
+    //     summaryWidth = '100%'
+    // }
     if (responseData.data.length > 0) {
         data = responseData.data[0];
     } else {

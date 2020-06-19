@@ -13,12 +13,12 @@ function setDataBoard2(params) {
 		url: board2Api.mapProcessTypeDayRate,
 		dataType: "json",
 		success: function (response) {
-			var tiepianArr = [], houhanArr = [], tiaoshiArr = [], zhijianArr = [], rukuArr = [],beiliaoArr=[];
-			var tiepianTaskArr = [], houhanTaskArr = [], tiaoshiTaskArr = [], zhijianTaskArr = [], rukuTaskArr = [],beiliaoTaskArr=[];
-			var tiepianTaskArr1 = [], houhanTaskArr1 = [], tiaoshiTaskArr1 = [], zhijianTaskArr1 = [], rukuTaskArr1 = [],beiliaoTaskArr1=[];
+			var tiepianArr = [], houhanArr = [], tiaoshiArr = [], zhijianArr = [], rukuArr = [], beiliaoArr = [];
+			var tiepianTaskArr = [], houhanTaskArr = [], tiaoshiTaskArr = [], zhijianTaskArr = [], rukuTaskArr = [], beiliaoTaskArr = [];
+			var tiepianTaskArr1 = [], houhanTaskArr1 = [], tiaoshiTaskArr1 = [], zhijianTaskArr1 = [], rukuTaskArr1 = [], beiliaoTaskArr1 = [];
 			for (var ia = 0; ia < response.data.tiepian.length; ia++) {
 				tiepianTaskArr.push(response.data.tiepian[ia].process_task_code);
-				tiepianTaskArr1.push('任务'+(ia+1));
+				tiepianTaskArr1.push('任务' + (ia + 1));
 				tiepianArr.push(response.data.tiepian[ia].rate);
 			}
 			db2POption1.yAxis.data = tiepianTaskArr1.reverse();
@@ -35,7 +35,7 @@ function setDataBoard2(params) {
 			}
 			for (var ib = 0; ib < response.data.houhan.length; ib++) {
 				houhanTaskArr.push(response.data.houhan[ib].process_task_code);
-				houhanTaskArr1.push('任务'+(ib+1));
+				houhanTaskArr1.push('任务' + (ib + 1));
 				houhanArr.push(response.data.houhan[ib].rate);
 			}
 			db2POption2.yAxis.data = houhanTaskArr1.reverse();
@@ -52,7 +52,7 @@ function setDataBoard2(params) {
 			}
 			for (var ic = 0; ic < response.data.tiaoshi.length; ic++) {
 				tiaoshiTaskArr.push(response.data.tiaoshi[ic].process_task_code);
-				tiaoshiTaskArr1.push('任务'+(ic+1));
+				tiaoshiTaskArr1.push('任务' + (ic + 1));
 				tiaoshiArr.push(response.data.tiaoshi[ic].rate);
 			}
 			//console.log(tiaoshiTaskArr1)
@@ -70,7 +70,7 @@ function setDataBoard2(params) {
 			}
 			for (var id = 0; id < response.data.zhijian.length; id++) {
 				zhijianTaskArr.push(response.data.zhijian[id].process_task_code);
-				zhijianTaskArr1.push('任务'+(id+1));
+				zhijianTaskArr1.push('任务' + (id + 1));
 				zhijianArr.push(response.data.zhijian[id].rate);
 			}
 			db2POption5.yAxis.data = zhijianTaskArr1.reverse();
@@ -87,7 +87,7 @@ function setDataBoard2(params) {
 			}
 			for (var ie = 0; ie < response.data.ruku.length; ie++) {
 				rukuTaskArr.push(response.data.ruku[ie].process_task_code);
-				rukuTaskArr1.push('任务'+(ie+1));
+				rukuTaskArr1.push('任务' + (ie + 1));
 				rukuArr.push(response.data.ruku[ie].rate);
 			}
 			db2POption6.yAxis.data = rukuTaskArr1.reverse();
@@ -102,11 +102,11 @@ function setDataBoard2(params) {
 					}
 				})
 			}
-			
+
 
 			for (var ig = 0; ig < response.data.beiliao.length; ig++) {
 				beiliaoTaskArr.push(response.data.beiliao[ig].process_task_code);
-				beiliaoTaskArr1.push('任务'+(ig+1));
+				beiliaoTaskArr1.push('任务' + (ig + 1));
 				beiliaoArr.push(response.data.beiliao[ig].rate);
 			}
 			db2POption4.yAxis.data = beiliaoTaskArr1.reverse();
@@ -163,7 +163,16 @@ var summaryPie1Option = {
 					label: {
 						show: true,
 						position: 'inner',
-						formatter: '{d}%',
+						// formatter: '{d}%',
+						formatter: function (prams) {
+							var value;
+							if (prams.data.value == 0) {
+								value = ''
+							} else {
+								value = prams.data.value + "%"
+							}
+							return value;
+						},
 						fontSize: 22
 					}
 				}
@@ -247,7 +256,7 @@ var db2POption1 = {
 						fontSize: 20,
 						color: '#fff'
 					},
-					position: 'right',
+					position: 'insideRight',
 					formatter: function (params) {
 						return params.value + "%"
 					}
@@ -324,7 +333,7 @@ var db2POption2 = {
 						fontSize: 20,
 						color: '#fff'
 					},
-					position: 'right',
+					position: 'insideRight',
 					formatter: function (params) {
 						return params.value + "%"
 					}
@@ -401,7 +410,7 @@ var db2POption3 = {
 						fontSize: 20,
 						color: '#fff'
 					},
-					position: 'right',
+					position: 'insideRight',
 					formatter: function (params) {
 						return params.value + "%"
 					}
@@ -478,7 +487,7 @@ var db2POption4 = {
 						fontSize: 20,
 						color: '#fff'
 					},
-					position: 'right',
+					position: 'insideRight',
 					formatter: function (params) {
 						return params.value + "%"
 					}
@@ -555,7 +564,7 @@ var db2POption5 = {
 						fontSize: 20,
 						color: '#fff'
 					},
-					position: 'right',
+					position: 'insideRight',
 					formatter: function (params) {
 						return params.value + "%"
 					}
@@ -631,7 +640,7 @@ var db2POption6 = {
 						fontSize: 20,
 						color: '#fff'
 					},
-					position: 'right',
+					position: 'insideRight',
 					formatter: function (params) {
 						return params.value + "%"
 					}

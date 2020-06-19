@@ -105,11 +105,11 @@ var db1P2Option = {
 
     },
     grid: {
-        top: '10%',
-        left: '3%',
-        right: '3%',
-        bottom: '3%',
-        containLabel: true,
+        top: '8%',
+        left: '12%',
+        right: '0%',
+        bottom: '25%',
+        // containLabel: true,
         backgroundColor: '#fff'
     },
     xAxis: {
@@ -120,7 +120,9 @@ var db1P2Option = {
                 show: true,
                 color: 'rgba(255,255,255,1)',
                 fontSize: 20
-            }
+            },
+            interval:0,  
+            rotate:18 
         },
     },
     yAxis: {
@@ -144,7 +146,7 @@ var db1P2Option = {
         {
             name: '任务量',
             type: 'bar',
-            barWidth: 50,
+            barWidth: 70,
             // stack: '总量',
             // label: {
             // 	show: true,
@@ -155,7 +157,10 @@ var db1P2Option = {
                 normal: {
                     label: {
                         show: true,
-                        position: 'top',
+                        position: 'inside',
+                        formatter: function (prams) {
+                            return prams.value+"%";
+                        },
                         textStyle: {
                             color: 'white',
                             fontSize: 20
@@ -531,7 +536,7 @@ function setDataBoard1(params) {
     function addHtml(data, hsaClassOn) {
         // 动态生成模板
         var theadHtml = '', tbodyHtml = '', widthPercent = 1, popData = '';
-        var arr=[10,9,15,10,10,9,9,7,7,8],arr1 = [10,15,9,6,12,8,8,6,6,5,7]
+        var arr=[10,9,15,10,10,9,9,7,7,8],arr1 = [10,15,9,6,9,8,8,8,6,6,7]
         var widthWW = parseInt($('#firstBoard').css('width'));
         if (hsaClassOn) {
             var theadData = ['生产任务单号', '机型名称', '规格型号', '物料名称', '生产批次', '启动日期', '完成时间', '生产数量', '完成数量', '工单状态'];
@@ -541,7 +546,11 @@ function setDataBoard1(params) {
             // }
             theadHtml = '<div class="StateTit">';
             for (var i = 0; i < theadData.length; i++) {
-                theadHtml += '<span style="width:' + arr[i] + '%">' + theadData[i] + '</span>';
+                if(i>5){
+                    theadHtml += '<span style="width:' + arr[i] + '%;text-align: center;">' + theadData[i] + '</span>';
+                }else{
+                    theadHtml += '<span style="width:' + arr[i] + '%">' + theadData[i] + '</span>';
+                }
             }
             theadHtml += '</div>';
             tbodyHtml = '<div id="FontScroll" class="fontScroll"><ul>';
@@ -580,17 +589,17 @@ function setDataBoard1(params) {
                     '<span style="width:' + arr[2] + '%">' + tbodyDataS[j].pcb_id + '</span>' +
                     '<span style="width:' + arr[3] + '%">' + tbodyDataS[j].pcb_name + '</span>' +
                     '<span style="width:' + arr[4] + '%">' + tbodyDataS[j].task_sheet_code + '</span>' +
-                    '<span style="width:' + arr[5] + '%">' + tbodyDataS[j].produce_plan_date + '</span>' +
-                    '<span style="width:' + arr[6] + '%">' + tbodyDataS[j].produce_plan_complete_date + '</span>' +
-                    '<span style="width:' + arr[7] + '%">' + tbodyDataS[j].pcb_quantity + '</span>' +
-                    '<span style="width:' + arr[8] + '%">' + tbodyDataS[j].amount_completed + '</span>' +
-                    '<span style="width:' + arr[9] + '%">' + tbodyDataS[j].pcb_task_status + '</span>' +
+                    '<span style="width:' + arr[5] + '%;text-align: center;">' + tbodyDataS[j].produce_plan_date + '</span>' +
+                    '<span style="width:' + arr[6] + '%;text-align: center;">' + tbodyDataS[j].produce_plan_complete_date + '</span>' +
+                    '<span style="width:' + arr[7] + '%;text-align: center;">' + tbodyDataS[j].pcb_quantity + '</span>' +
+                    '<span style="width:' + arr[8] + '%;text-align: center;">' + tbodyDataS[j].amount_completed + '</span>' +
+                    '<span style="width:' + arr[9] + '%;text-align: center;">' + tbodyDataS[j].pcb_task_status + '</span>' +
                     '</div>' +
                     '</li>';
             }
             tbodyHtml += '</ul></div>';
         } else {
-            var theadData = ['工序任务号','规格型号','物料型号', '工序','生产任务号','生产批次','生产时间',  '生产数量', '完成数量', '工时 (分)' , '工单状态']
+            var theadData = ['工序任务号','规格型号','物料型号', '工序','生产任务号','生产批次','生产时间','完成时间', '生产数量', '完成数量', '工单状态']
             ////console.log(data)
             var tbodyData = popData = data;
             // if (theadData.length > 0) {
@@ -598,7 +607,11 @@ function setDataBoard1(params) {
             // }
             theadHtml = '<div class="StateTit">';
             for (var i = 0; i < theadData.length; i++) {
-                theadHtml += '<span style="width:' + arr1[i] + '%">'+ theadData[i] + '</span>';
+                if(i>5){
+                    theadHtml += '<span style="width:' + arr1[i] + '%;text-align: center;">'+ theadData[i] + '</span>';
+                }else{
+                    theadHtml += '<span style="width:' + arr1[i] + '%">'+ theadData[i] + '</span>';
+                }
             }
             theadHtml += '</div>';
             tbodyHtml = '<div id="FontScroll" class="fontScroll"><ul>';
@@ -642,11 +655,11 @@ function setDataBoard1(params) {
                     '<span style="width:' + arr1[3] + '%">'+ tbodyDataS[j].process_name + '</span>' +
                     '<span style="width:' + arr1[4] + '%">'+ tbodyDataS[j].pcb_task_code + '</span>' +
                     '<span style="width:' + arr1[5] + '%">'+ tbodyDataS[j].task_sheet_code + '</span>' +
-                    '<span style="width:' + arr1[6] + '%">'+ tbodyDataS[j].plan_start_time + '</span>' +
-                    '<span style="width:' + arr1[7] + '%">'+ tbodyDataS[j].pcb_quantity + '</span>' +
-                    '<span style="width:' + arr1[8] + '%">'+ tbodyDataS[j].amount_completed + '</span>' +
-                    '<span style="width:' + arr1[9] + '%">'+ tbodyDataS[j].work_time + '</span>' +
-                    '<span style="width:' + arr1[10] + '%">'+ tbodyDataS[j].process_task_status + '</span>' +
+                    '<span style="width:' + arr1[6] + '%;text-align: center;">'+ tbodyDataS[j].plan_start_time + '</span>' +
+                    '<span style="width:' + arr1[7] + '%;text-align: center;">'+ tbodyDataS[j].plan_finish_time + '</span>' +
+                    '<span style="width:' + arr1[8] + '%;text-align: center;">'+ tbodyDataS[j].pcb_quantity + '</span>' +
+                    '<span style="width:' + arr1[9] + '%;text-align: center;">'+ tbodyDataS[j].amount_completed + '</span>' +
+                    '<span style="width:' + arr1[10] + '%;text-align: center;">'+ tbodyDataS[j].process_task_status + '</span>' +
                     '</div>' +
                     '</li>';
             }
@@ -757,10 +770,10 @@ function setDataBoard1(params) {
             '               <span>工序任务号:<strong>' + data.process_task_code + '</strong></span>' +
             '               <span>制造编号:<strong>' + data.task_sheet_code + '</strong></span>' +
             '               <span>实际生产数量:<strong>' + data.amount_completed + '</strong></span>' +
-            // '               <span>设备编号:<strong>' + data.device_code + '</strong></span>' +
-            // '               <span>SMT生产线:<strong>' + data.device_name + '</strong></span>' +
+            '               <span>设备编号:<strong>' + data.device_code + '</strong></span>' +
+            '               <span>SMT生产线:<strong>' + data.device_name + '</strong></span>' +
             '               <span>实际完成时间:<strong>' + data.finish_time + '</strong></span>' +
-            // '               <span>机型型号:<strong>' + data.model_ver + '</strong></span>' +
+            '               <span>工时(分):<strong>' + data.work_time + '</strong></span>' +
             '               <span>pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
             '               <span>RoHS:<strong>' + data.is_rohs + '</strong></span>' +
             '               <span>计划生产数量:<strong>' + data.pcb_quantity + '</strong></span>' +
