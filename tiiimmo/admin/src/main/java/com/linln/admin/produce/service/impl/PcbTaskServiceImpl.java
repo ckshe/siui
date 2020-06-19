@@ -577,12 +577,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     "' ");
         }
         if(pcbId!=null&&!"".equals(pcbId)){
-            wheresql.append(" and pcb_id = '" +
+            wheresql.append(" and pcb_id like '" +
                     "%" + pcbId + "%" +
                     "' ");
         }
         if(pcbName!=null&&!"".equals(pcbName)){
-            wheresql.append(" and pcb_name = '" +
+            wheresql.append(" and pcb_name like '" +
                     "%" + pcbName + "%" +
                     "' ");
         }
