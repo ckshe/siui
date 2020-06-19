@@ -73,7 +73,7 @@
                         <td th:text="${item.pcb_code}">规格型号</td>
                         <td th:text="${item.product_name}">物料名称</td>
                         <td th:text="${item.process_name}">工序名称</td>
-                        <td th:text="${item.theory_time}">理论工时</td>
+                        <td th:text="${item.theory_time}" >理论工时</td>
                         <td>
                             <a class="open-popup" data-title="编辑工序理论工时" th:attr="data-url=@{'/produce/processTheoryTime/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
                             <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/produce/processTheoryTime/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>

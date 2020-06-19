@@ -15,6 +15,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -47,7 +48,7 @@ public class ProcessTheoryTime implements Serializable {
     // 工序名称
     private String process_name;
     // 理论工时
-    private Integer theory_time;
+    private BigDecimal theory_time;
     // 备注
     private String remark;
     // 创建时间

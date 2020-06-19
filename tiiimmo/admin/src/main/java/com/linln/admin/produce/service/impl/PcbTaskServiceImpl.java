@@ -522,24 +522,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     @Override
     public ResultVo findProcessTaskByProcessName(PcbTaskReq pcbTaskReq) {
 
-
-        StringBuffer wheresql = new StringBuffer();
-
-        if(pcbTaskReq.getProcessTaskCode()!=null&&!"".equals(pcbTaskReq.getProcessTaskCode())){
-            wheresql.append(" and t1.process_task_code like '%" +
-                    pcbTaskReq.getProcessTaskCode() +
-                    "%' ");
-        }
-        if(pcbTaskReq.getPcbTaskCode()!=null&&!"".equals(pcbTaskReq.getPcbTaskCode())){
-            wheresql.append(" and t1.pcb_task_code like '%" +
-                    pcbTaskReq.getPcbTaskCode() +
-                    "%' ");
-        }
         StringBuffer sql = new StringBuffer("select * from(\n" +
                 "select *, ROW_NUMBER() OVER(order by t4.Id asc) row from\n" +
-                "(SELECT t1.*,t2.pcb_id,t2.feeding_task_code from produce_process_task t1 LEFT JOIN produce_pcb_task t2 on t2.pcb_task_code = t1.pcb_task_code where t1.process_name = '备料' and t1.process_task_status != '未下达' " +
-                wheresql.toString() +
-                ")t4)t3\n");
+                "(SELECT t1.*,t2.pcb_id,t2.feeding_task_code from produce_process_task t1 LEFT JOIN produce_pcb_task t2 on t2.pcb_task_code = t1.pcb_task_code where t1.process_name = '备料' and t1.process_task_status != '未下达')t4)t3\n");
         Integer page = 1;
         Integer size = 10;
         if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
@@ -562,25 +547,18 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Override
     public ResultVo findScheduling(PcbTaskReq pcbTaskReq) {
-//        StringBuffer sql = new StringBuffer("select * from produce_pcb_task ");
-        /*select v.* from (select row_number() over (order by id)) as index, * from produce_pcb_task) as v
 
-                where v.index between ((page-1)*size+1) and (page*size)*/
+
         StringBuffer sql = new StringBuffer("select  *\n" +
                 "                from (select row_number()\n" +
                 "                        over(order by produce_plan_date desc) as rownumber,*\n" +
                 "                from produce_pcb_task) temp_row ");
-        /*select top 100 *
-                from (select row_number()
-                        over(order by id asc) as rownumber,*
-                from produce_pcb_task) temp_row*/
-        /*where rownumber>((1-1)*10);*/
-
         Integer page = pcbTaskReq.getPage(); //当前页
         Integer size = pcbTaskReq.getSize(); //每页条数
         String pcbTaskCode = pcbTaskReq.getPcbTaskCode();  //任务号
         String pcbId = pcbTaskReq.getPcbId(); //规格型号
         String pcbName = pcbTaskReq.getPcbName(); //物料名称
+
         if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
             page = pcbTaskReq.getPage();
             size = pcbTaskReq.getSize();
@@ -606,7 +584,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     "%" + pcbName + "%" +
                     "' ");
         }
-
         /*if(pcbTaskCode!=null&&!"".equals(pcbTaskCode)){
             wheresql.append(" and pcb_task_code = '" +
                     pcbTaskCode +
@@ -622,7 +599,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     pcbName +
                     "' ");
         }*/
-
         sql.append(wheresql);
         sql.append(" and rownumber between " +
                 ((page-1)*size+1) +
@@ -630,10 +606,76 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 (page*size) +
                 "");
 
-
         List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+        if (count.size() < 10){
+            pcbTaskReq.setPage(1);
+        }
         return ResultVoUtil.success("查询成功",mapList,count.size());
+
+
     }
+
+
+    /*@Override
+    public ResultVo findScheduling(PcbTaskReq pcbTaskReq) {
+//        StringBuffer sql = new StringBuffer("select * from produce_pcb_task ");
+        Integer page = pcbTaskReq.getPage(); //当前页
+        Integer size = pcbTaskReq.getSize(); //每页条数
+        String pcbTaskCode = pcbTaskReq.getPcbTaskCode();  //任务号
+        String pcbId = pcbTaskReq.getPcbId(); //规格型号
+        String pcbName = pcbTaskReq.getPcbName(); //物料名称
+        *//*if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
+            page = pcbTaskReq.getPage();
+            size = pcbTaskReq.getSize();
+        }*//*
+
+        if(pcbTaskCode == null && pcbId == null && pcbName == null &&
+                "".equals(pcbTaskCode) && "".equals(pcbId) && "".equals(pcbName)){
+            StringBuffer sql = new StringBuffer("select  *\n" +
+                    "                from (select row_number()\n" +
+                    "                        over(order by produce_plan_date desc) as rownumber,*\n" +
+                    "                from produce_pcb_task) temp_row ");
+            List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
+            //StringBuffer wheresql = new StringBuffer(" where 1=1 ");
+
+            //sql.append(wheresql);
+            sql.append(" where rownumber between " +
+                    ((page-1)*size+1) +
+                    " and " +
+                    (page*size) +
+                    "");
+            List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+            return ResultVoUtil.success("查询成功",mapList,count.size());
+        } else {
+            StringBuffer wheresql = new StringBuffer(" where 1=1 ");
+            if(pcbTaskCode!=null&&!"".equals(pcbTaskCode)){
+                wheresql.append(" and pcb_task_code = '" +
+                        pcbTaskCode +
+                        "' ");
+            }
+            if(pcbId!=null&&!"".equals(pcbId)){
+                wheresql.append(" and pcb_id = '" +
+                        pcbId +
+                        "' ");
+            }
+            if(pcbName!=null&&!"".equals(pcbName)){
+                wheresql.append(" and pcb_name = '" +
+                        pcbName +
+                        "' ");
+            }
+            *//*StringBuffer sql = new StringBuffer("select  top 1 *\n" +
+                    "from produce_pcb_task"+ wheresql);*//*
+            StringBuffer sql = new StringBuffer("select top "+(page*size)+" *\n" +
+                    "from produce_pcb_task  "+ wheresql +" \n" +
+                    "and id not in (SELECT top "+((page-1)*size)+" id \n" +
+                    "from produce_pcb_task "+ wheresql +")  \n" +
+                    "order by id");
+
+            List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
+            List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+            return ResultVoUtil.success("查询成功",mapList,count.size());
+        }
+    }*/
 
     @Override
     public ResultVo findFeedingTask(PcbTaskReq pcbTaskReq) {
@@ -961,4 +1003,23 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
         return ResultVoUtil.success(badClassDetailRepository.findByPlate_no(req.getPlateNo()));
     }
+
+
+    /*if(pcbTaskCode!=null&&!"".equals(pcbTaskCode)){
+            wheresql.append(" and pcb_task_code = '" +
+                    pcbTaskCode +
+                    "' ");
+        }
+        if(pcbId!=null&&!"".equals(pcbId)){
+            wheresql.append(" and pcb_id = '" +
+                    pcbId +
+                    "' ");
+        }
+        if(pcbName!=null&&!"".equals(pcbName)){
+            wheresql.append(" and pcb_name = '" +
+                    pcbName +
+                    "' ");
+        }*/
+
+
 }
