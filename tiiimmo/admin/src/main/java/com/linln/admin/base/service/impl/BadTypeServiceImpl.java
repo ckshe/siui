@@ -64,9 +64,4 @@ public class BadTypeServiceImpl implements BadTypeService {
         return badTypeRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
 
-    @Override
-    public List<BadType> findByBadClass(String badClass) {
-        List<BadType> byBadClass = badTypeRepository.findByBadClass(badClass);
-        return byBadClass;
-    }
 }

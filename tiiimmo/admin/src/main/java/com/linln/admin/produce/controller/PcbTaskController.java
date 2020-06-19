@@ -250,5 +250,18 @@ public class PcbTaskController {
         return pcbTaskService.countProcessTaskAmount(req);
     }
 
-    
+
+    //不良录入
+    @PostMapping("/recordBadTypeList")
+    @ResponseBody
+    public ResultVo recordBadTypeList(@RequestBody PcbTaskReq req){
+        return pcbTaskService.recordBadTypeList(req);
+    }
+
+    //查询不良录入
+    @PostMapping("/findBadTypeRecordList")
+    @ResponseBody
+    public ResultVo findBadTypeRecordList(@RequestBody PcbTaskReq req){
+        return pcbTaskService.findBadTypeRecordList(req);
+    }
 }

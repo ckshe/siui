@@ -31,8 +31,8 @@ public class PcbTaskReq {
     private String pcbTaskCode;
     private String pcbId;
     private String pcbName;
-
-
+    private List<PcbTaskReq> badNewsList;
+    private String badNews;
     private BigDecimal workTime;
 
 

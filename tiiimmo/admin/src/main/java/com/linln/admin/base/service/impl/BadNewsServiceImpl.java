@@ -63,4 +63,9 @@ public class BadNewsServiceImpl implements BadNewsService {
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return badNewsRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
+
+    @Override
+    public List<BadNews> findBadNewsList(String badType) {
+        return badNewsRepository.findBybadType(badType);
+    }
 }

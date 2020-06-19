@@ -119,11 +119,5 @@ public class BadTypeController {
         }
     }
 
-    @GetMapping("findByBadClass")
-    public ResultVo findByBadClass(){
-        List<BadType> list = badTypeService.findByBadClass("贴片不良");
-        return ResultVoUtil.success(list);
-
-    }
 
 }

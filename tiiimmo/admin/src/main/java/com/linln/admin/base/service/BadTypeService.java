@@ -39,5 +39,5 @@ public interface BadTypeService {
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
 
-    List<BadType> findByBadClass(String badClass);
+
 }

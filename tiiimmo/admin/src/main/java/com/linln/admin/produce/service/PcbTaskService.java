@@ -70,4 +70,8 @@ public interface PcbTaskService {
     ResultVo tempChangeTaskrocess(PcbTaskReq pcbTaskReq);
 
     ResultVo findScheduling(PcbTaskReq req);
+
+    ResultVo recordBadTypeList(PcbTaskReq req);
+
+    ResultVo findBadTypeRecordList(PcbTaskReq req);
 }

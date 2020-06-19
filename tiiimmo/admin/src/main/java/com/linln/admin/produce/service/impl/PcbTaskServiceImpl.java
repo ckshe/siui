@@ -16,7 +16,9 @@ import com.linln.admin.base.repository.ProcessRepository;
 import com.linln.admin.produce.domain.*;
 import com.linln.admin.produce.repository.*;
 import com.linln.admin.produce.service.PcbTaskService;
+import com.linln.admin.quality.domain.BadClassDetail;
 import com.linln.admin.quality.domain.DeviceStatusRecord;
+import com.linln.admin.quality.repository.BadClassDetailRepository;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.ResultVoUtil;
@@ -91,6 +93,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Autowired
     private PcbTaskPlateNoRepository pcbTaskPlateNoRepository;
+
+    @Autowired
+    private BadClassDetailRepository badClassDetailRepository;
 
 
     /**
@@ -517,9 +522,24 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     @Override
     public ResultVo findProcessTaskByProcessName(PcbTaskReq pcbTaskReq) {
 
+
+        StringBuffer wheresql = new StringBuffer();
+
+        if(pcbTaskReq.getProcessTaskCode()!=null&&!"".equals(pcbTaskReq.getProcessTaskCode())){
+            wheresql.append(" and t1.process_task_code like '%" +
+                    pcbTaskReq.getProcessTaskCode() +
+                    "%' ");
+        }
+        if(pcbTaskReq.getPcbTaskCode()!=null&&!"".equals(pcbTaskReq.getPcbTaskCode())){
+            wheresql.append(" and t1.pcb_task_code like '%" +
+                    pcbTaskReq.getPcbTaskCode() +
+                    "%' ");
+        }
         StringBuffer sql = new StringBuffer("select * from(\n" +
                 "select *, ROW_NUMBER() OVER(order by t4.Id asc) row from\n" +
-                "(SELECT t1.*,t2.pcb_id,t2.feeding_task_code from produce_process_task t1 LEFT JOIN produce_pcb_task t2 on t2.pcb_task_code = t1.pcb_task_code where t1.process_name = '备料' and t1.process_task_status != '未下达')t4)t3\n");
+                "(SELECT t1.*,t2.pcb_id,t2.feeding_task_code from produce_process_task t1 LEFT JOIN produce_pcb_task t2 on t2.pcb_task_code = t1.pcb_task_code where t1.process_name = '备料' and t1.process_task_status != '未下达' " +
+                wheresql.toString() +
+                ")t4)t3\n");
         Integer page = 1;
         Integer size = 10;
         if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
@@ -914,5 +934,31 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         return ResultVoUtil.success();
     }
 
+    @Override
+    public ResultVo recordBadTypeList(PcbTaskReq req) {
+        List<BadClassDetail> detailList = new ArrayList<>();
+        User user = ShiroUtil.getSubject();
+        String userName = "";
+        if(user!=null){
+            userName = user.getNickname();
+        }
+        Date date = new Date();
+        for(PcbTaskReq bad : req.getBadNewsList()){
+            BadClassDetail detail = new BadClassDetail();
+            detail.setBad_type(bad.getBadNews());
+            detail.setPcb_task_code(req.getPcbTaskCode());
+            detail.setRecorder_name(userName);
+            detail.setRecord_time(date);
+            detail.setPlate_no(req.getPlateNo());
+            detailList.add(detail);
+        }
+        badClassDetailRepository.saveAll(detailList);
+        return ResultVoUtil.success("录入成功");
+    }
 
+    @Override
+    public ResultVo findBadTypeRecordList(PcbTaskReq req) {
+
+        return ResultVoUtil.success(badClassDetailRepository.findByPlate_no(req.getPlateNo()));
+    }
 }

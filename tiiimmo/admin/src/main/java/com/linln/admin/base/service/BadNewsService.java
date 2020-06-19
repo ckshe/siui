@@ -38,4 +38,6 @@ public interface BadNewsService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    List<BadNews> findBadNewsList(String badType);
 }

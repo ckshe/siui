@@ -60,4 +60,6 @@ public class BadNews implements Serializable {
     private Byte status = StatusEnum.OK.getCode();
     // 不良描述
     private String remark;
+
+    private String bad_type;
 }

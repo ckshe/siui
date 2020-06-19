@@ -1,6 +1,7 @@
 package com.linln.admin.base.controller;
 
 import com.linln.admin.base.domain.BadNews;
+import com.linln.admin.base.domain.BadType;
 import com.linln.admin.base.service.BadNewsService;
 import com.linln.admin.base.validator.BadNewsValid;
 import com.linln.common.enums.StatusEnum;
@@ -117,5 +118,14 @@ public class BadNewsController {
         } else {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
+    }
+
+
+    @GetMapping("/findBadNewsList")
+    @ResponseBody
+    public ResultVo findBadNewsList(){
+        List<BadNews> list = badNewsService.findBadNewsList("炉后AOI");
+        return ResultVoUtil.success(list);
+
     }
 }
