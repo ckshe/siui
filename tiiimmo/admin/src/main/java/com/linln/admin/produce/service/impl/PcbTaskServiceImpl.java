@@ -572,6 +572,22 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
         StringBuffer wheresql = new StringBuffer(" where 1=1 ");
         if(pcbTaskCode!=null&&!"".equals(pcbTaskCode)){
+            wheresql.append(" and pcb_task_code like '" +
+                    "%" + pcbTaskCode + "%" +
+                    "' ");
+        }
+        if(pcbId!=null&&!"".equals(pcbId)){
+            wheresql.append(" and pcb_id = '" +
+                    "%" + pcbId + "%" +
+                    "' ");
+        }
+        if(pcbName!=null&&!"".equals(pcbName)){
+            wheresql.append(" and pcb_name = '" +
+                    "%" + pcbName + "%" +
+                    "' ");
+        }
+
+        /*if(pcbTaskCode!=null&&!"".equals(pcbTaskCode)){
             wheresql.append(" and pcb_task_code = '" +
                     pcbTaskCode +
                     "' ");
@@ -585,7 +601,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             wheresql.append(" and pcb_name = '" +
                     pcbName +
                     "' ");
-        }
+        }*/
 
         sql.append(wheresql);
         sql.append(" and rownumber between " +
