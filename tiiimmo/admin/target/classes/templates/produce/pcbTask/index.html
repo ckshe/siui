@@ -16,21 +16,27 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">任务号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="pcbTaskCode" placeholder="请输入任务号" autocomplete="off" class="layui-input">
+                            <input type="text" name="pcb_task_code" placeholder="请输入任务号" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">制造编号</label>
+                        <label class="layui-form-label">规格型号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="task_sheet_code"  placeholder="请输入制造编号" autocomplete="off" class="layui-input">
+                            <input type="text" name="pcbId"  placeholder="请输入规格型号" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">通知日期</label>
+                        <label class="layui-form-label">物料名称</label>
                         <div class="layui-input-block">
-                            <input type="text" id="time" name="task_sheet_date" placeholder="请输入通知日期" autocomplete="off" class="layui-input">
+                            <input type="text"  name="pcbName" placeholder="请输入物料名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
+<!--                    <div class="layui-inline">-->
+<!--                        <label class="layui-form-label">通知日期</label>-->
+<!--                        <div class="layui-input-block">-->
+<!--                            <input type="text" id="time" name="pcbName" placeholder="请输入通知日期" autocomplete="off" class="layui-input">-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="layui-inline">
                         <button class="layui-btn"  type="button" lay-submit lay-filter="search">
                             <i class="fa fa-search"></i>
@@ -93,7 +99,6 @@
                 }
                 ,cols: [
                     [
-                        // {type: 'checkbox'}
                         {field: 'pcb_task_code', title: '生产任务单号', minWidth:140}
                         ,{field: 'task_sheet_code', title: '生产批次', minWidth:140}
                         ,{field: 'task_sheet_date', title: '通知日期', minWidth:170,templet:function (d) {
