@@ -65,6 +65,7 @@
                                     data : JSON.stringify({
                                         processTaskCode:t.process_task_code,
                                         deviceCode:getQueryString2('deviceCode'),
+                                        plateNo:$('#codeBox').val()
                                     }),
                                     contentType : "application/json;charset=UTF-8",
                                     success: function (res2) {
