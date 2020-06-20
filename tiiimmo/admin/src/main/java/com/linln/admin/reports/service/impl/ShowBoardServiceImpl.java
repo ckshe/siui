@@ -177,7 +177,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "\t( CASE SUM ( ISNULL( pcb_quantity, 0 ) ) WHEN 0 THEN 1 ELSE SUM ( ISNULL( pcb_quantity, 0 ) ) END ) AS plancount,\n" +
                 "\tSUM ( ISNULL( amount_completed, 0 ) ) AS finishcount,\n" +
                 "\ttask_sheet_code,\n" +
-                "\t cast(CAST((SUM ( ISNULL( amount_completed, 0 ) ))*100.0 / ( CASE SUM ( ISNULL( pcb_quantity, 0 ) ) WHEN 0 THEN 1 ELSE SUM ( ISNULL( pcb_quantity, 0 ) ) END ) as decimal(8,2)) AS varchar(100)) AS rate  \n" +
+                "\t CAST((SUM ( ISNULL( amount_completed, 0 ) ))*100.0 / ( CASE SUM ( ISNULL( pcb_quantity, 0 ) ) WHEN 0 THEN 1 ELSE SUM ( ISNULL( pcb_quantity, 0 ) ) END ) as decimal(8,2))  AS rate  \n" +
                 "FROM\n" +
                 "\tproduce_pcb_task WHERE produce_plan_complete_date >= '" +
                 startTime +
@@ -185,7 +185,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 endTime +
                 "'" +
                 " GROUP BY\n" +
-                "\ttask_sheet_code");
+                "\ttask_sheet_code ORDER BY rate desc ");
         List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString());
         return mapList;
     }
