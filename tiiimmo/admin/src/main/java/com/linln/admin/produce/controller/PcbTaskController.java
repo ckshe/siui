@@ -1,7 +1,9 @@
 package com.linln.admin.produce.controller;
 
 import com.linln.RespAndReqs.PcbTaskReq;
+import com.linln.RespAndReqs.responce.ProcessTaskReq;
 import com.linln.admin.produce.domain.PcbTask;
+import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.service.PcbTaskService;
 import com.linln.admin.produce.validator.PcbTaskValid;
 import com.linln.common.enums.StatusEnum;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -195,6 +198,19 @@ public class PcbTaskController {
     @ResponseBody
     public ResultVo findProcessTaskByPCBTaskId(@PathVariable Long id){
         return pcbTaskService.findProcessTaskByPCBTaskId(id);
+    }
+
+    //更新排产工序计划
+    @PostMapping("/updateProcessTask")
+    @ResponseBody
+    public ResultVo updateProcessTask(@RequestBody ProcessTaskReq processTaskReq){
+        return pcbTaskService.updateProcessTask(processTaskReq);
+    }
+
+    @PostMapping("/updateProcess/{id}")
+    @ResponseBody
+    public ResultVo updateProcess(ProcessTask processTask){
+        return pcbTaskService.updateProcess(processTask);
     }
 
     //工序计划下达到机台

@@ -1,8 +1,10 @@
 package com.linln.admin.produce.service;
 
 import com.linln.RespAndReqs.PcbTaskReq;
+import com.linln.RespAndReqs.responce.ProcessTaskReq;
 import com.linln.admin.base.repository.PcbRepository;
 import com.linln.admin.produce.domain.PcbTask;
+import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.vo.ResultVo;
 import org.springframework.data.domain.Example;
@@ -74,6 +76,15 @@ public interface PcbTaskService {
     ResultVo recordBadTypeList(PcbTaskReq req);
 
     ResultVo findBadTypeRecordList(PcbTaskReq req);
+
+    /**
+     * 更新排产工序
+     * @param processTaskReq
+     * @return
+     */
+    ResultVo updateProcessTask(ProcessTaskReq processTaskReq);
+
+    ResultVo updateProcess(ProcessTask processTask);
 
     ResultVo findPcbTaskPlateNo(PcbTaskReq req);
 }

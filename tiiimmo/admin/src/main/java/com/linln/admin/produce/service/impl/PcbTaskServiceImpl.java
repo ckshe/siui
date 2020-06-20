@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.linln.RespAndReqs.ScheduleJobReq;
 import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.RespAndReqs.responce.PTDeviceResp;
+import com.linln.RespAndReqs.responce.ProcessTaskReq;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.domain.Pcb;
 import com.linln.admin.base.domain.Process;
@@ -998,6 +999,82 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     }
 
     @Override
+    public ResultVo updateProcessTask(ProcessTaskReq processTaskReq) {
+
+        if(processTaskReq.getProcessId() != null && !"".equals(processTaskReq.getProcessId())){
+            ProcessTask processTask = processTaskRepository.findByProcessId(processTaskReq.getProcessId());
+            /*if (processTaskReq.getProcessName() != null && !"".equals(processTaskReq.getProcessName())){
+                processTask.setProcess_name(processTaskReq.getProcessName());
+            }*/
+            if (processTaskReq.getPlanStartTime() != null && !"".equals(processTaskReq.getPlanStartTime())){
+                processTask.setPlan_start_time(processTaskReq.getPlanStartTime());
+            }
+            if (processTaskReq.getPlanFinishTime() != null && !"".equals(processTaskReq.getPlanFinishTime())){
+                processTask.setPlan_finish_time(processTaskReq.getPlanFinishTime());
+            }
+            if (processTaskReq.getStartTime() != null && !"".equals(processTaskReq.getStartTime())){
+                processTask.setStart_time(processTaskReq.getStartTime());
+            }
+            if (processTaskReq.getFinishTime() != null && !"".equals(processTaskReq.getFinishTime())){
+                processTask.setFinish_time(processTaskReq.getFinishTime());
+            }
+
+            if (processTaskReq.getPcbQuantity() != null && !"".equals(processTaskReq.getPcbQuantity())){
+                processTask.setPcb_quantity(processTaskReq.getPcbQuantity());
+            }
+            if (processTaskReq.getAmountCompleted() != null && !"".equals(processTaskReq.getAmountCompleted())){
+                processTask.setAmount_completed(processTaskReq.getAmountCompleted());
+            }
+            if (processTaskReq.getWorkTime() != null && !"".equals(processTaskReq.getWorkTime())){
+                processTask.setWork_time(processTaskReq.getWorkTime());
+            }
+            /*if (processTaskReq.getStatus() != null && !"".equals(processTaskReq.getStatus())){
+                processTask.setStatus(processTaskReq.getStatus());
+            }*/
+
+
+            processTaskRepository.save(processTask);
+        }
+        return ResultVoUtil.success();
+    }
+
+    @Override
+    public ResultVo updateProcess(ProcessTask processTask) {
+        if(processTask.getId() != null && !"".equals(processTask.getId())){
+            processTask = processTaskRepository.findByProcessId(processTask.getId());
+            if (processTask.getProcess_name() != null && !"".equals(processTask.getProcess_name())){
+                processTask.setProcess_name(processTask.getProcess_name());
+            }
+            if (processTask.getPlan_start_time() != null && !"".equals(processTask.getPlan_start_time())){
+                processTask.setPlan_start_time(processTask.getPlan_start_time());
+            }
+            if (processTask.getPlan_finish_time() != null && !"".equals(processTask.getPlan_finish_time())){
+                processTask.setPlan_finish_time(processTask.getPlan_finish_time());
+            }
+            if (processTask.getStart_time() != null && !"".equals(processTask.getStart_time())){
+                processTask.setStart_time(processTask.getPlan_finish_time());
+            }
+            if (processTask.getFinish_time() != null && !"".equals(processTask.getFinish_time())){
+                processTask.setFinish_time(processTask.getFinish_time());
+            }
+            if (processTask.getPcb_quantity() != null && !"".equals(processTask.getPcb_quantity())){
+                processTask.setPcb_quantity(processTask.getPcb_quantity());
+            }
+            if (processTask.getAmount_completed() != null && !"".equals(processTask.getAmount_completed())){
+                processTask.setAmount_completed(processTask.getAmount_completed());
+            }
+            if (processTask.getWork_time() != null && !"".equals(processTask.getWork_time())){
+                processTask.setWork_time(processTask.getWork_time());
+            }
+            if (processTask.getStatus() != null && !"".equals(processTask.getStatus())){
+                processTask.setStatus(processTask.getStatus());
+            }
+            processTaskRepository.save(processTask);
+        }
+        return ResultVoUtil.success();
+    }
+
+    @Override
     public ResultVo recordBadTypeList(PcbTaskReq req) {
         List<BadClassDetail> detailList = new ArrayList<>();
         User user = ShiroUtil.getSubject();
@@ -1045,6 +1122,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
         return ResultVoUtil.success(mapList);
     }
+
+
 
 
     /*if(pcbTaskCode!=null&&!"".equals(pcbTaskCode)){

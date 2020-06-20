@@ -43,7 +43,6 @@ public interface ProcessTaskRepository extends BaseRepository<ProcessTask,Long> 
             "                    OR device_code LIKE '%B1902001%') AND plan_finish_time >= ?1 AND plan_finish_time <=?2",nativeQuery = true)
     List<ProcessTask> findByStartEndTimeBy3TiePian(String startTime,String endTime);
 
-
-
-
+    @Query(value = "select * from produce_process_task where id = ?1 ",nativeQuery = true)
+    ProcessTask findByProcessId(Long id);
 }
