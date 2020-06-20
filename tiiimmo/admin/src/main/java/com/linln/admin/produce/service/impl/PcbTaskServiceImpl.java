@@ -578,10 +578,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             size = pcbTaskReq.getSize();
         }
 
-
-
-
-
         StringBuffer wheresql = new StringBuffer(" where 1=1 ");
         if(taskSheetCode!=null&&!"".equals(taskSheetCode)){
             wheresql.append(" and task_sheet_code  like '" +
@@ -1034,8 +1030,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
 
             processTaskRepository.save(processTask);
+            return ResultVoUtil.success("更新成功");
+        }else {
+            return ResultVoUtil.error(400,"更新失败");
         }
-        return ResultVoUtil.success();
+
     }
 
     @Override

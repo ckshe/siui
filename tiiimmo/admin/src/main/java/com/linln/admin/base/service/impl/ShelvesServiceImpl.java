@@ -63,4 +63,9 @@ public class ShelvesServiceImpl implements ShelvesService {
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return shelvesRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
+
+    @Override
+    public List<Shelves> list() {
+        return shelvesRepository.findAll();
+    }
 }

@@ -38,4 +38,6 @@ public interface ShelvesService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    List<Shelves> list();
 }

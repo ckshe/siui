@@ -117,4 +117,17 @@ public class ShelvesController {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
     }
+
+
+    @GetMapping("/findShelvesCode")
+    @ResponseBody
+    public ResultVo findShelvesCode(){
+        List<Shelves> shelves = shelvesService.list();
+        if (shelves!= null){
+            return ResultVoUtil.success("查询成功",shelves);
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
+    }
 }

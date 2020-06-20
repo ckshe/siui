@@ -4,7 +4,7 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/steelMesh/save}">
+    <form class="layui-form" lay-filter="lay_form" th:action="@{/base/steelMesh/save}">
         <input type="hidden" name="id" th:if="${steelMesh}" th:value="${steelMesh.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">编号</label>
@@ -19,9 +19,11 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">货架名称</label>
+            <label class="layui-form-label">货架编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="name" placeholder="请输入货架名称" th:value="${steelMesh?.name}">
+                <!--<input class="layui-input" type="text" name="name" placeholder="请输入货架编号" th:value="${steelMesh?.shelvesNo}">-->
+                <input type="hidden" id="shelvesNoValue" th:value="${steelMesh?.shelvesNo}">
+                <select name="shelvesNo" id="shelvesNo"></select>
             </div>
         </div>
         <div class="layui-form-item">
@@ -55,5 +57,31 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        var a="";
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#time",
+                type:'datetime',
+                trigger:'click'
+            });
+
+            $.get('/base/shelves/findShelvesCode',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('shelvesNo');
+                    var str = "";
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.num+"'>"+t.num+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('lay_form',{shelvesNo:$('#shelvesNoValue').val()});
+                }
+            })
+        })
+    </script>
 </body>
 </html>
