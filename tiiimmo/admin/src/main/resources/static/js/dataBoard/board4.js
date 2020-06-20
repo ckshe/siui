@@ -7,7 +7,7 @@ db4P1 = echarts.init(document.getElementById('db4P1'), 'macarons');
 db4P2 = echarts.init(document.getElementById('db4P2'), 'macarons');
 var db4POption1 = {
 	title: {
-		text: "上岗率",
+		text: "",
 		textStyle: {
 			// textShadowColor: "#fff",
 			// textShadowBlur: 4,
@@ -30,10 +30,11 @@ var db4POption1 = {
 	},
 	grid: {
 		top: "10%",
-		right: '10%',
-		bottom: "10%",
-		left: "10%",
-		backgroundColor: '#ff330e'
+		right: '0%',
+		bottom: "3%",
+		left: "0%",
+		containLabel: true,
+		// backgroundColor: '#ff330e'
 	},
 	xAxis: {
 		naem: '工序',
@@ -44,6 +45,7 @@ var db4POption1 = {
 				fontSize: 20
 			}
 		},
+		data: []
 	},
 	yAxis: {
 		name: '',
@@ -84,7 +86,7 @@ var db4POption1 = {
 };
 var db4POption2 = {
 	title: {
-		text: "各工序工时利用率",
+		text: "",
 		textStyle: {
 			// textShadowColor: "#fff",
 			// textShadowBlur: 4,
@@ -107,9 +109,10 @@ var db4POption2 = {
 	},
 	grid: {
 		top: "10%",
-		right: '10%',
-		bottom: "10%",
-		left: "10%",
+		right: '0%',
+		bottom: "3%",
+		left: "0%",
+		containLabel: true,
 		backgroundColor: '#ff330e'
 	},
 	xAxis: {
@@ -164,22 +167,23 @@ var db4POption2 = {
 function addfourBoardHtml(data) {
 	var theadHtml = '', tbodyHtml = '',tbodyData = data;
 	//console.log(tbodyData.length)
+	var arr4=[19,19,19,19,19]
 	var theadData = ['员工名称', '工位', '所在工序', '任务信息', '当前完成率']
-	colwidth = (($("#fourBoard").width() / theadData.length) - 10) + "px";
+	// colwidth = (($("#fourBoard").width() / theadData.length) - 10) + "px";
 	theadHtml = '<div class="StateTit">';
 	for (var i = 0; i < theadData.length; i++) {
-		theadHtml += '<span  style="width:' + colwidth + '">' + theadData[i] + '</span>';
+		theadHtml += '<span  style="width:' + arr4[i] + '%">' + theadData[i] + '</span>';
 	}
 	theadHtml += '</div>';
 	tbodyHtml = '<div id="FontScroll" class="board4Scroll"><ul>';
 	for (var j = 0; j < tbodyData.length; j++) {
 		tbodyHtml += '<li>' +
 			'<div class="fontInner clearfix">' +
-			'<span  style="width:' + colwidth + '">' + tbodyData[j].user_name + '</span>' +
-			'<span  style="width:' + colwidth + '">' + tbodyData[j].device_code + '</span>' +
-			'<span  style="width:' + colwidth + '">' + tbodyData[j].process_name + '</span>' +
-			'<span  style="width:' + colwidth + '">' + tbodyData[j].process_task_code + '</span>' +
-			'<span  style="width:' + colwidth + '">' +tbodyData[j].rate+'%'+
+			'<span  style="width:'+ arr4[0] + '%">' + tbodyData[j].user_name + '</span>' +
+			'<span  style="width:'+ arr4[1] + '%">' + tbodyData[j].device_code + '</span>' +
+			'<span  style="width:'+ arr4[2] + '%">' + tbodyData[j].process_name + '</span>' +
+			'<span  style="width:'+ arr4[3] + '%">' + tbodyData[j].process_task_code + '</span>' +
+			'<span  style="width:'+ arr4[4] + '%">' +tbodyData[j].rate+'%'+
 				// '<div class="progress" progress="'+tbodyData[j].rate+'%">' +
 				// '	<div class="progressBar">' +
 				// '		<span></span>' +
@@ -212,7 +216,7 @@ function addfourBoardHtml(data) {
 		});
 	})
 	//运单状态文字滚动
-	if (tbodyData.length > 16) {
+	if (tbodyData.length >6) {
 		$('.board4Scroll').FontScroll({ time: 3000, num: 1, styleName: 'line4' });
 	}
 }
@@ -262,11 +266,11 @@ function addData4Html(data) {
 var board4Api = {
     staffOnBoard:'/ShowBoard/staffOnBoard',
     findByProcessTaskCode:'/ShowBoard/findByProcessTaskCode/',
-    staffTodayOntimeRate:'/ShowBoard/staffTodayOntimeRate',
+    staffTodayOntimeRate:'/ShowBoard/staffTodayOntimeRate',//
 }
 function setDataBoard4(params) {
-	// db4P1.setOption(db4POption1);
-	// db4P2.setOption(db4POption2);
+	db4P1.setOption(db4POption1);
+	db4P2.setOption(db4POption2);
 	$.ajax({
         contentType: 'application/json',
         type: 'get',

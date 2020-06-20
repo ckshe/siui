@@ -35,7 +35,7 @@ var db1P1Option = {
         y: 5
     },
     grid: {
-        top: '20%',
+        top: '10%',
         left: '0%',
         right: '3%',
         bottom: '3%',
@@ -108,7 +108,7 @@ var db1P2Option = {
         top: '8%',
         left: '12%',
         right: '0%',
-        bottom: '25%',
+        bottom: '10%',
         // containLabel: true,
         backgroundColor: '#fff'
     },
@@ -536,17 +536,17 @@ function setDataBoard1(params) {
     function addHtml(data, hsaClassOn) {
         // 动态生成模板
         var theadHtml = '', tbodyHtml = '', widthPercent = 1, popData = '';
-        var arr=[10,9,15,10,10,9,9,7,7,8],arr1 = [10,15,9,6,9,8,8,8,6,6,7]
+        var arr=[10,14,20,9,8,8,8,8,9],arr1 = [10,12,20,6,8,8,8,7,7,7]
         var widthWW = parseInt($('#firstBoard').css('width'));
         if (hsaClassOn) {
-            var theadData = ['生产任务单号', '机型名称', '规格型号', '物料名称', '生产批次', '启动日期', '完成时间', '生产数量', '完成数量', '工单状态'];
+            var theadData = ['生产任务单号', '规格型号', '物料名称', '生产批次', '启动日期', '完成时间', '计划量', '完成量', '工单状态'];
             var tbodyData = data;
             // if (theadData.length > 0) {
             //     widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) + "px"
             // }
             theadHtml = '<div class="StateTit">';
             for (var i = 0; i < theadData.length; i++) {
-                if(i>5){
+                if(i>3){
                     theadHtml += '<span style="width:' + arr[i] + '%;text-align: center;">' + theadData[i] + '</span>';
                 }else{
                     theadHtml += '<span style="width:' + arr[i] + '%">' + theadData[i] + '</span>';
@@ -565,7 +565,7 @@ function setDataBoard1(params) {
                 if (tbodyDataS[j].pcb_task_status == "已下达未投产") {
                     tbodyDataS[j].pcb_task_status = "未启动"
                 }
-                if (tbodyDataS[j].pcb_task_status == "已投产") {
+                if (tbodyDataS[j].pcb_task_status == "已下达已投产") {
                     tbodyDataS[j].pcb_task_status = "进行中"
                 }
                 if (tbodyDataS[j].pcb_task_status == "已下达已完成") {
@@ -585,21 +585,20 @@ function setDataBoard1(params) {
                     '<li>' +
                     '<div class="fontInner clearfix">' +
                     '<span style="width:' + arr[0] + '%">' + tbodyDataS[j].pcb_task_code + '</span>' +
-                    '<span style="width:' + arr[1] + '%">' + tbodyDataS[j].model_name + '</span>' +
-                    '<span style="width:' + arr[2] + '%">' + tbodyDataS[j].pcb_id + '</span>' +
-                    '<span style="width:' + arr[3] + '%">' + tbodyDataS[j].pcb_name + '</span>' +
-                    '<span style="width:' + arr[4] + '%">' + tbodyDataS[j].task_sheet_code + '</span>' +
-                    '<span style="width:' + arr[5] + '%;text-align: center;">' + tbodyDataS[j].produce_plan_date + '</span>' +
-                    '<span style="width:' + arr[6] + '%;text-align: center;">' + tbodyDataS[j].produce_plan_complete_date + '</span>' +
-                    '<span style="width:' + arr[7] + '%;text-align: center;">' + tbodyDataS[j].pcb_quantity + '</span>' +
-                    '<span style="width:' + arr[8] + '%;text-align: center;">' + tbodyDataS[j].amount_completed + '</span>' +
-                    '<span style="width:' + arr[9] + '%;text-align: center;">' + tbodyDataS[j].pcb_task_status + '</span>' +
+                    '<span style="width:' + arr[1] + '%">' + tbodyDataS[j].pcb_id + '</span>' +
+                    '<span style="width:' + arr[2] + '%">' + tbodyDataS[j].pcb_name + '</span>' +
+                    '<span style="width:' + arr[3] + '%;">' + tbodyDataS[j].task_sheet_code + '</span>' +
+                    '<span style="width:' + arr[4] + '%;text-align: center;">' + tbodyDataS[j].produce_plan_date + '</span>' +
+                    '<span style="width:' + arr[5] + '%;text-align: center;">' + tbodyDataS[j].produce_plan_complete_date + '</span>' +
+                    '<span style="width:' + arr[6] + '%;text-align: center;">' + tbodyDataS[j].pcb_quantity + '</span>' +
+                    '<span style="width:' + arr[7] + '%;text-align: center;">' + tbodyDataS[j].amount_completed + '</span>' +
+                    '<span style="width:' + arr[8] + '%;text-align: center;">' + tbodyDataS[j].pcb_task_status + '</span>' +
                     '</div>' +
                     '</li>';
             }
             tbodyHtml += '</ul></div>';
         } else {
-            var theadData = ['工序任务号','规格型号','物料型号', '工序','生产任务号','生产批次','生产时间','完成时间', '生产数量', '完成数量', '工单状态']
+            var theadData = ['工序任务号','规格型号','物料型号', '工序','生产批次','生产时间','完成时间', '计划量', '完成量', '工单状态']
             ////console.log(data)
             var tbodyData = popData = data;
             // if (theadData.length > 0) {
@@ -607,7 +606,7 @@ function setDataBoard1(params) {
             // }
             theadHtml = '<div class="StateTit">';
             for (var i = 0; i < theadData.length; i++) {
-                if(i>5){
+                if(i>4){
                     theadHtml += '<span style="width:' + arr1[i] + '%;text-align: center;">'+ theadData[i] + '</span>';
                 }else{
                     theadHtml += '<span style="width:' + arr1[i] + '%">'+ theadData[i] + '</span>';
@@ -653,13 +652,12 @@ function setDataBoard1(params) {
                     '<span style="width:' + arr1[1] + '%">'+ tbodyDataS[j].pcb_code + '</span>' +
                     '<span style="width:' + arr1[2] + '%">'+ tbodyDataS[j].pcb_name + '</span>' +
                     '<span style="width:' + arr1[3] + '%">'+ tbodyDataS[j].process_name + '</span>' +
-                    '<span style="width:' + arr1[4] + '%">'+ tbodyDataS[j].pcb_task_code + '</span>' +
-                    '<span style="width:' + arr1[5] + '%">'+ tbodyDataS[j].task_sheet_code + '</span>' +
-                    '<span style="width:' + arr1[6] + '%;text-align: center;">'+ tbodyDataS[j].plan_start_time + '</span>' +
-                    '<span style="width:' + arr1[7] + '%;text-align: center;">'+ tbodyDataS[j].plan_finish_time + '</span>' +
-                    '<span style="width:' + arr1[8] + '%;text-align: center;">'+ tbodyDataS[j].pcb_quantity + '</span>' +
-                    '<span style="width:' + arr1[9] + '%;text-align: center;">'+ tbodyDataS[j].amount_completed + '</span>' +
-                    '<span style="width:' + arr1[10] + '%;text-align: center;">'+ tbodyDataS[j].process_task_status + '</span>' +
+                    '<span style="width:' + arr1[4] + '%">'+ tbodyDataS[j].task_sheet_code + '</span>' +
+                    '<span style="width:' + arr1[5] + '%;text-align: center;">'+ tbodyDataS[j].plan_start_time + '</span>' +
+                    '<span style="width:' + arr1[6] + '%;text-align: center;">'+ tbodyDataS[j].plan_finish_time + '</span>' +
+                    '<span style="width:' + arr1[7] + '%;text-align: center;">'+ tbodyDataS[j].pcb_quantity + '</span>' +
+                    '<span style="width:' + arr1[8] + '%;text-align: center;">'+ tbodyDataS[j].amount_completed + '</span>' +
+                    '<span style="width:' + arr1[9] + '%;text-align: center;">'+ tbodyDataS[j].process_task_status + '</span>' +
                     '</div>' +
                     '</li>';
             }
@@ -677,7 +675,7 @@ function setDataBoard1(params) {
             setTimeout(dataShow(popData[$(this).index()], hsaClassOn), 800);
         })
         //运单状态文字滚动
-        if (tbodyData.length > 12) {
+        if (tbodyData.length > 10) {
             $('.fontScroll').FontScroll({ time: 3000, num: 1 });
         }
     }

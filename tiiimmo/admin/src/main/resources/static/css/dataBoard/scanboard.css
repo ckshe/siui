@@ -123,7 +123,7 @@ body{
 }
 
 #top{
-	height: 6%;
+	height: 5%;
 	border-bottom: 1px solid #162c52;
 }
 #top .pageTit{
@@ -167,7 +167,7 @@ body{
 	height: 100%;
 }
 #top .topBar .topTime{
-	padding-top: 18px;
+	padding-top: 10px;
 	color: #fff;
 	text-align: right;
 }
@@ -231,7 +231,7 @@ body{
 }
 
 .item{
-	margin-bottom: 24px;
+	margin-bottom: 20px;
 	background-color: #222;
 	background-color: rgba(0,0,0,0.3);border-radius: 8px;
 }
@@ -394,45 +394,9 @@ body{
 	font-size: 25px;
 	padding: 0 5px;
 }
-/* .billState .StateBox span:nth-child(1){
-	width: 38%;
+.billState .StateBox li span{
+	font-size: 20px;
 }
-.billState .StateBox span:nth-child(2){
-	width: 28%;
-}
-.billState .StateBox span:nth-child(3){
-	width: 34%;
-} */
-	.billState .StateBox span:nth-child(1){
-		width: 12%;
-	}
-	.billState .StateBox span:nth-child(2){
-		width: 12%;
-	}
-	.billState .StateBox span:nth-child(3){
-		width: 12%;
-	}
-	.billState .StateBox span:nth-child(4){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(5){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(6){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(7){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(8){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(9){
-		width: 12%;
-	}
-
-
-
 	.billState .StateBox.fourBoard span:nth-child(1){
 		width: 20%;
 	}
@@ -480,7 +444,8 @@ body{
 	font-style: normal;
 }
 #FontScroll{
-	height: 492px;
+	/* height: 492px; */
+	height: 410px;
 	overflow: hidden;
 }
 
@@ -582,775 +547,6 @@ body{
 #summaryLine{
 	height: 80%;
 }
-
-
-
-@media screen and (max-width: 1919px) and (min-width: 1680px){
-	#top .pageTit a{
-		height: 40px;
-		line-height: 40px;
-		font-size: 16px;
-		margin-top: -20px;
-		width: 52%;
-	}
-	#top .topBar .topTime{
-		padding-top: 16px;
-	}
-	#top .topBar .company h3{
-		height: 26px;
-		line-height: 26px;
-		font-size: 16px;
-	}
-	#top .topBar .company .dropdown{
-		top: 26px;
-	}
-
-	#main{
-		padding-top: 28px;
-	}
-
-	.item{
-		margin-bottom: 20px;
-	}
-	.itemTit{
-		padding: 10px 30px;
-	}
-	.itemTit span{
-		height: 20px;
-		line-height: 20px;
-		border-left: 4px solid transparent;
-		font-size: 17px;
-	}
-	.itemCon{
-		padding: 10px 26px;
-	}
-	.waybill .progress{
-		margin-bottom: 8px;
-	}
-	.waybill .progress h3{
-		line-height: 34px;
-	}
-	.waybill .progress h3 span{
-		float: left;
-	}
-	.waybill .progress h4{
-		line-height: 22px;
-	}
-
-	.listStyle li span{
-		font-size: 15px;
-		height: 32px;
-		line-height: 32px;
-	}
-	#myMap{
-		height: 440px;
-	}
-	#myMap .amap-info-content{
-		background: #00deff;
-		border-radius: 8px;
-		box-shadow: none;
-		border: none;
-		padding: 15px 25px 15px 15px;
-	}
-	#myChart1{
-		height: 220px;
-	}
-	.total{
-		padding: 8px 0;
-	}
-	.total .totalNum strong{
-		font-size: 44px;
-		line-height: 68px;
-	}
-	.total .totalNum span{
-		font-size: 18px;
-		line-height: 84px;
-	}
-
-	.infoPie ul li span{
-		width: 68px;
-		height: 68px;
-		margin: 12px auto;
-		border: 2px solid transparent;
-		line-height: 72px;
-		font-size: 24px;
-	}
-	.infoPie ul li p{
-		font-size: 16px;
-		padding-bottom: 8px;
-	}
-	.billState .StateTit{
-		height: 37px;
-	}
-	.billState .StateBox span{
-		height: 37px;
-		line-height: 37px;
-	}
-	/* .billState .StateBox span:nth-child(1){
-		width: 38%;
-	}
-	.billState .StateBox span:nth-child(2){
-		width: 28%;
-	}
-	.billState .StateBox span:nth-child(3){
-		width: 34%;
-	} */.billState .StateBox span:nth-child(1){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(2){
-		width: 11%;
-	}
-	.billState .StateBox span:nth-child(3){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(4){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(4){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(5){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(6){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(7){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(8){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(9){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(10){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(11){
-		width: 8%;
-	}
-	.billState .progress{
-		margin-top: 15px;
-	}
-	.billState .progress h3{
-		height: 20px;
-		line-height: 20px;
-		top: -7px;
-	}
-	#FontScroll{
-		height: 350px;
-	}
-
-
-	.popup .popupClose{
-		width: 40px;
-		height: 40px;
-		top: -20px;
-		right: -20px;
-		background-size: 100% 100%;
-	}
-}
-
-@media screen and (max-width: 1679px) and (min-width: 1440px){
-	#top .pageTit a{
-		height: 36px;
-		line-height: 36px;
-		font-size: 15px;
-		margin-top: -18px;
-		width: 54%;
-	}
-	#top .topBar .topTime{
-		padding-top: 10px;
-	}
-	#top .topBar .company h3{
-		height: 24px;
-		line-height: 24px;
-		font-size: 15px;
-	}
-	#top .topBar .company h3:before{
-		width: 18px;
-		height: 18px;
-		top: 2px;
-	}
-	#top .topBar .company .dropdown{
-		top: 24px;
-	}
-
-	#main{
-		padding-top: 16px;
-	}
-
-	.item{
-		margin-bottom: 14px;
-	}
-	.itemTit{
-		padding: 6px 24px;
-	}
-	.itemTit span{
-		height: 18px;
-		line-height: 18px;
-		border-left: 4px solid transparent;
-		font-size: 16px;
-	}
-	.itemCon{
-		padding: 6px 22px;
-	}
-	.waybill .progress{
-		margin-bottom: 4px;
-	}
-	.waybill .progress h3{
-		line-height: 30px;
-	}
-	.waybill .progress h3 span{
-		font-size: 14px;
-	}
-	.waybill .progress h4{
-		line-height: 20px;
-	}
-
-	.listStyle li span{
-		font-size: 15px;
-		height: 28px;
-		line-height: 28px;
-	}
-	#myMap{
-		height: 360px;
-	}
-	#myMap .amap-info-content{
-		background: #00deff;
-		border-radius: 8px;
-		box-shadow: none;
-		border: none;
-		padding: 15px 25px 15px 15px;
-	}
-	#myChart1{
-		height: 188px;
-	}
-	.total{
-		padding: 8px 0;
-	}
-	.total .totalNum strong{
-		font-size: 40px;
-		line-height: 64px;
-	}
-	.total .totalNum span{
-		font-size: 17px;
-		line-height: 80px;
-	}
-
-	.infoPie ul li span{
-		width: 60px;
-		height: 60px;
-		margin: 10px auto;
-		border: 2px solid transparent;
-		line-height: 64px;
-		font-size: 22px;
-	}
-	.infoPie ul li p{
-		font-size: 15px;
-		padding-bottom: 8px;
-	}
-	.billState .StateTit{
-		height: 37px;
-	}
-	.billState .StateBox span{
-		height: 37px;
-		line-height: 37px;
-	}
-	/* .billState .StateBox span:nth-child(1){
-		width: 38%;
-	}
-	.billState .StateBox span:nth-child(2){
-		width: 28%;
-	}
-	.billState .StateBox span:nth-child(3){
-		width: 34%;
-	} */.billState .StateBox span:nth-child(1){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(2){
-		width: 11%;
-	}
-	.billState .StateBox span:nth-child(3){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(4){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(4){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(5){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(6){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(7){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(8){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(9){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(10){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(11){
-		width: 8%;
-	}
-	.billState .progress{
-		margin-top: 15px;
-	}
-	.billState .progress h3{
-		height: 20px;
-		line-height: 20px;
-		top: -7px;
-	}
-	#FontScroll{
-		height: 190px;
-	}
-
-
-	.popup .popupClose{
-		width: 36px;
-		height: 36px;
-		top: -18px;
-		right: -18px;
-		background-size: 100% 100%;
-	}
-}
-
-@media screen and (max-width: 1439px) and (min-width: 1366px){
-	#top .pageTit a{
-		height: 30px;
-		line-height: 30px;
-		font-size: 14px;
-		margin-top: -15px;
-		width: 56%;
-	}
-	#top .topBar .topTime{
-		padding-top: 4px;
-		font-size: 12px;
-	}
-	#top .topBar .company h3{
-		height: 22px;
-		line-height: 22px;
-		font-size: 14px;
-	}
-	#top .topBar .company h3:before{
-		width: 18px;
-		height: 18px;
-		top: 2px;
-	}
-	#top .topBar .company .dropdown{
-		top: 22px;
-	}
-
-	#main{
-		padding-top: 14px;
-	}
-
-	.item{
-		margin-bottom: 12px;
-	}
-	.itemTit{
-		padding: 4px 22px;
-	}
-	.itemTit span{
-		height: 18px;
-		line-height: 18px;
-		border-left: 4px solid transparent;
-		font-size: 14px;
-	}
-	.itemCon{
-		padding: 4px 20px;
-	}
-	.waybill .progress{
-		margin-bottom: 2px;
-	}
-	.waybill .progress h3{
-		line-height: 28px;
-	}
-	.waybill .progress h3 span{
-		font-size: 14px;
-	}
-	.waybill .progress h4{
-		line-height: 18px;
-	}
-
-	.listStyle li span{
-		font-size: 12px;
-		height: 22px;
-		line-height: 22px;
-	}
-	#myMap{
-		height: 288px;
-	}
-	#myMap .amap-info-content{
-		background: #00deff;
-		border-radius: 8px;
-		box-shadow: none;
-		border: none;
-		padding: 15px 25px 15px 15px;
-	}
-	#myMap .amap-icon img{
-		width: 24px;
-	}
-	#myChart1{
-		height: 160px;
-	}
-	.total{
-		padding: 8px 0;
-	}
-	.total .totalNum strong{
-		font-size: 36px;
-		line-height: 60px;
-	}
-	.total .totalNum span{
-		font-size: 16px;
-		line-height: 76px;
-	}
-
-	.infoPie ul li span{
-		width: 56px;
-		height: 56px;
-		margin: 10px auto;
-		border: 2px solid transparent;
-		line-height: 60px;
-		font-size: 20px;
-	}
-	.infoPie ul li p{
-		font-size: 14px;
-		padding-bottom: 8px;
-	}
-	.billState .StateTit{
-		height: 31px;
-	}
-	.billState .StateBox span{
-		height: 31px;
-		line-height: 31px;
-		font-size: 12px;
-	}
-	/* .billState .StateBox span:nth-child(1){
-		width: 38%;
-	}
-	.billState .StateBox span:nth-child(2){
-		width: 28%;
-	}
-	.billState .StateBox span:nth-child(3){
-		width: 34%;
-	} */.billState .StateBox span:nth-child(1){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(2){
-		width: 11%;
-	}
-	.billState .StateBox span:nth-child(3){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(4){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(4){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(5){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(6){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(7){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(8){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(9){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(10){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(11){
-		width: 8%;
-	}
-	.billState .progress{
-		margin-top: 12px;
-	}
-	.billState .progress h3{
-		height: 20px;
-		line-height: 20px;
-		top: -7px;
-	}
-	#FontScroll{
-		height: 256px;
-	}
-
-
-	.popup .popupClose{
-		width: 32px;
-		height: 32px;
-		top: -16px;
-		right: -16px;
-		background-size: 100%
-	}
-}
-
-@media screen and (max-width: 1365px) {
-	.left{
-		width: 100%;
-	}
-	.center{
-		width: 48%;
-	}
-	.right{
-		width: 28%;
-	}
-	#top .pageTit a{
-		height: 30px;
-		line-height: 30px;
-		font-size: 12px;
-		margin-top: -15px;
-		width: 60%;
-	}
-	#top .topBar .topTime{
-		padding-top: 4px;
-		font-size: 12px;
-	}
-	#top .topBar .company h3{
-		height: 22px;
-		line-height: 22px;
-		font-size: 14px;
-	}
-	#top .topBar .company h3:before{
-		width: 18px;
-		height: 18px;
-		top: 2px;
-	}
-	#top .topBar .company .dropdown{
-		top: 22px;
-	}
-
-	#main{
-		padding-top: 14px;
-	}
-
-	.item{
-		margin-bottom: 12px;
-	}
-	.itemTit{
-		padding: 4px 22px;
-	}
-	.itemTit span{
-		height: 18px;
-		line-height: 18px;
-		border-left: 4px solid transparent;
-		font-size: 14px;
-	}
-	.itemCon{
-		padding: 4px 20px;
-	}
-	.waybill .progress{
-		margin-bottom: 2px;
-	}
-	.waybill .progress h3{
-		line-height: 28px;
-	}
-	.waybill .progress h3 span{
-		font-size: 14px;
-	}
-	.waybill .progress h4{
-		line-height: 18px;
-	}
-
-	.listStyle li span{
-		font-size: 12px;
-		height: 22px;
-		line-height: 22px;
-	}
-	#myMap{
-		height: 288px;
-	}
-	#myMap .amap-info-content{
-		background: #00deff;
-		border-radius: 8px;
-		box-shadow: none;
-		border: none;
-		padding: 15px 25px 15px 15px;
-	}
-	#myMap .amap-icon img{
-		width: 24px;
-	}
-	#myChart1{
-		height: 160px;
-	}
-	.total{
-		padding: 8px 0;
-	}
-	.total .totalNum strong{
-		font-size: 36px;
-		line-height: 60px;
-	}
-	.total .totalNum span{
-		font-size: 16px;
-		line-height: 76px;
-	}
-
-	.infoPie ul li span{
-		width: 56px;
-		height: 56px;
-		margin: 24px auto;
-		border: 2px solid transparent;
-		line-height: 60px;
-		font-size: 20px;
-	}
-	.infoPie ul li p{
-		font-size: 14px;
-		padding-bottom: 8px;
-	}
-	.billState .StateTit{
-		height: 31px;
-	}
-	.billState .StateBox span{
-		height: 31px;
-		line-height: 31px;
-		font-size: 12px;
-	}.billState .StateBox span:nth-child(1){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(2){
-		width: 11%;
-	}
-	.billState .StateBox span:nth-child(3){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(4){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(4){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(5){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(6){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(7){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(8){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(9){
-		width: 8%;
-	}
-	.billState .StateBox span:nth-child(10){
-		width: 10%;
-	}
-	.billState .StateBox span:nth-child(11){
-		width: 8%;
-	}
-	
-	.dataBoard2 .billState .StateBox span:nth-child(1){
-		width: 20%;
-	}
-	.dataBoard2 .billState .StateBox span:nth-child(2){
-		width: 20%;
-	}
-	.dataBoard2 .billState .StateBox span:nth-child(3){
-		width: 20%;
-	}
-	.dataBoard2 .billState .StateBox span:nth-child(4){
-		width: 20%;
-	}
-	.dataBoard2 .billState .StateBox span:nth-child(4){
-		width: 20%;
-	}
-	
-
-	.billState .progress{
-		margin-top: 12px;
-	}
-	.billState .progress h3{
-		height: 20px;
-		line-height: 20px;
-		top: -7px;
-	}
-	#FontScroll{
-		height: 256px;
-	}
-
-
-	.popup .popupClose{
-		width: 32px;
-		height: 32px;
-		top: -16px;
-		right: -16px;
-		background-size: 100%
-	}
-	/* 2020-05-18增加样式 */
-
-.downEchar{	width: 94%;	position: absolute;	}
-.downEchar .char3{width: 33.3%;  height: 180px; float: left; 
-	border: 1px solid #1e5b6b ; box-sizing: border-box; 
-	border-right: none;
-}
-.orderPie{height: 120px; width: 100%;}
-.db2{height: 220px; width: 50%;}
-.db4{height: 500px; width: 100%;}
-.db3{top: 310px;}
-.downEchar .char3:last-child ,.downEchar .char3.db3:last-child{border-right: 1px solid #1e5b6b;}
-.downEchar .char3  .char3iner{width:100%;  height: 145px; }
-.downEchar .char{width: 100%; height: 140px;}
-.dataBoard2{width: 94%;	position: absolute; top: 0; margin-top: 10px;}
-.dataBoard2-iner{display: flex;	display: -webkit-flex; 	flex-wrap: wrap;}
-.dataBoard2-iner .char3{width: 33.3%;  height: 250px;  box-sizing: border-box;}
-.dataBoard-slide{align-items: flex-start !important;}
-.dataBoard3{position: relative; width: 94%; height: 250px !important; margin-top: 40px;}
-
-  .dataBoard3DownEchar{	width: 94%;	position: absolute;	bottom:10%; }
-  .dataBoard3DownEchar .char2{width: 50%;  height: 200px; float: left;}
-
-  .devBottom{display: flex; width: 100%; position: relative; height: auto !important;}
-  .waybill{ width: 50%; margin: 0 5px;}
-  .dataBoarder{
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	-webkit-justify-content: center;
-	justify-content: center;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	-webkit-align-items: center;
-	align-items: center;
-	padding: 20px 0;
-  }
-  .dataBoarder .left, .dataBoarder .right{
-	  width: 50%; height: 100%; box-sizing: border-box;
-	  height: 560px;
-	  border-radius: 0;
-  }
-  .dataBoarder .right .db4p1{
-	  width: 450px;
-	  height: 250px;
-	  padding: 10px 25px;
-  }
-  .dataBoarder .left{border-right: 1px solid rgba(255,255,255,.3);}
-  .dataBoarder #FontScroll{
-	  height: 500px !important;
-  }
-
-}
-
 /* 2020-05-18增加样式 */
 
 .state-green,.state-gray{
@@ -1378,19 +574,19 @@ body{
 
 .threeBoard,.threeBoard3{
 	width: 520px;
-	height: 250px;
+	height: 260px;
 }
 .threeBoard2{
 	width: 1280px;
-	height: 250px;
+	height: 260px;
 }
 .threeBoard,.threeBoard3{
 	width: 520px;
-	height: 250px;
+	height: 260px;
 }
 .threeBoard3{
 	width: 520px;
-	height: 250px;
+	height: 260px;
 }
 .threeBoard4{
 	width: 520px;
@@ -1402,12 +598,16 @@ body{
 }
 
 
-.downEchar{	width: 94%;	position: absolute;	 height: 320px;}
+.downEchar{	width: 94%;	position: absolute;	 height: 420px;}
 .downEchar .char3,.item .char3{width: 33.3%;  height: 100%; float: left; 
 	border: 1px solid #1e5b6b ; box-sizing: border-box; 
 	border-right: none;
 }
-.orderPie{height: 200px; width: 100%;}
+.downEchar .char2,.item .char2{width: 50%;  height: 100%; float: left; 
+	border: 1px solid #1e5b6b ; box-sizing: border-box; 
+	border-right: none;
+}
+.orderPie{height: 300px; width: 100%;}
 .downEchar .infoPie ul li p{font-size: 28px;}
 .db2{height: 220px; width: 50%;}
 .db4{height: 500px; width: 100%;}
@@ -1415,11 +615,11 @@ body{
 .orderPiePie{padding: 0 5px;}
 
 .downEchar .char3:last-child ,.downEchar .char3.db3:last-child,.item .char3:last-child,.item .char3:nth-child(3){border-right: 1px solid #1e5b6b;}
-.downEchar .char3  .char3iner{width:100%;  height: 225px; }
+.downEchar .char3  .char3iner{width:100%;  height: 330px; }
 .downEchar .char{width: 100%; height: 140px;}
 .dataBoard2{width: 94%;	position: absolute; top: 0; margin-top: 10px; z-index: 1;}
 .dataBoard2-iner{display: flex;	display: -webkit-flex; 	flex-wrap: wrap;}
-.dataBoard2-iner .char3{width: 33.3%;  height: 440px;  box-sizing: border-box;}
+.dataBoard2-iner .char3{width: 33.3%;  height: 460px;  box-sizing: border-box;}
 .dataBoard-slide{align-items: flex-start !important;}
 .dataBoard3{position: relative; width: 94%; height: 250px !important; margin-top: 40px;}
   .dataBoard3DownEchar{	width: 94%;	position: absolute;	bottom:10%; }
@@ -1437,7 +637,7 @@ body{
   .devBottom{display: flex; width: 100%; position: relative; height: auto !important;}
   .waybill{ width: 50%; margin: 0 5px;}
   .dataBoarder{
-	display: -webkit-box;
+	/* display: -webkit-box;
 	display: -ms-flexbox;
 	display: -webkit-flex;
 	display: flex;
@@ -1448,29 +648,30 @@ body{
 	-webkit-box-align: center;
 	-ms-flex-align: center;
 	-webkit-align-items: center;
-	align-items: center;
+	align-items: center; */
+	display: block;
 	padding: 20px 0;
   }
   .dataBoarder .left, .dataBoarder .right{
-	  width: 50%; height: 100%; box-sizing: border-box;
+	  width: 100%; height: 100%; box-sizing: border-box;
 	  height: auto;
 	  border-radius: 0;
 	  border: 1px solid #1e5b6b;
   }
   .dataBoarder .right .db4p1{
 	  width: 850px;
-	  height: 400px;
-	  padding: 10px 25px;
+	  height: 455px;
+	  /* padding: 10px 25px; */
   }
   .dataBoarder .left{border-right: 1px solid rgba(255,255,255,.3);}
   .dataBoarder #FontScroll{
-	  height: 700px !important;
+	  height: 246px !important;
   }
 .deviceFlex{
 	display: flex;
 	flex-wrap: nowrap;
 	width: 100%;
-	height: 320px;
+	height: 330px;
 	border: 1px solid #1e5b6b;
 	border-top: none;
 }

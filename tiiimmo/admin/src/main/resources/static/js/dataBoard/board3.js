@@ -4,6 +4,7 @@ var board3Api = {
     deviceUrl: '/ShowBoard/getDeviceStatus',//设备接口
     excute: '/open/excute',//执行数据查询接口
     processBadRate: '/ShowBoard/processBadRate',//不良率
+    findBadNewRate: '/ShowBoard/findBadNewRate',//不良率
     findProcessTaskByDevice: '/ShowBoard/findProcessTaskByDevice',//根据设备编号查询工序任务
     getDeviceByCode: '/ShowBoard/getDeviceByCode/',//查看设备接口
     getMapProcessThisWeekRate: '/ShowBoard/getMapProcessThisWeekRate',//周每天任务完成数量及百分比
@@ -57,7 +58,7 @@ function setDataBoard3(params) {
             url: board3Api.findByStartEndTimeBy3TiePian,
             dataType: "json",
             success: function (response) {
-                console.log('shenkc',response)
+                // console.log('shenkc',response)
                 addDataTaskHtml(response.data); //生产信息 
             }
         });
@@ -132,17 +133,14 @@ function processBadRate() {
     $.ajax({
         contentType: 'application/json',
         type: 'get',
-        url: board3Api.processBadRate,
+        url: board3Api.findBadNewRate,
         dataType: "json",
         success: function (response) {
             //console.log('我是不良率=', response)
             var badRateArr = [], legendAxisArr = [];
             for (var i = 0; i < response.data.length; i++) {
-                if (i == 2) {
-                    continue;
-                }
-                legendAxisArr.push(response.data[i].processType)
-                badRateArr.push({ value: response.data[i].rate, name: response.data[i].processType })
+                legendAxisArr.push(response.data[i].bad_name)
+                badRateArr.push({ value: response.data[i].bad_rate, name: response.data[i].bad_name })
             }
             // db2POption2.yAxis.data = houhanTaskArr1.reverse();
             db3POption5.legend.data = legendAxisArr
@@ -173,7 +171,7 @@ function deviceShow(deviceCode, n) {
         dataType: "json",
         data: JSON.stringify(data),
         success: function (response) {
-            console.log('设备信息=', response)
+            // console.log('设备信息=', response)
             var responseData = response.data;
             $.ajax({
                 contentType: 'application/json',
@@ -181,10 +179,10 @@ function deviceShow(deviceCode, n) {
                 url: board3Api.getDeviceByCode + data.deviceCode,
                 dataType: "json",
                 success: function (response) {
-                    console.log("====",response)
+                    // console.log("====",response)
                     var device = response.data.device
                     var user = response.data.user
-                    console.log(user)
+                    // console.log(user)
                     addHtml(responseData, device, n,user);
                     $.ajax({
                         contentType: 'application/json',
@@ -192,7 +190,7 @@ function deviceShow(deviceCode, n) {
                         url: board3Api.getDeviceRunTime + data.deviceCode,
                         dataType: "json",
                         success: function (response) {
-                            console.log(response)
+                            // console.log(response)
                             var responseRunData = response.data;
                             setDevice(responseRunData,responseData.device_name,device.device_code);
                         }
@@ -393,7 +391,7 @@ function setDevice(data,deviceName,device_code) {
         url: board3Api.findCropRate+device_code,
         dataType: "json",
         success: function (response) {
-            console.log('jiadng',response)
+            // console.log('jiadng',response)
             pieOption1.series[0].data = [{ value: response.data.cropRate||0, name: '' }];
             devicePie1.setOption(pieOption1);
         }
@@ -542,12 +540,10 @@ function addHtml(responseData, deviceresponse, n,user) {
     $('.summary').html(html)
 }
 function addDataTaskHtml(data) {
-    console.log(data,'====')
     var htmlPiepian = '',beiliaoTask='',beiliaoTask='',beiliaoTask='';
     var beiliao=Object.keys(data.beiliao);
     var running=Object.keys(data.running);
     var waiting=Object.keys(data.waiting);
-    console.log(beiliao,running,waiting)
     if (data.beiliao.plan_start_time != null) {
         data.beiliao.plan_start_time = data.beiliao.plan_start_time.split('T')[0];
     } else {
@@ -625,7 +621,6 @@ function addDataTaskHtml(data) {
                 '           </li>';
     }
     htmlPiepian += beiliaoTask+runningTask+waitingPTask;
-    console.log(htmlPiepian)
     var theadHtmlPTask = '<div class="item summaryP3" >' +
         '   <div class="itemCon itembg itembg_popupfirt"  id="taskList">' +
         '       <ul class="listStyle">' ;
@@ -850,7 +845,7 @@ var db3POption5 = {
     },
     legend: {
         orient: 'vertical',
-        data: ['贴片', '后焊', '调试', '调试', '入库'],
+        data: [],
         type: 'scroll',
         orient: 'vertical',
         right: 10,
@@ -865,8 +860,8 @@ var db3POption5 = {
         {
             name: '不良率',
             type: 'pie',
-            radius: '55%',
-            center: ['50%', '50%'],
+            radius: '60%',
+            center: ['38%', '60%'],
             data: [
                 { value: 50, name: '贴片' },
                 { value: 60, name: '后焊' },
