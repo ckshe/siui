@@ -514,7 +514,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 String processName = (String)useRate.get("process_type");
                 if(processName.equals(processTypeName)){
                     BigDecimal workTime =(BigDecimal) useRate.get("workTime") ;
-                    Integer sumTheoryTime = (Integer) useRate.get("sumTheoryTime");
+                    Integer sumTheoryTime = ((BigDecimal) useRate.get("sumTheoryTime")).intValue();
                     staffOntimeRateResp.setWorkTime(workTime.intValue());
                     staffOntimeRateResp.setSumTheoryTime(sumTheoryTime);
                 }
