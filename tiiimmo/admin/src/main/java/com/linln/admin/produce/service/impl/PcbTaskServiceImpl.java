@@ -551,11 +551,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
         StringBuffer sql = new StringBuffer("select  *\n" +
                 "                from (select row_number()\n" +
-                "                        over(order by produce_plan_date desc) as rownumber,*\n" +
+                "                over(order by produce_plan_date desc) as rownumber,*\n" +
                 "                from produce_pcb_task) temp_row ");
         Integer page = pcbTaskReq.getPage(); //当前页
         Integer size = pcbTaskReq.getSize(); //每页条数
-        String pcbTaskCode = pcbTaskReq.getPcbTaskCode();  //任务号
+        String taskSheetCode = pcbTaskReq.getTaskSheetCode();  //生产批次
         String pcbId = pcbTaskReq.getPcbId(); //规格型号
         String pcbName = pcbTaskReq.getPcbName(); //物料名称
 
@@ -569,9 +569,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
 
         StringBuffer wheresql = new StringBuffer(" where 1=1 ");
-        if(pcbTaskCode!=null&&!"".equals(pcbTaskCode)){
-            wheresql.append(" and pcb_task_code like '" +
-                    "%" + pcbTaskCode + "%" +
+        if(taskSheetCode!=null&&!"".equals(taskSheetCode)){
+            wheresql.append(" and task_sheet_code  like '" +
+                    "%" + taskSheetCode + "%" +
                     "' ");
         }
         if(pcbId!=null&&!"".equals(pcbId)){
@@ -607,9 +607,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 "");
 
         List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
-        if (count.size() < 10){
-            pcbTaskReq.setPage(1);
-        }
+
         return ResultVoUtil.success("查询成功",mapList,count.size());
 
 
