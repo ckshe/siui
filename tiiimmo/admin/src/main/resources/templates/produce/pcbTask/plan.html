@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>生产信息</title>
+    <title>工序计划</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -49,6 +49,56 @@
     </div>
     <div style="text-align: center">
         <button class="layui-btn  layui-btn-sm" lay-submit lay-filter="sub" type="button">确定</button>
+    </div>
+</form>
+<form class="layui-form" lay-filter="bianjiBox" id="bianjiBox" style="display: none;padding:14px 0;">
+    <input type="hidden" name="processId">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">计划生产时间</label>
+            <div class="layui-input-inline">
+                <input id="planStartTime2" type="text" name="planStartTime"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">计划完成时间</label>
+            <div class="layui-input-inline">
+                <input id="planFinishTime2" type="text" name="planFinishTime"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">实际生产时间</label>
+            <div class="layui-input-inline">
+                <input id="startTime" type="text" name="startTime"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">实际完成时间</label>
+            <div class="layui-input-inline">
+                <input id="finishTime" type="text" name="finishTime"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">工时</label>
+            <div class="layui-input-inline">
+                <input  type="text" name="workTime"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">计划生产数量</label>
+            <div class="layui-input-inline">
+                <input  type="text" name="pcbQuantity"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">实际生产数量</label>
+            <div class="layui-input-inline">
+                <input  type="text" name="amountCompleted"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center">
+        <button class="layui-btn  layui-btn-sm" lay-submit lay-filter="edit" type="button">保存</button>
     </div>
 </form>
 <div class="mainBox">
@@ -114,29 +164,23 @@
 
                         ,{field: 'process_task_status', title: '工单状态', minWidth:140}
                     ,{field: 'work_time', title: '工时', minWidth: 80 }
-                    // ,{field: 'score', title: '报表', minWidth: 66,toolbar:'#baobiao'}
-                    ,{field: 'wealth', title: '操作',fixed:'right',  minWidth: 90,templet:function (d) {
+                    ,{field: 'wealth', title: '操作',fixed:'right',  minWidth: 120,templet:function (d) {
                        if(d.process_task_status==='未下达'){
-                           return '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-xs" type="button">下达</button> '
+                           return '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-xs" type="button">下达</button>' +
+                                   '<button lay-event="edit" class="layui-btn layui-btn-normal layui-btn-xs" type="button">编辑</button>'
 
                        } else {
-                           return ''
+                           return '<button lay-event="edit" class="layui-btn layui-btn-normal layui-btn-xs" type="button">编辑</button>'
 
                        }
                         }}
                     ]
                 ]
             });
-            laydate.render({
-                elem: '#planStartTime'
-                ,type:'date'
-            });
-            laydate.render({
-                elem: '#planFinishTime'
-                ,type:'date'
-            });
+
             table.on('tool(table)',function (obj) {
                 var data = obj.data;
+                console.log(data)
                 switch (obj.event) {
                     case 'im':break;
                     case 'baobiao':break;
@@ -151,7 +195,26 @@
                             area:['360px','300px']
                         });
                         break;
-                    case 'del':break;
+                    case 'edit':
+                        layer.open({
+                           title:'工序计划编辑',
+                           type:1,
+                            offset:20,
+                           content:$("#bianjiBox"),
+                        });
+                        var d = {};
+                        d.processId=data.id;
+                        d.workTime=data.work_time;
+                        d.planStartTime=data.plan_start_time;
+                        d.planFinishTime=data.plan_finish_time;
+                        d.startTime=data.start_time;
+                        d.finishTime=data.finish_time;
+                        d.workTime=data.work_time;
+                        d.amountCompleted=data.amount_completed;
+                        d.pcbQuantity=data.pcb_quantity;
+                        console.log(d)
+                        form.val('bianjiBox',d);
+                        break;
                 }
             });
             $("#imConfig").on('click',function () {
@@ -173,6 +236,7 @@
                     layer.close(imTable)
                 }
             })
+            //下达
             form.on('submit(sub)',function (obj) {
                 obj.field.deviceName=deviceName.join(',')
                 obj.field.deviceCode=deviceCode.join(',')
@@ -200,13 +264,55 @@
                     }
                 });
             })
+            //编辑
+            form.on('submit(edit)',function (obj) {
+                console.log(obj.field);
+                $.ajax({
+                    type: "POST",
+                    url: "/produce/pcbTask/updateProcessTask/",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(obj.field),
+                    dataType: "json",
+                    success: function (res) {
+                        if(res.code === 200){
+                            layer.alert(res.msg,{icon:1},function () {
+                                table.reload('table');
+                                layer.closeAll();
+                            })
+                        }else{
+                            layer.msg(res.msg, {offset: '15px', time: 3000, icon: 2});
+                        }
+                    },
+                    error: function (message) {
+                        layer.msg("保存失败！", {offset: '15px', time: 3000, icon: 2});
+                    }
+                });
+            })
 
-
-
-
-
-
-
+            laydate.render({
+                elem: '#planStartTime'
+                ,type:'date'
+            });
+            laydate.render({
+                elem: '#planFinishTime'
+                ,type:'date'
+            });
+            laydate.render({
+                elem: '#planStartTime2'
+                ,type:'date'
+            });
+            laydate.render({
+                elem: '#planFinishTime2'
+                ,type:'date'
+            });
+            laydate.render({
+                elem: '#startTime'
+                ,type:'date'
+            });
+            laydate.render({
+                elem: '#finishTime'
+                ,type:'date'
+            });
 
         });
 
