@@ -33,10 +33,7 @@ import org.apache.xmlbeans.impl.common.ResolverUtil;
 import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskDecorator;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -96,6 +93,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Autowired
     private BadClassDetailRepository badClassDetailRepository;
+
 
 
     /**
@@ -426,11 +424,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             pcbTaskPlateNo.setPlate_no(tempPlanNo);
             pcbTaskPlateNo.setPcb_task_code(pcbTask.getPcb_task_code());
             pcbTaskPlateNo.setPcb_code(pcbTask.getPcb_id());
+            pcbTaskPlateNo.setIs_count("0");
             pcbTaskPlateNoRepository.save(pcbTaskPlateNo);
 
         }
 
-        pcbTask.setPcb_plate_id(firstPlate+"~"+lastPlate);
+        pcbTask.setBatch_id(firstPlate+"~"+lastPlate);
         pcbPlateNo.setLast_plate_no(lastPlate);
         pcbPlateNoRepository.save(pcbPlateNo);
         String todayStr = DateUtil.getTodayStringForProcessTaskCode();
@@ -522,9 +521,23 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     @Override
     public ResultVo findProcessTaskByProcessName(PcbTaskReq pcbTaskReq) {
 
+        StringBuffer wheresql = new StringBuffer();
+
+        if(pcbTaskReq.getProcessTaskCode()!=null&&!"".equals(pcbTaskReq.getProcessTaskCode())){
+            wheresql.append(" and t1.process_task_code like '%" +
+                    pcbTaskReq.getProcessTaskCode() +
+                    "%' ");
+        }
+        if(pcbTaskReq.getPcbTaskCode()!=null&&!"".equals(pcbTaskReq.getPcbTaskCode())){
+            wheresql.append(" and t1.pcb_task_code like '%" +
+                    pcbTaskReq.getPcbTaskCode() +
+                    "%' ");
+        }
         StringBuffer sql = new StringBuffer("select * from(\n" +
                 "select *, ROW_NUMBER() OVER(order by t4.Id asc) row from\n" +
-                "(SELECT t1.*,t2.pcb_id,t2.feeding_task_code from produce_process_task t1 LEFT JOIN produce_pcb_task t2 on t2.pcb_task_code = t1.pcb_task_code where t1.process_name = '备料' and t1.process_task_status != '未下达')t4)t3\n");
+                "(SELECT t1.*,t2.pcb_id,t2.feeding_task_code from produce_process_task t1 LEFT JOIN produce_pcb_task t2 on t2.pcb_task_code = t1.pcb_task_code where t1.process_name = '备料' and t1.process_task_status != '未下达' " +
+                wheresql.toString() +
+                ")t4)t3\n");
         Integer page = 1;
         Integer size = 10;
         if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
@@ -564,7 +577,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             size = pcbTaskReq.getSize();
         }
 
-        List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
+
 
 
 
@@ -600,6 +613,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     "' ");
         }*/
         sql.append(wheresql);
+        List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
         sql.append(" and rownumber between " +
                 ((page-1)*size+1) +
                 " and " +
@@ -799,7 +813,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         StringBuffer sql = new StringBuffer("SELECT\n" +
                 "\tt1.*,\n" +
                 "\tt2.pcb_id,\n" +
-                "\tt2.feeding_task_code,t2.model_name \n" +
+                "\tt2.feeding_task_code,t2.model_name,t2.batch_id \n" +
                 "FROM\n" +
                 "\tproduce_process_task t1\n" +
                 "\tLEFT JOIN produce_pcb_task t2 ON t2.pcb_task_code = t1.pcb_task_code \n" +
@@ -913,6 +927,15 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         if("进行中".equals(processTask.getProcess_task_status())||"生产中".equals(processTask.getProcess_task_status())){
             processTask.setAmount_completed(processTask.getAmount_completed()+1);
             processTaskRepository.save(processTask);
+            PcbTaskPlateNo pcbTaskPlateNo = pcbTaskPlateNoRepository.findByPlate_no(pcbTaskReq.getPlateNo());
+            if(pcbTaskPlateNo!=null){
+                return ResultVoUtil.error("找不到该板编号！");
+            }
+            if("1".equals(pcbTaskPlateNo.getIs_count())){
+                return ResultVoUtil.error("该板编号已计数过！");
+            }
+            pcbTaskPlateNo.setIs_count("1");
+            pcbTaskPlateNoRepository.save(pcbTaskPlateNo);
             return ResultVoUtil.success("计数成功");
         }
         return ResultVoUtil.error("该任务单未启动");
@@ -1000,6 +1023,27 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     public ResultVo findBadTypeRecordList(PcbTaskReq req) {
 
         return ResultVoUtil.success(badClassDetailRepository.findByPlate_no(req.getPlateNo()));
+    }
+
+    @Override
+    public ResultVo findPcbTaskPlateNo(PcbTaskReq req) {
+        Integer page = req.getPage()==null?1:req.getPage(); //当前页
+        Integer size = req.getSize()==null?10:req.getSize(); //每页条数
+        StringBuffer sql = new StringBuffer("select * from(\n" +
+                "select *, ROW_NUMBER() OVER(order by t4.Id asc) row from\n" +
+                "(SELECT * FROM produce_pcbtask_plate_no WHERE pcb_task_code = '" +
+                req.getPcbTaskCode() +
+                "'  )t4)t3\n" +
+                "where t3.Row between " +
+                ((page-1)*size+1) +
+                " and " +
+                (page*size) +
+                "  ORDER BY t3.is_count desc ,t3.id");
+
+        List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+        //List<PcbTaskPlateNo> plateNoList = pcbTaskPlateNoRepository.findByPcb_task_code(req.getPcbTaskCode());
+
+        return ResultVoUtil.success(mapList);
     }
 
 

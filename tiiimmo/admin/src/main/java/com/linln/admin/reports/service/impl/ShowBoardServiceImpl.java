@@ -1,12 +1,11 @@
 package com.linln.admin.reports.service.impl;
 
 import com.linln.RespAndReqs.PcbTaskReq;
-import com.linln.RespAndReqs.responce.BadRateResp;
-import com.linln.RespAndReqs.responce.DeviceRunTimeResp;
-import com.linln.RespAndReqs.responce.ProcessThisWeekRateResp;
-import com.linln.RespAndReqs.responce.StaffOntimeRateResp;
+import com.linln.RespAndReqs.responce.*;
+import com.linln.admin.base.domain.BadNews;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.domain.DeviceCropRate;
+import com.linln.admin.base.repository.BadNewsRepository;
 import com.linln.admin.base.repository.DeviceCropRateRepository;
 import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.produce.domain.PcbTask;
@@ -62,6 +61,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private BadNewsRepository badNewsRepository;
 
     @Override
     public List<PcbTask> pcbTaskBoard() {
@@ -724,5 +726,46 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         }
 
         return map;
+    }
+
+    @Override
+    public List<BadNews>  findBadNewRate() {
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
+        String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
+
+        StringBuffer countTypesql = new StringBuffer("SELECT bad_type,COUNT(id) badCount FROM quality_badclass_detail where record_time >= '" +
+                startTime +
+                "' and record_time<= '" +
+                endTime +
+                "' GROUP BY bad_type  ");
+        StringBuffer sumcountsql = new StringBuffer("SELECT COUNT(id) sumcount FROM quality_badclass_detail where record_time >= '" +
+                startTime +
+                "' and record_time<= '" +
+                endTime +
+                "' ");
+
+        List<Map<String,Object>> sumCountMap = jdbcTemplate.queryForList(sumcountsql.toString());
+        Integer sumcount = 1;
+        if(sumCountMap!=null&&sumCountMap.size()!=0){
+            sumcount = (Integer)sumCountMap.get(0).get("sumcount");
+        }
+        List<BadNews> list = badNewsRepository.findBybadType("炉后AOI");
+        List<Map<String,Object>> countBadTypeMap = jdbcTemplate.queryForList(countTypesql.toString());
+        for(BadNews badNews : list){
+            badNews.setBad_rate(BigDecimal.ZERO);
+            for(Map<String,Object> map : countBadTypeMap){
+                String badType = (String)map.get("bad_type");
+                Integer badCount = (Integer)map.get("badCount");
+                if(badNews.getBad_name().equals(badType)){
+                    BigDecimal rate = caculateRate(badCount, sumcount);
+                    badNews.setBad_rate(rate);
+                }
+            }
+        }
+
+        return list;
+
+
     }
 }

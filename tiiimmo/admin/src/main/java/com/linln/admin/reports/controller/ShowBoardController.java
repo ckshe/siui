@@ -159,6 +159,13 @@ public class ShowBoardController {
         return ResultVoUtil.success(showBoardService.findCropRate(deviceCode));
     }
 
+    //查看不良率
+    @GetMapping("/findBadNewRate")
+    @ResponseBody
+    public ResultVo findBadNewRate( ){
+        return ResultVoUtil.success(showBoardService.findBadNewRate());
+    }
+
 
 
 }

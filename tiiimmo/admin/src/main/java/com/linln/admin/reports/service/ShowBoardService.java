@@ -5,6 +5,7 @@ import com.linln.RespAndReqs.responce.BadRateResp;
 import com.linln.RespAndReqs.responce.DeviceRunTimeResp;
 import com.linln.RespAndReqs.responce.ProcessThisWeekRateResp;
 import com.linln.RespAndReqs.responce.StaffOntimeRateResp;
+import com.linln.admin.base.domain.BadNews;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.domain.DeviceCropRate;
 import com.linln.admin.produce.domain.PcbTask;
@@ -56,6 +57,8 @@ public interface ShowBoardService {
     public User findOneLastOnTimeUser(String deviceCode);
 
     public Map<String,Object>  findCropRate(String deviceCode);
+
+    public List<BadNews>  findBadNewRate();
 
 
 }

@@ -264,4 +264,13 @@ public class PcbTaskController {
     public ResultVo findBadTypeRecordList(@RequestBody PcbTaskReq req){
         return pcbTaskService.findBadTypeRecordList(req);
     }
+    //根据排产计划编号查询所有板编号
+    @PostMapping("/findPcbTaskPlateNo")
+    @ResponseBody
+    public ResultVo findPcbTaskPlateNo(@RequestBody PcbTaskReq req){
+        return pcbTaskService.findPcbTaskPlateNo(req);
+    }
+
+
+
 }
