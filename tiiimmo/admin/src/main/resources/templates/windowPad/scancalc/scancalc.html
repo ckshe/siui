@@ -16,7 +16,7 @@
 <div class="mainBox">
     <div class="imBox">
         <span class=""  style="width:100px;display: inline-block;font-size: 20px">扫码登记：</span>
-        <input id="codeBox" class="layui-input" type="text" style="width: calc(100% - 110px);display: inline-block">
+        <input id="codeBox" autocomplete="off" class="layui-input" type="text" style="width: calc(100% - 110px);display: inline-block">
     </div>
     <div class="taskBox">
         <div class="title">当前累计列表</div>
@@ -87,46 +87,58 @@
                 })
             });
             //展示已知数据
-            table.render({
-                elem: '#table'
-                ,url: '/produce/pcbTask/findProcessTaskByDevice' //数据接口
-                ,page: false //开启分页
-                ,method:'POST'
-                ,loading:false
-                ,contentType: 'application/json'
-                ,response: {
-                    statusCode: 200
+            $.ajax({
+                url:"/produce/pcbTask/findProcessTaskByDevice",
+                type:'post',
+                dataType : "json",
+                data : JSON.stringify({
+                    deviceCode:getQueryString2('deviceCode'),
+                }),
+                contentType : "application/json;charset=UTF-8",
+                success: function (res) {
+                    layer.closeAll();
+                    res.data.some(function (t,i) {
+                        if(t.is_now_flag==1){
+                            table.render({
+                                elem: '#table'
+                                ,url: '/produce/pcbTask/findPcbTaskPlateNo' //数据接口
+                                ,page: false //开启分页
+                                ,method:'POST'
+                                ,loading:false
+                                ,contentType: 'application/json'
+                                ,response: {
+                                    statusCode: 200
+                                }
+                                ,parseData: function(res){
+                                    return {
+                                        "code": res.code, //解析接口状态
+                                        "data": res.data, //解析数据列表
+                                        "count": res.total, //解析数据长度
+                                    };
+                                }
+                                ,where:{
+                                    pcbTaskCode: t.pcb_task_code
+                                }
+                                ,cols: [
+                                    [ //标题栏
+                                        {field: 'plate_no', title: '板编号', width: 145}
+                                        ,{field: 'pcb_task_code', title: '排产任务号', minWidth: 130}
+                                        ,{field: 'pcb_code', title: '规格型号', width: 180}
+                                        ,{field: 'is_count', title: '是否登記', width: 164,templet:function (d) {
+                                            return d.is_count==0?'否':'是'
+                                        }}
+                                        // ,{ field: 'qwe',title: '操作',fixed:'right', minWidth: 100,templet:function (d) {
+                                        //     return  '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-sm" type="button">查看详情</button> '
+                                        // }}
+                                    ]
+                                ]
+                            });
+                            return true
+                        }
+                    });
                 }
-                ,parseData: function(res){
-                    return {
-                        "code": res.code, //解析接口状态
-                        "data": res.data, //解析数据列表
-                        "count": res.total, //解析数据长度
-                    };
-                }
-                ,cols: [
-                    [ //标题栏
-                        {field: 'process_task_code', title: '工序任务号', width: 188}
-                        ,{field: 'process_name', title: '工序名称', width: 120}
-                        ,{field: 'process_task_status', title: '工单状态', minWidth: 110}
-                        ,{field: 'task_sheet_code', title: '生产批次', width: 164}
-                        ,{field: 'model_name', title: '机型名称', minWidth: 274}
-                        ,{field: 'pcb_code', title: '规格型号', minWidth: 208}
-                        ,{field: 'pcb_quantity', title: '计划生产数量', minWidth: 120}
-                        ,{field: 'amount_completed', title: '实际生产数量', minWidth: 120}
-                        ,{field: 'RoHS', title: 'RoHS标志', minWidth: 100}
-                        ,{field: 'plan_start_time', title: '计划生产时间', minWidth: 170,templet:function (d) {
-                                return timeToDate(d.plan_start_time)
-                        }}
-                        ,{field: 'plan_finish_time', title: '计划结束时间', minWidth: 170,templet:function (d) {
-                                return timeToDate(d.plan_finish_time)
-                        }}
-                        ,{ field: 'qwe',title: '操作',fixed:'right', minWidth: 100,templet:function (d) {
-                            return  '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-sm" type="button">查看详情</button> '
-                        }}
-                    ]
-                ]
             });
+
             table.on('tool(table)',function (obj) {
                 var data = obj.data;
                 switch (obj.event) {
