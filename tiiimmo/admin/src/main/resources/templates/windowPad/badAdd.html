@@ -23,69 +23,34 @@
   </head>
   <body>
         <form class="layui-form" style="padding-top:20px;" lay-filter="form2">
-            <input type="hidden" name="id">
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">日制令号<span style="color:red">*</span></label>
+                    <label class="layui-form-label">板编号<span style="color:red">*</span></label>
                     <div class="layui-input-inline">
-                        <input type="text" id="taskSerial" name="taskSerial"  autocomplete="off" class="layui-input">
-                        <input type="hidden" id="taskId" name="taskId">
+                        <input type="text" id="plateNo" name="taskSerial" placeholder="扫码录入板编号" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">机台号</label>
+                    <label class="layui-form-label"></label>
                     <div class="layui-input-inline">
-                        <input type="text" id="imSerial" name="imSerial" autocomplete="off" class="layui-input" placeholder="选择日制令后自动填入" >
-                        <input type="hidden" id="imConfigId" name="imConfigId">
+                        <input type="hidden" id="imConfigId">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">模具名称</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="mouldName" name="mouldName" autocomplete="off" class="layui-input" placeholder="选择日制令后自动填入" >
-                        <input type="hidden" id="mouldId" name="mouldId">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">类型</label>
-                    <div class="layui-input-inline">
-                        <select name="dataType" id="dataType" lay-filter='dataType'>
-
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">抽检数量</label>
-                    <div class="layui-input-inline">
-                        <input type="number" name="samplingNum"  autocomplete="off" class="layui-input">
-                    </div>
-                </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">检验人</label>
                     <div class="layui-input-inline">
-                        <input type="number" name="user"  autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">不良数量<span style="color:red">*</span></label>
-                    <div class="layui-input-inline">
-                        <input type="number" name="badNum"  autocomplete="off" class="layui-input" min="0" lay-verify="badNum">
+                        <input id="user" type="text" name="user"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">巡机时间<span style="color:red">*</span></label>
+                    <label class="layui-form-label">登记时间<span style="color:red">*</span></label>
                     <div class="layui-input-inline">
-                        <input id="inspectionTime" type="text" name="inspectionTime"  autocomplete="off" class="layui-input">
+                        <input id="inspectionTime" type="text" name="time"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
-
             <div class="layui-form-item" id="badBox">
                 <div class="layui-inline" >
                     <label class="layui-form-label">不良描述</label>
@@ -108,14 +73,15 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline" >
-                    <label class="layui-form-label">不良描述补充</label>
+                    <label class="layui-form-label">补充说明</label>
                     <div class="layui-input-inline" >
-                        <input class="layui-input" name="remark" placeholder="补充不良描述" style="width:518px!important;" autocomplete="off" />
+                        <input class="layui-input" name="remark" placeholder="补充说明" style="width:518px!important;" autocomplete="off" />
                     </div>
                 </div>
             </div>
             <div class="layui-form-item" style="text-align: center;">
                 <button class="layui-btn" type="button" lay-submit lay-filter="add">保存</button>
+                <button class="layui-btn layui-btn-normal" type="reset" >重置</button>
             </div>
       </form>
     <script src="../../lib/layui-v2.3.0/layui.js" ></script>
@@ -131,53 +97,75 @@
               elem: '#inspectionTime',
               type: 'datetime'
             });
+            var badCheck = document.getElementById('badCheck');
+            http.get('/base/badNews/findBadNewsList',function (res) {
+               if(res.code===200){
+                   var str = "";
+                   res.data.forEach(function (t) {
+                       str+='<input type="checkbox" value="'+t.bad_name+'" lay-filter="bad" lay-skin="primary" title="'+t.bad_name+'">'
+                   });
+                   badCheck.innerHTML=str;
+                   form.render()
+               }
+            });
+            scanCode('plateNo');
+            $('#user').on('click',function () {
+                var userBox =  layer.open({
+                    title:'用户列表',
+                    type:2,
+                    area:['98%',"94%"],
+                    content:'/userTable'
+                });
+                a=function (data) {
+                    layer.close(userBox);
+                    var d=data[0];
+                    form.val('form2',{user:d.nickname})
 
-
-
-
-
-
-          //自定义验证规则
-            form.on('submit(add)', function (data2) {
-                layer.load(1);
-                setTimeout(function () {
-                    parent.layer.closeAll();
-                    parent.layer.msg('提交成功！',{icon:1});
-                },1000)
-                return
-                var data = data2.field;
-                data.id===""&&(data.id=null);
-                data.badDescription = $('#badSay').html();
-                data.testEquipment = $('[name=testEquipment]').val();
+                }
+            });
+            form.on('submit(add)', function (obj) {
+                var checkeds = badCheck.getElementsByTagName('input');
+                var arr = [];
+                for(var i=0; i<checkeds.length;i++){
+                    if(checkeds[i].checked){
+                        arr.push({badNews:checkeds[i].value})
+                    }
+                }
+                obj.field.badNewsList=arr;
                 $.ajax({
-                    url: "/processInspection/updateIprocessInspection",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(data),
-                    dataType: "json",
-                    success: function (result) {
-                        if (result.code === 200) {
-                            //发异步，把数据提交给后台
-                            layer.alert(result.message, { icon: 6 }, function () {
-                                if(window.Android){
-                                    // js中数据类型为var 传递给Android时需要指定数据类型 否则Android收到的参数值不对
-                                    window.Android.returnBadNum(parseInt(data.badNum),1);
-                                } else {
-                                    //发异步，把数据提交给后台
-                                        parent.layui.table.reload('articleList');
-                                        // 获得frame索引
-                                        var index = parent.layer.getFrameIndex(window.name);
-                                        // 关闭当前frame
-                                        parent.layer.close(index);
-                                }
-
-
-                            });
-                        }else{
-                            layer.alert(result.message)
-                        }
+                    url:"/produce/pcbTask/findProcessTaskByDevice",
+                    type:'post',
+                    dataType : "json",
+                    data : JSON.stringify({
+                        deviceCode:getQueryString2('deviceCode'),
+                    }),
+                    contentType : "application/json;charset=UTF-8",
+                    success: function (res) {
+                        layer.closeAll();
+                        res.data.some(function (t,i) {
+                            if(t.is_now_flag==1){
+                                obj.field.pcbTaskCode=t.pcb_task_code;
+                                $.ajax({
+                                    url: "/produce/pcbTask/recordBadTypeList",
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    data: JSON.stringify(obj.field),
+                                    dataType: "json",
+                                    success: function (res) {
+                                        if (res.code === 200) {
+                                            layer.alert(res.msg, { icon: 1 });
+                                        }else{
+                                            layer.alert(res.msg)
+                                        }
+                                    }
+                                });
+                                return
+                            }
+                        });
                     }
                 });
+
+
             });
 
         });

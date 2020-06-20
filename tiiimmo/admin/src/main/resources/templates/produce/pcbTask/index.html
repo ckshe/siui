@@ -59,7 +59,6 @@
     </div>
 <script th:replace="/common/template :: script"></script>
     <script src="../../js/common.js" ></script>
-
     <script>
         layui.use(['form','laydate','table','jquery','form'],function () {
             var layer = layui.layer,
@@ -76,6 +75,7 @@
                 ,url: '/produce/pcbTask/findScheduling' //数据接口
                 ,method:'POST'
                 ,loading:false
+
                 ,contentType: 'application/json'
                 ,response: {
                     statusCode: 200
@@ -142,7 +142,7 @@
             });
             form.on('submit(search)',function (obj) {
                 var data = obj.field;
-                console.log(data)
+                console.log(data);
                 table.reload('table',{
                     where:obj.field
                 })

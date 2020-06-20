@@ -194,10 +194,7 @@
 <!--<script src="../../lib/oneCode.js"></script>-->
 </body>
 <script>
-    var func13 = function () {};
-
     var nowGonDan="";
-
     window.onload = function () {
         layui.use(['jquery', 'form'], function () {
             var $ = layui.jquery,
@@ -308,8 +305,6 @@
                                    layer.msg(res.msg,{icon:1});
                                    res.data.loginTime = timeToDate(new Date());
                                    localStorage.setItem('padUserData',JSON.stringify(res.data));
-                                   func13=function () {}
-
                                    setTimeout(function () {
                                        window.location.reload();
                                    },1000)
@@ -343,7 +338,6 @@
                                if(res.code === 200){
                                    layer.msg(res.msg,{icon:1});
                                    localStorage.removeItem("padUserData");
-                                   func13=function () {}
                                    setTimeout(function () {
                                        window.location.reload();
                                    },1000)

@@ -113,3 +113,86 @@ function diffTime(startDate,endDate) {
     }
     return returnStr;
 }
+//扫码输入触发事件
+function scanCode(domId,func){
+    // scanCode('input的id',function () {})
+    var func2 = func||function(){}
+    var input = document.getElementById(domId);
+    input.focus();
+    document.onkeydown=function (e) {
+        if(e.keyCode === 13){
+            if(input == document.activeElement){
+                func2()
+            }
+        }
+    };
+}
+//*****************************form表单模块***********************************************
+//普通下拉选择
+function Select(obj) {
+  this.select = document.getElementById(obj.elemId);
+     this.url = obj.url;
+    this.type = obj.type||"get";
+    this.data = obj.data;
+     this.val = obj.val||'id';
+    this.text = obj.text||'name';
+    this.done = obj.done||function () {};
+    this.create();
+this.postData = obj.postData||{};
+    Select.prototype={
+        create:function () {
+            var that = this;
+            if(that.type==='get'){
+                http.get(that.url,function (res) {
+                    var str = "";
+                    res.data.forEach(function (t) {
+                        str+= "<option value='"+t[that.val]+"'>"+t[that.text]+"</option>"
+                    });
+                    that.select.innerHTML=str;
+                    that.done(res.data)
+                })
+            }else{
+                http.post(that.url,that.postData,function (res) {
+                    var str = "";
+                    res.data.forEach(function (t) {
+                        str+= "<option value='"+t[that.val]+"'>"+t[that.text]+"</option>"
+                    });
+                    that.select.innerHTML=str;
+                    that.done(res.data)
+                })
+            }
+        }
+    }
+
+
+}
+//动态多选
+function Checkboxs(obj) {
+        this.box = document.getElementById(obj.elemId);
+        this.url = obj.url;
+       this.type = obj.type||'get';
+   this.postData = obj.postData||{};
+     this.config = obj.config;
+       this.done = obj.done||function () {};
+       this.create()
+     Checkboxs.prototype = {
+         create:function () {
+             var that = this;
+             if(this.type==='get'){
+                 http.get(that.url,function (res) {
+                     var str = "";
+                     // res.data.forEach(function (t) {
+                     //     str+='<input type="checkbox" name="'+that.config[]+'" lay-skin="primary" title="写作" checked="">'
+                     // });
+                     that.box.innerHTML=str;
+                     that.done(res.data)
+                 })
+             }else{
+                 http.post(url,that.postData,function (res) {
+
+                 })
+             }
+         }
+     }
+     console.log(this)
+}
