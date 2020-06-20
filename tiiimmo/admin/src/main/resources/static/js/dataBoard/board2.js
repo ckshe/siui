@@ -258,6 +258,9 @@ var db2POption1 = {
 					},
 					position: 'insideRight',
 					formatter: function (params) {
+						if(params.value==0){
+							return "";
+						}
 						return params.value + "%"
 					}
 				},
@@ -335,6 +338,9 @@ var db2POption2 = {
 					},
 					position: 'insideRight',
 					formatter: function (params) {
+						if(params.value==0){
+							return "";
+						}
 						return params.value + "%"
 					}
 				},
@@ -412,6 +418,9 @@ var db2POption3 = {
 					},
 					position: 'insideRight',
 					formatter: function (params) {
+						if(params.value==0){
+							return "";
+						}
 						return params.value + "%"
 					}
 				},
@@ -471,7 +480,6 @@ var db2POption4 = {
 				fontSize: 20
 			}
 		},
-
 		data: ['任务1']
 	},
 	series: [{
@@ -489,6 +497,9 @@ var db2POption4 = {
 					},
 					position: 'insideRight',
 					formatter: function (params) {
+						if(params.value==0){
+							return "";
+						}
 						return params.value + "%"
 					}
 				},
@@ -566,6 +577,9 @@ var db2POption5 = {
 					},
 					position: 'insideRight',
 					formatter: function (params) {
+						if(params.value==0){
+							return "";
+						}
 						return params.value + "%"
 					}
 				},
@@ -642,6 +656,9 @@ var db2POption6 = {
 					},
 					position: 'insideRight',
 					formatter: function (params) {
+						if(params.value==0){
+							return "";
+						}
 						return params.value + "%"
 					}
 				},

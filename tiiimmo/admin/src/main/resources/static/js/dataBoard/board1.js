@@ -62,8 +62,8 @@ var db1P1Option = {
                 color: 'rgba(255,255,255,1)',
                 fontSize: 20
             },
-            formatter:function(value){
-                return value+'%'
+            formatter: function (value) {
+                return value + '%'
             }
         },
         max: 100,
@@ -107,7 +107,7 @@ var db1P2Option = {
     grid: {
         top: '8%',
         left: '12%',
-        right: '0%',
+        right: '5%',
         bottom: '10%',
         // containLabel: true,
         backgroundColor: '#fff'
@@ -121,8 +121,8 @@ var db1P2Option = {
                 color: 'rgba(255,255,255,1)',
                 fontSize: 20
             },
-            interval:0,  
-            rotate:18 
+            // interval: 0,
+            // rotate: 18
         },
     },
     yAxis: {
@@ -133,11 +133,11 @@ var db1P2Option = {
                 color: 'rgba(255,255,255,1)',
                 fontSize: 20
             },
-            formatter:function(value){
-                return value+'%'
-            }
+            // formatter: function (value) {
+            //     return value + '%'
+            // }
         },
-        minInterval:10
+        // minInterval: 10
         // min: 0,
         // max: 100
         // // data: ['TCL-01-09', 'TCL-01-12', 'TCL-01-13'],
@@ -146,7 +146,7 @@ var db1P2Option = {
         {
             name: '任务量',
             type: 'bar',
-            barWidth: 70,
+            barWidth: 60,
             // stack: '总量',
             // label: {
             // 	show: true,
@@ -159,8 +159,92 @@ var db1P2Option = {
                         show: true,
                         position: 'inside',
                         formatter: function (prams) {
-                            return prams.value+"%";
+                            return prams.value + "%";
                         },
+                        textStyle: {
+                            color: 'white',
+                            fontSize: 20
+                        }
+                    }
+                }
+            }
+        }
+    ]
+};
+
+var db1P3Option = {
+    backgroundColor: 'rgba(255, 255, 255, 0)',
+    title: {
+    },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+            type: 'line'        // 默认为直线，可选为：'line' | 'shadow'
+        },
+        textStyle: {
+            fontSize: 20,
+        }
+    },
+    legend: {
+
+    },
+    grid: {
+        top: '8%',
+        left: '12%',
+        right: '5%',
+        bottom: '10%',
+        // containLabel: true,
+        backgroundColor: '#fff'
+    },
+    xAxis: {
+        type: 'category',
+        data: [],
+        axisLabel: {
+            textStyle: {
+                show: true,
+                color: 'rgba(255,255,255,1)',
+                fontSize: 20
+            },
+            // interval: 0,
+            // rotate: 18
+        },
+    },
+    yAxis: {
+        type: 'value',
+        axisLabel: {
+            textStyle: {
+                show: true,
+                color: 'rgba(255,255,255,1)',
+                fontSize: 20
+            },
+            // formatter: function (value) {
+            //     return value + '%'
+            // }
+        },
+        // minInterval: 10
+        // min: 0,
+        // max: 100
+        // // data: ['TCL-01-09', 'TCL-01-12', 'TCL-01-13'],
+    },
+    series: [
+        {
+            name: '完成数量',
+            type: 'bar',
+            barWidth: 55,
+            // stack: '总量',
+            // label: {
+            // 	show: true,
+            // 	position: 'insideRight'
+            // },
+            data: [85, 90, 88, 98, 68, 12, 0],
+            itemStyle: {
+                normal: {
+                    label: {
+                        show: true,
+                        position: 'inside',
+                        // formatter: function (prams) {
+                        //     return prams.value + "%";
+                        // },
                         textStyle: {
                             color: 'white',
                             fontSize: 20
@@ -350,10 +434,10 @@ var orderOption3 = {
     ]
 }
 var board1Api = {
-    pcbTaskBoard:'/ShowBoard/pcbTaskBoard',//周生产看板
-    findProcessTaskByDate:'/ShowBoard/findProcessTaskByDate',//日生产计划列表
-    getMapProcessThisWeekRate:'/ShowBoard/getMapProcessThisWeekRate',//周每天任务完成数量及百分比
-    getMapProcessDayRate:'/ShowBoard/getMapProcessDayRate',//产线日任务达成率
+    pcbTaskBoard: '/ShowBoard/pcbTaskBoard',//周生产看板
+    findProcessTaskByDate: '/ShowBoard/findProcessTaskByDate',//日生产计划列表
+    getMapProcessThisWeekRate: '/ShowBoard/getMapProcessThisWeekRate',//周每天任务完成数量及百分比
+    getMapProcessDayRate: '/ShowBoard/getMapProcessDayRate',//产线日任务达成率
 }
 function setDataBoard1(params) {
     var hsaClassOn = $(".button-span button:first").hasClass("on");
@@ -391,7 +475,7 @@ function setDataBoard1(params) {
             var weeks = response.mapWeekRate
             var weekArrdata = [weeks.week1, weeks.week2, weeks.week3, weeks.week4]
             db1P1Option.series[0].data = weekArrdata;
-            db1P1Option.xAxis.data =["第一周", "第二周", "第三周", "第四周"]
+            db1P1Option.xAxis.data = ["第一周", "第二周", "第三周", "第四周"]
             db1P1.setOption(db1P1Option);
             $('.box1 .basicInfo  .border-green').html('周任务达成率')
             var mapProcessWeekRate = response.mapProcessWeekRate;
@@ -422,18 +506,75 @@ function setDataBoard1(params) {
                 value: 100 - mapProcessWeekRate.tiaoshi
             }]
             order3.setOption(orderOption3);
+
             $('.box1 .basicInfo  .border-yellow').html('产线周任务达成率')
             var taskFinishRateAxisArr = [];
-            var taskFinishRateArr =[];
-            for(var i=0;i<response.taskFinishRate.length;i++){
+            var taskFinishRateArr = [];
+            for (var i = 0; i < response.taskFinishRate.length; i++) {
+                if(i>2) continue;
                 taskFinishRateAxisArr.push(response.taskFinishRate[i].task_sheet_code);
+                // taskFinishRateAxisArr.push('批次'+(i+1));
                 taskFinishRateArr.push(response.taskFinishRate[i].rate);
             }
+            // console.log(taskFinishRateArr)
+            // console.log(taskFinishRateArr.sort())
+            db1P2Option.xAxis.type='value';
+            db1P2Option.xAxis.axisLabel.formatter=function (value) {
+                return value + '%'
+            };
+            db1P2Option.xAxis.min=0;
+            db1P2Option.xAxis.max=100;
+            db1P2Option.yAxis.type='category';
+            db1P2Option.yAxis.data = taskFinishRateAxisArr.reverse();
+            db1P2Option.yAxis.axisLabel.formatter = function(params){
+                var newParamsName = "";// 最终拼接成的字符串
+                         var paramsNameNumber = params.length;// 实际标签的个数
+                         var provideNumber = 4;// 每行能显示的字的个数
+                         var rowNumber = Math.ceil(paramsNameNumber / provideNumber);// 换行的话，需要显示几行，向上取整
+                         /**
+                          * 判断标签的个数是否大于规定的个数， 如果大于，则进行换行处理 如果不大于，即等于或小于，就返回原标签
+                          */
+                         // 条件等同于rowNumber>1
+                         if (paramsNameNumber > provideNumber) {
+                             /** 循环每一行,p表示行 */
+                             for (var p = 0; p < rowNumber; p++) {
+                                 var tempStr = "";// 表示每一次截取的字符串
+                                 var start = p * provideNumber;// 开始截取的位置
+                                 var end = start + provideNumber;// 结束截取的位置
+                                 // 此处特殊处理最后一行的索引值
+                                 if (p == rowNumber - 1) {
+                                     // 最后一次不换行
+                                     tempStr = params.substring(start, paramsNameNumber);
+                                 } else {
+                                     // 每一次拼接字符串并换行
+                                     tempStr = params.substring(start, end) + "\n";
+                                 }
+                                 newParamsName += tempStr;// 最终拼成的字符串
+                             }
 
-            db1P2Option.xAxis.data = taskFinishRateAxisArr;
-            db1P2Option.yAxis.max = 100;
-            db1P2Option.yAxis.min = 0;
-            db1P2Option.series[0].data = taskFinishRateArr;
+                         } else {
+                             // 将旧标签的值赋给新标签
+                             newParamsName = params;
+                         }
+                         //将最终的字符串返回
+                         return newParamsName
+             }
+            db1P2Option.series[0].data = taskFinishRateArr.reverse();
+            db1P2Option.series[0].name = '完成率';
+
+            // db1P2Option.tooltip.formatter = function(params,value){
+            //     console.log(params)
+            //     return params;
+
+            // }
+
+            db1P2Option.series[0].itemStyle.normal.label.formatter =  function (prams) {
+                if(prams.value==0){
+                    return ''
+                }
+                return prams.value + "%";
+            };
+
             db1P2.setOption(db1P2Option);
             $('.box1 .basicInfo .border-blue').html('各批次完成率')
         } else {
@@ -443,29 +584,33 @@ function setDataBoard1(params) {
                 url: board1Api.getMapProcessThisWeekRate,
                 dataType: "json",
                 success: function (response) {
-                    var weekRateArr = [],axisWeekRateArr=[],axisWeekNumArr=[];
-                    for(var i=0;i<response.data.length;i++){
+                    var weekRateArr = [], axisWeekRateArr = [], axisWeekNumArr = [];
+                    for (var i = 0; i < response.data.length; i++) {
                         weekRateArr.push(response.data[i].rate)
                         // axisWeekRateArr.push(response.data[i].theDay)
                         axisWeekNumArr.push(response.data[i].sumFinishAmount)
                     }
-                    axisWeekRateArr = ['周日','周一','周二','周三','周四','周五','周六']
+                    axisWeekRateArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
                     db1P1Option.series[0].data = weekRateArr;
                     db1P1Option.xAxis.data = axisWeekRateArr;
                     db1P1.setOption(db1P1Option);
 
-                    db1P2Option.series[0].data = axisWeekNumArr;
-                    db1P2Option.xAxis.data = axisWeekRateArr;
-                    db1P2Option.yAxis.axisLabel.formatter=function(value){
-                        return value
-                    }
-                    db1P2Option.yAxis.max = null;
-                    db1P2Option.yAxis.min = null;
-                    db1P2.setOption(db1P2Option);
+
+                    db1P3Option.series[0].data = axisWeekNumArr;
+                    db1P3Option.xAxis.data = axisWeekRateArr;
+                    // db1P3Option.yAxis.axisLabel.formatter = function (value) {
+                    //     return value
+                    // }
+                    
+                    db1P3Option.yAxis.max = null;
+                    db1P3Option.yAxis.min = null;
+
+                    
+                    db1P2.setOption(db1P3Option);
                 }
             });
             $('.box1 .basicInfo .border-green').html('日任务达成率')
-            $('.box1 .basicInfo .border-blue').html('周任务完成数量')      
+            $('.box1 .basicInfo .border-blue').html('周任务完成数量')
             $.ajax({
                 contentType: 'application/json',
                 type: 'get',
@@ -479,7 +624,7 @@ function setDataBoard1(params) {
                         value: mapProcessDayRate.tiepian
                     }, {
                         name: '未完成',
-                        value: 100 -mapProcessDayRate.tiepian
+                        value: 100 - mapProcessDayRate.tiepian
                     }]
                     order1.setOption(orderOption1);
                     orderOption2.series[0].data = [{
@@ -536,7 +681,7 @@ function setDataBoard1(params) {
     function addHtml(data, hsaClassOn) {
         // 动态生成模板
         var theadHtml = '', tbodyHtml = '', widthPercent = 1, popData = '';
-        var arr=[10,14,20,9,8,8,8,8,9],arr1 = [10,12,20,6,8,8,8,7,7,7]
+        var arr = [10, 14, 20, 9, 8, 8, 8, 8, 9], arr1 = [10, 12, 20, 6, 8, 8, 8, 7, 7, 7]
         var widthWW = parseInt($('#firstBoard').css('width'));
         if (hsaClassOn) {
             var theadData = ['生产任务单号', '规格型号', '物料名称', '生产批次', '启动日期', '完成时间', '计划量', '完成量', '工单状态'];
@@ -546,9 +691,9 @@ function setDataBoard1(params) {
             // }
             theadHtml = '<div class="StateTit">';
             for (var i = 0; i < theadData.length; i++) {
-                if(i>3){
+                if (i > 3) {
                     theadHtml += '<span style="width:' + arr[i] + '%;text-align: center;">' + theadData[i] + '</span>';
-                }else{
+                } else {
                     theadHtml += '<span style="width:' + arr[i] + '%">' + theadData[i] + '</span>';
                 }
             }
@@ -571,14 +716,14 @@ function setDataBoard1(params) {
                 if (tbodyDataS[j].pcb_task_status == "已下达已完成") {
                     tbodyDataS[j].pcb_task_status = "已完成"
                 }
-                if(tbodyDataS[j].produce_plan_date!=null){
-                    tbodyDataS[j].produce_plan_date = tbodyDataS[j].produce_plan_date.split('T')[0] ;
-                }else{
+                if (tbodyDataS[j].produce_plan_date != null) {
+                    tbodyDataS[j].produce_plan_date = tbodyDataS[j].produce_plan_date.split('T')[0];
+                } else {
                     tbodyDataS[j].produce_plan_date = ''
                 }
-                if(tbodyDataS[j].produce_plan_complete_date!=null){
-                    tbodyDataS[j].produce_plan_complete_date = tbodyDataS[j].produce_plan_complete_date.split('T')[0] ;
-                }else{
+                if (tbodyDataS[j].produce_plan_complete_date != null) {
+                    tbodyDataS[j].produce_plan_complete_date = tbodyDataS[j].produce_plan_complete_date.split('T')[0];
+                } else {
                     tbodyDataS[j].produce_plan_complete_date = ''
                 }
                 tbodyHtml +=
@@ -598,7 +743,7 @@ function setDataBoard1(params) {
             }
             tbodyHtml += '</ul></div>';
         } else {
-            var theadData = ['工序任务号','规格型号','物料型号', '工序','生产批次','生产时间','完成时间', '计划量', '完成量', '工单状态']
+            var theadData = ['工序任务号', '规格型号', '物料型号', '工序', '生产批次', '生产时间', '完成时间', '计划量', '完成量', '工单状态']
             ////console.log(data)
             var tbodyData = popData = data;
             // if (theadData.length > 0) {
@@ -606,10 +751,10 @@ function setDataBoard1(params) {
             // }
             theadHtml = '<div class="StateTit">';
             for (var i = 0; i < theadData.length; i++) {
-                if(i>4){
-                    theadHtml += '<span style="width:' + arr1[i] + '%;text-align: center;">'+ theadData[i] + '</span>';
-                }else{
-                    theadHtml += '<span style="width:' + arr1[i] + '%">'+ theadData[i] + '</span>';
+                if (i > 4) {
+                    theadHtml += '<span style="width:' + arr1[i] + '%;text-align: center;">' + theadData[i] + '</span>';
+                } else {
+                    theadHtml += '<span style="width:' + arr1[i] + '%">' + theadData[i] + '</span>';
                 }
             }
             theadHtml += '</div>';
@@ -625,39 +770,39 @@ function setDataBoard1(params) {
                 if (tbodyDataS[j].work_time == null) {
                     tbodyDataS[j].work_time = 0
                 }
-                if(tbodyDataS[j].plan_start_time!=null){
-                    tbodyDataS[j].plan_start_time = tbodyDataS[j].plan_start_time.split('T')[0] ;
-                }else{
-                    tbodyDataS[j].plan_start_time=''
+                if (tbodyDataS[j].plan_start_time != null) {
+                    tbodyDataS[j].plan_start_time = tbodyDataS[j].plan_start_time.split('T')[0];
+                } else {
+                    tbodyDataS[j].plan_start_time = ''
                 }
-                if(tbodyDataS[j].plan_finish_time!=null){
-                    tbodyDataS[j].plan_finish_time = tbodyDataS[j].plan_finish_time.split('T')[0] ;
-                }else{
-                    tbodyDataS[j].plan_finish_time=''
+                if (tbodyDataS[j].plan_finish_time != null) {
+                    tbodyDataS[j].plan_finish_time = tbodyDataS[j].plan_finish_time.split('T')[0];
+                } else {
+                    tbodyDataS[j].plan_finish_time = ''
                 }
-                if(tbodyDataS[j].start_time!=null){
-                    tbodyDataS[j].start_time = tbodyDataS[j].start_time.split('T')[0] ;
-                }else{
-                    tbodyDataS[j].start_time=''
+                if (tbodyDataS[j].start_time != null) {
+                    tbodyDataS[j].start_time = tbodyDataS[j].start_time.split('T')[0];
+                } else {
+                    tbodyDataS[j].start_time = ''
                 }
-                if(tbodyDataS[j].finish_time!=null){
-                    tbodyDataS[j].finish_time = tbodyDataS[j].finish_time.split('T')[0] ;
-                }else{
-                    tbodyDataS[j].finish_time =''
+                if (tbodyDataS[j].finish_time != null) {
+                    tbodyDataS[j].finish_time = tbodyDataS[j].finish_time.split('T')[0];
+                } else {
+                    tbodyDataS[j].finish_time = ''
                 }
                 tbodyHtml +=
                     '<li>' +
                     '<div class="fontInner clearfix">' +
                     '<span style="width:' + arr1[0] + '%">' + tbodyDataS[j].process_task_code + '</span>' +
-                    '<span style="width:' + arr1[1] + '%">'+ tbodyDataS[j].pcb_code + '</span>' +
-                    '<span style="width:' + arr1[2] + '%">'+ tbodyDataS[j].pcb_name + '</span>' +
-                    '<span style="width:' + arr1[3] + '%">'+ tbodyDataS[j].process_name + '</span>' +
-                    '<span style="width:' + arr1[4] + '%">'+ tbodyDataS[j].task_sheet_code + '</span>' +
-                    '<span style="width:' + arr1[5] + '%;text-align: center;">'+ tbodyDataS[j].plan_start_time + '</span>' +
-                    '<span style="width:' + arr1[6] + '%;text-align: center;">'+ tbodyDataS[j].plan_finish_time + '</span>' +
-                    '<span style="width:' + arr1[7] + '%;text-align: center;">'+ tbodyDataS[j].pcb_quantity + '</span>' +
-                    '<span style="width:' + arr1[8] + '%;text-align: center;">'+ tbodyDataS[j].amount_completed + '</span>' +
-                    '<span style="width:' + arr1[9] + '%;text-align: center;">'+ tbodyDataS[j].process_task_status + '</span>' +
+                    '<span style="width:' + arr1[1] + '%">' + tbodyDataS[j].pcb_code + '</span>' +
+                    '<span style="width:' + arr1[2] + '%">' + tbodyDataS[j].pcb_name + '</span>' +
+                    '<span style="width:' + arr1[3] + '%">' + tbodyDataS[j].process_name + '</span>' +
+                    '<span style="width:' + arr1[4] + '%">' + tbodyDataS[j].task_sheet_code + '</span>' +
+                    '<span style="width:' + arr1[5] + '%;text-align: center;">' + tbodyDataS[j].plan_start_time + '</span>' +
+                    '<span style="width:' + arr1[6] + '%;text-align: center;">' + tbodyDataS[j].plan_finish_time + '</span>' +
+                    '<span style="width:' + arr1[7] + '%;text-align: center;">' + tbodyDataS[j].pcb_quantity + '</span>' +
+                    '<span style="width:' + arr1[8] + '%;text-align: center;">' + tbodyDataS[j].amount_completed + '</span>' +
+                    '<span style="width:' + arr1[9] + '%;text-align: center;">' + tbodyDataS[j].process_task_status + '</span>' +
                     '</div>' +
                     '</li>';
             }
@@ -699,23 +844,23 @@ function setDataBoard1(params) {
         if (data.pcb_task_status == "已下达已完成") {
             data.pcb_task_status = "已完成"
         }
-        if(data.produce_plan_date!=null){
-            data.produce_plan_date = data.produce_plan_date.split('T')[0] ;
+        if (data.produce_plan_date != null) {
+            data.produce_plan_date = data.produce_plan_date.split('T')[0];
         }
-        if(data.task_sheet_date!=null){
-            data.task_sheet_date = data.task_sheet_date.split('T')[0] ;
-        }else{
+        if (data.task_sheet_date != null) {
+            data.task_sheet_date = data.task_sheet_date.split('T')[0];
+        } else {
             data.task_sheet_date = ''
         }
-        if(data.plan_complete_date!=null){
-            data.plan_complete_date = data.plan_complete_date.split('T')[0] ;
-        }else{
-            data.plan_complete_date=''
+        if (data.plan_complete_date != null) {
+            data.plan_complete_date = data.plan_complete_date.split('T')[0];
+        } else {
+            data.plan_complete_date = ''
         }
-        if(data.produce_plan_complete_date!=null){
-            data.produce_plan_complete_date = data.produce_plan_complete_date.split('T')[0] ;
-        }else{
-            data.produce_plan_complete_date=''
+        if (data.produce_plan_complete_date != null) {
+            data.produce_plan_complete_date = data.produce_plan_complete_date.split('T')[0];
+        } else {
+            data.produce_plan_complete_date = ''
         }
         var theadHtmlP1 = '<div class="item summaryP1" style="">' +
             '   <div class="itemTit">' +
@@ -749,14 +894,14 @@ function setDataBoard1(params) {
         $(".summary").html(theadHtmlP1).css("display", "block");
     }
     function addProcessDataHtml(data) {
-        if(data.plan_start_time!=null){
-            data.plan_start_time = data.plan_start_time.split('T')[0] ;
+        if (data.plan_start_time != null) {
+            data.plan_start_time = data.plan_start_time.split('T')[0];
         }
-        if(data.plan_finish_time!=null){
-            data.plan_finish_time = data.plan_finish_time.split('T')[0] ;
+        if (data.plan_finish_time != null) {
+            data.plan_finish_time = data.plan_finish_time.split('T')[0];
         }
-        if(data.start_time!=null){
-            data.start_time = data.start_time.split('T')[0] ;
+        if (data.start_time != null) {
+            data.start_time = data.start_time.split('T')[0];
         }
         var theadHtmlP1 = '<div class="item summaryP1" style="">' +
             '   <div class="itemTit">' +
@@ -777,8 +922,8 @@ function setDataBoard1(params) {
             '               <span>计划生产数量:<strong>' + data.pcb_quantity + '</strong></span>' +
             '               <span>工序名称:<strong>' + data.process_name + '</strong></span>' +
             '               <span>工序状态:<strong>' + data.process_task_status + '</strong></span>' +
-            '               <span>计划完成时间:<strong>' + data.plan_finish_time+ '</strong></span>' +
-            '               <span>计划开始时间:<strong>' + data.plan_start_time  + '</strong></span>' +
+            '               <span>计划完成时间:<strong>' + data.plan_finish_time + '</strong></span>' +
+            '               <span>计划开始时间:<strong>' + data.plan_start_time + '</strong></span>' +
             '               <span>实际生产时间:<strong>' + data.start_time + '</strong></span>' +
             '               <span class="col2">物料名称:<strong>' + data.pcb_name + '</strong></span>' +
             '           </li>' +
