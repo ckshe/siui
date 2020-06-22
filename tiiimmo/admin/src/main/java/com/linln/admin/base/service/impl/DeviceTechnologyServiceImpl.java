@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author www
@@ -43,7 +45,9 @@ public class DeviceTechnologyServiceImpl implements DeviceTechnologyService {
     public Page<DeviceTechnology> getPageList(Example<DeviceTechnology> example) {
         // 创建分页对象
         PageRequest page = PageSort.pageRequest();
-        return deviceTechnologyRepository.findAll(example, page);
+        Sort sort = new Sort(Sort.Direction.ASC,"\\Qsort_no\\E");
+        PageRequest pageRequest = new PageRequest(page.getPageNumber(),page.getPageSize(),sort);
+        return deviceTechnologyRepository.findAll(example, pageRequest);
     }
 
     /**
@@ -72,5 +76,35 @@ public class DeviceTechnologyServiceImpl implements DeviceTechnologyService {
     @Override
     public List<String> queryDeviceTechnologyCode() {
         return deviceTechnologyRepository.queryDeviceTechnologyCode();
+    }
+
+    @Override
+    public void moveDown(Long id) {
+        DeviceTechnology deviceTechnology = deviceTechnologyRepository.findByDId(id);
+        DeviceTechnology deviceTechnologyNext = deviceTechnologyRepository.moveDown(deviceTechnology.getSort_no());
+        if (deviceTechnologyNext == null){
+            return;
+        }
+        Integer temp = deviceTechnology.getSort_no();
+        deviceTechnology.setSort_no(deviceTechnologyNext.getSort_no());
+        deviceTechnologyNext.setSort_no(temp);
+
+        deviceTechnologyRepository.save(deviceTechnology);
+        deviceTechnologyRepository.save(deviceTechnologyNext);
+    }
+
+    @Override
+    public void moveUp(Long id) {
+        DeviceTechnology deviceTechnology = deviceTechnologyRepository.findByDId(id);
+        DeviceTechnology deviceTechnologyBefore = deviceTechnologyRepository.moveUp(deviceTechnology.getSort_no());
+        if (deviceTechnologyBefore == null){
+            return;
+        }
+        Integer temp = deviceTechnology.getSort_no();
+        deviceTechnology.setSort_no(deviceTechnologyBefore.getSort_no());
+        deviceTechnologyBefore.setSort_no(temp);
+
+        deviceTechnologyRepository.save(deviceTechnology);
+        deviceTechnologyRepository.save(deviceTechnologyBefore);
     }
 }

@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class ApiResponse implements Serializable {
 
 	private int code;
-	private String message;
+	private String msg;
 	private Object data;
 	private boolean more;
 	private String timeStamp;
@@ -40,21 +40,21 @@ public class ApiResponse implements Serializable {
 		super();
 	}
 
-	public ApiResponse(int code, String message, Object data) {
+	public ApiResponse(int code, String msg, Object data) {
 		super();
 		this.code = code;
-		this.message = message;
+		this.msg = msg;
 		this.data = data;
 	}
 
-	public ApiResponse(int code, String message, String timeStamp) {
+	public ApiResponse(int code, String msg, String timeStamp) {
 		this.code = code;
-		this.message = message;
+		this.msg = msg;
 		this.timeStamp = timeStamp;
 	}
 
-	public ApiResponse(String message) {
-		this.message = message;
+	public ApiResponse(String msg) {
+		this.msg = msg;
 	}
 
 	public int getCode() {
@@ -63,11 +63,11 @@ public class ApiResponse implements Serializable {
 	public void setCode(int code) {
 		this.code = code;
 	}
-	public String getMessage() {
-		return message;
+	public String getmsg() {
+		return msg;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	public void setmsg(String msg) {
+		this.msg = msg;
 	}
 	public Object getData() {
 		return data;
@@ -82,58 +82,58 @@ public class ApiResponse implements Serializable {
 		this.more = more;
 	}
 
-	public static ApiResponse ofMessage(int code, String message) {
-		return new ApiResponse(code, message, null);
+	public static ApiResponse ofmsg(int code, String msg) {
+		return new ApiResponse(code, msg, null);
 	}
 
 
 
-	public static ApiResponse ofMessage(int code, String message, String timeStamp) {
-		return new ApiResponse(code, message, timeStamp);
+	public static ApiResponse ofmsg(int code, String msg, String timeStamp) {
+		return new ApiResponse(code, msg, timeStamp);
 	}
-	public static ApiResponse ofMessage(int code, String message, Object data) {
-		return new ApiResponse(code, message, data);
+	public static ApiResponse ofmsg(int code, String msg, Object data) {
+		return new ApiResponse(code, msg, data);
 	}
 
-	public static ApiResponse ofMessage(StatusCode statusCode, String message) {
-		return new ApiResponse(statusCode.getCode(), message, null);
+	public static ApiResponse ofmsg(StatusCode statusCode, String msg) {
+		return new ApiResponse(statusCode.getCode(), msg, null);
 	}
-	public static ApiResponse ofMessage(String message) {
-		return new ApiResponse(message);
+	public static ApiResponse ofmsg(String msg) {
+		return new ApiResponse(msg);
 	}
 
 	/**
 	 * 参数校验错误时使用，返回错误信息
 	 * @param bindingResult
 	 * @return
-	 */
+	 *//*
 	public static ApiResponse ofParamError(BindingResult bindingResult) {
-		return new ApiResponse(StatusCode.PARAM_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage(), null);
+		return new ApiResponse(StatusCode.PARAM_ERROR.getCode(), bindingResult.getFieldError().getDefaultmsg(), null);
+	}*/
+
+	public static ApiResponse ofParamError(String msg){
+		return new ApiResponse(StatusCode.PARAM_ERROR.getCode(), msg ,null);
 	}
 
-	public static ApiResponse ofParamError(String message){
-		return new ApiResponse(StatusCode.PARAM_ERROR.getCode(), message ,null);
+	public static ApiResponse ofError(String msg){
+		return new ApiResponse(StatusCode.ERROR.getCode(), msg ,null);
 	}
 
-	public static ApiResponse ofError(String message){
-		return new ApiResponse(StatusCode.ERROR.getCode(), message ,null);
+	/*public static ApiResponse ofSuccess(Object data) {
+		return new ApiResponse(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getStandardmsg(), data);
+	}*/
+
+	public static ApiResponse ofSuccess(String msg) {
+		return new ApiResponse(StatusCode.SUCCESS.getCode(), msg, null);
 	}
 
-	public static ApiResponse ofSuccess(Object data) {
-		return new ApiResponse(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getStandardMessage(), data);
-	}
-
-	public static ApiResponse ofSuccess(String message) {
-		return new ApiResponse(StatusCode.SUCCESS.getCode(), message, null);
-	}
-
-	public static ApiResponse ofSuccess(String message, Object data) {
-		return new ApiResponse(StatusCode.SUCCESS.getCode(), message, data);
+	/*public static ApiResponse ofSuccess(String msg, Object data) {
+		return new ApiResponse(StatusCode.SUCCESS.getCode(), msg, data);
 	}
 
 	public static ApiResponse ofStatus(StatusCode statusCode) {
-		return new ApiResponse(statusCode.getCode(), statusCode.getStandardMessage(), null);
-	}
+		return new ApiResponse(statusCode.getCode(), statusCode.getStandardmsg(), null);
+	}*/
 
 
 }

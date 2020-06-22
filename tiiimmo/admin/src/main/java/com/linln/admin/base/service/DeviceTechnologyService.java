@@ -42,4 +42,8 @@ public interface DeviceTechnologyService {
     List<DeviceTechnology> list();
 
     List<String> queryDeviceTechnologyCode();
+
+    void moveDown(Long id);
+
+    void moveUp(Long id);
 }

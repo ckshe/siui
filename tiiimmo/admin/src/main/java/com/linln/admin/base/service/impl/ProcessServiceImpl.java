@@ -92,7 +92,10 @@ public class ProcessServiceImpl implements ProcessService {
         processRepository.save(processNext);
     }
 
-
+    /**
+     * 列表数据上移
+     * @param id
+     */
     @Override
     public void moveUp(Long id) {
         //获取当前的数据信息（即准备下移的数据）

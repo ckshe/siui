@@ -2,6 +2,7 @@ package com.linln.admin.base.controller;
 
 import com.linln.admin.base.domain.DeviceTechnology;
 import com.linln.admin.base.service.DeviceTechnologyService;
+import com.linln.admin.base.util.ApiResponse;
 import com.linln.admin.base.validator.DeviceTechnologyValid;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.EntityBeanUtil;
@@ -144,5 +145,28 @@ public class DeviceTechnologyController {
             return ResultVoUtil.error(400,"查询失败");
         }
 
+    }
+
+
+    /**
+     * 排序更新
+     * @param sort
+     * @param id
+     * @return
+     */
+    @RequestMapping("/updateSort")
+    @ResponseBody
+    public ApiResponse updateSort(String sort, Long id) {
+
+        try {
+            if ("down".equals(sort)) {
+                deviceTechnologyService.moveDown(id);
+            } else if ("up".equals(sort)) {
+                deviceTechnologyService.moveUp(id);
+            }
+            return ApiResponse.ofSuccess("更新成功");
+        } catch (Exception e) {
+            return ApiResponse.ofError("更新失败");
+        }
     }
 }
