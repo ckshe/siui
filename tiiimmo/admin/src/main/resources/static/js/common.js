@@ -134,65 +134,78 @@ function Select(obj) {
      this.url = obj.url;
     this.type = obj.type||"get";
     this.data = obj.data;
-     this.val = obj.val||'id';
+     this.value = obj.value||'id';
     this.text = obj.text||'name';
     this.done = obj.done||function () {};
     this.create();
-this.postData = obj.postData||{};
-    Select.prototype={
-        create:function () {
-            var that = this;
-            if(that.type==='get'){
-                http.get(that.url,function (res) {
-                    var str = "";
-                    res.data.forEach(function (t) {
-                        str+= "<option value='"+t[that.val]+"'>"+t[that.text]+"</option>"
-                    });
-                    that.select.innerHTML=str;
-                    that.done(res.data)
-                })
-            }else{
-                http.post(that.url,that.postData,function (res) {
-                    var str = "";
-                    res.data.forEach(function (t) {
-                        str+= "<option value='"+t[that.val]+"'>"+t[that.text]+"</option>"
-                    });
-                    that.select.innerHTML=str;
-                    that.done(res.data)
-                })
-            }
+    this.postData = obj.postData||{};
+}
+Select.prototype={
+    create:function () {
+        var that = this;
+        if(that.type==='get'){
+            http.get(that.url,function (res) {
+                var str = "";
+                res.data.forEach(function (t) {
+                    str+= "<option value='"+t[that.value]+"'>"+t[that.text]+"</option>"
+                });
+                that.select.innerHTML=str;
+                that.done(res.data)
+            })
+        }else{
+            http.post(that.url,that.postData,function (res) {
+                var str = "";
+                res.data.forEach(function (t) {
+                    str+= "<option value='"+t[that.value]+"'>"+t[that.text]+"</option>"
+                });
+                that.select.innerHTML=str;
+                that.done(res.data)
+            })
         }
     }
-
-
 }
 //动态多选
 function Checkboxs(obj) {
+    // new Checkboxs({
+    //     url:'/base/badNews/findBadNewsList',
+    //     elemId:'badCheck',
+    //     value:'bad_name',
+    //     title:'bad_name',
+    //     done:function () {
+    //         form.render()
+    //     }
+    // });
         this.box = document.getElementById(obj.elemId);
         this.url = obj.url;
        this.type = obj.type||'get';
    this.postData = obj.postData||{};
-     this.config = obj.config;
+     this.value = obj.value;
+     this.title = obj.title;
        this.done = obj.done||function () {};
-       this.create()
-     Checkboxs.prototype = {
-         create:function () {
-             var that = this;
-             if(this.type==='get'){
-                 http.get(that.url,function (res) {
-                     var str = "";
-                     // res.data.forEach(function (t) {
-                     //     str+='<input type="checkbox" name="'+that.config[]+'" lay-skin="primary" title="写作" checked="">'
-                     // });
-                     that.box.innerHTML=str;
-                     that.done(res.data)
-                 })
-             }else{
-                 http.post(url,that.postData,function (res) {
-
-                 })
-             }
-         }
-     }
+       this.create();
      console.log(this)
+}
+Checkboxs.prototype = {
+    create:function () {
+        var that = this;
+        if(this.type==='get'){
+            http.get(that.url,function (res) {
+                var str = "";
+                res.data.forEach(function (t) {
+                    str+='<input type="checkbox" value="'+t[that.value]+'" lay-skin="primary" title="'+t[that.title]+'" >'
+                });
+                that.box.innerHTML=str;
+                that.done(res.data)
+            })
+        }else{
+            http.post(url,that.postData,function (res) {
+                var str = "";
+                res.data.forEach(function (t) {
+                    str+='<input type="checkbox" value="'+t[that.value]+'" lay-skin="primary" title="'+t[that.title]+'" >'
+                });
+                that.box.innerHTML=str;
+                that.done(res.data)
+            })
+        }
+    }
 }

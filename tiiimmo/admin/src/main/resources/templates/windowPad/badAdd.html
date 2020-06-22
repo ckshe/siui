@@ -97,17 +97,26 @@
               elem: '#inspectionTime',
               type: 'datetime'
             });
-            var badCheck = document.getElementById('badCheck');
-            http.get('/base/badNews/findBadNewsList',function (res) {
-               if(res.code===200){
-                   var str = "";
-                   res.data.forEach(function (t) {
-                       str+='<input type="checkbox" value="'+t.bad_name+'" lay-filter="bad" lay-skin="primary" title="'+t.bad_name+'">'
-                   });
-                   badCheck.innerHTML=str;
-                   form.render()
-               }
+            new Checkboxs({
+                url:'/base/badNews/findBadNewsList',
+                elemId:'badCheck',
+                value:'bad_name',
+                title:'bad_name',
+                done:function () {
+                    form.render()
+                }
             });
+            //var badCheck = document.getElementById('badCheck');
+            // http.get('/base/badNews/findBadNewsList',function (res) {
+            //    if(res.code===200){
+            //        var str = "";
+            //        res.data.forEach(function (t) {
+            //            str+='<input type="checkbox" value="'+t.bad_name+'" lay-filter="bad" lay-skin="primary" title="'+t.bad_name+'">'
+            //        });
+            //        badCheck.innerHTML=str;
+            //        form.render()
+            //    }
+            // });
             scanCode('plateNo');
             $('#user').on('click',function () {
                 var userBox =  layer.open({
