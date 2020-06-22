@@ -214,7 +214,8 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "\t\tt1.down_time,\n" +
                 "\t\tISNULL( t2.amount_completed, 0 ) finishcount,\n" +
                 "\t\tt2.process_name,\n" +
-                "\t\tISNULL( t2.pcb_quantity, 0 ) plancount,\n" +
+                "\t\tISNULL( t2.pcb_quantity, 0 ) plancount,t3.task_sheet_code,\n" +
+                "\t\tt3.pcb_name,\n" +
                 "\t\tROW_NUMBER ( ) OVER ( partition BY t1.user_name, t1.device_code ORDER BY t1.id DESC ) AS rn,\n" +
                 "\t\tCAST (\n" +
                 "\t\t\t100 * CAST ( ISNULL( t2.amount_completed, 0 ) * 1.0 / ISNULL( t2.pcb_quantity, 1 ) AS DECIMAL ( 8, 2 ) ) AS VARCHAR ( 100 ) \n" +

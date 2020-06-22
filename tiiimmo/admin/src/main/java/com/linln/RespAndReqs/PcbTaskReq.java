@@ -35,6 +35,7 @@ public class PcbTaskReq {
     private String badNews;
     private BigDecimal workTime;
     private String taskSheetCode;
+    private String productCode;
 
 
 }

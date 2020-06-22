@@ -10,4 +10,8 @@ public interface PcbTaskPositionRecordDetailRepositoty extends BaseRepository<Pc
 
     @Query(value = "SELECT * FROM produce_task_position_record_detail WHERE pcb_task_code = ?1 ",nativeQuery = true)
     List<PcbTaskPositionRecordDetail> findByPcb_task_code(String pcbTaskCode);
+
+    @Query(value = "SELECT * FROM produce_task_position_record_detail WHERE pcb_task_code = ?1 and product_code = ?2",nativeQuery = true)
+    PcbTaskPositionRecordDetail findByPcb_task_codeAndProduct_code(String pcbTaskCode,String productCode);
+
 }

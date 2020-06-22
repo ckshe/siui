@@ -60,6 +60,8 @@ public class DeviceProductElement implements Serializable {
     // 更新时间
     @LastModifiedDate
     private Date updateDate;
+
+    private String pcb_code;
     // 创建者
     @CreatedBy
     @ManyToOne(fetch=FetchType.LAZY)

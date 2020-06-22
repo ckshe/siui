@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,4 +25,7 @@ public class PcbTaskPositionRecord {
     private Date finish_time;
     //记录状态 0未开始1开始2结束
     private String record_status;
+
+    @Transient
+    List<PcbTaskPositionRecordDetail> detailList;
 }

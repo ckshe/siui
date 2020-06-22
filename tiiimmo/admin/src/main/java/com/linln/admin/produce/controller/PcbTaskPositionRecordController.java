@@ -2,6 +2,7 @@ package com.linln.admin.produce.controller;
 
 
 import com.linln.RespAndReqs.PcbTaskReq;
+import com.linln.admin.produce.domain.PcbTaskPositionRecord;
 import com.linln.admin.produce.domain.PcbTaskPositionRecordDetail;
 import com.linln.admin.produce.service.PcbTaskPositionRecordService;
 import com.linln.common.utils.ResultVoUtil;
@@ -23,11 +24,11 @@ public class PcbTaskPositionRecordController {
     private PcbTaskPositionRecordService pcbTaskPositionRecordService;
 
     //通过设备号和排产任务号生成记录
-    @PostMapping("/buildPositionRecord")
+    @PostMapping("/buildPositionRecordAndReturn")
     @ResponseBody
-    public ResultVo buildPositionRecord(@RequestBody PcbTaskReq req){
-        pcbTaskPositionRecordService.buildPositionRecord(req);
-        return ResultVoUtil.success("");
+    public ResultVo buildPositionRecordAndReturn(@RequestBody PcbTaskReq req){
+        PcbTaskPositionRecord record = pcbTaskPositionRecordService.buildPositionRecordAndReturn(req);
+        return ResultVoUtil.success(record);
     }
 
 
@@ -39,6 +40,13 @@ public class PcbTaskPositionRecordController {
         return ResultVoUtil.success(positionRecord);
     }
 
+
+    //通过设备号和排产任务号获取该设备的位置记录
+    @PostMapping("/startPositonRecord")
+    @ResponseBody
+    public ResultVo startPositonRecord(@RequestBody PcbTaskReq req){
+      return pcbTaskPositionRecordService.startPositonRecord(req);
+    }
 
 
 
