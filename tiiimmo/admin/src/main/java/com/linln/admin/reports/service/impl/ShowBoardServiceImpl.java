@@ -222,7 +222,8 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "\t\t) AS rate \n" +
                 "\tFROM\n" +
                 "\t\tproduce_user_device_history t1\n" +
-                "\t\tLEFT JOIN produce_process_task t2 ON t2.process_task_code = t1.process_task_code \n" +
+                "\t\tLEFT JOIN produce_process_task t2 ON t2.process_task_code = t1.process_task_code " +
+                "\tLEFT JOIN produce_pcb_task t3 ON t2.pcb_task_code = t3.pcb_task_code\n" +
                 "\tWHERE\n" +
                 "\t\tt1.process_task_code != '未分配' \n" +
                 "\t\tAND t1.process_task_code IS NOT NULL \n" +
