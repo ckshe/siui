@@ -63,7 +63,7 @@
                             <label class="timo-checkbox"><input type="checkbox">
                                 <i class="layui-icon layui-icon-ok"></i></label>
                         </th>
-                        <th>主键ID</th>
+                        <!--<th>主键ID</th>-->
                         <th>参数编号</th>
                         <th>设备编号</th>
                         <th>设备名称</th>
@@ -78,7 +78,7 @@
                     <tr th:each="item:${list}">
                         <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
                             <i class="layui-icon layui-icon-ok"></i></label></td>
-                        <td th:text="${item.id}">主键ID</td>
+                        <!--<td th:text="${item.id}">主键ID</td>-->
                         <td th:text="${item.param_code}">参数编号</td>
                         <td th:text="${item.device_code}">设备编号</td>
                         <td th:text="${item.device_name}">设备名称</td>
