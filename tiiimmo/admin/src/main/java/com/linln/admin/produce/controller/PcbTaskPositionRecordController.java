@@ -9,10 +9,7 @@ import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,11 +38,33 @@ public class PcbTaskPositionRecordController {
     }
 
 
-    //通过设备号和排产任务号获取该设备的位置记录
+    //通过排产计划号开始record
     @PostMapping("/startPositonRecord")
     @ResponseBody
     public ResultVo startPositonRecord(@RequestBody PcbTaskReq req){
       return pcbTaskPositionRecordService.startPositonRecord(req);
+    }
+
+    //通过排产计划号和物料号查询记录detail，并更改状态
+    @PostMapping("/scanProductCode")
+    @ResponseBody
+    public ResultVo scanProductCode(@RequestBody PcbTaskReq req){
+        return pcbTaskPositionRecordService.scanProductCode(req);
+    }
+
+    //通过排产计划号结束record
+    @PostMapping("/finishPositionRecord")
+    @ResponseBody
+    public ResultVo finishPositionRecord(@RequestBody PcbTaskReq req){
+        return pcbTaskPositionRecordService.finishPositionRecord(req);
+    }
+
+
+    //根据工号查询员工信息
+    @GetMapping("/findByProcessTaskCode/{cardSequence}")
+    @ResponseBody
+    public ResultVo finishPositionRecord(String cardSequence){
+        return pcbTaskPositionRecordService.getUserInfoByCard( cardSequence);
     }
 
 

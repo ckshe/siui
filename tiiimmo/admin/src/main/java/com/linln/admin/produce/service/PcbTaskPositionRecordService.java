@@ -18,4 +18,6 @@ public interface PcbTaskPositionRecordService {
 
     public ResultVo finishPositionRecord(PcbTaskReq req);
 
+    public ResultVo getUserInfoByCard(String cardSequence);
+
 }

@@ -57,6 +57,7 @@ public class ShiroConfig {
         filterMap.put("/error", "anon");
         filterMap.put("/404", "anon");
         filterMap.put("/open/**", "anon");
+        filterMap.put("/PcbTaskPositionRecord/**", "anon");
         filterMap.put("/detail/**", "anon");
         filterMap.put("/dataBoard/**", "anon");
         filterMap.put("/captcha", "anon");

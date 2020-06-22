@@ -11,6 +11,8 @@ import com.linln.admin.produce.service.PcbTaskPositionRecordService;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
+import com.linln.modules.system.domain.User;
+import com.linln.modules.system.service.UserService;
 import javassist.bytecode.LineNumberAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,9 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
 
     @Autowired
     private PcbTaskPositionRecordDetailRepositoty recordDetailRepositoty;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public PcbTaskPositionRecord buildPositionRecordAndReturn(PcbTaskReq req) {
@@ -93,6 +98,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
         }
         record.setRecord_status("1");
         record.setStart_time(new Date());
+        record.setUser_name(record.getUser_name());
         recordRepository.save(record);
         return ResultVoUtil.success("操作成功");
     }
@@ -133,5 +139,15 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
         recordRepository.save(record);
         return ResultVoUtil.success("操作成功");
 
+    }
+
+    @Override
+    public ResultVo getUserInfoByCard(String cardSequence) {
+        User user = userService.findUserByCardNo(cardSequence);
+        if(user==null){
+            return ResultVoUtil.error("查询不到该工号");
+
+        }
+        return ResultVoUtil.success(user);
     }
 }

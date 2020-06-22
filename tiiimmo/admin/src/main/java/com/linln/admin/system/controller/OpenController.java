@@ -65,6 +65,16 @@ public class OpenController {
         return pcbTaskService.deviceProduceAmount(req.get(0));
     }
 
+
+    //设备接口
+    @PostMapping("/getElementPosition")
+    @ResponseBody
+    public Map<String,Object> getElementPosition(String data){
+        System.out.println(data);
+        List<PcbTaskReq> req = (List<PcbTaskReq> ) JSON.parseArray(data,PcbTaskReq.class);
+        return pcbTaskService.getElementPosition(req.get(0));
+    }
+
     //扫码计数接口
     @PostMapping("/scanCountPlate")
     @ResponseBody

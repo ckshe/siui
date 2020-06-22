@@ -854,6 +854,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         return map;
     }
 
+
+    @Override
+    public Map<String, Object> getElementPosition(PcbTaskReq pcbTaskReq) {
+        return null;
+    }
+
     public String  findDeviceBigIdCode(String deviceCodes){
         String devicecode [] = deviceCodes.split(",");
         Long bigone = 0L;

@@ -153,7 +153,6 @@ public class LoginController implements ErrorController {
             roleNames = roleNames + role.getTitle() + "|";
         }
         user.setRoleNames(roleNames);
-
         Subject currentUser = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername()+"|","password");
         currentUser.login(token);
@@ -163,9 +162,7 @@ public class LoginController implements ErrorController {
 //            ptd.setUser_ids(user.getNickname());
 //            processTaskDeviceRepository.save(ptd);
 //        }
-
         UserDeviceHistory old = userDeviceHistoryRepository.findOnlyUpTimeRecord(req.getDeviceCode());
-
         if(old==null){
             UserDeviceHistory history = new UserDeviceHistory();
             history.setDevice_code(req.getDeviceCode());
@@ -177,11 +174,8 @@ public class LoginController implements ErrorController {
             userDeviceHistoryRepository.save(history);
         }else {
            return ResultVoUtil.error("请先下机！");
-
         }
-
         return ResultVoUtil.success("上机成功",user);
-
     }
 
     //下机操作
