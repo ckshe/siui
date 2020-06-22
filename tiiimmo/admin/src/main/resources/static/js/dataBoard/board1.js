@@ -189,7 +189,7 @@ var db1P3Option = {
 
     },
     grid: {
-        top: '8%',
+        top: '15%',
         left: '12%',
         right: '5%',
         bottom: '10%',
@@ -210,6 +210,7 @@ var db1P3Option = {
         },
     },
     yAxis: {
+        name:'单位（块）',
         type: 'value',
         axisLabel: {
             textStyle: {
@@ -220,6 +221,16 @@ var db1P3Option = {
             // formatter: function (value) {
             //     return value + '%'
             // }
+        },
+        axisLine:{
+            lineStyle:{
+                color:'#fff',
+                // width:8,//这里是为了突出显示加上的
+            },
+        },
+        nameTextStyle :{
+            fontSize: 16,
+            padding:10
         },
         minInterval: 10
         // min: 0,
@@ -855,13 +866,20 @@ function setDataBoard1(params) {
         if (data.plan_complete_date != null) {
             data.plan_complete_date = data.plan_complete_date.split('T')[0];
         } else {
-            data.plan_complete_date = ''
+            data.plan_complete_date = '空'
         }
         if (data.produce_plan_complete_date != null) {
             data.produce_plan_complete_date = data.produce_plan_complete_date.split('T')[0];
         } else {
-            data.produce_plan_complete_date = ''
+            data.produce_plan_complete_date = '空'
         }
+        if (data.pcb_plate_id == null) {
+            data.pcb_plate_id = '空'
+        }
+        if (data.batch_id == null) {
+            data.batch_id = '空'
+        }
+
         var theadHtmlP1 = '<div class="item summaryP1" style="">' +
             '   <div class="itemTit">' +
             '       <span class="border-blue">任务详情</span>' +
@@ -896,12 +914,18 @@ function setDataBoard1(params) {
     function addProcessDataHtml(data) {
         if (data.plan_start_time != null) {
             data.plan_start_time = data.plan_start_time.split('T')[0];
+        }else{
+            data.plan_start_time='空'
         }
         if (data.plan_finish_time != null) {
             data.plan_finish_time = data.plan_finish_time.split('T')[0];
+        }else{
+            data.plan_finish_time='空'
         }
         if (data.start_time != null) {
             data.start_time = data.start_time.split('T')[0];
+        }else{
+            data.start_time = '空'
         }
         var theadHtmlP1 = '<div class="item summaryP1" style="">' +
             '   <div class="itemTit">' +

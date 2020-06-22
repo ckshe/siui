@@ -141,6 +141,7 @@ function processBadRate() {
             //console.log('我是不良率=', response)
             var badRateArr = [], legendAxisArr = [];
             for (var i = 0; i < response.data.length; i++) {
+                console.log("====",response.data)
                 legendAxisArr.push(response.data[i].bad_name)
                 badRateArr.push({ value: response.data[i].bad_rate, name: response.data[i].bad_name })
             }
@@ -726,6 +727,7 @@ var db3POption2 = {
     ],
     yAxis: [
         {
+            name:'单位（块）',
             type: 'value',
             axisLabel: {
                 textStyle: {
@@ -733,6 +735,16 @@ var db3POption2 = {
                     color: 'rgba(255,255,255,1)',
                     fontSize: 20
                 }
+            },
+            axisLine:{
+                lineStyle:{
+                    color:'#fff',
+                    // width:8,//这里是为了突出显示加上的
+                },
+            },
+            nameTextStyle :{
+                fontSize: 16,
+                padding:10
             },
         }
     ],
@@ -792,8 +804,8 @@ var db3POption3 = {
         },
     },
     grid: {
-        top: '10%',
-        left: '3%',
+        top: '20%',
+        left: '5%',
         right: '4%',
         bottom: '3%',
         containLabel: true
@@ -809,14 +821,26 @@ var db3POption3 = {
         data: ['周日','周一','周二','周三','周四','周五','周六']
     },
     yAxis: {
+        name: '单位(分钟)',
         axisLabel: {
             textStyle: {
                 show: true,
-                color: 'rgba(255,255,255,1)',
+                color: '#fff',
                 fontSize: 20
             }
         },
+        axisLine:{
+            lineStyle:{
+                color:'#fff',
+                // width:8,//这里是为了突出显示加上的
+            },
+        },
+        nameTextStyle :{
+            fontSize: 16,
+            padding:10
+        },
         minInterval: 1
+
     },
     series: [{
         name: '工作时长',
