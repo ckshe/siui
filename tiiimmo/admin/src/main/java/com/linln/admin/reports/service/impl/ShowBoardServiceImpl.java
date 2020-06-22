@@ -407,7 +407,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         for(Map<String,Object> map:mapList){
             String  process_type = (String)map.get("process_type");
             String process_name = (String)map.get("process_name");
-            if("贴片".equals(process_type)){
+            if("贴片".equals(process_type)&&!"备料".equals(process_name)){
                 tiepianList.add(map);
             }
             if("后焊".equals(process_type)){

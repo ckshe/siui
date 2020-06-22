@@ -51,7 +51,9 @@ public class ShiroConfig {
         LinkedHashMap<String, String> filterMap = new LinkedHashMap<>();
         filterMap.put("/login", "anon");
         filterMap.put("/cardCrashLogin", "anon");
+        filterMap.put("/logoutDevice", "anon");
         filterMap.put("/produce/pcbTask/findProcessTaskByDevice", "anon");
+        filterMap.put("/produce/pcbTask/findPcbTaskPlateNo", "anon");
         filterMap.put("/logout", "anon");
         filterMap.put("/ShowBoard/**", "anon");
         filterMap.put("/error", "anon");
