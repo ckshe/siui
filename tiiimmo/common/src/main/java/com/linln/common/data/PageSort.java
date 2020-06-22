@@ -12,8 +12,8 @@ import org.springframework.data.domain.Sort;
 public class PageSort {
 
     private static final Integer PAGE_SIZE_DEF = 10;
-    private static final String ORDER_BY_COLUMN_DEF = "createDate";
-    private static final Sort.Direction SORT_DIRECTION = Sort.Direction.DESC;
+    private static final String ORDER_BY_COLUMN_DEF = "id";
+    private static final Sort.Direction SORT_DIRECTION = Sort.Direction.ASC;
 
     /**
      * 创建分页排序对象

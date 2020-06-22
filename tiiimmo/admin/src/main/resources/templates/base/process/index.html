@@ -63,6 +63,7 @@
                         <th>工序类型</th>
 
                         <th>排序</th>
+                        <th>排序号</th>
                         <th style="display: none">创建时间</th>
                         <th style="display: none">更新时间</th>
                         <th style="display: none">数据状态</th>
@@ -77,6 +78,7 @@
                         <td th:text="${item.code}">编号</td>
                         <td th:text="${item.name}">工序名称</td>
                         <td th:text="${item.process_type}">工序类型</td>
+
                         <td>
                             <button class="field-up layui-btn layui-btn-primary layui-btn-xs">
                                 <i class="fa fa-arrow-up"></i>上移
@@ -85,6 +87,7 @@
                                 <i class="fa fa-arrow-down"></i>下移
                             </button>
                         </td>
+                        <td th:text="${item.sort_no}">排序号</td>
                         <td style="display: none" th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
                         <td style="display: none" th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
                         <td style="display: none" th:text="${#dicts.dataStatus(item.status)}">数据状态</td>

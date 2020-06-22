@@ -10,6 +10,7 @@ import com.linln.common.utils.EntityBeanUtil;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.utils.StatusUtil;
 import com.linln.common.vo.ResultVo;
+import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -127,18 +128,19 @@ public class ProcessController {
      * @param id
      * @return
      */
-    @RequestMapping("/move")
+    @RequestMapping("/updateSort")
     @ResponseBody
-    public ApiResponse move(String sort, Long id) {
+    public ApiResponse updateSort(String sort, Long id) {
+
         try {
             if ("down".equals(sort)) {
                 processService.moveDown(id);
             } else if ("up".equals(sort)) {
                 processService.moveUp(id);
             }
-            return ApiResponse.ofSuccess("成功");
+            return ApiResponse.ofSuccess("更新成功");
         } catch (Exception e) {
-            return ApiResponse.ofError("失败");
+            return ApiResponse.ofError("更新失败");
         }
     }
 
