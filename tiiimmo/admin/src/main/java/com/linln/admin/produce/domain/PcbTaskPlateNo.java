@@ -4,6 +4,7 @@ package com.linln.admin.produce.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -24,4 +25,6 @@ public class PcbTaskPlateNo {
 
     //是否已经计数
     private String is_count;
+
+    private Date update_time;
 }

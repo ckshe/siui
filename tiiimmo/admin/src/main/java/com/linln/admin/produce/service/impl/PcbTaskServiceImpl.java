@@ -563,10 +563,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     public ResultVo findScheduling(PcbTaskReq pcbTaskReq) {
 
 
-        StringBuffer sql = new StringBuffer("select  *\n" +
-                "                from (select row_number()\n" +
-                "                over(order by produce_plan_date desc) as rownumber,*\n" +
-                "                from produce_pcb_task) temp_row ");
+
         Integer page = pcbTaskReq.getPage(); //当前页
         Integer size = pcbTaskReq.getSize(); //每页条数
         String taskSheetCode = pcbTaskReq.getTaskSheetCode();  //生产批次
@@ -594,6 +591,13 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     "%" + pcbName + "%" +
                     "' ");
         }
+
+        StringBuffer sql = new StringBuffer("select  *\n" +
+                "                from (select row_number()\n" +
+                "                over(order by produce_plan_date desc) as rownumber,*\n" +
+                "                from produce_pcb_task " +
+                wheresql.toString() +
+                ") temp_row ");
         /*if(pcbTaskCode!=null&&!"".equals(pcbTaskCode)){
             wheresql.append(" and pcb_task_code = '" +
                     pcbTaskCode +
@@ -609,9 +613,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     pcbName +
                     "' ");
         }*/
-        sql.append(wheresql);
+        //sql.append(wheresql);
         List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
-        sql.append(" and rownumber between " +
+        sql.append(" where rownumber between " +
                 ((page-1)*size+1) +
                 " and " +
                 (page*size) +
@@ -925,13 +929,14 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTask.setAmount_completed(processTask.getAmount_completed()+1);
             processTaskRepository.save(processTask);
             PcbTaskPlateNo pcbTaskPlateNo = pcbTaskPlateNoRepository.findByPlate_no(pcbTaskReq.getPlateNo());
-            if(pcbTaskPlateNo!=null){
+            if(pcbTaskPlateNo==null){
                 return ResultVoUtil.error("找不到该板编号！");
             }
             if("1".equals(pcbTaskPlateNo.getIs_count())){
                 return ResultVoUtil.error("该板编号已计数过！");
             }
             pcbTaskPlateNo.setIs_count("1");
+            pcbTaskPlateNo.setUpdate_time(new Date());
             pcbTaskPlateNoRepository.save(pcbTaskPlateNo);
             return ResultVoUtil.success("计数成功");
         }
@@ -1114,13 +1119,17 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 ((page-1)*size+1) +
                 " and " +
                 (page*size) +
-                "  ORDER BY t3.is_count desc ,t3.id");
+                "  ORDER BY t3.is_count desc ,t3.update_time desc");
 
         List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+        StringBuffer allSql = new StringBuffer("select * from produce_pcbtask_plate_no WHERE pcb_task_code = '" +
+                req.getPcbTaskCode() +
+                "'");
+        List<Map<String,Object>> allList = jdbcTemplate.queryForList(allSql.toString());
+        Integer count = allList.size();
         //List<PcbTaskPlateNo> plateNoList = pcbTaskPlateNoRepository.findByPcb_task_code(req.getPcbTaskCode());
-
-        return ResultVoUtil.success(mapList);
-    }
+        return ResultVoUtil.success("查询成功",mapList,count);
+     }
 
 
 
