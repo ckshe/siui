@@ -205,7 +205,7 @@ var db1P3Option = {
                 color: 'rgba(255,255,255,1)',
                 fontSize: 20
             },
-            // interval: 0,
+            // interval: 10,
             // rotate: 18
         },
     },
@@ -221,7 +221,7 @@ var db1P3Option = {
             //     return value + '%'
             // }
         },
-        // minInterval: 10
+        minInterval: 10
         // min: 0,
         // max: 100
         // // data: ['TCL-01-09', 'TCL-01-12', 'TCL-01-13'],
@@ -291,9 +291,9 @@ var orderOption1 = {
         textStyle: {
             show: true,
             color: 'rgba(255,255,255,1)',
-            fontSize: 16
+            fontSize: 20
         },
-        y: 10
+        y: 20
     },
     series: [
         {
@@ -344,9 +344,9 @@ var orderOption2 = {
         textStyle: {
             show: true,
             color: 'rgba(255,255,255,1)',
-            fontSize: 16
+            fontSize: 20
         },
-        y: 10
+        y: 20
     },
     series: [
         {
@@ -397,9 +397,9 @@ var orderOption3 = {
         textStyle: {
             show: true,
             color: 'rgba(255,255,255,1)',
-            fontSize: 16
+            fontSize: 20
         },
-        y: 10
+        y: 20
     },
     series: [
         {
@@ -743,7 +743,7 @@ function setDataBoard1(params) {
             }
             tbodyHtml += '</ul></div>';
         } else {
-            var theadData = ['工序任务号', '规格型号', '物料型号', '工序', '生产批次', '生产时间', '完成时间', '计划量', '完成量', '工单状态']
+            var theadData = ['工序任务号', '规格型号', '物料名称', '工序', '生产批次', '生产时间', '完成时间', '计划量', '完成量', '工单状态']
             ////console.log(data)
             var tbodyData = popData = data;
             // if (theadData.length > 0) {

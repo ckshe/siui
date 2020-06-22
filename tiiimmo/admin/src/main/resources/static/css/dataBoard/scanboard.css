@@ -549,7 +549,7 @@ body{
 }
 /* 2020-05-18增加样式 */
 
-.state-green,.state-gray{
+.state-green,.state-gray,.state-red,.state-yellow{
 	width: 20px;
 	height: 20px;
 	background-color: green;
@@ -773,7 +773,7 @@ body{
 .devBottom .imgDiv{
 	width: 20%; height: 380px; float: left; text-align: center;padding-top: 1px; font-size: 22px;
 }
-.devBottom .imgDiv img{ border-radius: 50%; padding-bottom: 20px;}
+.devBottom .imgDiv img{    border-radius: 50%;    border: 1px solid #999;    width: 150px;    height: 150px;    display: block;    margin: 20px auto;}
 .itembg_popupfirt.col2{
 	height: 280px;
 }

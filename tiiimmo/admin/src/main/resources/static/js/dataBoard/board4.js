@@ -167,8 +167,8 @@ var db4POption2 = {
 function addfourBoardHtml(data) {
 	var theadHtml = '', tbodyHtml = '',tbodyData = data;
 	//console.log(tbodyData.length)
-	var arr4=[19,19,19,19,19]
-	var theadData = ['员工名称', '工位', '所在工序', '任务信息', '当前完成率']
+	var arr4=[14,10,10,19,14,14,14]
+	var theadData = ['员工名称', '工位', '所在工序', '物料名称','生产批次', '任务信息', '当前完成率']
 	// colwidth = (($("#fourBoard").width() / theadData.length) - 10) + "px";
 	theadHtml = '<div class="StateTit">';
 	for (var i = 0; i < theadData.length; i++) {
@@ -182,8 +182,10 @@ function addfourBoardHtml(data) {
 			'<span  style="width:'+ arr4[0] + '%">' + tbodyData[j].user_name + '</span>' +
 			'<span  style="width:'+ arr4[1] + '%">' + tbodyData[j].device_code + '</span>' +
 			'<span  style="width:'+ arr4[2] + '%">' + tbodyData[j].process_name + '</span>' +
-			'<span  style="width:'+ arr4[3] + '%">' + tbodyData[j].process_task_code + '</span>' +
-			'<span  style="width:'+ arr4[4] + '%">' +tbodyData[j].rate+'%'+
+			'<span  style="width:'+ arr4[3] + '%">' + tbodyData[j].pcb_name + '</span>' +
+			'<span  style="width:'+ arr4[4] + '%">' + tbodyData[j].task_sheet_code + '</span>' +
+			'<span  style="width:'+ arr4[5] + '%">' + tbodyData[j].process_task_code + '</span>' +
+			'<span  style="width:'+ arr4[6] + '%">' +tbodyData[j].rate+'%'+
 				// '<div class="progress" progress="'+tbodyData[j].rate+'%">' +
 				// '	<div class="progressBar">' +
 				// '		<span></span>' +

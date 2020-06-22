@@ -75,11 +75,8 @@ function setDataBoard3(params) {
     // 开启定时任务，时间间隔为3000 ms。
     var deviceInterval = setInterval(function () {
         getData();
-    }, 5000);
-    //1分钟
-    setInterval(function () {
         getEnvironmentRecord();
-    }, 60000);
+    }, 5000);
 }
 function getData() {
     $.ajax({
@@ -88,6 +85,7 @@ function getData() {
         url: board3Api.deviceUrl,
         dataType: "json",
         success: function (response) {
+            //0启动,1停止/暂停,2关机
             $(".imagesflex").find('i').each(function (i) {
                 if (response.data[i].device_status == 0) {
                     $(this).removeClass('state-gray');
@@ -119,10 +117,14 @@ function getEnvironmentRecord() {
                 var humidity = response.data[0].humidity;
                 //console.log(temperature, humidity)
                 if (temperature > 40) {
-                    $("#temperature i").removeClass('state-blue').addClass('state-red');
+                    $("#temperature i").addClass('state-red');
+                }else{
+                    $("#temperature i").removeClass('state-red');
                 }
                 if (humidity > 70) {
-                    $("#humidity i").removeClass('state-blue').addClass('state-red');
+                    $("#humidity i").addClass('state-red');
+                }else{
+                    $("#humidity i").removeClass('state-red');
                 }
             }
         }
@@ -487,28 +489,34 @@ function addHtml(responseData, deviceresponse, n,user) {
         deviceresponse.next_check_time = ''
     }
     var devstatus = {
-        "0":"停机",
+        "0":"启动",
         "1":"暂停",
-        "2":"运行中",
-        null:"",
+        "2":"停机",
+        null:"停机",
+    }
+    var deviceInfostatus = {
+        "0":"state-green",
+        "1":"state-yellow",
+        "2":"state-gray",
+        null:"state-gray",
     }
     html += '</div>' +
         '</div>' +
         '<div class="devBottom">' +
         '<div class="item" style="width: 40%;">' +
         '   <div class="itemTit">' +
-        '       <span class="border-blue">设备信息</span>' +
+        '       <span class="border-blue">设备信息<i class="'+deviceInfostatus[deviceresponse.device_status]+'" style="margin-left: 390px;"></i></span>' +
         '   </div>' +
         '   <div class="itemCon itembg itembg_popupfirt ">' +
         '       <ul class="listStyle">' +
         '           <li class="clearfix">' +
         '				<span class="col2">所属厂区:<strong>' + deviceresponse.belong_plant_area + '</strong></span>' +
+        '				<span class="col2">设备状态:<strong>' + devstatus[deviceresponse.device_status] + '</strong></span>' +
         '				<span class="col2">所属工序:<strong>' + deviceresponse.belong_process + '</strong></span>' +
         '				<span class="col2">设备型号:<strong>' + deviceresponse.device_model + '</strong></span>' +
         // '				<span class="col2">设备站位:<strong>' + deviceresponse.device_sort + '</strong></span>' +
         '               <span class="col2">上次检测时间:<strong>' + deviceresponse.last_check_time + '</strong></span>' +
         '               <span class="col2">下次检测时间:<strong>' + deviceresponse.next_check_time + '</strong></span>' +
-        '				<span class="col2">设备状态:<strong>' + devstatus[deviceresponse.device_status] + '</strong></span>' +
         '				<span class="col2">设备名称:<strong>' + deviceresponse.device_name + '</strong></span>' +
         '				<span class="col1">所属产线:<strong>' + deviceresponse.belong_line + '</strong></span>' +
         '           </li>' +
@@ -526,7 +534,7 @@ function addHtml(responseData, deviceresponse, n,user) {
         '        <span class="border-green">上岗人员信息</span>' +
         '    </div>' +
         '        <div class="itemConDevice">' +
-        '        <img src="../../images/dataBoard/photo.jpg">';
+        '        <img src="../../images/user.png">';
         if(user.nickname==null){
             user.nickname='无';
         }
@@ -808,6 +816,7 @@ var db3POption3 = {
                 fontSize: 20
             }
         },
+        minInterval: 1
     },
     series: [{
         name: '工作时长',
