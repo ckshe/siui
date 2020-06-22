@@ -102,12 +102,8 @@ public class ApiResponse implements Serializable {
 		return new ApiResponse(msg);
 	}
 
-	/**
-	 * 参数校验错误时使用，返回错误信息
-	 * @param bindingResult
-	 * @return
-	 *//*
-	public static ApiResponse ofParamError(BindingResult bindingResult) {
+
+	/*public static ApiResponse ofParamError(BindingResult bindingResult) {
 		return new ApiResponse(StatusCode.PARAM_ERROR.getCode(), bindingResult.getFieldError().getDefaultmsg(), null);
 	}*/
 
