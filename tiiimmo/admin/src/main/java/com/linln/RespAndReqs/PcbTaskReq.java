@@ -23,6 +23,7 @@ public class PcbTaskReq {
     private Integer size;
     private String timeStamp;
     private String status;
+    private String checkPositionSort;
     private Integer amount;
     private List<PcbTaskReq> data;
     private String reCount;

@@ -62,7 +62,10 @@ public interface PcbTaskService {
     Map<String,Object> deviceProduceAmount(PcbTaskReq pcbTaskReq);
 
 
-    Map<String,Object> getElementPosition(PcbTaskReq pcbTaskReq);
+    Map<String,Object> checkPositionSort(PcbTaskReq pcbTaskReq);
+
+
+    Map<String,Object> noticePutinStatus(PcbTaskReq pcbTaskReq);
 
 
     Map<String,Object> scanCountPlate(PcbTaskReq pcbTaskReq);

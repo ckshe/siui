@@ -66,14 +66,24 @@ public class OpenController {
     }
 
 
-    //设备接口
-    @PostMapping("/getElementPosition")
+    //轮询获取卡位信息
+    @PostMapping("/checkPositionSort")
     @ResponseBody
-    public Map<String,Object> getElementPosition(String data){
+    public Map<String,Object> checkPositionSort(String data){
         System.out.println(data);
         List<PcbTaskReq> req = (List<PcbTaskReq> ) JSON.parseArray(data,PcbTaskReq.class);
-        return pcbTaskService.getElementPosition(req.get(0));
+        return pcbTaskService.checkPositionSort(req.get(0));
     }
+
+    //返回插入成功
+    @PostMapping("/noticePutinStatus")
+    @ResponseBody
+    public Map<String,Object> noticePutinStatus(String data){
+        System.out.println(data);
+        List<PcbTaskReq> req = (List<PcbTaskReq> ) JSON.parseArray(data,PcbTaskReq.class);
+        return pcbTaskService.noticePutinStatus(req.get(0));
+    }
+
 
     //扫码计数接口
     @PostMapping("/scanCountPlate")

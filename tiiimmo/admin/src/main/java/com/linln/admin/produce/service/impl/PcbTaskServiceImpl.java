@@ -95,6 +95,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     @Autowired
     private BadClassDetailRepository badClassDetailRepository;
 
+    @Autowired
+    private PcbTaskPositionRecordDetailRepositoty pcbTaskPositionRecordDetailRepositoty;
+
+    @Autowired
+    private ProcessTaskRealPlateSortRepository processTaskRealPlateSortRepository;
 
 
     /**
@@ -781,14 +786,41 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Override
     public  Map<String,Object> scanCountPlate(PcbTaskReq pcbTaskReq) {
-
-
-        //todo
         Map<String,Object> map = new HashMap<>();
+        List<Map<String,String>> mapList = new ArrayList<>();
+        for(PcbTaskReq req : pcbTaskReq.getData()){
+            Device device = deviceRepository.fingDeviceBySort(req.getDeviceCode());
+            ProcessTask processTask = processTaskRepository.findProducingByDevice_code("%"+device.getDevice_code()+"%");
+            if(processTask==null){
+                map.put("result","200");
+                map.put("timeStamp",pcbTaskReq.getTimeStamp());
+                map.put("msg",req.getDeviceCode()+" 该机台没有进行中的任务！");
+                map.put("url","scanCountPlate");
+                return map;
+            }
+            ProcessTaskRealPlateSort plateSort  = processTaskRealPlateSortRepository.findByProcess_task_codeAndDevice_codeAndPlate_no(processTask.getProcess_task_code(), device.getDevice_code(), req.getPlateNo());
+            if(plateSort!=null){
+                map.put("result","200");
+                map.put("timeStamp",pcbTaskReq.getTimeStamp());
+                map.put("msg",req.getPlateNo()+" 该板编号已扫描过！");
+                map.put("url","scanCountPlate");
+                return map;
+            }
+            ProcessTaskRealPlateSort sort = new ProcessTaskRealPlateSort();
+            sort.setDevice_code(device.getDevice_code());
+            sort.setProcess_task_code(processTask.getProcess_task_code());
+            sort.setPlate_no(req.getPlateNo());
+            sort.setRecord_time(new Date());
+            sort.setStatus(StatusEnum.OK.getCode());
+            processTaskRealPlateSortRepository.save(sort);
+        }
         map.put("result","200");
         map.put("timeStamp",pcbTaskReq.getTimeStamp());
-        map.put("msg","scanCountPlate");
+        map.put("msg","扫描成功！");
+        map.put("url","scanCountPlate");
+
         return map;
+
     }
 
     @Override
@@ -844,23 +876,26 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             //记录设备启停状态
             device.setDevice_status(req.getStatus());
             deviceRepository.save(device);
-            ProcessTask processTask = processTaskRepository.findProducingByDevice_code(req.getDeviceCode());
+            ProcessTask processTask = processTaskRepository.findProducingByDevice_code("%"+device.getDevice_code()+"%");
             //查无生产中的单怎么办
             if(processTask==null){
 
             }else {
-                ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getDeviceCode(),processTask.getProcess_task_code());
-                processTaskDevice.setTd_status(req.getStatus());
-                processTaskDevice.setAmount(req.getAmount()+processTaskDevice.getLast_amount());
-                processTaskDevice.setTime_stamp(pcbTaskReq.getTimeStamp());
-                processTaskDeviceRepository.save(processTaskDevice);
-                String deviceCodes = processTask.getDevice_code();
-                String  bigone = findDeviceBigIdCode(deviceCodes);
-                if(bigone.equals(device.getDevice_code())){
-                    //工序最后机台数量计入工序任务
-                    processTask.setAmount_completed(processTaskDevice.getAmount());
-                    processTaskRepository.save(processTask);
+                ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(device.getDevice_code(),processTask.getProcess_task_code());
+                if(processTaskDevice!=null){
+                    processTaskDevice.setTd_status(req.getStatus());
+                    processTaskDevice.setAmount(req.getAmount()+processTaskDevice.getLast_amount());
+                    processTaskDevice.setTime_stamp(pcbTaskReq.getTimeStamp());
+                    processTaskDeviceRepository.save(processTaskDevice);
+                    String deviceCodes = processTask.getDevice_code();
+                    String  bigone = findDeviceBigIdCode(deviceCodes);
+                    if(bigone.equals(device.getDevice_code())){
+                        //工序最后机台数量计入工序任务
+                        processTask.setAmount_completed(processTaskDevice.getAmount());
+                        processTaskRepository.save(processTask);
+                    }
                 }
+
             }
 
 
@@ -871,24 +906,66 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         map.put("result","200");
         map.put("data",list);
         map.put("timeStamp",pcbTaskReq.getTimeStamp());
-        map.put("msg","deviceProduceAmount");
+        map.put("msg","");
+        map.put("url","deviceProduceAmount");
         return map;
     }
 
 
     @Override
-    public Map<String, Object> getElementPosition(PcbTaskReq pcbTaskReq) {
-        return null;
+    public Map<String, Object> checkPositionSort(PcbTaskReq pcbTaskReq) {
+        List<Map<String,String>> mapList = new ArrayList<>();
+        for(PcbTaskReq req : pcbTaskReq.getData()){
+            Device device = deviceRepository.fingDeviceBySort(req.getDeviceCode());
+            List<PcbTaskPositionRecordDetail> list = pcbTaskPositionRecordDetailRepositoty.findByDevice_code(device.getDevice_code());
+            Map<String,String> map = new HashMap<>();
+            map.put("deviceCode",req.getDeviceCode());
+            map.put("positionSort","");
+            if(list!=null&&list.size()!=0){
+                PcbTaskPositionRecordDetail detail = list.get(0);
+                map.put("deviceCode",req.getDeviceCode());
+                map.put("positionSort",detail.getPosition());
+            }
+            mapList.add(map);
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("result","200");
+        map.put("data",mapList);
+        map.put("timeStamp",pcbTaskReq.getTimeStamp());
+        map.put("msg","");
+        map.put("url","checkPositionSort");
+        return map;
+    }
+
+
+    @Override
+    public Map<String, Object> noticePutinStatus(PcbTaskReq pcbTaskReq) {
+        for(PcbTaskReq req : pcbTaskReq.getData()){
+            Device device = deviceRepository.fingDeviceBySort(req.getDeviceCode());
+            List<PcbTaskPositionRecordDetail> list = pcbTaskPositionRecordDetailRepositoty.findByDevice_code(device.getDevice_code());
+            if(list!=null&&list.size()!=0) {
+                PcbTaskPositionRecordDetail detail = list.get(0);
+                detail.setInstall_status("2");
+                pcbTaskPositionRecordDetailRepositoty.save(detail);
+            }
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("result","200");
+        map.put("timeStamp",pcbTaskReq.getTimeStamp());
+        map.put("msg","");
+        map.put("url","noticePutinStatus");
+        return map;
+
     }
 
     public String  findDeviceBigIdCode(String deviceCodes){
         String devicecode [] = deviceCodes.split(",");
-        Long bigone = 0L;
+        Integer bigInteger = 0;
         String bigCode = "";
         for(String code : devicecode){
             Device device = deviceRepository.findbyDeviceCode(code);
-            if(device.getId()>bigone){
-                bigone = device.getId();
+            if(device!=null&&device.getDevice_sort()>bigInteger){
+                bigInteger = device.getDevice_sort();
                 bigCode = code;
             }
         }
@@ -921,7 +998,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
         User user = ShiroUtil.getSubject();
         if(!"备料".equals(processTask.getProcess_name())){
-            List<ProcessTask> list = processTaskRepository.findByDevice_code(pcbTaskReq.getDeviceCode());
+            List<ProcessTask> list = processTaskRepository.findByDevice_code("%"+pcbTaskReq.getDeviceCode()+"%");
             list.forEach(p -> p.setIs_now_flag("0"));
             processTaskRepository.saveAll(list);
             processTask.setIs_now_flag("1");
