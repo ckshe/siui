@@ -458,7 +458,7 @@ function setDataBoard1(params) {
                     setOption(response.data);
                 }
             });
-        }, 5000);
+        }, 60000);
     } else {
         $.ajax({
             contentType: 'application/json',
@@ -483,7 +483,7 @@ function setDataBoard1(params) {
                     setOption(response.data);
                 }
             });
-        }, 5000);
+        }, 60000);
     }
     function setOption(response) {
         // db1P1.clear();
@@ -701,7 +701,7 @@ function setDataBoard1(params) {
                         setOption(response.data);
                     }
                 });
-            }, 5000);
+            }, 60000);
         } else {
             $.ajax({
                 contentType: 'application/json',
@@ -728,7 +728,7 @@ function setDataBoard1(params) {
                         setOption(response.data);
                     }
                 });
-            }, 5000);
+            }, 60000);
         }
     })
     function addHtml(data, hsaClassOn) {

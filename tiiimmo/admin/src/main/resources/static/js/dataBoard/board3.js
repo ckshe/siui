@@ -69,7 +69,7 @@ function setDataBoard3(params) {
         console.log(8888)
         board3();
         processBadRate();
-    }, 5000);
+    }, 60000);
     getData(); // 设备状态
     getEnvironmentRecord();//环境
     processBadRate();//不良率

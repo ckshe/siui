@@ -17,7 +17,7 @@ function setDataBoard2(params) {
         // db2P5.clear();
         // db2P6.clear();
 		board2()
-	}, 5000);
+	}, 60000);
 	function board2() {
 		$.ajax({
 			contentType: 'application/json',

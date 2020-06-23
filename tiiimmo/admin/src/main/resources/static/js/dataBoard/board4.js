@@ -277,7 +277,7 @@ function setDataBoard4(params) {
 	board2Interval = setInterval(function () {
 		console.log(66666666)
 		board4();
-	}, 5000);
+	}, 60000);
 	function board4() {
 		$.ajax({
 			contentType: 'application/json',
