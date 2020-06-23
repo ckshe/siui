@@ -69,7 +69,7 @@
                         <th>设备名称</th>
                         <th>关键工艺名称</th>
                         <th>单位</th>
-                        <th>排序序号</th>
+                        <th>序号</th>
                         <th>排序</th>
                         <th style="display: none">创建时间</th>
                         <th>操作</th>
@@ -85,7 +85,7 @@
                         <td th:text="${item.device_name}">设备名称</td>
                         <td th:text="${item.key_technology_name}">关键工艺名称</td>
                         <td th:text="${item.unit}">单位</td>
-                        <td th:text="${item.sort_no}">排序序号</td>
+                        <td th:text="${item.sort_no}">序号</td>
                         <td>
                             <form class="layui-form">
                                 <button class="field-up layui-btn layui-btn-primary layui-btn-xs" lay-submit lay-filter="up" th:data-id="${item.id}" type="button">

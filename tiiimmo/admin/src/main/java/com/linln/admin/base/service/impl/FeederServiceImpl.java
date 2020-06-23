@@ -63,4 +63,9 @@ public class FeederServiceImpl implements FeederService {
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return feederRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
+
+    @Override
+    public void zero(Feeder feeder) {
+        feederRepository.updateZero(feeder.getId());
+    }
 }

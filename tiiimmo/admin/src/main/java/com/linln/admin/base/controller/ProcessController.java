@@ -156,10 +156,10 @@ public class ProcessController {
         }
 
     }
+
     @GetMapping("/findProcess")
     @ResponseBody
     public ResultVo findProcess(){
-
         List<Process> processes = processService.list();
         if (processes!= null){
             return ResultVoUtil.success("查询成功",processes);

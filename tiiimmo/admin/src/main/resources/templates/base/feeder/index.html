@@ -60,7 +60,7 @@
                         <!--<th>主键ID</th>-->
                         <th>飞达编码</th>
                         <th>飞达名称</th>
-                        <th>使用次数</th>
+                        <th>当前使用次数</th>
                         <th>最高使用次数</th>
                         <th style="display: none">数据状态</th>
                         <th>操作</th>
@@ -73,13 +73,14 @@
                         <!--<td th:text="${item.id}">主键ID</td>-->
                         <td th:text="${item.code}">飞达编码</td>
                         <td th:text="${item.name}">飞达名称</td>
-                        <td th:text="${item.use_times}">使用次数</td>
+                        <td th:text="${item.use_times}">当前使用次数</td>
                         <td th:text="${item.highest_use_times}">最高使用次数</td>
                         <td style="display: none" th:text="${#dicts.dataStatus(item.status)}">数据状态</td>
                         <td>
                             <a class="open-popup" data-title="编辑飞达" th:attr="data-url=@{'/base/feeder/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
                             <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/base/feeder/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>
                             <a class="ajax-get" data-msg="您是否确认删除" th:href="@{/base/feeder/status/delete(ids=${item.id})}">删除</a>
+                            <a class="ajax-get" data-msg="您是否确认清零" th:href="@{'/base/feeder/zero/'+${item.id}}">清零</a>
                         </td>
                     </tr>
                     </tbody>

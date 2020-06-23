@@ -38,4 +38,6 @@ public interface FeederService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    void zero(Feeder feeder);
 }

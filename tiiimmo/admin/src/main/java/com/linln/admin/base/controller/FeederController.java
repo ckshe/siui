@@ -92,6 +92,22 @@ public class FeederController {
     }
 
     /**
+     * 使用次数清零
+     * @param feeder
+     * @return
+     */
+    @GetMapping("/zero/{id}")
+    @ResponseBody
+    public ResultVo zero(@PathVariable("id") Feeder feeder){
+        if (feeder.getId() != null){
+            Feeder feed = feederService.getById(feeder.getId());
+            feed.setUse_times(0);
+        }
+        feederService.save(feeder);
+        return ResultVoUtil.ZERO_SUCESS;
+    }
+
+    /**
      * 跳转到详细页面
      */
     @GetMapping("/detail/{id}")
@@ -118,4 +134,6 @@ public class FeederController {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
     }
+
+
 }

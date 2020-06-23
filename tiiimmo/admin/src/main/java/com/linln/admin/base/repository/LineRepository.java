@@ -15,8 +15,4 @@ import java.util.List;
  * @date 2020/05/14
  */
 public interface LineRepository extends BaseRepository<Line, Long> {
-   /* @Query(value = "select bl.id,bl.name, bpa.name from base_line bl " +
-            "left join base_plant_area bpa " +
-            "on bl.area = bpa.id ",nativeQuery = true)
-    <S extends Line> Page<S> findAll(Example<S> var1, Pageable var2);*/
 }
