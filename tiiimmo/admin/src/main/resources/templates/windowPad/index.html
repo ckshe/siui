@@ -77,10 +77,29 @@
     }
 </style>
 <body>
+<!--备料工序计划页面-->
+<div id="status"  style="display: none;padding:14px;box-sizing: border-box">
+    <form class="layui-form" id="statusForm" lay-filter="statusForm">
+        <input type="hidden" name="id">
+            <div class="layui-form-item">
+                <label class="layui-form-label">计划生产数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pcb_quantity" disabled autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">实际生产数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="amount_completed"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        <div style="text-align: center">
+            <button class="layui-btn" type="button" lay-submit lay-filter="status">确定</button>
+        </div>
+    </form>
+</div>
 <iframe id="zhidao" style="display: none;width: 880px;height: 650px;" src="">
-
 </iframe>
-
 <div id="zezao" class="zezao" style="display: none">
     <div  id="loginBox" class="loginBox">
         <div id="xx"  class="xx layui-icon layui-icon-close"></div>
@@ -176,12 +195,13 @@
                     <button id="pdf" class="greenButton" type="button" style="height:calc(100% - 10px)">操作指导</button>
                 </div>
             </div>
-            <button class="redButton" type="button" id="bad" style="height:90px;width:100%;">不良录入</button>
             <div class="fourBox">
                 <div class="fourLeft">
+                    <button id="over" class="huanButton">结束工序</button>
                     <button id="login" class="blueButton">上机</button>
                 </div>
                 <div class="fourRight">
+                    <button id="bad" class="redButton">不良录入</button>
                     <button id="out" class="huiButton">下机</button>
                 </div>
             </div>
@@ -191,7 +211,6 @@
 <script src="../../lib/layui-v2.3.0/layui.js" ></script>
 <script src="../../js/common.js" ></script>
 <script src="../../lib/qrcode.min.js"></script>
-<!--<script src="../../lib/oneCode.js"></script>-->
 </body>
 <script>
     var nowGonDan="";
@@ -350,7 +369,6 @@
                    }
                 }
             };
-
             $('#xx').on('click',function () {
                 document.getElementById('zezao').style.display='none';
             })
@@ -447,6 +465,46 @@
                     })
                 }
             });
+            $('#over').on('click',function () {
+                if(isLogin()) {
+                    layer.open({
+                        type:1,
+                        content:$('#status'),
+                        area:['400px','400px']
+                    });
+                    console.log(nowGonDan)
+                    form.val('statusForm',{
+                        pcb_quantity:nowGonDan.pcb_quantity,
+                        id:nowGonDan.id,
+                    })
+                }
+            });
+            form.on('submit(status)',function (obj) {
+                console.log(obj.field);
+                $.ajax({
+                    url: '/produce/pcbTask/modifyProcessTaskStatus',
+                    type: "post",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        processTaskId: obj.field.id,
+                        processTaskStatus: "已完成",
+                        amountCompleted:obj.field.amount_completed,
+                        // deviceCode: getQueryString('deviceCode')
+                    }),
+                    contentType: "application/json;charset=UTF-8",
+                    success: function (res) {
+                        layer.closeAll();
+                        if (res.code === 200) {
+                            layer.msg(res.msg, {icon: 1});
+                            setTimeout(function () {
+                                window.location.reload()
+                            },1000);
+                        } else {
+                            layer.alert(res.msg, {icon: 5})
+                        }
+                    }
+                })
+            })
             //操作指导
             $('#pdf').on('click',function () {
                 document.getElementById('zhidao').src='/open/showPDF?deviceCode='+getQueryString('deviceCode');
@@ -470,7 +528,7 @@
                 }
             })
             // createBarcode('qrcode','ACG-G1234X','B')
-        //二维码生产
+            //二维码生产
             var qrcode = new QRCode("qrcode",{
                 height:80,
                 width:80

@@ -209,3 +209,26 @@ Checkboxs.prototype = {
         }
     }
 }
+//表单元素回车事件触发函数
+function Enter(domId,func){
+    this.func2 = func||function(){};
+    this.input = document.getElementById(domId);
+    this.focus();
+}
+Enter.prototype={
+   focus:function () {
+      var that = this;
+       this.input.onfocus=function () {
+           document.onkeydown=function (e) {
+               if(e.keyCode === 13){
+                   if(that.input == document.activeElement){
+                       that.func2()
+                   }
+               }
+           };
+       }
+   }
+
+
+
+};

@@ -14,15 +14,25 @@
 .blue{
     background:#1e9fff ;
 }
-.blueButton{
+.huanButton{
     border-radius: 4px;
     color:#fff;
     border: none;
         cursor: pointer;
 
+    background: #ff9d31;
+    box-shadow:0 0 2px 3px #d48700 inset,
+                0 0 5px 1px #fff inset
+}
+.blueButton{
+    border-radius: 4px;
+    color:#fff;
+    border: none;
+    cursor: pointer;
+
     background:#1e9fff ;
     box-shadow:0 0 2px 3px #0585e4 inset,
-                0 0 5px 1px #fff inset
+    0 0 5px 1px #fff inset
 }
 .huiButton{
     border-radius: 4px;
@@ -83,7 +93,7 @@
     height:calc(100% - 90px);
     width:100%;
     background: #f8f8f8;
-    padding:14px 14px 14px 194px;
+    padding:14px 10px 14px 190px;
     box-sizing: border-box;
     border-bottom:1px solid #eee;
 }

@@ -77,27 +77,27 @@
             <div class="layui-inline">
                 <label class="layui-form-label">工序任务</label>
                 <div class="layui-input-block">
-                    <input type="text" name="processTaskCode"  placeholder="请输入任务号" autocomplete="off" class="layui-input">
+                    <input id="processTaskCode" type="text" name="processTaskCode"  placeholder="请输入任务号" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">排产任务</label>
                 <div class="layui-input-block">
-                    <input type="text" name="pcbTaskCode"  placeholder="请输入任务号" autocomplete="off" class="layui-input">
+                    <input type="text" id="pcbTaskCode" name="pcbTaskCode"  placeholder="请输入任务号" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <button class="layui-btn" type="button" lay-submit lay-filter="sub"><i class="layui-icon">&#xe615;</i></button>
+            <button class="layui-btn" id="search" type="button" lay-submit lay-filter="sub"><i class="layui-icon">&#xe615;</i></button>
             <button type="reset" class="layui-btn layui-bg-blue" >清除</button>
         </form>
-            <div class="pull-right screen-btn-group">
-                <button class="layui-btn open-popup" data-title="添加PCB工单"  data-size="auto">
-                    <i class="layui-icon ">&#xe654;</i> 添加</button>
-                <div class="btn-group">
-                    <button class="layui-btn" id="sync" type="button">
+<!--            <div class="pull-right screen-btn-group">-->
+<!--                <button class="layui-btn open-popup" data-title="添加PCB工单"  data-size="auto">-->
+<!--                    <i class="layui-icon ">&#xe654;</i> 添加</button>-->
+<!--                <div class="btn-group">-->
+<!--                    <button class="layui-btn" id="sync" type="button">-->
 
-                        同步数据</button>
-                </div>
-            </div>
+<!--                        同步数据</button>-->
+<!--                </div>-->
+<!--            </div>-->
         <table class="layui-hide" id="table" lay-filter="table"></table>
         <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
         <script src="../../js/common.js" ></script>
@@ -118,6 +118,8 @@
                 curr:1
             })
         });
+        new Enter('processTaskCode',function () {$('#search').click()});
+        new Enter('pcbTaskCode',function () {$('#search').click()});
         table.render({
             elem: '#table'
             ,url: '/produce/pcbTask/findProcessTaskByProcessName' //数据接口
