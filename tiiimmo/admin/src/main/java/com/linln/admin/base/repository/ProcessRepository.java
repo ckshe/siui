@@ -25,5 +25,6 @@ public interface ProcessRepository extends BaseRepository<Process, Long> {
     Process moveUp(Integer sort_no);
     @Query(value = "select distinct  process_type from base_process",nativeQuery = true)
     List<String> queryProcessType();
-
+    @Query(value = "select max(sort_no) as maxSortNo from base_process",nativeQuery = true)
+    Integer getMaxSortNo();
 }

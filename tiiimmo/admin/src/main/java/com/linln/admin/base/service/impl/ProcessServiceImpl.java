@@ -57,6 +57,13 @@ public class ProcessServiceImpl implements ProcessService {
      */
     @Override
     public Process save(Process process) {
+        //获取当前最大的sort值
+        Integer maxSortNo = processRepository.getMaxSortNo();
+        if (maxSortNo == 0){
+            process.setSort_no(1);
+        } else {
+            process.setSort_no(maxSortNo + 1);
+        }
         return processRepository.save(process);
     }
 

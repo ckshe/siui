@@ -19,4 +19,6 @@ public interface DeviceTechnologyRepository extends BaseRepository<DeviceTechnol
     DeviceTechnology moveDown(Integer sort_no);
     @Query(value = "select  top 1 * from base_device_technology where sort_no < ?1 order by sort_no desc ",nativeQuery = true)
     DeviceTechnology moveUp(Integer sort_no);
+    @Query(value = "select max(sort_no) as maxSortNo from base_device_technology",nativeQuery = true)
+    Integer getMaxSortNo();
 }

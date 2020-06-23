@@ -43,7 +43,17 @@ public interface DeviceTechnologyService {
 
     List<String> queryDeviceTechnologyCode();
 
+    /**
+     * 数据下移
+     * @param id
+     */
     void moveDown(Long id);
 
+    /**
+     * 数据上移
+     * @param id
+     */
     void moveUp(Long id);
+
+
 }

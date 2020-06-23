@@ -57,6 +57,13 @@ public class DeviceTechnologyServiceImpl implements DeviceTechnologyService {
      */
     @Override
     public DeviceTechnology save(DeviceTechnology deviceTechnology) {
+        //获取当前最大的sort值
+        Integer maxSortNo = deviceTechnologyRepository.getMaxSortNo();
+        if (maxSortNo == 0){
+            deviceTechnology.setSort_no(1);
+        } else {
+            deviceTechnology.setSort_no(maxSortNo + 1);
+        }
         return deviceTechnologyRepository.save(deviceTechnology);
     }
 
@@ -108,4 +115,7 @@ public class DeviceTechnologyServiceImpl implements DeviceTechnologyService {
         deviceTechnologyRepository.save(deviceTechnology);
         deviceTechnologyRepository.save(deviceTechnologyBefore);
     }
+
+
+
 }
