@@ -140,7 +140,7 @@ public class ProcessController {
             }
             return ApiResponse.ofSuccess("更新成功");
         } catch (Exception e) {
-            return ApiResponse.ofError("更新失败");
+            return ApiResponse.ofError("第一条数据不能上移,最后一条数据不能下移");
         }
     }
 

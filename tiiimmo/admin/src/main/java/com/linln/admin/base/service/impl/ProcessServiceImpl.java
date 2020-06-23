@@ -5,6 +5,7 @@ import com.linln.admin.base.repository.ProcessRepository;
 import com.linln.admin.base.service.ProcessService;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
+import com.linln.common.exception.ResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -81,7 +82,7 @@ public class ProcessServiceImpl implements ProcessService {
         Process processNext = processRepository.moveDown(process.getSort_no());
         //最下面的数据信息不能下移
         if (processNext == null) {
-            return;
+            throw new ResultException("最后一条数据不能再往下移了哦");
         }
         //交换两条数据信息的sort_no值
         Integer temp = process.getSort_no();
@@ -104,7 +105,7 @@ public class ProcessServiceImpl implements ProcessService {
         Process processBefore = processRepository.moveUp(process.getSort_no());
         //最上面的数据不能上移
         if (processBefore == null){
-            return;
+            throw new ResultException("第一条数据不能再往上移了哦");
         }
         //交换两条数据信息的sort_no值
         Integer temp = process.getSort_no();

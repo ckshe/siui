@@ -87,12 +87,14 @@
                         <td th:text="${item.unit}">单位</td>
                         <td th:text="${item.sort_no}">排序序号</td>
                         <td>
-                            <button class="field-up layui-btn layui-btn-primary layui-btn-xs">
-                                <i class="fa fa-arrow-up"></i>上移
-                            </button>
-                            <button class="field-down layui-btn layui-btn-primary layui-btn-xs">
-                                <i class="fa fa-arrow-down"></i>下移
-                            </button>
+                            <form class="layui-form">
+                                <button class="field-up layui-btn layui-btn-primary layui-btn-xs" lay-submit lay-filter="up" th:data-id="${item.id}" type="button">
+                                    <i class="fa fa-arrow-up" ></i>上移
+                                </button>
+                                <button class="field-down layui-btn layui-btn-primary layui-btn-xs" lay-submit lay-filter="down" th:data-id="${item.id}" type="button">
+                                    <i class="fa fa-arrow-down" ></i>下移
+                                </button>
+                            </form>
                         </td>
                         <td style="display: none" th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
                         <td>
@@ -108,5 +110,37 @@
         </div>
     </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['form','jquery','layer'],function () {
+            var form=layui.form,
+                $   = layui.jquery,
+                layer=layui.layer;
+            form.on('submit(up)',function (obj) {
+                var id=obj.elem.getAttribute('data-id');
+                console.log(id);
+                $.get('/base/deviceTechnology/updateSort?sort=up&id='+id,function (res) {
+                    if(res.code===200){
+                        layer.msg(res.msg,{time:500,icon:1},function () {
+                            window.location.reload()
+                        })
+                    }else{
+                        layer.alert(res.msg,{icon:5})
+                    }
+                })
+            })
+            form.on('submit(down)',function (obj) {
+                var id=obj.elem.getAttribute('data-id');
+                $.get('/base/deviceTechnology/updateSort?sort=down&id='+id,function (res) {
+                    if(res.code===200){
+                        layer.msg(res.msg,{time:500,icon:1},function () {
+                            window.location.reload()
+                        })
+                    }else{
+                        layer.alert(res.msg,{icon:5})
+                    }
+                })
+            })
+        })
+    </script>
 </body>
 </html>

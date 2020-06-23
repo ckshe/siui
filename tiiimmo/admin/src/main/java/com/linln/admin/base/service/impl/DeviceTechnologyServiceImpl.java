@@ -5,6 +5,7 @@ import com.linln.admin.base.repository.DeviceTechnologyRepository;
 import com.linln.admin.base.service.DeviceTechnologyService;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
+import com.linln.common.exception.ResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -79,11 +80,11 @@ public class DeviceTechnologyServiceImpl implements DeviceTechnologyService {
     }
 
     @Override
-    public void moveDown(Long id) {
+    public void moveDown(Long id)  {
         DeviceTechnology deviceTechnology = deviceTechnologyRepository.findByDId(id);
         DeviceTechnology deviceTechnologyNext = deviceTechnologyRepository.moveDown(deviceTechnology.getSort_no());
         if (deviceTechnologyNext == null){
-            return;
+            throw new ResultException("最后一条数据不能再往下移了哦");
         }
         Integer temp = deviceTechnology.getSort_no();
         deviceTechnology.setSort_no(deviceTechnologyNext.getSort_no());
@@ -98,7 +99,7 @@ public class DeviceTechnologyServiceImpl implements DeviceTechnologyService {
         DeviceTechnology deviceTechnology = deviceTechnologyRepository.findByDId(id);
         DeviceTechnology deviceTechnologyBefore = deviceTechnologyRepository.moveUp(deviceTechnology.getSort_no());
         if (deviceTechnologyBefore == null){
-            return;
+            throw new ResultException("第一条数据不能再往上移了哦");
         }
         Integer temp = deviceTechnology.getSort_no();
         deviceTechnology.setSort_no(deviceTechnologyBefore.getSort_no());

@@ -42,4 +42,12 @@ public class ResultException extends RuntimeException {
         this.code = code;
     }
 
+    /**
+     * 统一异常处理
+     * @param message 提示信息
+     */
+    public ResultException(String message) {
+        super(message);
+    }
+
 }
