@@ -653,7 +653,7 @@ body{
 	padding: 20px 0;
   }
   .dataBoarder .left, .dataBoarder .right{
-	  width: 100%; height: 100%; box-sizing: border-box;
+	  width: 100%; height: 380px; box-sizing: border-box;
 	  height: auto;
 	  border-radius: 0;
 	  border: 1px solid #1e5b6b;
@@ -771,7 +771,7 @@ body{
 .summaryP1 .itembg_popupfirt .listStyle li span strong{padding: 0 5px;}
 .deviceFlex img{cursor:pointer}
 .devBottom .imgDiv{
-	width: 20%; height: 380px; float: left; text-align: center;padding-top: 1px; font-size: 22px;
+	width: 20%; height: 380px; float: left; text-align: center; font-size: 22px;
 }
 .devBottom .imgDiv img{    border-radius: 50%;    border: 1px solid #999;    width: 150px;    height: 150px;    display: block;    margin: 20px auto;}
 .itembg_popupfirt.col2{

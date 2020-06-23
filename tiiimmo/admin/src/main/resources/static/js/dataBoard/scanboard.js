@@ -107,6 +107,7 @@ $(function(){
 		setDataBoard3();
 		setDataBoard4();
 	},10)
+	
 	//关掉界面
 	$('.popupClose').on('click',function(){
 		$('.popupClose').css('display','none');

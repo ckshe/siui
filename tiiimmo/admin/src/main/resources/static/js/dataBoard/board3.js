@@ -11,11 +11,10 @@ var board3Api = {
     getDeviceRunTimeAll: '/ShowBoard/getDeviceRunTimeAll',//设备日状态接口（全部设备）
     getDeviceRunTime: '/ShowBoard/getDeviceRunTime/',//单个设备日状态运行时长接口
     findByStartEndTimeBy3TiePian: '/ShowBoard/findByStartEndTimeBy3TiePian',//查看三台贴片机的当周工序任务
-    findCropRate:'/ShowBoard/findCropRate/'//查看家动力
+    findCropRate: '/ShowBoard/findCropRate/'//查看家动力
 }
 function setDataBoard3(params) {
-    setTimeout(function () {
-
+    function board3() {
         $.ajax({
             contentType: 'application/json',
             type: 'get',
@@ -62,13 +61,15 @@ function setDataBoard3(params) {
                 addDataTaskHtml(response.data); //生产信息 
             }
         });
-
-
+    }
+    setTimeout(function () {
+        board3();
     }, 10)
-    $('.imagesflex div').off().on('click', function () {
-        var deviceCode = $(this).attr("name");
-        setdievClick(deviceCode, $(this).index());
-    })
+    board3Interval = setInterval(function () {
+        console.log(8888)
+        board3();
+        processBadRate();
+    }, 5000);
     getData(); // 设备状态
     getEnvironmentRecord();//环境
     processBadRate();//不良率
@@ -77,6 +78,10 @@ function setDataBoard3(params) {
         getData();
         getEnvironmentRecord();
     }, 5000);
+    $('.imagesflex div').off().on('click', function () {
+        var deviceCode = $(this).attr("name");
+        setdievClick(deviceCode, $(this).index());
+    })
 }
 function getData() {
     $.ajax({
@@ -118,12 +123,12 @@ function getEnvironmentRecord() {
                 //console.log(temperature, humidity)
                 if (temperature > 40) {
                     $("#temperature i").addClass('state-red');
-                }else{
+                } else {
                     $("#temperature i").removeClass('state-red');
                 }
                 if (humidity > 70) {
                     $("#humidity i").addClass('state-red');
-                }else{
+                } else {
                     $("#humidity i").removeClass('state-red');
                 }
             }
@@ -141,10 +146,16 @@ function processBadRate() {
             //console.log('我是不良率=', response)
             var badRateArr = [], legendAxisArr = [];
             for (var i = 0; i < response.data.length; i++) {
-                console.log("====",response.data)
+                console.log("====", response.data)
+                if (response.data[i].bad_rate == 0) continue;
                 legendAxisArr.push(response.data[i].bad_name)
                 badRateArr.push({ value: response.data[i].bad_rate, name: response.data[i].bad_name })
             }
+            if (legendAxisArr.length == 0) {
+                legendAxisArr = ['本周']
+                badRateArr = [{ value: 0, name: '本周' }]
+            }
+            console.log("++++++===", legendAxisArr, badRateArr)
             // db2POption2.yAxis.data = houhanTaskArr1.reverse();
             db3POption5.legend.data = legendAxisArr
             db3POption5.series[0].data = badRateArr;
@@ -186,7 +197,7 @@ function deviceShow(deviceCode, n) {
                     var device = response.data.device
                     var user = response.data.user
                     // console.log(user)
-                    addHtml(responseData, device, n,user);
+                    addHtml(responseData, device, n, user);
                     $.ajax({
                         contentType: 'application/json',
                         type: 'get',
@@ -195,19 +206,17 @@ function deviceShow(deviceCode, n) {
                         success: function (response) {
                             // console.log(response)
                             var responseRunData = response.data;
-                            setDevice(responseRunData,responseData.device_name,device.device_code);
+                            setDevice(responseRunData, responseData.device_name, device.device_code);
                         }
                     });
                 }
             });
         }
     });
-
-
 };
 var devicePie1, devicePie3;
 var pieData;
-function setDevice(data,deviceName,device_code) {
+function setDevice(data, deviceName, device_code) {
     devicePie1 = echarts.init(document.getElementById('devicePie1'), 'macarons');
     devicePie3 = echarts.init(document.getElementById('devicePie3'), 'macarons');
 
@@ -319,7 +328,7 @@ function setDevice(data,deviceName,device_code) {
         },
         xAxis: {
             type: 'category',
-            data: ['周日','周一','周二','周三','周四','周五','周六'],
+            data: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
             axisLabel: {
                 textStyle: {
                     show: true,
@@ -386,16 +395,16 @@ function setDevice(data,deviceName,device_code) {
         ]
     };
 
-    pieOption1.title.text=deviceName;
+    pieOption1.title.text = deviceName;
     devicePie1.setOption(pieOption1);
     $.ajax({
         contentType: 'application/json',
         type: 'get',
-        url: board3Api.findCropRate+device_code,
+        url: board3Api.findCropRate + device_code,
         dataType: "json",
         success: function (response) {
             // console.log('jiadng',response)
-            pieOption1.series[0].data = [{ value: response.data.cropRate||0, name: '' }];
+            pieOption1.series[0].data = [{ value: response.data.cropRate || 0, name: '' }];
             devicePie1.setOption(pieOption1);
         }
     });
@@ -403,8 +412,8 @@ function setDevice(data,deviceName,device_code) {
 
     var brunTimeArr = [], noBrunTimeArr = [];
     for (var i = 0; i < data.length; i++) {
-        brunTimeArr.push((data[i].runTime/240).toFixed(2)*100)
-        noBrunTimeArr.push(100-((data[i].runTime/240).toFixed(2))*100)
+        brunTimeArr.push((data[i].runTime / 240).toFixed(2) * 100)
+        noBrunTimeArr.push(100 - ((data[i].runTime / 240).toFixed(2)) * 100)
     }
     // db2POption2.yAxis.data = houhanTaskArr1.reverse();
     // pieOption3.legend.data = legendAxisArr
@@ -412,11 +421,11 @@ function setDevice(data,deviceName,device_code) {
     pieOption3.series[1].data = brunTimeArr;
     devicePie3.setOption(pieOption3);
 }
-function addHtml(responseData, deviceresponse, n,user) {
+function addHtml(responseData, deviceresponse, n, user) {
     var display, summaryWidth, data;
     // if (n == 3 || n == 4 || n == 5) {
-        display = "block"
-        summaryWidth = '60%'
+    display = "block"
+    summaryWidth = '60%'
     // } else {
     //     display = "none"
     //     summaryWidth = '100%'
@@ -473,7 +482,7 @@ function addHtml(responseData, deviceresponse, n,user) {
         html += '   <div class="itemCon itembg itembg_popupfirt">' +
             '       <ul class="listStyle">' +
             '           <li class="clearfix">' +
-            '				<span class="col2">机台名称:<strong>' + deviceInfo[n].deviceName  + '</strong></span>' +
+            '				<span class="col2">机台名称:<strong>' + deviceInfo[n].deviceName + '</strong></span>' +
             '				<span class="col2">任务状态:<strong>无</strong></span>' +
             '           </li>' +
             '       </ul>' +
@@ -490,23 +499,23 @@ function addHtml(responseData, deviceresponse, n,user) {
         deviceresponse.next_check_time = ''
     }
     var devstatus = {
-        "0":"启动",
-        "1":"暂停",
-        "2":"停机",
-        null:"停机",
+        "0": "启动",
+        "1": "暂停",
+        "2": "停机",
+        null: "停机",
     }
     var deviceInfostatus = {
-        "0":"state-green",
-        "1":"state-yellow",
-        "2":"state-gray",
-        null:"state-gray",
+        "0": "state-green",
+        "1": "state-yellow",
+        "2": "state-gray",
+        null: "state-gray",
     }
     html += '</div>' +
         '</div>' +
         '<div class="devBottom">' +
         '<div class="item" style="width: 40%;">' +
         '   <div class="itemTit">' +
-        '       <span class="border-blue">设备信息<i class="'+deviceInfostatus[deviceresponse.device_status]+'" style="margin-left: 390px;"></i></span>' +
+        '       <span class="border-blue">设备信息<i class="' + deviceInfostatus[deviceresponse.device_status] + '" style="margin-left: 390px;"></i></span>' +
         '   </div>' +
         '   <div class="itemCon itembg itembg_popupfirt ">' +
         '       <ul class="listStyle">' +
@@ -536,23 +545,23 @@ function addHtml(responseData, deviceresponse, n,user) {
         '    </div>' +
         '        <div class="itemConDevice">' +
         '        <img src="../../images/user.png">';
-        if(user.nickname==null){
-            user.nickname='无';
-        }
-        if(user.username==null){
-            user.username='无';
-        }
-         html += '        <p><span>姓名：</span><span>'+user.nickname+'</span></p><p><span>工号：</span><span>'+user.username+'</span></p>' +
+    if (user.nickname == null) {
+        user.nickname = '无';
+    }
+    if (user.username == null) {
+        user.username = '无';
+    }
+    html += '        <p><span>姓名：</span><span>' + user.nickname + '</span></p><p><span>工号：</span><span>' + user.username + '</span></p>' +
         '    </div>' +
         '</div>' +
         '</div>';
     $('.summary').html(html)
 }
 function addDataTaskHtml(data) {
-    var htmlPiepian = '',beiliaoTask='',beiliaoTask='',beiliaoTask='';
-    var beiliao=Object.keys(data.beiliao);
-    var running=Object.keys(data.running);
-    var waiting=Object.keys(data.waiting);
+    var htmlPiepian = '', beiliaoTask = '', runningTask = '', waitingPTask = '';
+    var beiliao = Object.keys(data.beiliao);
+    var running = Object.keys(data.running);
+    var waiting = Object.keys(data.waiting);
     if (data.beiliao.plan_start_time != null) {
         data.beiliao.plan_start_time = data.beiliao.plan_start_time.split('T')[0];
     } else {
@@ -586,56 +595,56 @@ function addDataTaskHtml(data) {
         data.waiting.plan_finish_time = ''
     }
 
-    if(beiliao.length>0){
-    beiliaoTask = '           <li class="clearfix">' +
-                '               <span class="col3">工序任务号:<strong>' + data.beiliao.process_task_code + '</strong></span>' +
-                '               <span class="col3">排产任务号:<strong>' + data.beiliao.pcb_task_code + '</strong></span>' +
-                '               <span class="col3">生产批次:<strong>' + data.beiliao.task_sheet_code + '</strong></span>' +
-                '               <span class="col3">规格型号:<strong>' + data.beiliao.pcb_code + '</strong></span>' +
-                '               <span class="col3">计划生产数量:<strong>' + data.beiliao.pcb_quantity + '</strong></span>' +
-                '               <span class="col3">实际生产数量:<strong>' + data.beiliao.amount_completed + '</strong></span>' +
-                '               <span class="col3">计划开始时间:<strong>' + data.beiliao.plan_start_time + '</strong></span>' +
-                '               <span class="col3">计划结束时间:<strong>' + data.beiliao.plan_finish_time + '</strong></span>' +
-                // '               <span class="col3">板编号:<strong>' + data.beiliao.pcb_quantity + '</strong></span>' +
-                '               <span class="col2">RoHS:<strong>' + data.beiliao.is_rohs + '</strong></span>' +
-                '           </li>';
-        
+    if (beiliao.length > 0) {
+        beiliaoTask = '           <li class="clearfix">' +
+            '               <span class="col3">工序任务号:<strong>' + data.beiliao.process_task_code + '</strong></span>' +
+            '               <span class="col3">排产任务号:<strong>' + data.beiliao.pcb_task_code + '</strong></span>' +
+            '               <span class="col3">生产批次:<strong>' + data.beiliao.task_sheet_code + '</strong></span>' +
+            '               <span class="col3">规格型号:<strong>' + data.beiliao.pcb_code + '</strong></span>' +
+            '               <span class="col3">计划生产数量:<strong>' + data.beiliao.pcb_quantity + '</strong></span>' +
+            '               <span class="col3">实际生产数量:<strong>' + data.beiliao.amount_completed + '</strong></span>' +
+            '               <span class="col3">计划开始时间:<strong>' + data.beiliao.plan_start_time + '</strong></span>' +
+            '               <span class="col3">计划结束时间:<strong>' + data.beiliao.plan_finish_time + '</strong></span>' +
+            // '               <span class="col3">板编号:<strong>' + data.beiliao.pcb_quantity + '</strong></span>' +
+            '               <span class="col2">RoHS:<strong>' + data.beiliao.is_rohs + '</strong></span>' +
+            '           </li>';
+
     }
-    if(running.length>0){
-    runningTask = '           <li class="clearfix">' +
-                '               <span class="col3">工序任务号:<strong>' + data.running.process_task_code + '</strong></span>' +
-                '               <span class="col3">排产任务号:<strong>' + data.running.pcb_task_code + '</strong></span>' +
-                '               <span class="col3">生产批次:<strong>' + data.running.task_sheet_code + '</strong></span>' +
-                '               <span class="col3">规格型号:<strong>' + data.running.pcb_code + '</strong></span>' +
-                '               <span class="col3">计划生产数量:<strong>' + data.running.pcb_quantity + '</strong></span>' +
-                '               <span class="col3">实际生产数量:<strong>' + data.running.amount_completed + '</strong></span>' +
-                '               <span class="col3">计划开始时间:<strong>' + data.running.plan_start_time + '</strong></span>' +
-                '               <span class="col3">计划结束时间:<strong>' + data.running.plan_finish_time + '</strong></span>' +
-                // '               <span class="col3">板编号:<strong>' + data.running.pcb_quantity + '</strong></span>' +
-                '               <span class="col2">RoHS:<strong>' + data.running.is_rohs + '</strong></span>' +
-                '           </li>';
+    if (running.length > 0) {
+        runningTask = '           <li class="clearfix">' +
+            '               <span class="col3">工序任务号:<strong>' + data.running.process_task_code + '</strong></span>' +
+            '               <span class="col3">排产任务号:<strong>' + data.running.pcb_task_code + '</strong></span>' +
+            '               <span class="col3">生产批次:<strong>' + data.running.task_sheet_code + '</strong></span>' +
+            '               <span class="col3">规格型号:<strong>' + data.running.pcb_code + '</strong></span>' +
+            '               <span class="col3">计划生产数量:<strong>' + data.running.pcb_quantity + '</strong></span>' +
+            '               <span class="col3">实际生产数量:<strong>' + data.running.amount_completed + '</strong></span>' +
+            '               <span class="col3">计划开始时间:<strong>' + data.running.plan_start_time + '</strong></span>' +
+            '               <span class="col3">计划结束时间:<strong>' + data.running.plan_finish_time + '</strong></span>' +
+            // '               <span class="col3">板编号:<strong>' + data.running.pcb_quantity + '</strong></span>' +
+            '               <span class="col2">RoHS:<strong>' + data.running.is_rohs + '</strong></span>' +
+            '           </li>';
     }
-    if(waiting.length>0){
-    waitingPTask ='           <li class="clearfix">' +
-                '               <span class="col3">工序任务号:<strong>' + data.waiting.process_task_code + '</strong></span>' +
-                '               <span class="col3">排产任务号:<strong>' + data.waiting.pcb_task_code + '</strong></span>' +
-                '               <span class="col3">生产批次:<strong>' + data.waiting.task_sheet_code + '</strong></span>' +
-                '               <span class="col3">规格型号:<strong>' + data.waiting.pcb_code + '</strong></span>' +
-                '               <span class="col3">计划生产数量:<strong>' + data.waiting.pcb_quantity + '</strong></span>' +
-                '               <span class="col3">实际生产数量:<strong>' + data.waiting.amount_completed + '</strong></span>' +
-                '               <span class="col3">计划开始时间:<strong>' + data.waiting.plan_start_time + '</strong></span>' +
-                '               <span class="col3">计划结束时间:<strong>' + data.waiting.plan_finish_time + '</strong></span>' +
-                // '               <span class="col3">板编号:<strong>' + data.waiting.pcb_quantity + '</strong></span>' +
-                '               <span class="col2">RoHS:<strong>' + data.waiting.is_rohs + '</strong></span>' +
-                '           </li>';
+    if (waiting.length > 0) {
+        waitingPTask = '           <li class="clearfix">' +
+            '               <span class="col3">工序任务号:<strong>' + data.waiting.process_task_code + '</strong></span>' +
+            '               <span class="col3">排产任务号:<strong>' + data.waiting.pcb_task_code + '</strong></span>' +
+            '               <span class="col3">生产批次:<strong>' + data.waiting.task_sheet_code + '</strong></span>' +
+            '               <span class="col3">规格型号:<strong>' + data.waiting.pcb_code + '</strong></span>' +
+            '               <span class="col3">计划生产数量:<strong>' + data.waiting.pcb_quantity + '</strong></span>' +
+            '               <span class="col3">实际生产数量:<strong>' + data.waiting.amount_completed + '</strong></span>' +
+            '               <span class="col3">计划开始时间:<strong>' + data.waiting.plan_start_time + '</strong></span>' +
+            '               <span class="col3">计划结束时间:<strong>' + data.waiting.plan_finish_time + '</strong></span>' +
+            // '               <span class="col3">板编号:<strong>' + data.waiting.pcb_quantity + '</strong></span>' +
+            '               <span class="col2">RoHS:<strong>' + data.waiting.is_rohs + '</strong></span>' +
+            '           </li>';
     }
-    htmlPiepian += beiliaoTask+runningTask+waitingPTask;
+    htmlPiepian += beiliaoTask + runningTask + waitingPTask;
     var theadHtmlPTask = '<div class="item summaryP3" >' +
         '   <div class="itemCon itembg itembg_popupfirt"  id="taskList">' +
-        '       <ul class="listStyle">' ;
+        '       <ul class="listStyle">';
 
-        theadHtmlPTask+=htmlPiepian;
-        theadHtmlPTask+='       </ul>' +
+    theadHtmlPTask += htmlPiepian;
+    theadHtmlPTask += '       </ul>' +
         '   </div>' +
         '</div>';
 
@@ -676,7 +685,7 @@ function addDataTaskHtml(data) {
     $("#taskList").banner($("#taskList").find(".listStyle li"), {
         list: false,
         autoPlay: true,
-        but:false,
+        but: false,
         delayTiem: 5000,  // 延迟时间默认为2000
         moveTime: 500    // 远动时间默认为300
     });
@@ -727,7 +736,7 @@ var db3POption2 = {
     ],
     yAxis: [
         {
-            name:'单位（块）',
+            name: '单位(pcs)',
             type: 'value',
             axisLabel: {
                 textStyle: {
@@ -736,15 +745,15 @@ var db3POption2 = {
                     fontSize: 20
                 }
             },
-            axisLine:{
-                lineStyle:{
-                    color:'#fff',
+            axisLine: {
+                lineStyle: {
+                    color: '#fff',
                     // width:8,//这里是为了突出显示加上的
                 },
             },
-            nameTextStyle :{
+            nameTextStyle: {
                 fontSize: 16,
-                padding:10
+                padding: 10
             },
         }
     ],
@@ -818,10 +827,10 @@ var db3POption3 = {
                 fontSize: 20
             }
         },
-        data: ['周日','周一','周二','周三','周四','周五','周六']
+        data: ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
     },
     yAxis: {
-        name: '单位(分钟)',
+        name: '单位(min)',
         axisLabel: {
             textStyle: {
                 show: true,
@@ -829,15 +838,15 @@ var db3POption3 = {
                 fontSize: 20
             }
         },
-        axisLine:{
-            lineStyle:{
-                color:'#fff',
+        axisLine: {
+            lineStyle: {
+                color: '#fff',
                 // width:8,//这里是为了突出显示加上的
             },
         },
-        nameTextStyle :{
+        nameTextStyle: {
             fontSize: 16,
-            padding:10
+            padding: 10
         },
         minInterval: 1
 
@@ -896,11 +905,11 @@ var db3POption5 = {
             radius: '60%',
             center: ['38%', '60%'],
             data: [
-                { value: 50, name: '贴片' },
-                { value: 60, name: '后焊' },
-                { value: 45, name: '调试' },
-                { value: 45, name: '质检' },
-                { value: 45, name: '入库' },
+                // { value: 50, name: '贴片' },
+                // { value: 60, name: '后焊' },
+                // { value: 45, name: '调试' },
+                // { value: 45, name: '质检' },
+                // { value: 45, name: '入库' },
             ],
             emphasis: {
                 itemStyle: {

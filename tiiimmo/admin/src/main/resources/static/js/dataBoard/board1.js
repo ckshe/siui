@@ -210,7 +210,7 @@ var db1P3Option = {
         },
     },
     yAxis: {
-        name:'单位（块）',
+        name: '单位(pcs)',
         type: 'value',
         axisLabel: {
             textStyle: {
@@ -222,15 +222,15 @@ var db1P3Option = {
             //     return value + '%'
             // }
         },
-        axisLine:{
-            lineStyle:{
-                color:'#fff',
+        axisLine: {
+            lineStyle: {
+                color: '#fff',
                 // width:8,//这里是为了突出显示加上的
             },
         },
-        nameTextStyle :{
+        nameTextStyle: {
             fontSize: 16,
-            padding:10
+            padding: 10
         },
         minInterval: 10
         // min: 0,
@@ -265,25 +265,6 @@ var db1P3Option = {
             }
         }
     ]
-};
-var labelTop = function (color, textColor, position) {//未开始/已结束状态下，颜色为gray
-    return {
-        normal: {
-            color: color,
-            label: {
-                show: true,//标签是否显示
-                position: 'center',
-                // formatter: '{b}',
-                textStyle: {
-                    baseline: position || 'bottom',
-                    color: textColor
-                }
-            },
-            labelLine: {
-                show: false
-            }
-        }
-    };
 };
 //弹出框调用ECharts饼图
 var orderOption1 = {
@@ -451,6 +432,7 @@ var board1Api = {
     getMapProcessDayRate: '/ShowBoard/getMapProcessDayRate',//产线日任务达成率
 }
 function setDataBoard1(params) {
+    var PCBInterval,PROCESSInterval; 
     var hsaClassOn = $(".button-span button:first").hasClass("on");
     if (hsaClassOn) {
         $.ajax({
@@ -463,6 +445,20 @@ function setDataBoard1(params) {
                 setOption(response.data);
             }
         });
+        //定时1分钟
+        PCBInterval = setInterval(function () {
+            console.log(21111111111)
+            $.ajax({
+                contentType: 'application/json',
+                type: 'get',
+                url: board1Api.pcbTaskBoard,
+                dataType: "json",
+                success: function (response) {
+                    addHtml(response.data.pcbTasks, hsaClassOn);
+                    setOption(response.data);
+                }
+            });
+        }, 5000);
     } else {
         $.ajax({
             contentType: 'application/json',
@@ -474,13 +470,27 @@ function setDataBoard1(params) {
                 setOption(response.data);
             }
         });
+        //定时1分钟
+        PROCESSInterval = setInterval(function () {
+            console.log(222222222222222222222)
+            $.ajax({
+                contentType: 'application/json',
+                type: 'get',
+                url: board1Api.findProcessTaskByDate,
+                dataType: "json",
+                success: function (response) {
+                    addHtml(response.data.pcbTasks, hsaClassOn);
+                    setOption(response.data);
+                }
+            });
+        }, 5000);
     }
     function setOption(response) {
-        db1P1.clear();
-        db1P2.clear();
-        order1.clear();
-        order2.clear();
-        order3.clear();
+        // db1P1.clear();
+        // db1P2.clear();
+        // order1.clear();
+        // order2.clear();
+        // order3.clear();
         var hsaClassOn = $(".button-span button:first").hasClass("on");
         if (hsaClassOn) {
             var weeks = response.mapWeekRate
@@ -522,54 +532,54 @@ function setDataBoard1(params) {
             var taskFinishRateAxisArr = [];
             var taskFinishRateArr = [];
             for (var i = 0; i < response.taskFinishRate.length; i++) {
-                if(i>2) continue;
+                if (i > 2) continue;
                 taskFinishRateAxisArr.push(response.taskFinishRate[i].task_sheet_code);
                 // taskFinishRateAxisArr.push('批次'+(i+1));
                 taskFinishRateArr.push(response.taskFinishRate[i].rate);
             }
             // console.log(taskFinishRateArr)
             // console.log(taskFinishRateArr.sort())
-            db1P2Option.xAxis.type='value';
-            db1P2Option.xAxis.axisLabel.formatter=function (value) {
+            db1P2Option.xAxis.type = 'value';
+            db1P2Option.xAxis.axisLabel.formatter = function (value) {
                 return value + '%'
             };
-            db1P2Option.xAxis.min=0;
-            db1P2Option.xAxis.max=100;
-            db1P2Option.yAxis.type='category';
+            db1P2Option.xAxis.min = 0;
+            db1P2Option.xAxis.max = 100;
+            db1P2Option.yAxis.type = 'category';
             db1P2Option.yAxis.data = taskFinishRateAxisArr.reverse();
-            db1P2Option.yAxis.axisLabel.formatter = function(params){
+            db1P2Option.yAxis.axisLabel.formatter = function (params) {
                 var newParamsName = "";// 最终拼接成的字符串
-                         var paramsNameNumber = params.length;// 实际标签的个数
-                         var provideNumber = 4;// 每行能显示的字的个数
-                         var rowNumber = Math.ceil(paramsNameNumber / provideNumber);// 换行的话，需要显示几行，向上取整
-                         /**
-                          * 判断标签的个数是否大于规定的个数， 如果大于，则进行换行处理 如果不大于，即等于或小于，就返回原标签
-                          */
-                         // 条件等同于rowNumber>1
-                         if (paramsNameNumber > provideNumber) {
-                             /** 循环每一行,p表示行 */
-                             for (var p = 0; p < rowNumber; p++) {
-                                 var tempStr = "";// 表示每一次截取的字符串
-                                 var start = p * provideNumber;// 开始截取的位置
-                                 var end = start + provideNumber;// 结束截取的位置
-                                 // 此处特殊处理最后一行的索引值
-                                 if (p == rowNumber - 1) {
-                                     // 最后一次不换行
-                                     tempStr = params.substring(start, paramsNameNumber);
-                                 } else {
-                                     // 每一次拼接字符串并换行
-                                     tempStr = params.substring(start, end) + "\n";
-                                 }
-                                 newParamsName += tempStr;// 最终拼成的字符串
-                             }
+                var paramsNameNumber = params.length;// 实际标签的个数
+                var provideNumber = 4;// 每行能显示的字的个数
+                var rowNumber = Math.ceil(paramsNameNumber / provideNumber);// 换行的话，需要显示几行，向上取整
+                /**
+                 * 判断标签的个数是否大于规定的个数， 如果大于，则进行换行处理 如果不大于，即等于或小于，就返回原标签
+                 */
+                // 条件等同于rowNumber>1
+                if (paramsNameNumber > provideNumber) {
+                    /** 循环每一行,p表示行 */
+                    for (var p = 0; p < rowNumber; p++) {
+                        var tempStr = "";// 表示每一次截取的字符串
+                        var start = p * provideNumber;// 开始截取的位置
+                        var end = start + provideNumber;// 结束截取的位置
+                        // 此处特殊处理最后一行的索引值
+                        if (p == rowNumber - 1) {
+                            // 最后一次不换行
+                            tempStr = params.substring(start, paramsNameNumber);
+                        } else {
+                            // 每一次拼接字符串并换行
+                            tempStr = params.substring(start, end) + "\n";
+                        }
+                        newParamsName += tempStr;// 最终拼成的字符串
+                    }
 
-                         } else {
-                             // 将旧标签的值赋给新标签
-                             newParamsName = params;
-                         }
-                         //将最终的字符串返回
-                         return newParamsName
-             }
+                } else {
+                    // 将旧标签的值赋给新标签
+                    newParamsName = params;
+                }
+                //将最终的字符串返回
+                return newParamsName
+            }
             db1P2Option.series[0].data = taskFinishRateArr.reverse();
             db1P2Option.series[0].name = '完成率';
 
@@ -579,8 +589,8 @@ function setDataBoard1(params) {
 
             // }
 
-            db1P2Option.series[0].itemStyle.normal.label.formatter =  function (prams) {
-                if(prams.value==0){
+            db1P2Option.series[0].itemStyle.normal.label.formatter = function (prams) {
+                if (prams.value == 0) {
                     return ''
                 }
                 return prams.value + "%";
@@ -612,11 +622,11 @@ function setDataBoard1(params) {
                     // db1P3Option.yAxis.axisLabel.formatter = function (value) {
                     //     return value
                     // }
-                    
+
                     db1P3Option.yAxis.max = null;
                     db1P3Option.yAxis.min = null;
 
-                    
+
                     db1P2.setOption(db1P3Option);
                 }
             });
@@ -676,6 +686,22 @@ function setDataBoard1(params) {
                     setOption(response.data);
                 }
             });
+            clearInterval(PCBInterval);
+            clearInterval(PROCESSInterval);
+            //定时1分钟
+            PCBInterval = setInterval(function () {
+                console.log(33333333333333)
+                $.ajax({
+                    contentType: 'application/json',
+                    type: 'get',
+                    url: board1Api.pcbTaskBoard,
+                    dataType: "json",
+                    success: function (response) {
+                        addHtml(response.data.pcbTasks, hsaClassOn);
+                        setOption(response.data);
+                    }
+                });
+            }, 5000);
         } else {
             $.ajax({
                 contentType: 'application/json',
@@ -687,6 +713,22 @@ function setDataBoard1(params) {
                     setOption(response.data);
                 }
             });
+            clearInterval(PCBInterval);
+            clearInterval(PROCESSInterval);
+            //定时1分钟
+            PROCESSInterval = setInterval(function () {
+                console.log(444444444444444)
+                $.ajax({
+                    contentType: 'application/json',
+                    type: 'get',
+                    url: board1Api.findProcessTaskByDate,
+                    dataType: "json",
+                    success: function (response) {
+                        addHtml(response.data, hsaClassOn);
+                        setOption(response.data);
+                    }
+                });
+            }, 5000);
         }
     })
     function addHtml(data, hsaClassOn) {
@@ -914,18 +956,23 @@ function setDataBoard1(params) {
     function addProcessDataHtml(data) {
         if (data.plan_start_time != null) {
             data.plan_start_time = data.plan_start_time.split('T')[0];
-        }else{
-            data.plan_start_time='空'
+        } else {
+            data.plan_start_time = '空'
         }
         if (data.plan_finish_time != null) {
             data.plan_finish_time = data.plan_finish_time.split('T')[0];
-        }else{
-            data.plan_finish_time='空'
+        } else {
+            data.plan_finish_time = '空'
         }
         if (data.start_time != null) {
             data.start_time = data.start_time.split('T')[0];
-        }else{
+        } else {
             data.start_time = '空'
+        }
+        if (data.finish_time != null) {
+            data.finish_time = data.finish_time.split('T')[0];
+        } else {
+            data.finish_time = '空'
         }
         var theadHtmlP1 = '<div class="item summaryP1" style="">' +
             '   <div class="itemTit">' +
@@ -936,19 +983,19 @@ function setDataBoard1(params) {
             '           <li class="clearfix">' +
             '               <span>工序任务号:<strong>' + data.process_task_code + '</strong></span>' +
             '               <span>制造编号:<strong>' + data.task_sheet_code + '</strong></span>' +
+            '               <span>工序状态:<strong>' + data.process_task_status + '</strong></span>' +
+            '               <span>计划生产数量:<strong>' + data.pcb_quantity + '</strong></span>' +
             '               <span>实际生产数量:<strong>' + data.amount_completed + '</strong></span>' +
             // '               <span>设备编号:<strong>' + data.device_code + '</strong></span>' +
-            '               <span>SMT生产线:<strong>' + data.device_name + '</strong></span>' +
-            '               <span>实际完成时间:<strong>' + data.finish_time + '</strong></span>' +
+            // '               <span>SMT生产线:<strong>' + data.device_name + '</strong></span>' +
             '               <span>工时(分):<strong>' + data.work_time + '</strong></span>' +
-            '               <span>pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
-            '               <span>RoHS:<strong>' + data.is_rohs + '</strong></span>' +
-            '               <span>计划生产数量:<strong>' + data.pcb_quantity + '</strong></span>' +
             '               <span>工序名称:<strong>' + data.process_name + '</strong></span>' +
-            '               <span>工序状态:<strong>' + data.process_task_status + '</strong></span>' +
             '               <span>计划完成时间:<strong>' + data.plan_finish_time + '</strong></span>' +
             '               <span>计划开始时间:<strong>' + data.plan_start_time + '</strong></span>' +
             '               <span>实际生产时间:<strong>' + data.start_time + '</strong></span>' +
+            '               <span>实际完成时间:<strong>' + data.finish_time + '</strong></span>' +
+            '               <span>RoHS:<strong>' + data.is_rohs + '</strong></span>' +
+            '               <span>pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
             '               <span class="col2">物料名称:<strong>' + data.pcb_name + '</strong></span>' +
             '           </li>' +
             '       </ul>' +
