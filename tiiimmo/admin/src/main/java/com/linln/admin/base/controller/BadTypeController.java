@@ -120,4 +120,17 @@ public class BadTypeController {
     }
 
 
+    @GetMapping("/findBadType")
+    @ResponseBody
+    public ResultVo findLine(){
+        List<BadType> badTypes = badTypeService.list();
+        if (badTypes!= null){
+            return ResultVoUtil.success("查询成功",badTypes);
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
+    }
+
+
 }

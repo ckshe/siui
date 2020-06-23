@@ -812,7 +812,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             sort.setPlate_no(req.getPlateNo());
             sort.setRecord_time(new Date());
             sort.setStatus(StatusEnum.OK.getCode());
-            processTaskRealPlateSortRepository.save(sort);
+            processTaskRealPlateSortRepository.save(sort);   //produce_process_task_real_platesort
         }
         map.put("result","200");
         map.put("timeStamp",pcbTaskReq.getTimeStamp());

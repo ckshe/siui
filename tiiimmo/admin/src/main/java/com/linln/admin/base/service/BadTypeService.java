@@ -40,4 +40,5 @@ public interface BadTypeService {
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
 
 
+    List<BadType> list();
 }
