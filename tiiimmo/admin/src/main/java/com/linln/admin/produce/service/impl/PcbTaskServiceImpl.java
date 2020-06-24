@@ -985,7 +985,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 "\tt1.device_code LIKE '%" +
                 pcbTaskReq.getDeviceCode() +
                 "%' \n" +
-                "\tAND ( t1.process_task_status = '生产中' OR t1.process_task_status LIKE '%已下达%' OR t1.process_task_status LIKE '%暂停%' )\n" +
+                "\tAND ( t1.process_task_status = '生产中' OR t1.process_task_status LIKE '%已下达%' OR t1.process_task_status LIKE '%暂停%' OR t1.process_task_status LIKE '%进行中%')\n" +
                 "\tORDER BY t2.priority DESC ,t1.plan_start_time");
         List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
 
