@@ -61,9 +61,9 @@ public class PcbTaskPositionRecordController {
 
 
     //根据工号查询员工信息
-    @GetMapping("/findByProcessTaskCode/{cardSequence}")
+    @GetMapping("/getUserInfoByCard/{cardSequence}")
     @ResponseBody
-    public ResultVo finishPositionRecord(String cardSequence){
+    public ResultVo getUserInfoByCard(@PathVariable String cardSequence){
         return pcbTaskPositionRecordService.getUserInfoByCard( cardSequence);
     }
 

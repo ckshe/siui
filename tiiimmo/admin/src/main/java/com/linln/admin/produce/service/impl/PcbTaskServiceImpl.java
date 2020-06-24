@@ -995,16 +995,21 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     @Override
     public ResultVo modifyProcessTaskStatus(PcbTaskReq pcbTaskReq) {
         ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
+
+        if("已完成".equals(processTask.getProcess_task_status())){
+            return ResultVoUtil.error("该工序任务已完成");
+        }
         processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
         User user = ShiroUtil.getSubject();
         if(!"备料".equals(processTask.getProcess_name())){
             List<ProcessTask> list = processTaskRepository.findByDevice_code("%"+pcbTaskReq.getDeviceCode()+"%");
-            list.forEach(p -> p.setIs_now_flag("0"));
-            processTaskRepository.saveAll(list);
-            processTask.setIs_now_flag("1");
+
             //开始工序计划 进行中
             //将未分配的上机员工转移到这里
             if("进行中".equals(pcbTaskReq.getProcessTaskStatus())){
+                list.forEach(p -> p.setIs_now_flag("0"));
+                processTaskRepository.saveAll(list);
+                processTask.setIs_now_flag("1");
                 processTask.setStart_time(new Date());
                 String date = DateUtil.date2String(new Date(),"");
                 UserDeviceHistory one = userDeviceHistoryRepository.findAllByProcessTaskDateDeviceUser(processTask.getProcess_task_code(),date,pcbTaskReq.getDeviceCode(),user.getId());
@@ -1028,6 +1033,15 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             }
             //启动工序计划 生产中
             if("生产中".equals(pcbTaskReq.getProcessTaskStatus())){
+
+                String deviceCodes[] = processTask.getDevice_code().split(",");
+                for(int i = 0;i<deviceCodes.length;i++){
+                    List<ProcessTask> listByDevice_code = processTaskRepository.findProducingListByDevice_code(deviceCodes[i]);
+                    if(listByDevice_code!=null&&listByDevice_code.size()!=0){
+                        return ResultVoUtil.error("欲启动的工序任务中该"+deviceCodes[i]+"机台有其他生产中的任务");
+
+                    }
+                }
 
                 //所在工序计划的所有机台一同清零
                 //重新计数记录在设备处
@@ -1057,7 +1071,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             }
             //结束工序计划 完成
             if("已完成".equals(pcbTaskReq.getProcessTaskStatus())){
-                processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
+                if(pcbTaskReq.getAmountCompleted()!=null){
+                    processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
+                }
                 Date finishTime = new Date();
                 processTask.setFinish_time(finishTime);
                 BigDecimal workTime = DateUtil.differTwoDate(finishTime,processTask.getStart_time());
@@ -1072,6 +1088,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     processTaskDeviceRepository.save(de);
                 }
             }
+        }else {
+
         }
 
         processTaskRepository.save(processTask);
