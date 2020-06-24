@@ -81,7 +81,7 @@
                             <label class="timo-checkbox"><input type="checkbox">
                                 <i class="layui-icon layui-icon-ok"></i></label>
                         </th>
-                        <th>主键ID</th>
+                        <!--<th>主键ID</th>-->
                         <th>所属厂区</th>
                         <th>所属车间</th>
                         <th>设备类型</th>
@@ -105,7 +105,7 @@
                     <tr th:each="item:${list}">
                         <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
                             <i class="layui-icon layui-icon-ok"></i></label></td>
-                        <td th:text="${item.id}">主键ID</td>
+                        <!--<td th:text="${item.id}">主键ID</td>-->
                         <td th:text="${item.belong_plant_area}">所属厂区</td>
                         <td th:text="${item.belong_line}">所属车间</td>
                         <td th:text="${item.device_type}">设备类型</td>

@@ -33,7 +33,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">设备编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="device_code" placeholder="请输入设备编号" th:value="${device?.device_code}">
+                <input class="layui-input" autocomplete="off" type="text" name="device_code" placeholder="请输入设备编号" th:value="${device?.device_code}">
                 <!--<input type="hidden" id="deviceTechnologyCodeValue" th:value="${device?.device_code}">
                 <select name="device_code" id="deviceTechnologyCode"></select>-->
             </div>
@@ -41,7 +41,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">设备名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="device_name" placeholder="请输入设备名称" th:value="${device?.device_name}">
+                <input class="layui-input" autocomplete="off" type="text" name="device_name" placeholder="请输入设备名称" th:value="${device?.device_name}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -55,7 +55,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">Mac</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="mac" placeholder="请输入Mac" th:value="${device?.mac}">
+                <input class="layui-input" autocomplete="off" type="text" name="mac" placeholder="请输入Mac" th:value="${device?.mac}">
             </div>
         </div>
         <div class="layui-form-item">

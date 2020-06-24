@@ -60,7 +60,7 @@
                 border: 0,
                 width: 50,
                 height: 50,
-                background: "#767676",
+                background: "#00deff",
                 outline: 0,
                 cursor: "pointer",
                 font: "30px/1em ''",

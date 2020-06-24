@@ -7,125 +7,138 @@ var board2Api = {
 
 }
 function setDataBoard2(params) {
-	$.ajax({
-		contentType: 'application/json',
-		type: 'get',
-		url: board2Api.mapProcessTypeDayRate,
-		dataType: "json",
-		success: function (response) {
-			var tiepianArr = [], houhanArr = [], tiaoshiArr = [], zhijianArr = [], rukuArr = [],beiliaoArr=[];
-			var tiepianTaskArr = [], houhanTaskArr = [], tiaoshiTaskArr = [], zhijianTaskArr = [], rukuTaskArr = [],beiliaoTaskArr=[];
-			var tiepianTaskArr1 = [], houhanTaskArr1 = [], tiaoshiTaskArr1 = [], zhijianTaskArr1 = [], rukuTaskArr1 = [],beiliaoTaskArr1=[];
-			for (var ia = 0; ia < response.data.tiepian.length; ia++) {
-				tiepianTaskArr.push(response.data.tiepian[ia].process_task_code);
-				tiepianTaskArr1.push('任务'+(ia+1));
-				tiepianArr.push(response.data.tiepian[ia].rate);
-			}
-			db2POption1.yAxis.data = tiepianTaskArr1.reverse();
-			db2POption1.series[0].data = tiepianArr.reverse();
-			db2P1.setOption(db2POption1);
-			if (tiepianArr.length > 0) {
-				db2P1.getZr().on('click', params => {
-					var pointInPixel = [params.offsetX, params.offsetY]
-					if (db2P1.containPixel('grid', pointInPixel)) {
-						var xIndex = db2P1.convertFromPixel({ seriesIndex: 0 }, [params.offsetX, params.offsetY])[1]
-						setClick(tiepianTaskArr[xIndex], tiepianArr[xIndex]);
-					}
-				})
-			}
-			for (var ib = 0; ib < response.data.houhan.length; ib++) {
-				houhanTaskArr.push(response.data.houhan[ib].process_task_code);
-				houhanTaskArr1.push('任务'+(ib+1));
-				houhanArr.push(response.data.houhan[ib].rate);
-			}
-			db2POption2.yAxis.data = houhanTaskArr1.reverse();
-			db2POption2.series[0].data = houhanArr.reverse();
-			db2P2.setOption(db2POption2);
-			if (houhanArr.length > 0) {
-				db2P2.getZr().on('click', params => {
-					var pointInPixel = [params.offsetX, params.offsetY]
-					if (db2P2.containPixel('grid', pointInPixel)) {
-						var xIndex = db2P2.convertFromPixel({ seriesIndex: 0 }, [params.offsetX, params.offsetY])[1]
-						setClick(houhanTaskArr[xIndex], houhanArr[xIndex]);
-					}
-				})
-			}
-			for (var ic = 0; ic < response.data.tiaoshi.length; ic++) {
-				tiaoshiTaskArr.push(response.data.tiaoshi[ic].process_task_code);
-				tiaoshiTaskArr1.push('任务'+(ic+1));
-				tiaoshiArr.push(response.data.tiaoshi[ic].rate);
-			}
-			//console.log(tiaoshiTaskArr1)
-			db2POption3.yAxis.data = tiaoshiTaskArr1.reverse();
-			db2POption3.series[0].data = tiaoshiArr.reverse();
-			db2P3.setOption(db2POption3);
-			if (tiaoshiArr.length > 0) {
-				db2P3.getZr().on('click', params => {
-					var pointInPixel = [params.offsetX, params.offsetY]
-					if (db2P3.containPixel('grid', pointInPixel)) {
-						var xIndex = db2P3.convertFromPixel({ seriesIndex: 0 }, [params.offsetX, params.offsetY])[1]
-						setClick(tiaoshiTaskArr[xIndex], tiaoshiArr[xIndex]);
-					}
-				})
-			}
-			for (var id = 0; id < response.data.zhijian.length; id++) {
-				zhijianTaskArr.push(response.data.zhijian[id].process_task_code);
-				zhijianTaskArr1.push('任务'+(id+1));
-				zhijianArr.push(response.data.zhijian[id].rate);
-			}
-			db2POption5.yAxis.data = zhijianTaskArr1.reverse();
-			db2POption5.series[0].data = zhijianArr.reverse();
-			db2P5.setOption(db2POption5);
-			if (zhijianArr.length > 0) {
-				db2P5.getZr().on('click', params => {
-					var pointInPixel = [params.offsetX, params.offsetY]
-					if (db2P5.containPixel('grid', pointInPixel)) {
-						var xIndex = db2P5.convertFromPixel({ seriesIndex: 0 }, [params.offsetX, params.offsetY])[1]
-						setClick(zhijianTaskArr[xIndex], zhijianArr[xIndex]);
-					}
-				})
-			}
-			for (var ie = 0; ie < response.data.ruku.length; ie++) {
-				rukuTaskArr.push(response.data.ruku[ie].process_task_code);
-				rukuTaskArr1.push('任务'+(ie+1));
-				rukuArr.push(response.data.ruku[ie].rate);
-			}
-			db2POption6.yAxis.data = rukuTaskArr1.reverse();
-			db2POption6.series[0].data = rukuArr.reverse();
-			db2P6.setOption(db2POption6);
-			if (rukuArr.length > 0) {
-				db2P6.getZr().on('click', params => {
-					var pointInPixel = [params.offsetX, params.offsetY]
-					if (db2P6.containPixel('grid', pointInPixel)) {
-						var xIndex = db2P6.convertFromPixel({ seriesIndex: 0 }, [params.offsetX, params.offsetY])[1]
-						setClick(rukuTaskArr[xIndex], rukuArr[xIndex]);
-					}
-				})
-			}
-			
+	board2();
+	board2Interval = setInterval(function () {
+		console.log(555555)
+		// db2P1.clear();
+        // db2P2.clear();
+        // db2P3.clear();
+        // db2P4.clear();
+        // db2P5.clear();
+        // db2P6.clear();
+		board2()
+	}, 60000);
+	function board2() {
+		$.ajax({
+			contentType: 'application/json',
+			type: 'get',
+			url: board2Api.mapProcessTypeDayRate,
+			dataType: "json",
+			success: function (response) {
+				var tiepianArr = [], houhanArr = [], tiaoshiArr = [], zhijianArr = [], rukuArr = [], beiliaoArr = [];
+				var tiepianTaskArr = [], houhanTaskArr = [], tiaoshiTaskArr = [], zhijianTaskArr = [], rukuTaskArr = [], beiliaoTaskArr = [];
+				var tiepianTaskArr1 = [], houhanTaskArr1 = [], tiaoshiTaskArr1 = [], zhijianTaskArr1 = [], rukuTaskArr1 = [], beiliaoTaskArr1 = [];
+				for (var ia = 0; ia < response.data.tiepian.length; ia++) {
+					tiepianTaskArr.push(response.data.tiepian[ia].process_task_code);
+					tiepianTaskArr1.push('任务' + (ia + 1));
+					tiepianArr.push(response.data.tiepian[ia].rate);
+				}
+				db2POption1.yAxis.data = tiepianTaskArr1.reverse();
+				db2POption1.series[0].data = tiepianArr.reverse();
+				db2P1.setOption(db2POption1);
+				if (tiepianArr.length > 0) {
+					db2P1.getZr().on('click', params => {
+						var pointInPixel = [params.offsetX, params.offsetY]
+						if (db2P1.containPixel('grid', pointInPixel)) {
+							var xIndex = db2P1.convertFromPixel({ seriesIndex: 0 }, [params.offsetX, params.offsetY])[1]
+							setClick(tiepianTaskArr[xIndex], tiepianArr[xIndex]);
+						}
+					})
+				}
+				for (var ib = 0; ib < response.data.houhan.length; ib++) {
+					houhanTaskArr.push(response.data.houhan[ib].process_task_code);
+					houhanTaskArr1.push('任务' + (ib + 1));
+					houhanArr.push(response.data.houhan[ib].rate);
+				}
+				db2POption2.yAxis.data = houhanTaskArr1.reverse();
+				db2POption2.series[0].data = houhanArr.reverse();
+				db2P2.setOption(db2POption2);
+				if (houhanArr.length > 0) {
+					db2P2.getZr().on('click', params => {
+						var pointInPixel = [params.offsetX, params.offsetY]
+						if (db2P2.containPixel('grid', pointInPixel)) {
+							var xIndex = db2P2.convertFromPixel({ seriesIndex: 0 }, [params.offsetX, params.offsetY])[1]
+							setClick(houhanTaskArr[xIndex], houhanArr[xIndex]);
+						}
+					})
+				}
+				for (var ic = 0; ic < response.data.tiaoshi.length; ic++) {
+					tiaoshiTaskArr.push(response.data.tiaoshi[ic].process_task_code);
+					tiaoshiTaskArr1.push('任务' + (ic + 1));
+					tiaoshiArr.push(response.data.tiaoshi[ic].rate);
+				}
+				//console.log(tiaoshiTaskArr1)
+				db2POption3.yAxis.data = tiaoshiTaskArr1.reverse();
+				db2POption3.series[0].data = tiaoshiArr.reverse();
+				db2P3.setOption(db2POption3);
+				if (tiaoshiArr.length > 0) {
+					db2P3.getZr().on('click', params => {
+						var pointInPixel = [params.offsetX, params.offsetY]
+						if (db2P3.containPixel('grid', pointInPixel)) {
+							var xIndex = db2P3.convertFromPixel({ seriesIndex: 0 }, [params.offsetX, params.offsetY])[1]
+							setClick(tiaoshiTaskArr[xIndex], tiaoshiArr[xIndex]);
+						}
+					})
+				}
+				for (var id = 0; id < response.data.zhijian.length; id++) {
+					zhijianTaskArr.push(response.data.zhijian[id].process_task_code);
+					zhijianTaskArr1.push('任务' + (id + 1));
+					zhijianArr.push(response.data.zhijian[id].rate);
+				}
+				db2POption5.yAxis.data = zhijianTaskArr1.reverse();
+				db2POption5.series[0].data = zhijianArr.reverse();
+				db2P5.setOption(db2POption5);
+				if (zhijianArr.length > 0) {
+					db2P5.getZr().on('click', params => {
+						var pointInPixel = [params.offsetX, params.offsetY]
+						if (db2P5.containPixel('grid', pointInPixel)) {
+							var xIndex = db2P5.convertFromPixel({ seriesIndex: 0 }, [params.offsetX, params.offsetY])[1]
+							setClick(zhijianTaskArr[xIndex], zhijianArr[xIndex]);
+						}
+					})
+				}
+				for (var ie = 0; ie < response.data.ruku.length; ie++) {
+					rukuTaskArr.push(response.data.ruku[ie].process_task_code);
+					rukuTaskArr1.push('任务' + (ie + 1));
+					rukuArr.push(response.data.ruku[ie].rate);
+				}
+				db2POption6.yAxis.data = rukuTaskArr1.reverse();
+				db2POption6.series[0].data = rukuArr.reverse();
+				db2P6.setOption(db2POption6);
+				if (rukuArr.length > 0) {
+					db2P6.getZr().on('click', params => {
+						var pointInPixel = [params.offsetX, params.offsetY]
+						if (db2P6.containPixel('grid', pointInPixel)) {
+							var xIndex = db2P6.convertFromPixel({ seriesIndex: 0 }, [params.offsetX, params.offsetY])[1]
+							setClick(rukuTaskArr[xIndex], rukuArr[xIndex]);
+						}
+					})
+				}
 
-			for (var ig = 0; ig < response.data.beiliao.length; ig++) {
-				beiliaoTaskArr.push(response.data.beiliao[ig].process_task_code);
-				beiliaoTaskArr1.push('任务'+(ig+1));
-				beiliaoArr.push(response.data.beiliao[ig].rate);
+
+				for (var ig = 0; ig < response.data.beiliao.length; ig++) {
+					beiliaoTaskArr.push(response.data.beiliao[ig].process_task_code);
+					beiliaoTaskArr1.push('任务' + (ig + 1));
+					beiliaoArr.push(response.data.beiliao[ig].rate);
+				}
+				db2POption4.yAxis.data = beiliaoTaskArr1.reverse();
+				db2POption4.series[0].data = beiliaoArr.reverse();
+				db2P4.setOption(db2POption4);
+				if (beiliaoArr.length > 0) {
+					db2P4.getZr().on('click', params => {
+						var pointInPixel = [params.offsetX, params.offsetY]
+						if (db2P4.containPixel('grid', pointInPixel)) {
+							var xIndex = db2P4.convertFromPixel({ seriesIndex: 0 }, [params.offsetX, params.offsetY])[1]
+							setClick(beiliaoTaskArr[xIndex], beiliaoArr[xIndex]);
+						}
+					})
+				}
+				//齐套率未完成，假的
+				// db2POption4.yAxis.data = tiepianTaskArr;
+				// db2POption4.series[0].data = tiepianArr;
 			}
-			db2POption4.yAxis.data = beiliaoTaskArr1.reverse();
-			db2POption4.series[0].data = beiliaoArr.reverse();
-			db2P4.setOption(db2POption4);
-			if (beiliaoArr.length > 0) {
-				db2P4.getZr().on('click', params => {
-					var pointInPixel = [params.offsetX, params.offsetY]
-					if (db2P4.containPixel('grid', pointInPixel)) {
-						var xIndex = db2P4.convertFromPixel({ seriesIndex: 0 }, [params.offsetX, params.offsetY])[1]
-						setClick(beiliaoTaskArr[xIndex], beiliaoArr[xIndex]);
-					}
-				})
-			}
-			//齐套率未完成，假的
-			// db2POption4.yAxis.data = tiepianTaskArr;
-			// db2POption4.series[0].data = tiepianArr;
-		}
-	});
+		});
+	}
 }
 var summaryPie1Option = {
 	title: {
@@ -163,7 +176,16 @@ var summaryPie1Option = {
 					label: {
 						show: true,
 						position: 'inner',
-						formatter: '{d}%',
+						// formatter: '{d}%',
+						formatter: function (prams) {
+							var value;
+							if (prams.data.value == 0) {
+								value = ''
+							} else {
+								value = prams.data.value + "%"
+							}
+							return value;
+						},
 						fontSize: 22
 					}
 				}
@@ -247,8 +269,11 @@ var db2POption1 = {
 						fontSize: 20,
 						color: '#fff'
 					},
-					position: 'right',
+					position: 'insideRight',
 					formatter: function (params) {
+						if (params.value == 0) {
+							return "";
+						}
 						return params.value + "%"
 					}
 				},
@@ -324,8 +349,11 @@ var db2POption2 = {
 						fontSize: 20,
 						color: '#fff'
 					},
-					position: 'right',
+					position: 'insideRight',
 					formatter: function (params) {
+						if (params.value == 0) {
+							return "";
+						}
 						return params.value + "%"
 					}
 				},
@@ -401,8 +429,11 @@ var db2POption3 = {
 						fontSize: 20,
 						color: '#fff'
 					},
-					position: 'right',
+					position: 'insideRight',
 					formatter: function (params) {
+						if (params.value == 0) {
+							return "";
+						}
 						return params.value + "%"
 					}
 				},
@@ -462,7 +493,6 @@ var db2POption4 = {
 				fontSize: 20
 			}
 		},
-
 		data: ['任务1']
 	},
 	series: [{
@@ -478,8 +508,11 @@ var db2POption4 = {
 						fontSize: 20,
 						color: '#fff'
 					},
-					position: 'right',
+					position: 'insideRight',
 					formatter: function (params) {
+						if (params.value == 0) {
+							return "";
+						}
 						return params.value + "%"
 					}
 				},
@@ -555,8 +588,11 @@ var db2POption5 = {
 						fontSize: 20,
 						color: '#fff'
 					},
-					position: 'right',
+					position: 'insideRight',
 					formatter: function (params) {
+						if (params.value == 0) {
+							return "";
+						}
 						return params.value + "%"
 					}
 				},
@@ -631,8 +667,11 @@ var db2POption6 = {
 						fontSize: 20,
 						color: '#fff'
 					},
-					position: 'right',
+					position: 'insideRight',
 					formatter: function (params) {
+						if (params.value == 0) {
+							return "";
+						}
 						return params.value + "%"
 					}
 				},
@@ -690,8 +729,8 @@ function setCharts(data, percentage) {
 			'		<ul class="listStyle dblist2">' +
 			'			<li class="clearfix">' +
 			'				<span class="col2">生产任务号:<strong>' + data.pcb_task_code + '</strong></span>' +
-			'				<span class="col2">机台名称:<strong>' + data.device_name + '</strong></span>' +
-			'				<span class="col2">机台编号:<strong>' + data.device_code + '</strong></span>' +
+			// '				<span class="col2">机台名称:<strong>' + data.device_name + '</strong></span>' +
+			// '				<span class="col2">机台编号:<strong>' + data.device_code + '</strong></span>' +
 			'				<span class="col2">工序名称:<strong>' + data.process_name + '</strong></span>' +
 			'				<span class="col2">工序单状态:<strong>' + data.process_task_status + '</strong></span>' +
 			'				<span class="col2">完成数量:<strong>' + data.amount_completed + '</strong></span>' +

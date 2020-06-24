@@ -113,3 +113,122 @@ function diffTime(startDate,endDate) {
     }
     return returnStr;
 }
+//扫码输入触发事件
+function scanCode(domId,func){
+    // scanCode('input的id',function () {})
+    var func2 = func||function(){}
+    var input = document.getElementById(domId);
+    input.focus();
+    document.onkeydown=function (e) {
+        if(e.keyCode === 13){
+            if(input == document.activeElement){
+                func2()
+            }
+        }
+    };
+}
+//*****************************form表单模块***********************************************
+//普通下拉选择
+function Select(obj) {
+  this.select = document.getElementById(obj.elemId);
+     this.url = obj.url;
+    this.type = obj.type||"get";
+    this.data = obj.data;
+     this.value = obj.value||'id';
+    this.text = obj.text||'name';
+    this.done = obj.done||function () {};
+    this.create();
+    this.postData = obj.postData||{};
+}
+Select.prototype={
+    create:function () {
+        var that = this;
+        if(that.type==='get'){
+            http.get(that.url,function (res) {
+                var str = "";
+                res.data.forEach(function (t) {
+                    str+= "<option value='"+t[that.value]+"'>"+t[that.text]+"</option>"
+                });
+                that.select.innerHTML=str;
+                that.done(res.data)
+            })
+        }else{
+            http.post(that.url,that.postData,function (res) {
+                var str = "";
+                res.data.forEach(function (t) {
+                    str+= "<option value='"+t[that.value]+"'>"+t[that.text]+"</option>"
+                });
+                that.select.innerHTML=str;
+                that.done(res.data)
+            })
+        }
+    }
+}
+//动态多选
+function Checkboxs(obj) {
+    // new Checkboxs({
+    //     url:'/base/badNews/findBadNewsList',
+    //     elemId:'badCheck',
+    //     value:'bad_name',
+    //     title:'bad_name',
+    //     done:function () {
+    //         form.render()
+    //     }
+    // });
+        this.box = document.getElementById(obj.elemId);
+        this.url = obj.url;
+       this.type = obj.type||'get';
+   this.postData = obj.postData||{};
+     this.value = obj.value;
+     this.title = obj.title;
+       this.done = obj.done||function () {};
+       this.create();
+     console.log(this)
+}
+Checkboxs.prototype = {
+    create:function () {
+        var that = this;
+        if(this.type==='get'){
+            http.get(that.url,function (res) {
+                var str = "";
+                res.data.forEach(function (t) {
+                    str+='<input type="checkbox" value="'+t[that.value]+'" lay-skin="primary" title="'+t[that.title]+'" >'
+                });
+                that.box.innerHTML=str;
+                that.done(res.data)
+            })
+        }else{
+            http.post(url,that.postData,function (res) {
+                var str = "";
+                res.data.forEach(function (t) {
+                    str+='<input type="checkbox" value="'+t[that.value]+'" lay-skin="primary" title="'+t[that.title]+'" >'
+                });
+                that.box.innerHTML=str;
+                that.done(res.data)
+            })
+        }
+    }
+}
+//表单元素回车事件触发函数
+function Enter(domId,func){
+    this.func2 = func||function(){};
+    this.input = document.getElementById(domId);
+    this.focus();
+}
+Enter.prototype={
+   focus:function () {
+      var that = this;
+       this.input.onfocus=function () {
+           document.onkeydown=function (e) {
+               if(e.keyCode === 13){
+                   if(that.input == document.activeElement){
+                       that.func2()
+                   }
+               }
+           };
+       }
+   }
+
+
+
+};
