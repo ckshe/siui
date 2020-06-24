@@ -81,7 +81,7 @@ var db1P1Option = {
         type: 'line',
         showSymbol: true,
         symbol: 'circle',     //设定为实心点
-        symbolSize: 15,   //设定实心点的大小
+        symbolSize: 20,   //设定实心点的大小
         hoverAnimation: false,
         animation: false,
         data: [10, 20, 35, 60, 75, 90]
@@ -218,9 +218,9 @@ var db1P3Option = {
                 color: 'rgba(255,255,255,1)',
                 fontSize: 20
             },
-            // formatter: function (value) {
-            //     return value + '%'
-            // }
+            formatter: function (value) {
+                return value
+            }
         },
         axisLine: {
             lineStyle: {
@@ -607,11 +607,13 @@ function setDataBoard1(params) {
                 success: function (response) {
                     var weekRateArr = [], axisWeekRateArr = [], axisWeekNumArr = [];
                     for (var i = 0; i < response.data.length; i++) {
+                        if(i==0) continue;
                         weekRateArr.push(response.data[i].rate)
                         // axisWeekRateArr.push(response.data[i].theDay)
                         axisWeekNumArr.push(response.data[i].sumFinishAmount)
                     }
-                    axisWeekRateArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+                    axisWeekRateArr = ['周一', '周二', '周三', '周四', '周五', '周六']
+                    // axisWeekRateArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
                     db1P1Option.series[0].data = weekRateArr;
                     db1P1Option.xAxis.data = axisWeekRateArr;
                     db1P1.setOption(db1P1Option);
@@ -625,8 +627,12 @@ function setDataBoard1(params) {
 
                     db1P3Option.yAxis.max = null;
                     db1P3Option.yAxis.min = null;
-
-
+                    db1P3Option.series[0].itemStyle.normal.label.formatter = function (prams) {
+                        if (prams.value == 0) {
+                            return ''
+                        }
+                        return prams.value;
+                    };
                     db1P2.setOption(db1P3Option);
                 }
             });

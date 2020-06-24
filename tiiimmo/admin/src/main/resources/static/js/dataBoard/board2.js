@@ -6,6 +6,7 @@ var board2Api = {
 	findByProcessTaskCode: '/ShowBoard/findByProcessTaskCode/',//详情
 
 }
+var tiepianTaskArr = [], houhanTaskArr = [], tiaoshiTaskArr = [], zhijianTaskArr = [], rukuTaskArr = [], beiliaoTaskArr = [];
 function setDataBoard2(params) {
 	board2();
 	board2Interval = setInterval(function () {
@@ -26,14 +27,15 @@ function setDataBoard2(params) {
 			dataType: "json",
 			success: function (response) {
 				var tiepianArr = [], houhanArr = [], tiaoshiArr = [], zhijianArr = [], rukuArr = [], beiliaoArr = [];
-				var tiepianTaskArr = [], houhanTaskArr = [], tiaoshiTaskArr = [], zhijianTaskArr = [], rukuTaskArr = [], beiliaoTaskArr = [];
 				var tiepianTaskArr1 = [], houhanTaskArr1 = [], tiaoshiTaskArr1 = [], zhijianTaskArr1 = [], rukuTaskArr1 = [], beiliaoTaskArr1 = [];
+				tiepianTaskArr = [];
 				for (var ia = 0; ia < response.data.tiepian.length; ia++) {
 					tiepianTaskArr.push(response.data.tiepian[ia].process_task_code);
 					tiepianTaskArr1.push('任务' + (ia + 1));
-					tiepianArr.push(response.data.tiepian[ia].rate);
+					tiepianArr.push(Math.round(response.data.tiepian[ia].rate*100)/100);
 				}
 				db2POption1.yAxis.data = tiepianTaskArr1.reverse();
+				tiepianTaskArr = tiepianTaskArr.reverse();
 				db2POption1.series[0].data = tiepianArr.reverse();
 				db2P1.setOption(db2POption1);
 				if (tiepianArr.length > 0) {
@@ -45,12 +47,14 @@ function setDataBoard2(params) {
 						}
 					})
 				}
+				houhanTaskArr = [];
 				for (var ib = 0; ib < response.data.houhan.length; ib++) {
 					houhanTaskArr.push(response.data.houhan[ib].process_task_code);
 					houhanTaskArr1.push('任务' + (ib + 1));
-					houhanArr.push(response.data.houhan[ib].rate);
+					houhanArr.push(Math.round(response.data.houhan[ib].rate*100)/100);
 				}
 				db2POption2.yAxis.data = houhanTaskArr1.reverse();
+				houhanTaskArr = houhanTaskArr.reverse();
 				db2POption2.series[0].data = houhanArr.reverse();
 				db2P2.setOption(db2POption2);
 				if (houhanArr.length > 0) {
@@ -62,13 +66,15 @@ function setDataBoard2(params) {
 						}
 					})
 				}
+				tiaoshiTaskArr = [];
 				for (var ic = 0; ic < response.data.tiaoshi.length; ic++) {
 					tiaoshiTaskArr.push(response.data.tiaoshi[ic].process_task_code);
 					tiaoshiTaskArr1.push('任务' + (ic + 1));
-					tiaoshiArr.push(response.data.tiaoshi[ic].rate);
+					tiaoshiArr.push(Math.round(response.data.tiaoshi[ic].rate*100)/100);
 				}
 				//console.log(tiaoshiTaskArr1)
 				db2POption3.yAxis.data = tiaoshiTaskArr1.reverse();
+				tiaoshiTaskArr = tiaoshiTaskArr.reverse();
 				db2POption3.series[0].data = tiaoshiArr.reverse();
 				db2P3.setOption(db2POption3);
 				if (tiaoshiArr.length > 0) {
@@ -80,12 +86,14 @@ function setDataBoard2(params) {
 						}
 					})
 				}
+				zhijianTaskArr = [];
 				for (var id = 0; id < response.data.zhijian.length; id++) {
 					zhijianTaskArr.push(response.data.zhijian[id].process_task_code);
 					zhijianTaskArr1.push('任务' + (id + 1));
-					zhijianArr.push(response.data.zhijian[id].rate);
+					zhijianArr.push(Math.round(response.data.zhijian[id].rate*100)/100);
 				}
 				db2POption5.yAxis.data = zhijianTaskArr1.reverse();
+				zhijianTaskArr = zhijianTaskArr.reverse();
 				db2POption5.series[0].data = zhijianArr.reverse();
 				db2P5.setOption(db2POption5);
 				if (zhijianArr.length > 0) {
@@ -97,12 +105,14 @@ function setDataBoard2(params) {
 						}
 					})
 				}
+				rukuTaskArr = [];
 				for (var ie = 0; ie < response.data.ruku.length; ie++) {
 					rukuTaskArr.push(response.data.ruku[ie].process_task_code);
 					rukuTaskArr1.push('任务' + (ie + 1));
-					rukuArr.push(response.data.ruku[ie].rate);
+					rukuArr.push(Math.round(response.data.ruku[ie].rate*100)/100);
 				}
 				db2POption6.yAxis.data = rukuTaskArr1.reverse();
+				rukuTaskArr = rukuTaskArr.reverse();
 				db2POption6.series[0].data = rukuArr.reverse();
 				db2P6.setOption(db2POption6);
 				if (rukuArr.length > 0) {
@@ -115,13 +125,14 @@ function setDataBoard2(params) {
 					})
 				}
 
-
+				beiliaoTaskArr = [];
 				for (var ig = 0; ig < response.data.beiliao.length; ig++) {
 					beiliaoTaskArr.push(response.data.beiliao[ig].process_task_code);
 					beiliaoTaskArr1.push('任务' + (ig + 1));
-					beiliaoArr.push(response.data.beiliao[ig].rate);
+					beiliaoArr.push(Math.round(response.data.beiliao[ig].rate*100)/100);
 				}
 				db2POption4.yAxis.data = beiliaoTaskArr1.reverse();
+				beiliaoTaskArr = beiliaoTaskArr.reverse();
 				db2POption4.series[0].data = beiliaoArr.reverse();
 				db2P4.setOption(db2POption4);
 				if (beiliaoArr.length > 0) {
@@ -218,14 +229,17 @@ var db2POption1 = {
 		axisPointer: {
 			type: 'shadow'
 		},
-		formatter: '{b}<br/>{a} :{c}%',
+		// formatter: '{b}<br/>{a} :{c}%',
+		formatter:function(params){
+			return tiepianTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
+		},
 		textStyle: {
 			fontSize: 22
 		}
 	},
 	grid: {
 		left: '3%',
-		right: '5%',
+		right: '10%',
 		bottom: '10%',
 		containLabel: true
 	},
@@ -269,7 +283,7 @@ var db2POption1 = {
 						fontSize: 20,
 						color: '#fff'
 					},
-					position: 'insideRight',
+					position: 'right',
 					formatter: function (params) {
 						if (params.value == 0) {
 							return "";
@@ -297,14 +311,17 @@ var db2POption2 = {
 		axisPointer: {
 			type: 'shadow'
 		},
-		formatter: '{b}<br/>{a} :{c}%',
+		// formatter: '{b}<br/>{a} :{c}%',
+		formatter:function(params){
+			return houhanTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
+		},
 		textStyle: {
 			fontSize: 22
 		}
 	},
 	grid: {
 		left: '3%',
-		right: '5%',
+		right: '10%',
 		bottom: '10%',
 		containLabel: true
 	},
@@ -377,14 +394,17 @@ var db2POption3 = {
 		axisPointer: {
 			type: 'shadow'
 		},
-		formatter: '{b}<br/>{a} :{c}%',
+		// formatter: '{b}<br/>{a} :{c}%',
+		formatter:function(params){
+			return tiaoshiTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
+		},
 		textStyle: {
 			fontSize: 22
 		}
 	},
 	grid: {
 		left: '3%',
-		right: '5%',
+		right: '10%',
 		bottom: '10%',
 		containLabel: true
 	},
@@ -457,14 +477,17 @@ var db2POption4 = {
 		axisPointer: {
 			type: 'shadow'
 		},
-		formatter: '{b}<br/>{a} :{c}%',
+		// formatter: '{b}<br/>{a} :{c}%',
+		formatter:function(params){
+			return beiliaoTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
+		},
 		textStyle: {
 			fontSize: 22
 		}
 	},
 	grid: {
 		left: '3%',
-		right: '5%',
+		right: '10%',
 		bottom: '10%',
 		containLabel: true
 	},
@@ -536,14 +559,17 @@ var db2POption5 = {
 		axisPointer: {
 			type: 'shadow'
 		},
-		formatter: '{b}<br/>{a} :{c}%',
+		// formatter: '{b}<br/>{a} :{c}%',
+		formatter:function(params){
+			return zhijianTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
+		},
 		textStyle: {
 			fontSize: 22
 		}
 	},
 	grid: {
 		left: '3%',
-		right: '5%',
+		right: '10%',
 		bottom: '10%',
 		containLabel: true
 	},
@@ -616,14 +642,17 @@ var db2POption6 = {
 		axisPointer: {
 			type: 'shadow'
 		},
-		formatter: '{b}<br/>{a} :{c}%',
+		// formatter: '{b}<br/>{a} :{c}%',
+		formatter:function(params){
+			return rukuTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
+		},
 		textStyle: {
 			fontSize: 22
 		}
 	},
 	grid: {
 		left: '3%',
-		right: '5%',
+		right: '10%',
 		bottom: '10%',
 		containLabel: true
 	},

@@ -295,7 +295,9 @@ function setDataBoard4(params) {
 			dataType: "json",
 			success: function (response) {
 				var kRateArr = [], useRateArr = [], axiskRateArr = [];
+				console.log("aaa=====",response.data)
 				for (var i = 0; i < response.data.length; i++) {
+					if(response.data[i].processType=='入库')continue;
 					kRateArr.push(response.data[i].rate);
 					useRateArr.push(response.data[i].useRate);
 					axiskRateArr.push(response.data[i].processType);
@@ -304,7 +306,7 @@ function setDataBoard4(params) {
 				db4POption1.series[0].data = kRateArr;
 				db4POption1.xAxis.data = axiskRateArr;
 				db4P1.setOption(db4POption1);
-
+				
 				db4POption2.series[0].data = useRateArr;
 				db4POption2.xAxis.data = axiskRateArr;
 				db4P2.setOption(db4POption2);
