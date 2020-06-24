@@ -1,10 +1,13 @@
 package com.linln.admin.base.service.impl;
 
+import com.linln.admin.base.domain.Shelves;
 import com.linln.admin.base.domain.SteelMesh;
+import com.linln.admin.base.repository.ShelvesRepository;
 import com.linln.admin.base.repository.SteelMeshRepository;
 import com.linln.admin.base.service.SteelMeshService;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
+import com.linln.component.shiro.ShiroUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -23,6 +26,8 @@ public class SteelMeshServiceImpl implements SteelMeshService {
 
     @Autowired
     private SteelMeshRepository steelMeshRepository;
+    @Autowired
+    private ShelvesRepository shelvesRepository;
 
     /**
      * 根据ID查询数据
@@ -52,6 +57,11 @@ public class SteelMeshServiceImpl implements SteelMeshService {
      */
     @Override
     public SteelMesh save(SteelMesh steelMesh) {
+        String shelvesNo = steelMesh.getShelvesNo();
+        Shelves shelves = shelvesRepository.queryByshelvesNo(shelvesNo);
+        steelMesh.setShelves(shelves);
+
+        steelMesh.setCreateBy(ShiroUtil.getSubject());
         return steelMeshRepository.save(steelMesh);
     }
 

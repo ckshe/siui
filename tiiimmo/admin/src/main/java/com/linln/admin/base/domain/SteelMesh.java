@@ -69,4 +69,11 @@ public class SteelMesh implements Serializable {
     private Byte status = StatusEnum.OK.getCode();
     // 货架编号
     private String shelvesNo;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @NotFound(action=NotFoundAction.IGNORE)
+    @JoinColumn(name="shelves")
+    @JsonIgnore
+    // 货架对象
+    private Shelves shelves;
 }

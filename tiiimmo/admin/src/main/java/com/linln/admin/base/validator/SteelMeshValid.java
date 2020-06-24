@@ -11,6 +11,6 @@ import java.io.Serializable;
  */
 @Data
 public class SteelMeshValid implements Serializable {
-    @NotEmpty(message = "货架名称不能为空")
-    private String name;
+    /*@NotEmpty(message = "货架名称不能为空")
+    private String name;*/
 }
