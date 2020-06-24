@@ -186,6 +186,7 @@
                 </ul>
                 </div>
         <div class="buttonBox">
+            <button id="qie" class="shenblueButton" style="width:100%;height:80px">切单</button>
             <div class="fourBox">
                 <div class="fourLeft">
                     <button id="run" class="blueButton">启动</button>
@@ -214,6 +215,7 @@
 </body>
 <script>
     var nowGonDan="";
+    var a="";
     window.onload = function () {
         layui.use(['jquery', 'form'], function () {
             var $ = layui.jquery,
@@ -381,18 +383,18 @@
             $('#loginClear').on('click',function () {
                 $('#loginCode').val('')
             });
-            //启动工单
-            $('#run').on('click',function () {
+            //切单
+            $('#qie').on('click',function () {
                 if(isLogin()){
                     layer.open({
                         type:2,
                         area:["80%","80%"],
-                        title:'请选择启动工序',
+                        title:'请选择切换工序',
                         content:'/gonxvTable?deviceCode='+getQueryString('deviceCode')
                     });
                     a=function (data) {
                         layer.load(1,{
-                            content: '启动中...',
+                            content: '切单中...',
                             success: function (layero) {
                                 layero.find('.layui-layer-content').css({
                                     'padding-top': '39px',
@@ -406,7 +408,7 @@
                             dataType : "json",
                             data : JSON.stringify({
                                 processTaskId:data.id,
-                                processTaskStatus:"生产中",
+                                processTaskStatus:"进行中",
                                 deviceCode:getQueryString('deviceCode')
                             }),
                             contentType : "application/json;charset=UTF-8",
@@ -465,6 +467,45 @@
                     })
                 }
             });
+            //生产工单
+            $('#run').on('click',function () {
+                if(isLogin()) {
+                    layer.confirm('确定启动当前工单？', {icon: 3}, function () {
+                        layer.load(1, {
+                            content: '启动中...',
+                            success: function (layero) {
+                                layero.find('.layui-layer-content').css({
+                                    'padding-top': '39px',
+                                    'width': '60px'
+                                });
+                            }
+                        });
+                        $.ajax({
+                            url: '/produce/pcbTask/modifyProcessTaskStatus',
+                            type: "post",
+                            dataType: "json",
+                            data: JSON.stringify({
+                                processTaskId: nowGonDan.id,
+                                processTaskStatus: "生产中",
+                                deviceCode: getQueryString('deviceCode')
+                            }),
+                            contentType: "application/json;charset=UTF-8",
+                            success: function (res) {
+                                layer.closeAll();
+                                if (res.code === 200) {
+                                    layer.msg(res.msg, {icon: 1});
+                                    setTimeout(function () {
+                                        window.location.reload()
+                                    },1000);
+                                } else {
+                                    layer.alert(res.msg, {icon: 5})
+                                }
+                            }
+                        })
+                    })
+                }
+            });
+            //结束工单
             $('#over').on('click',function () {
                 if(isLogin()) {
                     layer.open({

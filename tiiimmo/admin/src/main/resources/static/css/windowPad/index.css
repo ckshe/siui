@@ -34,6 +34,16 @@
     box-shadow:0 0 2px 3px #0585e4 inset,
     0 0 5px 1px #fff inset
 }
+.shenblueButton{
+    border-radius: 4px;
+    color:#fff;
+    border: none;
+    cursor: pointer;
+
+    background:#0585e4 ;
+    box-shadow:0 0 2px 3px #0566b1 inset,
+    0 0 5px 1px #fff inset
+}
 .huiButton{
     border-radius: 4px;
     color:#fff;
@@ -224,7 +234,7 @@
 }
 .fourBox{
     width:290px;
-    height:200px;
+    height:180px;
     overflow: hidden;
 }
 .fourBox div{
