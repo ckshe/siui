@@ -62,4 +62,6 @@ public class FixtureShelf implements Serializable {
     private User updateBy;
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
+    // 货架类型
+    private String shelfType;
 }

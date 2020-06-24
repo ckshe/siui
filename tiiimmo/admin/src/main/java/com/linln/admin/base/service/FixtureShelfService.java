@@ -38,4 +38,10 @@ public interface FixtureShelfService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    /**
+     * 查询货架类型
+     * @return 货架类型的数据集
+     */
+    List<String> queryShelfType();
 }

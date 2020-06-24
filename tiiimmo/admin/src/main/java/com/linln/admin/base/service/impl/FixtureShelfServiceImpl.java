@@ -63,4 +63,9 @@ public class FixtureShelfServiceImpl implements FixtureShelfService {
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return fixtureShelfRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
+
+    @Override
+    public List<String> queryShelfType() {
+        return fixtureShelfRepository.queryShelfType();
+    }
 }

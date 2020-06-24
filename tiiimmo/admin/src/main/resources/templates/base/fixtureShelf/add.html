@@ -4,12 +4,20 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/fixtureShelf/save}">
+    <form class="layui-form" lay-filter="lay_form" th:action="@{/base/fixtureShelf/save}">
         <input type="hidden" name="id" th:if="${fixtureShelf}" th:value="${fixtureShelf.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">货架编号</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="shelfNo" placeholder="请输入货架编号" th:value="${fixtureShelf?.shelfNo}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">货架类型</label>
+            <div class="layui-input-inline">
+                <input type="hidden" id="shelfTypeValue" th:value="${fixtureShelf?.shelfType}">
+                <select name="shelf_type" id="shelfType"></select>
+                <!--<input class="layui-input" type="text" name="shelfType" placeholder="请输入货架类型" th:value="${fixtureShelf?.shelfType}">-->
             </div>
         </div>
         <div class="layui-form-item">
@@ -31,5 +39,37 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        var a="";
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#time",
+                type:'datetime',
+                trigger:'click'
+            });
+
+
+            $.get('/base/fixtureShelf/findShelfType',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('shelfType');
+                    var str = "";
+                    var d = res.data.map(function (t) {
+                        return {shelf_type:t}
+                    });
+                    d.forEach(function (t) {
+                        str+="<option value='"+t.shelf_type+"'>"+t.shelf_type+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('lay_form',{shelf_type:$('#shelfTypeValue').val()});
+                }
+            })
+
+
+        })
+    </script>
 </body>
 </html>

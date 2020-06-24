@@ -117,4 +117,19 @@ public class FixtureShelfController {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
     }
+
+
+    @GetMapping("/findShelfType")
+    @ResponseBody
+    public ResultVo findShelfType(){
+
+        List<String> shelfTypes = fixtureShelfService.queryShelfType();
+        if (shelfTypes!= null){
+            return ResultVoUtil.success("查询成功",shelfTypes);
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
+    }
+
 }
