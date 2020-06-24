@@ -7,7 +7,7 @@ db4P1 = echarts.init(document.getElementById('db4P1'), 'macarons');
 db4P2 = echarts.init(document.getElementById('db4P2'), 'macarons');
 var db4POption1 = {
 	title: {
-		text: "上岗率",
+		text: "",
 		textStyle: {
 			// textShadowColor: "#fff",
 			// textShadowBlur: 4,
@@ -30,10 +30,11 @@ var db4POption1 = {
 	},
 	grid: {
 		top: "10%",
-		right: '10%',
-		bottom: "10%",
-		left: "10%",
-		backgroundColor: '#ff330e'
+		right: '0%',
+		bottom: "3%",
+		left: "0%",
+		containLabel: true,
+		// backgroundColor: '#ff330e'
 	},
 	xAxis: {
 		naem: '工序',
@@ -44,6 +45,7 @@ var db4POption1 = {
 				fontSize: 20
 			}
 		},
+		data: []
 	},
 	yAxis: {
 		name: '',
@@ -53,9 +55,9 @@ var db4POption1 = {
 				color: 'rgba(255,255,255,1)',
 				fontSize: 20
 			},
-			formatter:function(value){
-                return value+'%'
-            }
+			formatter: function (value) {
+				return value + '%'
+			}
 		},
 		axisLine: {
 			lineStyle: {
@@ -84,7 +86,7 @@ var db4POption1 = {
 };
 var db4POption2 = {
 	title: {
-		text: "各工序工时利用率",
+		text: "",
 		textStyle: {
 			// textShadowColor: "#fff",
 			// textShadowBlur: 4,
@@ -107,9 +109,10 @@ var db4POption2 = {
 	},
 	grid: {
 		top: "10%",
-		right: '10%',
-		bottom: "10%",
-		left: "10%",
+		right: '0%',
+		bottom: "3%",
+		left: "0%",
+		containLabel: true,
 		backgroundColor: '#ff330e'
 	},
 	xAxis: {
@@ -131,9 +134,9 @@ var db4POption2 = {
 				color: 'rgba(255,255,255,1)',
 				fontSize: 20
 			},
-			formatter:function(value){
-                return value+'%'
-            }
+			formatter: function (value) {
+				return value + '%'
+			}
 		},
 		axisLine: {
 			lineStyle: {
@@ -162,32 +165,35 @@ var db4POption2 = {
 };
 // 动态生成模板
 function addfourBoardHtml(data) {
-	var theadHtml = '', tbodyHtml = '',tbodyData = data;
+	var theadHtml = '', tbodyHtml = '', tbodyData = data;
 	//console.log(tbodyData.length)
-	var theadData = ['员工名称', '工位', '所在工序', '任务信息', '当前完成率']
-	colwidth = (($("#fourBoard").width() / theadData.length) - 10) + "px";
+	var arr4 = [14, 10, 10, 19, 14, 14, 14]
+	var theadData = ['员工名称', '工位', '所在工序', '物料名称', '生产批次', '任务信息', '当前完成率']
+	// colwidth = (($("#fourBoard").width() / theadData.length) - 10) + "px";
 	theadHtml = '<div class="StateTit">';
 	for (var i = 0; i < theadData.length; i++) {
-		theadHtml += '<span  style="width:' + colwidth + '">' + theadData[i] + '</span>';
+		theadHtml += '<span  style="width:' + arr4[i] + '%">' + theadData[i] + '</span>';
 	}
 	theadHtml += '</div>';
 	tbodyHtml = '<div id="FontScroll" class="board4Scroll"><ul>';
 	for (var j = 0; j < tbodyData.length; j++) {
 		tbodyHtml += '<li>' +
 			'<div class="fontInner clearfix">' +
-			'<span  style="width:' + colwidth + '">' + tbodyData[j].user_name + '</span>' +
-			'<span  style="width:' + colwidth + '">' + tbodyData[j].device_code + '</span>' +
-			'<span  style="width:' + colwidth + '">' + tbodyData[j].process_name + '</span>' +
-			'<span  style="width:' + colwidth + '">' + tbodyData[j].process_task_code + '</span>' +
-			'<span  style="width:' + colwidth + '">' +tbodyData[j].rate+'%'+
-				// '<div class="progress" progress="'+tbodyData[j].rate+'%">' +
-				// '	<div class="progressBar">' +
-				// '		<span></span>' +
-				// '	</div>' +
-				// '	<h3><i><h4></h4></i></h3>' +
-				// '</div>' +
-			 '</span>' +
-			
+			'<span  style="width:' + arr4[0] + '%">' + tbodyData[j].user_name + '</span>' +
+			'<span  style="width:' + arr4[1] + '%">' + tbodyData[j].device_code + '</span>' +
+			'<span  style="width:' + arr4[2] + '%">' + tbodyData[j].process_name + '</span>' +
+			'<span  style="width:' + arr4[3] + '%">' + tbodyData[j].pcb_name + '</span>' +
+			'<span  style="width:' + arr4[4] + '%">' + tbodyData[j].task_sheet_code + '</span>' +
+			'<span  style="width:' + arr4[5] + '%">' + tbodyData[j].process_task_code + '</span>' +
+			'<span  style="width:' + arr4[6] + '%">' + tbodyData[j].rate + '%' +
+			// '<div class="progress" progress="'+tbodyData[j].rate+'%">' +
+			// '	<div class="progressBar">' +
+			// '		<span></span>' +
+			// '	</div>' +
+			// '	<h3><i><h4></h4></i></h3>' +
+			// '</div>' +
+			'</span>' +
+
 			'</div>' +
 			'</li>';
 	}
@@ -197,7 +203,7 @@ function addfourBoardHtml(data) {
 		$.ajax({
 			contentType: 'application/json',
 			type: 'get',
-			url: board4Api.findByProcessTaskCode+tbodyData[$(this).index()].process_task_code,
+			url: board4Api.findByProcessTaskCode + tbodyData[$(this).index()].process_task_code,
 			dataType: "json",
 			success: function (response) {
 				//console.log("abc========",response)
@@ -212,7 +218,7 @@ function addfourBoardHtml(data) {
 		});
 	})
 	//运单状态文字滚动
-	if (tbodyData.length > 16) {
+	if (tbodyData.length > 6) {
 		$('.board4Scroll').FontScroll({ time: 3000, num: 1, styleName: 'line4' });
 	}
 }
@@ -238,67 +244,73 @@ function addData4Html(data) {
 		'   </div>' +
 		'   <div class="itemCon itembg itembg_popupfirt">' +
 		'       <ul class="listStyle">' +
-		'           <li class="clearfix">' +	
-			'				<span class="col2">生产任务号:<strong>' + data.pcb_task_code + '</strong></span>' +
-			'				<span class="col2">机台名称:<strong>' + data.device_name + '</strong></span>' +
-			'				<span class="col2">机台编号:<strong>' + data.device_code + '</strong></span>' +
-			'				<span class="col2">工序名称:<strong>' + data.process_name + '</strong></span>' +
-			'				<span class="col2">工序单状态:<strong>' + data.process_task_status + '</strong></span>' +
-			'				<span class="col2">完成数量:<strong>' + data.amount_completed + '</strong></span>' +
-			'				<span class="col2">计划开始时间:<strong>' + data.plan_start_time + '</strong></span>' +
-			'				<span class="col2">计划结束时间:<strong>' + data.plan_finish_time + '</strong></span>' +
-			'				<span class="col2">工时:<strong>' + data.work_time + '</strong></span>' +
-			'				<span class="col2">pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
-			'				<span class="col2">PCB数量:<strong>' + data.pcb_quantity + '</strong></span>' +
-			'				<span class="col2">RoHS标志:<strong>' + data.is_rohs + '</strong></span>' +
-			'				<span class="col1">工序订单编号:<strong>' + data.process_task_code + '</strong></span>' +
-			'				<span class="col1">PCB名称:<strong>' + data.pcb_name + '</strong></span>' +
-			'			</li>'+
+		'           <li class="clearfix">' +
+		'				<span class="col2">生产任务号:<strong>' + data.pcb_task_code + '</strong></span>' +
+		// '				<span class="col2">机台名称:<strong>' + data.device_name + '</strong></span>' +
+		// '				<span class="col2">机台编号:<strong>' + data.device_code + '</strong></span>' +
+		'				<span class="col2">工序名称:<strong>' + data.process_name + '</strong></span>' +
+		'				<span class="col2">工序单状态:<strong>' + data.process_task_status + '</strong></span>' +
+		'				<span class="col2">完成数量:<strong>' + data.amount_completed + '</strong></span>' +
+		'				<span class="col2">计划开始时间:<strong>' + data.plan_start_time + '</strong></span>' +
+		'				<span class="col2">计划结束时间:<strong>' + data.plan_finish_time + '</strong></span>' +
+		'				<span class="col2">工时:<strong>' + data.work_time + '</strong></span>' +
+		'				<span class="col2">pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
+		'				<span class="col2">PCB数量:<strong>' + data.pcb_quantity + '</strong></span>' +
+		'				<span class="col2">RoHS标志:<strong>' + data.is_rohs + '</strong></span>' +
+		'				<span class="col1">工序订单编号:<strong>' + data.process_task_code + '</strong></span>' +
+		'				<span class="col1">PCB名称:<strong>' + data.pcb_name + '</strong></span>' +
+		'			</li>' +
 		'       </ul>' +
 		'   </div>' +
 		'</div>';
 	$(".summary").html(theadHtmlP1).css("display", "block");
 }
 var board4Api = {
-    staffOnBoard:'/ShowBoard/staffOnBoard',
-    findByProcessTaskCode:'/ShowBoard/findByProcessTaskCode/',
-    staffTodayOntimeRate:'/ShowBoard/staffTodayOntimeRate',
+	staffOnBoard: '/ShowBoard/staffOnBoard',
+	findByProcessTaskCode: '/ShowBoard/findByProcessTaskCode/',
+	staffTodayOntimeRate: '/ShowBoard/staffTodayOntimeRate',//
 }
 function setDataBoard4(params) {
-	// db4P1.setOption(db4POption1);
-	// db4P2.setOption(db4POption2);
-	$.ajax({
-        contentType: 'application/json',
-        type: 'get',
-        url: board4Api.staffOnBoard,
-        dataType: "json",
-        success: function (response) {
-			addfourBoardHtml(response.data);
-        }
-    });
-	$.ajax({
-		contentType: 'application/json',
-        type: 'get',
-        url: board4Api.staffTodayOntimeRate,
-        dataType: "json",
-        success: function (response) {
-			var kRateArr = [],useRateArr = [],axiskRateArr=[];
-			for(var i=0;i<response.data.length;i++){
-				kRateArr.push(response.data[i].rate);
-				useRateArr.push(response.data[i].useRate);
-				axiskRateArr.push(response.data[i].processType);
+	db4P1.setOption(db4POption1);
+	db4P2.setOption(db4POption2);
+	board4();
+	board2Interval = setInterval(function () {
+		console.log(66666666)
+		board4();
+	}, 60000);
+	function board4() {
+		$.ajax({
+			contentType: 'application/json',
+			type: 'get',
+			url: board4Api.staffOnBoard,
+			dataType: "json",
+			success: function (response) {
+				addfourBoardHtml(response.data);
 			}
-			//console.log(kRateArr,useRateArr,axiskRateArr)
-			db4POption1.series[0].data = kRateArr;
-			db4POption1.xAxis.data = axiskRateArr;
-			db4P1.setOption(db4POption1);
+		});
+		$.ajax({
+			contentType: 'application/json',
+			type: 'get',
+			url: board4Api.staffTodayOntimeRate,
+			dataType: "json",
+			success: function (response) {
+				var kRateArr = [], useRateArr = [], axiskRateArr = [];
+				for (var i = 0; i < response.data.length; i++) {
+					kRateArr.push(response.data[i].rate);
+					useRateArr.push(response.data[i].useRate);
+					axiskRateArr.push(response.data[i].processType);
+				}
+				//console.log(kRateArr,useRateArr,axiskRateArr)
+				db4POption1.series[0].data = kRateArr;
+				db4POption1.xAxis.data = axiskRateArr;
+				db4P1.setOption(db4POption1);
 
-			db4POption2.series[0].data = useRateArr;
-			db4POption2.xAxis.data = axiskRateArr;
-			db4P2.setOption(db4POption2);
+				db4POption2.series[0].data = useRateArr;
+				db4POption2.xAxis.data = axiskRateArr;
+				db4P2.setOption(db4POption2);
 
-        }
-    });
-
+			}
+		});
+	}
 
 }

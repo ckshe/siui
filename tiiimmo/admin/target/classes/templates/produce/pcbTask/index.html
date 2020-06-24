@@ -14,31 +14,25 @@
             <div class="layui-row timo-card-screen">
                 <form  class="layui-form pull-left layui-form-pane timo-search-box">
                     <div class="layui-inline">
-                        <label class="layui-form-label">任务号</label>
+                        <label class="layui-form-label">生产批次</label>
                         <div class="layui-input-block">
-                            <input type="text" name="pcb_task_code" placeholder="请输入任务号" autocomplete="off" class="layui-input">
+                            <input id="taskSheetCode" type="text" name="taskSheetCode" placeholder="请输入生产批次" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">规格型号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="pcbId"  placeholder="请输入规格型号" autocomplete="off" class="layui-input">
+                            <input id="pcbId" type="text" name="pcbId"  placeholder="请输入规格型号" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">物料名称</label>
                         <div class="layui-input-block">
-                            <input type="text"  name="pcbName" placeholder="请输入物料名称" autocomplete="off" class="layui-input">
+                            <input type="text" id="pcbName" name="pcbName" placeholder="请输入物料名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">通知日期</label>-->
-<!--                        <div class="layui-input-block">-->
-<!--                            <input type="text" id="time" name="pcbName" placeholder="请输入通知日期" autocomplete="off" class="layui-input">-->
-<!--                        </div>-->
-<!--                    </div>-->
                     <div class="layui-inline">
-                        <button class="layui-btn"  type="button" lay-submit lay-filter="search">
+                        <button class="layui-btn" id="search"  type="button" lay-submit lay-filter="search">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -59,7 +53,6 @@
     </div>
 <script th:replace="/common/template :: script"></script>
     <script src="../../js/common.js" ></script>
-
     <script>
         layui.use(['form','laydate','table','jquery','form'],function () {
             var layer = layui.layer,
@@ -67,137 +60,141 @@
                 table = layui.table,
               laydate = layui.laydate,
                  form = layui.form;
-            laydate.render({
-                elem: '#time'
-                ,type:'datetime'
-            });
-            table.render({
-                elem: '#table'
-                ,url: '/produce/pcbTask/findScheduling' //数据接口
-                ,method:'POST'
-                ,loading:false
-                ,contentType: 'application/json'
-                ,response: {
-                    statusCode: 200
-                }
-                ,page: true
-                ,limit:20
-                ,parseData: function(res){
-                    // var page = this.page.curr;
-                    // if(res.data.length===0&&page>1){
-                    //     table.reload('table',{
-                    //         page:{
-                    //             curr:(page-1)
-                    //         }
-                    //     })
-                    // }
-                    return {
-                        "code": res.code, //解析接口状态
-                        "data": res.data, //解析数据列表
-                        "count": res.total, //解析数据长度
-                    };
-                }
-                ,cols: [
-                    [
-                        {field: 'pcb_task_code', title: '生产任务单号', minWidth:140}
-                        ,{field: 'task_sheet_code', title: '生产批次', minWidth:140}
-                        ,{field: 'task_sheet_date', title: '通知日期', minWidth:170,templet:function (d) {
-                            return d.task_sheet_date?timeToDate(d.task_sheet_date):"";}}
-                        ,{field: 'feeding_task_code', title: '投料单号', minWidth:120}
-                        ,{title: '领料单', minWidth:120,templet:function (d) {
-                            return "<span style='color:#1e9fff;cursor: pointer' lay-event='lin'>查看领料单</span>"
-                        }}
-                        ,{field: 'workshop', title: '车间', minWidth:200}
-                        ,{field: 'model_name', title: '机型名称', minWidth:206}
-                        ,{field: 'model_ver', title: '机型型号', minWidth:206}
-                        ,{field: 'pcb_id', title: '规格型号', minWidth:206}
-                        ,{field: 'pcb_name', title: '物料名称', minWidth:170}
-                        ,{field: 'batch_id', title: '光板号', minWidth:120}
-                        ,{field: 'pcb_quantity', title: '计划生产数量', minWidth:120}
-                        ,{field: 'is_rohs', title: 'RoHS', minWidth:120}
-                        ,{field: 'pcb_plate_id', title: '板编号', minWidth:237}
+                laydate.render({
+                    elem: '#time'
+                    ,type:'datetime'
+                });
+               table.render({
+                    elem: '#table'
+                    ,url: '/produce/pcbTask/findScheduling' //数据接口
+                    ,method:'POST'
+                    ,loading:false
 
-                        ,{field: 'produce_plan_date', title: '安排启动日期', minWidth:170,templet:function (d) {
-                            return d.produce_plan_date?timeToDate(d.produce_plan_date):"";}}
-                        ,{field: 'produce_date', title: '实际启动日期', minWidth:170,templet:function (d) {
-                            return d.produce_date?timeToDate(d.produce_date):"";}}
-                        ,{field: 'produce_plan_complete_date', title: '计划完成时间', minWidth:170,templet:function (d) {
-                            return d.produce_plan_complete_date?timeToDate(d.produce_plan_complete_date):"";}}
-                        ,{field: 'roduce_complete_date', title: '生产完成时间', minWidth:170,templet:function (d) {
-                            return d.roduce_complete_date?timeToDate(d.roduce_complete_date):"";}}
-                        ,{field: 'pcb_task_status', title: '工单状态', minWidth:120}
-                        ,{field: 'priority', title: '优先级', minWidth:120}
-                        ,{field: 'quantity}', title: '完成数量', minWidth:120}
-                        ,{field: 'factory', title: '厂区', minWidth:110}
-                        ,{field: 'remark', title: '备注', minWidth:120}
-                        ,{ title: '操作',fixed:'right', minWidth: 210,templet:function (d) {
-                            return  '<button lay-event="tou" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">'+(d.pcb_task_status==="已投产"?"已投产":"投产")+'</button>'
-                                   +'<button lay-event="kan" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"":"background-color:#e4e4e4")+'"'+(d.pcb_task_status==="已投产"?"":"disabled")+' type="button">查看工序计划</button>'
-                                   +'<button lay-event="edit" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">编辑</button>'
+                    ,contentType: 'application/json'
+                    ,response: {
+                        statusCode: 200
+                    }
+                    ,page: true
+                    ,limit:20
+                    ,parseData: function(res){
+                        // var page = this.page.curr;
+                        // if(res.data.length===0&&page>1){
+                        //     table.reload('table',{
+                        //         page:{
+                        //             curr:(page-1)
+                        //         }
+                        //     })
+                        // }
+                        return {
+                            "code": res.code, //解析接口状态
+                            "data": res.data, //解析数据列表
+                            "count": res.total, //解析数据长度
+                        };
+                    }
+                    ,cols: [
+                        [
+                            {field: 'pcb_task_code', title: '生产任务单号', sort: true, minWidth:140}
+                            ,{field: 'task_sheet_code', title: '生产批次', sort: true, minWidth:140}
+                            ,{field: 'task_sheet_date', title: '通知日期', sort: true, minWidth:170,templet:function (d) {
+                                return d.task_sheet_date?timeToDate(d.task_sheet_date):"";}}
+                            ,{field: 'pcb_id', title: '规格型号', sort: true, minWidth:206}
+                            ,{field: 'pcb_name', title: '物料名称', sort: true, minWidth:216}
+                            ,{field: 'feeding_task_code', title: '投料单号', sort: true, minWidth:120}
+                            ,{title: '领料单', minWidth:120,templet:function (d) {
+                                return "<span style='color:#1e9fff;cursor: pointer' lay-event='lin'>查看领料单</span>"
+                            }}
+                            ,{field: 'pcb_quantity', title: '计划生产数量', sort: true, minWidth:120}
+                            ,{field: 'quantity}', title: '完成数量', sort: true, minWidth:120}
+                            ,{field: 'produce_plan_date', title: '安排启动日期', sort: true, minWidth:170,templet:function (d) {
+                                return d.produce_plan_date?timeToDate(d.produce_plan_date):"";}}
+                            ,{field: 'produce_date', title: '实际启动日期', sort: true, minWidth:170,templet:function (d) {
+                                return d.produce_date?timeToDate(d.produce_date):"";}}
+                            ,{field: 'produce_plan_complete_date', title: '计划完成时间', sort: true, minWidth:170,templet:function (d) {
+                                return d.produce_plan_complete_date?timeToDate(d.produce_plan_complete_date):"";}}
+                            ,{field: 'roduce_complete_date', title: '生产完成时间', sort: true, minWidth:170,templet:function (d) {
+                                return d.roduce_complete_date?timeToDate(d.roduce_complete_date):"";}}
+                            ,{field: 'pcb_task_status', title: '工单状态', sort: true, minWidth:120}
+                            ,{field: 'batch_id', title: '光板号', sort: true, minWidth:120}
+                            ,{field: 'is_rohs', title: 'RoHS', sort: true, minWidth:120}
+                            ,{field: 'pcb_plate_id', title: '板编号', sort: true, minWidth:237}
+                            ,{field: 'priority', title: '优先级', sort: true, minWidth:120}
+                            ,{field: 'factory', title: '厂区', sort: true, minWidth:110}
+                            ,{field: 'workshop', title: '车间', minWidth:200}
+                            ,{field: 'model_name', title: '机型名称', sort: true, minWidth:216}
+                            ,{field: 'model_ver', title: '机型型号', sort: true, minWidth:170}
+                            ,{field: 'remark', title: '备注', minWidth:120}
+                            ,{ title: '操作',fixed:'right', minWidth: 210,templet:function (d) {
+                                return  '<button lay-event="tou" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">'+(d.pcb_task_status==="已投产"?"已投产":"投产")+'</button>'
+                                       +'<button lay-event="kan" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"":"background-color:#e4e4e4")+'"'+(d.pcb_task_status==="已投产"?"":"disabled")+' type="button">查看工序计划</button>'
+                                       +'<button lay-event="edit" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">编辑</button>'
 
-                        }
-                }
+                            }
+                    }
+                        ]
                     ]
-                ]
-            });
-            form.on('submit(search)',function (obj) {
-                var data = obj.field;
-                console.log(data)
-                table.reload('table',{
-                    where:obj.field
-                })
-            })
-            $("#sync").on('click',function () {
-                layer.load(1,{
-                    content: '同步中...',
-                    success: function (layero) {
-                        layero.find('.layui-layer-content').css({
-                            'padding-top': '39px',
-                            'width': '60px'
-                        });
-                    }
-                })
-                http.get("/produce/pcbTask/getPcbTaskFromERP",function (res) {
-                    layer.closeAll();
-                    if(res.code===200){
-                        layer.msg(res.msg,{icon:1,time:1000},function () {
-                            window.location.reload()
-                        })
-                    }else{
-                        layer.alert(res.msg,{icon:5})
-                    }
-                })
-            });
-            table.on('tool(table)',function (obj) {
-                var data = obj.data;
-                switch (obj.event) {
-                    case "tou":
-                        layer.confirm('确定投产',{icon:3},function () {
-                            $.get('/produce/pcbTask/putIntoProduceBefore/'+data.id,function(res){
-                                if(res.code===200){
-                                    layer.alert(res.msg,{icon:1},function () {
-                                        layer.closeAll();
-                                        table.reload('table');
-                                    })
-                                }else{
-                                    layer.alert(res.msg,{icon:5})
-                                }
+                });
+                form.on('submit(search)',function (obj) {
+                    var data = obj.field;
+                    table.reload('table',{
+                        where:obj.field
+                    })
+                });
+
+                new Enter('taskSheetCode',function () {$('#search').click()});
+                new Enter('pcbId',function () {$('#search').click()});
+                new Enter('pcbName',function () {$('#search').click()});
+
+                $("#sync").on('click',function () {
+                    layer.load(1,{
+                        content: '同步中...',
+                        success: function (layero) {
+                            layero.find('.layui-layer-content').css({
+                                'padding-top': '39px',
+                                'width': '60px'
                             });
-                        });
-                        break;
-                    case 'kan':
-                        layer.open({
-                            title:'工序计划',
-                            type:2,
-                            area:['96%','96%'],
-                            content:'/produce/pcbTask/plan?id='+data.id
-                        });
-                        break;
-                    case "lin":
-                        alert(123)
-                        break;
-                }
-            })
+                        }
+                    })
+                    http.get("/produce/pcbTask/getPcbTaskFromERP",function (res) {
+                        layer.closeAll();
+                        if(res.code===200){
+                            layer.msg(res.msg,{icon:1,time:1000},function () {
+                                window.location.reload()
+                            })
+                        }else{
+                            layer.alert(res.msg,{icon:5})
+                        }
+                    })
+                });
+                table.on('tool(table)',function (obj) {
+                    var data = obj.data;
+                    switch (obj.event) {
+                        case "tou":
+                            layer.confirm('确定投产',{icon:3},function () {
+                                $.get('/produce/pcbTask/putIntoProduceBefore/'+data.id,function(res){
+                                    if(res.code===200){
+                                        layer.alert(res.msg,{icon:1},function () {
+                                            layer.closeAll();
+                                            table.reload('table');
+                                        })
+                                    }else{
+                                        layer.alert(res.msg,{icon:5})
+                                    }
+                                });
+                            });
+                            break;
+                        case 'kan':
+                            layer.open({
+                                title:'工序计划',
+                                type:2,
+                                area:['96%','96%'],
+                                content:'/produce/pcbTask/plan?id='+data.id
+                            });
+                            break;
+                        case "lin":
+                            alert(123)
+                            break;
+                    }
+                })
         })
     </script>
     <style>

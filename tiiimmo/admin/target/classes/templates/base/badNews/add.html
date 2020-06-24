@@ -4,7 +4,7 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/badNews/save}">
+    <form class="layui-form" lay-filter="lay_form" th:action="@{/base/badNews/save}">
         <input type="hidden" name="id" th:if="${badNews}" th:value="${badNews.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">不良编号</label>
@@ -14,6 +14,14 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">不良类型</label>
+            <div class="layui-input-inline">
+                <!--<input class="layui-input" type="text" name="bad_name" placeholder="请输入不良类型" th:value="${badNews?.bad_name}">-->
+                <input type="hidden" id="badTypeValue" th:value="${badNews?.bad_type}">
+                <select name="bad_type" id="badType"></select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">不良名称</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="bad_name" placeholder="请输入不良类型" th:value="${badNews?.bad_name}">
             </div>
@@ -31,5 +39,31 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        var a="";
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#time",
+                type:'datetime',
+                trigger:'click'
+            });
+
+            $.get('/base/badType/findBadType',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('badType');
+                    var str = "";
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.name+"'>"+t.name+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('lay_form',{bad_type:$('#badTypeValue').val()});
+                }
+            })
+        })
+    </script>
 </body>
 </html>

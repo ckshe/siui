@@ -24,10 +24,16 @@
                             <input type="text" name="bad_code" th:value="${param.bad_code}" placeholder="请输入不良编号" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-inline">
+                    <!--<div class="layui-inline">
                         <label class="layui-form-label">不良类型</label>
                         <div class="layui-input-block">
-                            <input type="text" name="bad_name" th:value="${param.bad_name}" placeholder="请输入不良类型" autocomplete="off" class="layui-input">
+                            <input type="text" name="bad_type" th:value="${param.bad_type}" placeholder="请输入不良类型" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>-->
+                    <div class="layui-inline">
+                        <label class="layui-form-label">不良名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="bad_name" th:value="${param.bad_name}" placeholder="请输入不良名称型" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -57,9 +63,10 @@
                             <label class="timo-checkbox"><input type="checkbox">
                                 <i class="layui-icon layui-icon-ok"></i></label>
                         </th>
-                        <th>主键ID</th>
+                        <!--<th>主键ID</th>-->
                         <th>不良编号</th>
                         <th>不良类型</th>
+                        <th>不良名称</th>
                         <th style="display: none">创建时间</th>
                         <th style="display: none">更新时间</th>
                         <th style="display: none">数据状态</th>
@@ -71,9 +78,10 @@
                     <tr th:each="item:${list}">
                         <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
                             <i class="layui-icon layui-icon-ok"></i></label></td>
-                        <td th:text="${item.id}">主键ID</td>
+                        <!--<td th:text="${item.id}">主键ID</td>-->
                         <td th:text="${item.bad_code}">不良编号</td>
-                        <td th:text="${item.bad_name}">不良类型</td>
+                        <td th:text="${item.bad_type}">不良类型</td>
+                        <td th:text="${item.bad_name}">不良名称</td>
                         <td style="display: none" th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
                         <td style="display: none" th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
                         <td style="display: none" th:text="${#dicts.dataStatus(item.status)}">数据状态</td>

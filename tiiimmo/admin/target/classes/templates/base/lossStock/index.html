@@ -57,7 +57,7 @@
                             <label class="timo-checkbox"><input type="checkbox">
                                 <i class="layui-icon layui-icon-ok"></i></label>
                         </th>
-                        <th>主键ID</th>
+                        <!--<th>主键ID</th>-->
                         <th>物料编号</th>
                         <th>物料名称</th>
                         <th style="display: none">创建时间</th>
@@ -73,7 +73,7 @@
                     <tr th:each="item:${list}">
                         <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
                             <i class="layui-icon layui-icon-ok"></i></label></td>
-                        <td th:text="${item.id}">主键ID</td>
+                        <!--<td th:text="${item.id}">主键ID</td>-->
                         <td th:text="${item.product_code}">物料编号</td>
                         <td th:text="${item.product_name}">物料名称</td>
                         <td style="display: none" th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
