@@ -57,11 +57,13 @@ public class SteelMeshServiceImpl implements SteelMeshService {
      */
     @Override
     public SteelMesh save(SteelMesh steelMesh) {
+        // 获取钢网的货架编号
         String shelvesNo = steelMesh.getShelvesNo();
+        // 根据货架编号查询出对应的货架对象信息 (为了页面展示时能从货架编号获取到货架名称和层数)
         Shelves shelves = shelvesRepository.queryByshelvesNo(shelvesNo);
         steelMesh.setShelves(shelves);
 
-        steelMesh.setCreateBy(ShiroUtil.getSubject());
+        //steelMesh.setCreateBy(ShiroUtil.getSubject());
         return steelMeshRepository.save(steelMesh);
     }
 
