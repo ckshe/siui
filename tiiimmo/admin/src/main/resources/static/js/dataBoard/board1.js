@@ -166,10 +166,7 @@ var db1P2Option = {
                             fontSize: 20
                         }
                     },
-                    color: function (params){
-                        var colorList = ['#1890ff','#13c2c2','#52c41a','#fa8c16','#722ed1','#f5222d','#eb2f96'];
-                        return colorList[params.dataIndex];
-                    }
+                    color: color.color1
                 }
             }
         }
@@ -451,7 +448,6 @@ function setDataBoard1(params) {
         });
         //定时1分钟
         PCBInterval = setInterval(function () {
-            console.log(21111111111)
             $.ajax({
                 contentType: 'application/json',
                 type: 'get',
@@ -476,7 +472,6 @@ function setDataBoard1(params) {
         });
         //定时1分钟
         PROCESSInterval = setInterval(function () {
-            console.log(222222222222222222222)
             $.ajax({
                 contentType: 'application/json',
                 type: 'get',
@@ -541,8 +536,6 @@ function setDataBoard1(params) {
                 // taskFinishRateAxisArr.push('批次'+(i+1));
                 taskFinishRateArr.push(response.taskFinishRate[i].rate);
             }
-            // console.log(taskFinishRateArr)
-            // console.log(taskFinishRateArr.sort())
             db1P2Option.xAxis.type = 'value';
             db1P2Option.xAxis.axisLabel.formatter = function (value) {
                 return value + '%'
@@ -609,6 +602,8 @@ function setDataBoard1(params) {
                 url: board1Api.getMapProcessThisWeekRate,
                 dataType: "json",
                 success: function (response) {
+                    //测试假数据
+                    // response = {"code":200,"msg":"成功","data":[{"theDay":"2020-06-21","allCount":0,"finishCount":0,"rate":0.0000,"sumFinishAmount":0,"sumPlanAmount":0},{"theDay":"2020-06-22","allCount":5,"finishCount":5,"rate":100.0000,"sumFinishAmount":500,"sumPlanAmount":500},{"theDay":"2020-06-23","allCount":0,"finishCount":0,"rate":50,"sumFinishAmount":1200,"sumPlanAmount":0},{"theDay":"2020-06-24","allCount":5,"finishCount":5,"rate":88,"sumFinishAmount":708,"sumPlanAmount":753},{"theDay":"2020-06-25","allCount":1,"finishCount":1,"rate":89,"sumFinishAmount":1300,"sumPlanAmount":300},{"theDay":"2020-06-26","allCount":21,"finishCount":19,"rate":90.0000,"sumFinishAmount":1523,"sumPlanAmount":4300},{"theDay":"2020-06-27","allCount":3,"finishCount":3,"rate":99.0000,"sumFinishAmount":1050,"sumPlanAmount":1050}],"total":null}
                     var weekRateArr = [], axisWeekRateArr = [], axisWeekNumArr = [];
                     for (var i = 0; i < response.data.length; i++) {
                         if(i==0) continue;
@@ -648,7 +643,6 @@ function setDataBoard1(params) {
                 url: board1Api.getMapProcessDayRate,
                 dataType: "json",
                 success: function (response) {
-                    ////console.log("cds==",response)
                     var mapProcessDayRate = response.data;
                     orderOption1.series[0].data = [{
                         name: '已完成',
@@ -691,7 +685,6 @@ function setDataBoard1(params) {
                 url: board1Api.pcbTaskBoard,
                 dataType: "json",
                 success: function (response) {
-                    // ////console.log("message===", response)
                     addHtml(response.data.pcbTasks, hsaClassOn);
                     setOption(response.data);
                 }
@@ -700,7 +693,6 @@ function setDataBoard1(params) {
             clearInterval(PROCESSInterval);
             //定时1分钟
             PCBInterval = setInterval(function () {
-                console.log(33333333333333)
                 $.ajax({
                     contentType: 'application/json',
                     type: 'get',
@@ -807,7 +799,6 @@ function setDataBoard1(params) {
             tbodyHtml += '</ul></div>';
         } else {
             var theadData = ['工序任务号', '规格型号', '物料名称', '工序', '生产批次', '生产时间', '完成时间', '计划量', '完成量', '工单状态']
-            ////console.log(data)
             var tbodyData = popData = data;
             // if (theadData.length > 0) {
             //     widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) + "px"

@@ -43,6 +43,8 @@ function setDataBoard3(params) {
             dataType: "json",
             success: function (response) {
                 var timeArr = [];
+                //测试假数据
+                // response = {"code":200,"msg":"成功","data":[{"theDay":"2020-06-21","runTime":100,"stopTime":null},{"theDay":"2020-06-22","runTime":140,"stopTime":null},{"theDay":"2020-06-23","runTime":150,"stopTime":null},{"theDay":"2020-06-24","runTime":160,"stopTime":null},{"theDay":"2020-06-25","runTime":152,"stopTime":null},{"theDay":"2020-06-26","runTime":177,"stopTime":null},{"theDay":"2020-06-27","runTime":188,"stopTime":null}],"total":null}
                 //console.log(response.data)
                 for (var i = 0; i < response.data.length; i++) {
                     if(i==0)continue;
@@ -860,7 +862,7 @@ var db3POption3 = {
 
     },
     series: [{
-        name: '工作时长',
+        name: '运行时长',
         type: 'bar',
         data: [117, 123, 22, 78, 98, 85, 60],
         itemStyle: {
@@ -876,6 +878,7 @@ var db3POption3 = {
                         return params.value
                     }
                 },
+                color: color.color1
             }
         }
     }]

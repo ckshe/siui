@@ -297,6 +297,7 @@ var db2POption1 = {
 						return params.value + "%"
 					}
 				},
+                    color:color.color1
 			}
 		}
 	}]
@@ -380,6 +381,7 @@ var db2POption2 = {
 						return params.value + "%"
 					}
 				},
+				color: color.color1
 			}
 		}
 	}]
@@ -463,6 +465,7 @@ var db2POption3 = {
 						return params.value + "%"
 					}
 				},
+				color:color.color1
 			}
 		}
 	}]
@@ -545,6 +548,7 @@ var db2POption4 = {
 						return params.value + "%"
 					}
 				},
+				color: color.color1
 			}
 		}
 	}]
@@ -628,6 +632,7 @@ var db2POption5 = {
 						return params.value + "%"
 					}
 				},
+				color: color.color1
 			}
 		}
 	}]
@@ -710,6 +715,7 @@ var db2POption6 = {
 						return params.value + "%"
 					}
 				},
+				color: color.color1
 			}
 		}
 	}]
