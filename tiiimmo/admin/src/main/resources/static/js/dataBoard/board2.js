@@ -30,6 +30,7 @@ function setDataBoard2(params) {
 				var tiepianTaskArr1 = [], houhanTaskArr1 = [], tiaoshiTaskArr1 = [], zhijianTaskArr1 = [], rukuTaskArr1 = [], beiliaoTaskArr1 = [];
 				tiepianTaskArr = [];
 				for (var ia = 0; ia < response.data.tiepian.length; ia++) {
+					if(ia>4) continue;
 					tiepianTaskArr.push(response.data.tiepian[ia].process_task_code);
 					tiepianTaskArr1.push('任务' + (ia + 1));
 					tiepianArr.push(Math.round(response.data.tiepian[ia].rate*100)/100);
@@ -49,6 +50,7 @@ function setDataBoard2(params) {
 				}
 				houhanTaskArr = [];
 				for (var ib = 0; ib < response.data.houhan.length; ib++) {
+					if(ib>4) continue;
 					houhanTaskArr.push(response.data.houhan[ib].process_task_code);
 					houhanTaskArr1.push('任务' + (ib + 1));
 					houhanArr.push(Math.round(response.data.houhan[ib].rate*100)/100);
@@ -68,6 +70,7 @@ function setDataBoard2(params) {
 				}
 				tiaoshiTaskArr = [];
 				for (var ic = 0; ic < response.data.tiaoshi.length; ic++) {
+					if(ic>4) continue;
 					tiaoshiTaskArr.push(response.data.tiaoshi[ic].process_task_code);
 					tiaoshiTaskArr1.push('任务' + (ic + 1));
 					tiaoshiArr.push(Math.round(response.data.tiaoshi[ic].rate*100)/100);
@@ -88,6 +91,7 @@ function setDataBoard2(params) {
 				}
 				zhijianTaskArr = [];
 				for (var id = 0; id < response.data.zhijian.length; id++) {
+					if(id>4) continue;
 					zhijianTaskArr.push(response.data.zhijian[id].process_task_code);
 					zhijianTaskArr1.push('任务' + (id + 1));
 					zhijianArr.push(Math.round(response.data.zhijian[id].rate*100)/100);
@@ -107,6 +111,7 @@ function setDataBoard2(params) {
 				}
 				rukuTaskArr = [];
 				for (var ie = 0; ie < response.data.ruku.length; ie++) {
+					if(ie>4) continue;
 					rukuTaskArr.push(response.data.ruku[ie].process_task_code);
 					rukuTaskArr1.push('任务' + (ie + 1));
 					rukuArr.push(Math.round(response.data.ruku[ie].rate*100)/100);
@@ -127,6 +132,7 @@ function setDataBoard2(params) {
 
 				beiliaoTaskArr = [];
 				for (var ig = 0; ig < response.data.beiliao.length; ig++) {
+					if(ig>4) continue;
 					beiliaoTaskArr.push(response.data.beiliao[ig].process_task_code);
 					beiliaoTaskArr1.push('任务' + (ig + 1));
 					beiliaoArr.push(Math.round(response.data.beiliao[ig].rate*100)/100);

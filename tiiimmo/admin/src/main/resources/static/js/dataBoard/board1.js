@@ -165,6 +165,10 @@ var db1P2Option = {
                             color: 'white',
                             fontSize: 20
                         }
+                    },
+                    color: function (params){
+                        var colorList = ['#1890ff','#13c2c2','#52c41a','#fa8c16','#722ed1','#f5222d','#eb2f96'];
+                        return colorList[params.dataIndex];
                     }
                 }
             }
