@@ -25,5 +25,6 @@ public interface DeviceRepository extends BaseRepository<Device, Long> {
     @Query(value = "select  * from base_device order by device_sort",nativeQuery = true)
     List<Device> findAllbyDeviceSort();
 
-
+    @Query(value = "select * from base_device where device_code = ?1",nativeQuery = true)
+    Device queryByDeviceNo(String deviceNo);
 }

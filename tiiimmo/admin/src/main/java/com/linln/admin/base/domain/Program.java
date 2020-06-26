@@ -84,4 +84,11 @@ public class Program implements Serializable {
     private User updateBy;
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
+
+    // 关联设备对象
+    @ManyToOne(fetch=FetchType.LAZY)
+    @NotFound(action=NotFoundAction.IGNORE)
+    @JoinColumn(name="deviceId")
+    @JsonIgnore
+    private Device deviceId;
 }

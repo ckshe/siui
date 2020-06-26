@@ -11,8 +11,8 @@ import javax.validation.constraints.NotEmpty;
  */
 @Data
 public class ProgramValid implements Serializable {
-    @NotEmpty(message = "设备编号不能为空")
+    /*@NotEmpty(message = "设备编号不能为空")
     private String code;
     @NotEmpty(message = "设备名称不能为空")
-    private String name;
+    private String name;*/
 }

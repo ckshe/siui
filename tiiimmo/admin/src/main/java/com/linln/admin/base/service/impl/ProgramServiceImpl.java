@@ -1,6 +1,8 @@
 package com.linln.admin.base.service.impl;
 
+import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.domain.Program;
+import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.base.repository.ProgramRepository;
 import com.linln.admin.base.service.ProgramService;
 import com.linln.common.data.PageSort;
@@ -23,6 +25,9 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Autowired
     private ProgramRepository programRepository;
+
+    @Autowired
+    private DeviceRepository deviceRepository;
 
     /**
      * 根据ID查询数据
@@ -52,6 +57,12 @@ public class ProgramServiceImpl implements ProgramService {
      */
     @Override
     public Program save(Program program) {
+        // 获取设备编号
+        String deviceNo = program.getCode();
+        // 根据设备编号查询出设备信息
+        Device device = deviceRepository.queryByDeviceNo(deviceNo);
+        program.setDeviceId(device);
+
         return programRepository.save(program);
     }
 

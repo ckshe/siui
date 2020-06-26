@@ -4,20 +4,22 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/program/save}">
+    <form  class="layui-form" lay-filter="lay_form" th:action="@{/base/program/save}">
         <input type="hidden" name="id" th:if="${program}" th:value="${program.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">设备编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="code" placeholder="请输入设备编号" th:value="${program?.code}">
+                <!--<input class="layui-input" type="text" name="code" placeholder="请输入设备编号" th:value="${program?.code}">-->
+                <input type="hidden" id="codeValue" th:value="${program?.code}">
+                <select name="code" id="code"></select>
             </div>
         </div>
-        <div class="layui-form-item">
+        <!--<div class="layui-form-item">
             <label class="layui-form-label">设备名称</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="name" placeholder="请输入设备名称" th:value="${program?.name}">
             </div>
-        </div>
+        </div>-->
         <div class="layui-form-item">
             <label class="layui-form-label">PCB光板号</label>
             <div class="layui-input-inline">
@@ -27,12 +29,14 @@
         <div class="layui-form-item">
             <label class="layui-form-label">AB面</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="face" placeholder="请输入AB面" th:value="${program?.face}">
-                <!--<select class="layui-input" id="face" name="face" th:value="${program?.face}">
+                <!--<input class="layui-input" type="text" name="face" placeholder="请输入AB面" th:value="${program?.face}">-->
+                <select class="layui-input" id="face" name="face" th:value="${program?.face}">
                     <option value="">请选择</option>
-                    <option value="1">A</option>
-                    <option value="2">B</option>
-                </select>-->
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                </select>
+                <!--<input type="hidden" id="faceValue" th:value="${program?.face}">
+                <select class="layui-input" id="face" name="face"></select>-->
             </div>
         </div>
         <div class="layui-form-item">
@@ -72,5 +76,31 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+<script>
+    var a="";
+    layui.use(['jquery','layer','form','laydate'],function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate,
+            layer = layui.layer;
+        laydate.render({
+            elem:"#time",
+            type:'datetime',
+            trigger:'click'
+        });
+
+        $.get('/base/device/findDeviceCode',function (res) {
+            if(res.code===200){
+                var select = document.getElementById('code');
+                var str = "";
+                res.data.forEach(function (t) {
+                    str+="<option value='"+t.device_code+"'>"+t.device_code+"</option>"
+                });
+                select.innerHTML=str;
+                form.val('lay_form',{code:$('#codeValue').val()});
+            }
+        })
+    })
+</script>
 </body>
 </html>

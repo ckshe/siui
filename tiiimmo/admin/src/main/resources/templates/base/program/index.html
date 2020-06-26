@@ -60,8 +60,8 @@
                         <th>程序名称</th>
                         <th>修改日期</th>
                         <th>程序文件</th>
-                        <th>创建时间</th>
-                        <th>更新时间</th>
+                        <!--<th>创建时间</th>
+                        <th>更新时间</th>-->
                         <th>数据状态</th>
                         <th>操作</th>
                     </tr>
@@ -71,16 +71,16 @@
                         <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
                             <i class="layui-icon layui-icon-ok"></i></label></td>
                         <!--<td th:text="${item.id}">主键ID</td>-->
-                        <td th:text="${item.code}">设备编号</td>
-                        <td th:text="${item.name}">设备名称</td>
+                        <td th:text="${item.deviceId.device_code}">设备编号</td>
+                        <td th:text="${item.deviceId.device_name}">设备名称</td>
                         <td th:text="${item.pcbCode}">PCB光板号</td>
                         <td th:text="${item.face}">AB面</td>
                         <td th:text="${item.productNo}">成品号</td>
                         <td th:text="${item.processName}">程序名称</td>
                         <td th:text="${item.modifyDate}">修改日期</td>
                         <td th:text="${item.processFile}">程序文件</td>
-                        <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
-                        <td th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
+                        <!--<td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
+                        <td th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>-->
                         <td th:text="${#dicts.dataStatus(item.status)}">数据状态</td>
                         <td>
                             <a class="open-popup" data-title="编辑程序" th:attr="data-url=@{'/base/program/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
