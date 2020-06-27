@@ -202,7 +202,7 @@
                     <button id="login" class="blueButton">上机</button>
                 </div>
                 <div class="fourRight">
-                    <button id="bad" class="redButton">不良录入</button>
+                    <button id="bad" disabled style="opacity: 0.1" class="redButton">不良录入</button>
                     <button id="out" class="huiButton">下机</button>
                 </div>
             </div>
@@ -228,7 +228,7 @@
                     type:'post',
                     dataType : "json",
                     data : JSON.stringify({
-                        deviceCode:getQueryString('deviceCode'),
+                        deviceCode:getQueryString('deviceCode')
                     }),
                     contentType : "application/json;charset=UTF-8",
                     success: function (res) {
@@ -236,19 +236,23 @@
                         res.data.some(function (t,i) {
                             if(t.is_now_flag==1){
                                 nowGonDan=t;
-                                $('#scs').html(t.amount_completed)
+                                $('#scs').html(t.amount_completed);
                                 return true
                             }
                         });
                     }
                 })
             }
-            getNodwData()
+            getNodwData();
                 if(localStorage.getItem('padUserData')){
                     var data = JSON.parse(localStorage.getItem('padUserData'))
                     $('#userName').html(data.nickname);
                     $('#juese').html(data.roleNames);
-                    $('#upTime').html('无')
+                    $('#upTime').html('无');
+                    if(/质检/.test(data.roleNames)||/管理员/.test(data.roleNames)){
+                        document.getElementById('bad').style.opacity=1;
+                        document.getElementById('bad').disabled=false
+                    }
                 }
                     for(var i=0;i<navLis.length;i++){
                         navLis[i].onclick=function (e) {
@@ -326,6 +330,7 @@
                                    layer.msg(res.msg,{icon:1});
                                    res.data.loginTime = timeToDate(new Date());
                                    localStorage.setItem('padUserData',JSON.stringify(res.data));
+
                                    setTimeout(function () {
                                        window.location.reload();
                                    },1000)
@@ -386,12 +391,35 @@
             //切单
             $('#qie').on('click',function () {
                 if(isLogin()){
-                    layer.open({
-                        type:2,
-                        area:["80%","80%"],
-                        title:'请选择切换工序',
-                        content:'/gonxvTable?deviceCode='+getQueryString('deviceCode')
-                    });
+                    $.ajax({
+                        url:"/produce/pcbTask/findProcessTaskByDevice",
+                        type:'post',
+                        dataType : "json",
+                        data : JSON.stringify({
+                            deviceCode:getQueryString('deviceCode')
+                        }),
+                        contentType : "application/json;charset=UTF-8",
+                        success: function (res) {
+                            layer.closeAll();
+                            res.data.some(function (t,i) {
+                                if(t.is_now_flag==1){
+                                    nowGonDan=t;
+                                    if(t.process_task_status=="暂停"){
+                                        layer.open({
+                                            type:2,
+                                            area:["80%","80%"],
+                                            title:'请选择切换工序',
+                                            content:'/gonxvTable?deviceCode='+getQueryString('deviceCode')
+                                        });
+                                    }else{
+                                        layer.alert('暂停或结束才可切换工单',{icon:5})
+                                    }
+                                    return true
+                                }
+                            });
+                        }
+                    })
+
                     a=function (data) {
                         layer.load(1,{
                             content: '切单中...',
@@ -402,6 +430,7 @@
                                 });
                             }
                         });
+
                         $.ajax({
                             url: '/produce/pcbTask/modifyProcessTaskStatus',
                             type: "post",
@@ -416,7 +445,7 @@
                                 layer.closeAll();
                                 if(res.code === 200){
                                     layer.msg(res.msg,{icon:1});
-                                    nowGonDan=data
+                                    nowGonDan=data;
                                     setTimeout(function () {
                                         window.location.reload();
                                     },1000);
@@ -426,6 +455,8 @@
                                 }
                             }
                         })
+
+
                     }
                 }
             });
@@ -556,7 +587,8 @@
                     area:['900px','700px'],
                     content:$('#zhidao')
                 })
-            })
+            });
+            //不良录入
             $('#bad').on('click',function () {
                 if(isLogin()) {
                     layer.open({
@@ -567,7 +599,7 @@
                         content: '/windowPad/badAdd'
                     })
                 }
-            })
+            });
             // createBarcode('qrcode','ACG-G1234X','B')
             //二维码生产
             var qrcode = new QRCode("qrcode",{
@@ -576,7 +608,7 @@
             });
             var s= getQueryString('deviceCode');
             //测试二维码
-            var qrcodeStr = s+';DCY2.908.1362GS-RB;WORK018196'
+            var qrcodeStr = s+';DCY2.908.1362GS-RB;WORK018196';
             qrcode.makeCode(qrcodeStr);
             // qrcode.makeCode(s);
 

@@ -27,7 +27,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">板编号<span style="color:red">*</span></label>
                     <div class="layui-input-inline">
-                        <input type="text" id="plateNo" name="taskSerial" placeholder="扫码录入板编号" autocomplete="off" class="layui-input">
+                        <input type="text" id="plateNo" name="plateNo" placeholder="扫码录入板编号" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -41,15 +41,15 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">检验人</label>
                     <div class="layui-input-inline">
-                        <input id="user" type="text" name="user"  autocomplete="off" class="layui-input">
+                        <input  disabled type="text" name="u"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">登记时间<span style="color:red">*</span></label>
-                    <div class="layui-input-inline">
-                        <input id="inspectionTime" type="text" name="time"  autocomplete="off" class="layui-input">
-                    </div>
-                </div>
+<!--                <div class="layui-inline">-->
+<!--                    <label class="layui-form-label">登记时间<span style="color:red">*</span></label>-->
+<!--                    <div class="layui-input-inline">-->
+<!--                        <input id="inspectionTime" type="text" name="time"  autocomplete="off" class="layui-input">-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
             <div class="layui-form-item" id="badBox">
                 <div class="layui-inline" >
@@ -57,28 +57,18 @@
                     <div class="layui-input-inline" >
                         <div id="badSay" style="display: none; width:518px!important;border:1px solid #e6e6e6;color:#666;min-height:30px;padding:10px" ></div>
                         <div id="badCheck" style="width:518px">
-                            <input class="check" type="checkbox" value="无" lay-filter="bad" lay-skin="primary" title="无">
-                            <input class="check" type="checkbox" value="缺模" lay-filter="bad" lay-skin="primary" title="缺模">
-                            <input class="check" type="checkbox" value="粘模" lay-filter="bad" lay-skin="primary" title="粘模">
-                            <input class="check" type="checkbox" value="缩水" lay-filter="bad" lay-skin="primary" title="缩水">
-                            <input class="check" type="checkbox" value="烧胶" lay-filter="bad" lay-skin="primary" title="烧胶">
-                            <input class="check" type="checkbox" value="披峰" lay-filter="bad" lay-skin="primary" title="披峰">
-                            <input class="check" type="checkbox" value="孔偏" lay-filter="bad" lay-skin="primary" title="孔偏">
-                            <input class="check" type="checkbox" value="孔大" lay-filter="bad" lay-skin="primary" title="孔大">
-                            <input class="check" type="checkbox" value="孔小" lay-filter="bad" lay-skin="primary" title="孔小">
-                            <input class="check" type="checkbox" value="堵孔、穿孔" lay-filter="bad" lay-skin="primary" title="堵孔、穿孔">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item">
-                <div class="layui-inline" >
-                    <label class="layui-form-label">补充说明</label>
-                    <div class="layui-input-inline" >
-                        <input class="layui-input" name="remark" placeholder="补充说明" style="width:518px!important;" autocomplete="off" />
-                    </div>
-                </div>
-            </div>
+<!--            <div class="layui-form-item">-->
+<!--                <div class="layui-inline" >-->
+<!--                    <label class="layui-form-label">补充说明</label>-->
+<!--                    <div class="layui-input-inline" >-->
+<!--                        <input class="layui-input" name="remark" placeholder="补充说明" style="width:518px!important;" autocomplete="off" />-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
             <div class="layui-form-item" style="text-align: center;">
                 <button class="layui-btn" type="button" lay-submit lay-filter="add">保存</button>
                 <button class="layui-btn layui-btn-normal" type="reset" >重置</button>
@@ -97,6 +87,10 @@
               elem: '#inspectionTime',
               type: 'datetime'
             });
+            if(localStorage.getItem('padUserData')){
+                var data = JSON.parse(localStorage.getItem('padUserData'));
+                $('[name=u]').val(data.nickname);
+            };
             new Checkboxs({
                 url:'/base/badNews/findBadNewsList',
                 elemId:'badCheck',
@@ -106,32 +100,42 @@
                     form.render()
                 }
             });
-            //var badCheck = document.getElementById('badCheck');
-            // http.get('/base/badNews/findBadNewsList',function (res) {
-            //    if(res.code===200){
-            //        var str = "";
-            //        res.data.forEach(function (t) {
-            //            str+='<input type="checkbox" value="'+t.bad_name+'" lay-filter="bad" lay-skin="primary" title="'+t.bad_name+'">'
-            //        });
-            //        badCheck.innerHTML=str;
-            //        form.render()
-            //    }
-            // });
             scanCode('plateNo');
-            $('#user').on('click',function () {
-                var userBox =  layer.open({
-                    title:'用户列表',
-                    type:2,
-                    area:['98%',"94%"],
-                    content:'/userTable'
-                });
-                a=function (data) {
-                    layer.close(userBox);
-                    var d=data[0];
-                    form.val('form2',{user:d.nickname})
-
+            // $('#user').on('click',function () {
+            //     var userBox =  layer.open({
+            //         title:'用户列表',
+            //         type:2,
+            //         area:['98%',"94%"],
+            //         content:'/userTable'
+            //     });
+            //     a=function (data) {
+            //         layer.close(userBox);
+            //         var d=data[0];
+            //         form.val('form2',{user:d.nickname})
+            //
+            //     }
+            // });
+            var badCheck = document.getElementById('badCheck');
+            var nowData = null;
+            layer.load(1)
+            $.ajax({
+                url:"/produce/pcbTask/findProcessTaskByDevice",
+                type:'post',
+                dataType : "json",
+                data : JSON.stringify({
+                    deviceCode:getQueryString2('deviceCode')
+                }),
+                contentType : "application/json;charset=UTF-8",
+                success: function (res) {
+                    layer.closeAll()
+                    res.data.some(function (t,i) {
+                        if(t.is_now_flag==1){
+                            nowData=t;
+                            return true
+                        }
+                    });
                 }
-            });
+            })
             form.on('submit(add)', function (obj) {
                 var checkeds = badCheck.getElementsByTagName('input');
                 var arr = [];
@@ -140,37 +144,25 @@
                         arr.push({badNews:checkeds[i].value})
                     }
                 }
+                console.log(nowData)
                 obj.field.badNewsList=arr;
+                obj.field.pcbTaskCode=nowData.pcb_task_code;
                 $.ajax({
-                    url:"/produce/pcbTask/findProcessTaskByDevice",
+                    url:"/produce/pcbTask/recordBadTypeList",
                     type:'post',
                     dataType : "json",
-                    data : JSON.stringify({
-                        deviceCode:getQueryString2('deviceCode'),
-                    }),
+                    data : JSON.stringify(obj.field),
                     contentType : "application/json;charset=UTF-8",
                     success: function (res) {
                         layer.closeAll();
-                        res.data.some(function (t,i) {
-                            if(t.is_now_flag==1){
-                                obj.field.pcbTaskCode=t.pcb_task_code;
-                                $.ajax({
-                                    url: "/produce/pcbTask/recordBadTypeList",
-                                    type: "POST",
-                                    contentType: "application/json",
-                                    data: JSON.stringify(obj.field),
-                                    dataType: "json",
-                                    success: function (res) {
-                                        if (res.code === 200) {
-                                            layer.alert(res.msg, { icon: 1 });
-                                        }else{
-                                            layer.alert(res.msg)
-                                        }
-                                    }
-                                });
-                                return true
-                            }
-                        });
+                        if(res.code===200){
+                            layer.alert(res.msg,{icon:1},function () {
+                                parent.window.location.reload()
+                            })
+                        }else{
+                            layer.alert(res.msg,{icon:5})
+                        }
+
                     }
                 });
 

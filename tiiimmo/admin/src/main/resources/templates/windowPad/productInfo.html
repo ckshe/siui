@@ -124,10 +124,12 @@
         }
     }
     window.onload = function () {
-        layui.use(['jquery', 'form','table'], function () {
+        layui.use(['jquery', 'form','table','layer'], function () {
             var $ = layui.jquery,
                 table = layui.table,
+                layer = layui.layer,
                 form = layui.form;
+            layer.load(1)
             //展示已知数据
             table.render({
                 elem: '#table'
@@ -143,6 +145,7 @@
                     deviceCode:getQueryString2('deviceCode'),
                 }
                 ,parseData: function(res){
+                    layer.closeAll()
                     res.data.some(function (t,i) {
                         if(t.is_now_flag==1){
                             t.plan_start_time = timeToDate(t.plan_start_time);
