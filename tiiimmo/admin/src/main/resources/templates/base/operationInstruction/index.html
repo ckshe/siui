@@ -74,10 +74,11 @@
                         <!--<td th:text="${item.id}">主键ID</td>-->
                         <td th:text="${item.code}">操作指导书编号</td>
                         <td th:text="${item.name}">操作指导书名称</td>
-                        <td th:text="${item.uploadPeople}">上传人</td>
+                        <td th:text="${item.userId}">上传人</td>
                         <td th:text="${item.uploadTime}">上传时间</td>
                         <!--<td th:text="${item.uploadFile}">文件</td>-->
                         <td>
+                            <button lay-submit lay-filter="upload" th:data-id="${item.id}" type="button" class="layui-btn layui-btn-sm" id="uploadBtn">上传操作手册</button>
                             <button lay-submit lay-filter="look" th:data-id="${item.id}" class="layui-btn layui-btn-sm" type="button" th:width="60px" >查看</button>
                         </td>
                         <!--<td>
@@ -88,6 +89,7 @@
                         <td th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
                         <td th:text="${#dicts.dataStatus(item.status)}">数据状态</td>
                         <td>
+
                             <a class="open-popup" data-title="编辑操作指导书" th:attr="data-url=@{'/base/operationInstruction/edit/'+${item.id}}" data-size="auto" href="#">重新上传</a>
                             <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/base/operationInstruction/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>
                             <a class="ajax-get" data-msg="您是否确认删除" th:href="@{/base/operationInstruction/status/delete(ids=${item.id})}">删除</a>
@@ -118,9 +120,20 @@
         });
 
     })
-
-
-
 </script>
 </body>
+
+<div id="ver" style="display: none">
+    <form class="layui-form" lay-filter="form" style="margin-top: 20px">
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" id="upload" lay-filter="upload">上传文件</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+
+</script>
 </html>
