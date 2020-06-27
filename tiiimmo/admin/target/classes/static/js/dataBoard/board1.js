@@ -81,7 +81,7 @@ var db1P1Option = {
         type: 'line',
         showSymbol: true,
         symbol: 'circle',     //设定为实心点
-        symbolSize: 15,   //设定实心点的大小
+        symbolSize: 20,   //设定实心点的大小
         hoverAnimation: false,
         animation: false,
         data: [10, 20, 35, 60, 75, 90]
@@ -165,7 +165,8 @@ var db1P2Option = {
                             color: 'white',
                             fontSize: 20
                         }
-                    }
+                    },
+                    color: color.color1
                 }
             }
         }
@@ -218,9 +219,9 @@ var db1P3Option = {
                 color: 'rgba(255,255,255,1)',
                 fontSize: 20
             },
-            // formatter: function (value) {
-            //     return value + '%'
-            // }
+            formatter: function (value) {
+                return value
+            }
         },
         axisLine: {
             lineStyle: {
@@ -447,7 +448,6 @@ function setDataBoard1(params) {
         });
         //定时1分钟
         PCBInterval = setInterval(function () {
-            console.log(21111111111)
             $.ajax({
                 contentType: 'application/json',
                 type: 'get',
@@ -472,7 +472,6 @@ function setDataBoard1(params) {
         });
         //定时1分钟
         PROCESSInterval = setInterval(function () {
-            console.log(222222222222222222222)
             $.ajax({
                 contentType: 'application/json',
                 type: 'get',
@@ -537,8 +536,6 @@ function setDataBoard1(params) {
                 // taskFinishRateAxisArr.push('批次'+(i+1));
                 taskFinishRateArr.push(response.taskFinishRate[i].rate);
             }
-            // console.log(taskFinishRateArr)
-            // console.log(taskFinishRateArr.sort())
             db1P2Option.xAxis.type = 'value';
             db1P2Option.xAxis.axisLabel.formatter = function (value) {
                 return value + '%'
@@ -605,13 +602,17 @@ function setDataBoard1(params) {
                 url: board1Api.getMapProcessThisWeekRate,
                 dataType: "json",
                 success: function (response) {
+                    //测试假数据
+                    // response = {"code":200,"msg":"成功","data":[{"theDay":"2020-06-21","allCount":0,"finishCount":0,"rate":0.0000,"sumFinishAmount":0,"sumPlanAmount":0},{"theDay":"2020-06-22","allCount":5,"finishCount":5,"rate":100.0000,"sumFinishAmount":500,"sumPlanAmount":500},{"theDay":"2020-06-23","allCount":0,"finishCount":0,"rate":50,"sumFinishAmount":1200,"sumPlanAmount":0},{"theDay":"2020-06-24","allCount":5,"finishCount":5,"rate":88,"sumFinishAmount":708,"sumPlanAmount":753},{"theDay":"2020-06-25","allCount":1,"finishCount":1,"rate":89,"sumFinishAmount":1300,"sumPlanAmount":300},{"theDay":"2020-06-26","allCount":21,"finishCount":19,"rate":90.0000,"sumFinishAmount":1523,"sumPlanAmount":4300},{"theDay":"2020-06-27","allCount":3,"finishCount":3,"rate":99.0000,"sumFinishAmount":1050,"sumPlanAmount":1050}],"total":null}
                     var weekRateArr = [], axisWeekRateArr = [], axisWeekNumArr = [];
                     for (var i = 0; i < response.data.length; i++) {
+                        if(i==0) continue;
                         weekRateArr.push(response.data[i].rate)
                         // axisWeekRateArr.push(response.data[i].theDay)
                         axisWeekNumArr.push(response.data[i].sumFinishAmount)
                     }
-                    axisWeekRateArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+                    axisWeekRateArr = ['周一', '周二', '周三', '周四', '周五', '周六']
+                    // axisWeekRateArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
                     db1P1Option.series[0].data = weekRateArr;
                     db1P1Option.xAxis.data = axisWeekRateArr;
                     db1P1.setOption(db1P1Option);
@@ -625,8 +626,12 @@ function setDataBoard1(params) {
 
                     db1P3Option.yAxis.max = null;
                     db1P3Option.yAxis.min = null;
-
-
+                    db1P3Option.series[0].itemStyle.normal.label.formatter = function (prams) {
+                        if (prams.value == 0) {
+                            return ''
+                        }
+                        return prams.value;
+                    };
                     db1P2.setOption(db1P3Option);
                 }
             });
@@ -638,7 +643,6 @@ function setDataBoard1(params) {
                 url: board1Api.getMapProcessDayRate,
                 dataType: "json",
                 success: function (response) {
-                    ////console.log("cds==",response)
                     var mapProcessDayRate = response.data;
                     orderOption1.series[0].data = [{
                         name: '已完成',
@@ -681,7 +685,6 @@ function setDataBoard1(params) {
                 url: board1Api.pcbTaskBoard,
                 dataType: "json",
                 success: function (response) {
-                    // ////console.log("message===", response)
                     addHtml(response.data.pcbTasks, hsaClassOn);
                     setOption(response.data);
                 }
@@ -690,7 +693,6 @@ function setDataBoard1(params) {
             clearInterval(PROCESSInterval);
             //定时1分钟
             PCBInterval = setInterval(function () {
-                console.log(33333333333333)
                 $.ajax({
                     contentType: 'application/json',
                     type: 'get',
@@ -797,7 +799,6 @@ function setDataBoard1(params) {
             tbodyHtml += '</ul></div>';
         } else {
             var theadData = ['工序任务号', '规格型号', '物料名称', '工序', '生产批次', '生产时间', '完成时间', '计划量', '完成量', '工单状态']
-            ////console.log(data)
             var tbodyData = popData = data;
             // if (theadData.length > 0) {
             //     widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) + "px"

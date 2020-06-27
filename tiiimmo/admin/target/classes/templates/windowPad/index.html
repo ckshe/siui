@@ -575,7 +575,10 @@
                 width:80
             });
             var s= getQueryString('deviceCode');
-            qrcode.makeCode(s);
+            //测试二维码
+            var qrcodeStr = s+';DCY2.908.1362GS-RB;WORK018196'
+            qrcode.makeCode(qrcodeStr);
+            // qrcode.makeCode(s);
 
         });
         var systemTime = document.getElementById('systemTime');

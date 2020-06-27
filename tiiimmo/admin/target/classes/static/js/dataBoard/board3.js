@@ -23,12 +23,13 @@ function setDataBoard3(params) {
             success: function (response) {
                 var numArr1 = [], axisWeekRateArr = [], numArr2 = [];
                 for (var i = 0; i < response.data.length; i++) {
-                    axisWeekRateArr.push(response.data[i].theDay)
+                    if(i==0)continue;
+                    // axisWeekRateArr.push(response.data[i].theDay)
                     numArr1.push(response.data[i].sumFinishAmount)
                     numArr2.push(response.data[i].sumPlanAmount)
                 }
                 //console.log(numArr1, numArr2, axisWeekRateArr)
-                // axisWeekRateArr = ['周日','周一','周二','周三','周四','周五','周六']
+                axisWeekRateArr = ['周一','周二','周三','周四','周五','周六']
                 db3POption2.xAxis[0].data = axisWeekRateArr;
                 db3POption2.series[0].data = numArr2;
                 db3POption2.series[1].data = numArr1;
@@ -42,11 +43,16 @@ function setDataBoard3(params) {
             dataType: "json",
             success: function (response) {
                 var timeArr = [];
+                //测试假数据
+                // response = {"code":200,"msg":"成功","data":[{"theDay":"2020-06-21","runTime":100,"stopTime":null},{"theDay":"2020-06-22","runTime":140,"stopTime":null},{"theDay":"2020-06-23","runTime":150,"stopTime":null},{"theDay":"2020-06-24","runTime":160,"stopTime":null},{"theDay":"2020-06-25","runTime":152,"stopTime":null},{"theDay":"2020-06-26","runTime":177,"stopTime":null},{"theDay":"2020-06-27","runTime":188,"stopTime":null}],"total":null}
                 //console.log(response.data)
                 for (var i = 0; i < response.data.length; i++) {
+                    if(i==0)continue;
                     timeArr.push(response.data[i].runTime)
                 }
                 //console.log(timeArr)
+                var xAxisRunTimeAll =  ['周一', '周二', '周三', '周四', '周五', '周六']
+                db3POption3.xAxis.data = xAxisRunTimeAll;
                 db3POption3.series[0].data = timeArr;
                 db3P3.setOption(db3POption3);
             }
@@ -328,7 +334,8 @@ function setDevice(data, deviceName, device_code) {
         },
         xAxis: {
             type: 'category',
-            data: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+            data: [],
+            // data: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
             axisLabel: {
                 textStyle: {
                     show: true,
@@ -412,11 +419,14 @@ function setDevice(data, deviceName, device_code) {
 
     var brunTimeArr = [], noBrunTimeArr = [];
     for (var i = 0; i < data.length; i++) {
+        if(i==0)continue;
         brunTimeArr.push((data[i].runTime / 240).toFixed(2) * 100)
         noBrunTimeArr.push(100 - ((data[i].runTime / 240).toFixed(2)) * 100)
     }
     // db2POption2.yAxis.data = houhanTaskArr1.reverse();
     // pieOption3.legend.data = legendAxisArr
+    var pieOption3Axis =  ['周一', '周二', '周三', '周四', '周五', '周六'];
+    pieOption3.xAxis.data = pieOption3Axis;
     pieOption3.series[0].data = noBrunTimeArr;
     pieOption3.series[1].data = brunTimeArr;
     devicePie3.setOption(pieOption3);
@@ -827,7 +837,7 @@ var db3POption3 = {
                 fontSize: 20
             }
         },
-        data: ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+        data: []
     },
     yAxis: {
         name: '单位(min)',
@@ -852,7 +862,7 @@ var db3POption3 = {
 
     },
     series: [{
-        name: '工作时长',
+        name: '运行时长',
         type: 'bar',
         data: [117, 123, 22, 78, 98, 85, 60],
         itemStyle: {
@@ -868,6 +878,7 @@ var db3POption3 = {
                         return params.value
                     }
                 },
+                color: color.color1
             }
         }
     }]
