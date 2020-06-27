@@ -107,18 +107,27 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
     public ResultVo scanProductCode(PcbTaskReq req) {
 
         PcbTaskPositionRecordDetail detail = recordDetailRepositoty.findByPcb_task_codeAndProduct_code(req.getPcbTaskCode(),req.getProductCode());
+        Map<String,String> map = new HashMap<>();
         if(detail==null){
-            return ResultVoUtil.error("找不到该物料");
+            map.put("status","3");
+            map.put("msg","找不到该物料");
+            return ResultVoUtil.success(map);
         }
         if("1".equals(detail.getInstall_status())){
-            return ResultVoUtil.error("该物料已扫描");
+            map.put("status","1");
+            map.put("msg","该物料已扫描");
+            return ResultVoUtil.success(map);
         }
         if("2".equals(detail.getInstall_status())){
-            return ResultVoUtil.success("该元件已插入");
+            map.put("status","2");
+            map.put("msg","该物料已扫描");
+            return ResultVoUtil.success(map);
         }
         detail.setInstall_status("1");
         recordDetailRepositoty.save(detail);
-        return ResultVoUtil.success("扫描成功");
+        map.put("status","4");
+        map.put("msg","扫描成功");
+        return ResultVoUtil.success(map);
     }
 
     @Override

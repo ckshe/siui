@@ -65,7 +65,7 @@ public class Process implements Serializable {
     private String process_pre;
     //最后工序编号
     private Integer last_no;
-    //计数方式 0为平板计数1为机台计数
+    //计数方式 0为设备机台计数1为手持平板计数
     private Integer count_type;
 }
 

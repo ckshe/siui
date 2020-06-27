@@ -465,7 +465,11 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
         StringBuffer processTypeUseRateSql = new StringBuffer("\n" +
                 "SELECT SUM\n" +
-                "\t( t1.amount_completed * ISNULL( t2.theory_time, 0 ) ) sumTheoryTime,\n" +
+                "\t((CASE \n" +
+                "\tWHEN t1.process_name = '备料' THEN 1\n" +
+                "\tELSE t1.amount_completed\n" +
+                "END\n" +
+                ") * ISNULL( t2.theory_time, 0 ) ) sumTheoryTime,\n" +
                 "\tSUM ( ISNULL( t1.work_time, 0 ) ) workTime,\n" +
                 "\tt3.process_type \n" +
                 "FROM\n" +

@@ -59,7 +59,8 @@ public class ProcessTask {
     private BigDecimal work_time;
     //是否当前工单
     private String is_now_flag;
-
+    //上一次计数时间
+    private Date last_count_time;
 
 
 }

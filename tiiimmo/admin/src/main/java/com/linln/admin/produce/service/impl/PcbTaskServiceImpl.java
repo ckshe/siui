@@ -101,6 +101,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     @Autowired
     private ProcessTaskRealPlateSortRepository processTaskRealPlateSortRepository;
 
+    @Autowired
+    private ProcessTaskStatusHistoryRepository processTaskStatusHistoryRepository;
+
 
     /**
      * 根据ID查询数据
@@ -870,8 +873,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             /*if("1".equals(reCount)){
                 device.setRe_count("0");
             }*/
-            if(req.getAmount()==0){
+            if(!req.getReCounttimeStamp().equals(device.getReCounttimeStamp())){
                 device.setRe_count("0");
+                resp.setReCount("0");
+                device.setReCounttimeStamp(req.getReCounttimeStamp());
             }
             //记录设备启停状态
             device.setDevice_status(req.getStatus());
@@ -881,24 +886,26 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             if(processTask==null){
 
             }else {
-                ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(device.getDevice_code(),processTask.getProcess_task_code());
-                if(processTaskDevice!=null){
-                    processTaskDevice.setTd_status(req.getStatus());
-                    processTaskDevice.setAmount(req.getAmount()+processTaskDevice.getLast_amount());
-                    processTaskDevice.setTime_stamp(pcbTaskReq.getTimeStamp());
-                    processTaskDeviceRepository.save(processTaskDevice);
-                    String deviceCodes = processTask.getDevice_code();
-                    String  bigone = findDeviceBigIdCode(deviceCodes);
-                    if(bigone.equals(device.getDevice_code())){
-                        //工序最后机台数量计入工序任务
-                        processTask.setAmount_completed(processTaskDevice.getAmount());
-                        processTaskRepository.save(processTask);
+                Process process = processRepository.findByProcessName(processTask.getProcess_name());
+
+                if(process.getCount_type()==0){
+                    ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(device.getDevice_code(),processTask.getProcess_task_code());
+                    if(processTaskDevice!=null){
+                        processTaskDevice.setTd_status(req.getStatus());
+                        processTaskDevice.setAmount(req.getAmount()+processTaskDevice.getLast_amount());
+                        processTaskDevice.setTime_stamp(pcbTaskReq.getTimeStamp());
+                        processTaskDeviceRepository.save(processTaskDevice);
+                        String deviceCodes = processTask.getDevice_code();
+                        String  bigone = findDeviceBigIdCode(deviceCodes);
+                        if(bigone.equals(device.getDevice_code())){
+                            //工序最后机台数量计入工序任务
+                            processTask.setAmount_completed(processTaskDevice.getAmount());
+                            processTaskRepository.save(processTask);
+                        }
                     }
                 }
 
             }
-
-
             resp.setDeviceCode(req.getDeviceCode());
             list.add(resp);
         }
@@ -919,14 +926,14 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             Device device = deviceRepository.fingDeviceBySort(req.getDeviceCode());
             List<PcbTaskPositionRecordDetail> list = pcbTaskPositionRecordDetailRepositoty.findByDevice_code(device.getDevice_code());
             Map<String,String> map = new HashMap<>();
-            map.put("deviceCode",req.getDeviceCode());
-            map.put("positionSort","");
+//            map.put("deviceCode",req.getDeviceCode());
+//            map.put("positionSort","");
             if(list!=null&&list.size()!=0){
                 PcbTaskPositionRecordDetail detail = list.get(0);
                 map.put("deviceCode",req.getDeviceCode());
                 map.put("positionSort",detail.getPosition());
+                mapList.add(map);
             }
-            mapList.add(map);
         }
         Map<String,Object> map = new HashMap<>();
         map.put("result","200");
@@ -999,6 +1006,45 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         if("已完成".equals(processTask.getProcess_task_status())){
             return ResultVoUtil.error("该工序任务已完成");
         }
+        ProcessTaskStatusHistory history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(pcbTaskReq.getProcessTaskCode());
+        Date today = new Date();
+        if(history==null){
+            ProcessTaskStatusHistory newhistory = new ProcessTaskStatusHistory();
+            newhistory.setContinue_time(0);
+            newhistory.setStart_time(today);
+            newhistory.setDevice_code(processTask.getDevice_code());
+            newhistory.setDevice_name(processTask.getDevice_name());
+            newhistory.setProcess_task_code(processTask.getProcess_task_code());
+            newhistory.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
+            newhistory.setProcess_name(processTask.getProcess_name());
+            if("已完成".equals(pcbTaskReq.getProcessTaskStatus())){
+                newhistory.setEnd_time(today);
+            }
+            processTaskStatusHistoryRepository.save(newhistory);
+        }else {
+            //step2:状态相同则跳过
+            if(pcbTaskReq.getProcessTaskCode().equals(history.getProcess_task_code())){
+
+            }else {
+                //step3:状态不同结束上一条并计算持续时间，新增一条
+                history.setEnd_time(today);
+                Long cha = (today.getTime()-history.getStart_time().getTime())/1000;
+                history.setContinue_time(Integer.parseInt(cha+""));
+                processTaskStatusHistoryRepository.save(history);
+                //新增
+                ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
+                newRecord.setContinue_time(0);
+                newRecord.setStart_time(today);
+                newRecord.setDevice_code(processTask.getDevice_code());
+                newRecord.setDevice_name(processTask.getDevice_name());
+                newRecord.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
+                newRecord.setProcess_name(processTask.getProcess_name());
+                if("已完成".equals(pcbTaskReq.getProcessTaskStatus())){
+                    newRecord.setEnd_time(today);
+                }
+                processTaskStatusHistoryRepository.save(newRecord);
+            }
+        }
         processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
         User user = ShiroUtil.getSubject();
         if(!"备料".equals(processTask.getProcess_name())){
@@ -1036,7 +1082,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
                 String deviceCodes[] = processTask.getDevice_code().split(",");
                 for(int i = 0;i<deviceCodes.length;i++){
-                    List<ProcessTask> listByDevice_code = processTaskRepository.findProducingListByDevice_code(deviceCodes[i]);
+                    List<ProcessTask> listByDevice_code = processTaskRepository.findProducingListByDevice_code("%"+deviceCodes[i]+"%");
                     if(listByDevice_code!=null&&listByDevice_code.size()!=0){
                         return ResultVoUtil.error("欲启动的工序任务中该"+deviceCodes[i]+"机台有其他生产中的任务");
 
@@ -1103,11 +1149,33 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         if(processTask==null){
             return ResultVoUtil.error("该单号不存在");
         }
+        Process process = processRepository.findByProcessName(processTask.getProcess_name());
+        if(process.getCount_type()==0){
+            return ResultVoUtil.error("该工序任务不适用扫板计数");
+        }
         if("已完成".equals(processTask.getProcess_task_status())){
             return ResultVoUtil.error("该任务单已完成");
         }
         if("进行中".equals(processTask.getProcess_task_status())||"生产中".equals(processTask.getProcess_task_status())){
-            processTask.setAmount_completed(processTask.getAmount_completed()+1);
+            Integer nowfinish = processTask.getAmount_completed()+1;
+            processTask.setAmount_completed(nowfinish);
+            //当数量足够自动完成
+            if(nowfinish.equals(processTask.getPcb_quantity())){
+                Date finishTime = new Date();
+                processTask.setFinish_time(finishTime);
+                BigDecimal workTime = DateUtil.differTwoDate(finishTime,processTask.getStart_time());
+                processTask.setWork_time(workTime);
+                processTask.setProcess_task_status("已完成");
+                //重新计数
+                List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(processTask.getProcess_task_code());
+                for(ProcessTaskDevice de:prl){
+                    Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
+                    device.setRe_count("1");
+                    deviceRepository.save(device);
+                    de.setLast_amount(de.getAmount());
+                    processTaskDeviceRepository.save(de);
+                }
+            }
             processTaskRepository.save(processTask);
             PcbTaskPlateNo pcbTaskPlateNo = pcbTaskPlateNoRepository.findByPlate_no(pcbTaskReq.getPlateNo());
             if(pcbTaskPlateNo==null){
@@ -1117,9 +1185,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 return ResultVoUtil.error("该板编号已计数过！");
             }
             pcbTaskPlateNo.setIs_count("1");
-
             pcbTaskPlateNo.setUpdate_time(new Date());
             pcbTaskPlateNoRepository.save(pcbTaskPlateNo);
+
             return ResultVoUtil.success("计数成功");
         }
         return ResultVoUtil.error("该任务单未启动");
@@ -1263,8 +1331,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     @Override
     public ResultVo recordBadTypeList(PcbTaskReq req) {
         List<BadClassDetail> detailList = new ArrayList<>();
-        User user = ShiroUtil.getSubject();
         String userName = "";
+        User user = ShiroUtil.getSubject();
         if(user!=null){
             userName = user.getNickname();
         }

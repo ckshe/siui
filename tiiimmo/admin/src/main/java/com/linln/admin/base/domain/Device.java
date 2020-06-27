@@ -102,4 +102,6 @@ public class Device implements Serializable {
 
     //设备站位
     private Integer device_sort;
+    //上次清零时间
+    private String reCounttimeStamp;
 }
