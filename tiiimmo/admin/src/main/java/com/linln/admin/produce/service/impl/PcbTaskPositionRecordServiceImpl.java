@@ -120,12 +120,12 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
         }
         if("2".equals(detail.getInstall_status())){
             map.put("status","2");
-            map.put("msg","该物料已扫描");
+            map.put("msg","该物料已插入");
             return ResultVoUtil.success(map);
         }
         detail.setInstall_status("1");
         recordDetailRepositoty.save(detail);
-        map.put("status","4");
+        map.put("status","1");
         map.put("msg","扫描成功");
         return ResultVoUtil.success(map);
     }
