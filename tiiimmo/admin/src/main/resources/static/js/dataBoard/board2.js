@@ -778,11 +778,11 @@ function setCharts(data, percentage) {
 			'				<span class="col2">计划开始时间:<strong>' + data.plan_start_time + '</strong></span>' +
 			'				<span class="col2">计划结束时间:<strong>' + data.plan_finish_time + '</strong></span>' +
 			'				<span class="col2">工时:<strong>' + data.work_time + '</strong></span>' +
-			'				<span class="col2">pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
-			'				<span class="col2">PCB数量:<strong>' + data.pcb_quantity + '</strong></span>' +
+			'				<span class="col2">规格型号:<strong>' + data.pcb_code + '</strong></span>' +
+			'				<span class="col2">计划量:<strong>' + data.pcb_quantity + '</strong></span>' +
 			'				<span class="col2">RoHS标志:<strong>' + data.is_rohs + '</strong></span>' +
 			'				<span class="col1">工序订单编号:<strong>' + data.process_task_code + '</strong></span>' +
-			'				<span class="col1">PCB名称:<strong>' + data.pcb_name + '</strong></span>' +
+			'				<span class="col1">物料名称:<strong>' + data.pcb_name + '</strong></span>' +
 			'			</li>' +
 			'		</ul>' +
 			'	</div>' +

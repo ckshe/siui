@@ -23,13 +23,14 @@ function setDataBoard3(params) {
             success: function (response) {
                 var numArr1 = [], axisWeekRateArr = [], numArr2 = [];
                 for (var i = 0; i < response.data.length; i++) {
-                    if(i==0)continue;
+                    // if(i==0)continue;
                     // axisWeekRateArr.push(response.data[i].theDay)
                     numArr1.push(response.data[i].sumFinishAmount)
                     numArr2.push(response.data[i].sumPlanAmount)
                 }
                 //console.log(numArr1, numArr2, axisWeekRateArr)
-                axisWeekRateArr = ['周一','周二','周三','周四','周五','周六']
+                // axisWeekRateArr = ['周一','周二','周三','周四','周五','周六']
+                axisWeekRateArr = ['周日','周一','周二','周三','周四','周五','周六']
                 db3POption2.xAxis[0].data = axisWeekRateArr;
                 db3POption2.series[0].data = numArr2;
                 db3POption2.series[1].data = numArr1;
@@ -52,6 +53,7 @@ function setDataBoard3(params) {
                 }
                 //console.log(timeArr)
                 var xAxisRunTimeAll =  ['周一', '周二', '周三', '周四', '周五', '周六']
+                var xAxisRunTimeAll =  ['周日','周一', '周二', '周三', '周四', '周五', '周六']
                 db3POption3.xAxis.data = xAxisRunTimeAll;
                 db3POption3.series[0].data = timeArr;
                 db3P3.setOption(db3POption3);
@@ -419,13 +421,14 @@ function setDevice(data, deviceName, device_code) {
 
     var brunTimeArr = [], noBrunTimeArr = [];
     for (var i = 0; i < data.length; i++) {
-        if(i==0)continue;
+        // if(i==0)continue;
         brunTimeArr.push((data[i].runTime / 240).toFixed(2) * 100)
         noBrunTimeArr.push(100 - ((data[i].runTime / 240).toFixed(2)) * 100)
     }
     // db2POption2.yAxis.data = houhanTaskArr1.reverse();
     // pieOption3.legend.data = legendAxisArr
-    var pieOption3Axis =  ['周一', '周二', '周三', '周四', '周五', '周六'];
+    // var pieOption3Axis =  ['周一', '周二', '周三', '周四', '周五', '周六'];
+    var pieOption3Axis =  ['周日','周一', '周二', '周三', '周四', '周五', '周六'];
     pieOption3.xAxis.data = pieOption3Axis;
     pieOption3.series[0].data = noBrunTimeArr;
     pieOption3.series[1].data = brunTimeArr;
@@ -480,11 +483,11 @@ function addHtml(responseData, deviceresponse, n, user) {
             '				<span class="col2">计划开始时间:<strong>' + data.plan_start_time + '</strong></span>' +
             '				<span class="col2">计划结束时间:<strong>' + data.plan_finish_time + '</strong></span>' +
             '				<span class="col2">工时:<strong>' + data.work_time + '</strong></span>' +
-            '				<span class="col2">pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
-            '				<span class="col2">PCB数量:<strong>' + data.pcb_quantity + '</strong></span>' +
+            '				<span class="col2">计划量:<strong>' + data.pcb_quantity + '</strong></span>' +
+            '				<span class="col1">规格型号:<strong>' + data.pcb_code + '</strong></span>' +
             // '				<span class="col2">RoHS标志:<strong>' + data.is_rohs + '</strong></span>' +
             // '				<span class="col1">工序订单编号:<strong>' + data.process_task_code + '</strong></span>' +
-            '				<span class="col1">PCB名称:<strong>' + data.pcb_name + '</strong></span>' +
+            '				<span class="col1">物料名称:<strong>' + data.pcb_name + '</strong></span>' +
             '           </li>' +
             '       </ul>' +
             '   </div>';
@@ -537,7 +540,7 @@ function addHtml(responseData, deviceresponse, n, user) {
         // '				<span class="col2">设备站位:<strong>' + deviceresponse.device_sort + '</strong></span>' +
         '               <span class="col2">上次检测时间:<strong>' + deviceresponse.last_check_time + '</strong></span>' +
         '               <span class="col2">下次检测时间:<strong>' + deviceresponse.next_check_time + '</strong></span>' +
-        '				<span class="col2">设备名称:<strong>' + deviceresponse.device_name + '</strong></span>' +
+        '				<span class="col1">设备名称:<strong>' + deviceresponse.device_name + '</strong></span>' +
         '				<span class="col1">所属产线:<strong>' + deviceresponse.belong_line + '</strong></span>' +
         '           </li>' +
         '       </ul>' +
@@ -611,8 +614,8 @@ function addDataTaskHtml(data) {
             '               <span class="col3">排产任务号:<strong>' + data.beiliao.pcb_task_code + '</strong></span>' +
             '               <span class="col3">生产批次:<strong>' + data.beiliao.task_sheet_code + '</strong></span>' +
             '               <span class="col3">规格型号:<strong>' + data.beiliao.pcb_code + '</strong></span>' +
-            '               <span class="col3">计划生产数量:<strong>' + data.beiliao.pcb_quantity + '</strong></span>' +
-            '               <span class="col3">实际生产数量:<strong>' + data.beiliao.amount_completed + '</strong></span>' +
+            '               <span class="col3">计划量:<strong>' + data.beiliao.pcb_quantity + '</strong></span>' +
+            '               <span class="col3">完成量:<strong>' + data.beiliao.amount_completed + '</strong></span>' +
             '               <span class="col3">计划开始时间:<strong>' + data.beiliao.plan_start_time + '</strong></span>' +
             '               <span class="col3">计划结束时间:<strong>' + data.beiliao.plan_finish_time + '</strong></span>' +
             // '               <span class="col3">板编号:<strong>' + data.beiliao.pcb_quantity + '</strong></span>' +
@@ -626,8 +629,8 @@ function addDataTaskHtml(data) {
             '               <span class="col3">排产任务号:<strong>' + data.running.pcb_task_code + '</strong></span>' +
             '               <span class="col3">生产批次:<strong>' + data.running.task_sheet_code + '</strong></span>' +
             '               <span class="col3">规格型号:<strong>' + data.running.pcb_code + '</strong></span>' +
-            '               <span class="col3">计划生产数量:<strong>' + data.running.pcb_quantity + '</strong></span>' +
-            '               <span class="col3">实际生产数量:<strong>' + data.running.amount_completed + '</strong></span>' +
+            '               <span class="col3">计划量:<strong>' + data.running.pcb_quantity + '</strong></span>' +
+            '               <span class="col3">完成量:<strong>' + data.running.amount_completed + '</strong></span>' +
             '               <span class="col3">计划开始时间:<strong>' + data.running.plan_start_time + '</strong></span>' +
             '               <span class="col3">计划结束时间:<strong>' + data.running.plan_finish_time + '</strong></span>' +
             // '               <span class="col3">板编号:<strong>' + data.running.pcb_quantity + '</strong></span>' +
@@ -640,8 +643,8 @@ function addDataTaskHtml(data) {
             '               <span class="col3">排产任务号:<strong>' + data.waiting.pcb_task_code + '</strong></span>' +
             '               <span class="col3">生产批次:<strong>' + data.waiting.task_sheet_code + '</strong></span>' +
             '               <span class="col3">规格型号:<strong>' + data.waiting.pcb_code + '</strong></span>' +
-            '               <span class="col3">计划生产数量:<strong>' + data.waiting.pcb_quantity + '</strong></span>' +
-            '               <span class="col3">实际生产数量:<strong>' + data.waiting.amount_completed + '</strong></span>' +
+            '               <span class="col3">计划量:<strong>' + data.waiting.pcb_quantity + '</strong></span>' +
+            '               <span class="col3">完成量:<strong>' + data.waiting.amount_completed + '</strong></span>' +
             '               <span class="col3">计划开始时间:<strong>' + data.waiting.plan_start_time + '</strong></span>' +
             '               <span class="col3">计划结束时间:<strong>' + data.waiting.plan_finish_time + '</strong></span>' +
             // '               <span class="col3">板编号:<strong>' + data.waiting.pcb_quantity + '</strong></span>' +
@@ -681,9 +684,9 @@ function addDataTaskHtml(data) {
     //             '               <span class="col3">完成数量:<strong>' + data[i].amount_completed + '</strong></span>' +
     //             '               <span class="col3">计划开始时间:<strong>' + data[i].plan_start_time + '</strong></span>' +
     //             '               <span class="col3">计划结束时间:<strong>' + data[i].plan_finish_time + '</strong></span>' +
-    //             '               <span class="col3">pcb编码:<strong>' + data[i].pcb_code + '</strong></span>' +
-    //             '               <span class="col3">PCB数量:<strong>' + data[i].pcb_quantity + '</strong></span>' +
-    //             '               <span class="col2">PCB名称:<strong>' + data[i].pcb_name + '</strong></span>' +
+    //             '               <span class="col3">规格型号:<strong>' + data[i].pcb_code + '</strong></span>' +
+    //             '               <span class="col3">计划量:<strong>' + data[i].pcb_quantity + '</strong></span>' +
+    //             '               <span class="col2">物料名称:<strong>' + data[i].pcb_name + '</strong></span>' +
     //             '           </li>';
     //         }
     //     }

@@ -264,11 +264,11 @@ function addData4Html(data) {
 		'				<span class="col2">计划开始时间:<strong>' + data.plan_start_time + '</strong></span>' +
 		'				<span class="col2">计划结束时间:<strong>' + data.plan_finish_time + '</strong></span>' +
 		'				<span class="col2">工时:<strong>' + data.work_time + '</strong></span>' +
-		'				<span class="col2">pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
-		'				<span class="col2">PCB数量:<strong>' + data.pcb_quantity + '</strong></span>' +
+		'				<span class="col2">规格型号:<strong>' + data.pcb_code + '</strong></span>' +
+		'				<span class="col2">计划量:<strong>' + data.pcb_quantity + '</strong></span>' +
 		'				<span class="col2">RoHS标志:<strong>' + data.is_rohs + '</strong></span>' +
 		'				<span class="col1">工序订单编号:<strong>' + data.process_task_code + '</strong></span>' +
-		'				<span class="col1">PCB名称:<strong>' + data.pcb_name + '</strong></span>' +
+		'				<span class="col1">物料名称:<strong>' + data.pcb_name + '</strong></span>' +
 		'			</li>' +
 		'       </ul>' +
 		'   </div>' +
@@ -306,7 +306,8 @@ function setDataBoard4(params) {
 			success: function (response) {
 				var kRateArr = [], useRateArr = [], axiskRateArr = [],axiskuseRateArr = [];
 				console.log("aaa=====",response.data)
-				response = {"code":200,"msg":"成功","data":[{"processType":"调试","rate":95,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1800,"useRate":100},{"processType":"后焊","rate":89,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1200,"useRate":88},{"processType":"入库","rate":92,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1800,"useRate":89},{"processType":"贴片","rate":100.0000,"processTypeStaffOnTimeCount":1,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":3200,"useRate":92},{"processType":"质检","rate":96.0000,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1200,"useRate":89}],"total":null}
+				//测试假数据
+				// response = {"code":200,"msg":"成功","data":[{"processType":"调试","rate":95,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1800,"useRate":100},{"processType":"后焊","rate":89,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1200,"useRate":88},{"processType":"入库","rate":92,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1800,"useRate":89},{"processType":"贴片","rate":100.0000,"processTypeStaffOnTimeCount":1,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":3200,"useRate":92},{"processType":"质检","rate":96.0000,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1200,"useRate":89}],"total":null}
 				for (var i = 0; i < response.data.length; i++) {
 					kRateArr.push(response.data[i].rate);
 					axiskRateArr.push(response.data[i].processType);

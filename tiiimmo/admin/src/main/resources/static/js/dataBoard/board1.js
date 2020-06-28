@@ -606,13 +606,13 @@ function setDataBoard1(params) {
                     // response = {"code":200,"msg":"成功","data":[{"theDay":"2020-06-21","allCount":0,"finishCount":0,"rate":0.0000,"sumFinishAmount":0,"sumPlanAmount":0},{"theDay":"2020-06-22","allCount":5,"finishCount":5,"rate":100.0000,"sumFinishAmount":500,"sumPlanAmount":500},{"theDay":"2020-06-23","allCount":0,"finishCount":0,"rate":50,"sumFinishAmount":1200,"sumPlanAmount":0},{"theDay":"2020-06-24","allCount":5,"finishCount":5,"rate":88,"sumFinishAmount":708,"sumPlanAmount":753},{"theDay":"2020-06-25","allCount":1,"finishCount":1,"rate":89,"sumFinishAmount":1300,"sumPlanAmount":300},{"theDay":"2020-06-26","allCount":21,"finishCount":19,"rate":90.0000,"sumFinishAmount":1523,"sumPlanAmount":4300},{"theDay":"2020-06-27","allCount":3,"finishCount":3,"rate":99.0000,"sumFinishAmount":1050,"sumPlanAmount":1050}],"total":null}
                     var weekRateArr = [], axisWeekRateArr = [], axisWeekNumArr = [];
                     for (var i = 0; i < response.data.length; i++) {
-                        if(i==0) continue;
+                        // if(i==0) continue;
                         weekRateArr.push(response.data[i].rate)
                         // axisWeekRateArr.push(response.data[i].theDay)
                         axisWeekNumArr.push(response.data[i].sumFinishAmount)
                     }
-                    axisWeekRateArr = ['周一', '周二', '周三', '周四', '周五', '周六']
-                    // axisWeekRateArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+                    // axisWeekRateArr = ['周一', '周二', '周三', '周四', '周五', '周六']
+                    axisWeekRateArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
                     db1P1Option.series[0].data = weekRateArr;
                     db1P1Option.xAxis.data = axisWeekRateArr;
                     db1P1.setOption(db1P1Option);
@@ -985,8 +985,8 @@ function setDataBoard1(params) {
             '               <span>工序任务号:<strong>' + data.process_task_code + '</strong></span>' +
             '               <span>制造编号:<strong>' + data.task_sheet_code + '</strong></span>' +
             '               <span>工序状态:<strong>' + data.process_task_status + '</strong></span>' +
-            '               <span>计划生产数量:<strong>' + data.pcb_quantity + '</strong></span>' +
-            '               <span>实际生产数量:<strong>' + data.amount_completed + '</strong></span>' +
+            '               <span>计划量:<strong>' + data.pcb_quantity + '</strong></span>' +
+            '               <span>完成量:<strong>' + data.amount_completed + '</strong></span>' +
             // '               <span>设备编号:<strong>' + data.device_code + '</strong></span>' +
             // '               <span>SMT生产线:<strong>' + data.device_name + '</strong></span>' +
             '               <span>工时(分):<strong>' + data.work_time + '</strong></span>' +
@@ -996,7 +996,7 @@ function setDataBoard1(params) {
             '               <span>实际生产时间:<strong>' + data.start_time + '</strong></span>' +
             '               <span>实际完成时间:<strong>' + data.finish_time + '</strong></span>' +
             '               <span>RoHS:<strong>' + data.is_rohs + '</strong></span>' +
-            '               <span>pcb编码:<strong>' + data.pcb_code + '</strong></span>' +
+            '               <span>规格型号:<strong>' + data.pcb_code + '</strong></span>' +
             '               <span class="col2">物料名称:<strong>' + data.pcb_name + '</strong></span>' +
             '           </li>' +
             '       </ul>' +
