@@ -56,6 +56,14 @@ function setDataBoard3(params) {
                 var xAxisRunTimeAll =  ['周日','周一', '周二', '周三', '周四', '周五', '周六']
                 db3POption3.xAxis.data = xAxisRunTimeAll;
                 db3POption3.series[0].data = timeArr;
+                if(timeArr.length>0){
+                    for(var i=0;i<timeArr.length;i++){
+                        if(timeArr[i]<100) continue;
+                        db1P3Option.yAxis.max = null;
+                        db1P3Option.yAxis.min = null;
+                        break;
+                    }
+                }
                 db3P3.setOption(db3POption3);
             }
         });
@@ -861,8 +869,9 @@ var db3POption3 = {
             fontSize: 16,
             padding: 10
         },
-        minInterval: 1
-
+        // minInterval: 1
+        min: 0,
+        max: 100
     },
     series: [{
         name: '运行时长',

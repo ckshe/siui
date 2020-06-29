@@ -128,11 +128,11 @@ $(function(){
 });
 var color = {
 	color1:function (params){
-		var colorList = ['#1890ff','#13c2c2','#52c41a','#fa8c16','#722ed1','#f5222d','#eb2f96'];
+		var colorList = ['#1890ff','#13c2c2','#52c41a','#fa8c16','#7e5efb','#0e4d9c','#037556'];
 		return colorList[params.dataIndex];
 	},
 	color2:function (params){
-		var colorList = ['#874d00','#3f6600','#00474f','#061178','#22075e','#780650','#820014'];
+		var colorList = ['#874d00','#3f6600','#00474f','#061178','#7e5efb','#0e4d9c','#037556'];
 		return colorList[params.dataIndex];
 	}
 

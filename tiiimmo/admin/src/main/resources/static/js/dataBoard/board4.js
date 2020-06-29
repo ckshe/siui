@@ -307,7 +307,13 @@ function setDataBoard4(params) {
 				var kRateArr = [], useRateArr = [], axiskRateArr = [],axiskuseRateArr = [];
 				console.log("aaa=====",response.data)
 				//测试假数据
-				// response = {"code":200,"msg":"成功","data":[{"processType":"调试","rate":95,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1800,"useRate":100},{"processType":"后焊","rate":89,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1200,"useRate":88},{"processType":"入库","rate":92,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1800,"useRate":89},{"processType":"贴片","rate":100.0000,"processTypeStaffOnTimeCount":1,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":3200,"useRate":92},{"processType":"质检","rate":96.0000,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1200,"useRate":89}],"total":null}
+				// response = {"code":200,"msg":"成功","data":[
+				// 	{"processType":"调试","rate":152,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1800,"useRate":2360},
+				// 	{"processType":"后焊","rate":520,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1200,"useRate":0},
+				// 	{"processType":"入库","rate":0,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1800,"useRate":0},
+				// 	{"processType":"贴片","rate":0,"processTypeStaffOnTimeCount":1,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":3200,"useRate":0},
+				// 	{"processType":"质检","rate":0,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1200,"useRate":0}],
+				// 	"total":null}
 				for (var i = 0; i < response.data.length; i++) {
 					kRateArr.push(response.data[i].rate);
 					axiskRateArr.push(response.data[i].processType);
@@ -321,10 +327,26 @@ function setDataBoard4(params) {
 				console.log(kRateArr,useRateArr,axiskRateArr,axiskuseRateArr)
 				db4POption1.series[0].data = kRateArr;
 				db4POption1.xAxis.data = axiskRateArr;
+				if(kRateArr.length>0){
+					for(var i=0;i<kRateArr.length;i++){
+						if(kRateArr[i]<100) continue;
+						db4POption1.yAxis.max = null
+						db4POption1.yAxis.max = null
+						break;
+					}
+				}
 				db4P1.setOption(db4POption1);
 				
 				db4POption2.series[0].data = useRateArr;
 				db4POption2.xAxis.data = axiskuseRateArr;
+				if(useRateArr.length>0){
+					for(var i=0;i<useRateArr.length;i++){
+						if(useRateArr[i]<100) continue;
+						db4POption2.yAxis.max = null
+						db4POption2.yAxis.max = null
+						break;
+					}
+				}
 				db4P2.setOption(db4POption2);
 
 			}

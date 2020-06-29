@@ -233,9 +233,9 @@ var db1P3Option = {
             fontSize: 16,
             padding: 10
         },
-        minInterval: 10
-        // min: 0,
-        // max: 100
+        // minInterval: 10
+        min: 0,
+        max: 100
         // // data: ['TCL-01-09', 'TCL-01-12', 'TCL-01-13'],
     },
     series: [
@@ -603,7 +603,15 @@ function setDataBoard1(params) {
                 dataType: "json",
                 success: function (response) {
                     //测试假数据
-                    // response = {"code":200,"msg":"成功","data":[{"theDay":"2020-06-21","allCount":0,"finishCount":0,"rate":0.0000,"sumFinishAmount":0,"sumPlanAmount":0},{"theDay":"2020-06-22","allCount":5,"finishCount":5,"rate":100.0000,"sumFinishAmount":500,"sumPlanAmount":500},{"theDay":"2020-06-23","allCount":0,"finishCount":0,"rate":50,"sumFinishAmount":1200,"sumPlanAmount":0},{"theDay":"2020-06-24","allCount":5,"finishCount":5,"rate":88,"sumFinishAmount":708,"sumPlanAmount":753},{"theDay":"2020-06-25","allCount":1,"finishCount":1,"rate":89,"sumFinishAmount":1300,"sumPlanAmount":300},{"theDay":"2020-06-26","allCount":21,"finishCount":19,"rate":90.0000,"sumFinishAmount":1523,"sumPlanAmount":4300},{"theDay":"2020-06-27","allCount":3,"finishCount":3,"rate":99.0000,"sumFinishAmount":1050,"sumPlanAmount":1050}],"total":null}
+                    // response = {"code":200,"msg":"成功","data":[
+                    //     {"theDay":"2020-06-21","allCount":0,"finishCount":0,"rate":10.0000,"sumFinishAmount":10,"sumPlanAmount":200},
+                    // {"theDay":"2020-06-22","allCount":5,"finishCount":5,"rate":100.0000,"sumFinishAmount":256,"sumPlanAmount":500},
+                    // {"theDay":"2020-06-23","allCount":0,"finishCount":0,"rate":50,"sumFinishAmount":0,"sumPlanAmount":0},
+                    // {"theDay":"2020-06-24","allCount":5,"finishCount":5,"rate":88,"sumFinishAmount":0,"sumPlanAmount":753},
+                    // {"theDay":"2020-06-25","allCount":1,"finishCount":1,"rate":89,"sumFinishAmount":0,"sumPlanAmount":300},
+                    // {"theDay":"2020-06-26","allCount":21,"finishCount":19,"rate":90.0000,"sumFinishAmount":0,"sumPlanAmount":4300},
+                    // {"theDay":"2020-06-27","allCount":3,"finishCount":3,"rate":99.0000,"sumFinishAmount":0,"sumPlanAmount":1050}],
+                    // "total":null}
                     var weekRateArr = [], axisWeekRateArr = [], axisWeekNumArr = [];
                     for (var i = 0; i < response.data.length; i++) {
                         // if(i==0) continue;
@@ -624,14 +632,20 @@ function setDataBoard1(params) {
                     //     return value
                     // }
 
-                    db1P3Option.yAxis.max = null;
-                    db1P3Option.yAxis.min = null;
                     db1P3Option.series[0].itemStyle.normal.label.formatter = function (prams) {
                         if (prams.value == 0) {
                             return ''
                         }
                         return prams.value;
                     };
+                    if(axisWeekNumArr.length>0){
+                        for(var i=0;i<axisWeekNumArr.length;i++){
+                            if(axisWeekNumArr[i]<100) continue;
+                            db1P3Option.yAxis.max = null;
+                            db1P3Option.yAxis.min = null;
+                            break;
+                        }
+                    }
                     db1P2.setOption(db1P3Option);
                 }
             });
