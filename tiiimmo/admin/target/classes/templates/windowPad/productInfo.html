@@ -60,7 +60,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">实际生产数量:</label>
                     <div class="layui-input-inline">
-                        <input type="number" disabled name="amount_completed"  autocomplete="off" class="layui-input">
+                        <input id="scs" type="number" disabled name="amount_completed"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -124,10 +124,12 @@
         }
     }
     window.onload = function () {
-        layui.use(['jquery', 'form','table'], function () {
+        layui.use(['jquery', 'form','table','layer'], function () {
             var $ = layui.jquery,
                 table = layui.table,
+                layer = layui.layer,
                 form = layui.form;
+            layer.load(1)
             //展示已知数据
             table.render({
                 elem: '#table'
@@ -143,6 +145,7 @@
                     deviceCode:getQueryString2('deviceCode'),
                 }
                 ,parseData: function(res){
+                    layer.closeAll()
                     res.data.some(function (t,i) {
                         if(t.is_now_flag==1){
                             t.plan_start_time = timeToDate(t.plan_start_time);
@@ -188,7 +191,8 @@
                 ]
             });
 
-            table.on('tool(table)',function (obj) {0
+
+            table.on('tool(table)',function (obj) {
                 var data = obj.data;
                 switch (obj.event) {
                     case 'set':
@@ -223,7 +227,27 @@
                         break;
                 }
             })
-
+            setInterval(function () {
+                if(parseInt( new Date().getTime()/1000 )%15===14){
+                    $.ajax({
+                        url:"/produce/pcbTask/findProcessTaskByDevice",
+                        type:'post',
+                        dataType : "json",
+                        data : JSON.stringify({
+                            deviceCode:getQueryString('deviceCode')
+                        }),
+                        contentType : "application/json;charset=UTF-8",
+                        success: function (res) {
+                            res.data.some(function (t,i) {
+                                if(t.is_now_flag==1){
+                                    document.getElementById('scs').innerHTML=t.amount_completed;
+                                    return true
+                                }
+                            });
+                        }
+                    })
+                }
+            },1000);
         });
 
     };

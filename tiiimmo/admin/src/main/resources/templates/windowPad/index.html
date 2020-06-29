@@ -237,6 +237,17 @@
                             if(t.is_now_flag==1){
                                 nowGonDan=t;
                                 $('#scs').html(t.amount_completed);
+                                $('#qrcode').html("")
+
+                                //二维码生产
+                                var qrcode = new QRCode("qrcode",{
+                                    height:80,
+                                    width:80
+                                });
+                                //测试二维码
+                                var qrcodeStr = getQueryString('deviceCode')+';'+t.pcb_code+';'+t.process_task_code+'';
+                                console.log(qrcodeStr)
+                                qrcode.makeCode(qrcodeStr);
                                 return true
                             }
                         });
@@ -606,32 +617,57 @@
                 height:80,
                 width:80
             });
-            var s= getQueryString('deviceCode');
-            //测试二维码
-            var qrcodeStr = s+';DCY2.908.1362GS-RB;WORK018196';
-            qrcode.makeCode(qrcodeStr);
-            // qrcode.makeCode(s);
 
-        });
-        var systemTime = document.getElementById('systemTime');
-        var workTime = document.getElementById('workTime');
-        var upTime = document.getElementById('upTime');
-        systemTime.innerHTML=timeToDate(new Date());
-
-        setInterval(function () {
+            var systemTime = document.getElementById('systemTime');
+            var workTime = document.getElementById('workTime');
+            var upTime = document.getElementById('upTime');
             systemTime.innerHTML=timeToDate(new Date());
-            if(localStorage.getItem('padUserData')){
-                var data = JSON.parse(localStorage.getItem('padUserData'));
-                upTime.innerHTML=data.loginTime;
-                var nn =diffTime(data.loginTime,timeToDate(new Date()));
-                if(diffTime(data.loginTime,timeToDate(new Date()))==''){
-                    nn=0
+            setInterval(function () {
+                systemTime.innerHTML=timeToDate(new Date());
+                if(localStorage.getItem('padUserData')){
+                    var data = JSON.parse(localStorage.getItem('padUserData'));
+                    upTime.innerHTML=data.loginTime;
+                    var nn =diffTime(data.loginTime,timeToDate(new Date()));
+                    if(diffTime(data.loginTime,timeToDate(new Date()))==''){
+                        nn=0
+                    }
+                    workTime.innerHTML = nn
                 }
-                workTime.innerHTML = nn
-            }
-        },1000)
-    //    暂停工单
+                //更新生产数
+                if(parseInt( new Date().getTime()/1000 )%15===14){
+                    $.ajax({
+                        url:"/produce/pcbTask/findProcessTaskByDevice",
+                        type:'post',
+                        dataType : "json",
+                        data : JSON.stringify({
+                            deviceCode:getQueryString('deviceCode')
+                        }),
+                        contentType : "application/json;charset=UTF-8",
+                        success: function (res) {
+                            res.data.some(function (t,i) {
+                                if(t.is_now_flag==1){
+                                    document.getElementById('scs').innerHTML=t.amount_completed;
+                                    $('#qrcode').html("")
 
+                                    //二维码生产
+                                    var qrcode = new QRCode("qrcode",{
+                                        height:80,
+                                        width:80
+                                    });
+                                    //测试二维码
+                                    var qrcodeStr = getQueryString('deviceCode')+';'+t.pcb_code+';'+t.process_task_code+'';
+                                    qrcode.makeCode(qrcodeStr);
+
+                                    return true
+                                }
+                            });
+                        }
+                    })
+
+
+                }
+            },1000)
+        });
 
     };
 
