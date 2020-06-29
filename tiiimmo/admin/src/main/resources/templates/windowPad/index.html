@@ -236,7 +236,26 @@
                         res.data.some(function (t,i) {
                             if(t.is_now_flag==1){
                                 nowGonDan=t;
-                                $('#scs').html(t.amount_completed);
+                                $.ajax({
+                                    url:'/produce/pcbTask/deviceAmountAndworkTime',
+                                    type:'post',
+                                    dataType : "json",
+                                    data : JSON.stringify({
+                                        deviceCode:getQueryString('deviceCode'),
+                                        processTaskCode:t.process_task_code
+                                    }),
+                                    contentType : "application/json;charset=UTF-8",
+                                    success: function (res6) {
+
+                                        if(res6.code===200){
+                                            document.getElementById('scs').innerHTML=res6.data.amount;
+                                            document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.amount*1000);
+
+                                        }else{
+                                            layer.alert(res6.msg,{icon:5})
+                                        }
+                                    }})
+
                                 $('#qrcode').html("")
 
                                 //二维码生产
@@ -650,7 +669,6 @@
                         success: function (res) {
                             res.data.some(function (t,i) {
                                 if(t.is_now_flag==1){
-                                    document.getElementById('scs').innerHTML=t.amount_completed;
                                     $('#qrcode').html("");
 
                                     //二维码生产
@@ -661,6 +679,30 @@
                                     //测试二维码
                                     var qrcodeStr = getQueryString('deviceCode')+';'+t.pcb_code+';'+t.process_task_code+'';
                                     qrcode.makeCode(qrcodeStr);
+
+                                    $.ajax({
+                                        url:'/produce/pcbTask/deviceAmountAndworkTime',
+                                        type:'post',
+                                        dataType : "json",
+                                        data : JSON.stringify({
+                                            deviceCode:getQueryString('deviceCode'),
+                                            processTaskCode:t.process_task_code
+                                        }),
+                                        contentType : "application/json;charset=UTF-8",
+                                        success: function (res6) {
+
+                                            if(res6.code===200){
+                                                document.getElementById('scs').innerHTML=res6.data.amount;
+                                                document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.amount*1000);
+
+                                            }else{
+                                                layer.alert(res6.msg,{icon:5})
+                                            }
+                                        }})
+
+
+
+
 
                                     return true
                                 }

@@ -30,6 +30,13 @@ function timeToDate(timestamp,bool){ //bool为true不展示时分秒
         return Y+M+D+h+m+s;
     }
 }
+function cacWorkTime(timestamp){
+    timestamp = timestamp/1000;
+    var h = Math.floor(timestamp/3600);
+    var m = Math.floor((timestamp%3600)/60);
+    var s = (timestamp%60);
+    return h+":"+m+":"+s;
+}
 //ajax
 var http = {
     get: function(url,fn){
