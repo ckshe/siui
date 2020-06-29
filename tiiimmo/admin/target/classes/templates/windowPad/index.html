@@ -246,7 +246,6 @@
                                 });
                                 //测试二维码
                                 var qrcodeStr = getQueryString('deviceCode')+';'+t.pcb_code+';'+t.process_task_code+'';
-                                console.log(qrcodeStr)
                                 qrcode.makeCode(qrcodeStr);
                                 return true
                             }
@@ -401,75 +400,85 @@
             });
             //切单
             $('#qie').on('click',function () {
-                if(isLogin()){
+                a=function (data) {
+                    layer.load(1,{
+                        content: '切单中...',
+                        success: function (layero) {
+                            layero.find('.layui-layer-content').css({
+                                'padding-top': '39px',
+                                'width': '60px'
+                            });
+                        }
+                    });
+
                     $.ajax({
-                        url:"/produce/pcbTask/findProcessTaskByDevice",
-                        type:'post',
+                        url: '/produce/pcbTask/modifyProcessTaskStatus',
+                        type: "post",
                         dataType : "json",
                         data : JSON.stringify({
+                            processTaskId:data.id,
+                            processTaskStatus:"进行中",
                             deviceCode:getQueryString('deviceCode')
                         }),
                         contentType : "application/json;charset=UTF-8",
                         success: function (res) {
                             layer.closeAll();
-                            res.data.some(function (t,i) {
-                                if(t.is_now_flag==1){
-                                    nowGonDan=t;
-                                    if(t.process_task_status=="暂停"){
-                                        layer.open({
-                                            type:2,
-                                            area:["80%","80%"],
-                                            title:'请选择切换工序',
-                                            content:'/gonxvTable?deviceCode='+getQueryString('deviceCode')
-                                        });
-                                    }else{
-                                        layer.alert('暂停或结束才可切换工单',{icon:5})
-                                    }
-                                    return true
-                                }
-                            });
+                            if(res.code === 200){
+                                layer.msg(res.msg,{icon:1});
+                                nowGonDan=data;
+                                setTimeout(function () {
+                                    window.location.reload();
+                                },1000);
+
+                            }else{
+                                layer.alert(res.msg,{icon:5})
+                            }
                         }
                     })
 
-                    a=function (data) {
-                        layer.load(1,{
-                            content: '切单中...',
-                            success: function (layero) {
-                                layero.find('.layui-layer-content').css({
-                                    'padding-top': '39px',
-                                    'width': '60px'
-                                });
-                            }
-                        });
 
+                }
+                if(isLogin()){
                         $.ajax({
-                            url: '/produce/pcbTask/modifyProcessTaskStatus',
-                            type: "post",
+                            url:"/produce/pcbTask/findProcessTaskByDevice",
+                            type:'post',
                             dataType : "json",
                             data : JSON.stringify({
-                                processTaskId:data.id,
-                                processTaskStatus:"进行中",
                                 deviceCode:getQueryString('deviceCode')
                             }),
                             contentType : "application/json;charset=UTF-8",
                             success: function (res) {
                                 layer.closeAll();
-                                if(res.code === 200){
-                                    layer.msg(res.msg,{icon:1});
-                                    nowGonDan=data;
-                                    setTimeout(function () {
-                                        window.location.reload();
-                                    },1000);
-
-                                }else{
-                                    layer.alert(res.msg,{icon:5})
+                                var has=0
+                                res.data.some(function (t,i) {
+                                    if(t.is_now_flag==1){
+                                        has=1
+                                        nowGonDan=t;
+                                        if(t.process_task_status=="暂停"){
+                                            layer.open({
+                                                type:2,
+                                                area:["80%","80%"],
+                                                title:'请选择切换工序',
+                                                content:'/gonxvTable?deviceCode='+getQueryString('deviceCode')
+                                            });
+                                        }else{
+                                            layer.alert('暂停或结束才可切换工单',{icon:5})
+                                        }
+                                        return true
+                                    }
+                                });
+                                if(has===0){
+                                    layer.open({
+                                        type:2,
+                                        area:["80%","80%"],
+                                        title:'请选择切换工序',
+                                        content:'/gonxvTable?deviceCode='+getQueryString('deviceCode')
+                                    });
                                 }
+
                             }
                         })
-
-
                     }
-                }
             });
             //暂停工单
             $('#stop').on('click',function () {
@@ -611,12 +620,7 @@
                     })
                 }
             });
-            // createBarcode('qrcode','ACG-G1234X','B')
-            //二维码生产
-            var qrcode = new QRCode("qrcode",{
-                height:80,
-                width:80
-            });
+
 
             var systemTime = document.getElementById('systemTime');
             var workTime = document.getElementById('workTime');
