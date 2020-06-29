@@ -488,7 +488,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "FROM\n" +
                 "\tproduce_process_task t1\n" +
                 "\tLEFT JOIN produce_process_theory_time t2 ON t1.process_name = t2.process_name \n" +
-                "\tAND t1.pcb_name = t2.product_name\n" +
+                "\tAND t1.pcb_code = t2.pcb_code\n" +
                 "\tLEFT JOIN base_process t3 ON t1.process_name = t3.name \n" +
                 "WHERE\n" +
                 "\tt1.plan_finish_time >= '" +

@@ -41,8 +41,6 @@ public class ProcesssTaskWorkTimeTimer {
             p.setWork_time(new BigDecimal(workTime));
             processTaskRepository.save(p);
         }
-
-
         System.out.println("-------定时工时计算结束------------");
     }
 }

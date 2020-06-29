@@ -1072,8 +1072,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 if(one!=null){
                 }else {
                     UserDeviceHistory tow = userDeviceHistoryRepository.findOnlyUpTimeRecord(pcbTaskReq.getDeviceCode());
-                    tow.setProcess_task_code(processTask.getProcess_task_code());
-                    userDeviceHistoryRepository.save(tow);
+                    if(tow!=null){
+                        tow.setProcess_task_code(processTask.getProcess_task_code());
+                        userDeviceHistoryRepository.save(tow);
+                    }
                 }
                /* ProcessTaskDevice now = processTaskDeviceRepository.findByPTCodeDeviceCode(pcbTaskReq.getDeviceCode(),processTask.getProcess_task_code());
 

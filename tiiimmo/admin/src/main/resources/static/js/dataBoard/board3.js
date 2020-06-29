@@ -430,8 +430,8 @@ function setDevice(data, deviceName, device_code) {
     var brunTimeArr = [], noBrunTimeArr = [];
     for (var i = 0; i < data.length; i++) {
         // if(i==0)continue;
-        brunTimeArr.push((data[i].runTime / 240).toFixed(2) * 100)
-        noBrunTimeArr.push(100 - ((data[i].runTime / 240).toFixed(2)) * 100)
+        brunTimeArr.push((data[i].runTime / (24*60)).toFixed(2) * 100)
+        noBrunTimeArr.push(100 - ((data[i].runTime / (24*60)).toFixed(2)) * 100)
     }
     // db2POption2.yAxis.data = houhanTaskArr1.reverse();
     // pieOption3.legend.data = legendAxisArr

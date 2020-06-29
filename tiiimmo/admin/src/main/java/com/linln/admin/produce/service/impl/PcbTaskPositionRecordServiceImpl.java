@@ -56,7 +56,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
         }
         List<DeviceProductElement> elementList = deviceProductElementRepository.findByDevice_code(req.getDeviceCode(),req.getPcbId(),a_or_b);
         PcbTaskPositionRecord record = new PcbTaskPositionRecord();
-        record.setPcb_task_code(req.getPcbTaskCode());
+        record.setPcb_task_code(processTask.getPcb_task_code());
         record.setDevice_code(req.getDeviceCode());
         record.setProcess_task_code(req.getProcessTaskCode());
         record.setRecord_status("0");
