@@ -48,19 +48,19 @@ function setDataBoard3(params) {
                 // response = {"code":200,"msg":"成功","data":[{"theDay":"2020-06-21","runTime":100,"stopTime":null},{"theDay":"2020-06-22","runTime":140,"stopTime":null},{"theDay":"2020-06-23","runTime":150,"stopTime":null},{"theDay":"2020-06-24","runTime":160,"stopTime":null},{"theDay":"2020-06-25","runTime":152,"stopTime":null},{"theDay":"2020-06-26","runTime":177,"stopTime":null},{"theDay":"2020-06-27","runTime":188,"stopTime":null}],"total":null}
                 //console.log(response.data)
                 for (var i = 0; i < response.data.length; i++) {
-                    if(i==0)continue;
+                    // if(i==0)continue;
                     timeArr.push(response.data[i].runTime)
                 }
                 //console.log(timeArr)
-                var xAxisRunTimeAll =  ['周一', '周二', '周三', '周四', '周五', '周六']
+                // var xAxisRunTimeAll =  ['周一', '周二', '周三', '周四', '周五', '周六']
                 var xAxisRunTimeAll =  ['周日','周一', '周二', '周三', '周四', '周五', '周六']
                 db3POption3.xAxis.data = xAxisRunTimeAll;
                 db3POption3.series[0].data = timeArr;
                 if(timeArr.length>0){
                     for(var i=0;i<timeArr.length;i++){
                         if(timeArr[i]<100) continue;
-                        db1P3Option.yAxis.max = null;
-                        db1P3Option.yAxis.min = null;
+                        db3POption3.yAxis.max = null;
+                        db3POption3.yAxis.min = null;
                         break;
                     }
                 }
