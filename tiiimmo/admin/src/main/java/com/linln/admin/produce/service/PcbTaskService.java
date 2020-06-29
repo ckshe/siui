@@ -94,4 +94,6 @@ public interface PcbTaskService {
     ResultVo updateProcess(ProcessTask processTask);
 
     ResultVo findPcbTaskPlateNo(PcbTaskReq req);
+
+    ResultVo deviceAmountAndworkTime(PcbTaskReq req);
 }

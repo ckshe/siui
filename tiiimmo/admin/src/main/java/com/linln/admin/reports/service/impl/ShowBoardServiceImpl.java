@@ -247,9 +247,22 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public List<ProcessTask> findProcessTaskByDate() {
-        String today = DateUtil.date2String(new Date(),"");
+        Date now = new Date();
+        String today = DateUtil.date2String(now,"");
+        String tempDay = today +" 01:00:00";
+        long nowlong = now.getTime();
+        Date tempDate = DateUtil.string2Date(tempDay,"yyyy-MM-dd HH:mm:ss");
+        long templong = tempDate.getTime();
         String startTime = today +" 00:00:00";
         String endTime = today +" 23:59:59";
+        //凌晨一点前的算前一天的
+        if(nowlong<templong){
+            Date lastdate =DateUtil.dateAddNum(now,-1);
+            String lastday = DateUtil.date2String(lastdate,"");
+            startTime = lastday +" 00:00:00";
+            endTime = lastday +" 23:59:59";
+        }
+
         List<ProcessTask> processTaskList = processTaskRepository.findByStartEndTime(startTime, endTime);
         return processTaskList;
     }

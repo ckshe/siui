@@ -13,6 +13,6 @@ import java.util.List;
 public interface DeviceProductElementRepository extends BaseRepository<DeviceProductElement, Long> {
 
     //根据机台编号查找所需程序
-    @Query(value = "SELECT * FROM base_device_product_element WHERE device_code = ?1 and pcb_code = ?2",nativeQuery = true)
-    List<DeviceProductElement> findByDevice_code(String deviceCode,String pcbCode);
+    @Query(value = "SELECT * FROM base_device_product_element WHERE device_code = ?1 and pcb_code = ?2 and a_or_b = ?3",nativeQuery = true)
+    List<DeviceProductElement> findByDevice_code(String deviceCode,String pcbCode,String a_or_b);
 }

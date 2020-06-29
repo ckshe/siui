@@ -1,6 +1,5 @@
 package com.linln.admin.produce.domain;
 
-import com.spire.data.table.DataException;
 import lombok.Data;
 
 import javax.persistence.*;

@@ -19,6 +19,8 @@ public class PcbTaskPositionRecordDetail {
     private String device_code;
     //排产任务号
     private String pcb_task_code;
+    //工序任务号
+    private String process_task_code;
     //元件名
     private String element_name;
     // 物料编号

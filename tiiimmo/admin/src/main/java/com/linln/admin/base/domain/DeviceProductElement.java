@@ -78,4 +78,7 @@ public class DeviceProductElement implements Serializable {
     private User updateBy;
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
+
+    //AB面
+    private String a_or_b;
 }

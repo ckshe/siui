@@ -309,6 +309,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         List<FeedingTask> feedingTaskList = new ArrayList<>();
         BigDecimal sumQTLv = BigDecimal.ZERO;
         String feedingTaskCode = "";
+        String lightPlateNot ="";
         for(int i =0;i<lists.size();i++){
             JSONObject param = lists.getJSONObject(i);
             feedingTaskCode = param.getString("FTLFBillno");
@@ -317,6 +318,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             feedingTask.setProduct_code(param.getString("FNumber"));
             feedingTask.setProduct_name(param.getString("FName"));
             feedingTask.setSpecification_model(param.getString("FModel"));
+            String lightPlateNo = param.getString("FModel");
+            if(lightPlateNo!=null&&lightPlateNo.contains("DCY7")){
+                lightPlateNot = lightPlateNo;
+            }
             feedingTask.setStock_name(param.getString("FStock"));
             feedingTask.setUnit(param.getString("FUnit"));
             feedingTask.setFQtyScrap(param.getBigDecimal("FQtyScrap"));
@@ -341,7 +346,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         BigDecimal qtlRate = sumQTLv.divide(size,2, RoundingMode.HALF_DOWN);
         System.out.println("------FRWFBillNo:"+FRWFBillNo+"----"+feedingTaskList.size()+"----rate:"+qtlRate);
         feedingTaskRepository.saveAll(feedingTaskList);
-        return ResultVoUtil.success(qtlRate+"","");
+        return ResultVoUtil.success(qtlRate+"",lightPlateNot);
 
     }
 
@@ -1001,6 +1006,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Override
     public ResultVo modifyProcessTaskStatus(PcbTaskReq pcbTaskReq) {
+
+      /*  ProcessTask lastProcessTask = processTaskRepository.findById(pcbTaskReq.getLastProcassTaskId()).get();
+        if(!"暂停".equals(lastProcessTask.getProcess_task_status())){
+            return ResultVoUtil.error("切单前请先暂停当前工序任务");
+        }*/
         ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
 
         if("已完成".equals(processTask.getProcess_task_status())){
@@ -1091,7 +1101,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
                 //所在工序计划的所有机台一同清零
                 //重新计数记录在设备处
-                List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(pcbTaskReq.getProcessTaskCode());
+                List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(processTask.getProcess_task_code());
                 for(ProcessTaskDevice de:prl){
                     Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
                     device.setRe_count("1");
@@ -1381,7 +1391,26 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         return ResultVoUtil.success("查询成功",mapList,count);
     }
 
+    @Override
+    public ResultVo deviceAmountAndworkTime(PcbTaskReq req) {
 
+        ProcessTask processTask = processTaskRepository.findByProcessTaskCode(req.getProcessTaskCode());
+        Integer amount = 0;
+        Process process = processRepository.findByProcessName(processTask.getProcess_name());
+        //计数方式为0
+        if(process.getCount_type()==0){
+            ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getDeviceCode(),req.getProcessTaskCode());
+            amount = processTaskDevice.getAmount();
+        }else {
+            amount = processTask.getAmount_completed();
+        }
+        BigDecimal workTime = processTask.getWork_time();
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("amount",amount);
+        map.put("workTime",workTime);
+        return ResultVoUtil.success(map);
+    }
 
 
     /*if(pcbTaskCode!=null&&!"".equals(pcbTaskCode)){

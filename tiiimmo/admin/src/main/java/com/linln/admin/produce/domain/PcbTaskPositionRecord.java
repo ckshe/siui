@@ -26,6 +26,9 @@ public class PcbTaskPositionRecord {
     //记录状态 0未开始1开始2结束
     private String record_status;
 
+    //工序任务号
+    private String process_task_code;
+
     private String user_name;
     @Transient
     List<PcbTaskPositionRecordDetail> detailList;

@@ -5,8 +5,10 @@ import com.linln.admin.base.domain.DeviceProductElement;
 import com.linln.admin.base.repository.DeviceProductElementRepository;
 import com.linln.admin.produce.domain.PcbTaskPositionRecord;
 import com.linln.admin.produce.domain.PcbTaskPositionRecordDetail;
+import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.repository.PcbTaskPositionRecordDetailRepositoty;
 import com.linln.admin.produce.repository.PcbTaskPositionRecordRepository;
+import com.linln.admin.produce.repository.ProcessTaskRepository;
 import com.linln.admin.produce.service.PcbTaskPositionRecordService;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.ResultVoUtil;
@@ -29,6 +31,9 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
     private PcbTaskPositionRecordRepository recordRepository;
 
     @Autowired
+    private ProcessTaskRepository processTaskRepository;
+
+    @Autowired
     private PcbTaskPositionRecordDetailRepositoty recordDetailRepositoty;
 
     @Autowired
@@ -36,16 +41,24 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
 
     @Override
     public PcbTaskPositionRecord buildPositionRecordAndReturn(PcbTaskReq req) {
-        PcbTaskPositionRecord record2 = recordRepository.findByPcb_task_code(req.getPcbTaskCode());
+        PcbTaskPositionRecord record2 = recordRepository.findByProcess_task_code(req.getProcessTaskCode());
         if(record2!=null){
-            List<PcbTaskPositionRecordDetail> detailList2 = recordDetailRepositoty.findByPcb_task_code(req.getPcbTaskCode());
+            List<PcbTaskPositionRecordDetail> detailList2 = recordDetailRepositoty.findByProcess_task_code(req.getProcessTaskCode());
             record2.setDetailList(detailList2);
             return record2;
         }
-        List<DeviceProductElement> elementList = deviceProductElementRepository.findByDevice_code(req.getDeviceCode(),req.getPcbId());
+        ProcessTask processTask = processTaskRepository.findByProcessTaskCode(req.getProcessTaskCode());
+        String a_or_b = "";
+        if(processTask.getProcess_name().contains("A")){
+            a_or_b = "A";
+        }else if(processTask.getProcess_name().contains("B")) {
+            a_or_b = "B";
+        }
+        List<DeviceProductElement> elementList = deviceProductElementRepository.findByDevice_code(req.getDeviceCode(),req.getPcbId(),a_or_b);
         PcbTaskPositionRecord record = new PcbTaskPositionRecord();
         record.setPcb_task_code(req.getPcbTaskCode());
         record.setDevice_code(req.getDeviceCode());
+        record.setProcess_task_code(req.getProcessTaskCode());
         record.setRecord_status("0");
         //record.setStart_time(new Date());
         record.setStatus(StatusEnum.OK.getCode());
@@ -65,6 +78,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
             detail.setElement_name(element.getElement_name());
             detail.setInstall_status("0");
             detail.setPcb_task_code(record.getPcb_task_code());
+            detail.setProcess_task_code(record.getProcess_task_code());
             detail.setPosition(element.getPosition());
             detail.setProduct_code(element.getProduct_code());
             detail.setStatus(StatusEnum.OK.getCode());
@@ -78,7 +92,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
     @Override
     public List<PcbTaskPositionRecordDetail> getPositionRecord(PcbTaskReq req) {
 
-        List<PcbTaskPositionRecordDetail> detailList = recordDetailRepositoty.findByPcb_task_code(req.getPcbTaskCode());
+        List<PcbTaskPositionRecordDetail> detailList = recordDetailRepositoty.findByProcess_task_code(req.getProcessTaskCode());
 
         return detailList;
     }
@@ -86,9 +100,9 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
 
     @Override
     public ResultVo startPositonRecord(PcbTaskReq req) {
-        PcbTaskPositionRecord record = recordRepository.findByPcb_task_code(req.getPcbTaskCode());
+        PcbTaskPositionRecord record = recordRepository.findByProcess_task_code(req.getProcessTaskCode());
         if(record==null){
-            return ResultVoUtil.error("找不到该排产计划");
+            return ResultVoUtil.error("找不到该计划");
         }
         if("1".equals(record.getRecord_status())){
             return ResultVoUtil.error("已开始");
@@ -106,7 +120,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
     @Override
     public ResultVo scanProductCode(PcbTaskReq req) {
 
-        PcbTaskPositionRecordDetail detail = recordDetailRepositoty.findByPcb_task_codeAndProduct_code(req.getPcbTaskCode(),req.getProductCode());
+        PcbTaskPositionRecordDetail detail = recordDetailRepositoty.findByProcess_task_codeAndProduct_code(req.getProcessTaskCode(),req.getProductCode());
         Map<String,String> map = new HashMap<>();
         if(detail==null){
             map.put("status","3");
@@ -133,9 +147,9 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
     @Override
     public ResultVo finishPositionRecord(PcbTaskReq req) {
 
-        PcbTaskPositionRecord record = recordRepository.findByPcb_task_code(req.getPcbTaskCode());
+        PcbTaskPositionRecord record = recordRepository.findByProcess_task_code(req.getProcessTaskCode());
         if(record==null){
-            return ResultVoUtil.error("找不到该排产计划");
+            return ResultVoUtil.error("找不到该计划");
         }
         if("0".equals(record.getRecord_status())){
             return ResultVoUtil.error("未开始");
