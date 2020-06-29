@@ -229,18 +229,23 @@
             })
             setInterval(function () {
                 if(parseInt( new Date().getTime()/1000 )%15===14){
-                    console.log(123)
+                    console.log('发请求')
                     $.ajax({
                         url:"/produce/pcbTask/findProcessTaskByDevice",
                         type:'post',
                         dataType : "json",
                         data : JSON.stringify({
-                            deviceCode:getQueryString('deviceCode')
+                            deviceCode:getQueryString2('deviceCode')
                         }),
                         contentType : "application/json;charset=UTF-8",
                         success: function (res) {
+                            console.log('相应')
+
                             res.data.some(function (t,i) {
+                                console.log(t.is_now_flag)
+
                                 if(t.is_now_flag==1){
+                                    console.log(123)
                                     document.getElementById('scs').value=t.amount_completed;
                                     return true
                                 }

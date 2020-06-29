@@ -246,7 +246,6 @@
                                     }),
                                     contentType : "application/json;charset=UTF-8",
                                     success: function (res6) {
-
                                         if(res6.code===200){
                                             document.getElementById('scs').innerHTML=res6.data.amount;
                                             document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.amount*1000);
@@ -254,7 +253,7 @@
                                         }else{
                                             layer.alert(res6.msg,{icon:5})
                                         }
-                                    }})
+                                    }});
 
                                 $('#qrcode').html("")
 
@@ -647,15 +646,15 @@
             systemTime.innerHTML=timeToDate(new Date());
             setInterval(function () {
                 systemTime.innerHTML=timeToDate(new Date());
-                if(localStorage.getItem('padUserData')){
-                    var data = JSON.parse(localStorage.getItem('padUserData'));
-                    upTime.innerHTML=data.loginTime;
-                    var nn =diffTime(data.loginTime,timeToDate(new Date()));
-                    if(diffTime(data.loginTime,timeToDate(new Date()))==''){
-                        nn=0
-                    }
-                    workTime.innerHTML = nn
-                }
+                // if(localStorage.getItem('padUserData')){
+                //     var data = JSON.parse(localStorage.getItem('padUserData'));
+                //     upTime.innerHTML=data.loginTime;
+                //     var nn =diffTime(data.loginTime,timeToDate(new Date()));
+                //     if(diffTime(data.loginTime,timeToDate(new Date()))==''){
+                //         nn=0
+                //     }
+                //     // workTime.innerHTML = nn
+                // }
                 //更新生产数
                 if(parseInt( new Date().getTime()/1000 )%15===14){
                     $.ajax({
@@ -670,7 +669,6 @@
                             res.data.some(function (t,i) {
                                 if(t.is_now_flag==1){
                                     $('#qrcode').html("");
-
                                     //二维码生产
                                     var qrcode = new QRCode("qrcode",{
                                         height:80,
@@ -679,7 +677,6 @@
                                     //测试二维码
                                     var qrcodeStr = getQueryString('deviceCode')+';'+t.pcb_code+';'+t.process_task_code+'';
                                     qrcode.makeCode(qrcodeStr);
-
                                     $.ajax({
                                         url:'/produce/pcbTask/deviceAmountAndworkTime',
                                         type:'post',
@@ -690,27 +687,18 @@
                                         }),
                                         contentType : "application/json;charset=UTF-8",
                                         success: function (res6) {
-
                                             if(res6.code===200){
                                                 document.getElementById('scs').innerHTML=res6.data.amount;
                                                 document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.amount*1000);
-
                                             }else{
                                                 layer.alert(res6.msg,{icon:5})
                                             }
-                                        }})
-
-
-
-
-
+                                        }});
                                     return true
                                 }
                             });
                         }
                     })
-
-
                 }
             },1000)
         });
