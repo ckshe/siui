@@ -303,16 +303,16 @@ var orderOption1 = {
                     label: {
                         show: true,
                         position: 'inner',
-                        formatter: '{d}%',
-                        // formatter: function (prams) {
-                        //     var value;
-                        //     if (prams.data.value == 0) {
-                        //         value = ''
-                        //     } else {
-                        //         value = prams.data.name+'\n'+ prams.data.value + "%"
-                        //     }
-                        //     return value;
-                        // },
+                        // formatter: '{d}%',
+                        formatter: function (prams) {
+                            var value;
+                            if (prams.data.value == 0) {
+                                value = ''
+                            } else {
+                                value = prams.data.value + "%"
+                            }
+                            return value;
+                        },
                         fontSize: 20
                     }
                 }
@@ -356,16 +356,16 @@ var orderOption2 = {
                     label: {
                         show: true,
                         position: 'inner',
-                        formatter: '{d}%',
-                        // formatter: function (prams) {
-                        //     var value;
-                        //     if (prams.data.value == 0) {
-                        //         value = ''
-                        //     } else {
-                        //         value = prams.data.name+'\n'+ prams.data.value + "%"
-                        //     }
-                        //     return value;
-                        // },
+                        // formatter: '{d}%',
+                        formatter: function (prams) {
+                            var value;
+                            if (prams.data.value == 0) {
+                                value = ''
+                            } else {
+                                value = prams.data.value + "%"
+                            }
+                            return value;
+                        },
                         fontSize: 20
                     }
                 }
@@ -409,16 +409,16 @@ var orderOption3 = {
                     label: {
                         show: true,
                         position: 'inner',
-                        formatter: '{d}%',
-                        // formatter: function (prams) {
-                        //     var value;
-                        //     if (prams.data.value == 0) {
-                        //         value = ''
-                        //     } else {
-                        //         value = prams.data.name+'\n'+ prams.data.value + "%"
-                        //     }
-                        //     return value;
-                        // },
+                        // formatter: '{d}%',
+                        formatter: function (prams) {
+                            var value;
+                            if (prams.data.value == 0) {
+                                value = ''
+                            } else {
+                                value =  prams.data.value + "%"
+                            }
+                            return value;
+                        },
                         fontSize: 20
                     }
                 }
