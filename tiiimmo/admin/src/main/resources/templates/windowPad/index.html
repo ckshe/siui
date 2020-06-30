@@ -222,6 +222,51 @@
                 form = layui.form;
                 var navLis = document.getElementsByClassName('navLi');
                 var iframe = document.getElementById('iframe');
+                var cookies=1
+            $.ajax({
+                url:"/produce/pcbTask/checkIsLogin",
+                type:"get",
+                async:false,
+                error:function (res1) {
+                    if(res1.status===401) {
+                        cookies = 0;
+                        $.ajax({
+                            url: '/ShowBoard/findOneLastOnTimeNotDown/' + getQueryString('deviceCode'),
+                            type:'get',
+                            async:false,
+                            success: function (res) {
+                                if (res.code === 200) {
+                                    $.ajax({
+                                        url: '/logoutDevice',
+                                        type: "post",
+                                        async: false,
+                                        dataType: "json",
+                                        data: JSON.stringify({
+                                            cardSequence: res.data.card_sequence,
+                                            deviceCode: getQueryString('deviceCode'),
+                                        }),
+                                        contentType: "application/json;charset=UTF-8",
+                                        success: function (res) {
+                                            layer.closeAll();
+                                            if (res.code === 200) {
+                                                layer.msg(res.msg, {icon: 1});
+                                                setTimeout(function () {
+                                                    window.location.reload();
+                                                }, 1000)
+
+                                            }
+
+                                        }
+                                    })
+                                } else {
+                                    layer.alert(res.msg, {icon: 5})
+                                }
+                            }
+                        })
+                    }
+
+                }
+            });
             function getNodwData(){
                 $.ajax({
                     url:"/produce/pcbTask/findProcessTaskByDevice",
@@ -279,7 +324,7 @@
                         var data = res.data
                         $('#userName').html(data.nickname);
                         $('#juese').html(data.roleNames);
-                        $('#upTime').html('无');
+                        // upTime.html('无');
                         if(/质检/.test(data.roleNames)||/管理员/.test(data.roleNames)){
                             document.getElementById('bad').style.opacity=1;
                             document.getElementById('bad').disabled=false
@@ -288,7 +333,7 @@
                 }else{
                     layer.alert(res.msg,{icon:5})
                 }
-            })
+            });
 
                     for(var i=0;i<navLis.length;i++){
                         navLis[i].onclick=function (e) {
@@ -694,7 +739,7 @@
                                    success: function (res6) {
                                        if(res6.code===200){
                                            document.getElementById('scs').innerHTML=res6.data.amount;
-                                           document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.workTime*1000);
+                                           workTime.innerHTML=cacWorkTime(res6.data.workTime*1000);
                                        }else{
                                            layer.alert(res6.msg,{icon:5})
                                        }
