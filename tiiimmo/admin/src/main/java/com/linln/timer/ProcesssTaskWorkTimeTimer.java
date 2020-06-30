@@ -32,15 +32,18 @@ public class ProcesssTaskWorkTimeTimer {
         for(ProcessTask p : listNotFinish){
             List<ProcessTaskStatusHistory> historyListist = processTaskStatusHistoryRepository.findByProcessTaskCode(p.getProcess_task_code());
             Integer workTime = 0;
+            BigDecimal tempWorkTime = p.getWork_time();
             for(ProcessTaskStatusHistory history : historyListist){
-                if(history.getEnd_time()!=null){
-                    workTime = workTime + history.getContinue_time();
-                }else {
-                    Date today = new Date();
-                    Long cha = (today.getTime()-history.getStart_time().getTime())/1000;
-                    history.setContinue_time(Integer.parseInt(cha+""));
-                    workTime = workTime + Integer.parseInt(cha+"");
-                    processTaskStatusHistoryRepository.save(history);
+                if(history.getProcess_task_code().contains("进行中")||history.getProcess_task_code().contains("生产中")){
+                    if(history.getEnd_time()!=null){
+                        workTime = workTime + history.getContinue_time();
+                    }else {
+                        Date today = new Date();
+                        Long cha = (today.getTime()-history.getStart_time().getTime())/1000;
+                        history.setContinue_time(Integer.parseInt(cha+""));
+                        workTime = workTime + Integer.parseInt(cha+"");
+                        processTaskStatusHistoryRepository.save(history);
+                    }
                 }
             }
             p.setWork_time(new BigDecimal(workTime));

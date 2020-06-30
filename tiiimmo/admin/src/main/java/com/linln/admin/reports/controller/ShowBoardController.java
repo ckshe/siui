@@ -167,7 +167,7 @@ public class ShowBoardController {
     }
 
 
-    //查看设备状态运行
+    //查看当前上机人员
     @GetMapping("/findOneLastOnTimeNotDown/{deviceCode}")
     @ResponseBody
     public ResultVo findOneLastOnTimeNotDown( @PathVariable String deviceCode){

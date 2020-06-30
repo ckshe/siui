@@ -316,5 +316,10 @@ public class PcbTaskController {
         return processTaskService.findProcessTask(req);
     }
 
+    @GetMapping("/checkIsLogin")
+    @ResponseBody
+    public ResultVo checkIsLogin(){
+        return ResultVoUtil.success("");
+    }
 
 }

@@ -1,3 +1,4 @@
+
 //看板三=====================
 var board3Api = {
     deviceUrl: '/ShowBoard/getDeviceStatus',//设备接口
@@ -27,6 +28,7 @@ function setDataBoard3(params) {
                     numArr1.push(response.data[i].sumFinishAmount)
                     numArr2.push(response.data[i].sumPlanAmount)
                 }
+                //console.log(numArr1, numArr2, axisWeekRateArr)
                 // axisWeekRateArr = ['周一','周二','周三','周四','周五','周六']
                 axisWeekRateArr = ['周日','周一','周二','周三','周四','周五','周六']
                 db3POption2.xAxis[0].data = axisWeekRateArr;
@@ -44,10 +46,12 @@ function setDataBoard3(params) {
                 var timeArr = [];
                 //测试假数据
                 // response = {"code":200,"msg":"成功","data":[{"theDay":"2020-06-21","runTime":100,"stopTime":null},{"theDay":"2020-06-22","runTime":140,"stopTime":null},{"theDay":"2020-06-23","runTime":150,"stopTime":null},{"theDay":"2020-06-24","runTime":160,"stopTime":null},{"theDay":"2020-06-25","runTime":152,"stopTime":null},{"theDay":"2020-06-26","runTime":177,"stopTime":null},{"theDay":"2020-06-27","runTime":188,"stopTime":null}],"total":null}
+                //console.log(response.data)
                 for (var i = 0; i < response.data.length; i++) {
                     // if(i==0)continue;
                     timeArr.push(response.data[i].runTime)
                 }
+                //console.log(timeArr)
                 // var xAxisRunTimeAll =  ['周一', '周二', '周三', '周四', '周五', '周六']
                 var xAxisRunTimeAll =  ['周日','周一', '周二', '周三', '周四', '周五', '周六']
                 db3POption3.xAxis.data = xAxisRunTimeAll;
@@ -69,7 +73,8 @@ function setDataBoard3(params) {
             url: board3Api.findByStartEndTimeBy3TiePian,
             dataType: "json",
             success: function (response) {
-                addDataTaskHtml(response.data); //生产信息 
+                // console.log('shenkc',response)
+                addDataTaskHtml(response.data); //生产信息
             }
         });
     }
@@ -77,6 +82,7 @@ function setDataBoard3(params) {
         board3();
     }, 10)
     board3Interval = setInterval(function () {
+        console.log(8888)
         board3();
         processBadRate();
     }, 60000);
@@ -117,7 +123,7 @@ function getData() {
         }
     });
 }
-//温湿度 
+//温湿度
 function getEnvironmentRecord() {
     var environment_record = "SELECT@@@*@@@FROM@@@base_environment_record@@@order@@@by@@@update_date@@@desc";
     $.ajax({
@@ -130,6 +136,7 @@ function getEnvironmentRecord() {
             if (response.data.length > 0) {
                 var temperature = response.data[0].temperature;
                 var humidity = response.data[0].humidity;
+                //console.log(temperature, humidity)
                 if (temperature > 40) {
                     $("#temperature i").addClass('state-red');
                 } else {
@@ -152,8 +159,10 @@ function processBadRate() {
         url: board3Api.findBadNewRate,
         dataType: "json",
         success: function (response) {
+            //console.log('我是不良率=', response)
             var badRateArr = [], legendAxisArr = [];
             for (var i = 0; i < response.data.length; i++) {
+                console.log("====", response.data)
                 if (response.data[i].bad_rate == 0) continue;
                 legendAxisArr.push(response.data[i].bad_name)
                 badRateArr.push({ value: response.data[i].bad_rate, name: response.data[i].bad_name })
@@ -162,6 +171,7 @@ function processBadRate() {
                 legendAxisArr = ['本周']
                 badRateArr = [{ value: 0, name: '本周' }]
             }
+            console.log("++++++===", legendAxisArr, badRateArr)
             // db2POption2.yAxis.data = houhanTaskArr1.reverse();
             db3POption5.legend.data = legendAxisArr
             db3POption5.series[0].data = badRateArr;
@@ -191,6 +201,7 @@ function deviceShow(deviceCode, n) {
         dataType: "json",
         data: JSON.stringify(data),
         success: function (response) {
+            // console.log('设备信息=', response)
             var responseData = response.data;
             $.ajax({
                 contentType: 'application/json',
@@ -198,8 +209,10 @@ function deviceShow(deviceCode, n) {
                 url: board3Api.getDeviceByCode + data.deviceCode,
                 dataType: "json",
                 success: function (response) {
+                    // console.log("====",response)
                     var device = response.data.device
                     var user = response.data.user
+                    // console.log(user)
                     addHtml(responseData, device, n, user);
                     $.ajax({
                         contentType: 'application/json',
@@ -207,6 +220,7 @@ function deviceShow(deviceCode, n) {
                         url: board3Api.getDeviceRunTime + data.deviceCode,
                         dataType: "json",
                         success: function (response) {
+                            // console.log(response)
                             var responseRunData = response.data;
                             setDevice(responseRunData, responseData.device_name, device.device_code);
                         }
@@ -397,6 +411,7 @@ function setDevice(data, deviceName, device_code) {
             }
         ]
     };
+
     pieOption1.title.text = deviceName;
     devicePie1.setOption(pieOption1);
     $.ajax({
@@ -405,10 +420,13 @@ function setDevice(data, deviceName, device_code) {
         url: board3Api.findCropRate + device_code,
         dataType: "json",
         success: function (response) {
+            // console.log('jiadng',response)
             pieOption1.series[0].data = [{ value: response.data.cropRate || 0, name: '' }];
             devicePie1.setOption(pieOption1);
         }
     });
+
+
     var brunTimeArr = [], noBrunTimeArr = [];
     for (var i = 0; i < data.length; i++) {
         // if(i==0)continue;
@@ -426,13 +444,19 @@ function setDevice(data, deviceName, device_code) {
 }
 function addHtml(responseData, deviceresponse, n, user) {
     var display, summaryWidth, data;
+    // if (n == 3 || n == 4 || n == 5) {
     display = "block"
     summaryWidth = '60%'
+    // } else {
+    //     display = "none"
+    //     summaryWidth = '100%'
+    // }
     if (responseData.data.length > 0) {
         data = responseData.data[0];
     } else {
         data = responseData.data;
     }
+
     var html = '<div style="height:400px">' +
         '<div class="left" style="width: 40%; height: 320px; display:' + display + '">' +
         '   <div class="">' +
@@ -454,6 +478,7 @@ function addHtml(responseData, deviceresponse, n, user) {
         } else {
             data.plan_finish_time = ''
         }
+
         html += '   <div class="itemCon itembg itembg_popupfirt">' +
             '       <ul class="listStyle">' +
             '           <li class="clearfix">' +
@@ -604,6 +629,7 @@ function addDataTaskHtml(data) {
             // '               <span class="col3">板编号:<strong>' + data.beiliao.pcb_quantity + '</strong></span>' +
             '               <span class="col2">RoHS:<strong>' + data.beiliao.is_rohs + '</strong></span>' +
             '           </li>';
+
     }
     if (running.length > 0) {
         runningTask = '           <li class="clearfix">' +
@@ -642,6 +668,40 @@ function addDataTaskHtml(data) {
     theadHtmlPTask += '       </ul>' +
         '   </div>' +
         '</div>';
+
+    // var theadHtmlPTask = '<div class="item summaryP3" >' +
+    //     '   <div class="itemCon itembg itembg_popupfirt"  id="taskList">' +
+    //     '       <ul class="listStyle">' ;
+    //     if(data.length>0){
+    //         for(var i=0;i<data.length;i++){
+    //             if (data[i].plan_start_time != null) {
+    //                 data[i].plan_start_time = data[i].plan_start_time.split('T')[0];
+    //             } else {
+    //                 data[i].plan_start_time = ''
+    //             }
+    //             if (data[i].plan_finish_time != null) {
+    //                 data[i].plan_finish_time = data[i].plan_finish_time.split('T')[0];
+    //             } else {
+    //                 data[i].plan_finish_time = ''
+    //             }
+    //             htmlPiepian += '           <li class="clearfix">' +
+    //             '               <span class="col3">生产任务号:<strong>' + data[i].pcb_task_code + '</strong></span>' +
+    //             '               <span class="col3">工序任务:<strong>' + data[i].process_task_code + '</strong></span>' +
+    //             '               <span class="col3">工序:<strong>' + data[i].process_name + '</strong></span>' +
+    //             '               <span class="col3">工序单状态:<strong>' + data[i].process_task_status + '</strong></span>' +
+    //             '               <span class="col3">完成数量:<strong>' + data[i].amount_completed + '</strong></span>' +
+    //             '               <span class="col3">计划开始时间:<strong>' + data[i].plan_start_time + '</strong></span>' +
+    //             '               <span class="col3">计划结束时间:<strong>' + data[i].plan_finish_time + '</strong></span>' +
+    //             '               <span class="col3">规格型号:<strong>' + data[i].pcb_code + '</strong></span>' +
+    //             '               <span class="col3">计划量:<strong>' + data[i].pcb_quantity + '</strong></span>' +
+    //             '               <span class="col2">物料名称:<strong>' + data[i].pcb_name + '</strong></span>' +
+    //             '           </li>';
+    //         }
+    //     }
+    //     theadHtmlPTask+=htmlPiepian;
+    //     theadHtmlPTask+='       </ul>' +
+    //     '   </div>' +
+    //     '</div>';
     $("#htmlPTask").html(theadHtmlPTask).css("display", "block");
     $("#taskList").banner($("#taskList").find(".listStyle li"), {
         list: false,
@@ -680,6 +740,7 @@ var db3POption2 = {
         },
         y: 10
     },
+
     // calculable: true,
     xAxis: [
         {
@@ -867,6 +928,11 @@ var db3POption5 = {
             radius: '60%',
             center: ['38%', '60%'],
             data: [
+                // { value: 50, name: '贴片' },
+                // { value: 60, name: '后焊' },
+                // { value: 45, name: '调试' },
+                // { value: 45, name: '质检' },
+                // { value: 45, name: '入库' },
             ],
             emphasis: {
                 itemStyle: {
@@ -890,5 +956,3 @@ var db3POption5 = {
         }
     ]
 }
-
-

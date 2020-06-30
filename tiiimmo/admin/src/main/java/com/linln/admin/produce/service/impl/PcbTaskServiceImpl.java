@@ -1019,7 +1019,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         if("已完成".equals(processTask.getProcess_task_status())){
             return ResultVoUtil.error("该工序任务已完成");
         }
-        ProcessTaskStatusHistory history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(pcbTaskReq.getProcessTaskCode());
+        ProcessTaskStatusHistory history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(processTask.getProcess_task_code());
         Date today = new Date();
         if(history==null){
             ProcessTaskStatusHistory newhistory = new ProcessTaskStatusHistory();
