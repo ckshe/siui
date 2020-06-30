@@ -54,12 +54,14 @@
 <script th:replace="/common/template :: script"></script>
     <script src="../../js/common.js" ></script>
     <script>
+
         layui.use(['form','laydate','table','jquery','form'],function () {
             var layer = layui.layer,
                     $ = layui.jquery,
                 table = layui.table,
               laydate = layui.laydate,
                  form = layui.form;
+                parent.layer.closeAll()
                 laydate.render({
                     elem: '#time'
                     ,type:'datetime'
