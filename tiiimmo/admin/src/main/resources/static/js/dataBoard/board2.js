@@ -10,7 +10,6 @@ var tiepianTaskArr = [], houhanTaskArr = [], tiaoshiTaskArr = [], zhijianTaskArr
 function setDataBoard2(params) {
 	board2();
 	board2Interval = setInterval(function () {
-		console.log(555555)
 		// db2P1.clear();
         // db2P2.clear();
         // db2P3.clear();
@@ -75,7 +74,6 @@ function setDataBoard2(params) {
 					tiaoshiTaskArr1.push('任务' + (ic + 1));
 					tiaoshiArr.push(Math.round(response.data.tiaoshi[ic].rate*100)/100);
 				}
-				//console.log(tiaoshiTaskArr1)
 				db2POption3.yAxis.data = tiaoshiTaskArr1.reverse();
 				tiaoshiTaskArr = tiaoshiTaskArr.reverse();
 				db2POption3.series[0].data = tiaoshiArr.reverse();
@@ -150,9 +148,6 @@ function setDataBoard2(params) {
 						}
 					})
 				}
-				//齐套率未完成，假的
-				// db2POption4.yAxis.data = tiepianTaskArr;
-				// db2POption4.series[0].data = tiepianArr;
 			}
 		});
 	}
@@ -219,17 +214,7 @@ db2P4 = echarts.init(document.getElementById('db2P4'), 'macarons');
 db2P5 = echarts.init(document.getElementById('db2P5'), 'macarons');
 db2P6 = echarts.init(document.getElementById('db2P6'), 'macarons');
 
-var db2POption1 = {
-	title: {
-		top: '10',
-		left: 'center',
-		text: '贴片线生产进度统计',
-		textStyle: {
-			color: '#fff',
-			fontSize: 22,
-			fontWeight: 'normal',
-		}
-	},
+var db2P = {
 	tooltip: {
 		trigger: 'axis',
 		axisPointer: {
@@ -301,6 +286,24 @@ var db2POption1 = {
 			}
 		}
 	}]
+}
+
+var db2POption1 = {
+	title: {
+		top: '10',
+		left: 'center',
+		text: '贴片线生产进度统计',
+		textStyle: {
+			color: '#fff',
+			fontSize: 22,
+			fontWeight: 'normal',
+		}
+	},
+	tooltip:db2P.tooltip,
+	grid:db2P.grid,
+	xAxis: db2P.xAxis,
+	yAxis: db2P.yAxis,
+	series:db2P.series
 };
 var db2POption2 = {
 	title: {
@@ -313,78 +316,11 @@ var db2POption2 = {
 			fontWeight: 'normal',
 		}
 	},
-	tooltip: {
-		trigger: 'axis',
-		axisPointer: {
-			type: 'shadow'
-		},
-		// formatter: '{b}<br/>{a} :{c}%',
-		formatter:function(params){
-			return houhanTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
-		},
-		textStyle: {
-			fontSize: 22
-		}
-	},
-	grid: {
-		left: '3%',
-		right: '10%',
-		bottom: '10%',
-		containLabel: true
-	},
-	xAxis: {
-		type: 'value',
-		axisLabel: {
-			textStyle: {
-				show: true,
-				color: 'rgba(255,255,255,1)',
-				fontSize: 20
-			},
-			formatter: function (value) {
-				return value + '%'
-			}
-		},
-		min: 0,
-		max: 100,
-	},
-	yAxis: {
-		// show: false,
-		type: 'category',
-		axisLabel: {
-			textStyle: {
-				show: true,
-				color: 'rgba(255,255,255,1)',
-				fontSize: 20
-			}
-		},
-
-		data: []
-	},
-	series: [{
-		name: '完成率',
-		type: 'bar',
-		data: [],
-		barWidth: 50,
-		itemStyle: {
-			normal: {
-				label: {
-					show: true,
-					textStyle: {
-						fontSize: 20,
-						color: '#fff'
-					},
-					position: 'insideRight',
-					formatter: function (params) {
-						if (params.value == 0) {
-							return "";
-						}
-						return params.value + "%"
-					}
-				},
-				color: color.color1
-			}
-		}
-	}]
+	tooltip:db2P.tooltip,
+	grid:db2P.grid,
+	xAxis: db2P.xAxis,
+	yAxis: db2P.yAxis,
+	series:db2P.series
 };
 var db2POption3 = {
 	title: {
@@ -397,78 +333,11 @@ var db2POption3 = {
 			fontSize: 22
 		}
 	},
-	tooltip: {
-		trigger: 'axis',
-		axisPointer: {
-			type: 'shadow'
-		},
-		// formatter: '{b}<br/>{a} :{c}%',
-		formatter:function(params){
-			return tiaoshiTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
-		},
-		textStyle: {
-			fontSize: 22
-		}
-	},
-	grid: {
-		left: '3%',
-		right: '10%',
-		bottom: '10%',
-		containLabel: true
-	},
-	xAxis: {
-		type: 'value',
-		axisLabel: {
-			textStyle: {
-				show: true,
-				color: 'rgba(255,255,255,1)',
-				fontSize: 20
-			},
-			formatter: function (value) {
-				return value + '%'
-			}
-		},
-		min: 0,
-		max: 100,
-	},
-	yAxis: {
-		// show: false,
-		type: 'category',
-		axisLabel: {
-			textStyle: {
-				show: true,
-				color: 'rgba(255,255,255,1)',
-				fontSize: 20
-			}
-		},
-
-		data: []
-	},
-	series: [{
-		name: '完成率',
-		type: 'bar',
-		data: [5, 20, 36, 10, 10],
-		barWidth: 50,
-		itemStyle: {
-			normal: {
-				label: {
-					show: true,
-					textStyle: {
-						fontSize: 20,
-						color: '#fff'
-					},
-					position: 'insideRight',
-					formatter: function (params) {
-						if (params.value == 0) {
-							return "";
-						}
-						return params.value + "%"
-					}
-				},
-				color:color.color1
-			}
-		}
-	}]
+	tooltip:db2P.tooltip,
+	grid:db2P.grid,
+	xAxis: db2P.xAxis,
+	yAxis: db2P.yAxis,
+	series:db2P.series
 };
 var db2POption4 = {
 	title: {
@@ -481,77 +350,11 @@ var db2POption4 = {
 			fontSize: 22
 		}
 	},
-	tooltip: {
-		trigger: 'axis',
-		axisPointer: {
-			type: 'shadow'
-		},
-		// formatter: '{b}<br/>{a} :{c}%',
-		formatter:function(params){
-			return beiliaoTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
-		},
-		textStyle: {
-			fontSize: 22
-		}
-	},
-	grid: {
-		left: '3%',
-		right: '10%',
-		bottom: '10%',
-		containLabel: true
-	},
-	xAxis: {
-		type: 'value',
-		axisLabel: {
-			textStyle: {
-				show: true,
-				color: 'rgba(255,255,255,1)',
-				fontSize: 20
-			},
-			formatter: function (value) {
-				return value + '%'
-			}
-		},
-		min: 0,
-		max: 100,
-	},
-	yAxis: {
-		// show: false,
-		type: 'category',
-		axisLabel: {
-			textStyle: {
-				show: true,
-				color: 'rgba(255,255,255,1)',
-				fontSize: 20
-			}
-		},
-		data: ['任务1']
-	},
-	series: [{
-		name: '齐套率',
-		type: 'bar',
-		data: [10],
-		barWidth: 50,
-		itemStyle: {
-			normal: {
-				label: {
-					show: true,
-					textStyle: {
-						fontSize: 20,
-						color: '#fff'
-					},
-					position: 'insideRight',
-					formatter: function (params) {
-						if (params.value == 0) {
-							return "";
-						}
-						return params.value + "%"
-					}
-				},
-				color: color.color1
-			}
-		}
-	}]
+	tooltip:db2P.tooltip,
+	grid:db2P.grid,
+	xAxis: db2P.xAxis,
+	yAxis: db2P.yAxis,
+	series:db2P.series
 };
 var db2POption5 = {
 	title: {
@@ -564,78 +367,11 @@ var db2POption5 = {
 			fontSize: 22
 		}
 	},
-	tooltip: {
-		trigger: 'axis',
-		axisPointer: {
-			type: 'shadow'
-		},
-		// formatter: '{b}<br/>{a} :{c}%',
-		formatter:function(params){
-			return zhijianTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
-		},
-		textStyle: {
-			fontSize: 22
-		}
-	},
-	grid: {
-		left: '3%',
-		right: '10%',
-		bottom: '10%',
-		containLabel: true
-	},
-	xAxis: {
-		type: 'value',
-		axisLabel: {
-			textStyle: {
-				show: true,
-				color: 'rgba(255,255,255,1)',
-				fontSize: 20
-			},
-			formatter: function (value) {
-				return value + '%'
-			}
-		},
-		min: 0,
-		max: 100,
-	},
-	yAxis: {
-		// show: false,
-		type: 'category',
-		axisLabel: {
-			textStyle: {
-				show: true,
-				color: 'rgba(255,255,255,1)',
-				fontSize: 20
-			}
-		},
-
-		data: []
-	},
-	series: [{
-		name: '质检率',
-		type: 'bar',
-		data: [5, 20, 36, 10, 10],
-		barWidth: 50,
-		itemStyle: {
-			normal: {
-				label: {
-					show: true,
-					textStyle: {
-						fontSize: 20,
-						color: '#fff'
-					},
-					position: 'insideRight',
-					formatter: function (params) {
-						if (params.value == 0) {
-							return "";
-						}
-						return params.value + "%"
-					}
-				},
-				color: color.color1
-			}
-		}
-	}]
+	tooltip:db2P.tooltip,
+	grid:db2P.grid,
+	xAxis: db2P.xAxis,
+	yAxis: db2P.yAxis,
+	series:db2P.series
 };
 var db2POption6 = {
 	title: {
@@ -648,77 +384,11 @@ var db2POption6 = {
 			fontSize: 22
 		}
 	},
-	tooltip: {
-		trigger: 'axis',
-		axisPointer: {
-			type: 'shadow'
-		},
-		// formatter: '{b}<br/>{a} :{c}%',
-		formatter:function(params){
-			return rukuTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
-		},
-		textStyle: {
-			fontSize: 22
-		}
-	},
-	grid: {
-		left: '3%',
-		right: '10%',
-		bottom: '10%',
-		containLabel: true
-	},
-	xAxis: {
-		type: 'value',
-		axisLabel: {
-			textStyle: {
-				show: true,
-				color: 'rgba(255,255,255,1)',
-				fontSize: 20
-			},
-			formatter: function (value) {
-				return value + '%'
-			}
-		},
-		min: 0,
-		max: 100,
-	},
-	yAxis: {
-		// show: false,
-		type: 'category',
-		axisLabel: {
-			textStyle: {
-				show: true,
-				color: 'rgba(255,255,255,1)',
-				fontSize: 20
-			}
-		},
-		data: []
-	},
-	series: [{
-		name: '入库率',
-		type: 'bar',
-		barWidth: 50,
-		data: [5, 20, 36, 10, 10],
-		itemStyle: {
-			normal: {
-				label: {
-					show: true,
-					textStyle: {
-						fontSize: 20,
-						color: '#fff'
-					},
-					position: 'insideRight',
-					formatter: function (params) {
-						if (params.value == 0) {
-							return "";
-						}
-						return params.value + "%"
-					}
-				},
-				color: color.color1
-			}
-		}
-	}]
+	tooltip:db2P.tooltip,
+	grid:db2P.grid,
+	xAxis: db2P.xAxis,
+	yAxis: db2P.yAxis,
+	series:db2P.series
 };
 
 function setClick(data, percentage) {
@@ -744,8 +414,6 @@ function summaryShow(data, percentage) {
 	setCharts(data, percentage);
 
 };
-
-
 function setCharts(data, percentage) {
 	// 动态生成模板
 	addHtml1();

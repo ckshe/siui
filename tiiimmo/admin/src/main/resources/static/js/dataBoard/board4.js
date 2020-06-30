@@ -1,7 +1,5 @@
 
 // 第四看板========================================================================
-//看板四弹框
-
 var db4P1, db4P2;
 db4P1 = echarts.init(document.getElementById('db4P1'), 'macarons');
 db4P2 = echarts.init(document.getElementById('db4P2'), 'macarons');
@@ -176,7 +174,6 @@ var db4POption2 = {
 // 动态生成模板
 function addfourBoardHtml(data) {
 	var theadHtml = '', tbodyHtml = '', tbodyData = data;
-	//console.log(tbodyData.length)
 	var arr4 = [14, 10, 10, 19, 14, 14, 14]
 	var theadData = ['员工名称', '工位', '所在工序', '物料名称', '生产批次', '任务信息', '当前完成率']
 	// colwidth = (($("#fourBoard").width() / theadData.length) - 10) + "px";
@@ -203,7 +200,6 @@ function addfourBoardHtml(data) {
 			// '	<h3><i><h4></h4></i></h3>' +
 			// '</div>' +
 			'</span>' +
-
 			'</div>' +
 			'</li>';
 	}
@@ -216,7 +212,6 @@ function addfourBoardHtml(data) {
 			url: board4Api.findByProcessTaskCode + tbodyData[$(this).index()].process_task_code,
 			dataType: "json",
 			success: function (response) {
-				//console.log("abc========",response)
 				$('.filterbg').show();
 				$('.popup').show();
 				$('.popup').width('3px');
@@ -285,7 +280,6 @@ function setDataBoard4(params) {
 	db4P2.setOption(db4POption2);
 	board4();
 	board2Interval = setInterval(function () {
-		console.log(66666666)
 		board4();
 	}, 60000);
 	function board4() {
@@ -304,8 +298,7 @@ function setDataBoard4(params) {
 			url: board4Api.staffTodayOntimeRate,
 			dataType: "json",
 			success: function (response) {
-				var kRateArr = [], useRateArr = [], axiskRateArr = [],axiskuseRateArr = [];
-				console.log("aaa=====",response.data)
+				var kRateArr = [], useRateArr = [], axiskRateArr = [], axiskuseRateArr = [];
 				//测试假数据
 				// response = {"code":200,"msg":"成功","data":[
 				// 	{"processType":"调试","rate":152,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1800,"useRate":2360},
@@ -319,36 +312,35 @@ function setDataBoard4(params) {
 					axiskRateArr.push(response.data[i].processType);
 				}
 				for (var j = 0; j < response.data.length; j++) {
-					if(response.data[j].processType=='入库')continue;
+					if (response.data[j].processType == '入库') continue;
 
 					useRateArr.push(response.data[j].useRate);
 					axiskuseRateArr.push(response.data[j].processType);
 				}
-				console.log(kRateArr,useRateArr,axiskRateArr,axiskuseRateArr)
+				// console.log(kRateArr, useRateArr, axiskRateArr, axiskuseRateArr)
 				db4POption1.series[0].data = kRateArr;
 				db4POption1.xAxis.data = axiskRateArr;
-				if(kRateArr.length>0){
-					for(var i=0;i<kRateArr.length;i++){
-						if(kRateArr[i]<100) continue;
+				if (kRateArr.length > 0) {
+					for (var i = 0; i < kRateArr.length; i++) {
+						if (kRateArr[i] < 100) continue;
 						db4POption1.yAxis.max = null
 						db4POption1.yAxis.max = null
 						break;
 					}
 				}
 				db4P1.setOption(db4POption1);
-				
+
 				db4POption2.series[0].data = useRateArr;
 				db4POption2.xAxis.data = axiskuseRateArr;
-				if(useRateArr.length>0){
-					for(var i=0;i<useRateArr.length;i++){
-						if(useRateArr[i]<100) continue;
+				if (useRateArr.length > 0) {
+					for (var i = 0; i < useRateArr.length; i++) {
+						if (useRateArr[i] < 100) continue;
 						db4POption2.yAxis.max = null
 						db4POption2.yAxis.max = null
 						break;
 					}
 				}
 				db4P2.setOption(db4POption2);
-
 			}
 		});
 	}

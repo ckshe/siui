@@ -267,10 +267,7 @@ var db1P3Option = {
         }
     ]
 };
-//弹出框调用ECharts饼图
-var orderOption1 = {
-    title: {
-    },
+var pie = {
     tooltip: {
         trigger: 'item',
         formatter: '{a} <br/>{b}:{d}%',
@@ -320,111 +317,29 @@ var orderOption1 = {
         }
     ]
 }
-//弹出框调用ECharts饼图
+//贴片线饼图
+var orderOption1 = {
+    title: {
+    },
+    tooltip:pie.tooltip,
+    legend: pie.legend,
+    series: pie.series
+}
+//后焊线饼图
 var orderOption2 = {
     title: {
     },
-    tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b} : ({d}%)',
-        textStyle: {
-            fontSize: 20
-        }
-    },
-    legend: {
-        data: ['已完成', '未完成'],
-        // x: 'right',
-        textStyle: {
-            show: true,
-            color: 'rgba(255,255,255,1)',
-            fontSize: 20
-        },
-        y: 20
-    },
-    series: [
-        {
-            name: '',
-            type: 'pie',
-            radius: '80%',
-            center: ['50%', '60%'],
-            data: [
-                { value: 10, name: '已完成' },
-                { value: 20, name: '未完成' }
-            ],
-            itemStyle: {
-                normal: {
-                    label: {
-                        show: true,
-                        position: 'inner',
-                        // formatter: '{d}%',
-                        formatter: function (prams) {
-                            var value;
-                            if (prams.data.value == 0) {
-                                value = ''
-                            } else {
-                                value = prams.data.value + "%"
-                            }
-                            return value;
-                        },
-                        fontSize: 20
-                    }
-                }
-            }
-        }
-    ]
+    tooltip:pie.tooltip,
+    legend: pie.legend,
+    series: pie.series
 }
-//弹出框调用ECharts饼图
+//调试线饼图
 var orderOption3 = {
     title: {
     },
-    tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b} : ({d}%)',
-        textStyle: {
-            fontSize: 20
-        }
-    },
-    legend: {
-        data: ['已完成', '未完成'],
-        // x: 'right',
-        textStyle: {
-            show: true,
-            color: 'rgba(255,255,255,1)',
-            fontSize: 20
-        },
-        y: 20
-    },
-    series: [
-        {
-            name: '',
-            type: 'pie',
-            radius: '80%',
-            center: ['50%', '60%'],
-            data: [
-                { value: 10, name: '已完成' },
-                { value: 20, name: '未完成' }
-            ],
-            itemStyle: {
-                normal: {
-                    label: {
-                        show: true,
-                        position: 'inner',
-                        // formatter: '{d}%',
-                        formatter: function (prams) {
-                            var value;
-                            if (prams.data.value == 0) {
-                                value = ''
-                            } else {
-                                value =  prams.data.value + "%"
-                            }
-                            return value;
-                        },
-                        fontSize: 20
-                    }
-                }
-            }
-        }
-    ]
+    tooltip:pie.tooltip,
+    legend: pie.legend,
+    series: pie.series
 }
 var board1Api = {
     pcbTaskBoard: '/ShowBoard/pcbTaskBoard',//周生产看板
@@ -433,7 +348,7 @@ var board1Api = {
     getMapProcessDayRate: '/ShowBoard/getMapProcessDayRate',//产线日任务达成率
 }
 function setDataBoard1(params) {
-    var PCBInterval,PROCESSInterval; 
+    var PCBInterval, PROCESSInterval;
     var hsaClassOn = $(".button-span button:first").hasClass("on");
     if (hsaClassOn) {
         $.ajax({
@@ -579,20 +494,12 @@ function setDataBoard1(params) {
             }
             db1P2Option.series[0].data = taskFinishRateArr.reverse();
             db1P2Option.series[0].name = '完成率';
-
-            // db1P2Option.tooltip.formatter = function(params,value){
-            //     console.log(params)
-            //     return params;
-
-            // }
-
             db1P2Option.series[0].itemStyle.normal.label.formatter = function (prams) {
                 if (prams.value == 0) {
                     return ''
                 }
                 return prams.value + "%";
             };
-
             db1P2.setOption(db1P2Option);
             $('.box1 .basicInfo .border-blue').html('各批次完成率')
         } else {
@@ -624,23 +531,17 @@ function setDataBoard1(params) {
                     db1P1Option.series[0].data = weekRateArr;
                     db1P1Option.xAxis.data = axisWeekRateArr;
                     db1P1.setOption(db1P1Option);
-
-
                     db1P3Option.series[0].data = axisWeekNumArr;
                     db1P3Option.xAxis.data = axisWeekRateArr;
-                    // db1P3Option.yAxis.axisLabel.formatter = function (value) {
-                    //     return value
-                    // }
-
                     db1P3Option.series[0].itemStyle.normal.label.formatter = function (prams) {
                         if (prams.value == 0) {
                             return ''
                         }
                         return prams.value;
                     };
-                    if(axisWeekNumArr.length>0){
-                        for(var i=0;i<axisWeekNumArr.length;i++){
-                            if(axisWeekNumArr[i]<100) continue;
+                    if (axisWeekNumArr.length > 0) {
+                        for (var i = 0; i < axisWeekNumArr.length; i++) {
+                            if (axisWeekNumArr[i] < 100) continue;
                             db1P3Option.yAxis.max = null;
                             db1P3Option.yAxis.min = null;
                             break;
@@ -733,7 +634,6 @@ function setDataBoard1(params) {
             clearInterval(PROCESSInterval);
             //定时1分钟
             PROCESSInterval = setInterval(function () {
-                console.log(444444444444444)
                 $.ajax({
                     contentType: 'application/json',
                     type: 'get',
@@ -755,9 +655,6 @@ function setDataBoard1(params) {
         if (hsaClassOn) {
             var theadData = ['生产任务单号', '规格型号', '物料名称', '生产批次', '启动日期', '完成时间', '计划量', '完成量', '工单状态'];
             var tbodyData = data;
-            // if (theadData.length > 0) {
-            //     widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) + "px"
-            // }
             theadHtml = '<div class="StateTit">';
             for (var i = 0; i < theadData.length; i++) {
                 if (i > 3) {
@@ -814,9 +711,6 @@ function setDataBoard1(params) {
         } else {
             var theadData = ['工序任务号', '规格型号', '物料名称', '工序', '生产批次', '生产时间', '完成时间', '计划量', '完成量', '工单状态']
             var tbodyData = popData = data;
-            // if (theadData.length > 0) {
-            //     widthPercent = ((widthWW / theadData.length).toFixed(1) - 11) + "px"
-            // }
             theadHtml = '<div class="StateTit">';
             for (var i = 0; i < theadData.length; i++) {
                 if (i > 4) {
@@ -1019,8 +913,3 @@ function setDataBoard1(params) {
         $(".summary").html(theadHtmlP1).css("display", "block");
     }
 }
-
-
-
-
-
