@@ -2,8 +2,10 @@ package com.linln.timer;
 
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.ProcessTaskStatusHistory;
+import com.linln.admin.produce.domain.UserDeviceHistory;
 import com.linln.admin.produce.repository.ProcessTaskRepository;
 import com.linln.admin.produce.repository.ProcessTaskStatusHistoryRepository;
+import com.linln.admin.produce.repository.UserDeviceHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -20,6 +22,9 @@ public class ProcesssTaskWorkTimeTimer {
     @Autowired
     private ProcessTaskStatusHistoryRepository processTaskStatusHistoryRepository;
 
+    @Autowired
+    private UserDeviceHistoryRepository userDeviceHistoryRepository;
+    //定时计算工时
     @Scheduled(cron = "0 * * * * ?")
     public void autoCaculateWorkTime(){
         System.out.println("-------定时开始工时计算------------");
@@ -42,5 +47,18 @@ public class ProcesssTaskWorkTimeTimer {
             processTaskRepository.save(p);
         }
         System.out.println("-------定时工时计算结束------------");
+    }
+
+    @Scheduled(cron = "* * 1 * * ?")
+    public void autoDownDevice(){
+        System.out.println("-------凌晨1点自动下机开始------------");
+
+        List<UserDeviceHistory> list = userDeviceHistoryRepository.findOnlyUpTimeRecordList();
+        Date nowdate = new Date();
+        list.forEach(history -> history.setDown_time(nowdate));
+        userDeviceHistoryRepository.saveAll(list);
+        System.out.println("-------凌晨1点自动下机结束------------");
+
+
     }
 }

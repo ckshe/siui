@@ -496,7 +496,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "' \n" +
                 "\tAND t1.plan_finish_time <= '" +
                 endTime +
-                "'  \n" +
+                "' and t1.process_task_status !='已下达' and t1.process_task_status !='未下达'\n" +
                 "GROUP BY\n" +
                 "\tt3.process_type");
 

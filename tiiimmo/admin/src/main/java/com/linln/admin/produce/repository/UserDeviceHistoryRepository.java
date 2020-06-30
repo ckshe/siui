@@ -23,6 +23,9 @@ public interface UserDeviceHistoryRepository extends BaseRepository<UserDeviceHi
     List<UserDeviceHistory> findOneLastOnTime(String device);
 
 
+    @Query(value = "SELECT * FROM produce_user_device_history WHERE down_time is NULL AND up_time is not null ",nativeQuery = true)
+    List<UserDeviceHistory> findOnlyUpTimeRecordList();
+
 
 
 }
