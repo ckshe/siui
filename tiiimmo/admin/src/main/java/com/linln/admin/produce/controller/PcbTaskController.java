@@ -1,10 +1,11 @@
 package com.linln.admin.produce.controller;
 
 import com.linln.RespAndReqs.PcbTaskReq;
-import com.linln.RespAndReqs.responce.ProcessTaskReq;
+import com.linln.RespAndReqs.ProcessTaskReq;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.service.PcbTaskService;
+import com.linln.admin.produce.service.ProcessTaskService;
 import com.linln.admin.produce.validator.PcbTaskValid;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.EntityBeanUtil;
@@ -17,13 +18,11 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author 小懒虫
@@ -36,6 +35,9 @@ public class PcbTaskController {
 
     @Autowired
     private PcbTaskService pcbTaskService;
+
+    @Autowired
+    private ProcessTaskService processTaskService;
 
     /**
      * 列表页面
@@ -306,6 +308,22 @@ public class PcbTaskController {
     @ResponseBody
     public ResultVo deviceAmountAndworkTime(@RequestBody PcbTaskReq req){
         return pcbTaskService.deviceAmountAndworkTime(req);
+    }
+
+    /**
+     * 列表页面
+     */
+    @GetMapping("/processTask")
+    public String processTask() {
+
+        return "/produce/pcbTask/processTask";
+    }
+
+    //获取所有已投产状态的工序计划
+    @PostMapping("/findProcessTask")
+    @ResponseBody
+    public ResultVo findProcessTask(@RequestBody ProcessTaskReq req){
+        return processTaskService.findProcessTask(req);
     }
 
 

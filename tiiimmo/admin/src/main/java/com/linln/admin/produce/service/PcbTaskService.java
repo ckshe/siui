@@ -1,8 +1,7 @@
 package com.linln.admin.produce.service;
 
 import com.linln.RespAndReqs.PcbTaskReq;
-import com.linln.RespAndReqs.responce.ProcessTaskReq;
-import com.linln.admin.base.repository.PcbRepository;
+import com.linln.RespAndReqs.ProcessTaskReq;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.common.enums.StatusEnum;

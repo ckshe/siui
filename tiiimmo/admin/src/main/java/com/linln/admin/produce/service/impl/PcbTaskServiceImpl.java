@@ -1,18 +1,15 @@
 package com.linln.admin.produce.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.linln.RespAndReqs.ScheduleJobReq;
 import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.RespAndReqs.responce.PTDeviceResp;
-import com.linln.RespAndReqs.responce.ProcessTaskReq;
+import com.linln.RespAndReqs.ProcessTaskReq;
 import com.linln.admin.base.domain.Device;
-import com.linln.admin.base.domain.Pcb;
 import com.linln.admin.base.domain.Process;
 import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.base.repository.ModelsRepository;
-import com.linln.admin.base.repository.PcbRepository;
 import com.linln.admin.base.repository.ProcessRepository;
 import com.linln.admin.produce.domain.*;
 import com.linln.admin.produce.repository.*;
@@ -28,14 +25,8 @@ import com.linln.component.shiro.ShiroUtil;
 import com.linln.modules.system.domain.User;
 import com.linln.utill.ApiUtil;
 import com.linln.utill.DateUtil;
-import com.linln.utill.ReadUtill;
-import io.swagger.models.auth.In;
-import org.apache.xmlbeans.impl.common.ResolverUtil;
-import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.task.TaskDecorator;
 import org.springframework.data.domain.*;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,8 +34,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author 小懒虫
