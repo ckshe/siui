@@ -644,6 +644,52 @@
             var workTime = document.getElementById('workTime');
             var upTime = document.getElementById('upTime');
             systemTime.innerHTML=timeToDate(new Date());
+           function changeData (){
+               $.ajax({
+                   url:"/produce/pcbTask/findProcessTaskByDevice",
+                   type:'post',
+                   dataType : "json",
+                   data : JSON.stringify({
+                       deviceCode:getQueryString('deviceCode')
+                   }),
+                   contentType : "application/json;charset=UTF-8",
+                   success: function (res) {
+                       res.data.some(function (t,i) {
+                           if(t.is_now_flag==1){
+                               $('#qrcode').html("");
+                               //二维码生产
+                               var qrcode = new QRCode("qrcode",{
+                                   height:80,
+                                   width:80
+                               });
+                               //测试二维码
+                               var qrcodeStr = getQueryString('deviceCode')+';'+t.pcb_code+';'+t.process_task_code+'';
+                               qrcode.makeCode(qrcodeStr);
+                               $.ajax({
+                                   url:'/produce/pcbTask/deviceAmountAndworkTime',
+                                   type:'post',
+                                   dataType : "json",
+                                   data : JSON.stringify({
+                                       deviceCode:getQueryString('deviceCode'),
+                                       processTaskCode:t.process_task_code
+                                   }),
+                                   contentType : "application/json;charset=UTF-8",
+                                   success: function (res6) {
+                                       if(res6.code===200){
+                                           document.getElementById('scs').innerHTML=res6.data.amount;
+                                           console.log(res6.data.amount)
+                                           document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.workTime*1000);
+                                       }else{
+                                           layer.alert(res6.msg,{icon:5})
+                                       }
+                                   }});
+                               return true
+                           }
+                       });
+                   }
+               })
+           }
+            changeData()
             setInterval(function () {
                 systemTime.innerHTML=timeToDate(new Date());
                 // if(localStorage.getItem('padUserData')){
@@ -657,48 +703,7 @@
                 // }
                 //更新生产数
                 if(parseInt( new Date().getTime()/1000 )%15===14){
-                    $.ajax({
-                        url:"/produce/pcbTask/findProcessTaskByDevice",
-                        type:'post',
-                        dataType : "json",
-                        data : JSON.stringify({
-                            deviceCode:getQueryString('deviceCode')
-                        }),
-                        contentType : "application/json;charset=UTF-8",
-                        success: function (res) {
-                            res.data.some(function (t,i) {
-                                if(t.is_now_flag==1){
-                                    $('#qrcode').html("");
-                                    //二维码生产
-                                    var qrcode = new QRCode("qrcode",{
-                                        height:80,
-                                        width:80
-                                    });
-                                    //测试二维码
-                                    var qrcodeStr = getQueryString('deviceCode')+';'+t.pcb_code+';'+t.process_task_code+'';
-                                    qrcode.makeCode(qrcodeStr);
-                                    $.ajax({
-                                        url:'/produce/pcbTask/deviceAmountAndworkTime',
-                                        type:'post',
-                                        dataType : "json",
-                                        data : JSON.stringify({
-                                            deviceCode:getQueryString('deviceCode'),
-                                            processTaskCode:t.process_task_code
-                                        }),
-                                        contentType : "application/json;charset=UTF-8",
-                                        success: function (res6) {
-                                            if(res6.code===200){
-                                                document.getElementById('scs').innerHTML=res6.data.amount;
-                                                document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.amount*1000);
-                                            }else{
-                                                layer.alert(res6.msg,{icon:5})
-                                            }
-                                        }});
-                                    return true
-                                }
-                            });
-                        }
-                    })
+                    changeData()
                 }
             },1000)
         });

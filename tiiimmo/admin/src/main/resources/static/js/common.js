@@ -32,9 +32,9 @@ function timeToDate(timestamp,bool){ //bool为true不展示时分秒
 }
 function cacWorkTime(timestamp){
     timestamp = timestamp/1000;
-    var h = Math.floor(timestamp/3600);
-    var m = Math.floor((timestamp%3600)/60);
-    var s = (timestamp%60);
+    var h = Math.floor(timestamp/3600)<10?'0'+Math.floor(timestamp/3600):Math.floor(timestamp/3600);
+    var m = Math.floor((timestamp%3600)/60)<10?'0'+Math.floor((timestamp%3600)/60):Math.floor((timestamp%3600)/60);
+    var s = (timestamp%60)<10?'0'+(timestamp%60):(timestamp%60);
     return h+":"+m+":"+s;
 }
 //ajax
