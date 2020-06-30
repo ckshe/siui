@@ -273,16 +273,23 @@
                 })
             }
             getNodwData();
-                if(localStorage.getItem('padUserData')){
-                    var data = JSON.parse(localStorage.getItem('padUserData'))
-                    $('#userName').html(data.nickname);
-                    $('#juese').html(data.roleNames);
-                    $('#upTime').html('无');
-                    if(/质检/.test(data.roleNames)||/管理员/.test(data.roleNames)){
-                        document.getElementById('bad').style.opacity=1;
-                        document.getElementById('bad').disabled=false
+            $.get('/ShowBoard/findOneLastOnTimeNotDown/'+getQueryString('deviceCode'),function (res) {
+                if(res.code===200){
+                    if(res.data.id!=null){
+                        var data = res.data
+                        $('#userName').html(data.nickname);
+                        $('#juese').html(data.roleNames);
+                        $('#upTime').html('无');
+                        if(/质检/.test(data.roleNames)||/管理员/.test(data.roleNames)){
+                            document.getElementById('bad').style.opacity=1;
+                            document.getElementById('bad').disabled=false
+                        }
                     }
+                }else{
+                    layer.alert(res.msg,{icon:5})
                 }
+            })
+
                     for(var i=0;i<navLis.length;i++){
                         navLis[i].onclick=function (e) {
                             iframe.className='mainBox goLeft0';
@@ -358,8 +365,6 @@
                                if(res.code === 200){
                                    layer.msg(res.msg,{icon:1});
                                    res.data.loginTime = timeToDate(new Date());
-                                   localStorage.setItem('padUserData',JSON.stringify(res.data));
-
                                    setTimeout(function () {
                                        window.location.reload();
                                    },1000)
@@ -392,7 +397,6 @@
                                layer.closeAll();
                                if(res.code === 200){
                                    layer.msg(res.msg,{icon:1});
-                                   localStorage.removeItem("padUserData");
                                    setTimeout(function () {
                                        window.location.reload();
                                    },1000)

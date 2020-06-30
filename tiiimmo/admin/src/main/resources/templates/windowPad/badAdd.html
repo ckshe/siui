@@ -87,10 +87,15 @@
               elem: '#inspectionTime',
               type: 'datetime'
             });
-            if(localStorage.getItem('padUserData')){
-                var data = JSON.parse(localStorage.getItem('padUserData'));
-                $('[name=u]').val(data.nickname);
-            };
+
+            $.get('/ShowBoard/findOneLastOnTimeNotDown/'+getQueryString2('deviceCode'),function (res) {
+                if(res.code===200){
+                    var data = res.data
+                    $('[name=u]').val(data.nickname);
+                }else{
+                    layer.alert(res.msg,{icon:5})
+                }
+            });
             new Checkboxs({
                 url:'/base/badNews/findBadNewsList',
                 elemId:'badCheck',
