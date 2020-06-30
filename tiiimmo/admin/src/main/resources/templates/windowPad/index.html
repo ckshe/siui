@@ -236,6 +236,7 @@
                         res.data.some(function (t,i) {
                             if(t.is_now_flag==1){
                                 nowGonDan=t;
+                                console.log(nowGonDan)
                                 $.ajax({
                                     url:'/produce/pcbTask/deviceAmountAndworkTime',
                                     type:'post',
@@ -500,6 +501,10 @@
             });
             //暂停工单
             $('#stop').on('click',function () {
+                if(nowGonDan==''){
+                    layer.alert('当前无工序',{icon:5})
+                    return
+                }
                 if(isLogin()) {
                     layer.confirm('确定暂停当前工单？', {icon: 3}, function () {
                         layer.load(1, {
@@ -538,6 +543,10 @@
             });
             //生产工单
             $('#run').on('click',function () {
+                if(nowGonDan==''){
+                    layer.alert('当前无工序，请先切换工序再启动',{icon:5})
+                    return
+                }
                 if(isLogin()) {
                     layer.confirm('确定启动当前工单？', {icon: 3}, function () {
                         layer.load(1, {
@@ -576,6 +585,10 @@
             });
             //结束工单
             $('#over').on('click',function () {
+                if(nowGonDan==''){
+                    layer.alert('当前无工序',{icon:5})
+                    return
+                }
                 if(isLogin()) {
                     layer.open({
                         type:1,
@@ -677,7 +690,6 @@
                                    success: function (res6) {
                                        if(res6.code===200){
                                            document.getElementById('scs').innerHTML=res6.data.amount;
-                                           console.log(res6.data.amount)
                                            document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.workTime*1000);
                                        }else{
                                            layer.alert(res6.msg,{icon:5})
@@ -692,15 +704,6 @@
             changeData()
             setInterval(function () {
                 systemTime.innerHTML=timeToDate(new Date());
-                // if(localStorage.getItem('padUserData')){
-                //     var data = JSON.parse(localStorage.getItem('padUserData'));
-                //     upTime.innerHTML=data.loginTime;
-                //     var nn =diffTime(data.loginTime,timeToDate(new Date()));
-                //     if(diffTime(data.loginTime,timeToDate(new Date()))==''){
-                //         nn=0
-                //     }
-                //     // workTime.innerHTML = nn
-                // }
                 //更新生产数
                 if(parseInt( new Date().getTime()/1000 )%15===14){
                     changeData()
