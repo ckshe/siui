@@ -785,6 +785,26 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
         return list;
 
+    }
 
+    @Override
+    public User findOneLastOnTimeNotDown(String deviceCode) {
+        UserDeviceHistory history = userDeviceHistoryRepository.findOneLastOnTimeNotDown(deviceCode);
+
+        if(history==null){
+            return  new User();
+        }
+        User user = userRepository.findById(history.getUser_id()).get();
+        if(user == null){
+            return  new User();
+        }
+        Set<Role>  roleSet = roleService.getUserOkRoleList(user.getId());
+        String roleNames = "";
+        for(Role role : roleSet){
+            roleNames = roleNames + role.getTitle() + "|";
+        }
+        user.setRoleNames(roleNames);
+
+        return user;
     }
 }

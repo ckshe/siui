@@ -60,5 +60,7 @@ public interface ShowBoardService {
 
     public List<BadNews>  findBadNewRate();
 
+    public User findOneLastOnTimeNotDown(String deviceCode);
+
 
 }

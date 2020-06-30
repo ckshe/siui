@@ -167,5 +167,11 @@ public class ShowBoardController {
     }
 
 
+    //查看设备状态运行
+    @GetMapping("/findOneLastOnTimeNotDown/{deviceCode}")
+    @ResponseBody
+    public ResultVo findOneLastOnTimeNotDown( @PathVariable String deviceCode){
+        return ResultVoUtil.success(showBoardService.findOneLastOnTimeNotDown(deviceCode));
+    }
 
 }

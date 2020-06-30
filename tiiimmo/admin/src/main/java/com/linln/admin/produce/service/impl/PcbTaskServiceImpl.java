@@ -624,6 +624,20 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 "");
 
         List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+        //同步领料单
+        for(Map<String,Object>  map: mapList){
+            String pcbTaskCode = (String)map.get("pcb_task_code");
+            Long id = (Long)map.get("id");
+            PcbTask pcbTask2 = pcbTaskRepository.findById(id).get();
+            ResultVo resultVo = getFeedingTaskFromERP(pcbTaskCode);
+            String qtl = resultVo.getMsg();
+            qtl = qtl==null||"".equals(qtl)?"0":qtl;
+            String lightPlateno = (String)resultVo.getData();
+            pcbTask2.setPcb_plate_id(lightPlateno);
+            pcbTask2.setQi_tao_lv(qtl);
+            pcbTaskRepository.save(pcbTask2);
+
+        }
 
         return ResultVoUtil.success("查询成功",mapList,count.size());
 

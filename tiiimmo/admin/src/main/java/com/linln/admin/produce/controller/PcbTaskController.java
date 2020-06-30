@@ -46,7 +46,7 @@ public class PcbTaskController {
     @RequiresPermissions("produce:pcbTask:index")
     public String index(Model model, PcbTask pcbTask) {
 
-        // 创建匹配器，进行动态查询匹配
+        /*// 创建匹配器，进行动态查询匹配
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withMatcher("pcb_task_code", match -> match.contains())
                 .withMatcher("task_sheet_code", match -> match.contains())
@@ -57,20 +57,10 @@ public class PcbTaskController {
         Example<PcbTask> example = Example.of(pcbTask, matcher);
         Page<PcbTask> list = pcbTaskService.getPageList(example);
 
-        //同步领料单
-        for(PcbTask pcbTask2 : list.getContent()){
-            ResultVo resultVo = pcbTaskService.getFeedingTaskFromERP(pcbTask2.getPcb_task_code());
-            String qtl = resultVo.getMsg();
-            qtl = qtl==null||"".equals(qtl)?"0":qtl;
-            String lightPlateno = (String)resultVo.getData();
-            pcbTask2.setPcb_plate_id(lightPlateno);
-            pcbTask2.setQi_tao_lv(qtl);
-            pcbTaskService.save(pcbTask2);
 
-        }
         // 封装数据
         model.addAttribute("list", list.getContent());
-        model.addAttribute("page", list);
+        model.addAttribute("page", list);*/
         return "/produce/pcbTask/index";
     }
 
