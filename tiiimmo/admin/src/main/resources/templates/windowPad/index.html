@@ -186,7 +186,7 @@
                 </ul>
                 </div>
         <div class="buttonBox">
-            <button id="qie" class="shenblueButton" style="width:100%;height:80px">切单</button>
+            <button id="qie" class="shenblueButton" style="width:100%;height:80px">切换工序</button>
             <div class="fourBox">
                 <div class="fourLeft">
                     <button id="run" class="blueButton">启动</button>
@@ -421,11 +421,11 @@
             $('#loginClear').on('click',function () {
                 $('#loginCode').val('')
             });
-            //切单
+            //切换工序
             $('#qie').on('click',function () {
                 a=function (data) {
                     layer.load(1,{
-                        content: '切单中...',
+                        content: '切换工序中...',
                         success: function (layero) {
                             layero.find('.layui-layer-content').css({
                                 'padding-top': '39px',
