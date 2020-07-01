@@ -25,6 +25,8 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         Integer size = processTaskReq.getSize(); //每页条数
         String pcbTaskCode = processTaskReq.getPcbTaskCode();  //任务单号
         String taskSheetCode = processTaskReq.getTaskSheetCode(); //生产批次
+        String pcbCode = processTaskReq.getPcbCode(); //规格型号
+        String pcbName = processTaskReq.getPcbName(); //物料名称
         Date planStartTime = processTaskReq.getPlanStartTime(); //计划开始时间
         Date planFinishTime = processTaskReq.getPlanFinishTime(); //计划完成时间
         Date startTime = processTaskReq.getStartTime(); //实际生产时间
@@ -45,6 +47,18 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         if(taskSheetCode!=null&&!"".equals(taskSheetCode)){
             wheresql.append(" and task_sheet_code  like '" +
                     "%" + taskSheetCode + "%" +
+                    "' ");
+        }
+
+        if(pcbCode!=null&&!"".equals(pcbCode)){
+            wheresql.append(" and pcb_code  like '" +
+                    "%" + pcbCode + "%" +
+                    "' ");
+        }
+
+        if(pcbName!=null&&!"".equals(pcbName)){
+            wheresql.append(" and pcb_name  like '" +
+                    "%" + pcbName + "%" +
                     "' ");
         }
 

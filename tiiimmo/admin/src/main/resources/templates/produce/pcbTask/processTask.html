@@ -29,6 +29,18 @@
                         </div>
                     </div>
                     <div class="layui-inline">
+                        <label class="layui-form-label">规格型号</label>
+                        <div class="layui-input-block">
+                            <input id="pcbCode" type="text" name="pcbCode" placeholder="请输入规格型号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">物料名称</label>
+                        <div class="layui-input-block">
+                            <input id="pcbName" type="text" name="pcbName" placeholder="请输入物料名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
                         <label class="layui-form-label">计划开始</label>
                         <div class="layui-input-block">
                             <input id="planStartTime" type="text" name="planStartTime" placeholder="请输入计划开始时间" autocomplete="off" class="layui-input">
@@ -122,6 +134,8 @@
                     [
                         {field: 'pcb_task_code', title: '生产任务单号', sort: true, minWidth:140}
                         ,{field: 'task_sheet_code', title: '生产批次', sort: true, minWidth:140}
+                        ,{field: 'pcb_code', title: '规格型号', sort: true, minWidth:140}
+                        ,{field: 'pcb_name', title: '物料名称', sort: true, minWidth:140}
                         ,{field: 'process_task_code', title: '工序任务号', sort: true, minWidth:140}
                         ,{field: 'process_name', title: '工序名称', sort: true, minWidth:120}
                         ,{field: 'process_task_status', title: '工单状态', sort: true, minWidth:100}
@@ -137,8 +151,8 @@
                         ,{field: 'finish_time', title: '实际完成时间', sort: true, minWidth:160,templet:function (d) {
                             return d.finish_time?timeToDate(d.finish_time):"";}}
                         ,{field: 'pcb_quantity', title: '计划生产数量', sort: true, minWidth:120}
-                        ,{field: 'quantity}', title: '实际生产数量', sort: true, minWidth:120}
-                        ,{field: 'work_time}', title: '工时', sort: true, minWidth:120}
+                        ,{field: 'amount_completed', title: '实际生产数量', sort: true, minWidth:120}
+                        ,{field: 'work_time', title: '工时', sort: true, minWidth:120}
                         /*,{ title: '操作',fixed:'right', minWidth: 210,templet:function (d) {
                             return  '<button lay-event="tou" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">'+(d.pcb_task_status==="已投产"?"已投产":"投产")+'</button>'
                                 +'<button lay-event="kan" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"":"background-color:#e4e4e4")+'"'+(d.pcb_task_status==="已投产"?"":"disabled")+' type="button">查看工序计划</button>'

@@ -28,6 +28,8 @@ public class ProcessTaskReq {
     private Integer size;
     private String pcbTaskCode;
     private String taskSheetCode;
+    private String pcbName; // 物料名称
+    private String pcbCode; // 规格型号
 
 
 

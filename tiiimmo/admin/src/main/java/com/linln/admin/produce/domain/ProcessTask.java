@@ -21,9 +21,9 @@ public class ProcessTask {
     private String pcb_task_code;
     // 机型版本
     private String model_ver;
-    // PCB名称
+    // PCB名称 （物料名称）
     private String pcb_name;
-    //pcb编码
+    //pcb编码 （规格型号）
     private String pcb_code;
 
     // PCB数量

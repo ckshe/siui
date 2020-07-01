@@ -48,7 +48,7 @@ public class OperationInstruction implements Serializable {
     private String code;
     private String name;
     // 上传人
-    private String uploadPeople;
+    private Long userId;
     // 上传时间
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date uploadTime;

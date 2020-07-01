@@ -100,7 +100,7 @@ public class OperationInstructionController {
             EntityBeanUtil.copyProperties(beOperationInstruction, operationInstruction);
         }
         operationInstruction.setUploadTime(new Date());
-        operationInstruction.setUploadPeople(ShiroUtil.getSubject().getUsername());
+        operationInstruction.setUserId(ShiroUtil.getSubject().getId());
         FileUtil.upload(file);
         operationInstruction.setUploadFile(file.getOriginalFilename());
 
