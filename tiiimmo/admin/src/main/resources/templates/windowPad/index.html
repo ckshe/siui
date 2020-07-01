@@ -525,7 +525,7 @@
                                                 type:2,
                                                 area:["80%","80%"],
                                                 title:'请选择切换工序',
-                                                content:'/gonxvTable?deviceCode='+getQueryString('deviceCode')
+                                                content:'/gonxvTable?deviceCode='+getQueryString('deviceCode')+'&nowId='+nowGonDan.id
                                             });
                                         }else{
                                             layer.alert('暂停或结束才可切换工单',{icon:5})

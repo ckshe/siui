@@ -63,9 +63,12 @@
                 deviceCode:getQueryString('deviceCode'),
             }
             ,parseData: function(res){
+                var data = res.data.filter(function (t) {
+                    return t.id!=getQueryString('nowId');
+                })
                 return {
                     "code": res.code, //解析接口状态
-                    "data": res.data //解析数据列表
+                    "data": data //解析数据列表
                 };
             }
             ,cols:  [
