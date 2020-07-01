@@ -548,6 +548,16 @@ body{
 	height: 80%;
 }
 /* 2020-05-18增加样式 */
+.state-black{
+	width: 20px;
+	height: 20px;
+	background-color: #000000;
+	vertical-align: baseline;
+	display: inline-block;
+	margin-left: 10px;
+	border: 1px solid #00deff;
+	border-radius: 50%;
+}
 
 .state-green,.state-gray,.state-red,.state-yellow{
 	width: 20px;
@@ -657,10 +667,11 @@ body{
 	  height: auto;
 	  border-radius: 0;
 	  border: 1px solid #1e5b6b;
+	  border-radius: 8px;
   }
   .dataBoarder .right .db4p1{
 	  width: 850px;
-	  height: 455px;
+	  height: 460px;
 	  /* padding: 10px 25px; */
   }
   .dataBoarder .left{border-right: 1px solid rgba(255,255,255,.3);}

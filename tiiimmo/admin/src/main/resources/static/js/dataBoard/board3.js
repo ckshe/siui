@@ -98,6 +98,15 @@ function setDataBoard3(params) {
         var deviceCode = $(this).attr("name");
         setdievClick(deviceCode, $(this).index());
     })
+    $('#temperature').off().on('click', function () {
+        var temperature1 = $(this).attr("data-temperature");
+        var humidity1 = $(this).attr("data-humidity");
+        console.log(temperature1,humidity1)
+        settemperatureClick(temperature1,humidity1);
+    })
+    $('#humidity').off().on('click', function () {
+        sethumidityClick();
+    })
 }
 function getData() {
     $.ajax({
@@ -136,17 +145,20 @@ function getEnvironmentRecord() {
             if (response.data.length > 0) {
                 var temperature = response.data[0].temperature;
                 var humidity = response.data[0].humidity;
-                //console.log(temperature, humidity)
-                if (temperature > 40) {
+                console.log(temperature, humidity)
+                if (temperature > 40 || humidity > 70 ) {
                     $("#temperature i").addClass('state-red');
                 } else {
                     $("#temperature i").removeClass('state-red');
                 }
-                if (humidity > 70) {
-                    $("#humidity i").addClass('state-red');
-                } else {
-                    $("#humidity i").removeClass('state-red');
-                }
+                $("#temperature").attr("data-temperature",temperature)
+                $("#temperature").attr("data-humidity",humidity)
+
+                // if (humidity > 70) {
+                //     $("#humidity i").addClass('state-red');
+                // } else {
+                //     $("#humidity i").removeClass('state-red');
+                // }
             }
         }
     });
@@ -188,6 +200,35 @@ function setdievClick(deviceCode, n) {
     });
     setTimeout(deviceShow(deviceCode, n), 800);
 }
+function settemperatureClick(temperature, humidity) {
+    $('.filterbg').show();
+    $('.popup').show();
+    $('.popup').width('3px');
+    $('.popup').animate({ height: '76%' }, 400, function () {
+        $('.popup').animate({ width: '82%' }, 400);
+    });
+    setTimeout(temperatureShow(temperature, humidity), 800);
+}
+function sethumidityClick(temperature, humidity) {
+    $('.filterbg').show();
+    $('.popup').show();
+    $('.popup').width('3px');
+    $('.popup').animate({ height: '76%' }, 400, function () {
+        $('.popup').animate({ width: '82%' }, 400);
+    });
+    setTimeout(humidityShow(), 800);
+}
+function temperatureShow(temperature, humidityn) {
+    $('.popupClose').css('display', 'block');
+    $('.summary').show().css('display', 'block');
+    addtemperatureHtml(temperature, humidityn);
+};
+function humidityShow(temperature, humidityn) {
+    $('.popupClose').css('display', 'block');
+    $('.summary').show().css('display', 'block');
+    humidityShohtml(temperature, humidityn);
+};
+
 function deviceShow(deviceCode, n) {
     $('.popupClose').css('display', 'block');
     $('.summary').show().css('display', 'block');
@@ -441,6 +482,53 @@ function setDevice(data, deviceName, device_code) {
     pieOption3.series[0].data = noBrunTimeArr;
     pieOption3.series[1].data = brunTimeArr;
     devicePie3.setOption(pieOption3);
+}
+function addtemperatureHtml(temperature, humidityn) {
+	var theadHtml = '';
+		theadHtml = '<div class="item" style="width: 100%; height: 760px;">' +
+			'<div class="itemTit">' +
+			'<span class="border-blue">温湿度情况</span>' +
+			'	</div>' +
+			'	<div class="itemCon itembg" style="height: 665px;">' +
+			'		<ul class="listStyle dblist2">' +
+			'			<li class="clearfix" style="border-bottom: 1px solid;">' +
+			'				<span class="col3">位置</span>' +
+			'				<span class="col3">温度</span>' +
+			'				<span class="col3">湿度</span>' +
+			'			</li>' +
+			'			<li class="clearfix">' +
+			'				<span class="col3">电路板车间<strong></strong></span>' +
+			'				<span class="col3">温度:<strong>' + temperature+ '</strong></span>' +
+			'				<span class="col3">湿度:<strong>' + humidityn + '%</strong></span>' +
+			'			</li>' +
+			'		</ul>' +
+			'	</div>' +
+			'</div>';
+		$(".summary").html(theadHtml).css("display", "flex");
+}
+function humidityShohtml() {
+    
+	var theadHtml = '';
+		theadHtml = '<div class="item" style="width: 100%; height: 760px;">' +
+			'<div class="itemTit">' +
+			'<span class="border-blue">变更履历</span>' +
+			'	</div>' +
+			'	<div class="itemCon itembg" style="height: 665px;">' +
+			'		<ul class="listStyle dblist2">' +
+			'			<li class="clearfix" style="border-bottom: 1px solid;">' +
+			'				<span class="col3">软件版本</span>' +
+			'				<span class="col3">变更时期</span>' +
+			'				<span class="col3">变更说明</span>' +
+			'			</li>' +
+			'			<li class="clearfix">' +
+			'				<span class="col3"><strong>V1.0</strong></span>' +
+			'				<span class="col3"><strong>2020.01.01</strong></span>' +
+			'				<span class="col3"><strong>初始版本</strong></span>' +
+			'			</li>' +
+			'		</ul>' +
+			'	</div>' +
+			'</div>';
+		$(".summary").html(theadHtml).css("display", "flex");
 }
 function addHtml(responseData, deviceresponse, n, user) {
     var display, summaryWidth, data;
