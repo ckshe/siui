@@ -5,6 +5,9 @@
 </head>
 
 <body class="timo-layout-page">
+    <div id="linBox" style="padding:0 14px;">
+        <table class="layui-hide" id="linTable" lay-filter="linTable"></table>
+    </div>
     <div class="layui-card">
         <div class="layui-card-header timo-card-header">
             <span><i class="fa fa-bars"></i> 排产计划</span>
@@ -61,7 +64,8 @@
                 table = layui.table,
               laydate = layui.laydate,
                  form = layui.form;
-                parent.layer.closeAll()
+                parent.layer.closeAll();
+
                 laydate.render({
                     elem: '#time'
                     ,type:'datetime'
@@ -135,6 +139,50 @@
                         ]
                     ]
                 });
+               var lineObj={
+                   elem: '#linTable'
+                   ,url: '/produce/pcbTask/findFeedingTask' //数据接口
+                   ,method:'POST'
+                   ,loading:false
+                   ,contentType: 'application/json'
+                   ,response: {
+                       statusCode: 200
+                   }
+                   ,page: true
+                   ,limit:10
+                   ,where:{}
+                   ,parseData: function(res){
+                       return {
+                           "code": res.code, //解析接口状态
+                           "data": res.data, //解析数据列表
+                           "count": res.total, //解析数据长度
+                       };
+                   }
+                   ,cols: [
+                       [
+                           {field: 'product_code', title: '物料编号', sort: true, minWidth:160}
+                           ,{field: 'product_name', title: '物料名称', minWidth:200}
+                           ,{field: 'specification_model', title: '规格型号', sort: true, minWidth:206}
+                           ,{field: 'stock_name', title: '发料仓库', minWidth:216}
+                           ,{field: 'unit', title: '单位',  minWidth:90}
+                           ,{field: 'FQtyScrap', title: '单位用量', sort: true, minWidth:100}
+                           ,{field: 'FQtyMust', title: '计划投料数', sort: true, minWidth:120}
+                           ,{field: 'FStockQty', title: '已领数量', sort: true, minWidth:120}
+                           ,{field: 'FNStockQty', title: '未领数量', sort: true, minWidth:120}
+                           ,{field: 'FQty', title: '库存', sort: true, minWidth:120}
+                           ,{field: 'FQtlv', title: '齐套率', sort: true, minWidth:237}
+                           ,{field: 'pcb_task_code', title: '生产任务单号', sort: true, minWidth:150}
+                           ,{field: 'feeding_task_code', title: '投料单号', sort: true, minWidth:110}
+                           ,{field: 'status', title: '是否冻结', minWidth:100,templet:function (d) {
+                               return d.status==1?'是':'否'
+                           }}
+                           // ,{ title: '操作',fixed:'right', minWidth: 210,templet:function (d) {
+                           //     return  '<button lay-event="tou" class="layui-btn  layui-btn-xs" type="button"></button>'
+                           //
+                           // }
+                       ]
+                   ]
+               };
                 form.on('submit(search)',function (obj) {
                     var data = obj.field;
                     table.reload('table',{
@@ -193,7 +241,17 @@
                             });
                             break;
                         case "lin":
-                            alert(123)
+                            console.log(data)
+
+                            lineObj.where.feedindTaskCode = data.feeding_task_code
+                            // lineObj.where.feedindTaskCode =123
+                            table.render(lineObj)
+                            layer.open({
+                               title:'领料单',
+                               type:1,
+                                area:['96%','96%'],
+                               content:$("#linBox"),
+                            });
                             break;
                     }
                 })

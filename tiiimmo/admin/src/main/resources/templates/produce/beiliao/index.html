@@ -40,7 +40,6 @@
             <div class="layui-input-block">
                 <select name="process_task_status"  lay-filter="status">
                     <option value="进行中">进行中</option>
-                    <option value="生产中">生产中</option>
                     <option value="暂停">暂停</option>
                     <option value="完成">完成</option>
                 </select>
@@ -153,7 +152,7 @@
                     {field: 'task_sheet_code', title: '生产批次', minWidth:172}
                     ,{field: 'pcb_task_code', title: '排产任务号', minWidth:172}
                     ,{field: 'process_task_code', title: '工序任务号', minWidth:172}
-                    ,{field: 'pcb_code', title: '规格型号', minWidth:172}
+                    ,{field: 'pcb_code', title: '规格型号', minWidth:188}
                     ,{field: 'pcb_code', title: '光板号', minWidth:130,templet:function(){
                         return "";
                     }}

@@ -222,14 +222,12 @@
                 form = layui.form;
                 var navLis = document.getElementsByClassName('navLi');
                 var iframe = document.getElementById('iframe');
-                var cookies=1
             $.ajax({
                 url:"/produce/pcbTask/checkIsLogin",
                 type:"get",
                 async:false,
                 error:function (res1) {
                     if(res1.status===401) {
-                        cookies = 0;
                         $.ajax({
                             url: '/ShowBoard/findOneLastOnTimeNotDown/' + getQueryString('deviceCode'),
                             type:'get',
@@ -243,7 +241,7 @@
                                         dataType: "json",
                                         data: JSON.stringify({
                                             cardSequence: res.data.card_sequence,
-                                            deviceCode: getQueryString('deviceCode'),
+                                            deviceCode: getQueryString('deviceCode')
                                         }),
                                         contentType: "application/json;charset=UTF-8",
                                         success: function (res) {
@@ -253,7 +251,6 @@
                                                 setTimeout(function () {
                                                     window.location.reload();
                                                 }, 1000)
-
                                             }
 
                                         }
@@ -277,7 +274,6 @@
                     }),
                     contentType : "application/json;charset=UTF-8",
                     success: function (res) {
-                        layer.closeAll();
                         res.data.some(function (t,i) {
                             if(t.is_now_flag==1){
                                 nowGonDan=t;
@@ -324,6 +320,7 @@
                         var data = res.data
                         $('#userName').html(data.nickname);
                         $('#juese').html(data.roleNames);
+                        $('#upTime').html(timeToDate(data.updateDate));
                         // upTime.html('无');
                         if(/质检/.test(data.roleNames)||/管理员/.test(data.roleNames)){
                             document.getElementById('bad').style.opacity=1;
@@ -407,6 +404,7 @@
                            contentType : "application/json;charset=UTF-8",
                            success: function (res) {
                                layer.closeAll();
+
                                if(res.code === 200){
                                    layer.msg(res.msg,{icon:1});
                                    res.data.loginTime = timeToDate(new Date());
