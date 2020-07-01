@@ -68,7 +68,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
     @Override
     public List<PcbTask> pcbTaskBoard() {
 
-        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        Date date = new Date();
+        Date xdate = DateUtil.dateAddHours(date,-1);
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(xdate);
         String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
         String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
         List<PcbTask> allByStartEndTime = pcbTaskRepository.findAllByStartEndTime(startTime, endTime);
@@ -78,9 +80,11 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public Map<String,Object> getMapWeekRate() {
+        Date date = new Date();
+        Date xdate = DateUtil.dateAddHours(date,-1);
         Map<String,Object> map = new HashMap<>();
         //本周即第四周
-        Map<String,String> thisWeekDate4 = DateUtil.getThisWeek(new Date());
+        Map<String,String> thisWeekDate4 = DateUtil.getThisWeek(xdate);
         String startTime4 = thisWeekDate4.get("weekBegin")+" 00:00:00";
         String endTime4 = thisWeekDate4.get("weekEnd")+" 23:59:59";
         List<PcbTask> pcbTask4 = pcbTaskRepository.findAllByStartEndTime(startTime4,endTime4);
@@ -90,7 +94,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
 
         //第三周
-        Date week3 = DateUtil.dateAddNum(new Date(),-7);
+        Date week3 = DateUtil.dateAddNum(xdate,-7);
         Map<String,String> thisWeekDate3 = DateUtil.getThisWeek(week3);
         String startTime3 = thisWeekDate3.get("weekBegin")+" 00:00:00";
         String endTime3 = thisWeekDate3.get("weekEnd")+" 23:59:59";
@@ -101,7 +105,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
 
         //第二周
-        Date week2 = DateUtil.dateAddNum(new Date(),-14);
+        Date week2 = DateUtil.dateAddNum(xdate,-14);
         Map<String,String> thisWeekDate2 = DateUtil.getThisWeek(week2);
         String startTime2 = thisWeekDate2.get("weekBegin")+" 00:00:00";
         String endTime2 = thisWeekDate2.get("weekEnd")+" 22:59:59";
@@ -113,7 +117,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
 
         //第一周
-        Date week1 = DateUtil.dateAddNum(new Date(),-21);
+        Date week1 = DateUtil.dateAddNum(xdate,-21);
         Map<String,String> thisWeekDate1 = DateUtil.getThisWeek(week1);
         String startTime1 = thisWeekDate1.get("weekBegin")+" 00:00:00";
         String endTime1 = thisWeekDate1.get("weekEnd")+" 11:59:59";
@@ -131,7 +135,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public Map<String,Object> getMapProcessWeekRate() {
-        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        Date date = new Date();
+        Date xdate = DateUtil.dateAddHours(date,-1);
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(xdate);
         String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
         String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
         List<ProcessTask> processTaskList = processTaskRepository.findByStartEndTime(startTime, endTime);
@@ -170,7 +176,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public List<Map<String, Object>> getTaskFinishRate() {
-        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        Date date = new Date();
+        Date xdate = DateUtil.dateAddHours(date,-1);
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(xdate);
         String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
         String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
         StringBuffer sql = new StringBuffer("SELECT\n" +
@@ -198,8 +206,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public  List<Map<String,Object>> staffOnBoard() {
-
-        String today = DateUtil.date2String(new Date(),"");
+        Date date = new Date();
+        Date xdate = DateUtil.dateAddHours(date,-1);
+        String today = DateUtil.date2String(xdate,"");
         StringBuffer sql = new StringBuffer("\n" +
                 "SELECT\n" +
                 "\t* \n" +
@@ -269,8 +278,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public List<ProcessThisWeekRateResp> getMapProcessThisWeekRate() {
-
-        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        Date date = new Date();
+        Date xdate = DateUtil.dateAddHours(date,-1);
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(xdate);
         String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
         String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
 
@@ -356,7 +366,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public Map<String, Object> getMapProcessDayRate() {
-        String today = DateUtil.date2String(new Date(),"");
+        Date date = new Date();
+        Date xdate = DateUtil.dateAddHours(date,-1);
+        String today = DateUtil.date2String(xdate,"");
         String startTime = today+" 00:00:00";
         String endTime = today+" 23:59:59";
         List<ProcessTask> processTaskList = processTaskRepository.findByStartEndTime(startTime, endTime);
@@ -391,7 +403,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public  Map<String,Object> getMapProcessTypeDayRate() {
-        String today = DateUtil.date2String(new Date(),"");
+        Date date = new Date();
+        Date xdate = DateUtil.dateAddHours(date,-1);
+        String today = DateUtil.date2String(xdate,"");
         String startTime = today+" 00:00:00";
         String endTime = today+" 23:59:59";
 
@@ -451,7 +465,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public List<StaffOntimeRateResp>  staffTodayOntimeRate() {
-        String today = DateUtil.date2String(new Date(),"");
+        Date date = new Date();
+        Date xdate = DateUtil.dateAddHours(date,-1);
+        String today = DateUtil.date2String(xdate,"");
         String startTime = today+" 00:00:00";
         String endTime = today+" 23:59:59";
         StringBuffer staffOntimeSql = new StringBuffer("\n" +
@@ -573,7 +589,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public List<BadRateResp> processBadRate() {
-        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        Date date = new Date();
+        Date xdate = DateUtil.dateAddHours(date,-1);
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(xdate);
         String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
         String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
         StringBuffer sql  = new StringBuffer("\tSELECT sum(amount_completed) sumamoumt FROM produce_process_task WHERE plan_finish_time >='" +
@@ -635,7 +653,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public  List<DeviceRunTimeResp> getDeviceRunTime(String deviceCode) {
-        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        Date date = new Date();
+        Date xdate = DateUtil.dateAddHours(date,-1);
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(xdate);
         String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
         String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
         List<String> dayList = DateUtil.dayBetweenTwoDate(DateUtil.string2Date(startTime, ""),DateUtil.string2Date(endTime, ""));
@@ -683,7 +703,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public Map<String,Map<String,Object>> findByStartEndTimeBy3TiePian() {
-        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        Date date = new Date();
+        Date xdate = DateUtil.dateAddHours(date,-1);
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(xdate);
         String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
         String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
 
@@ -735,7 +757,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public Map<String,Object>  findCropRate(String deviceCode) {
-        String today = DateUtil.date2String(new Date(),"");
+        Date date = new Date();
+        Date xdate = DateUtil.dateAddHours(date,-1);
+        String today = DateUtil.date2String(xdate,"");
         List<DeviceCropRate> rateList = deviceCropRateRepository.findByDevice_codeAndRecord_time(deviceCode, today);
         Map<String,Object>  map = new HashMap<>();
         if(rateList!=null&&rateList.size()!=0){
@@ -749,7 +773,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public List<BadNews>  findBadNewRate() {
-        Map<String,String> thisWeekDate = DateUtil.getThisWeek(new Date());
+        Date date = new Date();
+        Date xdate = DateUtil.dateAddHours(date,-1);
+        Map<String,String> thisWeekDate = DateUtil.getThisWeek(xdate);
         String startTime = thisWeekDate.get("weekBegin")+" 00:00:00";
         String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
 
@@ -804,7 +830,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
             roleNames = roleNames + role.getTitle() + "|";
         }
         user.setRoleNames(roleNames);
-
+        user.setUpTime(history.getUp_time());
         return user;
     }
 }

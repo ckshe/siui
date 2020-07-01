@@ -87,4 +87,6 @@ public class User implements Serializable {
     //岗位
     @Transient
     private String roleNames;
+    @Transient
+    private Date upTime;
 }

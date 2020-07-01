@@ -11,6 +11,17 @@ import java.util.*;
 @Component
 public class DateUtil {
 
+
+    //时间往前推n个小时
+    public static Date dateAddHours(Date date,int hour){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR, hour);
+        Date xdate = cal.getTime();
+        String xday = date2String(xdate,"yyyy-MM-dd HH:mm:ss");
+        return xdate;
+    }
+
     //date转string
     public static String date2String (Date date, String format){
         if(format==null||"".equals(format)){
@@ -129,4 +140,8 @@ public class DateUtil {
         return result;
     }
 
+    public static void main(String[] args) {
+        //String day = dateAddHours("2020-06-30 00:00:00",-1);
+        //System.out.println(day);
+    }
 }
