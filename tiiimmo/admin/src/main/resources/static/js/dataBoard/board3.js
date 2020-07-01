@@ -499,7 +499,7 @@ function addtemperatureHtml(temperature, humidityn) {
 			'			<li class="clearfix">' +
 			'				<span class="col3">电路板车间</span>' +
 			'				<span class="col3"><strong>' + temperature+ '℃</strong></span>' +
-			'				<span class="col3"><strong>' + humidityn + '%</strong></span>' +
+			'				<span class="col3"><strong>' + humidityn + '%RH</strong></span>' +
 			'			</li>' +
 			'		</ul>' +
 			'	</div>' +
