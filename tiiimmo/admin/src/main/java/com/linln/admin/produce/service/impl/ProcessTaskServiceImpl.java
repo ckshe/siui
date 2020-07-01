@@ -63,19 +63,31 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         }
 
         if(planStartTime!=null&&!"".equals(planStartTime)){
-            String plantStartTimeString = DateUtil.date2String(planStartTime, "yyyy-MM-dd HH:mm:ss");
-            wheresql.append(" and plan_start_time  = '" +
+            String plantStartTimeString = DateUtil.date2String(planStartTime, "yyyy-MM-dd");
+            /*wheresql.append(" and plan_start_time  = '" +
                     plantStartTimeString +
+                    "' ");*/
+            wheresql.append(" and plan_start_time >= '" +
+                    plantStartTimeString + " 00:00:00" +
+                    "' ");
+            wheresql.append(" and plan_start_time <= '" +
+                    plantStartTimeString + " 23:59:59" +
                     "' ");
         }
         if(planFinishTime!=null&&!"".equals(planFinishTime)){
-            String planFinishTimeString = DateUtil.date2String(planFinishTime, "yyyy-MM-dd HH:mm:ss");
-            wheresql.append(" and plan_finish_time  = '" +
+            String planFinishTimeString = DateUtil.date2String(planFinishTime, "yyyy-MM-dd");
+            /*wheresql.append(" and plan_finish_time  = '" +
                     planFinishTimeString +
+                    "' ");*/
+            wheresql.append(" and plan_finish_time >= '" +
+                    planFinishTimeString + " 00:00:00" +
+                    "' ");
+            wheresql.append(" and plan_finish_time <= '" +
+                    planFinishTimeString + " 23:59:59" +
                     "' ");
         }
         if(startTime!=null&&!"".equals(startTime)){
-            String startTimeString = DateUtil.date2String(startTime,"yyyy-MM-dd").substring(0,10);
+            String startTimeString = DateUtil.date2String(startTime,"yyyy-MM-dd");
             //startTimeString.substring(0,10);
             wheresql.append(" and start_time >= '" +
                     startTimeString + " 00:00:00" +
@@ -86,7 +98,7 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         }
 
         if(finishTime!=null&&!"".equals(finishTime)){
-            String finishTimeString = DateUtil.date2String(finishTime,"yyyy-MM-dd").substring(0,10);
+            String finishTimeString = DateUtil.date2String(finishTime,"yyyy-MM-dd");
             wheresql.append(" and finish_time >= '" +
                     finishTimeString + " 00:00:00" +
                     "' ");
