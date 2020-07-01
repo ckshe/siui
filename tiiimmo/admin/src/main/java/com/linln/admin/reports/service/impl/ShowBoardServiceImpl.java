@@ -163,9 +163,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
     }
 
     private BigDecimal caculateRate(int finishCount, int allcount) {
-        BigDecimal finish2 = new BigDecimal(finishCount);
+        BigDecimal finish2 = new BigDecimal(allcount==0?0:finishCount);
         BigDecimal all2 = new BigDecimal(allcount==0?1:allcount);
-        return finish2.divide(all2,4, RoundingMode.HALF_DOWN).multiply(new BigDecimal(100));
+        return finish2.divide(all2,2, RoundingMode.HALF_DOWN).multiply(new BigDecimal(100));
     }
 
     @Override

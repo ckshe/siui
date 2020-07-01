@@ -843,30 +843,33 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             Device device = deviceRepository.fingDeviceBySort(req.getDeviceCode());
             //加入设备状态记录表
             //step1:找到设备最后一条没有结束时间的记录
-            DeviceStatusRecord deviceStatusRecord = deviceStatusRecordRepository.findByDevice_code(device.getDevice_code());
+//           DeviceStatusRecord deviceStatusRecord = deviceStatusRecordRepository.findByDevice_code(device.getDevice_code());
+            List<DeviceStatusRecord> recordList = deviceStatusRecordRepository.findByDevice_codeLastOne(device.getDevice_code());
+            DeviceStatusRecord deviceStatusRecord = (recordList==null||recordList.size()==0)?null:recordList.get(0);
             Date today = new Date();
             if(deviceStatusRecord==null){
                 DeviceStatusRecord newRecord = new DeviceStatusRecord();
                 newRecord.setContinue_time(0);
                 newRecord.setStart_time(today);
+                newRecord.setEnd_time(today);
                 newRecord.setDevice_code(device.getDevice_code());
                 newRecord.setDevice_name(device.getDevice_name());
                 newRecord.setDevice_status(req.getStatus());
                 deviceStatusRecordRepository.save(newRecord);
             }else {
-                //step2:状态相同则跳过
+                //step2:状态相同则重写结束时间与持续时间
                 if(req.getStatus().equals(deviceStatusRecord.getDevice_status())){
-
-                }else {
-                    //step3:状态不同结束上一条并计算持续时间，新增一条
                     deviceStatusRecord.setEnd_time(today);
                     Long cha = (today.getTime()-deviceStatusRecord.getStart_time().getTime())/1000;
                     deviceStatusRecord.setContinue_time(Integer.parseInt(cha+""));
                     deviceStatusRecordRepository.save(deviceStatusRecord);
+                }else {
+                    //step3:状态不同新增一条
                     //新增
                     DeviceStatusRecord newRecord = new DeviceStatusRecord();
                     newRecord.setContinue_time(0);
                     newRecord.setStart_time(today);
+                    newRecord.setEnd_time(today);
                     newRecord.setDevice_code(device.getDevice_code());
                     newRecord.setDevice_name(device.getDevice_name());
                     newRecord.setDevice_status(req.getStatus());
@@ -1036,7 +1039,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTaskStatusHistoryRepository.save(newhistory);
         }else {
             //step2:状态相同则跳过
-            if(pcbTaskReq.getProcessTaskCode().equals(history.getProcess_task_code())){
+            if(processTask.getProcess_task_code().equals(history.getProcess_task_code())){
 
             }else {
                 //step3:状态不同结束上一条并计算持续时间，新增一条
