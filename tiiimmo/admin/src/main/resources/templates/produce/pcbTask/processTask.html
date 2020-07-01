@@ -64,18 +64,7 @@
                             <input id="finishTime" type="text" name="finishTime" placeholder="请输入实际完成时间" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <!--<div class="layui-inline">
-                        <label class="layui-form-label">规格型号</label>
-                        <div class="layui-input-block">
-                            <input id="pcbId" type="text" name="pcbId"  placeholder="请输入规格型号" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">物料名称</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="pcbName" name="pcbName" placeholder="请输入物料名称" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>-->
+
                     <div class="layui-inline">
                         <button class="layui-btn" id="search"  type="button" lay-submit lay-filter="search">
                             <i class="fa fa-search"></i>
@@ -169,9 +158,24 @@
                     where:obj.field
                 })
             });
+            laydate.render({
+                elem: '#startTime',
+                range: true
 
+            });
+            laydate.render({
+                elem: '#finishTime'
+            });
+            laydate.render({
+                elem: '#planStartTime'
+            });
+            laydate.render({
+                elem: '#planFinishTime'
+            });
             new Enter('pcbTaskCode',function () {$('#search').click()});
             new Enter('taskSheetCode',function () {$('#search').click()});
+            new Enter('pcbCode',function () {$('#search').click()});
+            new Enter('pcbName',function () {$('#search').click()});
             new Enter('planStartTime',function () {$('#search').click()});
             new Enter('planFinishTime',function () {$('#search').click()});
             new Enter('startTime',function () {$('#search').click()});
@@ -186,6 +190,7 @@
         .layui-laydate .layui-this{
             background-color:#1e9fff!important;
         }
+
     </style>
 </body>
 </html>

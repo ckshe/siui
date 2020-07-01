@@ -75,7 +75,7 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
                     "' ");
         }
         if(startTime!=null&&!"".equals(startTime)){
-            String startTimeString = DateUtil.date2String(startTime, "yyyy-MM-dd").substring(0,10);
+            String startTimeString = DateUtil.date2String(startTime,"yyyy-MM-dd").substring(0,10);
             //startTimeString.substring(0,10);
             wheresql.append(" and start_time >= '" +
                     startTimeString + " 00:00:00" +
@@ -84,11 +84,9 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
                     startTimeString + " 23:59:59" +
                     "' ");
         }
+
         if(finishTime!=null&&!"".equals(finishTime)){
-            String finishTimeString = DateUtil.date2String(finishTime, "yyyy-MM-dd HH:mm:ss").substring(0,10);
-            /*wheresql.append(" and finish_time  = '" +
-                    finishTimeString +
-                    "' ");*/
+            String finishTimeString = DateUtil.date2String(finishTime,"yyyy-MM-dd").substring(0,10);
             wheresql.append(" and finish_time >= '" +
                     finishTimeString + " 00:00:00" +
                     "' ");
