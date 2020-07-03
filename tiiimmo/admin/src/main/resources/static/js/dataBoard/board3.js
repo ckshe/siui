@@ -1014,7 +1014,7 @@ var db3POption5 = {
             name: '不良率',
             type: 'pie',
             radius: '60%',
-            center: ['38%', '60%'],
+            center: ['38%', '50%'],
             data: [
                 // { value: 50, name: '贴片' },
                 // { value: 60, name: '后焊' },
