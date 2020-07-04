@@ -74,17 +74,18 @@
         <div class="layui-card-body">
         <form class="layui-form pull-left layui-form-pane timo-search-box "  lay-filter='search'>
             <div class="layui-inline">
-                <label class="layui-form-label">工序任务</label>
-                <div class="layui-input-block">
-                    <input id="processTaskCode" type="text" name="processTaskCode"  placeholder="请输入任务号" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
                 <label class="layui-form-label">排产任务</label>
                 <div class="layui-input-block">
                     <input type="text" id="pcbTaskCode" name="pcbTaskCode"  placeholder="请输入任务号" autocomplete="off" class="layui-input">
                 </div>
             </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">工序任务</label>
+                <div class="layui-input-block">
+                    <input id="processTaskCode" type="text" name="processTaskCode"  placeholder="请输入任务号" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
             <button class="layui-btn" id="search" type="button" lay-submit lay-filter="sub"><i class="layui-icon">&#xe615;</i></button>
             <button type="reset" class="layui-btn layui-bg-blue" >清除</button>
         </form>

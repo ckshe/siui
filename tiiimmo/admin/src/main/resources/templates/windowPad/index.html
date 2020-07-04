@@ -699,7 +699,6 @@
                 }
             });
 
-
             var systemTime = document.getElementById('systemTime');
             var workTime = document.getElementById('workTime');
             var upTime = document.getElementById('upTime');
@@ -752,7 +751,9 @@
             setInterval(function () {
                 systemTime.innerHTML=timeToDate(new Date());
                 //更新生产数
-                if(parseInt( new Date().getTime()/1000 )%15===14){
+                console.log('首页计时')
+                if(parseInt( new Date().getTime()/1000 )%10===9){
+                    console.log('首页触发')
                     changeData()
                 }
             },1000)

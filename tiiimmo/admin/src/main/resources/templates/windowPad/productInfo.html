@@ -177,7 +177,7 @@
                         ,{field: 'pcb_quantity', title: '计划生产数量', minWidth: 120}
                         ,{field: 'amount_completed', title: '实际生产数量', minWidth: 120}
                         ,{field: 'is_rohs', title: 'RoHS标志', minWidth: 100}
-                        ,{field: 'batch_id', title: '板编号', minWidth: 170}
+                        ,{field: 'batch_id', title: '板编号', minWidth: 248}
                         ,{field: 'plan_start_time', title: '计划生产时间', minWidth: 170,templet:function (d) {
                                 return timeToDate(d.plan_start_time)
                         }}
@@ -190,7 +190,6 @@
                     ]
                 ]
             });
-
 
             table.on('tool(table)',function (obj) {
                 var data = obj.data;
@@ -228,7 +227,8 @@
                 }
             })
             setInterval(function () {
-                if(parseInt( new Date().getTime()/1000 )%15===14){
+                if(parseInt( new Date().getTime()/1000 )%10===9){
+                    console.log('生产工序同步触发')
                     $.ajax({
                         url:"/produce/pcbTask/findProcessTaskByDevice",
                         type:'post',
@@ -240,8 +240,16 @@
                         success: function (res) {
 
                             res.data.some(function (t,i) {
-
                                 if(t.is_now_flag==1){
+                                    t.plan_start_time = timeToDate(t.plan_start_time);
+                                    t.plan_finish_time = timeToDate(t.plan_finish_time);
+                                    parent.nowGonDan=t;
+                                    var  statusBox = document.getElementById('statusBox');
+                                    statusBox.className = color(t.process_task_status);
+                                    statusBox.innerHTML = t.process_task_status;
+                                    form.val('formNode',t);
+
+
                                     document.getElementById('scs').value=t.amount_completed;
                                     return true
                                 }
