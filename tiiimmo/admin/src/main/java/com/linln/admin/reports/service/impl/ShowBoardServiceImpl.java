@@ -488,7 +488,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "\t\n" +
                 "\t) t4 GROUP BY t4.process_type");
 
-        StringBuffer countStaffClassSql =  new StringBuffer("SELECT COUNT(id) staffAllCount, process FROM base_production_shift GROUP BY process");
+        StringBuffer countStaffClassSql =  new StringBuffer("SELECT COUNT(t1.id) staffAllCount, t2.process_type FROM base_production_shift t1 LEFT JOIN base_process t2 ON t2.name = t1.process GROUP BY t2.process_type");
 
         StringBuffer processTypeSql = new StringBuffer("SELECT process_type FROM base_process GROUP BY process_type");
 
@@ -539,8 +539,8 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 }
             }
             for(Map<String, Object> countStaffClass :countStaffClassSqlList){
-                String processName = (String)countStaffClass.get("process");
-                if(processName.equals(processTypeName)){
+                String processtypeName = (String)countStaffClass.get("process_type");
+                if(processTypeName.equals(processtypeName)){
                     Integer staffAllCount = (Integer) countStaffClass.get("staffAllCount");
                     staffOntimeRateResp.setProcessTypeStaffAllCount(staffAllCount);
                 }

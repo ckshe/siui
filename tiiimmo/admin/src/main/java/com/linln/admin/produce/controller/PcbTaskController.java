@@ -82,6 +82,9 @@ public class PcbTaskController {
 
         //同步领料单
         for(PcbTask pcbTask2 : list.getContent()){
+            if(pcbTask2.getPcb_plate_id()!=null&&!pcbTask2.getPcb_plate_id().equals("")){
+                continue;
+            }
             ResultVo resultVo = pcbTaskService.getFeedingTaskFromERP(pcbTask2.getPcb_task_code());
             String qtl = resultVo.getMsg();
             qtl = qtl==null||"".equals(qtl)?"0":qtl;

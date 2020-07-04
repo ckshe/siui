@@ -1039,7 +1039,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTaskStatusHistoryRepository.save(newhistory);
         }else {
             //step2:状态相同则跳过
-            if(processTask.getProcess_task_code().equals(history.getProcess_task_code())){
+            if(pcbTaskReq.getProcessTaskStatus().equals(history.getProcess_task_status())){
 
             }else {
                 //step3:状态不同结束上一条并计算持续时间，新增一条

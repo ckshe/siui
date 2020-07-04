@@ -1,6 +1,8 @@
 package com.linln.admin.produce.service.impl;
 
 import com.linln.RespAndReqs.ProcessTaskReq;
+import com.linln.admin.produce.domain.ProcessTaskDetail;
+import com.linln.admin.produce.repository.ProcessTaskDetailRepositoty;
 import com.linln.admin.produce.service.ProcessTaskService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
@@ -18,6 +20,10 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private ProcessTaskDetailRepositoty processTaskDetailRepositoty;
+
     @Override
     public ResultVo findProcessTask(ProcessTaskReq processTaskReq) {
 
@@ -126,6 +132,20 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
 
         return ResultVoUtil.success("查询成功",mapList,count.size());
 
+    }
+
+
+    @Override
+    public void addTaskDetailList(List<ProcessTaskDetail> details) {
+        processTaskDetailRepositoty.saveAll(details);
+    }
+
+    @Override
+    public List<ProcessTaskDetail> findProcessTaskDeatilList(String processTaskCode) {
+
+        List<ProcessTaskDetail> detailList = processTaskDetailRepositoty.findByProcess_task_code(processTaskCode);
+
+        return detailList;
     }
 }
 

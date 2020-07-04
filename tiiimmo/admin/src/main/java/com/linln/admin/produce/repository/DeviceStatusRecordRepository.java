@@ -11,6 +11,6 @@ public interface DeviceStatusRecordRepository extends BaseRepository<DeviceStatu
     @Query(value = "SELECT * FROM base_device_status_record WHERE end_time is NULL AND device_code = ?1",nativeQuery = true)
     DeviceStatusRecord findByDevice_code(String deviceCode);
 
-    @Query(value = "SELECT * FROM base_device_status_record WHERE end_time is NULL AND device_code = ?1 order  by id desc",nativeQuery = true)
+    @Query(value = "SELECT * FROM base_device_status_record WHERE  device_code = ?1 order  by id desc",nativeQuery = true)
     List<DeviceStatusRecord> findByDevice_codeLastOne(String deviceCode);
 }

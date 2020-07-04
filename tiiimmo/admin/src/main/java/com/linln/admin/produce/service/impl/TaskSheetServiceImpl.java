@@ -1,6 +1,8 @@
 package com.linln.admin.produce.service.impl;
 
+import com.linln.admin.produce.domain.ProcessTaskDetail;
 import com.linln.admin.produce.domain.TaskSheet;
+import com.linln.admin.produce.repository.ProcessTaskDetailRepositoty;
 import com.linln.admin.produce.repository.TaskSheetRepository;
 import com.linln.admin.produce.service.TaskSheetService;
 import com.linln.common.data.PageSort;
@@ -63,5 +65,4 @@ public class TaskSheetServiceImpl implements TaskSheetService {
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return taskSheetRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
-
 }
