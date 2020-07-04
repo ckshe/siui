@@ -131,6 +131,8 @@
                 layer = layui.layer,
                 form = layui.form;
             layer.load(1)
+            var  statusBox = document.getElementById('statusBox');
+
             //展示已知数据
             table.render({
                 elem: '#table'
@@ -152,7 +154,6 @@
                             t.plan_start_time = timeToDate(t.plan_start_time);
                             t.plan_finish_time = timeToDate(t.plan_finish_time);
                             parent.nowGonDan=t;
-                           var  statusBox = document.getElementById('statusBox');
                             statusBox.className = color(t.process_task_status);
                             statusBox.innerHTML = t.process_task_status;
                             form.val('formNode',t);
@@ -250,11 +251,8 @@
                                     statusBox.className = color(t.process_task_status);
                                     statusBox.innerHTML = t.process_task_status;
                                     document.getElementById('scs').value=t.amount_completed;
-                                    console.log(t.id)
-                                    console.log($('[name=id]').val())
                                     if(t.id!=$('[name=id]').val()){
                                         //有当前，且当前id不等于页面的id
-                                        console.log(11111)
                                         table.reload('table')
                                     }
                                     form.val('formNode',t);
@@ -269,6 +267,7 @@
                                         $("[name=id]").val("");
                                     }
                                     $("#formNode")[0].reset();
+                                    statusBox.className=""
                                     $("[name=id]").val('');
                             }
 
