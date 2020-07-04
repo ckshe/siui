@@ -22,6 +22,7 @@
         <div class="title">当前生产工序</div>
         <form class="layui-form" lay-filter="formNode" id="formNode">
             <div id="statusBox" class=""></div>
+            <input type="hidden" name="id">
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">工序任务号:</label>
@@ -130,6 +131,8 @@
                 layer = layui.layer,
                 form = layui.form;
             layer.load(1)
+            var  statusBox = document.getElementById('statusBox');
+
             //展示已知数据
             table.render({
                 elem: '#table'
@@ -151,7 +154,6 @@
                             t.plan_start_time = timeToDate(t.plan_start_time);
                             t.plan_finish_time = timeToDate(t.plan_finish_time);
                             parent.nowGonDan=t;
-                           var  statusBox = document.getElementById('statusBox');
                             statusBox.className = color(t.process_task_status);
                             statusBox.innerHTML = t.process_task_status;
                             form.val('formNode',t);
@@ -228,7 +230,7 @@
             })
             setInterval(function () {
                 if(parseInt( new Date().getTime()/1000 )%10===9){
-                    console.log('生产工序同步触发')
+                    // console.log('生产工序同步触发');
                     $.ajax({
                         url:"/produce/pcbTask/findProcessTaskByDevice",
                         type:'post',
@@ -238,22 +240,37 @@
                         }),
                         contentType : "application/json;charset=UTF-8",
                         success: function (res) {
-
+                            var has=0
                             res.data.some(function (t,i) {
                                 if(t.is_now_flag==1){
+                                    has=1;
                                     t.plan_start_time = timeToDate(t.plan_start_time);
                                     t.plan_finish_time = timeToDate(t.plan_finish_time);
                                     parent.nowGonDan=t;
                                     var  statusBox = document.getElementById('statusBox');
                                     statusBox.className = color(t.process_task_status);
                                     statusBox.innerHTML = t.process_task_status;
+                                    document.getElementById('scs').value=t.amount_completed;
+                                    if(t.id!=$('[name=id]').val()){
+                                        //有当前，且当前id不等于页面的id
+                                        table.reload('table')
+                                    }
                                     form.val('formNode',t);
 
-
-                                    document.getElementById('scs').value=t.amount_completed;
                                     return true
                                 }
                             });
+                            if(has===0){
+                                    //无当前，且页面id不为undefined
+                                    if($('[name=id]').val()!==""){
+                                        table.reload('table')
+                                        $("[name=id]").val("");
+                                    }
+                                    $("#formNode")[0].reset();
+                                    statusBox.className=""
+                                    $("[name=id]").val('');
+                            }
+
                         }
                     })
                 }
