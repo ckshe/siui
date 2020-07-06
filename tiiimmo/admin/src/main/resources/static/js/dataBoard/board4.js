@@ -279,7 +279,7 @@ function setDataBoard4(params) {
 	db4P1.setOption(db4POption1);
 	db4P2.setOption(db4POption2);
 	board4();
-	board2Interval = setInterval(function () {
+	board4Interval = setInterval(function () {
 		board4();
 	}, 60000);
 	function board4() {
