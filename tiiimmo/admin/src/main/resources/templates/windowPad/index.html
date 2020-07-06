@@ -277,7 +277,6 @@
                         res.data.some(function (t,i) {
                             if(t.is_now_flag==1){
                                 nowGonDan=t;
-                                console.log(nowGonDan)
                                 $.ajax({
                                     url:'/produce/pcbTask/deviceAmountAndworkTime',
                                     type:'post',
