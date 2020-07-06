@@ -2,6 +2,7 @@ package com.linln.admin.produce.service;
 
 import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.RespAndReqs.ProcessTaskReq;
+import com.linln.RespAndReqs.responce.PlateNoInfo;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.common.enums.StatusEnum;
@@ -50,6 +51,8 @@ public interface PcbTaskService {
     ResultVo getFeedingTaskFromERP(String FRWFBillNo) ;
     ResultVo putIntoProduceBefore(Long pcbTaskId);
 
+    ResultVo putIntoProduceByPlateInfo(PlateNoInfo plateNoInfo);
+
     ResultVo putIntoProduce(PcbTaskReq pcbTaskReq);
 
     ResultVo findProcessTaskByPCBTaskId(Long id);
@@ -95,4 +98,6 @@ public interface PcbTaskService {
     ResultVo findPcbTaskPlateNo(PcbTaskReq req);
 
     ResultVo deviceAmountAndworkTime(PcbTaskReq req);
+
+    ResultVo generateBatchId(Long pcbTaskId);
 }

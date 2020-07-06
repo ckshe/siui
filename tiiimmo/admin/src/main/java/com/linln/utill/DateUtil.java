@@ -97,7 +97,7 @@ public class DateUtil {
 
     //返回两天之间的日期集合
     public static List<String> dayBetweenTwoDate(Date start,Date end){
-    // 返回的日期集合
+        // 返回的日期集合
         List<String> days = new ArrayList<String>();
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -117,7 +117,7 @@ public class DateUtil {
         return days;
 
     }
-    
+
     //返回截至当天所在周的日期集合
     public static List<String> getThisWeekDayListUtillToday(Date date){
         Map<String, String> thisWeek = getThisWeek(date);
@@ -138,6 +138,23 @@ public class DateUtil {
         String result = strNow[0].substring(2,strNow[0].length())+strNow[1]+strNow[2];
 
         return result;
+    }
+
+    //日期比较前后
+    public static int compareDate(Date one,Date two){
+        String onestr = date2String(one,"");
+        String twostr = date2String(two,"");
+        one = string2Date(onestr,"");
+        two = string2Date(twostr,"");
+
+
+        long onelong = one.getTime();
+        long twolong = two.getTime();
+
+        return (onelong<twolong ? -1 : (onelong==twolong ? 0 : 1));
+
+
+
     }
 
     public static void main(String[] args) {
