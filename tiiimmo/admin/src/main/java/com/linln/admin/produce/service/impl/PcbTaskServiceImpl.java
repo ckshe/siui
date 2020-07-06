@@ -1658,7 +1658,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }else {
             amount = processTask.getAmount_completed();
         }
-        BigDecimal workTime = processTask.getWork_time();
+        BigDecimal workTime = processTask.getWork_time().multiply(new BigDecimal(60));
 
         Map<String,Object> map = new HashMap<>();
         map.put("amount",amount);
