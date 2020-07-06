@@ -1175,6 +1175,16 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             return ResultVoUtil.error("该任务单已完成");
         }
         if("进行中".equals(processTask.getProcess_task_status())||"生产中".equals(processTask.getProcess_task_status())){
+            PcbTaskPlateNo pcbTaskPlateNo = pcbTaskPlateNoRepository.findByPlate_no(pcbTaskReq.getPlateNo());
+            if(pcbTaskPlateNo==null){
+                return ResultVoUtil.error("找不到该板编号！");
+            }
+            if("1".equals(pcbTaskPlateNo.getIs_count())){
+                return ResultVoUtil.error("该板编号已计数过！");
+            }
+            pcbTaskPlateNo.setIs_count("1");
+            pcbTaskPlateNo.setUpdate_time(new Date());
+            pcbTaskPlateNoRepository.save(pcbTaskPlateNo);
             Integer nowfinish = processTask.getAmount_completed()+1;
             processTask.setAmount_completed(nowfinish);
             //当数量足够自动完成
@@ -1195,16 +1205,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 }
             }
             processTaskRepository.save(processTask);
-            PcbTaskPlateNo pcbTaskPlateNo = pcbTaskPlateNoRepository.findByPlate_no(pcbTaskReq.getPlateNo());
-            if(pcbTaskPlateNo==null){
-                return ResultVoUtil.error("找不到该板编号！");
-            }
-            if("1".equals(pcbTaskPlateNo.getIs_count())){
-                return ResultVoUtil.error("该板编号已计数过！");
-            }
-            pcbTaskPlateNo.setIs_count("1");
-            pcbTaskPlateNo.setUpdate_time(new Date());
-            pcbTaskPlateNoRepository.save(pcbTaskPlateNo);
+
 
             return ResultVoUtil.success("计数成功");
         }
