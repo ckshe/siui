@@ -19,6 +19,8 @@ public class PcbTaskPlateNo {
 
     private String pcb_task_code;
 
+    private String process_task_code;
+
     private String plate_no;
 
     private Byte status;

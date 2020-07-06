@@ -16,6 +16,5 @@ public interface ProcessTaskService {
     void addTaskDetailList(List<ProcessTaskDetail> details);
 
     //查看工序任务单详情
-
     List<ProcessTaskDetail> findProcessTaskDeatilList(String processTaskCode);
 }

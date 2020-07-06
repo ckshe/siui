@@ -1,7 +1,10 @@
 package com.linln.admin.produce.service.impl;
 
+import com.linln.RespAndReqs.responce.PlateNoInfo;
 import com.linln.admin.produce.domain.ProcessTaskDetail;
+import com.linln.admin.produce.service.PcbTaskService;
 import com.linln.admin.produce.service.ProcessTaskService;
+import com.linln.common.vo.ResultVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ public class TaskSheetServiceImplTest {
 
     @Autowired
     private ProcessTaskService processTaskService;
+
+    @Autowired
+    private PcbTaskService pcbTaskService;
 
     @Test
     public void addProcessTaskDetailList(){
@@ -51,5 +57,23 @@ public class TaskSheetServiceImplTest {
     public void findProcessTaskDeatilList() {
         List<ProcessTaskDetail> processTaskDeatilList = processTaskService.findProcessTaskDeatilList("66852");
         System.out.println("");
+    }
+
+
+    @Test
+    public void generateBatchId(){
+        ResultVo resultVo = pcbTaskService.generateBatchId(7201L);
+        System.out.println(resultVo.toString());
+    }
+    @Test
+    public void putinto(){
+        PlateNoInfo plateNoInfo = new PlateNoInfo();
+        plateNoInfo.setPcbTaskId(7201L);
+        plateNoInfo.setPcbCode("DCY2.908.1678GS-RA");
+        plateNoInfo.setBiginNum(100);
+        plateNoInfo.setPrefix("1678A");
+        plateNoInfo.setSuffix("R");
+        ResultVo resultVo = pcbTaskService.putIntoProduceByPlateInfo(plateNoInfo);
+        System.out.println(resultVo.toString());
     }
 }

@@ -2,8 +2,10 @@ package com.linln.admin.produce.controller;
 
 import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.RespAndReqs.ProcessTaskReq;
+import com.linln.RespAndReqs.responce.PlateNoInfo;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.domain.ProcessTask;
+import com.linln.admin.produce.domain.ProcessTaskDetail;
 import com.linln.admin.produce.service.PcbTaskService;
 import com.linln.admin.produce.service.ProcessTaskService;
 import com.linln.admin.produce.validator.PcbTaskValid;
@@ -201,6 +203,21 @@ public class PcbTaskController {
 
         return pcbTaskService.putIntoProduceBefore(id);
     }
+
+    //根据排产计划id生成板编号信息
+    @GetMapping("/generateBatchId/{id}")
+    @ResponseBody
+    public ResultVo generateBatchId(@PathVariable Long id){
+        return pcbTaskService.generateBatchId(id);
+    }
+
+    @PostMapping("/putIntoProduceByPlateInfo")
+    @ResponseBody
+    public ResultVo putIntoProduceByPlateInfo(@RequestBody PlateNoInfo plateNoInfo){
+        return pcbTaskService.putIntoProduceByPlateInfo(plateNoInfo);
+    }
+
+
     //根据排产计划id获取工序计划
     @GetMapping("/findProcessTaskByPCBTaskId/{id}")
     @ResponseBody
@@ -323,6 +340,24 @@ public class PcbTaskController {
     @ResponseBody
     public ResultVo checkIsLogin(){
         return ResultVoUtil.success("");
+    }
+
+
+    //获取所有已投产状态的工序计划
+    @PostMapping("/findProcessTaskDeatilList")
+    @ResponseBody
+    public ResultVo findProcessTaskDeatilList(@RequestBody ProcessTaskReq req){
+        processTaskService.findProcessTaskDeatilList(req.getProcessTaskCode());
+        return ResultVoUtil.success();
+    }
+
+
+    //新增工序计划日计划
+    @PostMapping("/addTaskDetailList")
+    @ResponseBody
+    public ResultVo addTaskDetailList(@RequestBody List<ProcessTaskDetail> details){
+        processTaskService.addTaskDetailList(details);
+        return ResultVoUtil.success();
     }
 
 }
