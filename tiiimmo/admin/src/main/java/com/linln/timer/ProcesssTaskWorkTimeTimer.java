@@ -34,7 +34,7 @@ public class ProcesssTaskWorkTimeTimer {
             Integer workTime = 0;
             BigDecimal tempWorkTime = p.getWork_time();
             for(ProcessTaskStatusHistory history : historyListist){
-                if(history.getProcess_task_code().contains("进行中")||history.getProcess_task_code().contains("生产中")){
+                if(history.getProcess_task_status().contains("进行中")||history.getProcess_task_status().contains("生产中")){
                     if(history.getEnd_time()!=null){
                         workTime = workTime + history.getContinue_time();
                     }else {

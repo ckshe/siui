@@ -148,7 +148,10 @@
                     deviceCode:getQueryString2('deviceCode'),
                 }
                 ,parseData: function(res){
-                    layer.closeAll()
+                    layer.closeAll();
+                    if(res.data.length>0){
+                        localStorage.setItem('gxData',JSON.stringify(res.data));
+                    }
                     res.data.some(function (t,i) {
                         if(t.is_now_flag==1){
                             t.plan_start_time = timeToDate(t.plan_start_time);
@@ -227,20 +230,38 @@
                         }
                         break;
                 }
-            })
+            });
             setInterval(function () {
                 if(parseInt( new Date().getTime()/1000 )%10===9){
-                    // console.log('生产工序同步触发');
                     $.ajax({
                         url:"/produce/pcbTask/findProcessTaskByDevice",
                         type:'post',
                         dataType : "json",
-                        data : JSON.stringify({
-                            deviceCode:getQueryString2('deviceCode')
-                        }),
+                        data : JSON.stringify({deviceCode:getQueryString2('deviceCode')}),
                         contentType : "application/json;charset=UTF-8",
                         success: function (res) {
-                            var has=0
+                            var has=0;
+                            //判断老数据鱼新数据id是否不同
+                            try {
+                                if(localStorage.getItem('gxData')){
+                                    var old = JSON.parse(localStorage.getItem('gxData'));
+                                    if(old.length===res.data.length){
+                                        old.some(function (t,i) {
+                                           if(t.id!==res.data[i].id){
+                                               localStorage.setItem('gxData',res.data)
+                                               window.location.reload();
+                                               return true
+                                           }
+                                        })
+                                    }else{
+                                        localStorage.setItem('gxData',res.data)
+                                        window.location.reload();
+                                    }
+                                }
+                            }catch (e) {
+                                window.location.reload();
+                            }
+                            //判断是否存在当前
                             res.data.some(function (t,i) {
                                 if(t.is_now_flag==1){
                                     has=1;
@@ -256,7 +277,6 @@
                                         table.reload('table')
                                     }
                                     form.val('formNode',t);
-
                                     return true
                                 }
                             });
