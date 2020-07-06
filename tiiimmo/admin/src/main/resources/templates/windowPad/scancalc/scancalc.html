@@ -33,8 +33,10 @@
             var $ = layui.jquery,
                 table = layui.table,
                 form = layui.form;
+            var keke = parent.document.getElementById('scs')
             var codeBox = document.getElementById('codeBox');
             codeBox.focus();
+
             scanCode('codeBox',function () {
                 layer.load(1,{
                     content: '添加中...',
@@ -72,8 +74,10 @@
                                         layer.closeAll();
                                         if(res2.code === 200){
                                             layer.msg(res.msg,{icon:1});
+                                            keke.innerHTML=parseInt(keke.innerHTML)+1
+
                                             setTimeout(function () {
-                                                parent.window.location.reload();
+                                               window.location.reload();
                                             },1000)
                                         }else{
                                             layer.alert(res2.msg,{icon:5})
