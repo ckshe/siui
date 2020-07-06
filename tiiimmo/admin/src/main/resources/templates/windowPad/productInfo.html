@@ -242,20 +242,24 @@
                         success: function (res) {
                             var has=0;
                             //判断老数据鱼新数据id是否不同
-                            if(localStorage.getItem('gxData')){
-                                var old = JSON.parse(localStorage.getItem('gxData'));
-                                if(old.length===res.data.length){
-                                    old.some(function (t,i) {
-                                       if(t.id!==res.data[i].id){
-                                           localStorage.setItem('gxData',res.data)
-                                           window.location.reload();
-                                           return true
-                                       }
-                                    })
-                                }else{
-                                    localStorage.setItem('gxData',res.data)
-                                    window.location.reload();
+                            try {
+                                if(localStorage.getItem('gxData')){
+                                    var old = JSON.parse(localStorage.getItem('gxData'));
+                                    if(old.length===res.data.length){
+                                        old.some(function (t,i) {
+                                           if(t.id!==res.data[i].id){
+                                               localStorage.setItem('gxData',res.data)
+                                               window.location.reload();
+                                               return true
+                                           }
+                                        })
+                                    }else{
+                                        localStorage.setItem('gxData',res.data)
+                                        window.location.reload();
+                                    }
                                 }
+                            }catch (e) {
+                                window.location.reload();
                             }
                             //判断是否存在当前
                             res.data.some(function (t,i) {
