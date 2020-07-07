@@ -140,7 +140,6 @@
                     ,url: '/produce/pcbTask/findScheduling' //数据接口
                     ,method:'POST'
                     ,loading:false
-
                     ,contentType: 'application/json'
                     ,response: {
                         statusCode: 200
@@ -159,7 +158,7 @@
                         return {
                             "code": res.code, //解析接口状态
                             "data": res.data, //解析数据列表
-                            "count": res.total, //解析数据长度
+                            "count": res.total //解析数据长度
                         };
                     }
                     ,cols: [
@@ -169,11 +168,12 @@
                             ,{field: 'task_sheet_date', title: '通知日期', sort: true, minWidth:170,templet:function (d) {
                                 return d.task_sheet_date?timeToDate(d.task_sheet_date):"";}}
                             ,{field: 'pcb_id', title: '规格型号', sort: true, minWidth:206}
-                            ,{field: 'pcb_name', title: '物料名称', sort: true, minWidth:216}
-                            ,{field: 'feeding_task_code', title: '投料单号', sort: true, minWidth:120}
                             ,{title: '领料单', minWidth:120,templet:function (d) {
                                 return "<span style='color:#1e9fff;cursor: pointer' lay-event='lin'>查看领料单</span>"
                             }}
+                            ,{field: 'pcb_name', title: '物料名称', sort: true, minWidth:216}
+                            ,{field: 'feeding_task_code', title: '投料单号', sort: true, minWidth:120}
+
                             ,{field: 'pcb_quantity', title: '计划生产数量', sort: true, minWidth:120}
                             ,{field: 'quantity}', title: '完成数量', sort: true, minWidth:120}
                             ,{field: 'produce_plan_date', title: '安排启动日期', sort: true, minWidth:170,templet:function (d) {
@@ -198,7 +198,6 @@
                                 return  '<button lay-event="tou" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">'+(d.pcb_task_status==="已投产"?"已投产":"投产")+'</button>'
                                        +'<button lay-event="kan" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"":"background-color:#e4e4e4")+'"'+(d.pcb_task_status==="已投产"?"":"disabled")+' type="button">查看工序计划</button>'
                                        +'<button lay-event="edit" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">编辑</button>'
-
                             }
                     }
                         ]
@@ -208,13 +207,13 @@
                    elem: '#linTable'
                    ,url: '/produce/pcbTask/findFeedingTask' //数据接口
                    ,method:'POST'
+                   ,height:'full-90'
                    ,loading:false
                    ,contentType: 'application/json'
                    ,response: {
                        statusCode: 200
                    }
-                   ,page: true
-                   ,limit:10
+                   ,page: false
                    ,where:{}
                    ,parseData: function(res){
                        return {
@@ -230,12 +229,12 @@
                            ,{field: 'specification_model', title: '规格型号', sort: true, minWidth:206}
                            ,{field: 'stock_name', title: '发料仓库', minWidth:216}
                            ,{field: 'unit', title: '单位',  minWidth:90}
-                           ,{field: 'FQtyScrap', title: '单位用量', sort: true, minWidth:100}
-                           ,{field: 'FQtyMust', title: '计划投料数', sort: true, minWidth:120}
-                           ,{field: 'FStockQty', title: '已领数量', sort: true, minWidth:120}
-                           ,{field: 'FNStockQty', title: '未领数量', sort: true, minWidth:120}
-                           ,{field: 'FQty', title: '库存', sort: true, minWidth:120}
-                           ,{field: 'FQtlv', title: '齐套率', sort: true, minWidth:237}
+                           ,{field: 'fqtyScrap', title: '单位用量', sort: true, minWidth:100}
+                           ,{field: 'fqtyMust', title: '计划投料数', sort: true, minWidth:120}
+                           ,{field: 'fstockQty', title: '已领数量', sort: true, minWidth:120}
+                           ,{field: 'fnstockQty', title: '未领数量', sort: true, minWidth:120}
+                           ,{field: 'fqty', title: '库存', sort: true, minWidth:120}
+                           ,{field: 'fqtlv', title: '齐套率', sort: true, minWidth:237}
                            ,{field: 'pcb_task_code', title: '生产任务单号', sort: true, minWidth:150}
                            ,{field: 'feeding_task_code', title: '投料单号', sort: true, minWidth:110}
                            ,{field: 'status', title: '是否冻结', minWidth:100,templet:function (d) {
