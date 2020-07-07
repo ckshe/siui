@@ -12,19 +12,21 @@
 <body class="timo-layout-page">
 <div id="formBox" style="display: none">
     <form  class="layui-form" lay-filter="banForm" >
+        <input type="hidden" id="id" name="id">
+        <input type="hidden" id="year" name="year">
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">板前缀</label>
                 <div class="layui-input-inline">
-                    <input id="before" type="text" name="before"  autocomplete="off" class="layui-input">
+                    <input id="before" type="text" name="prefix"  autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">号码</label>
+                <label class="layui-form-label">初始号码</label>
                 <div class="layui-input-inline">
-                    <input id="code" type="text" name="prefix"  autocomplete="off" class="layui-input">
+                    <input id="code" type="number" name="biginNum"  autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
@@ -32,7 +34,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">板后缀</label>
                 <div class="layui-input-inline">
-                    <input id="after" type="text" name="suffix"  autocomplete="off" class="layui-input">
+                    <input id="after" type="text" name="suffix" required autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
@@ -40,7 +42,15 @@
             <div class="layui-inline">
                 <label class="layui-form-label">初始板编号</label>
                 <div class="layui-input-inline">
-                    <input id="banCode" type="text" name="code"  autocomplete="off" class="layui-input">
+                    <input id="banCode" style="border:none" type="text" required name="code"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">规格型号</label>
+                <div class="layui-input-inline">
+                    <input  type="text"  style="border:none" name="pcbCode" required disabled autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
@@ -238,8 +248,9 @@
                 var after = document.getElementById('after');
                 var code = document.getElementById('code');
                 var banCode = document.getElementById('banCode');
+                var year = document.getElementById('year');
                 function codeChange(){
-                    banCode.value=before.value+code.value+after.value
+                    banCode.value=before.value+""+(parseInt(year.value)+parseInt(code.value))+""+after.value
                 }
                 before.oninput=function () { codeChange() };
                 after.oninput=function () { codeChange() };
@@ -268,17 +279,31 @@
 
                 $("#ok").on('click',function () {
                     layer.confirm('确定投产',{icon:3},function () {
-                        return
-                        $.get('/produce/pcbTask/putIntoProduceBefore/'+data.id,function(res){
-                            if(res.code===200){
-                                layer.alert(res.msg,{icon:1},function () {
-                                    layer.closeAll();
-                                    table.reload('table');
-                                })
-                            }else{
-                                layer.alert(res.msg,{icon:5})
+                        $.ajax({
+                            url: '/produce/pcbTask/putIntoProduceByPlateInfo',
+                            // url: '/123',
+                            type: "post",
+                            dataType : "json",
+                            data : JSON.stringify({
+                                prefix: before.value,
+                                suffix: after.value,
+                                biginNum: parseInt(code.value),
+                                pcbTaskId:$('#id').val()
+                            }),
+                            contentType : "application/json;charset=UTF-8",
+                            success: function (res2) {
+                                layer.closeAll();
+                                if(res2.code === 200){
+                                    layer.msg(res2.msg,{icon:1});
+                                    setTimeout(function () {
+                                        table.reload('table')
+                                    },1000)
+                                }else{
+                                    layer.alert(res2.msg,{icon:5})
+                                }
+
                             }
-                        });
+                        })
                     });
                 });
 
@@ -289,13 +314,15 @@
                             layer.open({
                                 type:1,
                                 title:"填写板编号",
-                                area:['400px','350px'],
+                                area:['400px','420px'],
                                 content:$("#formBox"),
                                 success:function () {
                                     $.get('/produce/pcbTask/generateBatchId/'+data.id,function(res){
                                         if(res.code===200){
-                                                layer.closeAll();
-                                                form.val('banForm',res.data)
+                                            var d=res.data;
+                                                d.code=d.prefix+""+(d.year+d.biginNum)+""+d.suffix;
+                                                d.id=data.id
+                                                form.val('banForm',d)
                                         }else{
                                             layer.alert(res.msg,{icon:5})
                                         }
