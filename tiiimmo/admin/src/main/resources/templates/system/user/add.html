@@ -20,6 +20,12 @@
                 <input class="layui-input" type="text" name="nickname" placeholder="请输入用户昵称" th:value="${user?.nickname}">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">用户工号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="card_sequence" placeholder="请输入用户工号" th:value="${user?.card_sequence}">
+            </div>
+        </div>
         <div class="layui-form-item" th:if="!${user}">
             <label class="layui-form-label required">用户密码</label>
             <div class="layui-input-inline">
