@@ -413,6 +413,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         plateNoInfo.setBiginNum(biginNum);
         plateNoInfo.setPcbCode(pcbTask.getPcb_id());
         plateNoInfo.setPcbTaskId(pcbTaskId);
+        plateNoInfo.setYear(200000);
 
 
         return ResultVoUtil.success(plateNoInfo);
@@ -757,7 +758,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         String status = pcbTaskReq.getStatus();
         if(status==null||"".equals(status)){
             status = "已投产";
-
         }
         if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
             page = pcbTaskReq.getPage();
@@ -780,7 +780,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     "%" + pcbName + "%" +
                     "' ");
         }
-        if(status!=null&&!"".equals(status)){
+        if(status!=null&&!"".equals(status)&&!"全部".equals(status)){
             wheresql.append(" and pcb_task_status like '" +
                     "%" + status + "%" +
                     "' ");
