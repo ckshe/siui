@@ -3,8 +3,53 @@
       xmlns:mo="https://gitee.com/aun/Timo">
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
 </head>
-
+<style>
+    #formBox{
+        box-sizing: border-box;
+        padding:14px;
+    }
+</style>
 <body class="timo-layout-page">
+<div id="formBox" style="display: none">
+    <form  class="layui-form" lay-filter="banForm" >
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">板前缀</label>
+                <div class="layui-input-inline">
+                    <input id="before" type="text" name="before"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">号码</label>
+                <div class="layui-input-inline">
+                    <input id="code" type="text" name="prefix"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">板后缀</label>
+                <div class="layui-input-inline">
+                    <input id="after" type="text" name="suffix"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">初始板编号</label>
+                <div class="layui-input-inline">
+                    <input id="banCode" type="text" name="code"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center">
+            <button class="layui-btn" id="ok" type="button">确定</button>
+        </div>
+    </form>
+</div>
+
     <div id="linBox" style="padding:0 14px;display: none!important;">
         <table class="layui-hide" id="linTable" lay-filter="linTable"></table>
     </div>
@@ -57,7 +102,6 @@
 <script th:replace="/common/template :: script"></script>
     <script src="../../js/common.js" ></script>
     <script>
-
         layui.use(['form','laydate','table','jquery','form'],function () {
             var layer = layui.layer,
                     $ = layui.jquery,
@@ -176,10 +220,6 @@
                            ,{field: 'status', title: '是否冻结', minWidth:100,templet:function (d) {
                                return d.status==1?'是':'否'
                            }}
-                           // ,{ title: '操作',fixed:'right', minWidth: 210,templet:function (d) {
-                           //     return  '<button lay-event="tou" class="layui-btn  layui-btn-xs" type="button"></button>'
-                           //
-                           // }
                        ]
                    ]
                };
@@ -194,6 +234,16 @@
                 new Enter('pcbId',function () {$('#search').click()});
                 new Enter('pcbName',function () {$('#search').click()});
 
+                var before = document.getElementById('before');
+                var after = document.getElementById('after');
+                var code = document.getElementById('code');
+                var banCode = document.getElementById('banCode');
+                function codeChange(){
+                    banCode.value=before.value+code.value+after.value
+                }
+                before.oninput=function () { codeChange() };
+                after.oninput=function () { codeChange() };
+                code.oninput=function () { codeChange() };
                 $("#sync").on('click',function () {
                     layer.load(1,{
                         content: '同步中...',
@@ -215,21 +265,42 @@
                         }
                     })
                 });
+
+                $("#ok").on('click',function () {
+                    layer.confirm('确定投产',{icon:3},function () {
+                        return
+                        $.get('/produce/pcbTask/putIntoProduceBefore/'+data.id,function(res){
+                            if(res.code===200){
+                                layer.alert(res.msg,{icon:1},function () {
+                                    layer.closeAll();
+                                    table.reload('table');
+                                })
+                            }else{
+                                layer.alert(res.msg,{icon:5})
+                            }
+                        });
+                    });
+                });
+
                 table.on('tool(table)',function (obj) {
                     var data = obj.data;
                     switch (obj.event) {
                         case "tou":
-                            layer.confirm('确定投产',{icon:3},function () {
-                                $.get('/produce/pcbTask/putIntoProduceBefore/'+data.id,function(res){
-                                    if(res.code===200){
-                                        layer.alert(res.msg,{icon:1},function () {
-                                            layer.closeAll();
-                                            table.reload('table');
-                                        })
-                                    }else{
-                                        layer.alert(res.msg,{icon:5})
-                                    }
-                                });
+                            layer.open({
+                                type:1,
+                                title:"填写板编号",
+                                area:['400px','350px'],
+                                content:$("#formBox"),
+                                success:function () {
+                                    $.get('/produce/pcbTask/generateBatchId/'+data.id,function(res){
+                                        if(res.code===200){
+                                                layer.closeAll();
+                                                form.val('banForm',res.data)
+                                        }else{
+                                            layer.alert(res.msg,{icon:5})
+                                        }
+                                    });
+                                }
                             });
                             break;
                         case 'kan':
