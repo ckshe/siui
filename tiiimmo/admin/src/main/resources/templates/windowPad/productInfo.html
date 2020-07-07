@@ -258,6 +258,9 @@
                                         window.location.reload();
                                     }
                                 }
+                                if(localStorage.getItem('gxData')==""&&res.data.length>0){
+                                    window.location.reload();
+                                }
                             }catch (e) {
                                 window.location.reload();
                             }
