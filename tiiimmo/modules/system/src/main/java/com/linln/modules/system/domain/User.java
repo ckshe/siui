@@ -76,7 +76,7 @@ public class User implements Serializable {
     @JsonIgnore
     private Set<Role> roles = new HashSet<>(0);
     //工号
-    private String card_sequence;
+    private String cardSequence;
 
     //班次
     private String class_no;

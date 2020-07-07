@@ -413,6 +413,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         plateNoInfo.setBiginNum(biginNum);
         plateNoInfo.setPcbCode(pcbTask.getPcb_id());
         plateNoInfo.setPcbTaskId(pcbTaskId);
+        plateNoInfo.setYear(200000);
 
 
         return ResultVoUtil.success(plateNoInfo);
@@ -742,6 +743,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         return ResultVoUtil.success("查询成功",mapList,count.size());
     }
 
+    // 7.06修改
+    // 排产计划列表
     @Override
     public ResultVo findScheduling(PcbTaskReq pcbTaskReq) {
 
@@ -752,7 +755,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         String taskSheetCode = pcbTaskReq.getTaskSheetCode();  //生产批次
         String pcbId = pcbTaskReq.getPcbId(); //规格型号
         String pcbName = pcbTaskReq.getPcbName(); //物料名称
-
+        String status = pcbTaskReq.getStatus();
+        if(status==null||"".equals(status)){
+            status = "已投产";
+        }
         if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
             page = pcbTaskReq.getPage();
             size = pcbTaskReq.getSize();
@@ -774,7 +780,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     "%" + pcbName + "%" +
                     "' ");
         }
-
+        if(status!=null&&!"".equals(status)&&!"全部".equals(status)){
+            wheresql.append(" and pcb_task_status like '" +
+                    "%" + status + "%" +
+                    "' ");
+        }
         StringBuffer sql = new StringBuffer("select  *\n" +
                 "                from (select row_number()\n" +
                 "                over(order by produce_plan_date desc) as rownumber,*\n" +
@@ -827,6 +837,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
 
     }
+
+
 
     /*@Override
     public ResultVo findScheduling(PcbTaskReq pcbTaskReq) {
@@ -1658,7 +1670,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }else {
             amount = processTask.getAmount_completed();
         }
-        BigDecimal workTime = processTask.getWork_time();
+        BigDecimal workTime = processTask.getWork_time().multiply(new BigDecimal(60));
 
         Map<String,Object> map = new HashMap<>();
         map.put("amount",amount);

@@ -30,7 +30,7 @@ function setDataBoard3(params) {
                 }
                 //console.log(numArr1, numArr2, axisWeekRateArr)
                 // axisWeekRateArr = ['周一','周二','周三','周四','周五','周六']
-                axisWeekRateArr = ['周日','周一','周二','周三','周四','周五','周六']
+                axisWeekRateArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
                 db3POption2.xAxis[0].data = axisWeekRateArr;
                 db3POption2.series[0].data = numArr2;
                 db3POption2.series[1].data = numArr1;
@@ -53,12 +53,12 @@ function setDataBoard3(params) {
                 }
                 //console.log(timeArr)
                 // var xAxisRunTimeAll =  ['周一', '周二', '周三', '周四', '周五', '周六']
-                var xAxisRunTimeAll =  ['周日','周一', '周二', '周三', '周四', '周五', '周六']
+                var xAxisRunTimeAll = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
                 db3POption3.xAxis.data = xAxisRunTimeAll;
                 db3POption3.series[0].data = timeArr;
-                if(timeArr.length>0){
-                    for(var i=0;i<timeArr.length;i++){
-                        if(timeArr[i]<100) continue;
+                if (timeArr.length > 0) {
+                    for (var i = 0; i < timeArr.length; i++) {
+                        if (timeArr[i] < 100) continue;
                         db3POption3.yAxis.max = null;
                         db3POption3.yAxis.min = null;
                         break;
@@ -101,11 +101,22 @@ function setDataBoard3(params) {
     $('#temperature').off().on('click', function () {
         var temperature1 = $(this).attr("data-temperature");
         var humidity1 = $(this).attr("data-humidity");
-        console.log(temperature1,humidity1)
-        settemperatureClick(temperature1,humidity1);
+        console.log(temperature1, humidity1)
+        settemperatureClick(temperature1, humidity1);
     })
     $('#humidity').off().on('click', function () {
-        sethumidityClick();
+        var board_version = "SELECT@@@*@@@FROM@@@base_data_board_version@@@order@@@by@@@update_date@@@desc";
+        $.ajax({
+            contentType: 'application/json',
+            type: 'POST',
+            url: board3Api.excute,
+            dataType: "json",
+            data: JSON.stringify(returnData(board_version)),
+            success: function (response) {
+                var data = response.data
+                sethumidityClick(data);
+            }
+        });
     })
 }
 function getData() {
@@ -146,13 +157,13 @@ function getEnvironmentRecord() {
                 var temperature = response.data[0].temperature;
                 var humidity = response.data[0].humidity;
                 console.log(temperature, humidity)
-                if (temperature > 40 || humidity > 70 ) {
+                if (temperature > 40 || humidity > 70) {
                     $("#temperature i").addClass('state-red');
                 } else {
                     $("#temperature i").removeClass('state-red');
                 }
-                $("#temperature").attr("data-temperature",temperature)
-                $("#temperature").attr("data-humidity",humidity)
+                $("#temperature").attr("data-temperature", temperature)
+                $("#temperature").attr("data-humidity", humidity)
 
                 // if (humidity > 70) {
                 //     $("#humidity i").addClass('state-red');
@@ -209,24 +220,24 @@ function settemperatureClick(temperature, humidity) {
     });
     setTimeout(temperatureShow(temperature, humidity), 800);
 }
-function sethumidityClick(temperature, humidity) {
+function sethumidityClick(data) {
     $('.filterbg').show();
     $('.popup').show();
     $('.popup').width('3px');
     $('.popup').animate({ height: '76%' }, 400, function () {
         $('.popup').animate({ width: '82%' }, 400);
     });
-    setTimeout(humidityShow(), 800);
+    setTimeout(humidityShow(data), 800);
 }
 function temperatureShow(temperature, humidityn) {
     $('.popupClose').css('display', 'block');
     $('.summary').show().css('display', 'block');
     addtemperatureHtml(temperature, humidityn);
 };
-function humidityShow(temperature, humidityn) {
+function humidityShow(data) {
     $('.popupClose').css('display', 'block');
     $('.summary').show().css('display', 'block');
-    humidityShohtml(temperature, humidityn);
+    humidityShohtml(data);
 };
 
 function deviceShow(deviceCode, n) {
@@ -471,64 +482,73 @@ function setDevice(data, deviceName, device_code) {
     var brunTimeArr = [], noBrunTimeArr = [];
     for (var i = 0; i < data.length; i++) {
         // if(i==0)continue;
-        brunTimeArr.push((data[i].runTime / (24*60)).toFixed(2) * 100)
-        noBrunTimeArr.push(100 - ((data[i].runTime / (24*60)).toFixed(2)) * 100)
+        brunTimeArr.push((data[i].runTime / (24 * 60)).toFixed(2) * 100)
+        noBrunTimeArr.push(100 - ((data[i].runTime / (24 * 60)).toFixed(2)) * 100)
     }
     // db2POption2.yAxis.data = houhanTaskArr1.reverse();
     // pieOption3.legend.data = legendAxisArr
     // var pieOption3Axis =  ['周一', '周二', '周三', '周四', '周五', '周六'];
-    var pieOption3Axis =  ['周日','周一', '周二', '周三', '周四', '周五', '周六'];
+    var pieOption3Axis = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
     pieOption3.xAxis.data = pieOption3Axis;
     pieOption3.series[0].data = noBrunTimeArr;
     pieOption3.series[1].data = brunTimeArr;
     devicePie3.setOption(pieOption3);
 }
 function addtemperatureHtml(temperature, humidityn) {
-	var theadHtml = '';
-		theadHtml = '<div class="item" style="width: 100%; height: 760px;">' +
-			'<div class="itemTit">' +
-			'<span class="border-blue">温湿度情况</span>' +
-			'	</div>' +
-			'	<div class="itemCon itembg" style="height: 665px;">' +
-			'		<ul class="listStyle dblist2">' +
-			'			<li class="clearfix" style="border-bottom: 1px solid;">' +
-			'				<span class="col3">位置</span>' +
-			'				<span class="col3">温度</span>' +
-			'				<span class="col3">湿度</span>' +
-			'			</li>' +
-			'			<li class="clearfix">' +
-			'				<span class="col3">电路板车间</span>' +
-			'				<span class="col3"><strong>' + temperature+ '℃</strong></span>' +
-			'				<span class="col3"><strong>' + humidityn + '%RH</strong></span>' +
-			'			</li>' +
-			'		</ul>' +
-			'	</div>' +
-			'</div>';
-		$(".summary").html(theadHtml).css("display", "flex");
+    var theadHtml = '';
+    theadHtml = '<div class="item" style="width: 100%; height: 760px;">' +
+        '<div class="itemTit">' +
+        '<span class="border-blue">温湿度情况</span>' +
+        '	</div>' +
+        '	<div class="itemCon itembg" style="height: 665px;">' +
+        '		<ul class="listStyle dblist2">' +
+        '			<li class="clearfix" style="border-bottom: 1px solid;">' +
+        '				<span class="col3">位置</span>' +
+        '				<span class="col3">温度</span>' +
+        '				<span class="col3">湿度</span>' +
+        '			</li>' +
+        '			<li class="clearfix">' +
+        '				<span class="col3">电路板车间</span>' +
+        '				<span class="col3"><strong>' + temperature + '℃</strong></span>' +
+        '				<span class="col3"><strong>' + humidityn + '%RH</strong></span>' +
+        '			</li>' +
+        '		</ul>' +
+        '	</div>' +
+        '</div>';
+    $(".summary").html(theadHtml).css("display", "flex");
 }
-function humidityShohtml() {
-    
-	var theadHtml = '';
-		theadHtml = '<div class="item" style="width: 100%; height: 760px;">' +
-			'<div class="itemTit">' +
-			'<span class="border-blue">变更履历</span>' +
-			'	</div>' +
-			'	<div class="itemCon itembg" style="height: 665px;">' +
-			'		<ul class="listStyle dblist2">' +
-			'			<li class="clearfix" style="border-bottom: 1px solid;">' +
-			'				<span class="col3">软件版本</span>' +
-			'				<span class="col3">变更时期</span>' +
-			'				<span class="col3">变更说明</span>' +
-			'			</li>' +
-			'			<li class="clearfix">' +
-			'				<span class="col3"><strong>V1.0</strong></span>' +
-			'				<span class="col3"><strong>2020.01.01</strong></span>' +
-			'				<span class="col3"><strong>初始版本</strong></span>' +
-			'			</li>' +
-			'		</ul>' +
-			'	</div>' +
-			'</div>';
-		$(".summary").html(theadHtml).css("display", "flex");
+function humidityShohtml(data) {
+
+    var theadHtml = '';
+    theadHtml = '<div class="item" style="width: 100%; height: 760px;">' +
+        '<div class="itemTit">' +
+        '<span class="border-blue">变更履历</span>' +
+        '	</div>' +
+        '	<div class="itemCon itembg" style="height: 665px;">' +
+        '		<ul class="listStyle dblist2">' +
+        '			<li class="clearfix" style="border-bottom: 1px solid;">' +
+        '				<span class="col3">软件版本</span>' +
+        '				<span class="col3">变更时期</span>' +
+        '				<span class="col3">变更说明</span>' +
+        '			</li>';
+    if (data.length > 0) {
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].change_date != null) {
+                data[i].change_date  =data[i].change_date .split('T')[0];
+            } else {
+                data[i].change_date  = ''
+            }
+            theadHtml += '			<li class="clearfix">' +
+                '				<span class="col3"><strong>'+data[i].version_no+'</strong></span>' +
+                '				<span class="col3"><strong>'+data[i].change_date+'</strong></span>' +
+                '				<span class="col3"><strong>'+data[i].version_explain+'</strong></span>' +
+                '			</li>';
+        }
+    }
+    theadHtml += '		</ul>' +
+        '	</div>' +
+        '</div>';
+    $(".summary").html(theadHtml).css("display", "flex");
 }
 function addHtml(responseData, deviceresponse, n, user) {
     var display, summaryWidth, data;

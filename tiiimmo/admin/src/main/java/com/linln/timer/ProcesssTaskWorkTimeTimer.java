@@ -39,7 +39,7 @@ public class ProcesssTaskWorkTimeTimer {
                         workTime = workTime + history.getContinue_time();
                     }else {
                         Date today = new Date();
-                        Long cha = (today.getTime()-history.getStart_time().getTime())/1000;
+                        Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
                         history.setContinue_time(Integer.parseInt(cha+""));
                         workTime = workTime + Integer.parseInt(cha+"");
                         processTaskStatusHistoryRepository.save(history);
