@@ -237,7 +237,4 @@ Enter.prototype={
            };
        }
    }
-
-
-
 };
