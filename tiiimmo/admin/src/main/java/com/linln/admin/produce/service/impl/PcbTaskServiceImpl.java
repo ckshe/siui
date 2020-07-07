@@ -754,14 +754,17 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         String taskSheetCode = pcbTaskReq.getTaskSheetCode();  //生产批次
         String pcbId = pcbTaskReq.getPcbId(); //规格型号
         String pcbName = pcbTaskReq.getPcbName(); //物料名称
+        String status = pcbTaskReq.getStatus();
+        if(status==null||"".equals(status)){
+            status = "已投产";
 
+        }
         if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
             page = pcbTaskReq.getPage();
             size = pcbTaskReq.getSize();
         }
 
         StringBuffer wheresql = new StringBuffer(" where 1=1 ");
-        wheresql.append( " and pcb_task_status != '确认'");
         if(taskSheetCode!=null&&!"".equals(taskSheetCode)){
             wheresql.append(" and task_sheet_code  like '" +
                     "%" + taskSheetCode + "%" +
@@ -777,19 +780,17 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     "%" + pcbName + "%" +
                     "' ");
         }
-
+        if(status!=null&&!"".equals(status)){
+            wheresql.append(" and pcb_task_status like '" +
+                    "%" + status + "%" +
+                    "' ");
+        }
         StringBuffer sql = new StringBuffer("select  *\n" +
-                "                from (select row_number()\n" +
-                "                over(order by charindex(pcb_task_status,'已投产,已下达,已完成'),produce_plan_date desc) as rownumber,*\n" +
-                "                from produce_pcb_task " +
-                wheresql.toString() +
-                ") temp_row");
-        /*StringBuffer sql = new StringBuffer("select  *\n" +
                 "                from (select row_number()\n" +
                 "                over(order by produce_plan_date desc) as rownumber,*\n" +
                 "                from produce_pcb_task " +
                 wheresql.toString() +
-                ") temp_row");*/
+                ") temp_row ");
         /*if(pcbTaskCode!=null&&!"".equals(pcbTaskCode)){
             wheresql.append(" and pcb_task_code = '" +
                     pcbTaskCode +
@@ -807,29 +808,29 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }*/
         //sql.append(wheresql);
         List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
-
         sql.append(" where rownumber between " +
                 ((page-1)*size+1) +
                 " and " +
                 (page*size) +
                 "");
-        //sql.append(" order by charindex(pcb_task_status,'已投产,已下达,已完成') ");
-
 
         List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
         //同步领料单
         for(Map<String,Object>  map: mapList){
             String pcbTaskCode = (String)map.get("pcb_task_code");
+            String pcbPlateId = (String)map.get("pcb_plate_id");
+            if(pcbPlateId!=null&&!"".equals(pcbPlateId)){
+                continue;
+            }
             Long id = (Long)map.get("id");
             PcbTask pcbTask2 = pcbTaskRepository.findById(id).get();
             ResultVo resultVo = getFeedingTaskFromERP(pcbTaskCode);
-            String qtl = resultVo.getMsg();
-            qtl = qtl==null||"".equals(qtl)?"0":qtl;
+           /* String qtl = resultVo.getMsg();
+            qtl = qtl==null||"".equals(qtl)?"0":qtl;*/
             String lightPlateno = (String)resultVo.getData();
             pcbTask2.setPcb_plate_id(lightPlateno);
-            pcbTask2.setQi_tao_lv(qtl);
+            //pcbTask2.setQi_tao_lv(qtl);
             pcbTaskRepository.save(pcbTask2);
-
         }
 
         return ResultVoUtil.success("查询成功",mapList,count.size());

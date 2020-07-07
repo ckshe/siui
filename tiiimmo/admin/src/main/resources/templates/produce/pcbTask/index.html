@@ -34,6 +34,17 @@
                             <input type="text" id="pcbName" name="pcbName" placeholder="请输入物料名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-block">
+                            <select id="status" name="status" lay-filter="aihao" placeholder="请输入状态" autocomplete="off">
+                                <option value="已投产">已投产</option>
+                                <option value="下达">下达</option>
+                                <option value="已完成">已完成</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="layui-inline">
                         <button class="layui-btn" id="search"  type="button" lay-submit lay-filter="search">
                             <i class="fa fa-search"></i>
@@ -193,6 +204,7 @@
                 new Enter('taskSheetCode',function () {$('#search').click()});
                 new Enter('pcbId',function () {$('#search').click()});
                 new Enter('pcbName',function () {$('#search').click()});
+
 
                 $("#sync").on('click',function () {
                     layer.load(1,{
