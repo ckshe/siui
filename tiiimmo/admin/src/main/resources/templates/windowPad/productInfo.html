@@ -232,7 +232,7 @@
                 }
             });
             setInterval(function () {
-                if(parseInt( new Date().getTime()/1000 )%13===12){
+                if(parseInt( new Date().getTime()/1000 )%10===9){
                     $.ajax({
                         url:"/produce/pcbTask/findProcessTaskByDevice",
                         type:'post',
