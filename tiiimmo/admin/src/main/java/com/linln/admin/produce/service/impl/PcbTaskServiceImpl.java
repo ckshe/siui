@@ -764,7 +764,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             size = pcbTaskReq.getSize();
         }
 
-        StringBuffer wheresql = new StringBuffer(" where 1=1 ");
+        StringBuffer wheresql = new StringBuffer(" where 1=1 and pcb_task_status != '确认' ");
         if(taskSheetCode!=null&&!"".equals(taskSheetCode)){
             wheresql.append(" and task_sheet_code  like '" +
                     "%" + taskSheetCode + "%" +
@@ -1271,7 +1271,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             }else {
                 //step3:状态不同结束上一条并计算持续时间，新增一条
                 history.setEnd_time(today);
-                Long cha = (today.getTime()-history.getStart_time().getTime())/1000;
+                Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
                 history.setContinue_time(Integer.parseInt(cha+""));
                 processTaskStatusHistoryRepository.save(history);
                 //新增

@@ -137,6 +137,8 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
 
     @Override
     public void addTaskDetailList(List<ProcessTaskDetail> details) {
+
+        details.forEach(detail -> detail.setDetail_type("人分配"));
         processTaskDetailRepositoty.saveAll(details);
     }
 
