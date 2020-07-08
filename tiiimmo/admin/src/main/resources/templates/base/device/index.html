@@ -48,6 +48,7 @@
                             <input type="text" name="device_name" th:value="${param.device_name}" placeholder="请输入设备名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
+
                     <div class="layui-inline">
                         <label class="layui-form-label">Mac</label>
                         <div class="layui-input-block">
@@ -87,6 +88,7 @@
                         <th>设备类型</th>
                         <th>设备编号</th>
                         <th>设备名称</th>
+                        <th>设备占位</th>
                         <th>所属工序</th>
                         <th>Mac</th>
                         <th>设备型号</th>
@@ -111,6 +113,7 @@
                         <td th:text="${item.device_type}">设备类型</td>
                         <td th:text="${item.device_code}">设备编号</td>
                         <td th:text="${item.device_name}">设备名称</td>
+                        <td th:text="${item.device_sort}">设备占位</td>
                         <td th:text="${item.belong_process}">所属工序</td>
                         <td th:text="${item.mac}">Mac</td>
                         <td th:text="${item.device_model}">设备型号</td>
