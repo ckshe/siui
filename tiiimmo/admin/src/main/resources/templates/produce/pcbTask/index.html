@@ -92,7 +92,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">状态</label>
                         <div class="layui-input-block">
-                            <select id="status" name="status" lay-filter="aihao" placeholder="请输入状态" autocomplete="off">
+                            <select id="status" name="status" lay-filter="state" placeholder="请输入状态" autocomplete="off">
                                 <option value="全部">全部</option>
                                 <option value="已投产">已投产</option>
                                 <option value="下达">下达</option>
@@ -248,6 +248,7 @@
                };
                 form.on('submit(search)',function (obj) {
                     table.reload('table',{
+                        page: {curr: 1 },
                         where:obj.field
                     })
                 });
@@ -255,6 +256,7 @@
                 new Enter('taskSheetCode',function () {$('#search').click()});
                 new Enter('pcbId',function () {$('#search').click()});
                 new Enter('pcbName',function () {$('#search').click()});
+                form.on('select(state)',function () { $('#search').click()});
 
                 var before = document.getElementById('before');
                 var after = document.getElementById('after');
