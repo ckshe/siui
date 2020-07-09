@@ -1,5 +1,6 @@
 package com.linln.admin.produce.service.impl;
 
+import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.RespAndReqs.responce.PlateNoInfo;
 import com.linln.admin.produce.domain.ProcessTaskDetail;
 import com.linln.admin.produce.service.PcbTaskService;
@@ -15,6 +16,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -75,5 +77,22 @@ public class TaskSheetServiceImplTest {
         plateNoInfo.setSuffix("R");
         ResultVo resultVo = pcbTaskService.putIntoProduceByPlateInfo(plateNoInfo);
         System.out.println(resultVo.toString());
+    }
+
+    @Test
+    public void deviceProduceAmount(){
+        PcbTaskReq req = new PcbTaskReq();
+        req.setReCount("0");
+        req.setAmountCompleted(11);
+        req.setDeviceCode("7");
+        req.setStatus("1");
+        req.setReCounttimeStamp("2020-07-09");
+        req.setAmount(55);
+        PcbTaskReq freq = new PcbTaskReq();
+        List<PcbTaskReq> list = new ArrayList<>();
+        list.add(req);
+        freq.setData(list);
+        Map<String, Object> map = pcbTaskService.deviceProduceAmount(freq);
+        System.out.println("");
     }
 }

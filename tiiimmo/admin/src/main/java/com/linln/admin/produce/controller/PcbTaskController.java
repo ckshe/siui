@@ -352,8 +352,8 @@ public class PcbTaskController {
     @PostMapping("/findProcessTaskDeatilList")
     @ResponseBody
     public ResultVo findProcessTaskDeatilList(@RequestBody ProcessTaskReq req){
-        processTaskService.findProcessTaskDeatilList(req.getProcessTaskCode());
-        return ResultVoUtil.success();
+        List<ProcessTaskDetail> detailList = processTaskService.findProcessTaskDeatilList(req.getProcess_task_code());
+        return ResultVoUtil.success(detailList);
     }
 
 
