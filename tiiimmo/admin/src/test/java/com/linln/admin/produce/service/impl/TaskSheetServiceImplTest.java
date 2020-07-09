@@ -51,7 +51,7 @@ public class TaskSheetServiceImplTest {
         List<ProcessTaskDetail> list = new ArrayList<>();
         list.add(detail);
         list.add(detail2);
-        processTaskService.addTaskDetailList(list);
+        //processTaskService.addTaskDetailList(list);
         System.out.println("");
     }
 

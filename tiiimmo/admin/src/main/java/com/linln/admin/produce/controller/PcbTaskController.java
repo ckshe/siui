@@ -360,8 +360,8 @@ public class PcbTaskController {
     //新增工序计划日计划
     @PostMapping("/addTaskDetailList")
     @ResponseBody
-    public ResultVo addTaskDetailList(@RequestBody List<ProcessTaskDetail> details){
-        processTaskService.addTaskDetailList(details);
+    public ResultVo addTaskDetailList(@RequestBody ProcessTaskReq req){
+        processTaskService.addTaskDetailList(req);
         return ResultVoUtil.success();
     }
 
