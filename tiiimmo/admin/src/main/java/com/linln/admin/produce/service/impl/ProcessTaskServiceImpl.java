@@ -138,7 +138,11 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
 
     @Override
     public void addTaskDetailList(List<ProcessTaskDetail> details) {
-
+        String processTaskCode = "";
+        if(details!=null&&details.size()!=0){
+            processTaskCode = details.get(0).getProcess_task_code();
+        }
+        processTaskDetailRepositoty.deleteByByProcess_task_code(processTaskCode);
         details.forEach(detail -> {detail.setDetail_type("人分配");
         detail.setStatus(StatusEnum.OK.getCode());});
         processTaskDetailRepositoty.saveAll(details);
@@ -150,6 +154,11 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         List<ProcessTaskDetail> detailList = processTaskDetailRepositoty.findByProcess_task_code(processTaskCode);
 
         return detailList;
+    }
+
+    @Override
+    public void deleteProcessTaskDetailById(Long id) {
+        processTaskDetailRepositoty.deleteById(id);
     }
 }
 
