@@ -159,7 +159,10 @@
                             type: "POST",
                             url: '/produce/pcbTask/addTaskDetailList',
                             contentType: "application/json; charset=utf-8",
-                            data: JSON.stringify(tdata),
+                            data: JSON.stringify({
+                                    process_task_code:getQueryString('process_task_code'),
+                                    detailList:tdata
+                                }),
                             dataType: "json",
                             success: function (res) {
                                 layer.closeAll()
