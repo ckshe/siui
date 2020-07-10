@@ -13,8 +13,11 @@ public interface ProcessTaskService {
 
 
     //新增任务单详情
-    void addTaskDetailList(List<ProcessTaskDetail> details);
+    void addTaskDetailList(ProcessTaskReq req);
 
     //查看工序任务单详情
     List<ProcessTaskDetail> findProcessTaskDeatilList(String processTaskCode);
+
+    //根据id删除工序任务单详情
+    void deleteProcessTaskDetailById(Long id );
 }

@@ -15,7 +15,7 @@
 <body>
 <div class="mainBox">
     <div class="imBox">
-        <span class="title" id="imName">机台</span>
+        <span class="title" id="imName">机台编号：<span id="imSerial"></span></span>
         <button id="imState" class="greenButton">工作中</button>
     </div>
     <div class="taskBox">
@@ -132,7 +132,7 @@
                 form = layui.form;
             layer.load(1)
             var  statusBox = document.getElementById('statusBox');
-
+            $("#imSerial").html(getQueryString2('deviceCode'))
             //展示已知数据
             table.render({
                 elem: '#table'
@@ -257,6 +257,9 @@
                                         localStorage.setItem('gxData',res.data)
                                         window.location.reload();
                                     }
+                                }
+                                if(localStorage.getItem('gxData')==""&&res.data.length>0){
+                                    window.location.reload();
                                 }
                             }catch (e) {
                                 window.location.reload();

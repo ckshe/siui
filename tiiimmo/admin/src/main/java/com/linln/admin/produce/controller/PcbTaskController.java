@@ -117,6 +117,11 @@ public class PcbTaskController {
         return "/produce/pcbTask/plan";
     }
 
+    @GetMapping("/planDetail")
+    public String planDetail() {
+        return "/produce/pcbTask/planDetail";
+    }
+
     @GetMapping("/pickDetail")
     public String pickDetail() {
         return "/produce/pcbTask/pickDetail";
@@ -347,17 +352,25 @@ public class PcbTaskController {
     @PostMapping("/findProcessTaskDeatilList")
     @ResponseBody
     public ResultVo findProcessTaskDeatilList(@RequestBody ProcessTaskReq req){
-        processTaskService.findProcessTaskDeatilList(req.getProcessTaskCode());
-        return ResultVoUtil.success();
+        List<ProcessTaskDetail> detailList = processTaskService.findProcessTaskDeatilList(req.getProcess_task_code());
+        return ResultVoUtil.success(detailList);
     }
 
 
     //新增工序计划日计划
     @PostMapping("/addTaskDetailList")
     @ResponseBody
-    public ResultVo addTaskDetailList(@RequestBody List<ProcessTaskDetail> details){
-        processTaskService.addTaskDetailList(details);
+    public ResultVo addTaskDetailList(@RequestBody ProcessTaskReq req){
+        processTaskService.addTaskDetailList(req);
         return ResultVoUtil.success();
+    }
+
+    @GetMapping("/deleteProcessTaskDetailById/{id}")
+    @ResponseBody
+    public ResultVo deleteProcessTaskDetailById(@PathVariable Long id){
+
+        processTaskService.deleteProcessTaskDetailById(id);
+        return ResultVoUtil.success("删除成功");
     }
 
 }

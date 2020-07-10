@@ -502,7 +502,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTask.setProcess_task_code(processTaskCode);
             processTaskList.add(processTask);
 
-            //通过生产数量生成每一块板的记录
+         /*   //通过生产数量生成每一块板的记录 转移到工序任务下达机台接口
             Integer tempCount = first;
             for(int o = 0;o<pcbTask.getPcb_quantity();o++){
                 String tempPlanNo = prefix+tempCount+suffix;
@@ -514,7 +514,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 pcbTaskPlateNo.setPcb_code(pcbTask.getPcb_id());
                 pcbTaskPlateNo.setIs_count("0");
                 pcbTaskPlateNoRepository.save(pcbTaskPlateNo);
-            }
+            }*/
         }
         processTaskRepository.saveAll(processTaskList);
         pcbTask.setPcb_task_status("已投产");
@@ -671,6 +671,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         if(processTask==null){
             return ResultVoUtil.error("查找不到该工序计划");
         }
+
+        PCBPlateNo pcbPlateNo = pcbPlateNoRepository.findByPcb_code(processTask.getPcb_code());
+
         processTask.setDevice_code(pcbTaskReq.getDeviceCode());
         processTask.setDevice_name(pcbTaskReq.getDeviceName());
         processTask.setPlan_start_time(pcbTaskReq.getPlanStartTime());
@@ -690,6 +693,18 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTaskDevice.setTd_status("");
             processTaskDevice.setReCount("0");
             processTaskDevice.setLast_amount(0);
+            Integer tempCount = pcbPlateNo.getAll_count();
+            for(int o = 0;o<processTask.getPcb_quantity();o++){
+                String tempPlanNo = pcbPlateNo.getPrefix()+tempCount+1+pcbPlateNo.getSuffix();
+                tempCount ++;
+                PcbTaskPlateNo pcbTaskPlateNo = new PcbTaskPlateNo();
+                pcbTaskPlateNo.setProcess_task_code(processTask.getProcess_task_code());
+                pcbTaskPlateNo.setPlate_no(tempPlanNo);
+                pcbTaskPlateNo.setPcb_task_code(processTask.getPcb_task_code());
+                pcbTaskPlateNo.setPcb_code(processTask.getPcb_code());
+                pcbTaskPlateNo.setIs_count("0");
+                pcbTaskPlateNoRepository.save(pcbTaskPlateNo);
+            }
             list.add(processTaskDevice);
         }
         processTaskDeviceRepository.saveAll(list);
@@ -764,7 +779,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             size = pcbTaskReq.getSize();
         }
 
-        StringBuffer wheresql = new StringBuffer(" where 1=1 ");
+        StringBuffer wheresql = new StringBuffer(" where 1=1 and pcb_task_status != '确认' ");
         if(taskSheetCode!=null&&!"".equals(taskSheetCode)){
             wheresql.append(" and task_sheet_code  like '" +
                     "%" + taskSheetCode + "%" +
@@ -1130,6 +1145,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                             currentDetail.setPlan_day_time(today);
                             currentDetail.setPlan_count(0);
                             currentDetail.setFinish_count(0);
+                            currentDetail.setStatus(StatusEnum.OK.getCode());
                             currentDetail.setProcess_task_code(processTask.getProcess_task_code());
                             currentDetail.setDetail_type("系统分配");
                             currentDetail.setUser_name("");
@@ -1271,7 +1287,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             }else {
                 //step3:状态不同结束上一条并计算持续时间，新增一条
                 history.setEnd_time(today);
-                Long cha = (today.getTime()-history.getStart_time().getTime())/1000;
+                Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
                 history.setContinue_time(Integer.parseInt(cha+""));
                 processTaskStatusHistoryRepository.save(history);
                 //新增
@@ -1436,6 +1452,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 currentDetail.setFinish_count(0);
                 currentDetail.setProcess_task_code(processTask.getProcess_task_code());
                 currentDetail.setDetail_type("系统分配");
+                currentDetail.setStatus(StatusEnum.OK.getCode());
                 currentDetail.setUser_name("");
             }else {
                 currentDetail.setFinish_count(nowfinish-detailSumCount);

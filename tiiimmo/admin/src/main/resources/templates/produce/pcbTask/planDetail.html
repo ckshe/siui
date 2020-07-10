@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>工序计划拆分</title>
+    <meta name="Description" content="基于layUI数据表格操作"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+    <style type="text/css">
+        .layui-form-switch {
+            width: 55px;
+        }
+        .layui-form-switch em {
+            width: 40px;
+        }
+
+        body {
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+<div style="box-sizing: border-box;padding:14px;">
+    <div class="layui-form" id="timeForm" style="display: none">
+        <div class="layui-inline" id="test-n1"></div>
+    </div>
+    <table class="layui-hide" id="table" lay-filter="table"></table>
+    <script type="text/html" id="toolbarDemo">
+        <a class=" layui-btn layui-btn-sm" style="background-color: #1E9FFF" lay-event="add">添加</a>
+            <button id="sub" class="layui-btn layui-btn-sm" type="button"  lay-event="devs">确定提交</button>
+    </script>
+
+    <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+    <script src="../../js/common.js" ></script>
+</div>
+</body>
+<script>
+    layui.use(['table','jquery','form','layer','laydate'],function () {
+        var table = layui.table,
+            layer = layui.layer,
+            form = layui.form,
+            laydate = layui.laydate,
+            $ = layui.jquery;
+        form.on('submit(sub)',function (obj) {
+            var data = obj.field;
+            table.reload('table',{
+                where:data,
+                curr:1
+            })
+        });
+
+        var tdata = [];
+        var index=0;
+        var d={
+            index:0,
+            plan_count:"" ,
+            finish_count:"",
+            plan_day_time:"",
+            process_task_code:getQueryString('process_task_code')
+        };
+        layer.load(1, {
+            content: '加载中...',
+            success: function (layero) {
+                layero.find('.layui-layer-content').css({
+                    'padding-top': '39px',
+                    'width': '60px'
+                });
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: '/produce/pcbTask/findProcessTaskDeatilList',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({process_task_code:getQueryString('process_task_code')}),
+            dataType: "json",
+            async:false,
+            success: function (res) {
+                layer.closeAll()
+                if(res.code === 200){
+                    if(res.data==null){
+                        tdata.push(JSON.parse(JSON.stringify(d)));
+                    }else{
+                        res.data.forEach(function (t,i) {
+                            index=i
+                            t.index=i
+                        })
+                        tdata=res.data
+                    }
+                }else{
+                    layer.alert(res.msg, {icon: 5});
+                }
+            },
+            error: function (message) {
+                layer.alert("保存失败！", {icon: 5});
+            }
+        });
+        var tableObj = {
+            elem: '#table'
+            ,height:"full-46"
+            ,defaultToolbar: ['filter']
+            ,response: {
+                statusCode: 200
+            }
+            ,toolbar:'#toolbarDemo'
+            ,limit:10000
+            ,data:tdata
+            ,cols:  [
+                [
+                    {field: 'process_task_code', title: '工序任务号', minWidth: 178}
+                    ,{field: 'plan_day_time', title: '计划时间',event:'time', minWidth: 100,templet:function (d) {
+                        return "<span id='time"+d.index+"'>"+(d.plan_day_time==""?"":timeToDate(d.plan_day_time,true))+"</span>"
+                    }}
+                    ,{field: 'plan_count', title: '计划完成量',edit:'text', minWidth: 100}
+                    ,{field: 'finish_count', title: '完成量', edit:'text',minWidth: 100}
+                    ,{ title: '操作',fixed:'right', width: 70,templet:function () {
+                        return '<a class=" layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>'
+                    }}
+                ]
+            ]
+
+        };
+        table.render(tableObj);
+        //直接嵌套显示
+        var timeBox="";
+        var nowIndex=0;
+        laydate.render({
+            elem: '#test-n1',
+            position: 'static',
+            done:function (d) {
+                layer.close(timeBox);
+                $('#time'+nowIndex).html(d);
+                tdata.some(function (t) {
+                    if(t.index == nowIndex){
+                        t.plan_day_time=d;
+                        return true
+                    }
+                })
+            }
+        });
+        table.on('toolbar(table)',function (obj) {
+            switch(obj.event){
+                case 'devs':
+                    layer.load(1, {
+                        content: '加载中...',
+                        success: function (layero) {
+                            layero.find('.layui-layer-content').css({
+                                'padding-top': '39px',
+                                'width': '60px'
+                            });
+                        }
+                    });
+                        $.ajax({
+                            type: "POST",
+                            url: '/produce/pcbTask/addTaskDetailList',
+                            contentType: "application/json; charset=utf-8",
+                            data: JSON.stringify({
+                                    process_task_code:getQueryString('process_task_code'),
+                                    detailList:tdata
+                                }),
+                            dataType: "json",
+                            success: function (res) {
+                                layer.closeAll()
+                                if(res.code === 200){
+                                    layer.alert('提交成功！',{icon:1},function () {
+                                        parent.layer.closeAll();
+                                    })
+                                }else{
+                                    layer.alert(res.msg, {icon: 5});
+                                }
+                            },
+                            error: function (message) {
+                                layer.alert("保存失败！", {icon: 5});
+                            }
+                        });
+                    break;
+                case 'add':
+                    index++;
+                    var dd=JSON.parse(JSON.stringify(d));
+                    dd.index=index;
+                    tdata.push(dd);
+                    tableObj.data=tdata;
+                    table.render(tableObj);
+                break;
+            }
+        });
+
+        table.on('tool(table)',function (obj) {
+            var data = obj.data;
+            switch (obj.event) {
+                case 'del':
+                   tdata = tdata.filter(function (t) { return t.index!=data.index});
+                    tableObj.data=tdata;
+                    table.render(tableObj)
+                    ;break;
+                case 'time':
+                    nowIndex=data.index
+                    timeBox= layer.open({
+                        type:1,
+                        title:'计划时间',
+                        content:$("#timeForm")
+                    });
+                    break;
+            }
+        });
+
+    })
+</script>
+</html>

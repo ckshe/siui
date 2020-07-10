@@ -42,7 +42,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">初始板编号</label>
                 <div class="layui-input-inline">
-                    <input id="banCode" style="border:none" type="text" required name="code"  autocomplete="off" class="layui-input">
+                    <input id="banCode" disabled style="border:none" type="text" required name="code"  autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
@@ -92,11 +92,11 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">状态</label>
                         <div class="layui-input-block">
-                            <select id="status" name="status" lay-filter="aihao" placeholder="请输入状态" autocomplete="off">
+                            <select id="status" name="status" lay-filter="state" placeholder="请输入状态" autocomplete="off">
+                                <option value="全部">全部</option>
                                 <option value="已投产">已投产</option>
                                 <option value="下达">下达</option>
                                 <option value="已完成">已完成</option>
-                                <option value="全部">全部</option>
                             </select>
                         </div>
                     </div>
@@ -104,6 +104,7 @@
                         <button class="layui-btn" id="search"  type="button" lay-submit lay-filter="search">
                             <i class="fa fa-search"></i>
                         </button>
+                        <button type="reset" class="layui-btn layui-bg-blue">清除</button>
                     </div>
                 </form>
                 <div class="pull-right screen-btn-group">
@@ -160,6 +161,9 @@
                             "data": res.data, //解析数据列表
                             "count": res.total //解析数据长度
                         };
+                    }
+                    ,where:{
+                       status: "全部"
                     }
                     ,cols: [
                         [
@@ -244,8 +248,8 @@
                    ]
                };
                 form.on('submit(search)',function (obj) {
-                    var data = obj.field;
                     table.reload('table',{
+                        page: {curr: 1 },
                         where:obj.field
                     })
                 });
@@ -253,6 +257,7 @@
                 new Enter('taskSheetCode',function () {$('#search').click()});
                 new Enter('pcbId',function () {$('#search').click()});
                 new Enter('pcbName',function () {$('#search').click()});
+                form.on('select(state)',function () { $('#search').click()});
 
                 var before = document.getElementById('before');
                 var after = document.getElementById('after');

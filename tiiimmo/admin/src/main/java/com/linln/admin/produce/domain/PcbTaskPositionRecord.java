@@ -23,7 +23,7 @@ public class PcbTaskPositionRecord {
     private Date start_time;
     //结束时间
     private Date finish_time;
-    //记录状态 0未开始1开始2结束
+    //记录状态 0未开始 1开始 2结束
     private String record_status;
 
     //工序任务号

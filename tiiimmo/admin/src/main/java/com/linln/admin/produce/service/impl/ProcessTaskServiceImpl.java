@@ -4,6 +4,7 @@ import com.linln.RespAndReqs.ProcessTaskReq;
 import com.linln.admin.produce.domain.ProcessTaskDetail;
 import com.linln.admin.produce.repository.ProcessTaskDetailRepositoty;
 import com.linln.admin.produce.service.ProcessTaskService;
+import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
 import com.linln.utill.DateUtil;
@@ -136,7 +137,13 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
 
 
     @Override
-    public void addTaskDetailList(List<ProcessTaskDetail> details) {
+    public void addTaskDetailList(ProcessTaskReq req) {
+        String processTaskCode = req.getProcess_task_code();
+        List<ProcessTaskDetail> details = req.getDetailList();
+
+        processTaskDetailRepositoty.deleteByByProcess_task_code(processTaskCode);
+        details.forEach(detail -> {detail.setDetail_type("人分配");
+        detail.setStatus(StatusEnum.OK.getCode());});
         processTaskDetailRepositoty.saveAll(details);
     }
 
@@ -146,6 +153,11 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         List<ProcessTaskDetail> detailList = processTaskDetailRepositoty.findByProcess_task_code(processTaskCode);
 
         return detailList;
+    }
+
+    @Override
+    public void deleteProcessTaskDetailById(Long id) {
+        processTaskDetailRepositoty.deleteById(id);
     }
 }
 

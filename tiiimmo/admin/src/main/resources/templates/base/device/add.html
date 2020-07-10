@@ -45,6 +45,12 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">设备占位</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" autocomplete="off" type="number" name="device_sort" placeholder="请输入设备占位顺序" th:value="${device?.device_sort}">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">所属工序</label>
             <div class="layui-input-inline">
                 <!--<input class="layui-input" type="text" name="belong_process" placeholder="请输入所属工序" th:value="${device?.belong_process}">-->
