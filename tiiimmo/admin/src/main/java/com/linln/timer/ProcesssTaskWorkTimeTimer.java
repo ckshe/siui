@@ -55,13 +55,16 @@ public class ProcesssTaskWorkTimeTimer {
     @Scheduled(cron = "* * 1 * * ?")
     public void autoDownDevice(){
         System.out.println("-------凌晨1点自动下机开始------------");
-
         List<UserDeviceHistory> list = userDeviceHistoryRepository.findOnlyUpTimeRecordList();
         Date nowdate = new Date();
         list.forEach(history -> history.setDown_time(nowdate));
         userDeviceHistoryRepository.saveAll(list);
         System.out.println("-------凌晨1点自动下机结束------------");
+    }
 
+
+    //机台硬件接口心跳包，五分钟无调用则自动停机
+    public void autoStopDevice(){
 
     }
 }

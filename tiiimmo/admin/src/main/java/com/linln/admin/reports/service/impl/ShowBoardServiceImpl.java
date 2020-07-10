@@ -697,11 +697,11 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
 
         //正在进行的贴片任务
-        StringBuffer runningSql = new StringBuffer("SELECT * FROM produce_process_task WHERE (process_name = '贴片A' or process_name= '贴片B') AND is_now_flag = 1");
+        StringBuffer runningSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code like '%B16011%' and  is_now_flag = 1");
 
-        StringBuffer waitingSql = new StringBuffer("SELECT * FROM produce_process_task WHERE (process_name = '贴片A' or process_name= '贴片B') AND is_now_flag != 1 ORDER BY priority DESC ,plan_finish_time ");
+        StringBuffer waitingSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code like '%B16011%' and process_task_status != '已完成' and process_task_status != '生产中' and process_task_status != '进行中' AND is_now_flag != 1  ORDER BY priority DESC ,plan_finish_time ");
 
-        StringBuffer beiliaoSql = new StringBuffer("SELECT * FROM produce_process_task WHERE process_name = '备料' AND is_now_flag = 1  ");
+        StringBuffer beiliaoSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code = 'work0022' and is_now_flag = 1  ");
 
         List<Map<String,Object>> runningMapList = jdbcTemplate.queryForList(runningSql.toString());
         List<Map<String,Object>> waitingMapList = jdbcTemplate.queryForList(waitingSql.toString());
@@ -715,8 +715,6 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         result.put("running",runningMap);
         result.put("waiting",waitingMap);
         result.put("beiliao",beiliaoMap);
-
-
 
         return result;
     }
