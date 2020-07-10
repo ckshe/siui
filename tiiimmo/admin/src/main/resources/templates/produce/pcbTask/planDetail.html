@@ -112,7 +112,6 @@
                 [
                     {field: 'process_task_code', title: '工序任务号', minWidth: 178}
                     ,{field: 'plan_day_time', title: '计划时间',event:'time', minWidth: 100,templet:function (d) {
-                        console.log(d.plan_day_time)
                         return "<span id='time"+d.index+"'>"+(d.plan_day_time==""?"":timeToDate(d.plan_day_time,true))+"</span>"
                     }}
                     ,{field: 'plan_count', title: '计划完成量',edit:'text', minWidth: 100}
@@ -131,7 +130,7 @@
         laydate.render({
             elem: '#test-n1',
             position: 'static',
-            change:function (d) {
+            done:function (d) {
                 layer.close(timeBox);
                 $('#time'+nowIndex).html(d);
                 tdata.some(function (t) {
@@ -145,7 +144,6 @@
         table.on('toolbar(table)',function (obj) {
             switch(obj.event){
                 case 'devs':
-                    console.log(tdata);
                     layer.load(1, {
                         content: '加载中...',
                         success: function (layero) {
