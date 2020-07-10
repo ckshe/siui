@@ -739,6 +739,8 @@ function addDataTaskHtml(data) {
             '               <span class="col3">计划结束时间:<strong>' + data.beiliao.plan_finish_time + '</strong></span>' +
             // '               <span class="col3">板编号:<strong>' + data.beiliao.pcb_quantity + '</strong></span>' +
             '               <span class="col2">RoHS:<strong>' + data.beiliao.is_rohs + '</strong></span>' +
+            '               <span class="status">' + data.beiliao.process_task_status +'</span>' +
+            '               <span class="triangle"></span>' +
             '           </li>';
 
     }
@@ -754,6 +756,8 @@ function addDataTaskHtml(data) {
             '               <span class="col3">计划结束时间:<strong>' + data.running.plan_finish_time + '</strong></span>' +
             // '               <span class="col3">板编号:<strong>' + data.running.pcb_quantity + '</strong></span>' +
             '               <span class="col2">RoHS:<strong>' + data.running.is_rohs + '</strong></span>' +
+            '               <span class="status">' + data.running.process_task_status +'</span>' +
+            '               <span class="triangle"></span>' +
             '           </li>';
     }
     if (waiting.length > 0) {
@@ -768,16 +772,17 @@ function addDataTaskHtml(data) {
             '               <span class="col3">计划结束时间:<strong>' + data.waiting.plan_finish_time + '</strong></span>' +
             // '               <span class="col3">板编号:<strong>' + data.waiting.pcb_quantity + '</strong></span>' +
             '               <span class="col2">RoHS:<strong>' + data.waiting.is_rohs + '</strong></span>' +
+            '               <span class="status">' + data.waiting.process_task_status +'</span>' +
+            '               <span class="triangle"></span>' +
             '           </li>';
     }
     htmlPiepian += beiliaoTask + runningTask + waitingPTask;
     var theadHtmlPTask = '<div class="item summaryP3" >' +
-        '   <div class="itemCon itembg itembg_popupfirt"  id="taskList">' +
-        '       <ul class="listStyle">';
-
+    '   <div class="itemCon itembg itembg_popupfirt"  id="taskList">' +
+    '       <ul class="listStyle">';
     theadHtmlPTask += htmlPiepian;
     theadHtmlPTask += '       </ul>' +
-        '   </div>' +
+    '   </div>' +
         '</div>';
 
     // var theadHtmlPTask = '<div class="item summaryP3" >' +
