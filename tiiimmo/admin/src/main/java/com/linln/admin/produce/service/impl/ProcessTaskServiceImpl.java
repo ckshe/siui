@@ -1,8 +1,10 @@
 package com.linln.admin.produce.service.impl;
 
 import com.linln.RespAndReqs.ProcessTaskReq;
+import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.ProcessTaskDetail;
 import com.linln.admin.produce.repository.ProcessTaskDetailRepositoty;
+import com.linln.admin.produce.repository.ProcessTaskRepository;
 import com.linln.admin.produce.service.ProcessTaskService;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.ResultVoUtil;
@@ -24,6 +26,9 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
 
     @Autowired
     private ProcessTaskDetailRepositoty processTaskDetailRepositoty;
+
+    @Autowired
+    private ProcessTaskRepository processTaskRepository;
 
     @Override
     public ResultVo findProcessTask(ProcessTaskReq processTaskReq) {
@@ -140,10 +145,13 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
     public void addTaskDetailList(ProcessTaskReq req) {
         String processTaskCode = req.getProcess_task_code();
         List<ProcessTaskDetail> details = req.getDetailList();
-
+        ProcessTask processTask = processTaskRepository.findByProcessTaskCode(processTaskCode);
         processTaskDetailRepositoty.deleteByByProcess_task_code(processTaskCode);
-        details.forEach(detail -> {detail.setDetail_type("人分配");
-        detail.setStatus(StatusEnum.OK.getCode());});
+        details.forEach(detail -> {
+            detail.setDetail_type("人分配");
+            detail.setStatus(StatusEnum.OK.getCode());
+            detail.setProcess_name(processTask.getProcess_name());
+        });
         processTaskDetailRepositoty.saveAll(details);
     }
 

@@ -695,7 +695,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTaskDevice.setLast_amount(0);
             Integer tempCount = pcbPlateNo.getAll_count();
             for(int o = 0;o<processTask.getPcb_quantity();o++){
-                String tempPlanNo = pcbPlateNo.getPrefix()+tempCount+1+pcbPlateNo.getSuffix();
+                String tempPlanNo = pcbPlateNo.getPrefix()+(tempCount+1+200000)+pcbPlateNo.getSuffix();
                 tempCount ++;
                 PcbTaskPlateNo pcbTaskPlateNo = new PcbTaskPlateNo();
                 pcbTaskPlateNo.setProcess_task_code(processTask.getProcess_task_code());
@@ -1148,6 +1148,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                             currentDetail.setStatus(StatusEnum.OK.getCode());
                             currentDetail.setProcess_task_code(processTask.getProcess_task_code());
                             currentDetail.setDetail_type("系统分配");
+                            currentDetail.setProcess_name(processTask.getProcess_name());
                             currentDetail.setUser_name("");
                         }else {
                             currentDetail.setFinish_count(processTask.getAmount_completed()-detailSumCount);
@@ -1298,6 +1299,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 newRecord.setDevice_name(processTask.getDevice_name());
                 newRecord.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
                 newRecord.setProcess_name(processTask.getProcess_name());
+                newRecord.setProcess_task_code(processTask.getProcess_task_code());
                 if("已完成".equals(pcbTaskReq.getProcessTaskStatus())){
                     newRecord.setEnd_time(today);
                 }
@@ -1452,6 +1454,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 currentDetail.setFinish_count(0);
                 currentDetail.setProcess_task_code(processTask.getProcess_task_code());
                 currentDetail.setDetail_type("系统分配");
+                currentDetail.setProcess_name(processTask.getProcess_name());
                 currentDetail.setStatus(StatusEnum.OK.getCode());
                 currentDetail.setUser_name("");
             }else {

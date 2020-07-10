@@ -29,4 +29,6 @@ public class ProcessTaskDetail {
     private String detail_type;
 
     private String user_name;
+
+    private String process_name;
 }
