@@ -1,11 +1,16 @@
 package com.linln.timer;
 
+import com.linln.admin.base.domain.Device;
+import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.ProcessTaskStatusHistory;
 import com.linln.admin.produce.domain.UserDeviceHistory;
+import com.linln.admin.produce.repository.DeviceStatusRecordRepository;
 import com.linln.admin.produce.repository.ProcessTaskRepository;
 import com.linln.admin.produce.repository.ProcessTaskStatusHistoryRepository;
 import com.linln.admin.produce.repository.UserDeviceHistoryRepository;
+import com.linln.admin.quality.domain.DeviceStatusRecord;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -24,6 +29,13 @@ public class ProcesssTaskWorkTimeTimer {
 
     @Autowired
     private UserDeviceHistoryRepository userDeviceHistoryRepository;
+
+    @Autowired
+    private DeviceStatusRecordRepository deviceStatusRecordRepository;
+
+    @Autowired
+    private DeviceRepository deviceRepository;
+
     //定时计算工时
     @Scheduled(cron = "0 * * * * ?")
     public void autoCaculateWorkTime(){
@@ -64,7 +76,35 @@ public class ProcesssTaskWorkTimeTimer {
 
 
     //机台硬件接口心跳包，五分钟无调用则自动停机
+    @Scheduled(cron = "0 0/5 * * * ? ")
     public void autoStopDevice(){
+        System.out.println("-------五分钟不响应自动停机开始------------");
+
+        List<Device> deviceList = deviceRepository.findAll();
+        for(Device device : deviceList){
+            List<DeviceStatusRecord> recordList = deviceStatusRecordRepository.findByDevice_codeLastOne(device.getDevice_code());
+            if(recordList!=null&&recordList.size()!=0){
+                DeviceStatusRecord record = recordList.get(0);
+                long endtime = record.getEnd_time().getTime();
+                long now = (new Date()).getTime();
+                long dur = now - endtime;
+                long temp = 1000*60*5;
+                //五分钟无接口响应则新增结束
+                if(dur>temp){
+                    if(!"2".equals(record.getDevice_status())){
+                        //当最后一条不为结束状态则新增一条结束状态
+                        DeviceStatusRecord aRecord = new DeviceStatusRecord();
+                        BeanUtils.copyProperties(record,aRecord);
+                        aRecord.setId(null);
+                        aRecord.setStart_time(record.getEnd_time());
+                        aRecord.setEnd_time(record.getEnd_time());
+                        aRecord.setDevice_status("2");
+                        deviceStatusRecordRepository.save(aRecord);
+                    }
+                }
+            }
+        }
+        System.out.println("-------五分钟不响应自动停机结束------------");
 
     }
 }

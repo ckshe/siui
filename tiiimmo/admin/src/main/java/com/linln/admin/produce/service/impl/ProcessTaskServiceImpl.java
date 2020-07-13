@@ -148,8 +148,15 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         ProcessTask processTask = processTaskRepository.findByProcessTaskCode(processTaskCode);
         processTaskDetailRepositoty.deleteByByProcess_task_code(processTaskCode);
         details.forEach(detail -> {
-            detail.setDetail_type("人分配");
+            detail.setDetail_type("人创建");
             detail.setStatus(StatusEnum.OK.getCode());
+            if(detail.getFinish_count()==null){
+                detail.setFinish_count(0);
+            }
+            if(detail.getPlan_count()==null){
+                detail.setPlan_count(0);
+
+            }
             detail.setProcess_name(processTask.getProcess_name());
         });
         processTaskDetailRepositoty.saveAll(details);

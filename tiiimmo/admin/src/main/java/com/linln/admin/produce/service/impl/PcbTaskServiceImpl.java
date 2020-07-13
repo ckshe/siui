@@ -1308,7 +1308,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }
         processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
         User user = ShiroUtil.getSubject();
-        if(!"备料".equals(processTask.getProcess_name())){
+        //if(!"备料".equals(processTask.getProcess_name())){
             List<ProcessTask> list = processTaskRepository.findByDevice_code("%"+pcbTaskReq.getDeviceCode()+"%");
 
             //开始工序计划 进行中
@@ -1385,8 +1385,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 }
                 Date finishTime = new Date();
                 processTask.setFinish_time(finishTime);
-                BigDecimal workTime = DateUtil.differTwoDate(finishTime,processTask.getStart_time());
-                processTask.setWork_time(workTime);
+                processTask.setIs_now_flag("0");
+               /* BigDecimal workTime = DateUtil.differTwoDate(finishTime,processTask.getStart_time());
+                processTask.setWork_time(workTime);*/
                 //重新计数
                 List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(pcbTaskReq.getProcessTaskCode());
                 for(ProcessTaskDevice de:prl){
@@ -1397,9 +1398,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     processTaskDeviceRepository.save(de);
                 }
             }
-        }else {
+       /* }else {
 
-        }
+        }*/
 
         processTaskRepository.save(processTask);
         return ResultVoUtil.success("操作成功");
@@ -1420,7 +1421,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             return ResultVoUtil.error("该任务单已完成");
         }
         if("进行中".equals(processTask.getProcess_task_status())||"生产中".equals(processTask.getProcess_task_status())){
-            PcbTaskPlateNo pcbTaskPlateNo = pcbTaskPlateNoRepository.findByPlate_no(pcbTaskReq.getPlateNo());
+            PcbTaskPlateNo pcbTaskPlateNo = pcbTaskPlateNoRepository.findByPlate_no(pcbTaskReq.getPlateNo(),processTask.getProcess_task_code());
             if(pcbTaskPlateNo==null){
                 return ResultVoUtil.error("找不到该板编号！");
             }

@@ -11,6 +11,6 @@ public interface PcbTaskPlateNoRepository extends BaseRepository<PcbTaskPlateNo,
 
     @Query(value = "SELECT * FROM produce_pcbtask_plate_no where pcb_task_code = ?1 ORDER BY is_count desc,id ",nativeQuery = true)
     List<PcbTaskPlateNo> findByPcb_task_code(String pcbTaskCode);
-    @Query(value = "select  * from produce_pcbtask_plate_no where plate_no = ?1",nativeQuery = true)
-    PcbTaskPlateNo findByPlate_no(String plateNo);
+    @Query(value = "select  * from produce_pcbtask_plate_no where  plate_no = ?1 and process_task_code= ?2 ",nativeQuery = true)
+    PcbTaskPlateNo findByPlate_no(String plateNo,String processTaskCode);
 }

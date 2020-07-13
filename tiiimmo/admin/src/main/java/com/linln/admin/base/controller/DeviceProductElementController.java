@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -115,6 +116,24 @@ public class DeviceProductElementController {
             return ResultVoUtil.success(statusEnum.getMessage() + "成功");
         } else {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
+        }
+    }
+
+
+    @PostMapping("/importCommonExcel")
+    @ResponseBody
+    //@RequiresPermissions("importCommonExcel")
+    public ResultVo importCommonExcel(@RequestParam(value = "file") MultipartFile file)
+    {
+        try {
+            String fileName = file.getOriginalFilename();
+            if (!fileName.matches("^.+\\.(?i)(xls)$") && !fileName.matches("^.+\\.(?i)(xlsx)$")) {
+                return ResultVoUtil.error("上传文件格式不正确");
+            }
+            return deviceProductElementService.importCommonExcel(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultVoUtil.error("Excel导入失败");
         }
     }
 }

@@ -30,7 +30,7 @@ public interface ProcessTaskRepository extends BaseRepository<ProcessTask,Long> 
             "\tproduce_process_task t1 LEFT JOIN produce_process_task_detail t2 on t1.process_task_code = t2.process_task_code AND CONVERT ( VARCHAR ( 100 ), t2.plan_day_time, 23 ) = ?1 \n" +
             "WHERE\n" +
             "\t?1 <= CONVERT ( VARCHAR ( 100 ), t1.plan_finish_time, 23 ) \n" +
-            "\tAND ?1 >= CONVERT ( VARCHAR ( 100 ), t1.plan_start_time, 23 ) \n" +
+            "\tAND ?1 >= CONVERT ( VARCHAR ( 100 ), t1.plan_start_time, 23 ) and t2.plan_count != 0 \n" +
             "ORDER BY\n" +
             "\tt1.finish_time DESC",nativeQuery = true)
     List<ProcessTask> findTodayBetweenTime(String today);
