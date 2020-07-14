@@ -63,4 +63,9 @@ public class ProductionShiftServiceImpl implements ProductionShiftService {
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return productionShiftRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
+
+    @Override
+    public void delete(Long id) {
+        productionShiftRepository.deleteById(id);
+    }
 }
