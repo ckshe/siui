@@ -92,6 +92,7 @@ public class ProcesssTaskWorkTimeTimer {
                 //五分钟无接口响应则新增结束
                 if(dur>temp){
                     if(!"2".equals(record.getDevice_status())){
+                        device.setDevice_status("2");
                         //当最后一条不为结束状态则新增一条结束状态
                         DeviceStatusRecord aRecord = new DeviceStatusRecord();
                         BeanUtils.copyProperties(record,aRecord);
@@ -107,4 +108,8 @@ public class ProcesssTaskWorkTimeTimer {
         System.out.println("-------五分钟不响应自动停机结束------------");
 
     }
+
+
+    //每天零点更新同步排产计划
+
 }
