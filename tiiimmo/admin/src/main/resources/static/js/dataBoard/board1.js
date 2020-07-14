@@ -754,6 +754,8 @@ function setDataBoard1(params) {
                 }
                 if(tbodyDataS[j].amount_completed>=tbodyDataS[j].pcb_quantity){
                     tbodyDataS[j].process_task_status = '已完成'
+                }else{
+                    tbodyDataS[j].process_task_status = '进行中'
                 }
                 tbodyHtml +=
                     '<li>' +
