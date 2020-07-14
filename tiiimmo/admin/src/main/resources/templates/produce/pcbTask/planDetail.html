@@ -30,7 +30,7 @@
     <div class="layui-form" id="timeForm" style="display: none">
         <div class="layui-inline" id="test-n1"></div>
     </div>
-
+    <input type="hidden" name="data">
     <form class="layui-form"  id="editForm" style="padding:2px 0;">
             <div class="layui-form-item">
                 <div class="layui-inline">
@@ -47,6 +47,9 @@
                 </div>
             </div>
         </form>
+    <h3 style="text-align: center"><b>已下达设备：</b></h3>
+    <table class="layui-hide" id="table1" lay-filter="table1"></table>
+    <h3 style="text-align: center"><b>工序日计划：</b></h3>
     <table class="layui-hide" id="table" lay-filter="table"></table>
     <script type="text/html" id="toolbarDemo">
         <a class=" layui-btn layui-btn-sm" style="background-color: #1E9FFF" lay-event="add">添加</a>
@@ -70,6 +73,29 @@
                 where:data,
                 curr:1
             })
+        });
+        var devData=[];
+        var dd = JSON.parse($('[name=data]').val());
+        if(dd.device_code!=null){
+            var serial = dd.device_code.split(',');
+            var name = dd.device_name.split(',');
+            serial.forEach(function (t,i) {
+                devData.push({serial:t,name:name[i]})
+            })
+        }
+        console.log(devData);
+        table.render({
+            elem: '#table1'
+            ,defaultToolbar: ['filter']
+            ,limit:10000
+            ,data:devData
+            ,cols:  [
+                [
+                    {field: 'serial', title: '设备编号', width: 160},
+                    {field: 'name', title: '设备名称', minWidth: 140}
+                ]
+            ]
+
         });
         form.render();
         laydate.render({elem: '#planStartTime',type:'date'});$("#planStartTime").val(getQueryString('sTime'))
@@ -121,7 +147,6 @@
         });
         var tableObj = {
             elem: '#table'
-            ,height:"full-46"
             ,defaultToolbar: ['filter']
             ,response: {
                 statusCode: 200
