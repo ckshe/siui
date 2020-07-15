@@ -225,19 +225,6 @@ db2P5 = echarts.init(document.getElementById('db2P5'), 'macarons');
 db2P6 = echarts.init(document.getElementById('db2P6'), 'macarons');
 
 var db2P = {
-	tooltip: {
-		trigger: 'axis',
-		axisPointer: {
-			type: 'shadow'
-		},
-		// formatter: '{b}<br/>{a} :{c}%',
-		formatter:function(params){
-			return tiepianTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
-		},
-		textStyle: {
-			fontSize: 22
-		}
-	},
 	grid: {
 		left: '3%',
 		right: '10%',
@@ -309,7 +296,19 @@ var db2POption1 = {
 			fontWeight: 'normal',
 		}
 	},
-	tooltip:db2P.tooltip,
+	tooltip: {
+		trigger: 'axis',
+		axisPointer: {
+			type: 'shadow'
+		},
+		// formatter: '{b}<br/>{a} :{c}%',
+		formatter:function(params){
+			return tiepianTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
+		},
+		textStyle: {
+			fontSize: 22
+		}
+	},
 	grid:db2P.grid,
 	xAxis: db2P.xAxis,
 	yAxis: db2P.yAxis,
@@ -326,7 +325,19 @@ var db2POption2 = {
 			fontWeight: 'normal',
 		}
 	},
-	tooltip:db2P.tooltip,
+	tooltip: {
+		trigger: 'axis',
+		axisPointer: {
+			type: 'shadow'
+		},
+		// formatter: '{b}<br/>{a} :{c}%',
+		formatter:function(params){
+			return houhanTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
+		},
+		textStyle: {
+			fontSize: 22
+		}
+	},
 	grid:db2P.grid,
 	xAxis: db2P.xAxis,
 	yAxis: db2P.yAxis,
@@ -343,7 +354,19 @@ var db2POption3 = {
 			fontSize: 22
 		}
 	},
-	tooltip:db2P.tooltip,
+	tooltip: {
+		trigger: 'axis',
+		axisPointer: {
+			type: 'shadow'
+		},
+		// formatter: '{b}<br/>{a} :{c}%',
+		formatter:function(params){
+			return tiaoshiTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
+		},
+		textStyle: {
+			fontSize: 22
+		}
+	},
 	grid:db2P.grid,
 	xAxis: db2P.xAxis,
 	yAxis: db2P.yAxis,
@@ -360,7 +383,19 @@ var db2POption4 = {
 			fontSize: 22
 		}
 	},
-	tooltip:db2P.tooltip,
+	tooltip: {
+		trigger: 'axis',
+		axisPointer: {
+			type: 'shadow'
+		},
+		// formatter: '{b}<br/>{a} :{c}%',
+		formatter:function(params){
+			return beiliaoTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
+		},
+		textStyle: {
+			fontSize: 22
+		}
+	},
 	grid:db2P.grid,
 	xAxis: db2P.xAxis,
 	yAxis: db2P.yAxis,
@@ -377,7 +412,19 @@ var db2POption5 = {
 			fontSize: 22
 		}
 	},
-	tooltip:db2P.tooltip,
+	tooltip: {
+		trigger: 'axis',
+		axisPointer: {
+			type: 'shadow'
+		},
+		// formatter: '{b}<br/>{a} :{c}%',
+		formatter:function(params){
+			return zhijianTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
+		},
+		textStyle: {
+			fontSize: 22
+		}
+	},
 	grid:db2P.grid,
 	xAxis: db2P.xAxis,
 	yAxis: db2P.yAxis,
@@ -394,7 +441,19 @@ var db2POption6 = {
 			fontSize: 22
 		}
 	},
-	tooltip:db2P.tooltip,
+	tooltip: {
+		trigger: 'axis',
+		axisPointer: {
+			type: 'shadow'
+		},
+		// formatter: '{b}<br/>{a} :{c}%',
+		formatter:function(params){
+			return rukuTaskArr[params[0].dataIndex]+'<br/>'+params[0].seriesName+' : ' +params[0].value+'%'
+		},
+		textStyle: {
+			fontSize: 22
+		}
+	},
 	grid:db2P.grid,
 	xAxis: db2P.xAxis,
 	yAxis: db2P.yAxis,
