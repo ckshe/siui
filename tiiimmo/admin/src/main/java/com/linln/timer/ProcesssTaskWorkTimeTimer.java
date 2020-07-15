@@ -76,9 +76,10 @@ public class ProcesssTaskWorkTimeTimer {
 
 
     //机台硬件接口心跳包，五分钟无调用则自动停机
-    @Scheduled(cron = "0 0/5 * * * ? ")
+    @Scheduled(cron = "0 0/1 * * * ? ")
     public void autoStopDevice(){
         System.out.println("-------五分钟不响应自动停机开始------------");
+        Date today = new Date();
 
         List<Device> deviceList = deviceRepository.findAll();
         for(Device device : deviceList){
@@ -86,7 +87,7 @@ public class ProcesssTaskWorkTimeTimer {
             if(recordList!=null&&recordList.size()!=0){
                 DeviceStatusRecord record = recordList.get(0);
                 long endtime = record.getEnd_time().getTime();
-                long now = (new Date()).getTime();
+                long now = today.getTime();
                 long dur = now - endtime;
                 long temp = 1000*60*5;
                 //五分钟无接口响应则新增结束
@@ -97,10 +98,12 @@ public class ProcesssTaskWorkTimeTimer {
                         DeviceStatusRecord aRecord = new DeviceStatusRecord();
                         BeanUtils.copyProperties(record,aRecord);
                         aRecord.setId(null);
-                        aRecord.setStart_time(record.getEnd_time());
-                        aRecord.setEnd_time(record.getEnd_time());
+                        aRecord.setStart_time(today);
+                        aRecord.setEnd_time(today);
                         aRecord.setDevice_status("2");
+                        aRecord.setContinue_time(0);
                         deviceStatusRecordRepository.save(aRecord);
+                        deviceRepository.save(device);
                     }
                 }
             }
@@ -111,5 +114,7 @@ public class ProcesssTaskWorkTimeTimer {
 
 
     //每天零点更新同步排产计划
+
+
 
 }

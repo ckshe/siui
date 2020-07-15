@@ -41,7 +41,9 @@ public class DeviceProductElementController {
 
         // 创建匹配器，进行动态查询匹配
         ExampleMatcher matcher = ExampleMatcher.matching()
-                .withMatcher("sample_name", match -> match.contains());
+                .withMatcher("sample_name", match -> match.contains())
+                .withMatcher("device_code", match -> match.contains())
+                .withMatcher("product_code", match -> match.contains());
 
         // 获取数据列表
         Example<DeviceProductElement> example = Example.of(deviceProductElement, matcher);

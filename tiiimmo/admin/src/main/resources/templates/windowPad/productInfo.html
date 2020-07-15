@@ -31,6 +31,12 @@
                     </div>
                 </div>
                 <div class="layui-inline">
+                    <label class="layui-form-label">排产任务号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" disabled name="pcb_task_code" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
                     <label class="layui-form-label">生产批次:</label>
                     <div class="layui-input-inline">
                         <input type="text" disabled name="task_sheet_code" autocomplete="off" class="layui-input">
@@ -50,6 +56,12 @@
                         <input type="text" disabled name="pcb_code"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">RoHS:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" disabled name="is_rohs"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
@@ -64,12 +76,25 @@
                         <input id="scs" type="number" disabled name="amount_completed"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
+
                 <div class="layui-inline">
                     <label class="layui-form-label">计划生产时间:</label>
                     <div class="layui-input-inline">
                         <input type="tel" disabled name="plan_start_time" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">当天计划生产:</label>
+                    <div class="layui-input-inline">
+                        <input type="number" disabled  name="detail_plan_count"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">当天实际生产:</label>
+                    <div class="layui-input-inline">
+                        <input type="number" disabled name="detail_finish_count"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -79,25 +104,18 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">RoHS:</label>
-                    <div class="layui-input-inline">
-                        <input type="text" disabled name="is_rohs"  autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">排产任务号</label>
-                    <div class="layui-input-inline">
-                        <input type="text" disabled name="pcb_task_code" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
+
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">板编号:</label>
                     <div class="layui-input-inline">
                         <input type="text" disabled name="batch_id"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <input type="text" disabled  autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">

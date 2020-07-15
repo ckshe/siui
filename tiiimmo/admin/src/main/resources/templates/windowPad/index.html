@@ -198,7 +198,7 @@
             </div>
             <div class="fourBox">
                 <div class="fourLeft">
-                    <button id="over" class="huanButton">结束工序</button>
+                    <button id="over" class="huanButton">当天结算</button>
                     <button id="login" class="blueButton">上机</button>
                 </div>
                 <div class="fourRight">
@@ -643,7 +643,8 @@
                     });
                     console.log(nowGonDan)
                     form.val('statusForm',{
-                        pcb_quantity:nowGonDan.pcb_quantity,
+                        pcb_quantity:nowGonDan.detail_plan_count,
+                        amount_completed:nowGonDan.detail_finish_count,
                         id:nowGonDan.id,
                     })
                 }
@@ -651,7 +652,7 @@
             form.on('submit(status)',function (obj) {
                 console.log(obj.field);
                 $.ajax({
-                    url: '/produce/pcbTask/modifyProcessTaskStatus',
+                    url: '/produce/pcbTask/settlementDetailCount',
                     type: "post",
                     dataType: "json",
                     data: JSON.stringify({

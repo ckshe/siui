@@ -1236,19 +1236,31 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Override
     public ResultVo findProcessTaskByDevice(PcbTaskReq pcbTaskReq) {
+        Date today = new Date();
+        String todaystr = DateUtil.date2String(today,"");
         StringBuffer sql = new StringBuffer("SELECT\n" +
                 "\tt1.*,\n" +
                 "\tt2.pcb_id,\n" +
-                "\tt2.feeding_task_code,t2.model_name,t2.batch_id \n" +
+                "\tt2.feeding_task_code,\n" +
+                "\tt2.model_name,\n" +
+                "\tt2.batch_id ,\n" +
+                "\tt3.plan_count detail_plan_count,\n" +
+                "\tt3.finish_count detail_finish_count \n" +
                 "FROM\n" +
                 "\tproduce_process_task t1\n" +
+                "\tLEFT JOIN produce_process_task_detail t3 ON t1.process_task_code = t3.process_task_code \n" +
+                "\tAND CONVERT ( VARCHAR ( 100 ), t3.plan_day_time, 23 ) = '" +
+                todaystr +
+                "'\n" +
                 "\tLEFT JOIN produce_pcb_task t2 ON t2.pcb_task_code = t1.pcb_task_code \n" +
                 "WHERE\n" +
                 "\tt1.device_code LIKE '%" +
                 pcbTaskReq.getDeviceCode() +
                 "%' \n" +
-                "\tAND ( t1.process_task_status = '生产中' OR t1.process_task_status LIKE '%已下达%' OR t1.process_task_status LIKE '%暂停%' OR t1.process_task_status LIKE '%进行中%')\n" +
-                "\tORDER BY t2.priority DESC ,t1.plan_start_time");
+                "\tAND ( t1.process_task_status = '生产中' OR t1.process_task_status LIKE '%已下达%' OR t1.process_task_status LIKE '%暂停%' OR t1.process_task_status LIKE '%进行中%' ) \n" +
+                "ORDER BY\n" +
+                "\tt2.priority DESC,\n" +
+                "\tt1.plan_start_time");
         List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
 
         return ResultVoUtil.success(mapList);
@@ -1389,7 +1401,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                /* BigDecimal workTime = DateUtil.differTwoDate(finishTime,processTask.getStart_time());
                 processTask.setWork_time(workTime);*/
                 //重新计数
-                List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(pcbTaskReq.getProcessTaskCode());
+                List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(processTask.getProcess_task_code());
                 for(ProcessTaskDevice de:prl){
                     Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
                     device.setRe_count("1");
@@ -1406,6 +1418,75 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         return ResultVoUtil.success("操作成功");
     }
 
+    @Override
+    @Transactional
+    public ResultVo settlementDetailCount(PcbTaskReq pcbTaskReq) {
+        //记录工序任务当天日计划数量，统计并反写入工序计划，低于总计划数量则暂停，否则结束，新增操作记录
+        Date today = new Date();
+        String todayStr = DateUtil.date2String(today,"");
+        ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
+        ProcessTaskDetail detail = processTaskDetailRepositoty.findAllByProcess_task_codeAndPlan_day_time(processTask.getProcess_task_code(), todayStr);
+        detail.setFinish_count(pcbTaskReq.getAmountCompleted());
+        processTaskDetailRepositoty.save(detail);
+        List<ProcessTaskDetail> detailList = processTaskDetailRepositoty.findByProcess_task_code(processTask.getProcess_task_code());
+        Integer sumcount = detailList.stream().mapToInt(ProcessTaskDetail::getFinish_count).sum();
+        processTask.setAmount_completed(sumcount);
+        ProcessTaskStatusHistory history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(processTask.getProcess_task_code());
+        if(processTask.getAmount_completed()>=processTask.getPcb_quantity()){
+            //新增结束工序计划操作记录
+            processTask.setFinish_time(today);
+            processTask.setIs_now_flag("0");
+            processTask.setProcess_task_status("已完成");
+            //step3:状态不同结束上一条并计算持续时间，新增一条
+            history.setEnd_time(today);
+            Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
+            history.setContinue_time(Integer.parseInt(cha+""));
+            processTaskStatusHistoryRepository.save(history);
+            //新增
+            ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
+            newRecord.setStart_time(today);
+            newRecord.setContinue_time(0);
+            newRecord.setDevice_code(processTask.getDevice_code());
+            newRecord.setProcess_task_status("已完成");
+            newRecord.setDevice_name(processTask.getDevice_name());
+            newRecord.setProcess_task_code(processTask.getProcess_task_code());
+            newRecord.setProcess_name(processTask.getProcess_name());
+            newRecord.setEnd_time(today);
+            processTaskStatusHistoryRepository.save(newRecord);
+
+
+        }else {
+            //新增暂停工序计划操作记录
+            //step2:状态相同则跳过
+            if("暂停".equals(history.getProcess_task_status())){
+
+            }else {
+                //step3:状态不同结束上一条并计算持续时间，新增一条
+                history.setEnd_time(today);
+                Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
+                history.setContinue_time(Integer.parseInt(cha+""));
+                processTaskStatusHistoryRepository.save(history);
+                //新增
+                ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
+                newRecord.setContinue_time(0);
+                newRecord.setStart_time(today);
+                newRecord.setDevice_code(processTask.getDevice_code());
+                newRecord.setDevice_name(processTask.getDevice_name());
+                newRecord.setProcess_task_status("暂停");
+                newRecord.setProcess_name(processTask.getProcess_name());
+                newRecord.setProcess_task_code(processTask.getProcess_task_code());
+                //newRecord.setEnd_time(today);
+
+                processTaskStatusHistoryRepository.save(newRecord);
+
+                processTask.setProcess_task_status("暂停");
+            }
+
+        }
+        processTaskRepository.save(processTask);
+
+        return ResultVoUtil.success("操作成功");
+    }
 
     @Override
     public ResultVo countProcessTaskAmount(PcbTaskReq pcbTaskReq) {

@@ -3,8 +3,10 @@ package com.linln.admin.produce.service.impl;
 import com.linln.RespAndReqs.ProcessTaskReq;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.ProcessTaskDetail;
+import com.linln.admin.produce.domain.ProcessTaskStatusHistory;
 import com.linln.admin.produce.repository.ProcessTaskDetailRepositoty;
 import com.linln.admin.produce.repository.ProcessTaskRepository;
+import com.linln.admin.produce.repository.ProcessTaskStatusHistoryRepository;
 import com.linln.admin.produce.service.ProcessTaskService;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.ResultVoUtil;
@@ -13,6 +15,7 @@ import com.linln.utill.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -29,6 +32,9 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
 
     @Autowired
     private ProcessTaskRepository processTaskRepository;
+
+    @Autowired
+    private ProcessTaskStatusHistoryRepository processTaskStatusHistoryRepository;
 
     @Override
     public ResultVo findProcessTask(ProcessTaskReq processTaskReq) {
@@ -142,12 +148,15 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
 
 
     @Override
+    @Transactional
     public void addTaskDetailList(ProcessTaskReq req) {
         String processTaskCode = req.getProcess_task_code();
         List<ProcessTaskDetail> details = req.getDetailList();
         ProcessTask processTask = processTaskRepository.findByProcessTaskCode(processTaskCode);
         processTaskDetailRepositoty.deleteByByProcess_task_code(processTaskCode);
+
         details.forEach(detail -> {
+            //processTask.setAmount_completed(processTask.getAmount_completed()+detail.getFinish_count());
             detail.setDetail_type("人创建");
             detail.setStatus(StatusEnum.OK.getCode());
             if(detail.getFinish_count()==null){
@@ -159,6 +168,36 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
             }
             detail.setProcess_name(processTask.getProcess_name());
         });
+        Integer finishCount = details.stream().mapToInt(ProcessTaskDetail::getFinish_count).sum();
+        if(finishCount>=processTask.getPcb_quantity()){
+            Date today =  new Date();
+            processTask.setFinish_time(today);
+            processTask.setProcess_task_status("已完成");
+            //新增一条操作历史记录
+            ProcessTaskStatusHistory history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(processTask.getProcess_task_code());
+            //step3:状态不同结束上一条并计算持续时间，新增一条
+            if(history!=null){
+                history.setEnd_time(today);
+                Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
+                history.setContinue_time(Integer.parseInt(cha+""));
+                processTaskStatusHistoryRepository.save(history);
+            }
+
+            //新增
+            ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
+            newRecord.setStart_time(today);
+            newRecord.setContinue_time(0);
+            newRecord.setDevice_code(processTask.getDevice_code());
+            newRecord.setProcess_task_status("已完成");
+            newRecord.setDevice_name(processTask.getDevice_name());
+            newRecord.setProcess_task_code(processTask.getProcess_task_code());
+            newRecord.setProcess_name(processTask.getProcess_name());
+            newRecord.setEnd_time(today);
+            processTaskStatusHistoryRepository.save(newRecord);
+
+        }
+        processTask.setAmount_completed(finishCount);
+        processTaskRepository.save(processTask);
         processTaskDetailRepositoty.saveAll(details);
     }
 

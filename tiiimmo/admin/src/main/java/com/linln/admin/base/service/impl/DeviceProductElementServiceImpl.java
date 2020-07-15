@@ -112,7 +112,11 @@ public class DeviceProductElementServiceImpl implements DeviceProductElementServ
                 DeviceProductElement element = new DeviceProductElement();
                 element.setSkip_status(skip_status);
                 element.setSample_name(sample_name);
+
                 //需处理
+                int first = device_code.indexOf(" ");
+                int second = device_code.indexOf(" ", first + 1);
+                device_code = device_code.substring(second+1);
                 if(device_code.equalsIgnoreCase("ys12")){
                     element.setDevice_code("B15002");
                 }
