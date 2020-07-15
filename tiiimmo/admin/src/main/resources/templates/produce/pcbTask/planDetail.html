@@ -47,9 +47,9 @@
                 </div>
             </div>
         </form>
-    <h3 style="text-align: center"><b>已下达设备：</b></h3>
+    <h3><b>已下达设备：</b></h3>
     <table class="layui-hide" id="table1" lay-filter="table1"></table>
-    <h3 style="text-align: center"><b>工序日计划：</b></h3>
+    <h3><b>工序日计划：</b></h3>
     <table class="layui-hide" id="table" lay-filter="table"></table>
     <script type="text/html" id="toolbarDemo">
         <a class=" layui-btn layui-btn-sm" style="background-color: #1E9FFF" lay-event="add">添加</a>
@@ -91,7 +91,7 @@
             ,data:devData
             ,cols:  [
                 [
-                    {field: 'serial', title: '设备编号', width: 160},
+                    {field: 'serial', title: '设备编号', minWidth: 160},
                     {field: 'name', title: '设备名称', minWidth: 140}
                 ]
             ]
