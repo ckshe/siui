@@ -279,6 +279,10 @@
                 obj.field.deviceCode=deviceCode.join(',')
                 obj.field.processTaskId=nowData.id
                 console.log(obj.field)
+                if(obj.field.planStartTime == ''||obj.field.planFinishTime== ''||obj.field.deviceCode== ''){
+                    layer.msg('计划时间与机台设备不能为空',function() {time:2000});
+                    return false;
+                }
                 $.ajax({
                     type: "POST",
                     url: '/produce/pcbTask/putIntoProduce',
