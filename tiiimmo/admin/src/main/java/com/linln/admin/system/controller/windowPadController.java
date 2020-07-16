@@ -38,4 +38,9 @@ public class windowPadController {
         return "/windowPad/scancalc/scancalc";
     }
 
+    @GetMapping("/device")
+    public String device(){
+        return "/windowPad/device";
+    }
+
 }

@@ -122,6 +122,15 @@
         obj.data = data;
         obj.title = title;
         obj.col = col;
+
+        var leng = 0;
+        for(var k in title){leng++};
+        var lack = col - leng%(col||2);
+        lack === col && (lack = 0);
+        for(var i=0;i<lack;i++){
+            title['blankTd'+i] = ""
+        }
+
         new MyTable(obj)
     }
 
