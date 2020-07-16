@@ -9,7 +9,10 @@ import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.utils.StatusUtil;
 import com.linln.common.vo.ResultVo;
 import com.linln.component.shiro.ShiroUtil;
+import com.linln.constant.CommonConstant;
+import com.linln.utill.FileUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -18,7 +21,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -80,7 +88,9 @@ public class TaskInstructionController {
     @PostMapping("/save")
     @RequiresPermissions({"base:taskInstruction:add", "base:taskInstruction:edit"})
     @ResponseBody
-    public ResultVo save(@Validated TaskInstructionValid valid, TaskInstruction taskInstruction) {
+    public ResultVo save(@Validated TaskInstructionValid valid, TaskInstruction taskInstruction,
+                         @RequestParam("file") MultipartFile file,
+                            HttpServletRequest request) {
         // 复制保留无需修改的数据
         if (taskInstruction.getId() != null) {
             TaskInstruction beTaskInstruction = taskInstructionService.getById(taskInstruction.getId());
@@ -89,6 +99,17 @@ public class TaskInstructionController {
 
         taskInstruction.setUploadTime(new Date());
         taskInstruction.setUploadPeople(ShiroUtil.getSubject().getUsername());
+        File nfile = null;
+        String path = CommonConstant.file_path+CommonConstant.workbook_path;
+
+        //String path = "D:\\test\\";
+        try {
+            nfile = FileUtil.multipartFileToFile(file, path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResultVoUtil.error(20001, "保存文件错误，请联系系统管理员");
+        }
+        taskInstruction.setUploadFile(file.getOriginalFilename());
         // 保存数据
         taskInstructionService.save(taskInstruction);
         return ResultVoUtil.SAVE_SUCCESS;
@@ -120,5 +141,16 @@ public class TaskInstructionController {
         } else {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
+    }
+
+    /**
+     * 在线浏览PDF文件
+     * @return
+     */
+    @RequestMapping("/showPDF")
+    @ResponseBody
+    public void showPDF(HttpServletResponse response, Long  id)throws IOException, DocumentException {
+        taskInstructionService.showPDF(response,id);
+
     }
 }

@@ -1,6 +1,11 @@
 package com.linln.admin.produce.service.impl;
 
 import com.linln.RespAndReqs.ProcessTaskReq;
+import com.linln.admin.base.domain.Device;
+import com.linln.admin.base.domain.OperationInstruction;
+import com.linln.admin.base.repository.DeviceRepository;
+import com.linln.admin.base.repository.OperationInstructionRepository;
+import com.linln.admin.base.repository.OperationManualRepository;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.ProcessTaskDetail;
 import com.linln.admin.produce.domain.ProcessTaskStatusHistory;
@@ -11,12 +16,16 @@ import com.linln.admin.produce.service.ProcessTaskService;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
+import com.linln.constant.CommonConstant;
 import com.linln.utill.DateUtil;
+import com.linln.utill.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -28,10 +37,19 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
+    private DeviceRepository deviceRepository;
+
+    @Autowired
     private ProcessTaskDetailRepositoty processTaskDetailRepositoty;
 
     @Autowired
     private ProcessTaskRepository processTaskRepository;
+
+    @Autowired
+    private OperationInstructionRepository operationInstructionRepository;
+
+    @Autowired
+    private OperationManualRepository operationManualRepository;
 
     @Autowired
     private ProcessTaskStatusHistoryRepository processTaskStatusHistoryRepository;
@@ -212,6 +230,17 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
     @Override
     public void deleteProcessTaskDetailById(Long id) {
         processTaskDetailRepositoty.deleteById(id);
+    }
+
+    @Override
+    public void showPDF(HttpServletResponse response, String deviceCode) {
+        Device device= deviceRepository.findbyDeviceCode(deviceCode);
+        OperationInstruction operationInstruction = operationInstructionRepository.findByCode(device.getUse_book());
+        if(operationInstruction ==null){
+            return;
+        }
+        String path = CommonConstant.file_path+CommonConstant.usebook_path+operationInstruction.getUploadFile();
+        FileUtil.readPDF(response,path);
     }
 }
 

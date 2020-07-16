@@ -1,5 +1,6 @@
 package com.linln.utill;
 
+import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.util.ApiResponse;
 import com.linln.devtools.generate.utils.CodeUtil;
 import org.apache.commons.io.IOUtils;
@@ -9,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.UUID;
 
 /**
@@ -106,16 +105,36 @@ public class FileUtil {
             return null;
         }
         String fileName = multipartFile.getOriginalFilename();
-        String prefix = fileName.substring(0, fileName.lastIndexOf(".")); // 前缀
-        String suffix = fileName.substring(fileName.lastIndexOf(".")); // 后缀 .jpg/.jpeg
         File saveFileDir = new File(savePath);
         if (!saveFileDir.exists()){
             saveFileDir.mkdirs();
         }
-        File dest = new File(savePath + prefix + UUIDUtils.getUUID() + suffix);
+        File dest = new File(savePath + fileName);
 
         multipartFile.transferTo(dest);
 
         return dest;
+    }
+
+
+    /**
+     * 读取本地pdf,这里设置的是预览constant
+     */
+    public static void readPDF(HttpServletResponse response, String path) {
+        //Device device= deviceRepository.findbyDeviceCode(deviceCode);
+        response.reset();
+        response.setContentType("application/pdf");
+        try {
+            File file = new File(path);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            OutputStream outputStream = response.getOutputStream();
+            IOUtils.write(IOUtils.toByteArray(fileInputStream), outputStream);
+            response.setHeader("Content-Disposition","inline; filename= file");
+            outputStream.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

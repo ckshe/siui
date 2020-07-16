@@ -4,7 +4,7 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form class="layui-form" lay-filter="lay_form" th:action="@{/base/taskInstruction/save}">
+    <form class="layui-form" lay-filter="lay_form" th:action="@{/base/taskInstruction/save}" enctype="multipart/form-data">
         <input type="hidden" name="id" th:if="${taskInstruction}" th:value="${taskInstruction.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">作业指导书编号</label>
@@ -21,7 +21,10 @@
         <div class="layui-form-item">
             <label class="layui-form-label">文件</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="text" name="uploadFile" placeholder="请输入文件" th:value="${taskInstruction?.uploadFile}">
+                <label for="uploadFile" type="button" class="layui-btn" id="test1">
+                    <i class="layui-icon">&#xe67c;</i>上传作业指导书
+                </label>
+                <input style="display: none" class="layui-input" accept=".pdf" id="uploadFile" type="file" >
             </div>
         </div>
         <div class="layui-form-item">
@@ -40,7 +43,8 @@
             </div>
         </div>
         <div class="layui-form-item timo-finally">
-            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn" lay-submit lay-filter="sub" type="button"><i class="fa fa-check-circle"></i> 保存</button>
+<!--            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>-->
             <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
         </div>
     </form>
@@ -66,7 +70,38 @@
                     form.val('lay_form',{processName:$('#processNameValue').val()});
                 }
             })
+            form.on('submit(sub)',function (obj) {
+                var data=obj.field;
+                console.log(data);
+                var formData = new FormData();
+                var uploadFile=document.getElementById('uploadFile');
 
+                formData.append('file',uploadFile.files[0]);
+                console.log(formData);
+                for(var k in data){
+                    formData.append(k,data[k]);
+                }
+
+                $.ajax({
+                    type:'post',
+                    url:'/base/taskInstruction/save',
+                    data:formData,
+                    processData : false,
+                    contentType : false,
+                    success:function (res) {
+                        if(res.code===200){
+                            layer.alert('提交成功！',{icon:1},function () {
+                                layer.closeAll();
+                                window.parent.location.reload();
+                            })
+                        }else{
+                            layer.alert(res.msg,{icon:2},function () {
+                                layer.closeAll()
+                            })
+                        }
+                    }
+                });
+            });
         })
 
     </script>

@@ -9,7 +9,9 @@ import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.repository.PcbTaskRepository;
+import com.linln.admin.produce.repository.ProcessTaskRepository;
 import com.linln.admin.produce.service.PcbTaskService;
+import com.linln.admin.produce.service.ProcessTaskService;
 import com.linln.admin.system.service.OpenService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
@@ -38,6 +40,9 @@ public class OpenController {
 
     @Autowired
     private DeviceRepository deviceRepository;
+
+    @Autowired
+    private ProcessTaskService processTaskService;
 
 
     @PostMapping("/excute")
@@ -109,11 +114,8 @@ public class OpenController {
     @RequestMapping("/showPDF")
     @ResponseBody
     public void showPDF(HttpServletResponse response, String  deviceCode)throws IOException, DocumentException {
-        //需要填充的数据
-        Map<String, Object> data = new HashMap<>(16);
-        data.put("name", "kevin");
-        // 读取pdf并预览
-        readPDF(response,deviceCode);
+        processTaskService.showPDF(response,deviceCode);
+
     }
 
     /**

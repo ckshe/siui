@@ -10,10 +10,12 @@ import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.utils.StatusUtil;
 import com.linln.common.vo.ResultVo;
 import com.linln.component.shiro.ShiroUtil;
+import com.linln.constant.CommonConstant;
 import com.linln.utill.FileUtil;
 import com.sun.prism.shader.Solid_TextureYV12_AlphaTest_Loader;
 import org.apache.commons.io.IOUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -101,7 +104,17 @@ public class OperationInstructionController {
         }
         operationInstruction.setUploadTime(new Date());
         operationInstruction.setUserId(ShiroUtil.getSubject().getId());
-        FileUtil.upload(file);
+        File nfile = null;
+        String path = CommonConstant.file_path+CommonConstant.usebook_path;
+
+        //String path = "D:\\test\\";
+        try {
+            nfile = FileUtil.multipartFileToFile(file, path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResultVoUtil.error(20001, "保存文件错误，请联系系统管理员");
+        }
+        //FileUtil.upload(file);
         operationInstruction.setUploadFile(file.getOriginalFilename());
 
         // 保存数据
@@ -142,6 +155,17 @@ public class OperationInstructionController {
     @ResponseBody
     public ApiResponse importOperationManual(@RequestParam("file") MultipartFile file){
         return operationInstructionService.importOperationManual(file);
+    }
+
+    /**
+     * 在线浏览PDF文件
+     * @return
+     */
+    @RequestMapping("/showPDF")
+    @ResponseBody
+    public void showPDF(HttpServletResponse response, Long  id)throws IOException, DocumentException {
+        operationInstructionService.showPDF(response,id);
+
     }
 
     /*@ResponseBody
