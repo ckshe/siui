@@ -136,9 +136,9 @@
                     <li class="navLi" data-url="/windowPad/scancalc">
                         <span class="layui-icon" >&#xe624;</span><span>扫码计数</span>
                     </li>
-                    <li class="navLi" data-url="/404">
+                    <!-- <li class="navLi" data-url="/404">
                         <span  class="layui-icon">&#xe6b2;</span><span>首检</span>
-                    </li>
+                    </li> -->
                     <li class="navLi" data-url="/404">
                         <span class="layui-icon" >&#xe629;</span><span>设备参数</span>
                     </li>
@@ -198,7 +198,7 @@
             </div>
             <div class="fourBox">
                 <div class="fourLeft">
-                    <button id="over" class="huanButton">结束工序</button>
+                    <button id="over" class="huanButton">当天结算</button>
                     <button id="login" class="blueButton">上机</button>
                 </div>
                 <div class="fourRight">
@@ -643,7 +643,8 @@
                     });
                     console.log(nowGonDan)
                     form.val('statusForm',{
-                        pcb_quantity:nowGonDan.pcb_quantity,
+                        pcb_quantity:nowGonDan.detail_plan_count,
+                        amount_completed:nowGonDan.detail_finish_count,
                         id:nowGonDan.id,
                     })
                 }
@@ -651,7 +652,7 @@
             form.on('submit(status)',function (obj) {
                 console.log(obj.field);
                 $.ajax({
-                    url: '/produce/pcbTask/modifyProcessTaskStatus',
+                    url: '/produce/pcbTask/settlementDetailCount',
                     type: "post",
                     dataType: "json",
                     data: JSON.stringify({

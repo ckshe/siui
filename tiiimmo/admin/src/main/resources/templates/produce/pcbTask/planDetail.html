@@ -17,7 +17,9 @@
         .layui-form-switch em {
             width: 40px;
         }
-
+        .layui-form-item{
+            margin-bottom: 0;
+        }
         body {
             overflow-y: scroll;
         }
@@ -28,6 +30,26 @@
     <div class="layui-form" id="timeForm" style="display: none">
         <div class="layui-inline" id="test-n1"></div>
     </div>
+    <input type="hidden" name="data">
+    <form class="layui-form"  id="editForm" style="padding:2px 0;">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">计划生产时间</label>
+                    <div class="layui-input-inline">
+                        <input id="planStartTime" type="text" name="planStartTime"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">计划完成时间</label>
+                    <div class="layui-input-inline">
+                        <input id="planFinishTime" type="text" name="planFinishTime"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </form>
+    <h3><b>已下达设备：</b></h3>
+    <table class="layui-hide" id="table1" lay-filter="table1"></table>
+    <h3><b>工序日计划：</b></h3>
     <table class="layui-hide" id="table" lay-filter="table"></table>
     <script type="text/html" id="toolbarDemo">
         <a class=" layui-btn layui-btn-sm" style="background-color: #1E9FFF" lay-event="add">添加</a>
@@ -52,7 +74,32 @@
                 curr:1
             })
         });
+        var devData=[];
+        var dd = JSON.parse($('[name=data]').val());
+        if(dd.device_code!=null){
+            var serial = dd.device_code.split(',');
+            var name = dd.device_name.split(',');
+            serial.forEach(function (t,i) {
+                devData.push({serial:t,name:name[i]})
+            })
+        }
+        console.log(devData);
+        table.render({
+            elem: '#table1'
+            ,defaultToolbar: ['filter']
+            ,limit:10000
+            ,data:devData
+            ,cols:  [
+                [
+                    {field: 'serial', title: '设备编号', minWidth: 160},
+                    {field: 'name', title: '设备名称', minWidth: 140}
+                ]
+            ]
 
+        });
+        form.render();
+        laydate.render({elem: '#planStartTime',type:'date'});$("#planStartTime").val(getQueryString('sTime'))
+        laydate.render({elem: '#planFinishTime',type:'date'});$("#planFinishTime").val(getQueryString('fTime'))
         var tdata = [];
         var index=0;
         var d={
@@ -100,7 +147,6 @@
         });
         var tableObj = {
             elem: '#table'
-            ,height:"full-46"
             ,defaultToolbar: ['filter']
             ,response: {
                 statusCode: 200
@@ -145,7 +191,7 @@
             switch(obj.event){
                 case 'devs':
                     layer.load(1, {
-                        content: '加载中...',
+                        content: '提交中...',
                         success: function (layero) {
                             layero.find('.layui-layer-content').css({
                                 'padding-top': '39px',
@@ -155,27 +201,50 @@
                     });
                         $.ajax({
                             type: "POST",
-                            url: '/produce/pcbTask/addTaskDetailList',
+                            url: "/produce/pcbTask/updateProcessTask/",
                             contentType: "application/json; charset=utf-8",
                             data: JSON.stringify({
-                                    process_task_code:getQueryString('process_task_code'),
-                                    detailList:tdata
-                                }),
+                                planStartTime:$("#planStartTime").val(),
+                                planFinishTime:$("#planFinishTime").val(),
+                                processId:getQueryString('processId'),
+                                pcbQuantity:""
+                            }),
                             dataType: "json",
-                            success: function (res) {
-                                layer.closeAll()
-                                if(res.code === 200){
-                                    layer.alert('提交成功！',{icon:1},function () {
-                                        parent.layer.closeAll();
-                                    })
+                            success: function (res3) {
+                                if(res3.code === 200){
+                                    $.ajax({
+                                        type: "POST",
+                                        url: '/produce/pcbTask/addTaskDetailList',
+                                        contentType: "application/json; charset=utf-8",
+                                        data: JSON.stringify({
+                                            process_task_code:getQueryString('process_task_code'),
+                                            detailList:tdata
+                                        }),
+                                        dataType: "json",
+                                        success: function (res) {
+                                            layer.closeAll()
+                                            if(res.code === 200){
+                                                layer.alert('提交成功！',{icon:1},function () {
+                                                    parent.layer.closeAll();
+                                                    parent.location.reload()
+                                                })
+                                            }else{
+                                                layer.alert(res.msg, {icon: 5});
+                                            }
+                                        },
+                                        error: function (message) {
+                                            layer.alert("保存失败！", {icon: 5});
+                                        }
+                                    });
                                 }else{
-                                    layer.alert(res.msg, {icon: 5});
+                                    layer.msg(res3.msg, {offset: '15px', time: 3000, icon: 2});
                                 }
                             },
                             error: function (message) {
-                                layer.alert("保存失败！", {icon: 5});
+                                layer.msg("保存失败！", {offset: '15px', time: 3000, icon: 2});
                             }
                         });
+
                     break;
                 case 'add':
                     index++;
@@ -197,7 +266,7 @@
                     table.render(tableObj)
                     ;break;
                 case 'time':
-                    nowIndex=data.index
+                    nowIndex=data.index;
                     timeBox= layer.open({
                         type:1,
                         title:'计划时间',

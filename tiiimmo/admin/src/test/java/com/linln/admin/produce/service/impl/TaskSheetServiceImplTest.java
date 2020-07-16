@@ -34,7 +34,7 @@ public class TaskSheetServiceImplTest {
     @Test
     public void addProcessTaskDetailList(){
         ProcessTaskDetail detail = new ProcessTaskDetail();
-        detail.setDetail_type("人分配");
+        detail.setDetail_type("人创建");
         detail.setFinish_count(0);
         detail.setPlan_count(2);
         detail.setProcess_task_code("66852");
@@ -42,7 +42,7 @@ public class TaskSheetServiceImplTest {
         detail.setUser_name("dsa");
 
         ProcessTaskDetail detail2 = new ProcessTaskDetail();
-        detail2.setDetail_type("人分配");
+        detail2.setDetail_type("人创建");
         detail2.setFinish_count(0);
         detail2.setPlan_count(2);
         detail2.setProcess_task_code("66852");

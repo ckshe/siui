@@ -46,6 +46,7 @@ public class Program implements Serializable {
     private Long id;
     // 设备编号
     private String code;
+    //
     private String name;
     // PCB光板号
     private String pcbCode;

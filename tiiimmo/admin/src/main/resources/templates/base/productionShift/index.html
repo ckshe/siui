@@ -39,14 +39,14 @@
                 <div class="pull-right screen-btn-group">
                     <button class="layui-btn open-popup" data-title="添加生产排班管理" th:attr="data-url=@{/base/productionShift/add}" data-size="540,530">
                         <i class="fa fa-plus"></i> 添加</button>
-                    <div class="btn-group">
+                    <!--<div class="btn-group">
                         <button class="layui-btn">操作<span class="caret"></span></button>
                         <dl class="layui-nav-child layui-anim layui-anim-upbit">
                             <dd><a class="ajax-status" th:href="@{/base/productionShift/status/ok}">启用</a></dd>
                             <dd><a class="ajax-status" th:href="@{/base/productionShift/status/freezed}">冻结</a></dd>
                             <dd><a class="ajax-status" th:href="@{/base/productionShift/status/delete}">删除</a></dd>
                         </dl>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <div class="timo-table-wrap">
@@ -85,7 +85,8 @@
                         <td>
                             <a class="open-popup" data-title="编辑生产排班管理" th:attr="data-url=@{'/base/productionShift/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
                             <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/base/productionShift/detail/'+${item.id}}" data-size="800,700" href="#">详细</a>
-                            <a class="ajax-get" data-msg="您是否确认删除" th:href="@{/base/productionShift/status/delete(ids=${item.id})}">删除</a>
+                            <a class="ajax-get" data-msg="您是否确认删除" th:href="@{'/base/productionShift/delete/'+${item.id}}">删除</a>
+<!--                        <a class="ajax-get" data-msg="您是否确认删除" th:href="@{/base/productionShift/status/delete(ids=${item.id})}">删除</a>-->
                         </td>
                     </tr>
                     </tbody>
@@ -95,6 +96,21 @@
         </div>
     </div>
 <script th:replace="/common/template :: script"></script>
+<script>
+    $("#deleteBtn").on('click',function(){
+        $.ajax({
+            url: '/base/productionShift/delete/'+ id,
+            type: "delete",
+            dataType : "json",
+            data : JSON.stringify(id),
+            contentType : "application/json;charset=UTF-8",
+            success: function (res) {
+                alert('执行成功');
+            },
+
+        })
+    })
+</script>
 
 </body>
 </html>

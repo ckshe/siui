@@ -290,6 +290,13 @@ public class PcbTaskController {
     }
 
 
+    //工序任务日计划当天结算
+    @PostMapping("/settlementDetailCount")
+    @ResponseBody
+    public ResultVo settlementDetailCount(@RequestBody PcbTaskReq req){
+        return pcbTaskService.settlementDetailCount(req);
+    }
+
     //工单计数
     @PostMapping("/countProcessTaskAmount")
     @ResponseBody
@@ -365,12 +372,14 @@ public class PcbTaskController {
         return ResultVoUtil.success();
     }
 
-    @GetMapping("/deleteProcessTaskDetailById/{id}")
+    @GetMapping("/deletePmodifyProcessTaskStatusrocessTaskDetailById/{id}")
     @ResponseBody
     public ResultVo deleteProcessTaskDetailById(@PathVariable Long id){
 
         processTaskService.deleteProcessTaskDetailById(id);
         return ResultVoUtil.success("删除成功");
     }
+
+
 
 }

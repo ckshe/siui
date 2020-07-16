@@ -62,6 +62,36 @@ public class DeviceProductElement implements Serializable {
     private Date updateDate;
 
     private String pcb_code;
+    //AB面
+    private String a_or_b;
+
+    private String X ;
+
+    private String Y ;
+
+    private String R ;
+    //工作台
+    private String work_desk ;
+    //Head
+    private String head ;
+    //坏板标记
+    private String bad_flag ;
+    //基准标记
+    private String base_flag ;
+    //轨道
+    private String track ;
+    //原拼板号码
+    private String ori_palte_no ;
+    //送料器类型
+    private String machine_type;
+    //组ID
+    private String group_id ;
+    //组内顺序
+    private String group_sort ;
+  /*  //备注
+    private String remark;*/
+
+
     // 创建者
     @CreatedBy
     @ManyToOne(fetch=FetchType.LAZY)
@@ -79,6 +109,4 @@ public class DeviceProductElement implements Serializable {
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
 
-    //AB面
-    private String a_or_b;
 }

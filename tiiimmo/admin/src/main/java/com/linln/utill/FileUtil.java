@@ -93,4 +93,29 @@ public class FileUtil {
         logger.info("文件上传成功");
         return ApiResponse.ofSuccess("文件上传成功");
     }
+
+    /**
+     * 将文件保存起来，并返回文件信息
+     * @param multipartFile
+     * @param savePath 保存的路径
+     * @return
+     * @throws IOException
+     */
+    public static File multipartFileToFile(MultipartFile multipartFile, String savePath) throws IOException{
+        if (multipartFile == null || multipartFile.isEmpty() || StringHelper.isBlank(savePath)){
+            return null;
+        }
+        String fileName = multipartFile.getOriginalFilename();
+        String prefix = fileName.substring(0, fileName.lastIndexOf(".")); // 前缀
+        String suffix = fileName.substring(fileName.lastIndexOf(".")); // 后缀 .jpg/.jpeg
+        File saveFileDir = new File(savePath);
+        if (!saveFileDir.exists()){
+            saveFileDir.mkdirs();
+        }
+        File dest = new File(savePath + prefix + UUIDUtils.getUUID() + suffix);
+
+        multipartFile.transferTo(dest);
+
+        return dest;
+    }
 }

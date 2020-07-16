@@ -87,7 +87,6 @@
               elem: '#inspectionTime',
               type: 'datetime'
             });
-
             $.get('/ShowBoard/findOneLastOnTimeNotDown/'+getQueryString2('deviceCode'),function (res) {
                 if(res.code===200){
                     var data = res.data
@@ -122,7 +121,7 @@
             // });
             var badCheck = document.getElementById('badCheck');
             var nowData = null;
-            layer.load(1)
+            layer.load(1);
             $.ajax({
                 url:"/produce/pcbTask/findProcessTaskByDevice",
                 type:'post',
