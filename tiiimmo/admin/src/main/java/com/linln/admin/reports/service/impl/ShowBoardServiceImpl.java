@@ -267,6 +267,75 @@ public class ShowBoardServiceImpl implements ShowBoardService {
     }
 
     @Override
+    public ResultVo staffOnBoardForPad(PcbTaskReq pcbTaskReq) {
+        Integer page = 1;
+        Integer size = 10;
+        if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
+            page = pcbTaskReq.getPage();
+            size = pcbTaskReq.getSize();
+        }
+        StringBuffer sql = new StringBuffer("SELECT\n" +
+                "\t* \n" +
+                "FROM\n" +
+                "\t(\n" +
+                "\tSELECT\n" +
+                "\t\t*,\n" +
+                "\t\tROW_NUMBER ( ) OVER ( ORDER BY t4.Id ASC ) row \n" +
+                "\tFROM\n" +
+                "\t\t(\n" +
+                "\t\tSELECT\n" +
+                "\t\t\t* \n" +
+                "\t\tFROM\n" +
+                "\t\t\t(\n" +
+                "\t\t\tSELECT\n" +
+                "\t\t\t\tt1.id,\n" +
+                "\t\t\t\tt1.device_code,\n" +
+                "\t\t\t\tt1.process_task_code,\n" +
+                "\t\t\t\tt1.user_id,\n" +
+                "\t\t\t\tt1.user_name,\n" +
+                "\t\t\t\tt1.up_time,\n" +
+                "\t\t\t\tt1.down_time,\n" +
+                "\t\t\t\tISNULL( t2.amount_completed, 0 ) finishcount,\n" +
+                "\t\t\t\tt2.process_name,\n" +
+                "\t\t\t\tISNULL( t2.pcb_quantity, 0 ) plancount,\n" +
+                "\t\t\t\tt3.task_sheet_code,\n" +
+                "\t\t\t\tt3.pcb_name,\n" +
+                "\t\t\t\tROW_NUMBER ( ) OVER ( partition BY t1.user_name, t1.device_code ORDER BY t1.id DESC ) AS rn,\n" +
+                "\t\t\t\tCAST (\n" +
+                "\t\t\t\t\t100 * CAST ( ISNULL( t2.amount_completed, 0 ) * 1.0 / ISNULL( t2.pcb_quantity, 1 ) AS DECIMAL ( 8, 2 ) ) AS VARCHAR ( 100 ) \n" +
+                "\t\t\t\t) AS rate \n" +
+                "\t\t\tFROM\n" +
+                "\t\t\t\tproduce_user_device_history t1\n" +
+                "\t\t\t\tLEFT JOIN produce_process_task t2 ON t2.process_task_code = t1.process_task_code\n" +
+                "\t\t\t\tLEFT JOIN produce_pcb_task t3 ON t2.pcb_task_code = t3.pcb_task_code \n" +
+                "\t\t\tWHERE\n" +
+                "\t\t\t\tt1.process_task_code != '未分配' \n" +
+                "\t\t\t\tAND t1.process_task_code IS NOT NULL \n" +
+                "\t\t\t) AS u \n" +
+                "\t\tWHERE\n" +
+                "\t\t\tu.rn = 1 \n" +
+                "\t\t\tAND u.device_code LIKE '%" +
+                pcbTaskReq.getDeviceCode() +
+                "%' \n" +
+                "\t\t) t4 \n" +
+                "\t) t3 \n" );
+        List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
+
+        sql.append("where t3.Row between " +
+                ((page-1)*size+1) +
+                " and " +
+                (page*size) +
+                "");
+
+        sql.append(" ORDER BY\n" +
+                "\tt3.id DESC");
+        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+
+
+        return ResultVoUtil.success("查询成功",mapList,count.size());
+    }
+
+    @Override
     public ProcessTask findByProcessTaskCode(String processTaskCode) {
         return processTaskRepository.findByProcessTaskCode(processTaskCode);
     }

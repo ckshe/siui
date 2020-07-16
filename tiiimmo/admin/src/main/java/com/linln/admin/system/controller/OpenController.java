@@ -12,6 +12,7 @@ import com.linln.admin.produce.repository.PcbTaskRepository;
 import com.linln.admin.produce.repository.ProcessTaskRepository;
 import com.linln.admin.produce.service.PcbTaskService;
 import com.linln.admin.produce.service.ProcessTaskService;
+import com.linln.admin.reports.service.ShowBoardService;
 import com.linln.admin.system.service.OpenService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
@@ -43,6 +44,16 @@ public class OpenController {
 
     @Autowired
     private ProcessTaskService processTaskService;
+
+    @Autowired
+    private ShowBoardService showBoardService;
+
+    //人员上机记录平板
+    @PostMapping("/staffOnBoardForPad")
+    @ResponseBody
+    public ResultVo staffOnBoardForPad(@RequestBody PcbTaskReq req){
+        return showBoardService.staffOnBoardForPad(req);
+    }
 
 
     @PostMapping("/excute")
@@ -113,8 +124,8 @@ public class OpenController {
      */
     @RequestMapping("/showPDF")
     @ResponseBody
-    public void showPDF(HttpServletResponse response, String  deviceCode)throws IOException, DocumentException {
-        processTaskService.showPDF(response,deviceCode);
+    public void showPDF(HttpServletResponse response, String  deviceCode,String type)throws IOException, DocumentException {
+        processTaskService.showPDF(response,deviceCode,type);
 
     }
 

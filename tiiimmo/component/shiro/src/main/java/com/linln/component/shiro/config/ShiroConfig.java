@@ -54,6 +54,7 @@ public class ShiroConfig {
         filterMap.put("/logoutDevice", "anon");
         filterMap.put("/produce/pcbTask/findProcessTaskByDevice", "anon");
         filterMap.put("/produce/pcbTask/findPcbTaskPlateNo", "anon");
+        filterMap.put("/produce/pcbTask/findFeedingTask", "anon");
         filterMap.put("/produce/pcbTask/deviceAmountAndworkTime", "anon");
         filterMap.put("/logout", "anon");
         filterMap.put("/ShowBoard/**", "anon");

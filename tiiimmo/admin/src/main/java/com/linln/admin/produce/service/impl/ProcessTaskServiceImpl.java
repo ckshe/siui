@@ -3,9 +3,11 @@ package com.linln.admin.produce.service.impl;
 import com.linln.RespAndReqs.ProcessTaskReq;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.domain.OperationInstruction;
+import com.linln.admin.base.domain.TaskInstruction;
 import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.base.repository.OperationInstructionRepository;
 import com.linln.admin.base.repository.OperationManualRepository;
+import com.linln.admin.base.repository.TaskInstructionRepository;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.ProcessTaskDetail;
 import com.linln.admin.produce.domain.ProcessTaskStatusHistory;
@@ -53,6 +55,9 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
 
     @Autowired
     private ProcessTaskStatusHistoryRepository processTaskStatusHistoryRepository;
+
+    @Autowired
+    private TaskInstructionRepository taskInstructionRepository;
 
     @Override
     public ResultVo findProcessTask(ProcessTaskReq processTaskReq) {
@@ -233,13 +238,25 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
     }
 
     @Override
-    public void showPDF(HttpServletResponse response, String deviceCode) {
+    public void showPDF(HttpServletResponse response, String deviceCode,String type) {
         Device device= deviceRepository.findbyDeviceCode(deviceCode);
-        OperationInstruction operationInstruction = operationInstructionRepository.findByCode(device.getUse_book());
-        if(operationInstruction ==null){
-            return;
+        String path = "";
+        //操作指导书
+        if("1".equals(type)){
+            OperationInstruction operationInstruction = operationInstructionRepository.findByCode(device.getUse_book());
+            if(operationInstruction ==null){
+                return;
+            }
+            path = CommonConstant.file_path+CommonConstant.usebook_path+operationInstruction.getUploadFile();
+        }else {
+            //作业指导书
+            TaskInstruction taskInstruction = taskInstructionRepository.findByCode(device.getWork_book());
+            if(taskInstruction ==null){
+                return;
+            }
+            path = CommonConstant.file_path+CommonConstant.usebook_path+taskInstruction.getUploadFile();
+
         }
-        String path = CommonConstant.file_path+CommonConstant.usebook_path+operationInstruction.getUploadFile();
         FileUtil.readPDF(response,path);
     }
 }
