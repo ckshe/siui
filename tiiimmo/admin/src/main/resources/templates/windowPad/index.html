@@ -142,7 +142,7 @@
                     <li class="navLi" data-url="/windowPad/device">
                         <span class="layui-icon" >&#xe629;</span><span>设备参数</span>
                     </li>
-                    <li class="navLi" data-url="/404">
+                    <li class="navLi" data-url="/windowPad/showPDF">
                         <span class="layui-icon" >&#xe705;</span><span>操作规范</span>
                     </li>
                     <li class="navLi" data-url="/windowPad/materiel">
@@ -677,7 +677,7 @@
             })
             //操作指导
             $('#pdf').on('click',function () {
-                document.getElementById('zhidao').src='/open/showPDF?deviceCode='+getQueryString('deviceCode');
+                document.getElementById('zhidao').src='/open/showPDF?deviceCode='+getQueryString('deviceCode')+'&type=1';
                 layer.open({
                     title:'操作指导',
                     type:1,
