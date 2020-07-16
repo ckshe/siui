@@ -136,9 +136,7 @@
                     <li class="navLi" data-url="/windowPad/scancalc">
                         <span class="layui-icon" >&#xe624;</span><span>扫码计数</span>
                     </li>
-                    <!-- <li class="navLi" data-url="/404">
-                        <span  class="layui-icon">&#xe6b2;</span><span>首检</span>
-                    </li> -->
+
                     <li class="navLi" data-url="/windowPad/device">
                         <span class="layui-icon" >&#xe629;</span><span>设备参数</span>
                     </li>
@@ -151,7 +149,7 @@
                     <li class="navLi" data-url="/404">
                         <span class="layui-icon" >&#xe60e;</span><span>工作历史</span>
                     </li>
-                    <li class="navLi" data-url="/404">
+                    <li class="navLi" data-url="/windowPad/systemSet">
                         <span class="layui-icon" >&#xe614;</span><span>系统设置</span>
                     </li>
                 </ul>
@@ -216,6 +214,11 @@
 <script>
     var nowGonDan="";
     var a="";
+    var shuaTime = 10;
+    function changeShuaTime(){
+        parent.localStorage.getItem('shuaTime')&&(shuaTime = parent.localStorage.getItem('shuaTime'));
+    }
+    changeShuaTime()
     window.onload = function () {
         layui.use(['jquery', 'form'], function () {
             var $ = layui.jquery,
@@ -752,7 +755,8 @@
                 systemTime.innerHTML=timeToDate(new Date());
                 //更新生产数
                 // console.log('首页计时')
-                if(parseInt( new Date().getTime()/1000 )%10===9){
+                if(parseInt( new Date().getTime()/1000 )%shuaTime===(shuaTime-1)){
+                    console.log(shuaTime)
                     // console.log('首页触发')
                     changeData()
                 }

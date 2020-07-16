@@ -142,6 +142,8 @@
             case "结束":return 'yellowBg';
         }
     }
+    var shuaTime = 10;
+    parent.localStorage.getItem('shuaTime')&&(shuaTime = parent.localStorage.getItem('shuaTime'));
     window.onload = function () {
         layui.use(['jquery', 'form','table','layer'], function () {
             var $ = layui.jquery,
@@ -252,7 +254,8 @@
                 }
             });
             setInterval(function () {
-                if(parseInt( new Date().getTime()/1000 )%10===9){
+                if(parseInt( new Date().getTime()/1000 )%shuaTime===(shuaTime-1)){
+
                     $.ajax({
                         url:"/produce/pcbTask/findProcessTaskByDevice",
                         type:'post',
