@@ -34,8 +34,11 @@ public class windowPadController {
     }
 
     @GetMapping("/scancalc")
-    public String scancalc(){
-        return "/windowPad/scancalc/scancalc";
+    public String scancalc(){return "/windowPad/scancalc/scancalc";}
+
+    @GetMapping("/systemSet")
+    public String systemSet(){
+        return "/windowPad/systemSet/systemSet";
     }
 
     @GetMapping("/device")
