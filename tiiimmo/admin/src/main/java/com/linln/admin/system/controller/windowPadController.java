@@ -43,4 +43,9 @@ public class windowPadController {
         return "/windowPad/device";
     }
 
+    @GetMapping("/materiel")
+    public String materiel(){
+        return "/windowPad/materiel";
+    }
+
 }
