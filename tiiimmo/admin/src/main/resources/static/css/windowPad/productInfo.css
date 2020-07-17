@@ -1,7 +1,7 @@
 /*修改layui form*/
 .layui-form-item .layui-inline{
     margin-right:0!important;
-    width:282px;
+    width:350px;
 }
 .layui-input{
     border-color: transparent!important;
@@ -20,7 +20,7 @@
     height:36px;
 }
 .layui-form-item .layui-input-inline{
-    width: auto!important;
+    width: 240px !important;
      margin-right: 0!important;
 }
 .title{
@@ -98,7 +98,7 @@
 }
 #formNode{
     width: 100%;
-    height:232px;
+    height:262px;
     position: relative;
     overflow: hidden;
 }

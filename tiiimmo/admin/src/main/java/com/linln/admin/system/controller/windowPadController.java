@@ -51,4 +51,13 @@ public class windowPadController {
         return "/windowPad/materiel";
     }
 
+    @GetMapping("/showPDF")
+    public String showPDF(){
+        return "/windowPad/showPDF";
+    }
+    @GetMapping("/history")
+    public String history(){
+        return "/windowPad/history";
+    }
+
 }

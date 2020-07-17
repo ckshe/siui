@@ -32,8 +32,8 @@
             success: function (response) {
                 console.log('设备信息=', response)
                 var responseData = response.data.device;
-                responseData.last_check_time != null?responseData.last_check_time = responseData.last_check_time.split('T')[0]: '';
-                responseData.next_check_time != null?responseData.next_check_time = responseData.next_check_time.split('T')[0]: '';
+                responseData.last_check_time != null?responseData.last_check_time = timeToDate(responseData.last_check_time,true): '';
+                responseData.next_check_time != null?responseData.next_check_time = timeToDate(responseData.next_check_time,true): '';
                 var devstatus = {
                     "0": "启动",
                     "1": "暂停",

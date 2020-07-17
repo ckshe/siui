@@ -254,7 +254,7 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
             if(taskInstruction ==null){
                 return;
             }
-            path = CommonConstant.file_path+CommonConstant.usebook_path+taskInstruction.getUploadFile();
+            path = CommonConstant.file_path+CommonConstant.workbook_path+taskInstruction.getUploadFile();
 
         }
         FileUtil.readPDF(response,path);
