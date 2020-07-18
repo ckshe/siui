@@ -107,16 +107,27 @@ $(function(){
 		setDataBoard3();
 		setDataBoard4();
 	},10)
-	
-	//关掉界面
-	$('.popupClose').on('click',function(){
-		$('.popupClose').css('display','none');
-		$('.summary').hide().empty();
-		$('.popup').animate({width: '3px'},400,function(){
-			$('.popup').animate({height: 0},400);
-		});
-		setTimeout(summaryHide,800);
+	var container = $('.popup');
+	$('.filterbg').off().on('click',function(e){
+		if(!container.is(e.target)&&container.has(e.target).length===0){
+			// container.remove();
+			// $('.popupClose').css('display','none');
+			$('.summary').hide().empty();
+			$('.popup').animate({width: '3px'},400,function(){
+				$('.popup').animate({height: 0},400);
+			});
+			setTimeout(summaryHide,800);
+		}
 	});
+	//关掉界面
+	// $('.popupClose').on('click',function(){
+	// 	$('.popupClose').css('display','none');
+	// 	$('.summary').hide().empty();
+	// 	$('.popup').animate({width: '3px'},400,function(){
+	// 		$('.popup').animate({height: 0},400);
+	// 	});
+	// 	setTimeout(summaryHide,800);
+	// });
 	function summaryHide(){
 		$('.filterbg').hide();
 		$('.popup').hide();
