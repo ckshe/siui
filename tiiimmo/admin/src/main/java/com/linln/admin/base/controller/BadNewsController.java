@@ -9,6 +9,8 @@ import com.linln.common.utils.EntityBeanUtil;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.utils.StatusUtil;
 import com.linln.common.vo.ResultVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -27,6 +29,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/base/badNews")
+@Api(value = "不良模块")
 public class BadNewsController {
 
     @Autowired
@@ -80,6 +83,7 @@ public class BadNewsController {
     @PostMapping("/save")
     @RequiresPermissions({"badNews:badNews:add", "badNews:badNews:edit"})
     @ResponseBody
+    @ApiOperation(value = "保存")
     public ResultVo save(@Validated BadNewsValid valid, BadNews badNews) {
         // 复制保留无需修改的数据
         if (badNews.getId() != null) {

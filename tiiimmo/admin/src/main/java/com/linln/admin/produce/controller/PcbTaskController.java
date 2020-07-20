@@ -372,10 +372,9 @@ public class PcbTaskController {
         return ResultVoUtil.success();
     }
 
-    @GetMapping("/deletePmodifyProcessTaskStatusrocessTaskDetailById/{id}")
+    @GetMapping("/deleteProcessTaskDetailById/{id}")
     @ResponseBody
     public ResultVo deleteProcessTaskDetailById(@PathVariable Long id){
-
         processTaskService.deleteProcessTaskDetailById(id);
         return ResultVoUtil.success("删除成功");
     }

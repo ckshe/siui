@@ -182,6 +182,10 @@
                         <div class="title hui" id="workTime">0</div>
                     </li>
                 </ul>
+                    <div>
+                        <div class="title cu"> 当前板编号：</div>
+                        <div class="title hui" id="nowPlateNo">0</div>
+                    </div>
                 </div>
         <div class="buttonBox">
             <button id="qie" class="shenblueButton" style="width:100%;height:80px">切换工序</button>
@@ -292,6 +296,7 @@
                                     success: function (res6) {
                                         if(res6.code===200){
                                             document.getElementById('scs').innerHTML=res6.data.amount;
+                                            document.getElementById('nowPlateNo').innerHTML=res6.data.nowPlateNo;
                                             document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.amount*1000);
 
                                         }else{
