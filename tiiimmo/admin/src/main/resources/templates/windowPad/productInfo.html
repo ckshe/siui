@@ -21,7 +21,7 @@
             <button id="imState" class="greenButton">工作中</button>
         </div>
         <div class="taskBox">
-            <div class="title">当前生产工序</div>
+            <div class="title">当前生产工序<span id="processName" style="font-weight: bold;"></span></div>
             <form class="layui-form" lay-filter="formNode" id="formNode">
                 <div id="statusBox" class=""></div>
                 <input type="hidden" name="id">
@@ -162,6 +162,7 @@
                 form = layui.form;
             layer.load(1)
             var statusBox = document.getElementById('statusBox');
+            var processName = document.getElementById('processName');
             $("#imSerial").html(getQueryString2('deviceCode'))
             //展示已知数据
             table.render({
@@ -189,6 +190,7 @@
                             parent.nowGonDan = t;
                             statusBox.className = color(t.process_task_status);
                             statusBox.innerHTML = t.process_task_status;
+                            processName.innerHTML = ":"+t.process_name;
                             form.val('formNode', t);
                             res.data.splice(i, 1);
                             return true
@@ -311,8 +313,10 @@
                                     t.plan_finish_time = timeToDate(t.plan_finish_time);
                                     parent.nowGonDan = t;
                                     var statusBox = document.getElementById('statusBox');
+                                    var processName = document.getElementById('processName');
                                     statusBox.className = color(t.process_task_status);
                                     statusBox.innerHTML = t.process_task_status;
+                                    processName.innerHTML = ":"+t.process_name;
                                     document.getElementById('scs').value = t.amount_completed;
                                     if (t.id != $('[name=id]').val()) {
                                         //有当前，且当前id不等于页面的id
