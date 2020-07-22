@@ -1,14 +1,22 @@
 package com.linln.admin.base.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.linln.RespAndReqs.ScheduleJobReq;
 import com.linln.admin.base.domain.DeviceProductElement;
+import com.linln.admin.base.domain.ElementProduct;
 import com.linln.admin.base.repository.DeviceProductElementRepository;
+import com.linln.admin.base.repository.ElementProductRepository;
 import com.linln.admin.base.service.DeviceProductElementService;
 import com.linln.admin.base.util.ConvertUtil;
 import com.linln.admin.base.util.ExcelToDataUtil;
+import com.linln.admin.produce.domain.ScheduleJobApi;
+import com.linln.admin.produce.repository.ScheduleJobApiRepository;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
+import com.linln.utill.ApiUtil;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -33,6 +41,12 @@ public class DeviceProductElementServiceImpl implements DeviceProductElementServ
 
     @Autowired
     private DeviceProductElementRepository deviceProductElementRepository;
+
+    @Autowired
+    private ScheduleJobApiRepository scheduleJobApiRepository;
+
+    @Autowired
+    private ElementProductRepository elementProductRepository;
 
     /**
      * 根据ID查询数据
@@ -85,14 +99,55 @@ public class DeviceProductElementServiceImpl implements DeviceProductElementServ
             //获取内容
             List<Map> entity = ExcelToDataUtil.ExcelConvertEntity(sheet, 1,CellHead );
             List<DeviceProductElement> elementList = new ArrayList<>();
+            if(entity!=null&&entity.size()!=0){
+                //删除旧的
+                String a_or_b = ConvertUtil.ConvertToString(entity.get(0).get("AB面"));
+                String pcb_code = ConvertUtil.ConvertToString(entity.get(0).get("成品号"));
+                deviceProductElementRepository.deleteByABAndPcbCode(a_or_b,pcb_code);
+            }
             for(int label =0; label<entity.size();label++){
+                //同步根据元件号码同步查找物料号
+                String element_name = ConvertUtil.ConvertToString(entity.get(label).get("元件名"));
+                String product_code = ConvertUtil.ConvertToString(entity.get(label).get("物料代码"));
+                if(product_code==null||product_code.equals("")){
+                    //不存在则调用ERP接口同步并存至本地，存在则获取物料编号
+                    ElementProduct elementProduct = elementProductRepository.findByElement_name(element_name);
+                    if(elementProduct==null){
+                        ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_WU_LIAO_ID");
+                        ScheduleJobReq scheduleJobReq = new ScheduleJobReq();
+                        scheduleJobReq.setDesc(jobApi.getRemark() == null ? "" : jobApi.getRemark());
+                        scheduleJobReq.setKey(jobApi.getKey() == null ? "" : jobApi.getKey());
+                        scheduleJobReq.setWhere(jobApi.getCondition() == null ? "" : jobApi.getCondition());
+                        scheduleJobReq.setAction(jobApi.getApiName() == null ? "" : jobApi.getApiName());
+                        scheduleJobReq.setSelect("");
+
+                        scheduleJobReq.setUrl(jobApi.getApiUrl());
+                        List<String> paramList = new ArrayList<>();
+                        paramList.add(element_name);
+                        scheduleJobReq.setParamList(paramList);
+                        JSONArray lists = ApiUtil.postToScheduleJobApi(jobApi.getApiUrl(),scheduleJobReq);
+                        if(lists.size()!=0){
+                            JSONObject param = lists.getJSONObject(0);
+                            product_code = param.getString("fnumber");
+                        }
+
+                    }else {
+                        product_code = elementProduct.getProduct_code();
+                    }
+                }
+
+
                 String skip_status = ConvertUtil.ConvertToString(entity.get(label).get("跳过"));
                 String sample_name = ConvertUtil.ConvertToString(entity.get(label).get("图样名"));
                 String device_code = ConvertUtil.ConvertToString(entity.get(label).get("机器"));
                 String element_no = ConvertUtil.ConvertToString(entity.get(label).get("元件号码"));
-                String element_name = ConvertUtil.ConvertToString(entity.get(label).get("元件名"));
-                String product_code = ConvertUtil.ConvertToString(entity.get(label).get("物料代码"));
+                if(element_no.contains(".")){
+                    element_no  = element_no.substring(element_no.indexOf("."));
+                }
                 String position = ConvertUtil.ConvertToString(entity.get(label).get("安装位置"));
+                if(position.contains(".")){
+                    position  = position.substring(position.indexOf("."));
+                }
                 String pcb_code = ConvertUtil.ConvertToString(entity.get(label).get("成品号"));
                 String a_or_b = ConvertUtil.ConvertToString(entity.get(label).get("AB面"));
                 String X = ConvertUtil.ConvertToString(entity.get(label).get("X"));

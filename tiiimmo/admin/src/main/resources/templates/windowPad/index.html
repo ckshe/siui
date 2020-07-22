@@ -297,7 +297,7 @@
                                         if(res6.code===200){
                                             document.getElementById('scs').innerHTML=res6.data.amount;
                                             document.getElementById('nowPlateNo').innerHTML=res6.data.nowPlateNo;
-                                            document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.amount*1000);
+                                            document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.workTime*1000);
 
                                         }else{
                                             layer.alert(res6.msg,{icon:5})
@@ -327,7 +327,7 @@
                         var data = res.data
                         $('#userName').html(data.nickname);
                         $('#juese').html(data.roleNames);
-                        $('#upTime').html(timeToDate(data.updateDate));
+                        $('#upTime').html(timeToDate(data.upTime));
                         // upTime.html('无');
                         if(/质检/.test(data.roleNames)||/管理员/.test(data.roleNames)){
                             document.getElementById('bad').style.opacity=1;
