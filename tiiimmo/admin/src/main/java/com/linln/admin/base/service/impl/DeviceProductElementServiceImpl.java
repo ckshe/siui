@@ -142,11 +142,11 @@ public class DeviceProductElementServiceImpl implements DeviceProductElementServ
                 String device_code = ConvertUtil.ConvertToString(entity.get(label).get("机器"));
                 String element_no = ConvertUtil.ConvertToString(entity.get(label).get("元件号码"));
                 if(element_no.contains(".")){
-                    element_no  = element_no.substring(element_no.indexOf("."));
+                    element_no  = element_no.substring(0,element_no.indexOf("."));
                 }
                 String position = ConvertUtil.ConvertToString(entity.get(label).get("安装位置"));
                 if(position.contains(".")){
-                    position  = position.substring(position.indexOf("."));
+                    position  = position.substring(0,position.indexOf("."));
                 }
                 String pcb_code = ConvertUtil.ConvertToString(entity.get(label).get("成品号"));
                 String a_or_b = ConvertUtil.ConvertToString(entity.get(label).get("AB面"));

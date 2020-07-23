@@ -61,6 +61,8 @@ public class ProcessTask {
     private String is_now_flag;
     //上一次计数时间
     private Date last_count_time;
+    //计数类型
+    private Integer count_type;
 
 
 }

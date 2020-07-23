@@ -40,5 +40,7 @@ public class PcbTaskReq {
     private String productCode;
     private String username;
     private String reCounttimeStamp;
+    private Integer countType;
+
 
 }

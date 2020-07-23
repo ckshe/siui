@@ -2,6 +2,7 @@ package com.linln.admin.produce.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Joiner;
 import com.linln.RespAndReqs.ScheduleJobReq;
 import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.RespAndReqs.responce.PTDeviceResp;
@@ -500,6 +501,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processRepository.save(p);
 
             ProcessTask processTask = new ProcessTask();
+            processTask.setCount_type(p.getCount_type());
             processTask.setPcb_task_code(pcbTask.getPcb_task_code());
             processTask.setIs_rohs(pcbTask.getIs_rohs());
             processTask.setPcb_name(pcbTask.getPcb_name());
@@ -1300,9 +1302,199 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         return ResultVoUtil.success(mapList);
     }
 
+    public ResultVo modifyProcessTaskStatus2(PcbTaskReq pcbTaskReq) {
+      /*  ProcessTask lastProcessTask = processTaskRepository.findById(pcbTaskReq.getLastProcassTaskId()).get();
+        if(!"暂停".equals(lastProcessTask.getProcess_task_status())){
+            return ResultVoUtil.error("切单前请先暂停当前工序任务");
+        }*/
+        ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
+        if("已完成".equals(processTask.getProcess_task_status())){
+            return ResultVoUtil.error("该工序任务已完成");
+        }
+        ProcessTaskStatusHistory history = null;
+        if(pcbTaskReq.getCountType()==1){
+            history = processTaskStatusHistoryRepository.findByProcessTaskCodeAndDeviceLastRecord(processTask.getProcess_task_code(),pcbTaskReq.getDeviceCode());
+        }else {
+            history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(processTask.getProcess_task_code());
+        }
+        Date today = new Date();
+        if(history==null){
+            ProcessTaskStatusHistory newhistory = new ProcessTaskStatusHistory();
+            newhistory.setContinue_time(0);
+            newhistory.setStart_time(today);
+            newhistory.setDevice_code(processTask.getDevice_code());
+            if(pcbTaskReq.getCountType()==1){
+                newhistory.setDevice_code(pcbTaskReq.getDeviceCode());
+            }
+            newhistory.setDevice_name(processTask.getDevice_name());
+            newhistory.setProcess_task_code(processTask.getProcess_task_code());
+            newhistory.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
+            newhistory.setProcess_name(processTask.getProcess_name());
+            if("已完成".equals(pcbTaskReq.getProcessTaskStatus())){
+                newhistory.setEnd_time(today);
+            }
+            processTaskStatusHistoryRepository.save(newhistory);
+        }else {
+            //step2:状态相同则跳过
+            if(pcbTaskReq.getProcessTaskStatus().equals(history.getProcess_task_status())){
+
+            }else {
+                //step3:状态不同结束上一条并计算持续时间，新增一条
+                history.setEnd_time(today);
+                Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
+                history.setContinue_time(Integer.parseInt(cha+""));
+                processTaskStatusHistoryRepository.save(history);
+                //新增
+                ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
+                newRecord.setContinue_time(0);
+                newRecord.setStart_time(today);
+                newRecord.setDevice_code(processTask.getDevice_code());
+                if(pcbTaskReq.getCountType()==1){
+                    newRecord.setDevice_code(pcbTaskReq.getDeviceCode());
+                }
+                newRecord.setDevice_name(processTask.getDevice_name());
+                newRecord.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
+                newRecord.setProcess_name(processTask.getProcess_name());
+                newRecord.setProcess_task_code(processTask.getProcess_task_code());
+                if("已完成".equals(pcbTaskReq.getProcessTaskStatus())){
+                    newRecord.setEnd_time(today);
+                }
+                processTaskStatusHistoryRepository.save(newRecord);
+            }
+        }
+        //User user = ShiroUtil.getSubject();
+        User user = new User();
+        user.setId(1L);
+        //if(!"备料".equals(processTask.getProcess_name())){
+        List<ProcessTask> list = processTaskRepository.findByDevice_code("%"+pcbTaskReq.getDeviceCode()+"%");
+
+        //开始工序计划 进行中
+        //将未分配的上机员工转移到这里
+        if("进行中".equals(pcbTaskReq.getProcessTaskStatus())){
+            ProcessTask lastProcessTask = processTaskRepository.findById(pcbTaskReq.getLastProcassTaskId()).get();
+            if(pcbTaskReq.getCountType()==1){
+                //移除旧的工序任务flag里的设备
+                String lastflag = lastProcessTask.getIs_now_flag();
+                List<String> lastresult = new ArrayList<>();
+                if(lastflag!=null&&!lastflag.equals("")){
+                    lastresult = new ArrayList(Arrays.asList(lastflag.split(",")));
+                }
+
+                lastresult.remove(pcbTaskReq.getDeviceCode());
+                String laststr = Joiner.on(",").join(lastresult);
+                lastProcessTask.setIs_now_flag(laststr);
+                //增加切单的flag里的设备
+                String flag = processTask.getIs_now_flag();
+                List<String> result = new ArrayList<>();
+                if(flag!=null&&!flag.equals("")){
+                    result = new ArrayList(Arrays.asList(flag.split(",")));
+                }
+
+                if(!result.contains(pcbTaskReq.getDeviceCode())){
+                    result.add(pcbTaskReq.getDeviceCode());
+                }
+                String str = Joiner.on(",").join(result);
+                processTask.setIs_now_flag(str);
+            }else {
+                lastProcessTask.setIs_now_flag("");
+                processTask.setIs_now_flag(processTask.getDevice_code());
+            }
+            processTaskRepository.save(lastProcessTask);
+            processTaskRepository.save(processTask);
+
+            if(processTask.getStart_time()==null){
+                processTask.setStart_time(new Date());
+            }
+            String date = DateUtil.date2String(new Date(),"");
+            UserDeviceHistory one = userDeviceHistoryRepository.findAllByProcessTaskDateDeviceUser(processTask.getProcess_task_code(),date,pcbTaskReq.getDeviceCode(),user.getId());
+            if(one!=null){
+            }else {
+                UserDeviceHistory tow = userDeviceHistoryRepository.findOnlyUpTimeRecord(pcbTaskReq.getDeviceCode());
+                if(tow!=null){
+                    tow.setProcess_task_code(processTask.getProcess_task_code());
+                    userDeviceHistoryRepository.save(tow);
+                }
+            }
+
+        }
+        //启动工序计划 生产中
+        if("生产中".equals(pcbTaskReq.getProcessTaskStatus())){
+            Process process = processRepository.findByProcessName(processTask.getProcess_name());
+            //工序计数方式为机台计数时
+            if(process.getCount_type()==0){
+                //同时将扫码枪绑定工序任务重新绑定
+                List<ScannerProcessTask> scannerProcessTasks = scannerProcessTaskRepository.findAll();
+                scannerProcessTasks.forEach(t->{
+                    t.setProcessTaskCode(processTask.getProcess_task_code());
+                });
+                scannerProcessTaskRepository.saveAll(scannerProcessTasks);
+            }
+
+
+            String deviceCodes[] = processTask.getDevice_code().split(",");
+            for(int i = 0;i<deviceCodes.length;i++){
+                List<ProcessTask> listByDevice_code = processTaskRepository.findProducingListByDevice_code("%"+deviceCodes[i]+"%");
+                if(listByDevice_code!=null&&listByDevice_code.size()!=0){
+                    return ResultVoUtil.error("欲启动的工序任务中该"+deviceCodes[i]+"机台有其他生产中的任务");
+
+                }
+            }
+
+            //所在工序计划的所有机台一同清零
+            //重新计数记录在设备处
+            List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(processTask.getProcess_task_code());
+            for(ProcessTaskDevice de:prl){
+                Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
+                device.setRe_count("1");
+                deviceRepository.save(device);
+                de.setLast_amount(de.getAmount());
+                processTaskDeviceRepository.save(de);
+            }
+        }
+        //暂停工序计划 暂停
+        if("暂停".equals(pcbTaskReq.getProcessTaskStatus())){
+
+            //所在工序计划的所有机台一同清零
+            //重新计数记录在设备处
+            List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(processTask.getProcess_task_code());
+            for(ProcessTaskDevice de:prl){
+                Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
+                device.setRe_count("1");
+                deviceRepository.save(device);
+                de.setLast_amount(de.getAmount());
+                processTaskDeviceRepository.save(de);
+            }
+
+        }
+        //结束工序计划 完成
+        if("已完成".equals(pcbTaskReq.getProcessTaskStatus())){
+            if(pcbTaskReq.getAmountCompleted()!=null){
+                processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
+            }
+            Date finishTime = new Date();
+            processTask.setFinish_time(finishTime);
+            processTask.setIs_now_flag("");
+               /* BigDecimal workTime = DateUtil.differTwoDate(finishTime,processTask.getStart_time());
+                processTask.setWork_time(workTime);*/
+            //重新计数
+            List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(processTask.getProcess_task_code());
+            for(ProcessTaskDevice de:prl){
+                Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
+                device.setRe_count("1");
+                deviceRepository.save(device);
+                de.setLast_amount(de.getAmount());
+                processTaskDeviceRepository.save(de);
+            }
+        }
+       /* }else {
+
+        }*/
+        processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
+        processTaskRepository.save(processTask);
+        return ResultVoUtil.success("操作成功");
+    }
     @Override
     public ResultVo modifyProcessTaskStatus(PcbTaskReq pcbTaskReq) {
-
       /*  ProcessTask lastProcessTask = processTaskRepository.findById(pcbTaskReq.getLastProcassTaskId()).get();
         if(!"暂停".equals(lastProcessTask.getProcess_task_status())){
             return ResultVoUtil.error("切单前请先暂停当前工序任务");

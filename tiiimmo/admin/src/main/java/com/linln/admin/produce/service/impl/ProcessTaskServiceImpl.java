@@ -3,14 +3,14 @@ package com.linln.admin.produce.service.impl;
 import com.linln.RespAndReqs.ProcessTaskReq;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.domain.OperationInstruction;
+import com.linln.admin.base.domain.Process;
 import com.linln.admin.base.domain.TaskInstruction;
-import com.linln.admin.base.repository.DeviceRepository;
-import com.linln.admin.base.repository.OperationInstructionRepository;
-import com.linln.admin.base.repository.OperationManualRepository;
-import com.linln.admin.base.repository.TaskInstructionRepository;
+import com.linln.admin.base.repository.*;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.ProcessTaskDetail;
+import com.linln.admin.produce.domain.ProcessTaskDetailDevice;
 import com.linln.admin.produce.domain.ProcessTaskStatusHistory;
+import com.linln.admin.produce.repository.ProcessTaskDetailDeviceRepository;
 import com.linln.admin.produce.repository.ProcessTaskDetailRepositoty;
 import com.linln.admin.produce.repository.ProcessTaskRepository;
 import com.linln.admin.produce.repository.ProcessTaskStatusHistoryRepository;
@@ -39,6 +39,9 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
+    private ProcessRepository processRepository;
+
+    @Autowired
     private DeviceRepository deviceRepository;
 
     @Autowired
@@ -58,6 +61,9 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
 
     @Autowired
     private TaskInstructionRepository taskInstructionRepository;
+
+    @Autowired
+    private ProcessTaskDetailDeviceRepository processTaskDetailDeviceRepository;
 
     @Override
     public ResultVo findProcessTask(ProcessTaskReq processTaskReq) {
@@ -176,10 +182,19 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         String processTaskCode = req.getProcess_task_code();
         List<ProcessTaskDetail> details = req.getDetailList();
         ProcessTask processTask = processTaskRepository.findByProcessTaskCode(processTaskCode);
+        Process process = processRepository.findByProcessName(processTask.getProcess_name());
         processTaskDetailRepositoty.deleteByByProcess_task_code(processTaskCode);
-
-        details.forEach(detail -> {
-            //processTask.setAmount_completed(processTask.getAmount_completed()+detail.getFinish_count());
+        processTaskDetailDeviceRepository.deleteByTaskCode(processTaskCode);
+        for(ProcessTaskDetail detail : details){
+            if(process.getCount_type()!=0&&detail.getDetailDeviceList()!=null&&detail.getDetailDeviceList().size()!=0){
+                //非贴片任务
+                for(ProcessTaskDetailDevice detailDevice : detail.getDetailDeviceList()){
+                    detailDevice.setProcess_task_code(processTaskCode);
+                    detailDevice.setPlan_day_time(detail.getPlan_day_time());
+                    detailDevice.setDevice_detail_status("");
+                }
+                processTaskDetailDeviceRepository.saveAll(detail.getDetailDeviceList());
+            }
             detail.setDetail_type("人创建");
             detail.setStatus(StatusEnum.OK.getCode());
             if(detail.getFinish_count()==null){
@@ -187,15 +202,15 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
             }
             if(detail.getPlan_count()==null){
                 detail.setPlan_count(0);
-
             }
             detail.setProcess_name(processTask.getProcess_name());
-        });
+        }
+
         Integer finishCount = details.stream().mapToInt(ProcessTaskDetail::getFinish_count).sum();
         if(finishCount>=processTask.getPcb_quantity()){
             Date today =  new Date();
-            processTask.setFinish_time(today);
             processTask.setProcess_task_status("已完成");
+            processTask.setFinish_time(today);
             //新增一条操作历史记录
             ProcessTaskStatusHistory history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(processTask.getProcess_task_code());
             //step3:状态不同结束上一条并计算持续时间，新增一条
@@ -228,13 +243,28 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
     public List<ProcessTaskDetail> findProcessTaskDeatilList(String processTaskCode) {
 
         List<ProcessTaskDetail> detailList = processTaskDetailRepositoty.findByProcess_task_code(processTaskCode);
-
+        for(ProcessTaskDetail detail : detailList){
+            String daystr = DateUtil.date2String(detail.getPlan_day_time(),"");
+            List<ProcessTaskDetailDevice> detailDeviceList = processTaskDetailDeviceRepository.findByTaskCodeAndDayTime(detail.getProcess_task_code(), daystr);
+            detail.setDetailDeviceList(detailDeviceList);
+        }
         return detailList;
     }
 
     @Override
     public void deleteProcessTaskDetailById(Long id) {
         processTaskDetailRepositoty.deleteById(id);
+    }
+
+    @Override
+    public List<ProcessTaskDetailDevice> findByTaskCodeAndDayTime(String processTaskCode, String planDayTime) {
+
+        return processTaskDetailDeviceRepository.findByTaskCodeAndDayTime(processTaskCode,planDayTime);
+    }
+
+    @Override
+    public List<ProcessTaskDetailDevice> findByTaskCodeAndDayTimeAndDeviceCode(String processTaskCode, String planDayTime, String deviceCode) {
+        return processTaskDetailDeviceRepository.findByTaskCodeAndDayTimeAndDeviceCode(processTaskCode,planDayTime,deviceCode);
     }
 
     @Override
