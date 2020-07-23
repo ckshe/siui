@@ -9,9 +9,11 @@ import com.linln.RespAndReqs.ProcessTaskReq;
 import com.linln.RespAndReqs.responce.PlateNoInfo;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.domain.Process;
+import com.linln.admin.base.domain.ScannerProcessTask;
 import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.base.repository.ModelsRepository;
 import com.linln.admin.base.repository.ProcessRepository;
+import com.linln.admin.base.repository.ScannerProcessTaskRepository;
 import com.linln.admin.produce.domain.*;
 import com.linln.admin.produce.repository.*;
 import com.linln.admin.produce.service.PcbTaskService;
@@ -100,6 +102,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     @Autowired
     private ProcessTaskDetailRepositoty processTaskDetailRepositoty;
 
+    @Autowired
+    private ScannerProcessTaskRepository scannerProcessTaskRepository;
+
+    @Autowired
+    private PcbTaskFirstPlateNoRepository pcbTaskFirstPlateNoRepository;
 
     /**
      * 根据ID查询数据
@@ -460,7 +467,15 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         String lastStr = last+"";
         String firstPlate = prefix+firstStr+suffix;
         String lastPlate = prefix+lastStr+suffix;
-
+        //.保存该排产计划初始板编号初始值
+        PcbTaskFirstPlateNo firstPlateNo = new PcbTaskFirstPlateNo();
+        firstPlateNo.setFirst_no(plateNoInfo.getBiginNum());
+        firstPlateNo.setPcb_code(pcbTask.getPcb_id());
+        firstPlateNo.setPcb_task_code(pcbTask.getPcb_task_code());
+        firstPlateNo.setPrefix(prefix);
+        firstPlateNo.setSuffix(suffix);
+        firstPlateNo.setStatus(StatusEnum.OK.getCode());
+        pcbTaskFirstPlateNoRepository.save(firstPlateNo);
 
         pcbTask.setBatch_id(firstPlate+"~"+lastPlate);
 
@@ -672,7 +687,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             return ResultVoUtil.error("查找不到该工序计划");
         }
 
-        PCBPlateNo pcbPlateNo = pcbPlateNoRepository.findByPcb_code(processTask.getPcb_code());
+        PcbTaskFirstPlateNo pcbTaskFirstPlateNo = pcbTaskFirstPlateNoRepository.findByPcb_task_code(processTask.getPcb_task_code());
+        //PCBPlateNo pcbPlateNo = pcbPlateNoRepository.findByPcb_code(processTask.getPcb_code());
 
         processTask.setDevice_code(pcbTaskReq.getDeviceCode());
         processTask.setDevice_name(pcbTaskReq.getDeviceName());
@@ -693,9 +709,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTaskDevice.setTd_status("");
             processTaskDevice.setReCount("0");
             processTaskDevice.setLast_amount(0);
-            Integer tempCount = pcbPlateNo.getAll_count();
+            Integer tempCount = pcbTaskFirstPlateNo.getFirst_no();
             for(int o = 0;o<processTask.getPcb_quantity();o++){
-                String tempPlanNo = pcbPlateNo.getPrefix()+(tempCount+1+200000)+pcbPlateNo.getSuffix();
+                String tempPlanNo = pcbTaskFirstPlateNo.getPrefix()+(tempCount+200000)+pcbTaskFirstPlateNo.getSuffix();
                 tempCount ++;
                 PcbTaskPlateNo pcbTaskPlateNo = new PcbTaskPlateNo();
                 pcbTaskPlateNo.setProcess_task_code(processTask.getProcess_task_code());
@@ -1009,10 +1025,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     @Override
     public  Map<String,Object> scanCountPlate(PcbTaskReq pcbTaskReq) {
         Map<String,Object> map = new HashMap<>();
-        List<Map<String,String>> mapList = new ArrayList<>();
+
         for(PcbTaskReq req : pcbTaskReq.getData()){
-            Device device = deviceRepository.fingDeviceBySort(req.getDeviceCode());
-            ProcessTask processTask = processTaskRepository.findProducingByDevice_code("%"+device.getDevice_code()+"%");
+            ScannerProcessTask scannerProcessTask = scannerProcessTaskRepository.findBydevicesort(Integer.parseInt(req.getDeviceCode()));
+
+            //Device device = deviceRepository.fingDeviceBySort(req.getDeviceCode());
+            ProcessTask processTask = processTaskRepository.findByProcessTaskCode(scannerProcessTask.getProcessTaskCode());
             if(processTask==null){
                 map.put("result","200");
                 map.put("timeStamp",pcbTaskReq.getTimeStamp());
@@ -1020,21 +1038,37 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 map.put("url","scanCountPlate");
                 return map;
             }
-            ProcessTaskRealPlateSort plateSort  = processTaskRealPlateSortRepository.findByProcess_task_codeAndDevice_codeAndPlate_no(processTask.getProcess_task_code(), device.getDevice_code(), req.getPlateNo());
-            if(plateSort!=null){
-                map.put("result","200");
-                map.put("timeStamp",pcbTaskReq.getTimeStamp());
-                map.put("msg",req.getPlateNo()+" 该板编号已扫描过！");
-                map.put("url","scanCountPlate");
-                return map;
+            ProcessTaskRealPlateSort plateSort  = processTaskRealPlateSortRepository.findByProcess_task_codeAndPlate_no(processTask.getProcess_task_code(), req.getPlateNo());
+            if(req.getDeviceCode().equals("0")){
+                //为第一个扫码枪记录
+                if(plateSort==null){
+                    plateSort = new ProcessTaskRealPlateSort();
+                    plateSort.setPlate_no(req.getPlateNo());
+                    plateSort.setProcess_task_code(processTask.getProcess_task_code());
+                    plateSort.setPlate_no(req.getPlateNo());
+                    plateSort.setRecord_start_time(new Date());
+                    plateSort.setStatus(StatusEnum.OK.getCode());
+                    processTaskRealPlateSortRepository.save(plateSort);
+                }else {
+                    map.put("result","200");
+                    map.put("timeStamp",pcbTaskReq.getTimeStamp());
+                    map.put("msg",req.getDeviceCode()+" 第一个扫码枪已扫！");
+                    map.put("url","scanCountPlate");
+                    return map;
+                }
+            }else {
+                if(plateSort!=null&&plateSort.getRecord_end_time()==null){
+                    plateSort.setRecord_end_time(new Date());
+                    processTaskRealPlateSortRepository.save(plateSort);
+                }else if(plateSort!=null&&plateSort.getRecord_end_time()!=null) {
+                    map.put("result","200");
+                    map.put("timeStamp",pcbTaskReq.getTimeStamp());
+                    map.put("msg",req.getDeviceCode()+" 该板编号已完成！");
+                    map.put("url","scanCountPlate");
+                    return map;
+                }
             }
-            ProcessTaskRealPlateSort sort = new ProcessTaskRealPlateSort();
-            sort.setDevice_code(device.getDevice_code());
-            sort.setProcess_task_code(processTask.getProcess_task_code());
-            sort.setPlate_no(req.getPlateNo());
-            sort.setRecord_time(new Date());
-            sort.setStatus(StatusEnum.OK.getCode());
-            processTaskRealPlateSortRepository.save(sort);   //produce_process_task_real_platesort
+
         }
         map.put("result","200");
         map.put("timeStamp",pcbTaskReq.getTimeStamp());
@@ -1243,7 +1277,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 "\tt2.pcb_id,\n" +
                 "\tt2.feeding_task_code,\n" +
                 "\tt2.model_name,\n" +
-                "\tt2.batch_id ,\n" +
+                "\tt2.batch_id ,t2.pcb_plate_id,\n" +
                 "\tt3.plan_count detail_plan_count,\n" +
                 "\tt3.finish_count detail_finish_count \n" +
                 "FROM\n" +
@@ -1318,7 +1352,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 processTaskStatusHistoryRepository.save(newRecord);
             }
         }
-        processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
         User user = ShiroUtil.getSubject();
         //if(!"备料".equals(processTask.getProcess_name())){
             List<ProcessTask> list = processTaskRepository.findByDevice_code("%"+pcbTaskReq.getDeviceCode()+"%");
@@ -1354,6 +1387,17 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             }
             //启动工序计划 生产中
             if("生产中".equals(pcbTaskReq.getProcessTaskStatus())){
+                Process process = processRepository.findByProcessName(processTask.getProcess_name());
+                //工序计数方式为机台计数时
+                if(process.getCount_type()==0){
+                    //同时将扫码枪绑定工序任务重新绑定
+                    List<ScannerProcessTask> scannerProcessTasks = scannerProcessTaskRepository.findAll();
+                    scannerProcessTasks.forEach(t->{
+                        t.setProcessTaskCode(processTask.getProcess_task_code());
+                    });
+                    scannerProcessTaskRepository.saveAll(scannerProcessTasks);
+                }
+
 
                 String deviceCodes[] = processTask.getDevice_code().split(",");
                 for(int i = 0;i<deviceCodes.length;i++){
@@ -1380,7 +1424,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
                 //所在工序计划的所有机台一同清零
                 //重新计数记录在设备处
-                List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(pcbTaskReq.getProcessTaskCode());
+                List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(processTask.getProcess_task_code());
                 for(ProcessTaskDevice de:prl){
                     Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
                     device.setRe_count("1");
@@ -1413,7 +1457,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
        /* }else {
 
         }*/
-
+        processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
         processTaskRepository.save(processTask);
         return ResultVoUtil.success("操作成功");
     }
@@ -1750,8 +1794,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 "  ORDER BY t3.update_time desc ,t3.is_count desc");
 
         List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString());
-        StringBuffer allSql = new StringBuffer("select * from produce_pcbtask_plate_no WHERE pcb_task_code = '" +
-                req.getPcbTaskCode() +
+        StringBuffer allSql = new StringBuffer("select * from produce_pcbtask_plate_no WHERE process_task_code = '" +
+                req.getProcessTaskCode() +
                 "'");
         List<Map<String,Object>> allList = jdbcTemplate.queryForList(allSql.toString());
         Integer count = allList.size();
@@ -1765,16 +1809,23 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         ProcessTask processTask = processTaskRepository.findByProcessTaskCode(req.getProcessTaskCode());
         Integer amount = 0;
         Process process = processRepository.findByProcessName(processTask.getProcess_name());
+        Map<String,Object> map = new HashMap<>();
+        map.put("nowPlateNo","");
         //计数方式为0
         if(process.getCount_type()==0){
             ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getDeviceCode(),req.getProcessTaskCode());
             amount = processTaskDevice.getAmount();
+            List<ProcessTaskRealPlateSort> plateSorts = processTaskRealPlateSortRepository.findByProcess_task_code(processTask.getProcess_task_code());
+            if(plateSorts!=null&&plateSorts.size()!=0&&amount<=plateSorts.size()){
+                ProcessTaskRealPlateSort sort = plateSorts.get(amount);
+                map.put("nowPlateNo",sort.getPlate_no());
+            }
         }else {
             amount = processTask.getAmount_completed();
         }
         BigDecimal workTime = processTask.getWork_time().multiply(new BigDecimal(60));
 
-        Map<String,Object> map = new HashMap<>();
+
         map.put("amount",amount);
         map.put("workTime",workTime);
         return ResultVoUtil.success(map);

@@ -848,19 +848,19 @@ function setDataBoard1(params) {
             '               <span>规格型号:<strong>' + data.pcb_id + '</strong></span>' +
             '               <span class="col2">物料名称:<strong>' + data.pcb_name + '</strong></span>' +
             '               <span>生产批次:<strong>' + data.task_sheet_code + '</strong></span>' +
-            '               <span>完成时间:<strong>' + data.plan_complete_date + '</strong></span>' +
+            '               <span class="col2">板编号:<strong>' + data.batch_id + '</strong></span>' +
             '               <span>生产数量:<strong>' + data.pcb_quantity + '</strong></span>' +
             '               <span>完成数量:<strong>' + data.amount_completed + '</strong></span>' +
             '               <span>工单状态:<strong>' + data.pcb_task_status + '</strong></span>' +
-            '               <span>光板号:<strong>' + data.pcb_plate_id + '</strong></span>' +
-            '               <span>通知日期:<strong>' + data.task_sheet_date + '</strong></span>' +
+            '               <span>优先级:<strong>' + data.priority + '</strong></span>' +
             '               <span>厂区:<strong>' + data.factory + '</strong></span>' +
             '               <span>车间:<strong>' + data.workshop + '</strong></span>' +
-            '               <span>板编号:<strong>' + data.batch_id + '</strong></span>' +
+            '               <span>通知日期:<strong>' + data.task_sheet_date + '</strong></span>' +
+            '               <span>完成时间:<strong>' + data.plan_complete_date + '</strong></span>' +
             '               <span>投料单号:<strong>' + data.feeding_task_code + '</strong></span>' +
             '               <span>计划启动时间:<strong>' + data.produce_plan_date + '</strong></span>' +
             '               <span>计划完成时间:<strong>' + data.produce_plan_complete_date + '</strong></span>' +
-            '               <span>优先级:<strong>' + data.priority + '</strong></span>' +
+            '               <span>光板号:<strong>' + data.pcb_plate_id + '</strong></span>' +
             '           </li>' +
             '       </ul>' +
             '   </div>' +
