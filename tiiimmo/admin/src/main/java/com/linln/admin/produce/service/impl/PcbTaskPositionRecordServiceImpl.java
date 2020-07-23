@@ -112,7 +112,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
         }
         record.setRecord_status("1");
         record.setStart_time(new Date());
-        record.setUser_name(record.getUser_name());
+        record.setUser_name(req.getUsername());
         recordRepository.save(record);
         return ResultVoUtil.success("操作成功");
     }
