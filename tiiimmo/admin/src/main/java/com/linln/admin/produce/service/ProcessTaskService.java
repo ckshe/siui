@@ -3,6 +3,7 @@ package com.linln.admin.produce.service;
 
 import com.linln.RespAndReqs.ProcessTaskReq;
 import com.linln.admin.produce.domain.ProcessTaskDetail;
+import com.linln.admin.produce.domain.ProcessTaskDetailDevice;
 import com.linln.common.vo.ResultVo;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,4 +24,8 @@ public interface ProcessTaskService {
     void deleteProcessTaskDetailById(Long id );
     //查看pdf
     void showPDF(HttpServletResponse response, String  deviceCode,String type);
+
+    List<ProcessTaskDetailDevice> findByTaskCodeAndDayTime(String processTaskCode,String planDayTime);
+
+    List<ProcessTaskDetailDevice> findByTaskCodeAndDayTimeAndDeviceCode(String processTaskCode,String planDayTime,String deviceCode);
 }

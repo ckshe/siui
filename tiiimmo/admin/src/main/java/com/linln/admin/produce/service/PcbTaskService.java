@@ -76,6 +76,8 @@ public interface PcbTaskService {
 
     ResultVo modifyProcessTaskStatus(PcbTaskReq pcbTaskReq);
 
+     ResultVo modifyProcessTaskStatus2(PcbTaskReq pcbTaskReq);
+
     ResultVo settlementDetailCount(PcbTaskReq pcbTaskReq);
 
     ResultVo countProcessTaskAmount(PcbTaskReq pcbTaskReq);

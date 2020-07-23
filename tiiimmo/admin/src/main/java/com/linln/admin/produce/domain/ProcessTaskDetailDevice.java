@@ -1,5 +1,6 @@
 package com.linln.admin.produce.domain;
 
+import com.linln.common.enums.StatusEnum;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ public class ProcessTaskDetailDevice {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id ;
 
-    private Byte status;
+    private Byte status = StatusEnum.OK.getCode();
 
     private String device_code;
 
@@ -27,6 +28,7 @@ public class ProcessTaskDetailDevice {
     private Date plan_day_time;
 
     private String device_detail_status;
+
     //工时
     private BigDecimal work_time;
 
