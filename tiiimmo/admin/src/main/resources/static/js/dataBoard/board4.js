@@ -324,7 +324,7 @@ function setDataBoard4(params) {
 					for (var i = 0; i < kRateArr.length; i++) {
 						if (kRateArr[i] < 100) continue;
 						db4POption1.yAxis.max = null
-						db4POption1.yAxis.max = null
+						db4POption1.yAxis.min = null
 						break;
 					}
 				}
@@ -336,7 +336,7 @@ function setDataBoard4(params) {
 					for (var i = 0; i < useRateArr.length; i++) {
 						if (useRateArr[i] < 100) continue;
 						db4POption2.yAxis.max = null
-						db4POption2.yAxis.max = null
+						db4POption2.yAxis.min = null
 						break;
 					}
 				}
