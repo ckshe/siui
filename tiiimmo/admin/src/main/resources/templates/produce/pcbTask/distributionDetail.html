@@ -28,10 +28,11 @@
             overflow-y: scroll;
         }
 
-        tr td:nth-child(3) .layui-table-cell {
+        tr td:nth-child(1) .layui-table-cell {
             overflow: initial !important;
             padding: 0 !important;
         }
+
 
         .layui-input,
         .layui-select {
@@ -82,12 +83,12 @@
         var tdata = [];
         var index = 0;
         var tableData = JSON.parse($('[name=data]').val());
-        if(tableData.detailDeviceList){
+        if (tableData.detailDeviceList) {
             tdata = JSON.parse(JSON.stringify(tableData.detailDeviceList));
             tdata.forEach(function () { index++ });
             setTimeout(function () {
                 table.render(tableObj);
-            },500)
+            }, 500)
         }
         var d = {
             index: 0,
@@ -96,9 +97,8 @@
             plan_day_time: getQueryString('planDayTime'),
             devData: getQueryString('devData').split('_'),
             device_code: "",
-            process_task_code: getQueryString('process_task_code')
+            // process_task_code: getQueryString('process_task_code')
         };
-       console.log(tdata)
         var tableObj = {
             elem: '#table'
             , defaultToolbar: ['filter']
@@ -111,28 +111,22 @@
             , data: tdata
             , cols: [
                 [
-                    { field: 'process_task_code', title: '工序任务号', minWidth: 150 }
-                    , { field: 'plan_day_time', title: '计划时间', minWidth: 120,templet: function (d) {
-                        return "<span id='time" + d.index + "'>" + (d.plan_day_time == "" ? "" : timeToDate(d.plan_day_time, true)) + "</span>"
-                    } }
-                    , {
-                        field: 'plan_day_time', title: '工站', minWidth: 100, templet: function (d) {
+                    {
+                        field: 'plan_day_time', title: '工站', minWidth: 120, templet: function (d) {
                             var html = '<select name="process_task_status" class="status" lay-filter="status"><option value="">请选择工站</option>';
-                          getQueryString('devData').split('_').forEach(function (t) {
+                            getQueryString('devData').split('_').forEach(function (t) {
                                 if (t == d.device_code) {
                                     html += '<option value="' + t + '" selected="selected" >' + t + '</option>';
                                 } else {
-                                    html += '<option value="' +t + '">' + t + '</option>';
+                                    html += '<option value="' + t + '">' + t + '</option>';
                                 }
                             });
                             html += '</select>';
                             return html;
                         }
                     }
-                    , { field: 'plan_count', title: '计划量', edit: 'text', minWidth: 80 }
-                    , { field: 'finish_count', title: '完成量', edit: 'text', minWidth: 80 }
-                    // , { field: 'finish_count', title: '工时', minWidth: 80 }
-                    // , { field: 'finish_count', title: '工单状态', minWidth: 100 }
+                    , { field: 'plan_count', title: '计划量', edit: 'text', minWidth: 100 }
+                    , { field: 'finish_count', title: '完成量', edit: 'text', minWidth: 100 }
                     , {
                         title: '操作', fixed: 'right', minWidth: 70, templet: function (d) {
                             return '<a class=" layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>'
@@ -140,7 +134,7 @@
                     }
                 ]
             ]
-            ,done:function () {
+            , done: function () {
 
             }
         };
@@ -172,7 +166,7 @@
                     tdata.forEach(function (t, i) {
                         t.device_code = status[i].value;
                     })
-                    parent.getData({index:getQueryString('index'),data:tdata});
+                    parent.getData({ index: getQueryString('index'), data: tdata });
                     parent.layer.closeAll();
                     break;
                 case 'add':
@@ -182,7 +176,6 @@
                     tdata.forEach(function (t, i) {
                         t.device_code = status[i].value;
                     })
-                    console.log(tdata)
                     dd.index = index;
                     tdata.push(dd);
                     tableObj.data = tdata;

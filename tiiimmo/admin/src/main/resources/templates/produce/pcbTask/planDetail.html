@@ -102,7 +102,6 @@
                     { field: 'name', title: '设备名称', minWidth: 140 }
                 ]
             ]
-
         });
         form.render();
         laydate.render({ elem: '#planStartTime', type: 'date' }); $("#planStartTime").val(getQueryString('sTime'))
@@ -114,7 +113,7 @@
             plan_count: "",
             finish_count: "",
             plan_day_time: "",
-            process_name: getQueryString('processName'),
+            count_type: getQueryString('countType'),
             process_task_code: getQueryString('process_task_code')
         };
         layer.load(1, {
@@ -142,6 +141,7 @@
                         res.data.forEach(function (t, i) {
                             index = i
                             t.index = i
+                            t.count_type = getQueryString('countType')
                         })
                         tdata = res.data
                     }
@@ -167,14 +167,14 @@
                     { field: 'process_task_code', title: '工序任务号', minWidth: 178 }
                     , {
                         field: 'plan_day_time', title: '计划时间', event: 'time', minWidth: 100, templet: function (d) {
-                            return "<span id='time" + d.index + "'>" + (d.plan_day_time == "" ? "" : timeToDate(d.plan_day_time, true)) + "</span>"
+                            return "<span class='planDayTime' id='time" + d.index + "'>" + (d.plan_day_time == "" ? "" : timeToDate(d.plan_day_time, true)) + "</span>"
                         }
                     }
-                    , { field: 'plan_count', title: '计划量', edit: d.count_type == 1 ? 'text' : '', minWidth: 100 }
-                    , { field: 'finish_count', title: '完成量', edit: d.count_type == 1 ? 'text' : '', minWidth: 100 }
+                    , { field: 'plan_count', title: '计划量', edit: d.count_type == 1 ? '' : 'text', minWidth: 100 }
+                    , { field: 'finish_count', title: '完成量', edit: d.count_type == 1 ? '' : 'text', minWidth: 100 }
                     , {
                         title: '操作', fixed: 'right', minWidth: 70, templet: function (d) {
-                            if (d.count_type != 1) {
+                            if (d.count_type == 1) {
                                 return '<a class=" layui-btn layui-btn-xs layui-btn-danger" style="background-color:#1e9fff"  lay-event="distribution">分配</a>' +
                                     '<a class=" layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>'
                             } else {
@@ -184,7 +184,6 @@
                     }
                 ]
             ]
-
         };
         table.render(tableObj);
         //直接嵌套显示
@@ -195,6 +194,17 @@
             position: 'static',
             done: function (d) {
                 layer.close(timeBox);
+                var planDayTime = document.getElementsByClassName('planDayTime');
+                var flagdate = false;
+                tdata.forEach(function (t) {
+                    if (t.plan_day_time == d) {
+                        flagdate = true;
+                    }
+                })
+                if (flagdate) {
+                    layer.msg(d + ' 已有计划', function () { time: 2000 });
+                    return false;
+                }
                 $('#time' + nowIndex).html(d);
                 tdata.some(function (t) {
                     if (t.index == nowIndex) {
@@ -207,18 +217,16 @@
         table.on('toolbar(table)', function (obj) {
             switch (obj.event) {
                 case 'devs':
-                    console.log(tdata)
-                    var flag=false;
+                    var flag = false;
                     tdata.forEach(function (value) {
                         if (value.plan_day_time == "") {
-                            flag = true
+                            flag = true;
                         }
                     })
-                    if(flag){
+                    if (flag) {
                         layer.msg('计划时间不能为空', function () { time: 2000 });
                         return false;
                     }
-                    console.log("====",tdata)
                     layer.load(1, {
                         content: '提交中...',
                         success: function (layero) {
@@ -273,12 +281,10 @@
                             layer.msg("保存失败！", { offset: '15px', time: 3000, icon: 2 });
                         }
                     });
-
                     break;
                 case 'add':
                     index++;
                     var dd = JSON.parse(JSON.stringify(d));
-                    // console.log("d++++++", dd)
                     dd.index = index;
                     tdata.push(dd);
                     tableObj.data = tdata;
@@ -318,27 +324,24 @@
                         tdata.some(function (t, i) {
                             if (t.index == obj.index) {
                                 tdata[i].detailDeviceList = obj.data;
-                                console.log(tdata[i].detailDeviceList, tdata[t.index].finish_count)
-                                var t1 = t;
-                                tdata[t1.index].finish_count = 0;
-                                tdata[t1.index].plan_count = 0;
-                                tdata[i].detailDeviceList.forEach(function (t, i) {
-                                    tdata[t1.index].finish_count += parseInt(t.finish_count);
-                                    tdata[t1.index].plan_count += parseInt(t.plan_count);
+                                var k = i;
+                                tdata[k].finish_count = 0;
+                                tdata[k].plan_count = 0;
+                                tdata[k].detailDeviceList.forEach(function (t, i) {
+                                    tdata[k].finish_count += parseInt(t.finish_count);
+                                    tdata[k].plan_count += parseInt(t.plan_count);
                                 })
-                                // console.log(tdata[i].finish_count,tdata[i].plan_count)
                                 return true
                             }
                         })
                         tableObj.data = tdata
-                        console.log("tdata===", tdata)
                         table.render(tableObj);
                     }
                     layer.open({
                         type: 2,
                         title: '工站拆分',
                         area: ['90%', '90%'],
-                        content: '/produce/pcbTask/distributionDetail?process_task_code=' + data.process_task_code + '&planDayTime=' + data.plan_day_time + '&devData=' + devDataSerialArr.join('_') + '&index=' + data.index,
+                        content: '/produce/pcbTask/distributionDetail?devData=' + devDataSerialArr.join('_') + '&index=' + data.index,
                         success: function (layero, index) {
                             var body = layer.getChildFrame('body', index);
                             var d = JSON.stringify(data);
@@ -348,7 +351,6 @@
                     break;
             }
         });
-
     })
 </script>
 
