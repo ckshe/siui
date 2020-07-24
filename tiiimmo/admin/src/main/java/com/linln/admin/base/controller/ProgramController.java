@@ -120,5 +120,19 @@ public class ProgramController {
     }
 
 
+    //查询面
+    @GetMapping("/findFace")
+    @ResponseBody
+    public ResultVo findFace(){
+        List<String> faces = programService.findFace();
+        if (faces!= null){
+            return ResultVoUtil.success("查询成功",faces);
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
+    }
+
+
 
 }

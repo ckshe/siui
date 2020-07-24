@@ -104,6 +104,8 @@ public class OperationInstructionController {
         }
         operationInstruction.setUploadTime(new Date());
         operationInstruction.setUserId(ShiroUtil.getSubject().getId());
+        operationInstruction.setUploadPeople(ShiroUtil.getSubject().getUsername());
+        //operationInstruction.set;
         File nfile = null;
         String path = CommonConstant.file_path+CommonConstant.usebook_path;
 

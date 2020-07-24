@@ -41,4 +41,5 @@ public interface ProgramService {
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
 
+    List<String> findFace();
 }

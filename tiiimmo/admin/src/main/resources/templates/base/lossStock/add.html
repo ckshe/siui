@@ -9,31 +9,31 @@
         <div class="layui-form-item">
             <label class="layui-form-label">物料编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="product_code" placeholder="请输入物料编号" th:value="${lossStock?.product_code}">
+                <input class="layui-input" autocomplete="off" type="text" name="product_code" placeholder="请输入物料编号" th:value="${lossStock?.product_code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">物料名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="product_name" placeholder="请输入物料名称" th:value="${lossStock?.product_name}">
+                <input class="layui-input" autocomplete="off" type="text" name="product_name" placeholder="请输入物料名称" th:value="${lossStock?.product_name}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">损耗库存</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="loss_stock" placeholder="请输入损耗库存" th:value="${lossStock?.loss_stock}">
+                <input class="layui-input" autocomplete="off" type="number" name="loss_stock" placeholder="请输入损耗库存" th:value="${lossStock?.loss_stock}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">损耗率</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="loss_rate" placeholder="请输入损耗率" th:value="${lossStock?.loss_rate}">
+                <input class="layui-input" autocomplete="off" type="number" name="loss_rate" placeholder="请输入损耗率" th:value="${lossStock?.loss_rate}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">最低库存</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="min_stock" placeholder="请输入最低库存" th:value="${lossStock?.min_stock}">
+                <input class="layui-input" autocomplete="off" type="number" name="min_stock" placeholder="请输入最低库存" th:value="${lossStock?.min_stock}">
             </div>
         </div>
         <div class="layui-form-item timo-finally">
