@@ -185,7 +185,9 @@
                 ]
             ]
         };
-        table.render(tableObj);
+        setTimeout(function () {
+            table.render(tableObj);
+        }, 100)
         //直接嵌套显示
         var timeBox = "";
         var nowIndex = 0;
@@ -194,10 +196,11 @@
             position: 'static',
             done: function (d) {
                 layer.close(timeBox);
+                var d = timeToDate(d, true);
                 var planDayTime = document.getElementsByClassName('planDayTime');
                 var flagdate = false;
                 tdata.forEach(function (t) {
-                    if (t.plan_day_time == d) {
+                    if (timeToDate(t.plan_day_time, true) == d) {
                         flagdate = true;
                     }
                 })
@@ -218,8 +221,8 @@
             switch (obj.event) {
                 case 'devs':
                     var flag = false;
-                    tdata.forEach(function (value) {
-                        if (value.plan_day_time == "") {
+                    tdata.forEach(function (d) {
+                        if (d.plan_day_time == "") {
                             flag = true;
                         }
                     })
@@ -288,7 +291,9 @@
                     dd.index = index;
                     tdata.push(dd);
                     tableObj.data = tdata;
-                    table.render(tableObj);
+                    setTimeout(function () {
+                        table.render(tableObj);
+                    }, 100)
                     break;
             }
         });
@@ -300,7 +305,9 @@
                 case 'del':
                     tdata = tdata.filter(function (t) { return t.index != data.index });
                     tableObj.data = tdata;
-                    table.render(tableObj)
+                    setTimeout(function () {
+                        table.render(tableObj);
+                    }, 100)
                         ; break;
                 case 'time':
                     nowIndex = data.index;
@@ -320,6 +327,7 @@
                             devDataSerialArr.push(devData[i].serial)
                         }
                     }
+                    // tdata.devData = devData;
                     getData = function (obj) {   //{index:1,data:[]}
                         tdata.some(function (t, i) {
                             if (t.index == obj.index) {
@@ -335,17 +343,20 @@
                             }
                         })
                         tableObj.data = tdata
-                        table.render(tableObj);
+                        setTimeout(function () {
+                            table.render(tableObj);
+                        }, 100)
                     }
                     layer.open({
                         type: 2,
                         title: '工站拆分',
                         area: ['90%', '90%'],
-                        content: '/produce/pcbTask/distributionDetail?devData=' + devDataSerialArr.join('_') + '&index=' + data.index,
+                        content: '/produce/pcbTask/distributionDetail?index=' + data.index,
                         success: function (layero, index) {
                             var body = layer.getChildFrame('body', index);
                             var d = JSON.stringify(data);
                             body.contents().find("input[name='data']").val(d);
+                            body.contents().find("input[name='devData']").val(JSON.stringify(devData));
                         }
                     });
                     break;
