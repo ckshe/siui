@@ -92,6 +92,12 @@ public class ProductionShiftController {
             ProductionShift beProductionShift = productionShiftService.getById(productionShift.getId());
             EntityBeanUtil.copyProperties(beProductionShift, productionShift);
         }
+        //String username = productionShift.getUserName();
+//        Long id = productionShiftService.getUserIdByUsername(username);
+//        User user =  new User();
+//        productionShift.setUserId(user);
+//        User user = productionShiftService.getUserByUsername(username);
+//        productionShift.setUserId(user);
 
         // 保存数据
         productionShiftService.save(productionShift);

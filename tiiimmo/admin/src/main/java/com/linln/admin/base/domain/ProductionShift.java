@@ -76,4 +76,13 @@ public class ProductionShift implements Serializable {
     private User updateBy;
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
+//    @ManyToOne(fetch=FetchType.LAZY)
+//    @NotFound(action=NotFoundAction.IGNORE)
+//    @JoinColumn(name="userId")
+//    @JsonIgnore
+//    // 员工对象
+//    private User userId;
+
+
+
 }
