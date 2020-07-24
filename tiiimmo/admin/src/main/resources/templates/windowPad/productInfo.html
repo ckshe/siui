@@ -154,6 +154,7 @@
     }
     var shuaTime = 10;
     parent.localStorage.getItem('shuaTime') && (shuaTime = parent.localStorage.getItem('shuaTime'));
+    var nowDeviceCode = getQueryString2('deviceCode');
     window.onload = function () {
         layui.use(['jquery', 'form', 'table', 'layer'], function () {
             var $ = layui.jquery,
@@ -184,12 +185,18 @@
                         localStorage.setItem('gxData', JSON.stringify(res.data));
                     }
                     res.data.some(function (t, i) {
-                        if (t.is_now_flag == 1) {
+                        if ( (""+t.is_now_flag).indexOf(nowDeviceCode)!=-1) {
                             t.plan_start_time = timeToDate(t.plan_start_time);
                             t.plan_finish_time = timeToDate(t.plan_finish_time);
                             parent.nowGonDan = t;
-                            statusBox.className = color(t.process_task_status);
-                            statusBox.innerHTML = t.process_task_status;
+
+                            if(t.count_type==1){
+                                statusBox.className = color(t.device_detail_status);
+                                statusBox.innerHTML = t.device_detail_status;
+                            }else if(t.count_type==0){
+                                statusBox.className = color(t.process_task_status);
+                                statusBox.innerHTML = t.process_task_status;
+                            }
                             processName.innerHTML = ":"+t.process_name;
                             form.val('formNode', t);
                             res.data.splice(i, 1);
@@ -307,15 +314,20 @@
                             }
                             //判断是否存在当前
                             res.data.some(function (t, i) {
-                                if (t.is_now_flag == 1) {
+                                if ( (""+t.is_now_flag).indexOf(nowDeviceCode)!=-1) {
                                     has = 1;
                                     t.plan_start_time = timeToDate(t.plan_start_time);
                                     t.plan_finish_time = timeToDate(t.plan_finish_time);
                                     parent.nowGonDan = t;
                                     var statusBox = document.getElementById('statusBox');
                                     var processName = document.getElementById('processName');
-                                    statusBox.className = color(t.process_task_status);
-                                    statusBox.innerHTML = t.process_task_status;
+                                    if(t.count_type==1){
+                                        statusBox.className = color(t.device_detail_status);
+                                        statusBox.innerHTML = t.device_detail_status;
+                                    }else if(t.count_type==0){
+                                        statusBox.className = color(t.process_task_status);
+                                        statusBox.innerHTML = t.process_task_status;
+                                    }
                                     processName.innerHTML = ":"+t.process_name;
                                     document.getElementById('scs').value = t.amount_completed;
                                     if (t.id != $('[name=id]').val()) {

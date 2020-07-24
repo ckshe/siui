@@ -219,6 +219,7 @@
     var nowGonDan="";
     var a="";
     var shuaTime = 10;
+    var nowDeviceCode = getQueryString('deviceCode');
     function changeShuaTime(){
         parent.localStorage.getItem('shuaTime')&&(shuaTime = parent.localStorage.getItem('shuaTime'));
     }
@@ -338,7 +339,6 @@
                     layer.alert(res.msg,{icon:5})
                 }
             });
-
                     for(var i=0;i<navLis.length;i++){
                         navLis[i].onclick=function (e) {
                             iframe.className='mainBox goLeft0';
@@ -490,8 +490,11 @@
                         dataType : "json",
                         data : JSON.stringify({
                             processTaskId:data.id,
+                            lastProcessTaskId:nowGonDan.id,
                             processTaskStatus:"进行中",
-                            deviceCode:getQueryString('deviceCode')
+
+                            deviceCode:getQueryString('deviceCode'),
+                            countType:data.count_type
                         }),
                         contentType : "application/json;charset=UTF-8",
                         success: function (res) {
@@ -508,9 +511,7 @@
                             }
                         }
                     })
-
-
-                }
+                };
                 if(isLogin()){
                         $.ajax({
                             url:"/produce/pcbTask/findProcessTaskByDevice",
@@ -522,10 +523,10 @@
                             contentType : "application/json;charset=UTF-8",
                             success: function (res) {
                                 layer.closeAll();
-                                var has=0
+                                var has=0;
                                 res.data.some(function (t,i) {
-                                    if(t.is_now_flag==1){
-                                        has=1
+                                    if(t.is_now_flag.indexOf(nowDeviceCode)!=-1){
+                                        has=1;
                                         nowGonDan=t;
                                         if(t.process_task_status=="暂停"){
                                             layer.open({
@@ -575,9 +576,10 @@
                             type: "post",
                             dataType: "json",
                             data: JSON.stringify({
-                                processTaskId: nowGonDan.id,
-                                processTaskStatus: "暂停",
-                                deviceCode: getQueryString('deviceCode')
+                                processTaskId:nowGonDan.id,
+                                processTaskStatus:"暂停",
+                                deviceCode:nowDeviceCode,
+                                countType:nowGonDan.count_type
                             }),
                             contentType: "application/json;charset=UTF-8",
                             success: function (res) {
@@ -595,7 +597,7 @@
                     })
                 }
             });
-            //生产工单
+            //启动工单
             $('#run').on('click',function () {
                 if(nowGonDan==''){
                     layer.alert('当前无工序，请先切换工序再启动',{icon:5})
@@ -617,9 +619,10 @@
                             type: "post",
                             dataType: "json",
                             data: JSON.stringify({
-                                processTaskId: nowGonDan.id,
-                                processTaskStatus: "生产中",
-                                deviceCode: getQueryString('deviceCode')
+                                processTaskId:nowGonDan.id,
+                                processTaskStatus:"生产中",
+                                deviceCode:nowDeviceCode,
+                                countType:nowGonDan.count_type
                             }),
                             contentType: "application/json;charset=UTF-8",
                             success: function (res) {

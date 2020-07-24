@@ -1383,7 +1383,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         //开始工序计划 进行中
         //将未分配的上机员工转移到这里
         if("进行中".equals(pcbTaskReq.getProcessTaskStatus())){
-            ProcessTask lastProcessTask = processTaskRepository.findById(pcbTaskReq.getLastProcassTaskId()).get();
+            ProcessTask lastProcessTask = processTaskRepository.findById(pcbTaskReq.getLastProcessTaskId()).get();
             if(pcbTaskReq.getCountType()==1){
                 //移除旧的工序任务flag里的设备
                 String lastflag = lastProcessTask.getIs_now_flag();
@@ -1407,8 +1407,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 processTask.setIs_now_flag(str);
 
                 ProcessTaskDetailDevice detailDevice = processTaskDetailDeviceRepository.findByTaskCodeAndDayTimeAndDeviceCode1(processTask.getProcess_task_code(), dayStr, pcbTaskReq.getDeviceCode());
-                detailDevice.setDevice_detail_status("进行中");
-                processTaskDetailDeviceRepository.save(detailDevice);
+                if(detailDevice!=null){
+                    detailDevice.setDevice_detail_status("进行中");
+                    processTaskDetailDeviceRepository.save(detailDevice);
+                }
             }else {
                 lastProcessTask.setIs_now_flag("");
                 processTask.setIs_now_flag(processTask.getDevice_code());
@@ -1448,8 +1450,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 detailDevice.setDevice_detail_status("生产中");
                 processTaskDetailDeviceRepository.save(detailDevice);
             }
-            processTask.setProcess_task_status("生产中");
-            processTaskRepository.save(processTask);
+
 
             String deviceCodes[] = processTask.getDevice_code().split(",");
             for(int i = 0;i<deviceCodes.length;i++){
@@ -1459,6 +1460,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
                 }
             }
+            processTask.setProcess_task_status("生产中");
+            processTaskRepository.save(processTask);
 
             //所在工序计划的所有机台一同清零
             //重新计数记录在设备处
