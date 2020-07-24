@@ -246,6 +246,7 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         for(ProcessTaskDetail detail : detailList){
             String daystr = DateUtil.date2String(detail.getPlan_day_time(),"");
             List<ProcessTaskDetailDevice> detailDeviceList = processTaskDetailDeviceRepository.findByTaskCodeAndDayTime(detail.getProcess_task_code(), daystr);
+
             detail.setDetailDeviceList(detailDeviceList);
         }
         return detailList;

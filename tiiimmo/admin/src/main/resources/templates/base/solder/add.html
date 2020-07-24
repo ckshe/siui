@@ -9,43 +9,43 @@
         <div class="layui-form-item">
             <label class="layui-form-label">编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="num" placeholder="请输入编号" th:value="${solder?.num}">
+                <input class="layui-input" autocomplete="off" type="text" name="num" placeholder="请输入编号" th:value="${solder?.num}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="name" placeholder="请输入名称" th:value="${solder?.name}">
+                <input class="layui-input" autocomplete="off" type="text" name="name" placeholder="请输入名称" th:value="${solder?.name}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">厂家</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="manufactor" placeholder="请输入厂家" th:value="${solder?.manufactor}">
+                <input class="layui-input" autocomplete="off" type="text" name="manufactor" placeholder="请输入厂家" th:value="${solder?.manufactor}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">批号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="batchNumber" placeholder="请输入批号" th:value="${solder?.batchNumber}">
+                <input class="layui-input" autocomplete="off" type="text" name="batchNumber" placeholder="请输入批号" th:value="${solder?.batchNumber}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">数量</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="number" placeholder="请输入数量" th:value="${solder?.number}">
+                <input class="layui-input" autocomplete="off" type="number" name="number" placeholder="请输入数量" th:value="${solder?.number}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">出厂日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="productionDate" placeholder="请输入出厂日期" th:value="${solder?.productionDate}">
+                <input class="layui-input" id="time" type="text" name="productionDate" placeholder="请输入出厂日期" th:value="${solder?.productionDate}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">保质期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="shelfLife" placeholder="请输入保质期" th:value="${solder?.shelfLife}">
+                <input class="layui-input" autocomplete="off" type="text" name="shelfLife" placeholder="请输入保质期" th:value="${solder?.shelfLife}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">

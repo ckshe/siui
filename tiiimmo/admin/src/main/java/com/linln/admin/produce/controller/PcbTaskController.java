@@ -291,7 +291,7 @@ public class PcbTaskController {
     @PostMapping("/modifyProcessTaskStatus")
     @ResponseBody
     public ResultVo modifyProcessTaskStatus(@RequestBody PcbTaskReq req){
-        return pcbTaskService.modifyProcessTaskStatus(req);
+        return pcbTaskService.modifyProcessTaskStatus2(req);
     }
 
 

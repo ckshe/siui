@@ -89,4 +89,10 @@ public class ProgramServiceImpl implements ProgramService {
         return programRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
 
+    @Override
+    public List<String> findFace() {
+        return programRepository.findFace();
+    }
+
+
 }

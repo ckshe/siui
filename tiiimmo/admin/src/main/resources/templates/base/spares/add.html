@@ -9,25 +9,25 @@
         <div class="layui-form-item">
             <label class="layui-form-label">条形编码</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="code" placeholder="请输入条形编码" th:value="${spares?.code}">
+                <input class="layui-input" autocomplete="off" type="text" name="code" placeholder="请输入条形编码" th:value="${spares?.code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">耗材名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="name" placeholder="请输入耗材名称" th:value="${spares?.name}">
+                <input class="layui-input" autocomplete="off" type="text" name="name" placeholder="请输入耗材名称" th:value="${spares?.name}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">库存</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="num" placeholder="请输入库存" th:value="${spares?.num}">
+                <input class="layui-input" autocomplete="off" type="number" name="num" placeholder="请输入库存" th:value="${spares?.num}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">最低库存</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="lowNum" placeholder="请输入最低库存" th:value="${spares?.lowNum}">
+                <input class="layui-input" autocomplete="off" type="number" name="lowNum" placeholder="请输入最低库存" th:value="${spares?.lowNum}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
