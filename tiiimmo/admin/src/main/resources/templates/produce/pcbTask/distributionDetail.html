@@ -48,12 +48,12 @@
 <body>
     <form>
         <input type="hidden" name='data'>
+        <input type="hidden" name='devData'>
     </form>
     <div style="box-sizing: border-box;padding:14px;">
         <div class="layui-form" id="timeForm" style="display: none">
             <div class="layui-inline" id="test-n1"></div>
         </div>
-        <input type="hidden" name="data">
         <table class="layui-hide" id="table" lay-filter="table"></table>
         <script type="text/html" id="toolbarDemo">
         <a class=" layui-btn layui-btn-sm" style="background-color: #1E9FFF" lay-event="add">添加</a>
@@ -83,19 +83,20 @@
         var tdata = [];
         var index = 0;
         var tableData = JSON.parse($('[name=data]').val());
+        var tDevData = JSON.parse($('[name=devData]').val());
         if (tableData.detailDeviceList) {
             tdata = JSON.parse(JSON.stringify(tableData.detailDeviceList));
             tdata.forEach(function () { index++ });
             setTimeout(function () {
                 table.render(tableObj);
-            }, 500)
+            }, 100)
         }
         var d = {
             index: 0,
             plan_count: "",
             finish_count: "",
             plan_day_time: getQueryString('planDayTime'),
-            devData: getQueryString('devData').split('_'),
+            tDevData: tDevData,
             device_code: "",
             // process_task_code: getQueryString('process_task_code')
         };
@@ -112,17 +113,29 @@
             , cols: [
                 [
                     {
-                        field: 'plan_day_time', title: '工站', minWidth: 120, templet: function (d) {
-                            var html = '<select name="process_task_status" class="status" lay-filter="status"><option value="">请选择工站</option>';
-                            getQueryString('devData').split('_').forEach(function (t) {
-                                if (t == d.device_code) {
-                                    html += '<option value="' + t + '" selected="selected" >' + t + '</option>';
+                        field: '', title: '工站', minWidth: 120, templet: function (d) {
+                            var html = '<select name="process_task_status" data-index ="' + d.index + '" class="status" lay-filter="status"><option value="">请选择工站</option>';
+                            tDevData.forEach(function (t) {
+                                if (t.serial == d.device_code) {
+                                    html += '<option value="' + t.serial + '" selected="selected" >' + t.serial + '</option>';
                                 } else {
-                                    html += '<option value="' + t + '">' + t + '</option>';
+                                    html += '<option value="' + t.serial + '">' + t.serial + '</option>';
                                 }
                             });
                             html += '</select>';
                             return html;
+                        }
+                    }
+                    , {
+                        field: '', title: '工站名', minWidth: 150, templet: function (d) {
+                            var deviceName = '';
+                            tDevData.some(function (t) {
+                                if (t.serial == d.device_code) {
+                                    deviceName = t.name
+                                    return true
+                                }
+                            })
+                            return deviceName;
                         }
                     }
                     , { field: 'plan_count', title: '计划量', edit: 'text', minWidth: 100 }
@@ -138,9 +151,28 @@
 
             }
         };
-        table.render(tableObj);
+        setTimeout(function () {
+            table.render(tableObj);
+        }, 100)
 
         form.on('select(status)', function (obj) {
+            tdata.some(function (t) {
+                if (t.device_code == obj.value) {
+                    layer.msg('工站有分配有重复', function () { time: 2000 });
+                    return true
+                }
+            })
+            var index = obj.elem.getAttribute('data-index')
+            tdata.some(function (t) {
+                if (t.index == index) {
+                    t.device_code = obj.value
+                    return true
+                }
+            })
+            tableObj.data = tdata
+            setTimeout(function () {
+                table.render(tableObj);
+            }, 100)
         });
         //直接嵌套显示
         var timeBox = "";
@@ -179,7 +211,9 @@
                     dd.index = index;
                     tdata.push(dd);
                     tableObj.data = tdata;
-                    table.render(tableObj);
+                    setTimeout(function () {
+                        table.render(tableObj);
+                    }, 100)
                     break;
             }
         });
@@ -194,7 +228,9 @@
                     })
                     tdata = tdata.filter(function (t) { return t.index != data.index });
                     tableObj.data = tdata;
-                    table.render(tableObj)
+                    setTimeout(function () {
+                        table.render(tableObj);
+                    }, 100)
                         ; break;
                 case 'time':
                     nowIndex = data.index;
