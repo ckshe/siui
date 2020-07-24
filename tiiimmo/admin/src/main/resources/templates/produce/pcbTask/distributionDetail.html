@@ -86,7 +86,7 @@
         var tDevData = JSON.parse($('[name=devData]').val());
         if (tableData.detailDeviceList) {
             tdata = JSON.parse(JSON.stringify(tableData.detailDeviceList));
-            tdata.forEach(function () { index++ });
+            tdata.forEach(function (t) { t.index=index++ });
             setTimeout(function () {
                 table.render(tableObj);
             }, 100)
