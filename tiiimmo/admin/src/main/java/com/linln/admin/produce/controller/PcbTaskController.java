@@ -122,6 +122,11 @@ public class PcbTaskController {
         return "/produce/pcbTask/planDetail";
     }
 
+    @GetMapping("/distributionDetail")
+    public String distributionDetail() {
+        return "/produce/pcbTask/distributionDetail";
+    }
+
     @GetMapping("/pickDetail")
     public String pickDetail() {
         return "/produce/pcbTask/pickDetail";
