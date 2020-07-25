@@ -44,4 +44,7 @@ public interface UserRepository extends BaseRepository<User, Long>, JpaSpecifica
 
     @Query(value = "select  * from sys_user where card_sequence =?1 ",nativeQuery = true)
     public User findByCard_sequence(String cardSequence);
+
+    @Query(value = "select  * from sys_user where nickname =?1 ",nativeQuery = true)
+    User queryByUserName(String userName);
 }

@@ -77,4 +77,11 @@ public class OnDuty implements Serializable {
     private User updateBy;
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @NotFound(action=NotFoundAction.IGNORE)
+    @JoinColumn(name="users")
+    @JsonIgnore
+    // 员工对象
+    private User users;
 }

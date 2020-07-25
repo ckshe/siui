@@ -111,4 +111,14 @@ public class RoleServiceImpl implements RoleService {
         }
         return roleRepository.updateStatus(statusEnum.getCode(), ids) > 0;
     }
+
+    @Override
+    public List<Role> getListByExample(Example<Role> example, Sort sort) {
+        return roleRepository.findAll(example, sort);
+    }
+
+    @Override
+    public List<Role> list() {
+        return roleRepository.findAllRoles();
+    }
 }

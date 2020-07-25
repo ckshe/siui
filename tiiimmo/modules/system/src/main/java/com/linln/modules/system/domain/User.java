@@ -64,17 +64,18 @@ public class User implements Serializable {
     @Excel(value = "状态", dict = "DATA_STATUS")
     private Byte status = StatusEnum.OK.getCode();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dept_id")
     @JsonIgnore
     private Dept dept;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "sys_user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
     private Set<Role> roles = new HashSet<>(0);
+    //private Role roles;
     //工号
     private String cardSequence;
 
