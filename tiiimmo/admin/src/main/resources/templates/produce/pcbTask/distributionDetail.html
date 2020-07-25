@@ -84,9 +84,10 @@
         var index = 0;
         var tableData = JSON.parse($('[name=data]').val());
         var tDevData = JSON.parse($('[name=devData]').val());
+        var tDevDataSerial = [];
         if (tableData.detailDeviceList) {
             tdata = JSON.parse(JSON.stringify(tableData.detailDeviceList));
-            tdata.forEach(function (t) { t.index=index++ });
+            tdata.forEach(function (t) { t.index = index++ });
             setTimeout(function () {
                 table.render(tableObj);
             }, 100)
@@ -114,12 +115,23 @@
                 [
                     {
                         field: '', title: '工站', minWidth: 120, templet: function (d) {
+                            tDevDataSerial = [];
+                            tdata.forEach(function (t) {tDevDataSerial.push(t.device_code)});
                             var html = '<select name="process_task_status" data-index ="' + d.index + '" class="status" lay-filter="status"><option value="">请选择工站</option>';
-                            tDevData.forEach(function (t) {
+                                tDevData.forEach(function (t) {
+                                    var tDisabled =  tDevDataSerial.indexOf(t.serial);
                                 if (t.serial == d.device_code) {
-                                    html += '<option value="' + t.serial + '" selected="selected" >' + t.serial + '</option>';
+                                    if(tDisabled>-1){
+                                        html += '<option disabled  value="' + t.serial + '" selected="selected" >' + t.serial + '</option>';
+                                    }else{
+                                        html += '<option value="' + t.serial + '" selected="selected" >' + t.serial + '</option>';
+                                    }
                                 } else {
-                                    html += '<option value="' + t.serial + '">' + t.serial + '</option>';
+                                    if(tDisabled>-1){
+                                        html += '<option disabled value="' + t.serial + '">' + t.serial + '</option>';
+                                    }else{
+                                        html += '<option  value="' + t.serial + '">' + t.serial + '</option>';
+                                    }
                                 }
                             });
                             html += '</select>';
@@ -156,12 +168,6 @@
         }, 100)
 
         form.on('select(status)', function (obj) {
-            tdata.some(function (t) {
-                if (t.device_code == obj.value) {
-                    layer.msg('工站有分配有重复', function () { time: 2000 });
-                    return true
-                }
-            })
             var index = obj.elem.getAttribute('data-index')
             tdata.some(function (t) {
                 if (t.index == index) {
