@@ -116,20 +116,20 @@
                     {
                         field: '', title: '工站', minWidth: 120, templet: function (d) {
                             tDevDataSerial = [];
-                            tdata.forEach(function (t) {tDevDataSerial.push(t.device_code)});
+                            tdata.forEach(function (t) { tDevDataSerial.push(t.device_code) });
                             var html = '<select name="process_task_status" data-index ="' + d.index + '" class="status" lay-filter="status"><option value="">请选择工站</option>';
-                                tDevData.forEach(function (t) {
-                                    var tDisabled =  tDevDataSerial.indexOf(t.serial);
+                            tDevData.forEach(function (t) {
+                                var tDisabled = tDevDataSerial.indexOf(t.serial);
                                 if (t.serial == d.device_code) {
-                                    if(tDisabled>-1){
+                                    if (tDisabled > -1) {
                                         html += '<option disabled  value="' + t.serial + '" selected="selected" >' + t.serial + '</option>';
-                                    }else{
+                                    } else {
                                         html += '<option value="' + t.serial + '" selected="selected" >' + t.serial + '</option>';
                                     }
                                 } else {
-                                    if(tDisabled>-1){
+                                    if (tDisabled > -1) {
                                         html += '<option disabled value="' + t.serial + '">' + t.serial + '</option>';
-                                    }else{
+                                    } else {
                                         html += '<option  value="' + t.serial + '">' + t.serial + '</option>';
                                     }
                                 }
@@ -201,9 +201,19 @@
             switch (obj.event) {
                 case 'devs':
                     var status = document.getElementsByClassName('status');
+                    var statusFlag = false,k=0;
                     tdata.forEach(function (t, i) {
+                        if (status[i].value == "") {
+                            k=i;
+                            statusFlag = true;
+                        }
                         t.device_code = status[i].value;
                     })
+                    if (statusFlag) {
+                        statusFlag = false
+                        layer.msg('工站不能为空', function () { time: 2000 });
+                        return false;
+                    }
                     parent.getData({ index: getQueryString('index'), data: tdata });
                     parent.layer.closeAll();
                     break;
