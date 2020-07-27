@@ -223,7 +223,7 @@
     function changeShuaTime(){
         parent.localStorage.getItem('shuaTime')&&(shuaTime = parent.localStorage.getItem('shuaTime'));
     }
-    changeShuaTime()
+    changeShuaTime();
     window.onload = function () {
         layui.use(['jquery', 'form'], function () {
             var $ = layui.jquery,
@@ -284,6 +284,10 @@
                     success: function (res) {
                         res.data.some(function (t,i) {
                             if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
+                                if(t.count_type==1){
+                                    t.detail_plan_count=t.detail_device_plan_count;
+                                    t.detail_finish_count=t.detail_device_finish_count;
+                                }
                                 nowGonDan=t;
                                 $.ajax({
                                     url:'/produce/pcbTask/deviceAmountAndworkTime',
@@ -651,6 +655,7 @@
                         area:['400px','400px']
                     });
                     console.log(nowGonDan)
+
                     form.val('statusForm',{
                         pcb_quantity:nowGonDan.detail_plan_count,
                         amount_completed:nowGonDan.detail_finish_count,
