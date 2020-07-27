@@ -80,4 +80,6 @@ public interface RoleService {
     List<Role> getListByExample(Example<Role> example, Sort sort);
 
     List<Role> list();
+
+    List<String> selectPermsByRoleId(Long roleId);
 }
