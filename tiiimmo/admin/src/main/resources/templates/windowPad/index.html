@@ -283,7 +283,7 @@
                     contentType : "application/json;charset=UTF-8",
                     success: function (res) {
                         res.data.some(function (t,i) {
-                            if(t.is_now_flag==1){
+                            if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
                                 nowGonDan=t;
                                 $.ajax({
                                     url:'/produce/pcbTask/deviceAmountAndworkTime',
@@ -483,7 +483,6 @@
                             });
                         }
                     });
-
                     $.ajax({
                         url: '/produce/pcbTask/modifyProcessTaskStatus',
                         type: "post",
@@ -492,7 +491,6 @@
                             processTaskId:data.id,
                             lastProcessTaskId:nowGonDan.id,
                             processTaskStatus:"进行中",
-
                             deviceCode:getQueryString('deviceCode'),
                             countType:data.count_type
                         }),
@@ -525,7 +523,7 @@
                                 layer.closeAll();
                                 var has=0;
                                 res.data.some(function (t,i) {
-                                    if(t.is_now_flag.indexOf(nowDeviceCode)!=-1){
+                                    if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
                                         has=1;
                                         nowGonDan=t;
                                         if(t.process_task_status=="暂停"){
@@ -725,7 +723,7 @@
                    contentType : "application/json;charset=UTF-8",
                    success: function (res) {
                        res.data.some(function (t,i) {
-                           if(t.is_now_flag==1){
+                           if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
                                $('#qrcode').html("");
                                //二维码生产
                                var qrcode = new QRCode("qrcode",{

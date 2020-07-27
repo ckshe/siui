@@ -189,9 +189,15 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
             if(process.getCount_type()!=0&&detail.getDetailDeviceList()!=null&&detail.getDetailDeviceList().size()!=0){
                 //非贴片任务
                 for(ProcessTaskDetailDevice detailDevice : detail.getDetailDeviceList()){
+                    if(detailDevice.getPlan_count()==null){
+                        detailDevice.setPlan_count(0);
+                    }
+                    if(detailDevice.getFinish_count()==null){
+                        detailDevice.setFinish_count(0);
+                    }
                     detailDevice.setProcess_task_code(processTaskCode);
                     detailDevice.setPlan_day_time(detail.getPlan_day_time());
-                    detailDevice.setDevice_detail_status("");
+                    detailDevice.setDevice_detail_status("已下达");
                 }
                 processTaskDetailDeviceRepository.saveAll(detail.getDetailDeviceList());
             }
