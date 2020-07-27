@@ -23,7 +23,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label required">用户工号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="card_sequence" placeholder="请输入用户工号" th:value="${user?.cardSequence}">
+                <input class="layui-input" type="text" name="cardSequence" placeholder="请输入用户工号" th:value="${user?.cardSequence}">
             </div>
         </div>
         <div class="layui-form-item" th:if="!${user}">
