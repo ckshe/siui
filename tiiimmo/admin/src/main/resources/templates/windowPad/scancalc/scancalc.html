@@ -35,6 +35,8 @@
                 form = layui.form;
             var keke = parent.document.getElementById('scs')
             var codeBox = document.getElementById('codeBox');
+            var nowDeviceCode = getQueryString2('deviceCode');
+
             codeBox.focus();
             scanCode('codeBox',function () {
                 layer.load(1,{
@@ -57,7 +59,7 @@
                     success: function (res) {
                         layer.closeAll();
                         res.data.some(function (t,i) {
-                            if(t.is_now_flag==1){
+                            if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
                                 console.log(t);
                                 $.ajax({
                                     url: '/produce/pcbTask/countProcessTaskAmount',
@@ -96,13 +98,13 @@
                 type:'post',
                 dataType : "json",
                 data : JSON.stringify({
-                    deviceCode:getQueryString2('deviceCode'),
+                    deviceCode:getQueryString2('deviceCode')
                 }),
                 contentType : "application/json;charset=UTF-8",
                 success: function (res) {
                     layer.closeAll();
                     res.data.some(function (t,i) {
-                        if(t.is_now_flag==1){
+                        if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
                             table.render({
                                 elem: '#table'
                                 ,url: '/produce/pcbTask/findPcbTaskPlateNo' //数据接口
@@ -117,7 +119,7 @@
                                     return {
                                         "code": res.code, //解析接口状态
                                         "data": res.data, //解析数据列表
-                                        "count": res.total, //解析数据长度
+                                        "count": res.total//解析数据长度
                                     };
                                 }
                                 ,where:{

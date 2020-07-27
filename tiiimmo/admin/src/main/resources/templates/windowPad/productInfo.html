@@ -183,6 +183,8 @@
                     layer.closeAll();
                     if (res.data.length > 0) {
                         localStorage.setItem('gxData', JSON.stringify(res.data));
+
+
                     }
                     res.data.some(function (t, i) {
                         if ( (""+t.is_now_flag).indexOf(nowDeviceCode)!=-1) {
@@ -193,6 +195,10 @@
                             if(t.count_type==1){
                                 statusBox.className = color(t.device_detail_status);
                                 statusBox.innerHTML = t.device_detail_status;
+
+                                t.detail_plan_count=t.detail_device_plan_count;
+                                t.detail_finish_count=t.detail_device_finish_count;
+
                             }else if(t.count_type==0){
                                 statusBox.className = color(t.process_task_status);
                                 statusBox.innerHTML = t.process_task_status;
