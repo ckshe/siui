@@ -2092,8 +2092,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         Integer size = req.getSize()==null?10:req.getSize(); //每页条数
         StringBuffer sql = new StringBuffer("select * from(\n" +
                 "select *, ROW_NUMBER() OVER(order by t4.Id asc) row from\n" +
-                "(SELECT * FROM produce_pcbtask_plate_no WHERE pcb_task_code = '" +
-                req.getPcbTaskCode() +
+                "(SELECT * FROM produce_pcbtask_plate_no WHERE process_task_code = '" +
+                req.getProcessTaskCode() +
                 "'  )t4)t3\n" +
                 "where t3.Row between " +
                 ((page-1)*size+1) +
