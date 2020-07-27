@@ -90,7 +90,7 @@
                     <th class="sortable" data-field="nickname">用户昵称</th>
                     <th class="sortable" data-field="cardSequence">用户工号</th>
                     <th class="sortable" data-field="dept">所在部门</th>
-                    <!--<th class="sortable" data-field="roles">所在岗位</th>-->
+                    <th class="sortable" data-field="roles">所在岗位</th>
                     <th class="sortable" data-field="sex">性别</th>
                     <th class="sortable" data-field="phone">电话</th>
                     <th class="sortable" data-field="email">邮箱</th>
@@ -114,7 +114,8 @@
                     <td th:text="${item.cardSequence}">用户工号</td>
                     <td th:text="${item.dept.title}">所在部门</td>
                     <!--${item.roles.iterator().next().title}-->
-                    <!--<td th:text="${item.roles.">所在岗位</td>-->
+                    <!--<td th:text="${item.roles.iterator().next().title!=null?item.roles.iterator().next().title:'1'}">所在岗位</td>-->
+                    <td th:text="${item.class_no}">所在部门</td>
                     <td th:text="${#dicts.keyValue('USER_SEX', item.sex)}">性别</td>
                     <td th:text="${item.phone}">电话</td>
                     <td th:text="${item.email}">邮箱</td>

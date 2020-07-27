@@ -244,6 +244,7 @@ public class UserController {
 
         // 更新用户岗位
         user.setRoles(roles);
+        user.setClass_no(roles.iterator().next().getTitle());
 
         // 保存数据
         userService.save(user);
