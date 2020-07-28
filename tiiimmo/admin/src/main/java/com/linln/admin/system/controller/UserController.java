@@ -90,7 +90,7 @@ public class UserController {
     @RequiresPermissions("system:user:edit")
     public String toEdit(@PathVariable("id") User user, Model model) {
         model.addAttribute("user", user);
-        return "/system/user/add";
+        return "/system/user/edit";
     }
 
     /**
@@ -99,7 +99,7 @@ public class UserController {
      * @param user 实体对象
      */
     @PostMapping("/save")
-    @RequiresPermissions({"system:user:add", "system:user:edit"})
+    @RequiresPermissions({"system:user:add"})
     @ResponseBody
     @ActionLog(key = UserAction.USER_SAVE, action = UserAction.class)
     public ResultVo save(@Validated UserValid valid, @EntityParam User user) {
@@ -140,6 +140,44 @@ public class UserController {
             User beUser = userService.getById(user.getId());
             String[] fields = {"password", "salt", "picture", "roles"};
             EntityBeanUtil.copyProperties(beUser, user, fields);
+        }
+
+
+        // 保存数据
+        userService.save(user);
+        return ResultVoUtil.SAVE_SUCCESS;
+    }
+
+    /**
+     * 保存添加/修改的数据
+     * @param valid 验证对象
+     * @param user 实体对象
+     */
+    @PostMapping("/save2")
+    @RequiresPermissions({"system:user:edit"})
+    @ResponseBody
+    @ActionLog(key = UserAction.USER_SAVE, action = UserAction.class)
+    public ResultVo save2(@Validated UserValid valid, @EntityParam User user) {
+
+
+
+        // 复制保留无需修改的数据
+        if (user.getId() != null) {
+            // 不允许操作超级管理员数据
+            if (user.getId().equals(AdminConst.ADMIN_ID) &&
+                    !ShiroUtil.getSubject().getId().equals(AdminConst.ADMIN_ID)) {
+                throw new ResultException(ResultEnum.NO_ADMIN_AUTH);
+            }
+
+            User beUser = userService.getById(user.getId());
+            String[] fields = {"password", "salt", "picture", "roles"};
+            EntityBeanUtil.copyProperties(beUser, user, fields);
+        }
+
+
+        String role = userService.getRole(user.getId());
+        if (role != null && !"".equals(role)){
+            user.setClassNo(role);
         }
 
         // 保存数据
@@ -244,7 +282,11 @@ public class UserController {
 
         // 更新用户岗位
         user.setRoles(roles);
-        user.setClass_no(roles.iterator().next().getTitle());
+        user.setClassNo(roles.iterator().next().getTitle());
+//        if (roles.iterator().next().getTitle() != null){
+//            user.setClassNo(roles.iterator().next().getTitle());
+//        }
+
 
         // 保存数据
         userService.save(user);
@@ -331,6 +373,66 @@ public class UserController {
         } else {
             return ResultVoUtil.error( 400,"查询失败");
         }
+    }*/
+
+
+    /**
+     * 保存添加/修改的数据
+     * @param valid 验证对象
+     * @param user 实体对象
+     */
+    /*@PostMapping("/save")
+    @RequiresPermissions({"system:user:add", "system:user:edit"})
+    @ResponseBody
+    @ActionLog(key = UserAction.USER_SAVE, action = UserAction.class)
+    public ResultVo save(@Validated UserValid valid, @EntityParam User user) {
+
+        // 验证数据是否合格
+        if (user.getId() == null) {
+
+            // 判断密码是否为空
+            if (user.getPassword().isEmpty() || "".equals(user.getPassword().trim())) {
+                throw new ResultException(ResultEnum.USER_PWD_NULL);
+            }
+
+            // 判断两次密码是否一致
+            if (!user.getPassword().equals(valid.getConfirm())) {
+                throw new ResultException(ResultEnum.USER_INEQUALITY);
+            }
+
+            // 对密码进行加密
+            String salt = ShiroUtil.getRandomSalt();
+            String encrypt = ShiroUtil.encrypt(user.getPassword(), salt);
+            user.setPassword(encrypt);
+            user.setSalt(salt);
+        }
+
+        // 判断用户名是否重复
+        if (userService.repeatByUsername(user)) {
+            throw new ResultException(ResultEnum.USER_EXIST);
+        }
+
+        // 复制保留无需修改的数据
+        if (user.getId() != null) {
+            // 不允许操作超级管理员数据
+            if (user.getId().equals(AdminConst.ADMIN_ID) &&
+                    !ShiroUtil.getSubject().getId().equals(AdminConst.ADMIN_ID)) {
+                throw new ResultException(ResultEnum.NO_ADMIN_AUTH);
+            }
+
+            User beUser = userService.getById(user.getId());
+            String[] fields = {"password", "salt", "picture", "roles"};
+            EntityBeanUtil.copyProperties(beUser, user, fields);
+        }
+
+
+        if (user.getRoles().iterator().next().getTitle() != null){
+            user.setClassNo(user.getRoles().iterator().next().getTitle());
+        }
+
+        // 保存数据
+        userService.save(user);
+        return ResultVoUtil.SAVE_SUCCESS;
     }*/
 
 

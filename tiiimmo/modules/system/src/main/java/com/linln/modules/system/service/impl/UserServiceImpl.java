@@ -169,5 +169,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.count();
     }
 
+    @Override
+    public String getRole(Long id) {
+        return userRepository.queryById(id);
+    }
+
 
 }

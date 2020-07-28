@@ -77,4 +77,6 @@ public interface UserService {
      * @return
      */
     Long getSize();
+
+    String getRole(Long id);
 }

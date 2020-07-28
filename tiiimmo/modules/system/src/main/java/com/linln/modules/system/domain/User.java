@@ -80,7 +80,7 @@ public class User implements Serializable {
     private String cardSequence;
 
     //班次
-    private String class_no;
+    private String classNo;
 
     //技能
     private String skill_list;
