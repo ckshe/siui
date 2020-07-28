@@ -590,16 +590,14 @@ function setDataBoard1(params) {
     }
     board11Interval = setInterval(function () {
         var hsaClassOn = $(".button-span button:first").hasClass("on");
-        console.log('我是board1111111111,我5秒一次',hsaClassOn)
         board1(hsaClassOn)
-    }, 5000);
+    }, 6000);
 
     $(".button-span button").off().on('click', function () {
         $(this).siblings('button').removeClass('on');
         $(this).addClass('on');
         var hsaClassOn = $(".button-span button:first").hasClass("on");
         if (hsaClassOn) {
-            console.log("我是点击的周任务")
             $.ajax({
                 contentType: 'application/json',
                 type: 'get',
@@ -611,7 +609,6 @@ function setDataBoard1(params) {
                 }
             });
         } else {
-            console.log("我是点击的日任务")
             $.ajax({
                 contentType: 'application/json',
                 type: 'get',

@@ -104,7 +104,6 @@
         // 根据当前板进行定时请求
         var board1Interval,board2Interval,board3Interval,board4Interval,deviceInterval;
         function setTimeOutQueryApi() {
-            console.log("setTimeOutQueryApi=", that._obj_.index)
             switch (that._obj_.index) {
                 case 0:
                     clearInterval(board2Interval);//上一页
@@ -112,7 +111,6 @@
                     clearInterval(deviceInterval);//温度与启停
                     board1Interval = setInterval(function () {
                         var hsaClassOn = $(".button-span button:first").hasClass("on");
-                        console.log('我是board1')
                         board1(hsaClassOn)
                     }, 60000);
                     break;
@@ -121,7 +119,6 @@
                     clearInterval(board1Interval);//上一页
                     clearInterval(board3Interval);//下一页
                     board2Interval = setInterval(function () {
-                        console.log('我是board2')
                         board2()
                     }, 60000);
                     break;
@@ -130,7 +127,6 @@
                     clearInterval(board4Interval);//下一页
                     clearInterval(deviceInterval);//温度与启停
                     board3Interval = setInterval(function () {
-                        console.log('我是board3')
                         board3();
                     }, 60000);
                     break;
@@ -139,7 +135,6 @@
                     clearInterval(board3Interval);//上一页
                     clearInterval(board1Interval);//下一页
                     board4Interval = setInterval(function () {
-                        console.log('我是board4')
                         board4();
                     }, 60000);
                     deviceInterval = setInterval(function () {
@@ -161,7 +156,6 @@
                 that._obj_.index++;
                 that._obj_.iPrev = that._obj_.index - 1;
             }
-            console.log("index=autoR=", that._obj_.index)
             btnMove(-1);
             // 按钮焦点
             focalPoint(that._obj_.index);
