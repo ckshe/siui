@@ -21,7 +21,7 @@ overflow: hidden;
 }
 .listStyle div{
   display: inline-block;
-  float: left;
+  /* float: left; */
   height: 50px;
   line-height: 50px;
 }
