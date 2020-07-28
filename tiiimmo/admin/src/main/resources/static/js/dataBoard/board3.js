@@ -13,87 +13,79 @@ var board3Api = {
     findByStartEndTimeBy3TiePian: '/ShowBoard/findByStartEndTimeBy3TiePian',//查看三台贴片机的当周工序任务
     findCropRate: '/ShowBoard/findCropRate/'//查看家动力
 }
+function board4() {
+    $.ajax({
+        contentType: 'application/json',
+        type: 'get',
+        url: board3Api.getMapProcessThisWeekRate,
+        dataType: "json",
+        success: function (response) {
+            var numArr1 = [], axisWeekRateArr = [], numArr2 = [];
+            for (var i = 0; i < response.data.length; i++) {
+                // if(i==0)continue;
+                // axisWeekRateArr.push(response.data[i].theDay)
+                numArr1.push(response.data[i].sumFinishAmount)
+                numArr2.push(response.data[i].sumPlanAmount)
+            }
+            //console.log(numArr1, numArr2, axisWeekRateArr)
+            // axisWeekRateArr = ['周一','周二','周三','周四','周五','周六']
+            axisWeekRateArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+            db3POption2.xAxis[0].data = axisWeekRateArr;
+            db3POption2.series[0].data = numArr2;
+            db3POption2.series[1].data = numArr1;
+            db3P2.setOption(db3POption2);
+        }
+    });
+    $.ajax({
+        contentType: 'application/json',
+        type: 'get',
+        url: board3Api.getDeviceRunTimeAll,
+        dataType: "json",
+        success: function (response) {
+            var timeArr = [];
+            //测试假数据
+            // response = {"code":200,"msg":"成功","data":[{"theDay":"2020-06-21","runTime":100,"stopTime":null},{"theDay":"2020-06-22","runTime":140,"stopTime":null},{"theDay":"2020-06-23","runTime":150,"stopTime":null},{"theDay":"2020-06-24","runTime":160,"stopTime":null},{"theDay":"2020-06-25","runTime":152,"stopTime":null},{"theDay":"2020-06-26","runTime":177,"stopTime":null},{"theDay":"2020-06-27","runTime":188,"stopTime":null}],"total":null}
+            //console.log(response.data)
+            for (var i = 0; i < response.data.length; i++) {
+                // if(i==0)continue;
+                timeArr.push(response.data[i].runTime)
+            }
+            //console.log(timeArr)
+            // var xAxisRunTimeAll =  ['周一', '周二', '周三', '周四', '周五', '周六']
+            var xAxisRunTimeAll = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+            db3POption3.xAxis.data = xAxisRunTimeAll;
+            db3POption3.series[0].data = timeArr;
+            if (timeArr.length > 0) {
+                for (var i = 0; i < timeArr.length; i++) {
+                    if (timeArr[i] < 100) continue;
+                    db3POption3.yAxis.max = null;
+                    db3POption3.yAxis.min = null;
+                    break;
+                }
+            }
+            db3P3.setOption(db3POption3);
+        }
+    });
+    $.ajax({
+        contentType: 'application/json',
+        type: 'get',
+        url: board3Api.findByStartEndTimeBy3TiePian,
+        dataType: "json",
+        success: function (response) {
+            // console.log('shenkc',response)
+            addDataTaskHtml(response.data); //生产信息
+        }
+    });
+    processBadRate();
+}
 function setDataBoard3(params) {
-    function board3() {
-        $.ajax({
-            contentType: 'application/json',
-            type: 'get',
-            url: board3Api.getMapProcessThisWeekRate,
-            dataType: "json",
-            success: function (response) {
-                var numArr1 = [], axisWeekRateArr = [], numArr2 = [];
-                for (var i = 0; i < response.data.length; i++) {
-                    // if(i==0)continue;
-                    // axisWeekRateArr.push(response.data[i].theDay)
-                    numArr1.push(response.data[i].sumFinishAmount)
-                    numArr2.push(response.data[i].sumPlanAmount)
-                }
-                //console.log(numArr1, numArr2, axisWeekRateArr)
-                // axisWeekRateArr = ['周一','周二','周三','周四','周五','周六']
-                axisWeekRateArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
-                db3POption2.xAxis[0].data = axisWeekRateArr;
-                db3POption2.series[0].data = numArr2;
-                db3POption2.series[1].data = numArr1;
-                db3P2.setOption(db3POption2);
-            }
-        });
-        $.ajax({
-            contentType: 'application/json',
-            type: 'get',
-            url: board3Api.getDeviceRunTimeAll,
-            dataType: "json",
-            success: function (response) {
-                var timeArr = [];
-                //测试假数据
-                // response = {"code":200,"msg":"成功","data":[{"theDay":"2020-06-21","runTime":100,"stopTime":null},{"theDay":"2020-06-22","runTime":140,"stopTime":null},{"theDay":"2020-06-23","runTime":150,"stopTime":null},{"theDay":"2020-06-24","runTime":160,"stopTime":null},{"theDay":"2020-06-25","runTime":152,"stopTime":null},{"theDay":"2020-06-26","runTime":177,"stopTime":null},{"theDay":"2020-06-27","runTime":188,"stopTime":null}],"total":null}
-                //console.log(response.data)
-                for (var i = 0; i < response.data.length; i++) {
-                    // if(i==0)continue;
-                    timeArr.push(response.data[i].runTime)
-                }
-                //console.log(timeArr)
-                // var xAxisRunTimeAll =  ['周一', '周二', '周三', '周四', '周五', '周六']
-                var xAxisRunTimeAll = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
-                db3POption3.xAxis.data = xAxisRunTimeAll;
-                db3POption3.series[0].data = timeArr;
-                if (timeArr.length > 0) {
-                    for (var i = 0; i < timeArr.length; i++) {
-                        if (timeArr[i] < 100) continue;
-                        db3POption3.yAxis.max = null;
-                        db3POption3.yAxis.min = null;
-                        break;
-                    }
-                }
-                db3P3.setOption(db3POption3);
-            }
-        });
-        $.ajax({
-            contentType: 'application/json',
-            type: 'get',
-            url: board3Api.findByStartEndTimeBy3TiePian,
-            dataType: "json",
-            success: function (response) {
-                // console.log('shenkc',response)
-                addDataTaskHtml(response.data); //生产信息
-            }
-        });
-    }
     setTimeout(function () {
-        board3();
+        board4();
     }, 10)
-    board3Interval = setInterval(function () {
-        console.log(8888)
-        board3();
-        processBadRate();
-    }, 60000);
     getData(); // 设备状态
     getEnvironmentRecord();//环境
     processBadRate();//不良率
     // 开启定时任务，时间间隔为3000 ms。
-    var deviceInterval = setInterval(function () {
-        getData();
-        getEnvironmentRecord();
-    }, 5000);
     $('.imagesflex div').off().on('click', function () {
         var deviceCode = $(this).attr("name");
         setdievClick(deviceCode, $(this).index());
@@ -120,6 +112,7 @@ function setDataBoard3(params) {
     })
 }
 function getData() {
+    console.log("我是启停止")
     $.ajax({
         contentType: 'application/json',
         type: 'get',
@@ -145,6 +138,7 @@ function getData() {
 }
 //温湿度
 function getEnvironmentRecord() {
+    console.log("我是温度")
     var environment_record = "SELECT@@@*@@@FROM@@@base_environment_record@@@order@@@by@@@update_date@@@desc";
     $.ajax({
         contentType: 'application/json',
@@ -156,7 +150,7 @@ function getEnvironmentRecord() {
             if (response.data.length > 0) {
                 var temperature = response.data[0].temperature;
                 var humidity = response.data[0].humidity;
-                console.log(temperature, humidity)
+                // console.log(temperature, humidity)
                 if (temperature > 40 || humidity > 70) {
                     $("#temperature i").addClass('state-red');
                 } else {
@@ -185,7 +179,7 @@ function processBadRate() {
             //console.log('我是不良率=', response)
             var badRateArr = [], legendAxisArr = [];
             for (var i = 0; i < response.data.length; i++) {
-                console.log("====", response.data)
+                // console.log("====", response.data)
                 if (response.data[i].bad_rate == 0) continue;
                 legendAxisArr.push(response.data[i].bad_name)
                 badRateArr.push({ value: response.data[i].bad_rate, name: response.data[i].bad_name })
@@ -194,7 +188,7 @@ function processBadRate() {
                 legendAxisArr = ['本周']
                 badRateArr = [{ value: 0, name: '本周' }]
             }
-            console.log("++++++===", legendAxisArr, badRateArr)
+            // console.log("++++++===", legendAxisArr, badRateArr)
             // db2POption2.yAxis.data = houhanTaskArr1.reverse();
             db3POption5.legend.data = legendAxisArr
             db3POption5.series[0].data = badRateArr;
@@ -265,7 +259,7 @@ function deviceShow(deviceCode, n) {
                     var device = response.data.device
                     var user = response.data.user
                     // console.log(user)
-                    addHtml(responseData, device, n, user);
+                    addHtml3(responseData, device, n, user);
                     $.ajax({
                         contentType: 'application/json',
                         type: 'get',
@@ -482,9 +476,9 @@ function setDevice(data, deviceName, device_code) {
     var brunTimeArr = [], noBrunTimeArr = [];
     for (var i = 0; i < data.length; i++) {
         // if(i==0)continue;
-       var runTime = Math.floor(data[i].runTime / (24 * 60)* 100);
-       brunTimeArr.push(runTime)
-       noBrunTimeArr.push(100 - runTime)
+        var runTime = Math.floor(data[i].runTime / (24 * 60) * 100);
+        brunTimeArr.push(runTime)
+        noBrunTimeArr.push(100 - runTime)
         // brunTimeArr.push((data[i].runTime / (24 * 60)).toFixed(2) * 100)
         // noBrunTimeArr.push(100 - ((data[i].runTime / (24 * 60)).toFixed(2)) * 100)
     }
@@ -537,14 +531,14 @@ function humidityShohtml(data) {
     if (data.length > 0) {
         for (var i = 0; i < data.length; i++) {
             if (data[i].change_date != null) {
-                data[i].change_date  =data[i].change_date .split('T')[0];
+                data[i].change_date = data[i].change_date.split('T')[0];
             } else {
-                data[i].change_date  = ''
+                data[i].change_date = ''
             }
             theadHtml += '			<li class="clearfix">' +
-                '				<span class="col3"><strong>'+data[i].version_no+'</strong></span>' +
-                '				<span class="col3"><strong>'+data[i].change_date+'</strong></span>' +
-                '				<span class="col3"><strong>'+data[i].version_explain+'</strong></span>' +
+                '				<span class="col3"><strong>' + data[i].version_no + '</strong></span>' +
+                '				<span class="col3"><strong>' + data[i].change_date + '</strong></span>' +
+                '				<span class="col3"><strong>' + data[i].version_explain + '</strong></span>' +
                 '			</li>';
         }
     }
@@ -553,7 +547,7 @@ function humidityShohtml(data) {
         '</div>';
     $(".summary").html(theadHtml).css("display", "flex");
 }
-function addHtml(responseData, deviceresponse, n, user) {
+function addHtml3(responseData, deviceresponse, n, user) {
     var display, summaryWidth, data;
     // if (n == 3 || n == 4 || n == 5) {
     display = "block"
@@ -739,7 +733,7 @@ function addDataTaskHtml(data) {
             '               <span class="col3">计划结束时间:<strong>' + data.beiliao.plan_finish_time + '</strong></span>' +
             // '               <span class="col3">板编号:<strong>' + data.beiliao.pcb_quantity + '</strong></span>' +
             '               <span class="col2">RoHS:<strong>' + data.beiliao.is_rohs + '</strong></span>' +
-            '               <span class="status">' + data.beiliao.process_task_status +'</span>' +
+            '               <span class="status">' + data.beiliao.process_task_status + '</span>' +
             '               <span class="triangle"></span>' +
             '           </li>';
 
@@ -756,7 +750,7 @@ function addDataTaskHtml(data) {
             '               <span class="col3">计划结束时间:<strong>' + data.running.plan_finish_time + '</strong></span>' +
             // '               <span class="col3">板编号:<strong>' + data.running.pcb_quantity + '</strong></span>' +
             '               <span class="col2">RoHS:<strong>' + data.running.is_rohs + '</strong></span>' +
-            '               <span class="status">' + data.running.process_task_status +'</span>' +
+            '               <span class="status">' + data.running.process_task_status + '</span>' +
             '               <span class="triangle"></span>' +
             '           </li>';
     }
@@ -772,52 +766,18 @@ function addDataTaskHtml(data) {
             '               <span class="col3">计划结束时间:<strong>' + data.waiting.plan_finish_time + '</strong></span>' +
             // '               <span class="col3">板编号:<strong>' + data.waiting.pcb_quantity + '</strong></span>' +
             '               <span class="col2">RoHS:<strong>' + data.waiting.is_rohs + '</strong></span>' +
-            '               <span class="status">' + data.waiting.process_task_status +'</span>' +
+            '               <span class="status">' + data.waiting.process_task_status + '</span>' +
             '               <span class="triangle"></span>' +
             '           </li>';
     }
     htmlPiepian += beiliaoTask + runningTask + waitingPTask;
     var theadHtmlPTask = '<div class="item summaryP3" >' +
-    '   <div class="itemCon itembg itembg_popupfirt"  id="taskList">' +
-    '       <ul class="listStyle">';
+        '   <div class="itemCon itembg itembg_popupfirt"  id="taskList">' +
+        '       <ul class="listStyle">';
     theadHtmlPTask += htmlPiepian;
     theadHtmlPTask += '       </ul>' +
-    '   </div>' +
+        '   </div>' +
         '</div>';
-
-    // var theadHtmlPTask = '<div class="item summaryP3" >' +
-    //     '   <div class="itemCon itembg itembg_popupfirt"  id="taskList">' +
-    //     '       <ul class="listStyle">' ;
-    //     if(data.length>0){
-    //         for(var i=0;i<data.length;i++){
-    //             if (data[i].plan_start_time != null) {
-    //                 data[i].plan_start_time = data[i].plan_start_time.split('T')[0];
-    //             } else {
-    //                 data[i].plan_start_time = ''
-    //             }
-    //             if (data[i].plan_finish_time != null) {
-    //                 data[i].plan_finish_time = data[i].plan_finish_time.split('T')[0];
-    //             } else {
-    //                 data[i].plan_finish_time = ''
-    //             }
-    //             htmlPiepian += '           <li class="clearfix">' +
-    //             '               <span class="col3">生产任务号:<strong>' + data[i].pcb_task_code + '</strong></span>' +
-    //             '               <span class="col3">工序任务:<strong>' + data[i].process_task_code + '</strong></span>' +
-    //             '               <span class="col3">工序:<strong>' + data[i].process_name + '</strong></span>' +
-    //             '               <span class="col3">工序单状态:<strong>' + data[i].process_task_status + '</strong></span>' +
-    //             '               <span class="col3">完成数量:<strong>' + data[i].amount_completed + '</strong></span>' +
-    //             '               <span class="col3">计划开始时间:<strong>' + data[i].plan_start_time + '</strong></span>' +
-    //             '               <span class="col3">计划结束时间:<strong>' + data[i].plan_finish_time + '</strong></span>' +
-    //             '               <span class="col3">规格型号:<strong>' + data[i].pcb_code + '</strong></span>' +
-    //             '               <span class="col3">计划量:<strong>' + data[i].pcb_quantity + '</strong></span>' +
-    //             '               <span class="col2">物料名称:<strong>' + data[i].pcb_name + '</strong></span>' +
-    //             '           </li>';
-    //         }
-    //     }
-    //     theadHtmlPTask+=htmlPiepian;
-    //     theadHtmlPTask+='       </ul>' +
-    //     '   </div>' +
-    //     '</div>';
     $("#htmlPTask").html(theadHtmlPTask).css("display", "block");
     $("#taskList").banner($("#taskList").find(".listStyle li"), {
         list: false,
@@ -1044,11 +1004,6 @@ var db3POption5 = {
             radius: '60%',
             center: ['38%', '50%'],
             data: [
-                // { value: 50, name: '贴片' },
-                // { value: 60, name: '后焊' },
-                // { value: 45, name: '调试' },
-                // { value: 45, name: '质检' },
-                // { value: 45, name: '入库' },
             ],
             emphasis: {
                 itemStyle: {
