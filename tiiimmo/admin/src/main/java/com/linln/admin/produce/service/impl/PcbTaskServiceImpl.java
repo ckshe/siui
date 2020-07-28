@@ -1721,10 +1721,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
         ProcessTaskDetail detail = processTaskDetailRepositoty.findAllByProcess_task_codeAndPlan_day_time(processTask.getProcess_task_code(), todayStr);
         detail.setFinish_count(pcbTaskReq.getAmountCompleted());
+        boolean deviceDetailFinishFlag = false;
         if(processTask.getCount_type()==1){
             ProcessTaskDetailDevice detailDevice = processTaskDetailDeviceRepository.findByTaskCodeAndDayTimeAndDeviceCode1(processTask.getProcess_task_code(),todayStr,pcbTaskReq.getDeviceCode());
             detailDevice.setFinish_count(pcbTaskReq.getAmountCompleted());
             if(detailDevice.getFinish_count()>=detailDevice.getPlan_count()){
+                deviceDetailFinishFlag = true;
                 detailDevice.setDevice_detail_status("已完成");
                 ProcessTaskStatusHistory history = processTaskStatusHistoryRepository.findByProcessTaskCodeAndDeviceLastRecord(processTask.getProcess_task_code(),pcbTaskReq.getDeviceCode());
                 history.setEnd_time(today);
@@ -1760,51 +1762,56 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTask.setIs_now_flag("");
             processTask.setProcess_task_status("已完成");
             //step3:状态不同结束上一条并计算持续时间，新增一条
-            history.setEnd_time(today);
-            Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
-            history.setContinue_time(Integer.parseInt(cha+""));
-            processTaskStatusHistoryRepository.save(history);
-            //新增
-            ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
-            newRecord.setStart_time(today);
-            newRecord.setContinue_time(0);
-            newRecord.setDevice_code(processTask.getDevice_code());
-            newRecord.setProcess_task_status("已完成");
-            newRecord.setDevice_name(processTask.getDevice_name());
-            newRecord.setProcess_task_code(processTask.getProcess_task_code());
-            newRecord.setProcess_name(processTask.getProcess_name());
-            newRecord.setEnd_time(today);
-            processTaskStatusHistoryRepository.save(newRecord);
-
-
-        }else {
-            //新增暂停工序计划操作记录
-            //step2:状态相同则跳过
-            if("暂停".equals(history.getProcess_task_status())){
-
-            }else {
-                //step3:状态不同结束上一条并计算持续时间，新增一条
+            if(!deviceDetailFinishFlag){
                 history.setEnd_time(today);
                 Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
                 history.setContinue_time(Integer.parseInt(cha+""));
                 processTaskStatusHistoryRepository.save(history);
                 //新增
                 ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
-                newRecord.setContinue_time(0);
                 newRecord.setStart_time(today);
+                newRecord.setContinue_time(0);
                 newRecord.setDevice_code(processTask.getDevice_code());
+                newRecord.setProcess_task_status("已完成");
                 newRecord.setDevice_name(processTask.getDevice_name());
-                newRecord.setProcess_task_status("暂停");
-                newRecord.setProcess_name(processTask.getProcess_name());
                 newRecord.setProcess_task_code(processTask.getProcess_task_code());
-                //newRecord.setEnd_time(today);
-
+                newRecord.setProcess_name(processTask.getProcess_name());
+                newRecord.setEnd_time(today);
                 processTaskStatusHistoryRepository.save(newRecord);
+            }
 
+
+
+        }else {
+            //新增暂停工序计划操作记录
+            //step2:状态相同则跳过
+            if(history!=null&&"暂停".equals(history.getProcess_task_status())){
+
+            }else {
+                //step3:状态不同结束上一条并计算持续时间，新增一条
+                if(!deviceDetailFinishFlag){
+                    history.setEnd_time(today);
+                    Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
+                    history.setContinue_time(Integer.parseInt(cha+""));
+                    processTaskStatusHistoryRepository.save(history);
+                    //新增
+                    ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
+                    newRecord.setContinue_time(0);
+                    newRecord.setStart_time(today);
+                    newRecord.setDevice_code(processTask.getDevice_code());
+                    newRecord.setDevice_name(processTask.getDevice_name());
+                    newRecord.setProcess_task_status("暂停");
+                    newRecord.setProcess_name(processTask.getProcess_name());
+                    newRecord.setProcess_task_code(processTask.getProcess_task_code());
+                    //newRecord.setEnd_time(today);
+
+                    processTaskStatusHistoryRepository.save(newRecord);
+                }
                 processTask.setProcess_task_status("暂停");
             }
 
         }
+        processTask.setIs_now_flag("");
         processTaskRepository.save(processTask);
 
         return ResultVoUtil.success("操作成功");
