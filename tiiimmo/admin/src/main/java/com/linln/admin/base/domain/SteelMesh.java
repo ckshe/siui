@@ -70,7 +70,7 @@ public class SteelMesh implements Serializable {
     // 货架编号
     private String shelvesNo;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @NotFound(action=NotFoundAction.IGNORE)
     @JoinColumn(name="shelves")
     @JsonIgnore

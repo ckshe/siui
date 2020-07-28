@@ -45,7 +45,7 @@ public class TaskInstructionController {
      * 列表页面
      */
     @GetMapping("/index")
-    @RequiresPermissions("base:taskInstructio:index")
+    @RequiresPermissions("base:taskInstruction:index")
     public String index(Model model, TaskInstruction taskInstruction) {
 
         // 创建匹配器，进行动态查询匹配

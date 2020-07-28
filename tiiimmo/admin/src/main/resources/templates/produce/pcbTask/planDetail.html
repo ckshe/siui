@@ -1,113 +1,120 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>工序计划拆分</title>
-    <meta name="Description" content="基于layUI数据表格操作"/>
+    <meta name="Description" content="基于layUI数据表格操作" />
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
     <style type="text/css">
         .layui-form-switch {
             width: 55px;
         }
+
         .layui-form-switch em {
             width: 40px;
         }
-        .layui-form-item{
+
+        .layui-form-item {
             margin-bottom: 0;
         }
+
         body {
             overflow-y: scroll;
         }
     </style>
 </head>
+
 <body>
-<div style="box-sizing: border-box;padding:14px;">
-    <div class="layui-form" id="timeForm" style="display: none">
-        <div class="layui-inline" id="test-n1"></div>
-    </div>
-    <input type="hidden" name="data">
-    <form class="layui-form"  id="editForm" style="padding:2px 0;">
+    <div style="box-sizing: border-box;padding:14px;">
+        <div class="layui-form" id="timeForm" style="display: none">
+            <div class="layui-inline" id="test-n1"></div>
+        </div>
+        <input type="hidden" name="data">
+        <form class="layui-form" id="editForm" style="padding:2px 0;">
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">计划生产时间</label>
                     <div class="layui-input-inline">
-                        <input id="planStartTime" type="text" name="planStartTime"  autocomplete="off" class="layui-input">
+                        <input id="planStartTime" type="text" name="planStartTime" autocomplete="off"
+                            class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">计划完成时间</label>
                     <div class="layui-input-inline">
-                        <input id="planFinishTime" type="text" name="planFinishTime"  autocomplete="off" class="layui-input">
+                        <input id="planFinishTime" type="text" name="planFinishTime" autocomplete="off"
+                            class="layui-input">
                     </div>
                 </div>
             </div>
         </form>
-    <h3><b>已下达设备：</b></h3>
-    <table class="layui-hide" id="table1" lay-filter="table1"></table>
-    <h3><b>工序日计划：</b></h3>
-    <table class="layui-hide" id="table" lay-filter="table"></table>
-    <script type="text/html" id="toolbarDemo">
+        <h3><b>已下达设备：</b></h3>
+        <table class="layui-hide" id="table1" lay-filter="table1"></table>
+        <h3><b>工序日计划：</b></h3>
+        <table class="layui-hide" id="table" lay-filter="table"></table>
+        <script type="text/html" id="toolbarDemo">
         <a class=" layui-btn layui-btn-sm" style="background-color: #1E9FFF" lay-event="add">添加</a>
             <button id="sub" class="layui-btn layui-btn-sm" type="button"  lay-event="devs">确定提交</button>
     </script>
 
-    <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
-    <script src="../../js/common.js" ></script>
-</div>
+        <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+        <script src="../../js/common.js"></script>
+    </div>
 </body>
 <script>
-    layui.use(['table','jquery','form','layer','laydate'],function () {
+    var getData = null;
+    layui.use(['table', 'jquery', 'form', 'layer', 'laydate'], function () {
         var table = layui.table,
             layer = layui.layer,
             form = layui.form,
             laydate = layui.laydate,
             $ = layui.jquery;
-        form.on('submit(sub)',function (obj) {
+        form.on('submit(sub)', function (obj) {
             var data = obj.field;
-            table.reload('table',{
-                where:data,
-                curr:1
+            table.reload('table', {
+                where: data,
+                curr: 1
             })
         });
-        var devData=[];
+        var devData = [];
         var dd = JSON.parse($('[name=data]').val());
-        if(dd.device_code!=null){
+        if (dd.device_code != null) {
             var serial = dd.device_code.split(',');
             var name = dd.device_name.split(',');
-            serial.forEach(function (t,i) {
-                devData.push({serial:t,name:name[i]})
+            serial.forEach(function (t, i) {
+                devData.push({ serial: t, name: name[i] })
             })
         }
-        console.log(devData);
         table.render({
             elem: '#table1'
-            ,defaultToolbar: ['filter']
-            ,limit:10000
-            ,data:devData
-            ,cols:  [
+            , defaultToolbar: ['filter']
+            , limit: 10000
+            , data: devData
+            , cols: [
                 [
-                    {field: 'serial', title: '设备编号', minWidth: 160},
-                    {field: 'name', title: '设备名称', minWidth: 140}
+                    { field: 'serial', title: '设备编号', minWidth: 160 },
+                    { field: 'name', title: '设备名称', minWidth: 140 }
                 ]
             ]
-
         });
         form.render();
-        laydate.render({elem: '#planStartTime',type:'date'});$("#planStartTime").val(getQueryString('sTime'))
-        laydate.render({elem: '#planFinishTime',type:'date'});$("#planFinishTime").val(getQueryString('fTime'))
+        laydate.render({ elem: '#planStartTime', type: 'date' }); $("#planStartTime").val(getQueryString('sTime'))
+        laydate.render({ elem: '#planFinishTime', type: 'date' }); $("#planFinishTime").val(getQueryString('fTime'))
         var tdata = [];
-        var index=0;
-        var d={
-            index:0,
-            plan_count:"" ,
-            finish_count:"",
-            plan_day_time:"",
-            process_task_code:getQueryString('process_task_code')
+        var index = 0;
+        var d = {
+            index: 0,
+            plan_count: "",
+            finish_count: "",
+            plan_day_time: "",
+            count_type: getQueryString('countType'),
+            process_task_code: getQueryString('process_task_code')
         };
         layer.load(1, {
             content: '加载中...',
@@ -122,74 +129,107 @@
             type: "POST",
             url: '/produce/pcbTask/findProcessTaskDeatilList',
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({process_task_code:getQueryString('process_task_code')}),
+            data: JSON.stringify({ process_task_code: getQueryString('process_task_code') }),
             dataType: "json",
-            async:false,
+            async: false,
             success: function (res) {
                 layer.closeAll()
-                if(res.code === 200){
-                    if(res.data==null){
+                if (res.code === 200) {
+                    if (res.data == null) {
                         tdata.push(JSON.parse(JSON.stringify(d)));
-                    }else{
-                        res.data.forEach(function (t,i) {
-                            index=i
-                            t.index=i
+                    } else {
+                        res.data.forEach(function (t, i) {
+                            index = i
+                            t.index = i
+                            t.count_type = getQueryString('countType')
                         })
-                        tdata=res.data
+                        tdata = res.data
                     }
-                }else{
-                    layer.alert(res.msg, {icon: 5});
+                } else {
+                    layer.alert(res.msg, { icon: 5 });
                 }
             },
             error: function (message) {
-                layer.alert("保存失败！", {icon: 5});
+                layer.alert("保存失败！", { icon: 5 });
             }
         });
         var tableObj = {
             elem: '#table'
-            ,defaultToolbar: ['filter']
-            ,response: {
+            , defaultToolbar: ['filter']
+            , response: {
                 statusCode: 200
             }
-            ,toolbar:'#toolbarDemo'
-            ,limit:10000
-            ,data:tdata
-            ,cols:  [
+            , toolbar: '#toolbarDemo'
+            , limit: 10000
+            , data: tdata
+            , cols: [
                 [
-                    {field: 'process_task_code', title: '工序任务号', minWidth: 178}
-                    ,{field: 'plan_day_time', title: '计划时间',event:'time', minWidth: 100,templet:function (d) {
-                        return "<span id='time"+d.index+"'>"+(d.plan_day_time==""?"":timeToDate(d.plan_day_time,true))+"</span>"
-                    }}
-                    ,{field: 'plan_count', title: '计划完成量',edit:'text', minWidth: 100}
-                    ,{field: 'finish_count', title: '完成量', edit:'text',minWidth: 100}
-                    ,{ title: '操作',fixed:'right', width: 70,templet:function () {
-                        return '<a class=" layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>'
-                    }}
+                    { field: 'process_task_code', title: '工序任务号', minWidth: 178 }
+                    , {
+                        field: 'plan_day_time', title: '计划时间', event: 'time', minWidth: 100, templet: function (d) {
+                            return "<span class='planDayTime' id='time" + d.index + "'>" + (d.plan_day_time == "" ? "" : timeToDate(d.plan_day_time, true)) + "</span>"
+                        }
+                    }
+                    , { field: 'plan_count', title: '计划量', edit: d.count_type == 1 ? '' : 'text', minWidth: 100 }
+                    , { field: 'finish_count', title: '完成量', edit: d.count_type == 1 ? '' : 'text', minWidth: 100 }
+                    , {
+                        title: '操作', fixed: 'right', minWidth: 70, templet: function (d) {
+                            if (d.count_type == 1) {
+                                return '<a class=" layui-btn layui-btn-xs layui-btn-danger" style="background-color:#1e9fff"  lay-event="distribution">分配</a>' +
+                                    '<a class=" layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>'
+                            } else {
+                                return '<a class=" layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>'
+                            }
+                        }
+                    }
                 ]
             ]
-
         };
-        table.render(tableObj);
+        setTimeout(function () {
+            table.render(tableObj);
+        }, 100)
         //直接嵌套显示
-        var timeBox="";
-        var nowIndex=0;
+        var timeBox = "";
+        var nowIndex = 0;
         laydate.render({
             elem: '#test-n1',
             position: 'static',
-            done:function (d) {
+            done: function (d) {
                 layer.close(timeBox);
-                $('#time'+nowIndex).html(d);
+                var d = timeToDate(d, true);
+                var planDayTime = document.getElementsByClassName('planDayTime');
+                var flagdate = false;
+                tdata.forEach(function (t) {
+                    if (timeToDate(t.plan_day_time, true) == d) {
+                        flagdate = true;
+                    }
+                })
+                if (flagdate) {
+                    layer.msg(d + ' 已有计划', function () { time: 2000 });
+                    return false;
+                }
+                $('#time' + nowIndex).html(d);
                 tdata.some(function (t) {
-                    if(t.index == nowIndex){
-                        t.plan_day_time=d;
+                    if (t.index == nowIndex) {
+                        t.plan_day_time = d;
                         return true
                     }
                 })
             }
         });
-        table.on('toolbar(table)',function (obj) {
-            switch(obj.event){
+        table.on('toolbar(table)', function (obj) {
+            switch (obj.event) {
                 case 'devs':
+                    var flag = false;
+                    tdata.forEach(function (d) {
+                        if (d.plan_day_time == "") {
+                            flag = true;
+                        }
+                    })
+                    if (flag) {
+                        layer.msg('计划时间不能为空', function () { time: 2000 });
+                        return false;
+                    }
                     layer.load(1, {
                         content: '提交中...',
                         success: function (layero) {
@@ -199,83 +239,130 @@
                             });
                         }
                     });
-                        $.ajax({
-                            type: "POST",
-                            url: "/produce/pcbTask/updateProcessTask/",
-                            contentType: "application/json; charset=utf-8",
-                            data: JSON.stringify({
-                                planStartTime:$("#planStartTime").val(),
-                                planFinishTime:$("#planFinishTime").val(),
-                                processId:getQueryString('processId'),
-                                pcbQuantity:""
-                            }),
-                            dataType: "json",
-                            success: function (res3) {
-                                if(res3.code === 200){
-                                    $.ajax({
-                                        type: "POST",
-                                        url: '/produce/pcbTask/addTaskDetailList',
-                                        contentType: "application/json; charset=utf-8",
-                                        data: JSON.stringify({
-                                            process_task_code:getQueryString('process_task_code'),
-                                            detailList:tdata
-                                        }),
-                                        dataType: "json",
-                                        success: function (res) {
-                                            layer.closeAll()
-                                            if(res.code === 200){
-                                                layer.alert('提交成功！',{icon:1},function () {
-                                                    parent.layer.closeAll();
-                                                    parent.location.reload()
-                                                })
-                                            }else{
-                                                layer.alert(res.msg, {icon: 5});
-                                            }
-                                        },
-                                        error: function (message) {
-                                            layer.alert("保存失败！", {icon: 5});
+                    $.ajax({
+                        type: "POST",
+                        url: "/produce/pcbTask/updateProcessTask/",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            planStartTime: $("#planStartTime").val(),
+                            planFinishTime: $("#planFinishTime").val(),
+                            processId: getQueryString('processId'),
+                            pcbQuantity: ""
+                        }),
+                        dataType: "json",
+                        success: function (res3) {
+                            if (res3.code === 200) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: '/produce/pcbTask/addTaskDetailList',
+                                    contentType: "application/json; charset=utf-8",
+                                    data: JSON.stringify({
+                                        process_task_code: getQueryString('process_task_code'),
+                                        detailList: tdata
+                                    }),
+                                    dataType: "json",
+                                    success: function (res) {
+                                        layer.closeAll()
+                                        if (res.code === 200) {
+                                            layer.alert('提交成功！', { icon: 1 }, function () {
+                                                parent.layer.closeAll();
+                                                parent.location.reload()
+                                            })
+                                        } else {
+                                            layer.alert(res.msg, { icon: 5 });
                                         }
-                                    });
-                                }else{
-                                    layer.msg(res3.msg, {offset: '15px', time: 3000, icon: 2});
-                                }
-                            },
-                            error: function (message) {
-                                layer.msg("保存失败！", {offset: '15px', time: 3000, icon: 2});
+                                    },
+                                    error: function (message) {
+                                        layer.alert("保存失败！", { icon: 5 });
+                                    }
+                                });
+                            } else {
+                                layer.msg(res3.msg, { offset: '15px', time: 3000, icon: 2 });
                             }
-                        });
-
+                        },
+                        error: function (message) {
+                            layer.msg("保存失败！", { offset: '15px', time: 3000, icon: 2 });
+                        }
+                    });
                     break;
                 case 'add':
                     index++;
-                    var dd=JSON.parse(JSON.stringify(d));
-                    dd.index=index;
+                    var dd = JSON.parse(JSON.stringify(d));
+                    dd.index = index;
                     tdata.push(dd);
-                    tableObj.data=tdata;
-                    table.render(tableObj);
-                break;
+                    tableObj.data = tdata;
+                    setTimeout(function () {
+                        table.render(tableObj);
+                    }, 100)
+                    break;
             }
         });
 
-        table.on('tool(table)',function (obj) {
+        table.on('tool(table)', function (obj) {
             var data = obj.data;
+            var devDataSerialArr = [];
             switch (obj.event) {
                 case 'del':
-                   tdata = tdata.filter(function (t) { return t.index!=data.index});
-                    tableObj.data=tdata;
-                    table.render(tableObj)
-                    ;break;
+                    tdata = tdata.filter(function (t) { return t.index != data.index });
+                    tableObj.data = tdata;
+                    setTimeout(function () {
+                        table.render(tableObj);
+                    }, 100)
+                        ; break;
                 case 'time':
-                    nowIndex=data.index;
-                    timeBox= layer.open({
-                        type:1,
-                        title:'计划时间',
-                        content:$("#timeForm")
+                    nowIndex = data.index;
+                    timeBox = layer.open({
+                        type: 1,
+                        title: '计划时间',
+                        content: $("#timeForm")
+                    });
+                    break;
+                case 'distribution':
+                    if (data.plan_day_time == '' || data.plan_day_time == null) {
+                        layer.msg('计划时间不能为空', function () { time: 2000 });
+                        return false;
+                    }
+                    if (devData.length > 0) {
+                        for (var i = 0; i < devData.length; i++) {
+                            devDataSerialArr.push(devData[i].serial)
+                        }
+                    }
+                    // tdata.devData = devData;
+                    getData = function (obj) {   //{index:1,data:[]}
+                        tdata.some(function (t, i) {
+                            if (t.index == obj.index) {
+                                tdata[i].detailDeviceList = obj.data;
+                                var k = i;
+                                tdata[k].finish_count = 0;
+                                tdata[k].plan_count = 0;
+                                tdata[k].detailDeviceList.forEach(function (t, i) {
+                                    tdata[k].finish_count += parseInt(t.finish_count);
+                                    tdata[k].plan_count += parseInt(t.plan_count);
+                                })
+                                return true
+                            }
+                        })
+                        tableObj.data = tdata
+                        setTimeout(function () {
+                            table.render(tableObj);
+                        }, 100)
+                    }
+                    layer.open({
+                        type: 2,
+                        title: '工站拆分',
+                        area: ['90%', '90%'],
+                        content: '/produce/pcbTask/distributionDetail?index=' + data.index,
+                        success: function (layero, index) {
+                            var body = layer.getChildFrame('body', index);
+                            var d = JSON.stringify(data);
+                            body.contents().find("input[name='data']").val(d);
+                            body.contents().find("input[name='devData']").val(JSON.stringify(devData));
+                        }
                     });
                     break;
             }
         });
-
     })
 </script>
+
 </html>

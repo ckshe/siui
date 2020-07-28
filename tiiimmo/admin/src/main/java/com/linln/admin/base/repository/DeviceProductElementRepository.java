@@ -2,8 +2,10 @@ package com.linln.admin.base.repository;
 
 import com.linln.admin.base.domain.DeviceProductElement;
 import com.linln.modules.system.repository.BaseRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -15,4 +17,11 @@ public interface DeviceProductElementRepository extends BaseRepository<DevicePro
     //根据机台编号查找所需程序
     @Query(value = "SELECT * FROM base_device_product_element WHERE device_code = ?1 and pcb_code = ?2 and a_or_b = ?3",nativeQuery = true)
     List<DeviceProductElement> findByDevice_code(String deviceCode,String pcbCode,String a_or_b);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM base_device_product_element WHERE a_or_b = ?1 and pcb_code = ?2", nativeQuery = true)
+    Integer deleteByABAndPcbCode(String a_or_b,String pcbCode);
+
+
 }

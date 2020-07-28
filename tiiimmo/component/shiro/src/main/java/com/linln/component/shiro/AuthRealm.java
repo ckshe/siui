@@ -4,6 +4,7 @@ import com.linln.common.constant.AdminConst;
 import com.linln.common.enums.StatusEnum;
 import com.linln.modules.system.domain.Role;
 import com.linln.modules.system.domain.User;
+import com.linln.modules.system.service.RoleService;
 import com.linln.modules.system.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,6 +29,8 @@ public class AuthRealm extends AuthorizingRealm {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     /**
      * 授权逻辑
@@ -46,7 +50,17 @@ public class AuthRealm extends AuthorizingRealm {
 
         // 赋予岗位和资源授权
         Set<Role> roles = ShiroUtil.getSubjectRoles();
-        roles.forEach(role -> {
+        Long roleId = roles.iterator().next().getId();
+        List<String> perms = roleService.selectPermsByRoleId(roleId);
+
+
+        int size = perms.size();
+        System.out.println(size);
+
+        info.addStringPermissions(perms);
+
+
+        /*roles.forEach(role -> {
             info.addRole(role.getName());
             role.getMenus().forEach(menu -> {
                 String perms = menu.getPerms();
@@ -56,7 +70,7 @@ public class AuthRealm extends AuthorizingRealm {
                 }
             });
         });
-
+*/
         return info;
     }
 

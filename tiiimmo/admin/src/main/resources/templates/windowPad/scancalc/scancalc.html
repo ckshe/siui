@@ -35,8 +35,9 @@
                 form = layui.form;
             var keke = parent.document.getElementById('scs')
             var codeBox = document.getElementById('codeBox');
-            codeBox.focus();
+            var nowDeviceCode = getQueryString2('deviceCode');
 
+            codeBox.focus();
             scanCode('codeBox',function () {
                 layer.load(1,{
                     content: '添加中...',
@@ -58,7 +59,7 @@
                     success: function (res) {
                         layer.closeAll();
                         res.data.some(function (t,i) {
-                            if(t.is_now_flag==1){
+                            if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
                                 console.log(t);
                                 $.ajax({
                                     url: '/produce/pcbTask/countProcessTaskAmount',
@@ -97,13 +98,13 @@
                 type:'post',
                 dataType : "json",
                 data : JSON.stringify({
-                    deviceCode:getQueryString2('deviceCode'),
+                    deviceCode:getQueryString2('deviceCode')
                 }),
                 contentType : "application/json;charset=UTF-8",
                 success: function (res) {
                     layer.closeAll();
                     res.data.some(function (t,i) {
-                        if(t.is_now_flag==1){
+                        if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
                             table.render({
                                 elem: '#table'
                                 ,url: '/produce/pcbTask/findPcbTaskPlateNo' //数据接口
@@ -118,19 +119,20 @@
                                     return {
                                         "code": res.code, //解析接口状态
                                         "data": res.data, //解析数据列表
-                                        "count": res.total, //解析数据长度
+                                        "count": res.total//解析数据长度
                                     };
                                 }
                                 ,where:{
-                                    pcbTaskCode: t.pcb_task_code
+                                    pcbTaskCode: t.pcb_task_code,
+                                    processTaskCode: t.process_task_code
                                 }
                                 ,cols: [
                                     [ //标题栏
-                                        {field: 'plate_no', title: '板编号', width: 145}
-                                        ,{field: 'process_task_code', title: '工序任务号', minWidth: 130}
+                                        {field: 'plate_no', title: '板编号', minWidth: 145}
+                                        ,{field: 'process_task_code', title: '工序任务号', width: 140}
                                         ,{field: 'pcb_code', title: '规格型号', width: 180}
-                                        ,{field: 'is_count', title: '是否登記', width: 164,templet:function (d) {
-                                            return d.is_count==0?'否':'是'
+                                        ,{field: 'is_count', title: '是否登記', width: 124,templet:function (d) {
+                                            return d.is_count==0?'<span style="color:red">否</span>':'<span style="color:#2acd02">是</span>'
                                         }}
                                         // ,{ field: 'qwe',title: '操作',fixed:'right', minWidth: 100,templet:function (d) {
                                         //     return  '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-sm" type="button">查看详情</button> '

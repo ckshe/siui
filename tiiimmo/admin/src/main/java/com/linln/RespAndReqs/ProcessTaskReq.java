@@ -35,6 +35,19 @@ public class ProcessTaskReq {
     private List<ProcessTaskDetail> detailList;
     private String pcbName; // 物料名称
     private String pcbCode; // 规格型号
+    private List<detailDeviceReq> detailDeviceList;
+
+
+
+    @Data
+    public static class detailDeviceReq{
+        private String device_code;
+        private Integer plan_count;
+        private Integer finish_count;
+        private Date plan_day_time;
+        private String process_task_code;
+
+    }
 
 
 

@@ -80,4 +80,6 @@ public class OperationInstruction implements Serializable {
     private String uploadFile;
     // 所属工序
     private String processName;
+    // 上传人
+    private String uploadPeople;
 }

@@ -4,36 +4,39 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/onDuty/save}">
+    <form class="layui-form" lay-filter="form2" th:action="@{/base/onDuty/save}">
         <input type="hidden" name="id" th:if="${onDuty}" th:value="${onDuty.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">员工名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="userName" placeholder="请输入员工名称" th:value="${onDuty?.userName}">
+                <input class="layui-input" type="text" id="username" name="userName" placeholder="请输入员工名称" th:value="${onDuty?.userName}">
             </div>
         </div>
-        <div class="layui-form-item">
+        <!--<div class="layui-form-item">
             <label class="layui-form-label">岗位</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="station" placeholder="请输入岗位" th:value="${onDuty?.station}">
             </div>
-        </div>
+        </div>-->
         <div class="layui-form-item">
             <label class="layui-form-label">上岗时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="shiftTime" placeholder="请输入上岗时间" th:value="${onDuty?.shiftTime}">
+                <input class="layui-input" id="time1" type="text" name="shiftTime" placeholder="请输入上岗时间" th:value="${onDuty?.shiftTime}">
+
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">工序</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="process" placeholder="请输入工序" th:value="${onDuty?.process}">
+                <!--<input class="layui-input" type="text" name="process" placeholder="请输入工序" th:value="${onDuty?.process}">-->
+                <input type="hidden" id="processNameValue" th:value="${onDuty?.process}">
+                <select name="process" id="process"></select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">排班日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="shiftDate" placeholder="请输入排班日期" th:value="${onDuty?.shiftDate}">
+                <input class="layui-input" id="time2" type="text" name="shiftDate" placeholder="请输入排班日期" th:value="${onDuty?.shiftDate}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -49,5 +52,60 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        var a="";
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var  $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#time1",
+                type:'datetime',
+                trigger:'click'
+            });
+            laydate.render({
+                elem:"#time2",
+                type:'datetime',
+                trigger:'click'
+            });
+
+            $("#username").on('click',function () {
+                var userBox =  layer.open({
+                    title:'用户列表',
+                    type:2,
+                    area:['98%',"94%"],
+                    content:'/userTable'
+                });
+                a=function (data) {
+                    layer.close(userBox);
+                    var d=data[0];
+                    form.val('form2',{userName:d.nickname})
+
+                }
+            })
+
+
+            $.get('/base/process/findProcessType',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('process');
+                    var str = "";
+                    var d = res.data.map(function (t) {
+                        return {process_type:t}
+                    });
+                    d.forEach(function (t) {
+                        str+="<option value='"+t.process_type+"'>"+t.process_type+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('form2',{process:$('#processNameValue').val()});
+                }
+            })
+
+
+
+
+
+        })
+    </script>
 </body>
 </html>

@@ -5,10 +5,7 @@ import com.linln.common.constant.AdminConst;
 import com.linln.common.enums.ResultEnum;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.exception.ResultException;
-import com.linln.common.utils.EntityBeanUtil;
-import com.linln.common.utils.ResultVoUtil;
-import com.linln.common.utils.SpringContextUtil;
-import com.linln.common.utils.StatusUtil;
+import com.linln.common.utils.*;
 import com.linln.common.vo.ResultVo;
 import com.linln.component.actionLog.action.StatusAction;
 import com.linln.component.actionLog.action.UserAction;
@@ -66,6 +63,9 @@ public class UserController {
 
         // 获取用户列表
         Page<User> list = userService.getPageList(user);
+//        Set<Role> roles = user.getRoles();
+//        String jsonRole = JsonUtil.set2json(roles);
+//        System.out.println(jsonRole);
 
         // 封装数据
         model.addAttribute("list", list.getContent());
@@ -244,6 +244,7 @@ public class UserController {
 
         // 更新用户岗位
         user.setRoles(roles);
+        user.setClass_no(roles.iterator().next().getTitle());
 
         // 保存数据
         userService.save(user);

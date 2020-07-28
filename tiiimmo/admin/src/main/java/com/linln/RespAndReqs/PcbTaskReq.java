@@ -17,7 +17,7 @@ public class PcbTaskReq {
     private String deviceCode;
     private Date planStartTime;
     private Date planFinishTime;
-    private Long lastProcassTaskId;
+    private Long lastProcessTaskId;
     private Long processTaskId;
     private String feedindTaskCode;
     private Integer page;
@@ -40,5 +40,7 @@ public class PcbTaskReq {
     private String productCode;
     private String username;
     private String reCounttimeStamp;
+    private Integer countType;
+
 
 }

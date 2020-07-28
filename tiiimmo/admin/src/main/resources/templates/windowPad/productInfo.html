@@ -12,6 +12,13 @@
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="stylesheet" href="../../css/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../css/windowPad/productInfo.css">
+    <style>
+        ::-webkit-scrollbar {
+            width: 2px;
+            height: 2px;
+            background-color: #F5F5F5;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,7 +28,7 @@
             <button id="imState" class="greenButton">工作中</button>
         </div>
         <div class="taskBox">
-            <div class="title">当前生产工序</div>
+            <div class="title">当前生产工序<span id="processName" style="font-weight: bold;"></span></div>
             <form class="layui-form" lay-filter="formNode" id="formNode">
                 <div id="statusBox" class=""></div>
                 <input type="hidden" name="id">
@@ -121,9 +128,9 @@
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label"></label>
+                        <label class="layui-form-label">光板号</label>
                         <div class="layui-input-inline">
-                            <input type="text" disabled autocomplete="off" class="layui-input">
+                            <input type="text" disabled name="pcb_plate_id" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -154,6 +161,7 @@
     }
     var shuaTime = 10;
     parent.localStorage.getItem('shuaTime') && (shuaTime = parent.localStorage.getItem('shuaTime'));
+    var nowDeviceCode = getQueryString2('deviceCode');
     window.onload = function () {
         layui.use(['jquery', 'form', 'table', 'layer'], function () {
             var $ = layui.jquery,
@@ -162,6 +170,7 @@
                 form = layui.form;
             layer.load(1)
             var statusBox = document.getElementById('statusBox');
+            var processName = document.getElementById('processName');
             $("#imSerial").html(getQueryString2('deviceCode'))
             //展示已知数据
             table.render({
@@ -181,14 +190,27 @@
                     layer.closeAll();
                     if (res.data.length > 0) {
                         localStorage.setItem('gxData', JSON.stringify(res.data));
+
+
                     }
                     res.data.some(function (t, i) {
-                        if (t.is_now_flag == 1) {
+                        if (("" + t.is_now_flag).indexOf(nowDeviceCode) != -1) {
                             t.plan_start_time = timeToDate(t.plan_start_time);
                             t.plan_finish_time = timeToDate(t.plan_finish_time);
                             parent.nowGonDan = t;
-                            statusBox.className = color(t.process_task_status);
-                            statusBox.innerHTML = t.process_task_status;
+
+                            if (t.count_type == 1) {
+                                statusBox.className = color(t.device_detail_status);
+                                statusBox.innerHTML = t.device_detail_status;
+
+                                t.detail_plan_count = t.detail_device_plan_count;
+                                t.detail_finish_count = t.detail_device_finish_count;
+
+                            } else if (t.count_type == 0) {
+                                statusBox.className = color(t.process_task_status);
+                                statusBox.innerHTML = t.process_task_status;
+                            }
+                            processName.innerHTML = ":" + t.process_name;
                             form.val('formNode', t);
                             res.data.splice(i, 1);
                             return true
@@ -202,17 +224,17 @@
                 }
                 , cols: [
                     [ //标题栏
-                        { field: 'process_task_code', title: '工序任务号', width: 188 }
-                        , { field: 'process_name', title: '工序名称', width: 120 }
-                        , { field: 'process_task_status', title: '工单状态', minWidth: 110 }
-                        , { field: 'task_sheet_code', title: '生产批次', width: 164 }
-                        , { field: 'pcb_task_code', title: '排产任务号', width: 164 }
-                        , { field: 'model_name', title: '机型名称', minWidth: 274 }
-                        , { field: 'pcb_code', title: '规格型号', minWidth: 208 }
-                        , { field: 'pcb_quantity', title: '计划生产数量', minWidth: 120 }
-                        , { field: 'amount_completed', title: '实际生产数量', minWidth: 120 }
-                        , { field: 'is_rohs', title: 'RoHS标志', minWidth: 100 }
-                        , { field: 'batch_id', title: '板编号', minWidth: 248 }
+                        { field: 'process_task_code', title: '工序任务号', minWidth: 140 }
+                        , { field: 'process_name', title: '工序名称', minWidth: 90 }
+                        , { field: 'process_task_status', title: '工单状态', minWidth: 90 }
+                        , { field: 'task_sheet_code', title: '生产批次', width: 120 }
+                        // , { field: 'pcb_task_code', title: '排产任务号', width: 164 }
+                        // , { field: 'model_name', title: '机型名称', minWidth: 274 }
+                        , { field: 'pcb_code', title: '规格型号', minWidth: 190 }
+                        , { field: 'pcb_quantity', title: '计划量', minWidth: 80 }
+                        , { field: 'amount_completed', title: '完成量', minWidth: 80 }
+                        , { field: 'is_rohs', title: 'RoHS', minWidth: 80 }
+                        , { field: 'batch_id', title: '板编号', minWidth: 240 }
                         , {
                             field: 'plan_start_time', title: '计划生产时间', minWidth: 170, templet: function (d) {
                                 return timeToDate(d.plan_start_time)
@@ -305,14 +327,21 @@
                             }
                             //判断是否存在当前
                             res.data.some(function (t, i) {
-                                if (t.is_now_flag == 1) {
+                                if (("" + t.is_now_flag).indexOf(nowDeviceCode) != -1) {
                                     has = 1;
                                     t.plan_start_time = timeToDate(t.plan_start_time);
                                     t.plan_finish_time = timeToDate(t.plan_finish_time);
                                     parent.nowGonDan = t;
                                     var statusBox = document.getElementById('statusBox');
-                                    statusBox.className = color(t.process_task_status);
-                                    statusBox.innerHTML = t.process_task_status;
+                                    var processName = document.getElementById('processName');
+                                    if (t.count_type == 1) {
+                                        statusBox.className = color(t.device_detail_status);
+                                        statusBox.innerHTML = t.device_detail_status;
+                                    } else if (t.count_type == 0) {
+                                        statusBox.className = color(t.process_task_status);
+                                        statusBox.innerHTML = t.process_task_status;
+                                    }
+                                    processName.innerHTML = ":" + t.process_name;
                                     document.getElementById('scs').value = t.amount_completed;
                                     if (t.id != $('[name=id]').val()) {
                                         //有当前，且当前id不等于页面的id
@@ -329,7 +358,8 @@
                                     $("[name=id]").val("");
                                 }
                                 $("#formNode")[0].reset();
-                                statusBox.className = ""
+                                statusBox.className = "";
+                                processName.innerHTML = "";
                                 $("[name=id]").val('');
                             }
 

@@ -90,4 +90,5 @@ public class DeviceServiceImpl implements DeviceService {
     public List<Device> list() {
         return deviceRepository.findAll();
     }
+
 }

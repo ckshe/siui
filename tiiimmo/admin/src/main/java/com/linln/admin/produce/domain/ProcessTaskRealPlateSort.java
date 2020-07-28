@@ -18,7 +18,9 @@ public class ProcessTaskRealPlateSort {
 
     private String device_code;
 
-    private Date record_time;
+    private Date record_start_time;
 
     private String plate_no;
+
+    private Date record_end_time;
 }

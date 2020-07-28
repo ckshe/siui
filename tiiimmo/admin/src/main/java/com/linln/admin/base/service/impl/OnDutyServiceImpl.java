@@ -5,6 +5,8 @@ import com.linln.admin.base.repository.OnDutyRepository;
 import com.linln.admin.base.service.OnDutyService;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
+import com.linln.modules.system.domain.User;
+import com.linln.modules.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.UnknownServiceException;
 import java.util.List;
 
 /**
@@ -23,6 +26,9 @@ public class OnDutyServiceImpl implements OnDutyService {
 
     @Autowired
     private OnDutyRepository onDutyRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * 根据ID查询数据
@@ -52,6 +58,11 @@ public class OnDutyServiceImpl implements OnDutyService {
      */
     @Override
     public OnDuty save(OnDuty onDuty) {
+        String userName = onDuty.getUserName();
+        User user2 = userRepository.queryByUserName(userName);
+        onDuty.setUsers(user2);
+        String role = user2.getRoles().iterator().next().getTitle();
+        onDuty.setStation(role);
         return onDutyRepository.save(onDuty);
     }
 

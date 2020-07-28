@@ -51,9 +51,9 @@ a{
 	background-color: #F5F5F5;
 }
 ::-webkit-scrollbar {
-	width: 15px;
+	width: 5px;
     height: 15px;
-	background-color: #F5F5F5;
+	background-color: #1e9fff;
 }
 ::-webkit-scrollbar-thumb {
 	background-color: #999;

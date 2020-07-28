@@ -182,6 +182,9 @@
                         <div class="title hui" id="workTime">0</div>
                     </li>
                 </ul>
+                    <div>
+                        <div class="title cu" style="display:inline-block; padding-left: 45px;"> 板编号：<span class="title hui"  id="nowPlateNo"></span></div>
+                    </div>
                 </div>
         <div class="buttonBox">
             <button id="qie" class="shenblueButton" style="width:100%;height:80px">切换工序</button>
@@ -200,7 +203,7 @@
                     <button id="login" class="blueButton">上机</button>
                 </div>
                 <div class="fourRight">
-                    <button id="bad" disabled style="opacity: 0.1" class="redButton">不良录入</button>
+                    <button id="bad" disabled style="opacity: 0.4" class="redButton">不良录入</button>
                     <button id="out" class="huiButton">下机</button>
                 </div>
             </div>
@@ -215,10 +218,11 @@
     var nowGonDan="";
     var a="";
     var shuaTime = 10;
+    var nowDeviceCode = getQueryString('deviceCode');
     function changeShuaTime(){
         parent.localStorage.getItem('shuaTime')&&(shuaTime = parent.localStorage.getItem('shuaTime'));
     }
-    changeShuaTime()
+    changeShuaTime();
     window.onload = function () {
         layui.use(['jquery', 'form'], function () {
             var $ = layui.jquery,
@@ -278,7 +282,11 @@
                     contentType : "application/json;charset=UTF-8",
                     success: function (res) {
                         res.data.some(function (t,i) {
-                            if(t.is_now_flag==1){
+                            if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
+                                if(t.count_type==1){
+                                    t.detail_plan_count=t.detail_device_plan_count;
+                                    t.detail_finish_count=t.detail_device_finish_count;
+                                }
                                 nowGonDan=t;
                                 $.ajax({
                                     url:'/produce/pcbTask/deviceAmountAndworkTime',
@@ -292,7 +300,8 @@
                                     success: function (res6) {
                                         if(res6.code===200){
                                             document.getElementById('scs').innerHTML=res6.data.amount;
-                                            document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.amount*1000);
+                                            document.getElementById('nowPlateNo').innerHTML=res6.data.nowPlateNo;
+                                            document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.workTime*1000);
 
                                         }else{
                                             layer.alert(res6.msg,{icon:5})
@@ -322,7 +331,7 @@
                         var data = res.data
                         $('#userName').html(data.nickname);
                         $('#juese').html(data.roleNames);
-                        $('#upTime').html(timeToDate(data.updateDate));
+                        $('#upTime').html(timeToDate(data.upTime));
                         // upTime.html('无');
                         if(/质检/.test(data.roleNames)||/管理员/.test(data.roleNames)){
                             document.getElementById('bad').style.opacity=1;
@@ -333,7 +342,6 @@
                     layer.alert(res.msg,{icon:5})
                 }
             });
-
                     for(var i=0;i<navLis.length;i++){
                         navLis[i].onclick=function (e) {
                             iframe.className='mainBox goLeft0';
@@ -478,15 +486,16 @@
                             });
                         }
                     });
-
                     $.ajax({
                         url: '/produce/pcbTask/modifyProcessTaskStatus',
                         type: "post",
                         dataType : "json",
                         data : JSON.stringify({
                             processTaskId:data.id,
+                            lastProcessTaskId:nowGonDan.id,
                             processTaskStatus:"进行中",
-                            deviceCode:getQueryString('deviceCode')
+                            deviceCode:getQueryString('deviceCode'),
+                            countType:data.count_type
                         }),
                         contentType : "application/json;charset=UTF-8",
                         success: function (res) {
@@ -503,9 +512,7 @@
                             }
                         }
                     })
-
-
-                }
+                };
                 if(isLogin()){
                         $.ajax({
                             url:"/produce/pcbTask/findProcessTaskByDevice",
@@ -517,10 +524,10 @@
                             contentType : "application/json;charset=UTF-8",
                             success: function (res) {
                                 layer.closeAll();
-                                var has=0
+                                var has=0;
                                 res.data.some(function (t,i) {
-                                    if(t.is_now_flag==1){
-                                        has=1
+                                    if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
+                                        has=1;
                                         nowGonDan=t;
                                         if(t.process_task_status=="暂停"){
                                             layer.open({
@@ -570,9 +577,10 @@
                             type: "post",
                             dataType: "json",
                             data: JSON.stringify({
-                                processTaskId: nowGonDan.id,
-                                processTaskStatus: "暂停",
-                                deviceCode: getQueryString('deviceCode')
+                                processTaskId:nowGonDan.id,
+                                processTaskStatus:"暂停",
+                                deviceCode:nowDeviceCode,
+                                countType:nowGonDan.count_type
                             }),
                             contentType: "application/json;charset=UTF-8",
                             success: function (res) {
@@ -590,7 +598,7 @@
                     })
                 }
             });
-            //生产工单
+            //启动工单
             $('#run').on('click',function () {
                 if(nowGonDan==''){
                     layer.alert('当前无工序，请先切换工序再启动',{icon:5})
@@ -612,9 +620,10 @@
                             type: "post",
                             dataType: "json",
                             data: JSON.stringify({
-                                processTaskId: nowGonDan.id,
-                                processTaskStatus: "生产中",
-                                deviceCode: getQueryString('deviceCode')
+                                processTaskId:nowGonDan.id,
+                                processTaskStatus:"生产中",
+                                deviceCode:nowDeviceCode,
+                                countType:nowGonDan.count_type
                             }),
                             contentType: "application/json;charset=UTF-8",
                             success: function (res) {
@@ -645,6 +654,7 @@
                         area:['400px','400px']
                     });
                     console.log(nowGonDan)
+
                     form.val('statusForm',{
                         pcb_quantity:nowGonDan.detail_plan_count,
                         amount_completed:nowGonDan.detail_finish_count,
@@ -662,7 +672,7 @@
                         processTaskId: obj.field.id,
                         processTaskStatus: "已完成",
                         amountCompleted:obj.field.amount_completed,
-                        // deviceCode: getQueryString('deviceCode')
+                        deviceCode: getQueryString('deviceCode')
                     }),
                     contentType: "application/json;charset=UTF-8",
                     success: function (res) {
@@ -717,7 +727,7 @@
                    contentType : "application/json;charset=UTF-8",
                    success: function (res) {
                        res.data.some(function (t,i) {
-                           if(t.is_now_flag==1){
+                           if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
                                $('#qrcode').html("");
                                //二维码生产
                                var qrcode = new QRCode("qrcode",{

@@ -2,7 +2,9 @@ package com.linln.modules.system.service.impl;
 
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
+import com.linln.common.utils.JsonUtil;
 import com.linln.modules.system.domain.Dept;
+import com.linln.modules.system.domain.Role;
 import com.linln.modules.system.domain.User;
 import com.linln.modules.system.repository.UserRepository;
 import com.linln.modules.system.service.DeptService;
@@ -16,8 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author 小懒虫
@@ -106,6 +110,10 @@ public class UserServiceImpl implements UserService {
                 if(user.getStatus() != null){
                     preList.add(cb.equal(root.get("status").as(Byte.class), user.getStatus()));
                 }
+//                Set<Role> roles = user.getRoles();
+//                String jsonRole = JsonUtil.set2json(roles);
+//                System.out.println(jsonRole);
+
 
                 Predicate[] pres = new Predicate[preList.size()];
                 return query.where(preList.toArray(pres)).getRestriction();

@@ -511,20 +511,20 @@ function setDataBoard1(params) {
                 success: function (response) {
                     //测试假数据
                     // response = {"code":200,"msg":"成功","data":[
-                    //     {"theDay":"2020-06-21","allCount":0,"finishCount":0,"rate":10.0000,"sumFinishAmount":10,"sumPlanAmount":200},
-                    // {"theDay":"2020-06-22","allCount":5,"finishCount":5,"rate":100.0000,"sumFinishAmount":256,"sumPlanAmount":500},
-                    // {"theDay":"2020-06-23","allCount":0,"finishCount":0,"rate":50,"sumFinishAmount":0,"sumPlanAmount":0},
-                    // {"theDay":"2020-06-24","allCount":5,"finishCount":5,"rate":88,"sumFinishAmount":0,"sumPlanAmount":753},
-                    // {"theDay":"2020-06-25","allCount":1,"finishCount":1,"rate":89,"sumFinishAmount":0,"sumPlanAmount":300},
-                    // {"theDay":"2020-06-26","allCount":21,"finishCount":19,"rate":90.0000,"sumFinishAmount":0,"sumPlanAmount":4300},
-                    // {"theDay":"2020-06-27","allCount":3,"finishCount":3,"rate":99.0000,"sumFinishAmount":0,"sumPlanAmount":1050}],
+                    //     {"theDay":"2020-06-21","allCount":0,"finishCount":0,"rate":10.0000,"sumHHZJFinishAmount":10,"sumPlanAmount":200},
+                    // {"theDay":"2020-06-22","allCount":5,"finishCount":5,"rate":100.0000,"sumHHZJFinishAmount":256,"sumPlanAmount":500},
+                    // {"theDay":"2020-06-23","allCount":0,"finishCount":0,"rate":50,"sumHHZJFinishAmount":0,"sumPlanAmount":0},
+                    // {"theDay":"2020-06-24","allCount":5,"finishCount":5,"rate":88,"sumHHZJFinishAmount":0,"sumPlanAmount":753},
+                    // {"theDay":"2020-06-25","allCount":1,"finishCount":1,"rate":89,"sumHHZJFinishAmount":0,"sumPlanAmount":300},
+                    // {"theDay":"2020-06-26","allCount":21,"finishCount":19,"rate":90.0000,"sumHHZJFinishAmount":0,"sumPlanAmount":4300},
+                    // {"theDay":"2020-06-27","allCount":3,"finishCount":3,"rate":99.0000,"sumHHZJFinishAmount":0,"sumPlanAmount":1050}],
                     // "total":null}
                     var weekRateArr = [], axisWeekRateArr = [], axisWeekNumArr = [];
                     for (var i = 0; i < response.data.length; i++) {
                         // if(i==0) continue;
                         weekRateArr.push(response.data[i].rate)
                         // axisWeekRateArr.push(response.data[i].theDay)
-                        axisWeekNumArr.push(response.data[i].sumFinishAmount)
+                        axisWeekNumArr.push(response.data[i].sumHHZJFinishAmount)
                     }
                     // axisWeekRateArr = ['周一', '周二', '周三', '周四', '周五', '周六']
                     axisWeekRateArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
@@ -848,19 +848,19 @@ function setDataBoard1(params) {
             '               <span>规格型号:<strong>' + data.pcb_id + '</strong></span>' +
             '               <span class="col2">物料名称:<strong>' + data.pcb_name + '</strong></span>' +
             '               <span>生产批次:<strong>' + data.task_sheet_code + '</strong></span>' +
-            '               <span>完成时间:<strong>' + data.plan_complete_date + '</strong></span>' +
+            '               <span class="col2">板编号:<strong>' + data.batch_id + '</strong></span>' +
             '               <span>生产数量:<strong>' + data.pcb_quantity + '</strong></span>' +
             '               <span>完成数量:<strong>' + data.amount_completed + '</strong></span>' +
             '               <span>工单状态:<strong>' + data.pcb_task_status + '</strong></span>' +
-            '               <span>光板号:<strong>' + data.pcb_plate_id + '</strong></span>' +
-            '               <span>通知日期:<strong>' + data.task_sheet_date + '</strong></span>' +
+            '               <span>优先级:<strong>' + data.priority + '</strong></span>' +
             '               <span>厂区:<strong>' + data.factory + '</strong></span>' +
             '               <span>车间:<strong>' + data.workshop + '</strong></span>' +
-            '               <span>板编号:<strong>' + data.batch_id + '</strong></span>' +
+            '               <span>通知日期:<strong>' + data.task_sheet_date + '</strong></span>' +
+            '               <span>完成时间:<strong>' + data.plan_complete_date + '</strong></span>' +
             '               <span>投料单号:<strong>' + data.feeding_task_code + '</strong></span>' +
             '               <span>计划启动时间:<strong>' + data.produce_plan_date + '</strong></span>' +
             '               <span>计划完成时间:<strong>' + data.produce_plan_complete_date + '</strong></span>' +
-            '               <span>优先级:<strong>' + data.priority + '</strong></span>' +
+            '               <span>光板号:<strong>' + data.pcb_plate_id + '</strong></span>' +
             '           </li>' +
             '       </ul>' +
             '   </div>' +

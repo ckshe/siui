@@ -63,7 +63,7 @@ public class Role implements Serializable {
     @JsonIgnore
     private Set<User> users = new HashSet<>(0);
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "sys_role_menu",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "menu_id"))

@@ -7,6 +7,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @author 小懒虫
@@ -16,6 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaAuditing // 使用jpa自动赋值
 @EnableCaching // 开启缓存
 @EnableScheduling
+@EnableSwagger2
 public class BootApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

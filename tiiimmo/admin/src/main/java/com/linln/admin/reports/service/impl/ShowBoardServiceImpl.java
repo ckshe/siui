@@ -370,15 +370,24 @@ public class ShowBoardServiceImpl implements ShowBoardService {
             resp.setRate(BigDecimal.ZERO);
             resp.setSumFinishAmount(0);
             resp.setSumPlanAmount(0);
+            resp.setSumHHZJFinishAmount(0);
             result.add(resp);
         }
         for(ProcessThisWeekRateResp resp : result){
             List<ProcessTaskDetail> collect = detailList.stream().filter(d -> DateUtil.date2String(d.getPlan_day_time(), "").equals(resp.getTheDay())).collect(Collectors.toList());
+            //筛选处出后焊终检的单计算完成数量
             if(collect!=null&&collect.size()!=0){
                 //总计划数量
                 int sumPlanCount = collect.stream().mapToInt(ProcessTaskDetail::getPlan_count).sum();
                 //总完成数量
                 int sumCompleted = collect.stream().mapToInt(ProcessTaskDetail::getFinish_count).sum();
+                List<ProcessTaskDetail> hhzjTaskDetails = collect.stream().filter(d -> "后焊终检".equals(d.getProcess_name())).collect(Collectors.toList());
+                if(hhzjTaskDetails!=null&&hhzjTaskDetails.size()!=0){
+                    int hhzjSum = hhzjTaskDetails.stream().mapToInt(ProcessTaskDetail::getFinish_count).sum();
+                    resp.setSumHHZJFinishAmount(hhzjSum);
+                }
+
+
                 //总条数
                 int allcount = collect.size();
                 //总完成的条数
