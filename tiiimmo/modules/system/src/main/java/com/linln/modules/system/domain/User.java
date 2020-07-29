@@ -67,6 +67,7 @@ public class User implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dept_id")
     @JsonIgnore
+    //@Excel("部门")
     private Dept dept;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -77,9 +78,11 @@ public class User implements Serializable {
     private Set<Role> roles = new HashSet<>(0);
     //private Role roles;
     //工号
+    //@Excel("工号")
     private String cardSequence;
 
     //班次
+    //@Excel("岗位")
     private String classNo;
 
     //技能

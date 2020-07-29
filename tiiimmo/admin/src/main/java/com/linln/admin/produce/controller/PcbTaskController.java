@@ -68,7 +68,7 @@ public class PcbTaskController {
 
 
     @GetMapping("/indexFeeding")
-    //@RequiresPermissions("produce:pcbTask:index")
+    @RequiresPermissions("produce:pcbTask:indexFeeding")
     public String indexFeeding(Model model, PcbTask pcbTask) {
 
         // 创建匹配器，进行动态查询匹配
@@ -133,7 +133,10 @@ public class PcbTaskController {
     }
 
     @GetMapping("/beiliao")
-    public String beiliao() {return "/produce/beiliao/index"; }
+    @RequiresPermissions("produce:pcbTask:beiliao")
+    public String beiliao() {
+        return "/produce/beiliao/index";
+    }
 
     /**
      * 跳转到编辑页面
@@ -341,6 +344,8 @@ public class PcbTaskController {
      * 工序计划列表页面
      */
     @GetMapping("/processTask")
+    ///produce/pcbTask/processTask
+    @RequiresPermissions("produce:pcbTask:processTask")
     public String processTask() {
 
         return "/produce/pcbTask/processTask";

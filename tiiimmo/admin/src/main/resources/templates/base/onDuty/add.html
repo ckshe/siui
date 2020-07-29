@@ -9,7 +9,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">员工名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" id="username" name="userName" placeholder="请输入员工名称" th:value="${onDuty?.userName}">
+                <input class="layui-input" autocomplete="off" type="text" id="username" name="userName" placeholder="请输入员工名称" th:value="${onDuty?.userName}">
             </div>
         </div>
         <!--<div class="layui-form-item">
@@ -21,7 +21,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">上岗时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" id="time1" type="text" name="shiftTime" placeholder="请输入上岗时间" th:value="${onDuty?.shiftTime}">
+                <input class="layui-input" autocomplete="off" id="time1" type="text" name="shiftTime" placeholder="请输入上岗时间" th:value="${onDuty?.shiftTime}">
 
             </div>
         </div>
@@ -36,7 +36,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">排班日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" id="time2" type="text" name="shiftDate" placeholder="请输入排班日期" th:value="${onDuty?.shiftDate}">
+                <input class="layui-input" autocomplete="off" id="time2" type="text" name="shiftDate" placeholder="请输入排班日期" th:value="${onDuty?.shiftDate}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">

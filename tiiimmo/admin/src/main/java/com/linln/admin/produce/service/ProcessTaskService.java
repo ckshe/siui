@@ -21,7 +21,7 @@ public interface ProcessTaskService {
     List<ProcessTaskDetail> findProcessTaskDeatilList(String processTaskCode);
 
     //根据id删除工序任务单详情
-    void deleteProcessTaskDetailById(Long id );
+    void deleteProcessTaskDetailById(Long id);
     //查看pdf
     void showPDF(HttpServletResponse response, String  deviceCode,String type);
 
