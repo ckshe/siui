@@ -2,6 +2,7 @@ package com.linln.admin.base.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.linln.RespAndReqs.DeviceProductElementReq;
 import com.linln.RespAndReqs.ScheduleJobReq;
 import com.linln.admin.base.domain.DeviceProductElement;
 import com.linln.admin.base.domain.ElementProduct;
@@ -25,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,6 +54,9 @@ public class DeviceProductElementServiceImpl implements DeviceProductElementServ
     @Autowired
     private ElementProductRepository elementProductRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     /**
      * 根据ID查询数据
      * @param id 主键ID
@@ -70,7 +76,9 @@ public class DeviceProductElementServiceImpl implements DeviceProductElementServ
     public Page<DeviceProductElement> getPageList(Example<DeviceProductElement> example) {
         // 创建分页对象
         PageRequest page = PageSort.pageRequest();
-        return deviceProductElementRepository.findAll(example, page);
+        Sort sort = new Sort(Sort.Direction.ASC, "\\Qproduct_code\\E");
+        PageRequest newPage = new PageRequest(page.getPageNumber(),page.getPageSize(),sort);
+        return deviceProductElementRepository.findAll(example, newPage);
     }
 
     /**
@@ -95,7 +103,7 @@ public class DeviceProductElementServiceImpl implements DeviceProductElementServ
     @Override
     public ResultVo importCommonExcel(MultipartFile file) {
         try {
-            System.out.println("-------------------");
+            //System.out.println("-------------------");
             //Workbook wb = WorkbookFactory.create(new FileInputStream((File) file));
             Workbook wb = WorkbookFactory.create(file.getInputStream());
             //HSSFWorkbook wb = new HSSFWorkbook(file.getInputStream());
@@ -225,5 +233,67 @@ public class DeviceProductElementServiceImpl implements DeviceProductElementServ
         }
 
         return ResultVoUtil.success("导入成功");
+    }
+
+    @Override
+    public ResultVo findElement(DeviceProductElementReq req) {
+        Integer page = req.getPage(); //当前页
+        Integer size = req.getSize(); //每页条数
+        String sampleName = req.getSampleName(); //图样名
+        String deviceCode = req.getDeviceCode(); //机台编号
+        String productCode = req.getProductCode(); //物料编号
+        String pcbCode = req.getPcbCode(); //规格型号
+        String aORb = req.getAORb(); // ab面
+
+        if(page == null||size == null){
+            page = req.getPage();
+            size = req.getSize();
+        }
+
+        StringBuffer wheresql = new StringBuffer(" where 1=1 ");
+        if(sampleName!=null&&!"".equals(sampleName)){
+            wheresql.append(" and sample_name  like '" +
+                    "%" + sampleName + "%" +
+                    "' ");
+        }
+        if(deviceCode!=null&&!"".equals(deviceCode)){
+            wheresql.append(" and device_code  like '" +
+                    "%" + deviceCode + "%" +
+                    "' ");
+        }
+        if(productCode!=null&&!"".equals(productCode)){
+            wheresql.append(" and product_code  like '" +
+                    "%" + productCode + "%" +
+                    "' ");
+        }
+        if(pcbCode!=null&&!"".equals(pcbCode)){
+            wheresql.append(" and pcb_code  like '" +
+                    "%" + pcbCode + "%" +
+                    "' ");
+        }
+        if(aORb!=null&&!"".equals(aORb)){
+            wheresql.append(" and a_or_b  like '" +
+                    "%" + aORb + "%" +
+                    "' ");
+        }
+
+        StringBuffer sql = new StringBuffer("select  *\n" +
+                "                from (select row_number()\n" +
+                "                over(order by id) as rownumber,*\n" +
+                "                from base_device_product_element " +
+                wheresql.toString() +
+                ") temp_row ");
+
+        List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
+        sql.append(" where rownumber between " +
+                ((page-1)*size+1) +
+                " and " +
+                (page*size) +
+                "");
+
+        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+
+        return ResultVoUtil.success("查询成功",mapList,count.size());
+
     }
 }

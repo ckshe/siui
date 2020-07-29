@@ -1,5 +1,6 @@
 package com.linln.admin.base.service;
 
+import com.linln.RespAndReqs.DeviceProductElementReq;
 import com.linln.admin.base.domain.DeviceProductElement;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.vo.ResultVo;
@@ -43,4 +44,6 @@ public interface DeviceProductElementService {
 
 
     ResultVo importCommonExcel(MultipartFile file);
+
+    ResultVo findElement(DeviceProductElementReq req);
 }

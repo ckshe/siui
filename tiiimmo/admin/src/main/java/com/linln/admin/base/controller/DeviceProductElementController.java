@@ -1,5 +1,6 @@
 package com.linln.admin.base.controller;
 
+import com.linln.RespAndReqs.DeviceProductElementReq;
 import com.linln.admin.base.domain.DeviceProductElement;
 import com.linln.admin.base.service.DeviceProductElementService;
 import com.linln.admin.base.validator.DeviceProductElementValid;
@@ -42,8 +43,11 @@ public class DeviceProductElementController {
         // 创建匹配器，进行动态查询匹配
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withMatcher("sample_name", match -> match.contains())
+                .withMatcher("product_code", match -> match.contains())
                 .withMatcher("device_code", match -> match.contains())
-                .withMatcher("product_code", match -> match.contains());
+                .withMatcher("pcb_code", match -> match.contains())
+                .withMatcher("a_or_b", match -> match.contains());
+
 
         // 获取数据列表
         Example<DeviceProductElement> example = Example.of(deviceProductElement, matcher);
@@ -53,6 +57,13 @@ public class DeviceProductElementController {
         model.addAttribute("list", list.getContent());
         model.addAttribute("page", list);
         return "/base/deviceProductElement/index";
+    }
+
+    //获取设备物料元件列表
+    @PostMapping("/findElement")
+    @ResponseBody
+    public ResultVo findElement(@RequestBody DeviceProductElementReq req){
+        return deviceProductElementService.findElement(req);
     }
 
     /**
