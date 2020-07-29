@@ -17,6 +17,7 @@ import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
 import com.linln.utill.ApiUtil;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -28,6 +29,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +95,10 @@ public class DeviceProductElementServiceImpl implements DeviceProductElementServ
     @Override
     public ResultVo importCommonExcel(MultipartFile file) {
         try {
+            System.out.println("-------------------");
+            //Workbook wb = WorkbookFactory.create(new FileInputStream((File) file));
             Workbook wb = WorkbookFactory.create(file.getInputStream());
+            //HSSFWorkbook wb = new HSSFWorkbook(file.getInputStream());
             Sheet sheet = wb.getSheetAt(0);
             //获取列头
             Map<Integer, String> CellHead = ExcelToDataUtil.GetCellHead(sheet, 0);
@@ -113,7 +119,8 @@ public class DeviceProductElementServiceImpl implements DeviceProductElementServ
                     //不存在则调用ERP接口同步并存至本地，存在则获取物料编号
                     ElementProduct elementProduct = elementProductRepository.findByElement_name(element_name);
                     if(elementProduct==null){
-                        ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_WU_LIAO_ID");
+                        //ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_WU_LIAO_ID");
+                        ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCTLDCX");
                         ScheduleJobReq scheduleJobReq = new ScheduleJobReq();
                         scheduleJobReq.setDesc(jobApi.getRemark() == null ? "" : jobApi.getRemark());
                         scheduleJobReq.setKey(jobApi.getKey() == null ? "" : jobApi.getKey());

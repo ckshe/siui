@@ -129,7 +129,7 @@ public class DeviceProductElementController {
     {
         try {
             String fileName = file.getOriginalFilename();
-            if (!fileName.matches("^.+\\.(?i)(xls)$") && !fileName.matches("^.+\\.(?i)(xlsx)$")) {
+            if (!fileName.matches("^.+\\.(?i)(xls)$") && !fileName.matches("^.+\\.(?i)(xlsx)$" ) && !fileName.matches("^.+\\.(?i)(csv)$" )) {
                 return ResultVoUtil.error("上传文件格式不正确");
             }
             return deviceProductElementService.importCommonExcel(file);
