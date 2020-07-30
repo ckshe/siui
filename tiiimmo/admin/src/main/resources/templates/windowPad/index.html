@@ -529,7 +529,9 @@
                                     if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
                                         has=1;
                                         nowGonDan=t;
-                                        if(t.process_task_status=="暂停"){
+                                        var status = "";
+                                        if(t.count_type==1){status=t.device_detail_status}else{status=t.process_task_status}
+                                        if(status=="暂停"){
                                             layer.open({
                                                 type:2,
                                                 area:["80%","80%"],
