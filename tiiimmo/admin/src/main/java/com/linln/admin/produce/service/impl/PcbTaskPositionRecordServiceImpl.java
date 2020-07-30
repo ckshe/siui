@@ -41,7 +41,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
 
     @Override
     public PcbTaskPositionRecord buildPositionRecordAndReturn(PcbTaskReq req) {
-        PcbTaskPositionRecord record2 = recordRepository.findByProcess_task_code(req.getProcessTaskCode());
+        PcbTaskPositionRecord record2 = recordRepository.findByProcess_task_code(req.getProcessTaskCode(),req.getDeviceCode());
         if(record2!=null){
             List<PcbTaskPositionRecordDetail> detailList2 = recordDetailRepositoty.findByProcess_task_code(req.getProcessTaskCode());
             record2.setDetailList(detailList2);
@@ -100,7 +100,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
 
     @Override
     public ResultVo startPositonRecord(PcbTaskReq req) {
-        PcbTaskPositionRecord record = recordRepository.findByProcess_task_code(req.getProcessTaskCode());
+        PcbTaskPositionRecord record = recordRepository.findByProcess_task_code(req.getProcessTaskCode(),req.getDeviceCode());
         if(record==null){
             return ResultVoUtil.error("找不到该计划");
         }
@@ -147,7 +147,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
     @Override
     public ResultVo finishPositionRecord(PcbTaskReq req) {
 
-        PcbTaskPositionRecord record = recordRepository.findByProcess_task_code(req.getProcessTaskCode());
+        PcbTaskPositionRecord record = recordRepository.findByProcess_task_code(req.getProcessTaskCode(),req.getDeviceCode());
         if(record==null){
             return ResultVoUtil.error("找不到该计划");
         }

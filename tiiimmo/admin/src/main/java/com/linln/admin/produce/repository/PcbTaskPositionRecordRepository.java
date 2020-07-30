@@ -8,6 +8,6 @@ public interface PcbTaskPositionRecordRepository extends BaseRepository<PcbTaskP
 
     @Query(value = "select * from produce_task_position_record where pcb_task_code = ?1",nativeQuery = true)
     PcbTaskPositionRecord findByPcb_task_code(String pcbTaskCode);
-    @Query(value = "select * from produce_task_position_record where process_task_code = ?1",nativeQuery = true)
-    PcbTaskPositionRecord findByProcess_task_code(String processTaskCode);
+    @Query(value = "select * from produce_task_position_record where process_task_code = ?1 and device_code = ?2",nativeQuery = true)
+    PcbTaskPositionRecord findByProcess_task_code(String processTaskCode,String deviceCode);
 }

@@ -61,6 +61,7 @@ public class OpenController {
     public ResultVo excute(@RequestBody ExcuteReq req){
 
         if(req.getExcuteParam()==null){
+            
             return ResultVoUtil.error("参数为空");
         }
         if(req.getExcuteParam().contains("update")||req.getExcuteParam().contains("delete")||req.getExcuteParam().contains("alter")){

@@ -9,12 +9,10 @@ import com.linln.RespAndReqs.responce.PTDeviceResp;
 import com.linln.RespAndReqs.ProcessTaskReq;
 import com.linln.RespAndReqs.responce.PlateNoInfo;
 import com.linln.admin.base.domain.Device;
+import com.linln.admin.base.domain.DeviceTheoryTime;
 import com.linln.admin.base.domain.Process;
 import com.linln.admin.base.domain.ScannerProcessTask;
-import com.linln.admin.base.repository.DeviceRepository;
-import com.linln.admin.base.repository.ModelsRepository;
-import com.linln.admin.base.repository.ProcessRepository;
-import com.linln.admin.base.repository.ScannerProcessTaskRepository;
+import com.linln.admin.base.repository.*;
 import com.linln.admin.produce.domain.*;
 import com.linln.admin.produce.repository.*;
 import com.linln.admin.produce.service.PcbTaskService;
@@ -112,6 +110,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Autowired
     private ProcessTaskDetailDeviceRepository processTaskDetailDeviceRepository;
+
+    @Autowired
+    private ProcessTaskDeviceTheoryTimeRepository processTaskDeviceTheoryTimeRepository;
+
+    @Autowired
+    private DeviceTheoryTimeRepository deviceTheoryTimeRepository;
 
     /**
      * 根据ID查询数据
@@ -1375,9 +1379,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 processTaskStatusHistoryRepository.save(newRecord);
             }
         }
-        //User user = ShiroUtil.getSubject();
-        User user = new User();
-        user.setId(1L);
+        User user = ShiroUtil.getSubject();
+       /* User user = new User();
+        user.setId(1L);*/
         //if(!"备料".equals(processTask.getProcess_name())){
         //List<ProcessTask> list = processTaskRepository.findByDevice_code("%"+pcbTaskReq.getDeviceCode()+"%");
 
@@ -1466,10 +1470,43 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }
         //启动工序计划 生产中
         if("生产中".equals(pcbTaskReq.getProcessTaskStatus())){
+
             //Process process = processRepository.findByProcessName(processTask.getProcess_name());
 
             //工序计数方式为机台计数时
             if(pcbTaskReq.getCountType()==0){
+                DeviceTheoryTime deviceTheoryTime = deviceTheoryTimeRepository.findByDevice_codeAndPcb_code(pcbTaskReq.getDeviceCode(), processTask.getPcb_code());
+                if(deviceTheoryTime==null){
+                    deviceTheoryTime = new DeviceTheoryTime();
+                    deviceTheoryTime.setTheory_time(new BigDecimal(2.5));
+                    deviceTheoryTime.setPcb_code(processTask.getPcb_code());
+                    deviceTheoryTime.setDevice_code(pcbTaskReq.getDeviceCode());
+                    deviceTheoryTimeRepository.save(deviceTheoryTime);
+                }
+                //贴片线工序判断生成工时记录表
+                ProcessTaskDeviceTheoryTime processTaskDeviceTheoryTime = processTaskDeviceTheoryTimeRepository.findByProcess_task_codeAndDevice_code(processTask.getProcess_task_code(), pcbTaskReq.getDeviceCode());
+                if(processTaskDeviceTheoryTime==null){
+                    //如果为空，每个设备都要生成记录
+                    String deviceCodes[] = processTask.getDevice_code().split(",");
+                    List<ProcessTaskDeviceTheoryTime> theoryTimeRecord  = new ArrayList<>();
+                    for(int i = 0 ;i<deviceCodes.length;i++){
+                        ProcessTaskDeviceTheoryTime theoryTime = new ProcessTaskDeviceTheoryTime();
+                        theoryTime.setAmount(0);
+                        theoryTime.setCreate_time(today);
+                        theoryTime.setDevice_code(deviceCodes[i]);
+                        theoryTime.setPcb_code(processTask.getPcb_code());
+                        theoryTime.setProcess_task_code(processTask.getProcess_task_code());
+                        theoryTime.setUtilization_rate("0");
+                        theoryTime.setWork_time(BigDecimal.ZERO);
+                        theoryTime.setTheory_time(deviceTheoryTime.getTheory_time());
+                        theoryTimeRecord.add(theoryTime);
+                    }
+                    processTaskDeviceTheoryTimeRepository.saveAll(theoryTimeRecord);
+
+
+                }
+
+
                 //同时将扫码枪绑定工序任务重新绑定
                 List<ScannerProcessTask> scannerProcessTasks = scannerProcessTaskRepository.findAll();
                 scannerProcessTasks.forEach(t->{

@@ -144,6 +144,10 @@ public class DeviceProductElementServiceImpl implements DeviceProductElementServ
                         if(lists.size()!=0){
                             JSONObject param = lists.getJSONObject(0);
                             product_code = param.getString("fnumber");
+                            elementProduct = new ElementProduct();
+                            elementProduct.setProduct_code(product_code);
+                            elementProduct.setElement_name(element_name);
+                            elementProductRepository.save(elementProduct);
                         }
 
                     }else {
