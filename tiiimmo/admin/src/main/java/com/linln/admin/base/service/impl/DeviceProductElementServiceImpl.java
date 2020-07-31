@@ -208,8 +208,10 @@ public class DeviceProductElementServiceImpl implements DeviceProductElementServ
                 element.setElement_name(element_name);
                 //需处理
                 String replace = product_code.replace(".", "");
-                String newProductCode = replace.replace("E9", "");
-                element.setProduct_code(newProductCode);
+                //String newProductCode = replace.replace("E9", "");
+
+                element.setProduct_code(replace);
+
                 element.setPosition(position);
                 element.setPcb_code(pcb_code);
                 element.setA_or_b(a_or_b);

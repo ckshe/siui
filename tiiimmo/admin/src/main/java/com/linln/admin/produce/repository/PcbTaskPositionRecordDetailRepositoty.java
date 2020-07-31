@@ -17,11 +17,13 @@ public interface PcbTaskPositionRecordDetailRepositoty extends BaseRepository<Pc
     @Query(value = "SELECT * FROM produce_task_position_record_detail WHERE device_code = ?1 and install_status = '1'",nativeQuery = true)
     List<PcbTaskPositionRecordDetail> findByDevice_code(String deviceCode);
 
-    @Query(value = "SELECT * FROM produce_task_position_record_detail WHERE process_task_code = ?1 and product_code = ?2",nativeQuery = true)
+    @Query(value = "SELECT * FROM produce_task_position_record_detail WHERE process_task_code = ?1 and product_code = ?2 order by position",nativeQuery = true)
     PcbTaskPositionRecordDetail findByProcess_task_codeAndProduct_code(String processTaskCode,String productCode);
 
 
     @Query(value = "SELECT * FROM produce_task_position_record_detail WHERE process_task_code = ?1 ",nativeQuery = true)
     List<PcbTaskPositionRecordDetail> findByProcess_task_code(String processTaskCode);
 
+    @Query(value = "SELECT * FROM produce_task_position_record_detail WHERE process_task_code = ?1 and device_code = ?2 ",nativeQuery = true)
+    List<PcbTaskPositionRecordDetail> findByProcess_task_codeAndDevice_code(String processTaskCode, String deviceCode);
 }

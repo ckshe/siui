@@ -43,7 +43,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
     public PcbTaskPositionRecord buildPositionRecordAndReturn(PcbTaskReq req) {
         PcbTaskPositionRecord record2 = recordRepository.findByProcess_task_code(req.getProcessTaskCode(),req.getDeviceCode());
         if(record2!=null){
-            List<PcbTaskPositionRecordDetail> detailList2 = recordDetailRepositoty.findByProcess_task_code(req.getProcessTaskCode());
+            List<PcbTaskPositionRecordDetail> detailList2 = recordDetailRepositoty.findByProcess_task_codeAndDevice_code(req.getProcessTaskCode(),req.getDeviceCode());
             record2.setDetailList(detailList2);
             return record2;
         }
