@@ -47,7 +47,7 @@ public class DeviceProductReplaceElement implements Serializable {
     // 原物料
     private String original_product_name;
     // 原物料编号
-    private String original_prodcut_code;
+    private String original_product_code;
     // 替代料
     private String replace_product_name;
     // 替代料编号

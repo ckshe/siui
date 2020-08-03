@@ -82,10 +82,10 @@ public class DeviceProductReplaceElementController {
     @ResponseBody
     public ResultVo save(@Validated DeviceProductReplaceElementValid valid, DeviceProductReplaceElement deviceProductReplaceElement) {
         // 复制保留无需修改的数据
-        if (deviceProductReplaceElement.getId() != null) {
+       /* if (deviceProductReplaceElement.getId() != null) {
             DeviceProductReplaceElement beDeviceProductReplaceElement = deviceProductReplaceElementService.getById(deviceProductReplaceElement.getId());
             EntityBeanUtil.copyProperties(beDeviceProductReplaceElement, deviceProductReplaceElement);
-        }
+        }*/
 
         // 保存数据
         deviceProductReplaceElementService.save(deviceProductReplaceElement);

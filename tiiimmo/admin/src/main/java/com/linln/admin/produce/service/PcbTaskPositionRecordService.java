@@ -16,6 +16,8 @@ public interface PcbTaskPositionRecordService {
     public ResultVo startPositonRecord(PcbTaskReq req);
     public ResultVo scanProductCode(PcbTaskReq req);
 
+    public ResultVo confirmScanProductCode(PcbTaskReq pcbTaskReq);
+
     public ResultVo finishPositionRecord(PcbTaskReq req);
 
     public ResultVo getUserInfoByCard(String cardSequence);

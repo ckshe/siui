@@ -38,6 +38,7 @@ public class PcbTaskReq {
     private BigDecimal workTime;
     private String taskSheetCode;
     private String productCode;
+    private String lastProductCode;
     private String username;
     private String reCounttimeStamp;
     private Integer countType;
