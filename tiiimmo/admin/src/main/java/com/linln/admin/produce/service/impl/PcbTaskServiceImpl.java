@@ -1557,8 +1557,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             }
 
 
-
-
             processTask.setProcess_task_status("生产中");
             processTaskRepository.save(processTask);
 
@@ -1569,6 +1567,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 Device device = deviceRepository.findbyDeviceCode(de.getDevice_code());
                 device.setRe_count("1");
                 deviceRepository.save(device);
+                de.setAmount(processTask.getAmount_completed());
                 de.setLast_amount(de.getAmount());
                 processTaskDeviceRepository.save(de);
             }
