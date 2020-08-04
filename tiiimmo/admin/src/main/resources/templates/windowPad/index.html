@@ -752,6 +752,7 @@
                                        if(res6.code===200){
                                            document.getElementById('scs').innerHTML=res6.data.amount;
                                            workTime.innerHTML=cacWorkTime(res6.data.workTime*1000);
+                                           document.getElementById('nowPlateNo').innerHTML=res6.data.nowPlateNo;
                                        }else{
                                            layer.alert(res6.msg,{icon:5})
                                        }
