@@ -129,7 +129,16 @@ public class OpenController {
         processTaskService.showPDF(response,deviceCode,type);
 
     }
+    /**
+     * 在线浏览PDF文件
+     * @return
+     */
+    @RequestMapping("/callCmd")
+    @ResponseBody
+    public void callCmd(){
+        openService.callCmd("C:/backup/backup.bat");
 
+    }
     /**
      * 读取本地pdf,这里设置的是预览
      */
