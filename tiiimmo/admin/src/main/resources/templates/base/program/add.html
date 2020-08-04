@@ -30,13 +30,11 @@
             <label class="layui-form-label">AB面</label>
             <div class="layui-input-inline">
                 <!--<input class="layui-input" type="text" name="face" placeholder="请输入AB面" th:value="${program?.face}">-->
-                <select class="layui-input" id="face" name="face" th:value="${program?.face}">
-                    <option value="">请选择</option>
-                    <option value="A">A</option>
-                    <option value="B">B</option>
+                <input type="hidden" id="faceValue" th:value="${program?.face}">
+                <select name="face" id="face">
                 </select>
                 <!--<input type="hidden" id="faceValue" th:value="${program?.face}">
-                <select class="layui-input" id="face" name="face"></select>-->
+                <select name="face" id="face"></select>-->
             </div>
         </div>
         <div class="layui-form-item">
@@ -54,7 +52,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">修改日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="modifyDate" placeholder="请输入修改日期" th:value="${program?.modifyDate}">
+                <input class="layui-input" type="text" id="time" name="modifyDate" placeholder="请输入修改日期" th:value="${program?.modifyDate}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -100,6 +98,23 @@
                 form.val('lay_form',{code:$('#codeValue').val()});
             }
         })
+
+
+        $.get('/base/program/findFace',function (res) {
+            if(res.code===200){
+                var select = document.getElementById('face');
+                var str = "";
+                var d = res.data.map(function (t) {
+                    return {face:t}
+                });
+                d.forEach(function (t) {
+                    str+="<option value='"+t.face+"'>"+t.face+"</option>"
+                });
+                select.innerHTML=str;
+                form.val('lay_form',{face:$('#faceValue').val()});
+            }
+        })
+
     })
 </script>
 </body>

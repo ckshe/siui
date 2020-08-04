@@ -5,6 +5,8 @@ import com.linln.admin.base.repository.ProductionShiftRepository;
 import com.linln.admin.base.service.ProductionShiftService;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
+import com.linln.modules.system.domain.User;
+import com.linln.modules.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,9 @@ public class ProductionShiftServiceImpl implements ProductionShiftService {
 
     @Autowired
     private ProductionShiftRepository productionShiftRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * 根据ID查询数据
@@ -52,6 +57,13 @@ public class ProductionShiftServiceImpl implements ProductionShiftService {
      */
     @Override
     public ProductionShift save(ProductionShift productionShift) {
+        String userName = productionShift.getUserName();
+        User users = userRepository.queryByUserName(userName);
+        productionShift.setUsers(users);
+        //productionShift.setStation(users.getRoleNames());
+        String role = users.getRoles().iterator().next().getTitle();
+        productionShift.setStation(role);
+
         return productionShiftRepository.save(productionShift);
     }
 
@@ -62,5 +74,10 @@ public class ProductionShiftServiceImpl implements ProductionShiftService {
     @Transactional
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return productionShiftRepository.updateStatus(statusEnum.getCode(), idList) > 0;
+    }
+
+    @Override
+    public void delete(Long id) {
+        productionShiftRepository.deleteById(id);
     }
 }

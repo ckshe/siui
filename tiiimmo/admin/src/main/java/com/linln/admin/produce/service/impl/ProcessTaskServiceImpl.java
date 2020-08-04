@@ -1,16 +1,33 @@
 package com.linln.admin.produce.service.impl;
 
 import com.linln.RespAndReqs.ProcessTaskReq;
+import com.linln.admin.base.domain.Device;
+import com.linln.admin.base.domain.OperationInstruction;
+import com.linln.admin.base.domain.Process;
+import com.linln.admin.base.domain.TaskInstruction;
+import com.linln.admin.base.repository.*;
+import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.ProcessTaskDetail;
+import com.linln.admin.produce.domain.ProcessTaskDetailDevice;
+import com.linln.admin.produce.domain.ProcessTaskStatusHistory;
+import com.linln.admin.produce.repository.ProcessTaskDetailDeviceRepository;
 import com.linln.admin.produce.repository.ProcessTaskDetailRepositoty;
+import com.linln.admin.produce.repository.ProcessTaskRepository;
+import com.linln.admin.produce.repository.ProcessTaskStatusHistoryRepository;
 import com.linln.admin.produce.service.ProcessTaskService;
+import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
+import com.linln.constant.CommonConstant;
 import com.linln.utill.DateUtil;
+import com.linln.utill.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +39,31 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
+    private ProcessRepository processRepository;
+
+    @Autowired
+    private DeviceRepository deviceRepository;
+
+    @Autowired
     private ProcessTaskDetailRepositoty processTaskDetailRepositoty;
+
+    @Autowired
+    private ProcessTaskRepository processTaskRepository;
+
+    @Autowired
+    private OperationInstructionRepository operationInstructionRepository;
+
+    @Autowired
+    private OperationManualRepository operationManualRepository;
+
+    @Autowired
+    private ProcessTaskStatusHistoryRepository processTaskStatusHistoryRepository;
+
+    @Autowired
+    private TaskInstructionRepository taskInstructionRepository;
+
+    @Autowired
+    private ProcessTaskDetailDeviceRepository processTaskDetailDeviceRepository;
 
     @Override
     public ResultVo findProcessTask(ProcessTaskReq processTaskReq) {
@@ -136,7 +177,71 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
 
 
     @Override
-    public void addTaskDetailList(List<ProcessTaskDetail> details) {
+    @Transactional
+    public void addTaskDetailList(ProcessTaskReq req) {
+        String processTaskCode = req.getProcess_task_code();
+        List<ProcessTaskDetail> details = req.getDetailList();
+        ProcessTask processTask = processTaskRepository.findByProcessTaskCode(processTaskCode);
+        Process process = processRepository.findByProcessName(processTask.getProcess_name());
+        processTaskDetailRepositoty.deleteByByProcess_task_code(processTaskCode);
+        processTaskDetailDeviceRepository.deleteByTaskCode(processTaskCode);
+        for(ProcessTaskDetail detail : details){
+            if(process.getCount_type()!=0&&detail.getDetailDeviceList()!=null&&detail.getDetailDeviceList().size()!=0){
+                //非贴片任务
+                for(ProcessTaskDetailDevice detailDevice : detail.getDetailDeviceList()){
+                    if(detailDevice.getPlan_count()==null){
+                        detailDevice.setPlan_count(0);
+                    }
+                    if(detailDevice.getFinish_count()==null){
+                        detailDevice.setFinish_count(0);
+                    }
+                    detailDevice.setProcess_task_code(processTaskCode);
+                    detailDevice.setPlan_day_time(detail.getPlan_day_time());
+                    detailDevice.setDevice_detail_status("已下达");
+                }
+                processTaskDetailDeviceRepository.saveAll(detail.getDetailDeviceList());
+            }
+            detail.setDetail_type("人创建");
+            detail.setStatus(StatusEnum.OK.getCode());
+            if(detail.getFinish_count()==null){
+                detail.setFinish_count(0);
+            }
+            if(detail.getPlan_count()==null){
+                detail.setPlan_count(0);
+            }
+            detail.setProcess_name(processTask.getProcess_name());
+        }
+
+        Integer finishCount = details.stream().mapToInt(ProcessTaskDetail::getFinish_count).sum();
+        if(finishCount>=processTask.getPcb_quantity()){
+            Date today =  new Date();
+            processTask.setProcess_task_status("已完成");
+            processTask.setFinish_time(today);
+            //新增一条操作历史记录
+            ProcessTaskStatusHistory history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(processTask.getProcess_task_code());
+            //step3:状态不同结束上一条并计算持续时间，新增一条
+            if(history!=null){
+                history.setEnd_time(today);
+                Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
+                history.setContinue_time(Integer.parseInt(cha+""));
+                processTaskStatusHistoryRepository.save(history);
+            }
+
+            //新增
+            ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
+            newRecord.setStart_time(today);
+            newRecord.setContinue_time(0);
+            newRecord.setDevice_code(processTask.getDevice_code());
+            newRecord.setProcess_task_status("已完成");
+            newRecord.setDevice_name(processTask.getDevice_name());
+            newRecord.setProcess_task_code(processTask.getProcess_task_code());
+            newRecord.setProcess_name(processTask.getProcess_name());
+            newRecord.setEnd_time(today);
+            processTaskStatusHistoryRepository.save(newRecord);
+
+        }
+        processTask.setAmount_completed(finishCount);
+        processTaskRepository.save(processTask);
         processTaskDetailRepositoty.saveAll(details);
     }
 
@@ -144,8 +249,52 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
     public List<ProcessTaskDetail> findProcessTaskDeatilList(String processTaskCode) {
 
         List<ProcessTaskDetail> detailList = processTaskDetailRepositoty.findByProcess_task_code(processTaskCode);
+        for(ProcessTaskDetail detail : detailList){
+            String daystr = DateUtil.date2String(detail.getPlan_day_time(),"");
+            List<ProcessTaskDetailDevice> detailDeviceList = processTaskDetailDeviceRepository.findByTaskCodeAndDayTime(detail.getProcess_task_code(), daystr);
 
+            detail.setDetailDeviceList(detailDeviceList);
+        }
         return detailList;
+    }
+
+    @Override
+    public void deleteProcessTaskDetailById(Long id) {
+        processTaskDetailRepositoty.deleteById(id);
+    }
+
+    @Override
+    public List<ProcessTaskDetailDevice> findByTaskCodeAndDayTime(String processTaskCode, String planDayTime) {
+
+        return processTaskDetailDeviceRepository.findByTaskCodeAndDayTime(processTaskCode,planDayTime);
+    }
+
+    @Override
+    public List<ProcessTaskDetailDevice> findByTaskCodeAndDayTimeAndDeviceCode(String processTaskCode, String planDayTime, String deviceCode) {
+        return processTaskDetailDeviceRepository.findByTaskCodeAndDayTimeAndDeviceCode(processTaskCode,planDayTime,deviceCode);
+    }
+
+    @Override
+    public void showPDF(HttpServletResponse response, String deviceCode,String type) {
+        Device device= deviceRepository.findbyDeviceCode(deviceCode);
+        String path = "";
+        //操作指导书
+        if("1".equals(type)){
+            OperationInstruction operationInstruction = operationInstructionRepository.findByCode(device.getUse_book());
+            if(operationInstruction ==null){
+                return;
+            }
+            path = CommonConstant.file_path+CommonConstant.usebook_path+operationInstruction.getUploadFile();
+        }else {
+            //作业指导书
+            TaskInstruction taskInstruction = taskInstructionRepository.findByCode(device.getWork_book());
+            if(taskInstruction ==null){
+                return;
+            }
+            path = CommonConstant.file_path+CommonConstant.workbook_path+taskInstruction.getUploadFile();
+
+        }
+        FileUtil.readPDF(response,path);
     }
 }
 

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -117,4 +118,21 @@ public class ProgramController {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
     }
+
+
+    //查询面
+    @GetMapping("/findFace")
+    @ResponseBody
+    public ResultVo findFace(){
+        List<String> faces = programService.findFace();
+        if (faces!= null){
+            return ResultVoUtil.success("查询成功",faces);
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
+    }
+
+
+
 }

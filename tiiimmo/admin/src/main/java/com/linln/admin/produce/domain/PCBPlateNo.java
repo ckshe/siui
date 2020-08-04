@@ -21,5 +21,9 @@ public class PCBPlateNo {
 
     private Byte status;
 
+    private String prefix;
+
+    private String suffix;
+
 
 }

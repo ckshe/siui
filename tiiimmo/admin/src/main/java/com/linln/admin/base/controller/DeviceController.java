@@ -88,6 +88,9 @@ public class DeviceController {
         // 复制保留无需修改的数据
         if (device.getId() != null) {
             Device beDevice = deviceService.getById(device.getId());
+            device.setDevice_status(beDevice.getDevice_status());
+            device.setRe_count(beDevice.getRe_count());
+            device.setReCounttimeStamp(beDevice.getReCounttimeStamp());
             EntityBeanUtil.copyProperties(beDevice, device);
         }
 
@@ -150,6 +153,8 @@ public class DeviceController {
         }
 
     }
+
+
 }
 
 

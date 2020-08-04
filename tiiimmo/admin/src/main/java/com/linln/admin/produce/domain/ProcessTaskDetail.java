@@ -4,7 +4,9 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -29,4 +31,8 @@ public class ProcessTaskDetail {
     private String detail_type;
 
     private String user_name;
+
+    private String process_name;
+    @Transient
+    private List<ProcessTaskDetailDevice> detailDeviceList;
 }

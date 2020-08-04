@@ -116,16 +116,18 @@
 <script>
     layui.use(['form','jquery'],function () {
         var form = layui.form,
-               $ =  layui.jquery;
+            table = layui.table,
+               $ = layui.jquery;
         form.on('submit(skill)',function (obj) {
 
             $.get('/base/skill/findAllByRoleId?roleId='+obj.elem.getAttribute('data-id'),function (res) {
                 if(res.code===200){
-
+                    layer.alert(res.msg,{icon:5})
                 }
             })
         })
     })
 </script>
+
 </body>
 </html>

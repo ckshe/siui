@@ -32,6 +32,8 @@ public interface ShowBoardService {
 
     public List<Map<String,Object>> staffOnBoard();
 
+    public ResultVo staffOnBoardForPad(PcbTaskReq pcbTaskReq);
+
     public ProcessTask findByProcessTaskCode(String processTaskCode);
 
     public List<ProcessTask> findProcessTaskByDate();

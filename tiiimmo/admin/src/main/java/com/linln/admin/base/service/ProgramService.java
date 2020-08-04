@@ -2,9 +2,11 @@ package com.linln.admin.base.service;
 
 import com.linln.admin.base.domain.Program;
 import com.linln.common.enums.StatusEnum;
+import com.linln.common.vo.ResultVo;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -38,4 +40,6 @@ public interface ProgramService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    List<String> findFace();
 }

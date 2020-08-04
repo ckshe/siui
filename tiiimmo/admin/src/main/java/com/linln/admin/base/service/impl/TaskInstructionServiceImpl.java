@@ -1,10 +1,13 @@
 package com.linln.admin.base.service.impl;
 
+import com.linln.admin.base.domain.OperationInstruction;
 import com.linln.admin.base.domain.TaskInstruction;
 import com.linln.admin.base.repository.TaskInstructionRepository;
 import com.linln.admin.base.service.TaskInstructionService;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
+import com.linln.constant.CommonConstant;
+import com.linln.utill.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -12,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -62,5 +66,16 @@ public class TaskInstructionServiceImpl implements TaskInstructionService {
     @Transactional
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return taskInstructionRepository.updateStatus(statusEnum.getCode(), idList) > 0;
+    }
+
+    @Override
+    public void showPDF(HttpServletResponse response, Long id ) {
+
+        TaskInstruction taskInstruction = taskInstructionRepository.findById(id).get();
+        if(taskInstruction ==null){
+            return;
+        }
+        String path = CommonConstant.file_path+CommonConstant.workbook_path+taskInstruction.getUploadFile();
+        FileUtil.readPDF(response,path);
     }
 }

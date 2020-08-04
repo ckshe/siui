@@ -92,6 +92,12 @@ public class ProductionShiftController {
             ProductionShift beProductionShift = productionShiftService.getById(productionShift.getId());
             EntityBeanUtil.copyProperties(beProductionShift, productionShift);
         }
+        //String username = productionShift.getUserName();
+//        Long id = productionShiftService.getUserIdByUsername(username);
+//        User user =  new User();
+//        productionShift.setUserId(user);
+//        User user = productionShiftService.getUserByUsername(username);
+//        productionShift.setUserId(user);
 
         // 保存数据
         productionShiftService.save(productionShift);
@@ -124,5 +130,44 @@ public class ProductionShiftController {
         } else {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
+    }
+
+
+    /**
+     * 跳转到详细页面
+     */
+//    @RequestMapping("/delete")
+//    @ResponseBody
+//    //@RequiresPermissions("base:productionShift:delete")
+//    public ResultVo delete(@PathVariable("id") Long id) {
+//
+//        try {
+//            productionShiftService.delete(id);
+//            return ResultVoUtil.success("删除成功");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResultVoUtil.error("删除失败");
+//        }
+//
+//
+//    }
+
+
+
+    /**
+     * 删除
+     * @param productionShift
+     * @return
+     */
+    @GetMapping("/delete/{id}")
+    @ResponseBody
+    public ResultVo zero(@PathVariable("id") ProductionShift productionShift){
+        if (productionShift.getId() != null){
+            productionShiftService.delete(productionShift.getId());
+            return ResultVoUtil.success("删除成功");
+        } else {
+            return ResultVoUtil.error("删除失败");
+        }
+
     }
 }

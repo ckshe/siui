@@ -136,22 +136,20 @@
                     <li class="navLi" data-url="/windowPad/scancalc">
                         <span class="layui-icon" >&#xe624;</span><span>扫码计数</span>
                     </li>
-                    <li class="navLi" data-url="/404">
-                        <span  class="layui-icon">&#xe6b2;</span><span>首检</span>
-                    </li>
-                    <li class="navLi" data-url="/404">
+
+                    <li class="navLi" data-url="/windowPad/device">
                         <span class="layui-icon" >&#xe629;</span><span>设备参数</span>
                     </li>
-                    <li class="navLi" data-url="/404">
+                    <li class="navLi" data-url="/windowPad/showPDF">
                         <span class="layui-icon" >&#xe705;</span><span>操作规范</span>
                     </li>
-                    <li class="navLi" data-url="/404">
+                    <li class="navLi" data-url="/windowPad/materiel">
                         <span class="layui-icon" >&#xe63c;</span><span>物料明细</span>
                     </li>
-                    <li class="navLi" data-url="/404">
+                    <li class="navLi" data-url="/windowPad/history">
                         <span class="layui-icon" >&#xe60e;</span><span>工作历史</span>
                     </li>
-                    <li class="navLi" data-url="/404">
+                    <li class="navLi" data-url="/windowPad/systemSet">
                         <span class="layui-icon" >&#xe614;</span><span>系统设置</span>
                     </li>
                 </ul>
@@ -184,6 +182,9 @@
                         <div class="title hui" id="workTime">0</div>
                     </li>
                 </ul>
+                    <div>
+                        <div class="title cu" style="display:inline-block; padding-left: 45px;"> 板编号：<span class="title hui"  id="nowPlateNo"></span></div>
+                    </div>
                 </div>
         <div class="buttonBox">
             <button id="qie" class="shenblueButton" style="width:100%;height:80px">切换工序</button>
@@ -198,11 +199,11 @@
             </div>
             <div class="fourBox">
                 <div class="fourLeft">
-                    <button id="over" class="huanButton">结束工序</button>
+                    <button id="over" class="huanButton">当天结算</button>
                     <button id="login" class="blueButton">上机</button>
                 </div>
                 <div class="fourRight">
-                    <button id="bad" disabled style="opacity: 0.1" class="redButton">不良录入</button>
+                    <button id="bad" disabled style="opacity: 0.4" class="redButton">不良录入</button>
                     <button id="out" class="huiButton">下机</button>
                 </div>
             </div>
@@ -216,6 +217,12 @@
 <script>
     var nowGonDan="";
     var a="";
+    var shuaTime = 10;
+    var nowDeviceCode = getQueryString('deviceCode');
+    function changeShuaTime(){
+        parent.localStorage.getItem('shuaTime')&&(shuaTime = parent.localStorage.getItem('shuaTime'));
+    }
+    changeShuaTime();
     window.onload = function () {
         layui.use(['jquery', 'form'], function () {
             var $ = layui.jquery,
@@ -240,7 +247,7 @@
                                         async: false,
                                         dataType: "json",
                                         data: JSON.stringify({
-                                            cardSequence: res.data.card_sequence,
+                                            cardSequence: res.data.cardSequence,
                                             deviceCode: getQueryString('deviceCode')
                                         }),
                                         contentType: "application/json;charset=UTF-8",
@@ -275,9 +282,12 @@
                     contentType : "application/json;charset=UTF-8",
                     success: function (res) {
                         res.data.some(function (t,i) {
-                            if(t.is_now_flag==1){
+                            if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
+                                if(t.count_type==1){
+                                    t.detail_plan_count=t.detail_device_plan_count;
+                                    t.detail_finish_count=t.detail_device_finish_count;
+                                }
                                 nowGonDan=t;
-                                console.log(nowGonDan)
                                 $.ajax({
                                     url:'/produce/pcbTask/deviceAmountAndworkTime',
                                     type:'post',
@@ -290,7 +300,8 @@
                                     success: function (res6) {
                                         if(res6.code===200){
                                             document.getElementById('scs').innerHTML=res6.data.amount;
-                                            document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.amount*1000);
+                                            document.getElementById('nowPlateNo').innerHTML=res6.data.nowPlateNo;
+                                            document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.workTime*1000);
 
                                         }else{
                                             layer.alert(res6.msg,{icon:5})
@@ -320,7 +331,7 @@
                         var data = res.data
                         $('#userName').html(data.nickname);
                         $('#juese').html(data.roleNames);
-                        $('#upTime').html(timeToDate(data.updateDate));
+                        $('#upTime').html(timeToDate(data.upTime));
                         // upTime.html('无');
                         if(/质检/.test(data.roleNames)||/管理员/.test(data.roleNames)){
                             document.getElementById('bad').style.opacity=1;
@@ -331,7 +342,6 @@
                     layer.alert(res.msg,{icon:5})
                 }
             });
-
                     for(var i=0;i<navLis.length;i++){
                         navLis[i].onclick=function (e) {
                             iframe.className='mainBox goLeft0';
@@ -476,15 +486,16 @@
                             });
                         }
                     });
-
                     $.ajax({
                         url: '/produce/pcbTask/modifyProcessTaskStatus',
                         type: "post",
                         dataType : "json",
                         data : JSON.stringify({
                             processTaskId:data.id,
+                            lastProcessTaskId:nowGonDan.id,
                             processTaskStatus:"进行中",
-                            deviceCode:getQueryString('deviceCode')
+                            deviceCode:getQueryString('deviceCode'),
+                            countType:data.count_type
                         }),
                         contentType : "application/json;charset=UTF-8",
                         success: function (res) {
@@ -501,9 +512,7 @@
                             }
                         }
                     })
-
-
-                }
+                };
                 if(isLogin()){
                         $.ajax({
                             url:"/produce/pcbTask/findProcessTaskByDevice",
@@ -515,12 +524,14 @@
                             contentType : "application/json;charset=UTF-8",
                             success: function (res) {
                                 layer.closeAll();
-                                var has=0
+                                var has=0;
                                 res.data.some(function (t,i) {
-                                    if(t.is_now_flag==1){
-                                        has=1
+                                    if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
+                                        has=1;
                                         nowGonDan=t;
-                                        if(t.process_task_status=="暂停"){
+                                        var status = "";
+                                        if(t.count_type==1){status=t.device_detail_status}else{status=t.process_task_status}
+                                        if(status=="暂停"){
                                             layer.open({
                                                 type:2,
                                                 area:["80%","80%"],
@@ -568,9 +579,10 @@
                             type: "post",
                             dataType: "json",
                             data: JSON.stringify({
-                                processTaskId: nowGonDan.id,
-                                processTaskStatus: "暂停",
-                                deviceCode: getQueryString('deviceCode')
+                                processTaskId:nowGonDan.id,
+                                processTaskStatus:"暂停",
+                                deviceCode:nowDeviceCode,
+                                countType:nowGonDan.count_type
                             }),
                             contentType: "application/json;charset=UTF-8",
                             success: function (res) {
@@ -588,7 +600,7 @@
                     })
                 }
             });
-            //生产工单
+            //启动工单
             $('#run').on('click',function () {
                 if(nowGonDan==''){
                     layer.alert('当前无工序，请先切换工序再启动',{icon:5})
@@ -610,9 +622,10 @@
                             type: "post",
                             dataType: "json",
                             data: JSON.stringify({
-                                processTaskId: nowGonDan.id,
-                                processTaskStatus: "生产中",
-                                deviceCode: getQueryString('deviceCode')
+                                processTaskId:nowGonDan.id,
+                                processTaskStatus:"生产中",
+                                deviceCode:nowDeviceCode,
+                                countType:nowGonDan.count_type
                             }),
                             contentType: "application/json;charset=UTF-8",
                             success: function (res) {
@@ -643,8 +656,10 @@
                         area:['400px','400px']
                     });
                     console.log(nowGonDan)
+
                     form.val('statusForm',{
-                        pcb_quantity:nowGonDan.pcb_quantity,
+                        pcb_quantity:nowGonDan.detail_plan_count,
+                        amount_completed:nowGonDan.detail_finish_count,
                         id:nowGonDan.id,
                     })
                 }
@@ -652,14 +667,14 @@
             form.on('submit(status)',function (obj) {
                 console.log(obj.field);
                 $.ajax({
-                    url: '/produce/pcbTask/modifyProcessTaskStatus',
+                    url: '/produce/pcbTask/settlementDetailCount',
                     type: "post",
                     dataType: "json",
                     data: JSON.stringify({
                         processTaskId: obj.field.id,
                         processTaskStatus: "已完成",
                         amountCompleted:obj.field.amount_completed,
-                        // deviceCode: getQueryString('deviceCode')
+                        deviceCode: getQueryString('deviceCode')
                     }),
                     contentType: "application/json;charset=UTF-8",
                     success: function (res) {
@@ -677,7 +692,7 @@
             })
             //操作指导
             $('#pdf').on('click',function () {
-                document.getElementById('zhidao').src='/open/showPDF?deviceCode='+getQueryString('deviceCode');
+                document.getElementById('zhidao').src='/open/showPDF?deviceCode='+getQueryString('deviceCode')+'&type=1';
                 layer.open({
                     title:'操作指导',
                     type:1,
@@ -714,7 +729,7 @@
                    contentType : "application/json;charset=UTF-8",
                    success: function (res) {
                        res.data.some(function (t,i) {
-                           if(t.is_now_flag==1){
+                           if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
                                $('#qrcode').html("");
                                //二维码生产
                                var qrcode = new QRCode("qrcode",{
@@ -737,6 +752,7 @@
                                        if(res6.code===200){
                                            document.getElementById('scs').innerHTML=res6.data.amount;
                                            workTime.innerHTML=cacWorkTime(res6.data.workTime*1000);
+                                           document.getElementById('nowPlateNo').innerHTML=res6.data.nowPlateNo;
                                        }else{
                                            layer.alert(res6.msg,{icon:5})
                                        }
@@ -752,7 +768,8 @@
                 systemTime.innerHTML=timeToDate(new Date());
                 //更新生产数
                 // console.log('首页计时')
-                if(parseInt( new Date().getTime()/1000 )%10===9){
+                if(parseInt( new Date().getTime()/1000 )%shuaTime===(shuaTime-1)){
+                    console.log(shuaTime)
                     // console.log('首页触发')
                     changeData()
                 }

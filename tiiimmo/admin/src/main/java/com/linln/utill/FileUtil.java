@@ -1,5 +1,6 @@
 package com.linln.utill;
 
+import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.util.ApiResponse;
 import com.linln.devtools.generate.utils.CodeUtil;
 import org.apache.commons.io.IOUtils;
@@ -9,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.UUID;
 
 /**
@@ -92,5 +91,50 @@ public class FileUtil {
         }
         logger.info("文件上传成功");
         return ApiResponse.ofSuccess("文件上传成功");
+    }
+
+    /**
+     * 将文件保存起来，并返回文件信息
+     * @param multipartFile
+     * @param savePath 保存的路径
+     * @return
+     * @throws IOException
+     */
+    public static File multipartFileToFile(MultipartFile multipartFile, String savePath) throws IOException{
+        if (multipartFile == null || multipartFile.isEmpty() || StringHelper.isBlank(savePath)){
+            return null;
+        }
+        String fileName = multipartFile.getOriginalFilename();
+        File saveFileDir = new File(savePath);
+        if (!saveFileDir.exists()){
+            saveFileDir.mkdirs();
+        }
+        File dest = new File(savePath + fileName);
+
+        multipartFile.transferTo(dest);
+
+        return dest;
+    }
+
+
+    /**
+     * 读取本地pdf,这里设置的是预览constant
+     */
+    public static void readPDF(HttpServletResponse response, String path) {
+        //Device device= deviceRepository.findbyDeviceCode(deviceCode);
+        response.reset();
+        response.setContentType("application/pdf");
+        try {
+            File file = new File(path);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            OutputStream outputStream = response.getOutputStream();
+            IOUtils.write(IOUtils.toByteArray(fileInputStream), outputStream);
+            response.setHeader("Content-Disposition","inline; filename= file");
+            outputStream.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

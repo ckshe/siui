@@ -1,5 +1,6 @@
 package com.linln.admin.system.controller;
 
+import com.linln.admin.base.domain.Line;
 import com.linln.admin.system.validator.RoleValid;
 import com.linln.common.constant.AdminConst;
 import com.linln.common.enums.ResultEnum;
@@ -14,15 +15,18 @@ import com.linln.component.actionLog.action.StatusAction;
 import com.linln.component.actionLog.annotation.ActionLog;
 import com.linln.component.actionLog.annotation.EntityParam;
 import com.linln.component.shiro.ShiroUtil;
+import com.linln.modules.system.domain.Dept;
 import com.linln.modules.system.domain.Menu;
 import com.linln.modules.system.domain.Role;
 import com.linln.modules.system.service.MenuService;
 import com.linln.modules.system.service.RoleService;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -65,6 +69,24 @@ public class RoleController {
         model.addAttribute("list", list.getContent());
         model.addAttribute("page", list);
         return "/system/role/index";
+    }
+
+    /**
+     * 岗位数据列表
+     */
+    @GetMapping("/list")
+    @RequiresPermissions(value = {"system:role:index", "system:user:index"}, logical = Logical.OR)
+    @ResponseBody
+    public ResultVo list(Role role) {
+        // 创建匹配器，进行动态查询匹配
+        ExampleMatcher matcher = ExampleMatcher.matching().
+                withMatcher("title", match -> match.contains());
+
+        // 获取部门列表
+        Example<Role> example = Example.of(role, matcher);
+        Sort sort = new Sort(Sort.Direction.ASC, "id");
+        List<Role> list = roleService.getListByExample(example, sort);
+        return ResultVoUtil.success(list);
     }
 
     @GetMapping("/skillTable")
@@ -222,5 +244,17 @@ public class RoleController {
         } else {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
+    }
+
+    @GetMapping("/findAllRoles")
+    @ResponseBody
+    public ResultVo findAllRoles(){
+        List<Role> roles = roleService.list();
+        if (roles!= null){
+            return ResultVoUtil.success("查询成功",roles);
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
     }
 }

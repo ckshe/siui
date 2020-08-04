@@ -1,6 +1,7 @@
 package com.linln.modules.system.service;
 
 import com.linln.common.enums.StatusEnum;
+import com.linln.modules.system.domain.Dept;
 import com.linln.modules.system.domain.Role;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -75,4 +76,10 @@ public interface RoleService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    List<Role> getListByExample(Example<Role> example, Sort sort);
+
+    List<Role> list();
+
+    List<String> selectPermsByRoleId(Long roleId);
 }

@@ -3,8 +3,63 @@
       xmlns:mo="https://gitee.com/aun/Timo">
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
 </head>
-
+<style>
+    #formBox{
+        box-sizing: border-box;
+        padding:14px;
+    }
+</style>
 <body class="timo-layout-page">
+<div id="formBox" style="display: none">
+    <form  class="layui-form" lay-filter="banForm" >
+        <input type="hidden" id="id" name="id">
+        <input type="hidden" id="year" name="year">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">板前缀</label>
+                <div class="layui-input-inline">
+                    <input id="before" type="text" name="prefix"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">初始号码</label>
+                <div class="layui-input-inline">
+                    <input id="code" type="number" name="biginNum"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">板后缀</label>
+                <div class="layui-input-inline">
+                    <input id="after" type="text" name="suffix" required autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">初始板编号</label>
+                <div class="layui-input-inline">
+                    <input id="banCode" disabled style="border:none" type="text" required name="code"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">规格型号</label>
+                <div class="layui-input-inline">
+                    <input  type="text"  style="border:none" name="pcbCode" required disabled autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center">
+            <button class="layui-btn" id="ok" type="button">确定</button>
+        </div>
+    </form>
+</div>
+
     <div id="linBox" style="padding:0 14px;display: none!important;">
         <table class="layui-hide" id="linTable" lay-filter="linTable"></table>
     </div>
@@ -35,9 +90,21 @@
                         </div>
                     </div>
                     <div class="layui-inline">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-block">
+                            <select id="status" name="status" lay-filter="state" placeholder="请输入状态" autocomplete="off">
+                                <option value="全部">全部</option>
+                                <option value="已投产">已投产</option>
+                                <option value="下达">下达</option>
+                                <option value="已完成">已完成</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
                         <button class="layui-btn" id="search"  type="button" lay-submit lay-filter="search">
                             <i class="fa fa-search"></i>
                         </button>
+                        <button type="reset" class="layui-btn layui-bg-blue">清除</button>
                     </div>
                 </form>
                 <div class="pull-right screen-btn-group">
@@ -57,7 +124,6 @@
 <script th:replace="/common/template :: script"></script>
     <script src="../../js/common.js" ></script>
     <script>
-
         layui.use(['form','laydate','table','jquery','form'],function () {
             var layer = layui.layer,
                     $ = layui.jquery,
@@ -75,7 +141,6 @@
                     ,url: '/produce/pcbTask/findScheduling' //数据接口
                     ,method:'POST'
                     ,loading:false
-
                     ,contentType: 'application/json'
                     ,response: {
                         statusCode: 200
@@ -94,8 +159,11 @@
                         return {
                             "code": res.code, //解析接口状态
                             "data": res.data, //解析数据列表
-                            "count": res.total, //解析数据长度
+                            "count": res.total //解析数据长度
                         };
+                    }
+                    ,where:{
+                       status: "全部"
                     }
                     ,cols: [
                         [
@@ -104,11 +172,12 @@
                             ,{field: 'task_sheet_date', title: '通知日期', sort: true, minWidth:170,templet:function (d) {
                                 return d.task_sheet_date?timeToDate(d.task_sheet_date):"";}}
                             ,{field: 'pcb_id', title: '规格型号', sort: true, minWidth:206}
-                            ,{field: 'pcb_name', title: '物料名称', sort: true, minWidth:216}
-                            ,{field: 'feeding_task_code', title: '投料单号', sort: true, minWidth:120}
                             ,{title: '领料单', minWidth:120,templet:function (d) {
                                 return "<span style='color:#1e9fff;cursor: pointer' lay-event='lin'>查看领料单</span>"
                             }}
+                            ,{field: 'pcb_name', title: '物料名称', sort: true, minWidth:216}
+                            ,{field: 'feeding_task_code', title: '投料单号', sort: true, minWidth:120}
+
                             ,{field: 'pcb_quantity', title: '计划生产数量', sort: true, minWidth:120}
                             ,{field: 'quantity}', title: '完成数量', sort: true, minWidth:120}
                             ,{field: 'produce_plan_date', title: '安排启动日期', sort: true, minWidth:170,templet:function (d) {
@@ -133,7 +202,6 @@
                                 return  '<button lay-event="tou" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">'+(d.pcb_task_status==="已投产"?"已投产":"投产")+'</button>'
                                        +'<button lay-event="kan" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"":"background-color:#e4e4e4")+'"'+(d.pcb_task_status==="已投产"?"":"disabled")+' type="button">查看工序计划</button>'
                                        +'<button lay-event="edit" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">编辑</button>'
-
                             }
                     }
                         ]
@@ -143,13 +211,13 @@
                    elem: '#linTable'
                    ,url: '/produce/pcbTask/findFeedingTask' //数据接口
                    ,method:'POST'
+                   ,height:'full-90'
                    ,loading:false
                    ,contentType: 'application/json'
                    ,response: {
                        statusCode: 200
                    }
-                   ,page: true
-                   ,limit:10
+                   ,page: false
                    ,where:{}
                    ,parseData: function(res){
                        return {
@@ -162,30 +230,26 @@
                        [
                            {field: 'product_code', title: '物料编号', sort: true, minWidth:160}
                            ,{field: 'product_name', title: '物料名称', minWidth:200}
-                           ,{field: 'specification_model', title: '规格型号', sort: true, minWidth:206}
+                           ,{field: 'specification_model', title: '板编号', sort: true, minWidth:206}
                            ,{field: 'stock_name', title: '发料仓库', minWidth:216}
                            ,{field: 'unit', title: '单位',  minWidth:90}
-                           ,{field: 'FQtyScrap', title: '单位用量', sort: true, minWidth:100}
-                           ,{field: 'FQtyMust', title: '计划投料数', sort: true, minWidth:120}
-                           ,{field: 'FStockQty', title: '已领数量', sort: true, minWidth:120}
-                           ,{field: 'FNStockQty', title: '未领数量', sort: true, minWidth:120}
-                           ,{field: 'FQty', title: '库存', sort: true, minWidth:120}
-                           ,{field: 'FQtlv', title: '齐套率', sort: true, minWidth:237}
+                           ,{field: 'fqtyScrap', title: '单位用量', sort: true, minWidth:100}
+                           ,{field: 'fqtyMust', title: '计划投料数', sort: true, minWidth:120}
+                           ,{field: 'fstockQty', title: '已领数量', sort: true, minWidth:120}
+                           ,{field: 'fnstockQty', title: '未领数量', sort: true, minWidth:120}
+                           ,{field: 'fqty', title: '库存', sort: true, minWidth:120}
+                           ,{field: 'fqtlv', title: '齐套率', sort: true, minWidth:237}
                            ,{field: 'pcb_task_code', title: '生产任务单号', sort: true, minWidth:150}
                            ,{field: 'feeding_task_code', title: '投料单号', sort: true, minWidth:110}
                            ,{field: 'status', title: '是否冻结', minWidth:100,templet:function (d) {
                                return d.status==1?'是':'否'
                            }}
-                           // ,{ title: '操作',fixed:'right', minWidth: 210,templet:function (d) {
-                           //     return  '<button lay-event="tou" class="layui-btn  layui-btn-xs" type="button"></button>'
-                           //
-                           // }
                        ]
                    ]
                };
                 form.on('submit(search)',function (obj) {
-                    var data = obj.field;
                     table.reload('table',{
+                        page: {curr: 1 },
                         where:obj.field
                     })
                 });
@@ -194,6 +258,21 @@
                 new Enter('pcbId',function () {$('#search').click()});
                 new Enter('pcbName',function () {$('#search').click()});
 
+
+
+                form.on('select(state)',function () { $('#search').click()});
+
+                var before = document.getElementById('before');
+                var after = document.getElementById('after');
+                var code = document.getElementById('code');
+                var banCode = document.getElementById('banCode');
+                var year = document.getElementById('year');
+                function codeChange(){
+                    banCode.value=before.value+""+(parseInt(year.value)+parseInt(code.value))+""+after.value
+                }
+                before.oninput=function () { codeChange() };
+                after.oninput=function () { codeChange() };
+                code.oninput=function () { codeChange() };
                 $("#sync").on('click',function () {
                     layer.load(1,{
                         content: '同步中...',
@@ -215,21 +294,58 @@
                         }
                     })
                 });
+
+                $("#ok").on('click',function () {
+                    layer.confirm('确定投产',{icon:3},function () {
+                        $.ajax({
+                            url: '/produce/pcbTask/putIntoProduceByPlateInfo',
+                            // url: '/123',
+                            type: "post",
+                            dataType : "json",
+                            data : JSON.stringify({
+                                prefix: before.value,
+                                suffix: after.value,
+                                biginNum: parseInt(code.value),
+                                pcbTaskId:$('#id').val()
+                            }),
+                            contentType : "application/json;charset=UTF-8",
+                            success: function (res2) {
+                                layer.closeAll();
+                                if(res2.code === 200){
+                                    layer.msg(res2.msg,{icon:1});
+                                    setTimeout(function () {
+                                        table.reload('table')
+                                    },1000)
+                                }else{
+                                    layer.alert(res2.msg,{icon:5})
+                                }
+
+                            }
+                        })
+                    });
+                });
+
                 table.on('tool(table)',function (obj) {
                     var data = obj.data;
                     switch (obj.event) {
                         case "tou":
-                            layer.confirm('确定投产',{icon:3},function () {
-                                $.get('/produce/pcbTask/putIntoProduceBefore/'+data.id,function(res){
-                                    if(res.code===200){
-                                        layer.alert(res.msg,{icon:1},function () {
-                                            layer.closeAll();
-                                            table.reload('table');
-                                        })
-                                    }else{
-                                        layer.alert(res.msg,{icon:5})
-                                    }
-                                });
+                            layer.open({
+                                type:1,
+                                title:"填写板编号",
+                                area:['400px','420px'],
+                                content:$("#formBox"),
+                                success:function () {
+                                    $.get('/produce/pcbTask/generateBatchId/'+data.id,function(res){
+                                        if(res.code===200){
+                                            var d=res.data;
+                                                d.code=d.prefix+""+(d.year+d.biginNum)+""+d.suffix;
+                                                d.id=data.id
+                                                form.val('banForm',d)
+                                        }else{
+                                            layer.alert(res.msg,{icon:5})
+                                        }
+                                    });
+                                }
                             });
                             break;
                         case 'kan':

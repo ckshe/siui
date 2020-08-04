@@ -74,7 +74,7 @@
                         <!--<td th:text="${item.id}">主键ID</td>-->
                         <td th:text="${item.code}">操作指导书编号</td>
                         <td th:text="${item.name}">操作指导书名称</td>
-                        <td th:text="${item.userId}">上传人</td>
+                        <td th:text="${item.uploadPeople}">上传人</td>
                         <td th:text="${item.uploadTime}">上传时间</td>
                         <!--<td th:text="${item.uploadFile}">文件</td>-->
                         <td>
@@ -93,7 +93,7 @@
                         <td>
 
                             <a class="open-popup" data-title="编辑操作指导书" th:attr="data-url=@{'/base/operationInstruction/edit/'+${item.id}}" data-size="auto" href="#">重新上传</a>
-                            <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/base/operationInstruction/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>
+<!--                            <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/base/operationInstruction/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>-->
                             <a class="ajax-get" data-msg="您是否确认删除" th:href="@{/base/operationInstruction/status/delete(ids=${item.id})}">删除</a>
                         </td>
                     </tr>
@@ -111,7 +111,7 @@
             form = layui.form;
         form.on('submit(look)',function (obj) {
             var id = obj.elem.getAttribute('data-id');
-            document.getElementById('zhidao').src='/open/showPDF?id='+id;
+            document.getElementById('zhidao').src='/base/operationInstruction/showPDF?id='+id;
             layer.open({
                 title:'操作指导',
                 type:1,

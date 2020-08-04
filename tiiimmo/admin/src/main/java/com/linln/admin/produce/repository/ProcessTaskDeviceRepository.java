@@ -14,7 +14,7 @@ public interface ProcessTaskDeviceRepository extends BaseRepository<ProcessTaskD
     ProcessTaskDevice findByPTCodeDeviceCode(String deviceCode,String processTaskCode);
 
 
-    @Query(value = "select * from produce_process_task_device where  process_task_code=?1 ",nativeQuery = true)
+    @Query(value = "SELECT t1.* FROM produce_process_task_device t1 LEFT JOIN base_device t2 on t1.device_code = t2.device_code WHERE t1.process_task_code = ?1 ORDER BY t2.device_sort  ",nativeQuery = true)
     List<ProcessTaskDevice> findByPTCode(String processTaskCode);
 
 

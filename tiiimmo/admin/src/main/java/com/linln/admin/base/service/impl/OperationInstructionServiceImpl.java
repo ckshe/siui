@@ -1,4 +1,5 @@
 package com.linln.admin.base.service.impl;
+import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.domain.OperationInstruction;
 import com.linln.admin.base.domain.OperationManual;
 import com.linln.admin.base.repository.OperationInstructionRepository;
@@ -8,6 +9,8 @@ import com.linln.admin.base.util.ApiResponse;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.vo.ResultVo;
+import com.linln.constant.CommonConstant;
+import com.linln.utill.FileUtil;
 import com.spire.xls.PaperSizeType;
 import com.spire.xls.Worksheet;
 import com.spire.xls.WorksheetVisibility;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.sql.Timestamp;
 import java.util.List;
@@ -148,5 +152,15 @@ public class OperationInstructionServiceImpl implements OperationInstructionServ
             e.printStackTrace();
             return ApiResponse.ofError("导入失败，请重试");
         }
+    }
+    @Override
+    public void showPDF(HttpServletResponse response, Long id ) {
+
+        OperationInstruction operationInstruction = operationInstructionRepository.findById(id).get();
+        if(operationInstruction ==null){
+            return;
+        }
+        String path = CommonConstant.file_path+CommonConstant.usebook_path+operationInstruction.getUploadFile();
+        FileUtil.readPDF(response,path);
     }
 }

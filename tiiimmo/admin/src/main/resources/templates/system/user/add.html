@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="layui-form timo-compile">
-    <form th:action="@{/system/user/save}">
+    <form lay-filter="lay_form" th:action="@{/system/user/save}">
         <input type="hidden" name="id" th:if="${user}" th:value="${user.id}"/>
         <div class="layui-form-item">
             <label class="layui-form-label required">用户名</label>
@@ -18,6 +18,12 @@
             <label class="layui-form-label required">用户昵称</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="nickname" placeholder="请输入用户昵称" th:value="${user?.nickname}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">用户工号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="cardSequence" placeholder="请输入用户工号" th:value="${user?.cardSequence}">
             </div>
         </div>
         <div class="layui-form-item" th:if="!${user}">
@@ -39,6 +45,27 @@
                        type="text" name="dept"  placeholder="请选择所在部门" th:value="${user?.dept?.title}">
             </div>
         </div>
+        <!--<div class="layui-form-item">
+            <label class="layui-form-label">岗位</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="roles" placeholder="" th:value="${user?.roles}">
+            </div>
+        </div>-->
+        <!--<div class="layui-form-item">
+            <label class="layui-form-label">所在岗位</label>
+            <div class="layui-input-inline">
+                &lt;!&ndash;<input class="layui-input" type="text" name="area" placeholder="请输入所在产区" th:value="${line?.area}">&ndash;&gt;
+                <input type="hidden" id="roleValue">
+                <select name="roles" id="roles"></select>
+            </div>
+        </div>-->
+        <!--<div class="layui-form-item">
+            <label class="layui-form-label required">所在岗位</label>
+            <div class="layui-input-inline">
+                <input class="layui-input select-tree" th:attr="data-url=@{/system/role/list}, data-value=${user?.roles?.iterator().next().id}"
+                       type="text" name="roles"  placeholder="请选择所在岗位" th:value="${user?.roles?.iterator().next().title}">
+            </div>
+        </div>-->
         <div class="layui-form-item">
             <label class="layui-form-label">电话号码</label>
             <div class="layui-input-inline">
@@ -78,6 +105,31 @@
 <script type="text/javascript">
     // 树形菜单
     $.fn.selectTree();
+</script>
+<script>
+    layui.use(['jquery','layer','form','laydate'],function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate,
+            layer = layui.layer;
+        laydate.render({
+            elem:"#time",
+            type:'datetime',
+            trigger:'click'
+        });
+
+        // $.get('/system/role/findAllRoles',function (res) {
+        //     if(res.code===200){
+        //         var select = document.getElementById('roles');
+        //         var str = "";
+        //         res.data.forEach(function (t) {
+        //             str+="<option value='"+t.title+"'>"+t.title+"</option>"
+        //         });
+        //         select.innerHTML=str;
+        //         form.val('lay_form',{roles:$('#roleValue').val()});
+        //     }
+        // })
+    })
 </script>
 </body>
 </html>

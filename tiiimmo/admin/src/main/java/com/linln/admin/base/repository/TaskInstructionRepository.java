@@ -8,4 +8,5 @@ import com.linln.modules.system.repository.BaseRepository;
  * @date 2020/06/09
  */
 public interface TaskInstructionRepository extends BaseRepository<TaskInstruction, Long> {
+    TaskInstruction findByCode(String code);
 }

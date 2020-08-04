@@ -1,20 +1,32 @@
 package com.linln.admin.base.service.impl;
 
 import com.linln.admin.base.domain.Device;
+import com.linln.admin.base.domain.DeviceProductElement;
 import com.linln.admin.base.domain.Program;
+import com.linln.admin.base.repository.DeviceProductElementRepository;
 import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.base.repository.ProgramRepository;
 import com.linln.admin.base.service.ProgramService;
+import com.linln.admin.base.util.ConvertUtil;
+import com.linln.admin.base.util.ExcelToDataUtil;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
+import com.linln.common.utils.ResultVoUtil;
+import com.linln.common.vo.ResultVo;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 连
@@ -29,6 +41,8 @@ public class ProgramServiceImpl implements ProgramService {
     @Autowired
     private DeviceRepository deviceRepository;
 
+    @Autowired
+    private DeviceProductElementRepository deviceProductElementRepository;
     /**
      * 根据ID查询数据
      * @param id 主键ID
@@ -74,4 +88,11 @@ public class ProgramServiceImpl implements ProgramService {
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return programRepository.updateStatus(statusEnum.getCode(), idList) > 0;
     }
+
+    @Override
+    public List<String> findFace() {
+        return programRepository.findFace();
+    }
+
+
 }

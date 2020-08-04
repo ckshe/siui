@@ -1,5 +1,6 @@
 package com.linln.admin.base.controller;
 
+import com.linln.RespAndReqs.DeviceProductElementReq;
 import com.linln.admin.base.domain.DeviceProductElement;
 import com.linln.admin.base.service.DeviceProductElementService;
 import com.linln.admin.base.validator.DeviceProductElementValid;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -40,7 +42,12 @@ public class DeviceProductElementController {
 
         // 创建匹配器，进行动态查询匹配
         ExampleMatcher matcher = ExampleMatcher.matching()
-                .withMatcher("sample_name", match -> match.contains());
+                .withMatcher("sample_name", match -> match.contains())
+                .withMatcher("product_code", match -> match.contains())
+                .withMatcher("device_code", match -> match.contains())
+                .withMatcher("pcb_code", match -> match.contains())
+                .withMatcher("a_or_b", match -> match.contains());
+
 
         // 获取数据列表
         Example<DeviceProductElement> example = Example.of(deviceProductElement, matcher);
@@ -50,6 +57,13 @@ public class DeviceProductElementController {
         model.addAttribute("list", list.getContent());
         model.addAttribute("page", list);
         return "/base/deviceProductElement/index";
+    }
+
+    //获取设备物料元件列表
+    @PostMapping("/findElement")
+    @ResponseBody
+    public ResultVo findElement(@RequestBody DeviceProductElementReq req){
+        return deviceProductElementService.findElement(req);
     }
 
     /**
@@ -115,6 +129,24 @@ public class DeviceProductElementController {
             return ResultVoUtil.success(statusEnum.getMessage() + "成功");
         } else {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
+        }
+    }
+
+
+    @PostMapping("/importCommonExcel")
+    @ResponseBody
+    //@RequiresPermissions("importCommonExcel")
+    public ResultVo importCommonExcel(@RequestParam(value = "file") MultipartFile file)
+    {
+        try {
+            String fileName = file.getOriginalFilename();
+            if (!fileName.matches("^.+\\.(?i)(xls)$") && !fileName.matches("^.+\\.(?i)(xlsx)$" ) && !fileName.matches("^.+\\.(?i)(csv)$" )) {
+                return ResultVoUtil.error("上传文件格式不正确");
+            }
+            return deviceProductElementService.importCommonExcel(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultVoUtil.error("Excel导入失败");
         }
     }
 }

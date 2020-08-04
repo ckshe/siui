@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -48,4 +49,7 @@ public interface OperationInstructionService {
      * @return
      */
     ApiResponse importOperationManual(MultipartFile file);
+    //查看pdf
+    void showPDF(HttpServletResponse response, Long  id);
+
 }

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>下达工站</title>
+    <meta name="Description" content="基于layUI数据表格操作" />
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+    <style type="text/css">
+        .layui-form-switch {
+            width: 55px;
+        }
+
+        .layui-form-switch em {
+            width: 40px;
+        }
+
+        .layui-form-item {
+            margin-bottom: 0;
+        }
+
+        body {
+            overflow-y: scroll;
+        }
+
+        tr td:nth-child(1) .layui-table-cell {
+            overflow: initial !important;
+            padding: 0 !important;
+        }
+
+
+        .layui-input,
+        .layui-select {
+            height: 26px !important;
+        }
+
+        .layui-form-selected dl {
+            top: initial !important;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <input type="hidden" name='data'>
+        <input type="hidden" name='devData'>
+    </form>
+    <div style="box-sizing: border-box;padding:14px;">
+        <div class="layui-form" id="timeForm" style="display: none">
+            <div class="layui-inline" id="test-n1"></div>
+        </div>
+        <table class="layui-hide" id="table" lay-filter="table"></table>
+        <script type="text/html" id="toolbarDemo">
+        <a class=" layui-btn layui-btn-sm" style="background-color: #1E9FFF" lay-event="add">添加</a>
+            <button id="sub" class="layui-btn layui-btn-sm" type="button"  lay-event="devs">确定</button>
+    </script>
+
+        <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+        <script src="../../js/common.js"></script>
+    </div>
+</body>
+<script>
+    layui.use(['table', 'jquery', 'form', 'layer', 'laydate'], function () {
+        var table = layui.table,
+            layer = layui.layer,
+            form = layui.form,
+            laydate = layui.laydate,
+            $ = layui.jquery;
+        form.on('submit(sub)', function (obj) {
+            var data = obj.field;
+            table.reload('table', {
+                where: data,
+                curr: 1
+            })
+        });
+
+        form.render();
+        var tdata = [];
+        var index = 0;
+        var tableData = JSON.parse($('[name=data]').val());
+        var tDevData = JSON.parse($('[name=devData]').val());
+        var tDevDataSerial = [];
+        if (tableData.detailDeviceList) {
+            tdata = JSON.parse(JSON.stringify(tableData.detailDeviceList));
+            tdata.forEach(function (t) { t.index = index++ });
+            setTimeout(function () {
+                table.render(tableObj);
+            }, 100)
+        }
+        var d = {
+            index: 0,
+            plan_count: "0",
+            finish_count: "0",
+            plan_day_time: getQueryString('planDayTime'),
+            tDevData: tDevData,
+            device_code: "",
+            // process_task_code: getQueryString('process_task_code')
+        };
+        var tableObj = {
+            elem: '#table'
+            , defaultToolbar: ['filter']
+            , response: {
+                statusCode: 200
+            }
+            , height: 'full-60'
+            , toolbar: '#toolbarDemo'
+            , limit: 10000
+            , data: tdata
+            , cols: [
+                [
+                    {
+                        field: '', title: '工站', minWidth: 120, templet: function (d) {
+                            tDevDataSerial = [];
+                            tdata.forEach(function (t) { tDevDataSerial.push(t.device_code) });
+                            var html = '<select name="process_task_status" data-index ="' + d.index + '" class="status" lay-filter="status"><option value="">请选择工站</option>';
+                            tDevData.forEach(function (t) {
+                                var tDisabled = tDevDataSerial.indexOf(t.serial);
+                                if (t.serial == d.device_code) {
+                                    if (tDisabled > -1) {
+                                        html += '<option disabled  value="' + t.serial + '" selected="selected" >' + t.serial + '</option>';
+                                    } else {
+                                        html += '<option value="' + t.serial + '" selected="selected" >' + t.serial + '</option>';
+                                    }
+                                } else {
+                                    if (tDisabled > -1) {
+                                        html += '<option disabled value="' + t.serial + '">' + t.serial + '</option>';
+                                    } else {
+                                        html += '<option  value="' + t.serial + '">' + t.serial + '</option>';
+                                    }
+                                }
+                            });
+                            html += '</select>';
+                            return html;
+                        }
+                    }
+                    , {
+                        field: '', title: '工站名', minWidth: 150, templet: function (d) {
+                            var deviceName = '';
+                            tDevData.some(function (t) {
+                                if (t.serial == d.device_code) {
+                                    deviceName = t.name
+                                    return true
+                                }
+                            })
+                            return deviceName;
+                        }
+                    }
+                    , { field: 'plan_count', title: '计划量', edit: 'text', minWidth: 100 }
+                    , { field: 'finish_count', title: '完成量', edit: 'text', minWidth: 100 }
+                    , {
+                        title: '操作', fixed: 'right', minWidth: 70, templet: function (d) {
+                            return '<a class=" layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>'
+                        }
+                    }
+                ]
+            ]
+            , done: function () {
+
+            }
+        };
+        setTimeout(function () {
+            table.render(tableObj);
+        }, 100)
+
+        form.on('select(status)', function (obj) {
+            var index = obj.elem.getAttribute('data-index')
+            tdata.some(function (t) {
+                if (t.index == index) {
+                    t.device_code = obj.value
+                    return true
+                }
+            })
+            tableObj.data = tdata
+            setTimeout(function () {
+                table.render(tableObj);
+            }, 100)
+        });
+        //直接嵌套显示
+        var timeBox = "";
+        var nowIndex = 0;
+        laydate.render({
+            elem: '#test-n1',
+            position: 'static',
+            done: function (d) {
+                layer.close(timeBox);
+                $('#time' + nowIndex).html(d);
+                tdata.some(function (t) {
+                    if (t.index == nowIndex) {
+                        t.plan_day_time = d;
+                        return true
+                    }
+                })
+            }
+        });
+        table.on('toolbar(table)', function (obj) {
+            switch (obj.event) {
+                case 'devs':
+                    var status = document.getElementsByClassName('status');
+                    var statusFlag = false,k=0;
+                    tdata.forEach(function (t, i) {
+                        if (status[i].value == "") {
+                            k=i;
+                            statusFlag = true;
+                        }
+                        t.device_code = status[i].value;
+                    })
+                    if (statusFlag) {
+                        statusFlag = false
+                        layer.msg('工站不能为空', function () { time: 2000 });
+                        return false;
+                    }
+                    parent.getData({ index: getQueryString('index'), data: tdata });
+                    parent.layer.closeAll();
+                    break;
+                case 'add':
+                    index++;
+                    var dd = JSON.parse(JSON.stringify(d));
+                    var status = document.getElementsByClassName('status');
+                    tdata.forEach(function (t, i) {
+                        t.device_code = status[i].value;
+                    })
+                    dd.index = index;
+                    tdata.push(dd);
+                    tableObj.data = tdata;
+                    setTimeout(function () {
+                        table.render(tableObj);
+                    }, 100)
+                    break;
+            }
+        });
+
+        table.on('tool(table)', function (obj) {
+            var data = obj.data;
+            switch (obj.event) {
+                case 'del':
+                    var status = document.getElementsByClassName('status');
+                    tdata.forEach(function (t, i) {
+                        t.device_code = status[i].value;
+                    })
+                    tdata = tdata.filter(function (t) { return t.index != data.index });
+                    tableObj.data = tdata;
+                    setTimeout(function () {
+                        table.render(tableObj);
+                    }, 100)
+                        ; break;
+                case 'time':
+                    nowIndex = data.index;
+                    timeBox = layer.open({
+                        type: 1,
+                        title: '计划时间',
+                        content: $("#timeForm")
+                    });
+                    break;
+                case 'distribution':
+                    nowIndex = data.index;
+                    timeBox = layer.open({
+                        type: 1,
+                        title: '计划时间',
+                        content: $("#timeForm")
+                    });
+                    break;
+            }
+        });
+
+    })
+</script>
+
+</html>

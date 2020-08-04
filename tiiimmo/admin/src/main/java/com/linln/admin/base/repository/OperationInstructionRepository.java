@@ -8,4 +8,8 @@ import com.linln.modules.system.repository.BaseRepository;
  * @date 2020/06/09
  */
 public interface OperationInstructionRepository extends BaseRepository<OperationInstruction, Long> {
+
+    OperationInstruction findByCode(String code);
+
+
 }

@@ -9,7 +9,10 @@ import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.produce.domain.PcbTask;
 import com.linln.admin.produce.repository.PcbTaskRepository;
+import com.linln.admin.produce.repository.ProcessTaskRepository;
 import com.linln.admin.produce.service.PcbTaskService;
+import com.linln.admin.produce.service.ProcessTaskService;
+import com.linln.admin.reports.service.ShowBoardService;
 import com.linln.admin.system.service.OpenService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
@@ -39,12 +42,26 @@ public class OpenController {
     @Autowired
     private DeviceRepository deviceRepository;
 
+    @Autowired
+    private ProcessTaskService processTaskService;
+
+    @Autowired
+    private ShowBoardService showBoardService;
+
+    //人员上机记录平板
+    @PostMapping("/staffOnBoardForPad")
+    @ResponseBody
+    public ResultVo staffOnBoardForPad(@RequestBody PcbTaskReq req){
+        return showBoardService.staffOnBoardForPad(req);
+    }
+
 
     @PostMapping("/excute")
     @ResponseBody
     public ResultVo excute(@RequestBody ExcuteReq req){
 
         if(req.getExcuteParam()==null){
+            
             return ResultVoUtil.error("参数为空");
         }
         if(req.getExcuteParam().contains("update")||req.getExcuteParam().contains("delete")||req.getExcuteParam().contains("alter")){
@@ -108,12 +125,9 @@ public class OpenController {
      */
     @RequestMapping("/showPDF")
     @ResponseBody
-    public void showPDF(HttpServletResponse response, String  deviceCode)throws IOException, DocumentException {
-        //需要填充的数据
-        Map<String, Object> data = new HashMap<>(16);
-        data.put("name", "kevin");
-        // 读取pdf并预览
-        readPDF(response,deviceCode);
+    public void showPDF(HttpServletResponse response, String  deviceCode,String type)throws IOException, DocumentException {
+        processTaskService.showPDF(response,deviceCode,type);
+
     }
 
     /**

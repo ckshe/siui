@@ -25,10 +25,36 @@
                         </div>
                     </div>
                     <div class="layui-inline">
+                        <label class="layui-form-label">物料编号	</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="product_code" th:value="${param.product_code}" placeholder="请输入物料编号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">机台编号	</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="device_code" th:value="${param.device_code}" placeholder="请输入机台编号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">规格型号	</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="pcb_code" th:value="${param.pcb_code}" placeholder="请输入规格型号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">AB面 </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="a_or_b" th:value="${param.a_or_b}" placeholder="请输入规格型号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
                         <button class="layui-btn timo-search-btn">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
+                    <input style="display: none" type="file" id="file">
+                    <button type="button" class="layui-btn" id="upload2" >上传文件</button>
                 </div>
                 <div class="pull-right screen-btn-group">
                     <button class="layui-btn open-popup" data-title="添加设备物料元件" th:attr="data-url=@{/base/deviceProductElement/add}" data-size="auto">
@@ -44,7 +70,7 @@
                 </div>
             </div>
             <div class="timo-table-wrap">
-                <table class="layui-table timo-table">
+                <table class="layui-table timo-table" id="tab">
                     <thead>
                     <tr>
                         <th class="timo-table-checkbox">
@@ -53,11 +79,13 @@
                         </th>
                         <th>主键ID</th>
                         <th>图样名</th>
-                        <th>跳过状态</th>
                         <th>元件号码</th>
                         <th>元件名</th>
                         <th>物料编号</th>
+                        <th>机台编号</th>
+                        <th>规格型号</th>
                         <th>安装位置</th>
+                        <th>AB面</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -67,11 +95,13 @@
                             <i class="layui-icon layui-icon-ok"></i></label></td>
                         <td th:text="${item.id}">主键ID</td>
                         <td th:text="${item.sample_name}">图样名</td>
-                        <td th:text="${item.skip_status}">跳过状态</td>
                         <td th:text="${item.element_no}">元件号码</td>
                         <td th:text="${item.element_name}">元件名</td>
-                        <td th:text="${item.product_code}">物料编号</td>
+                        <td th:text="${item.product_code}" th:name="pCode">物料编号</td>
+                        <td th:text="${item.device_code}">机台编号</td>
+                        <td th:text="${item.pcb_code}">规格型号</td>
                         <td th:text="${item.position}">安装位置</td>
+                        <td th:text="${item.a_or_b}">AB面</td>
                         <td>
                             <a class="open-popup" data-title="编辑设备物料元件" th:attr="data-url=@{'/base/deviceProductElement/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
                             <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/base/deviceProductElement/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>
@@ -85,5 +115,95 @@
         </div>
     </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['form','jquery','layer'],function () {
+            var form=layui.form,
+                $   = layui.jquery,
+                layer=layui.layer;
+
+            //通用导入
+
+            var fileInput2 = document.getElementById('file');
+            document.getElementById('upload2').onclick=function () {
+                document.getElementById('file').click()
+            };
+            fileInput2.onchange = function () {
+                var formData = new FormData();
+                formData.append('file',fileInput2.files[0]);
+                formData.append('isCreate',$("#isCreat").val());
+                layer.msg('上传中，请稍等....', {time: 0, icon:16});
+                $.ajax({
+                    type:'post',
+                    url:'/base/deviceProductElement/importCommonExcel',
+                    data:formData,
+                    processData : false,
+                    contentType : false,
+                    success:function (res) {
+                        layer.closeAll()
+                        if(res.code===200){
+                            layer.alert(res.msg,{icon:1},function () {
+                                layer.closeAll()
+                                window.location.reload();
+                            })
+                        }else{
+                            layer.alert(res.msg,{icon:2},function () {
+                                layer.closeAll()
+                                window.location.reload();
+                            })
+                        }
+                    }
+                });
+            };
+        })
+
+
+
+    </script>
+
+    <!--<script>
+        var objTable = document.getElementById("tab");
+        var objTR;
+        var objTD;
+        var objInput;
+        for(var i=2; i< objTable.rows.length; i++)
+        {
+            objTR =  objTable.rows[i];
+            for(var j=1; j<objTR.cells.length; j++)
+            {
+                objTD = objTR.cells[j];
+                objInput = objTD.childNodes[0];
+                if( typeof(objInput.value) == "undefined")
+                {
+                    alert('请确认表格内数据填写完整');
+                }
+            }
+        }
+
+    </script>-->
+
+<script>
+    layui.use(['form','jquery','layer'],function () {
+        var form=layui.form,
+            $   = layui.jquery,
+            layer=layui.layer;
+
+        var tableId = document.getElementById("tab");
+        //alert(tableId.rows[i].cells[5].innerHTML);
+        if (tableId.rows[1].cells[5].innerHTML == "") {
+            //alert("请把列表中的物料编号填写完整");
+            //layer.alert("请把列表中的物料编号填写完整");
+            layer.open({
+                title: ['提示:', 'font-size:18px;'],
+                content: '请把列表中的物料编号填写完整'
+            });
+        }
+    })
+
+
+
+</script>
+
+
+
 </body>
 </html>

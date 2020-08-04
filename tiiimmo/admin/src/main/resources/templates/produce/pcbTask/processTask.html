@@ -165,11 +165,6 @@
                 data.planFinishTime=obj.field.planTime.length>0?obj.field.planTime.split(' ~ ')[1]:"";
                 data.startTime=obj.field.realTime.length>0?obj.field.realTime.split(' ~ ')[0]:"";
                 data.finishTime=obj.field.realTime.length>0?obj.field.realTime.split(' ~ ')[1]:"";
-
-
-
-
-
                 table.reload('table',{
                     where:data
                 })

@@ -15,7 +15,7 @@ public interface ProcessTaskRepository extends BaseRepository<ProcessTask,Long> 
     ProcessTask findProducingByDevice_code(String device);
 
 
-    @Query(value = "select * from produce_process_task where device_code like ?1 and process_task_status = '生产中'",nativeQuery = true)
+    @Query(value = "select * from produce_process_task where device_code like ?1 and process_task_status = '生产中' or process_task_status = '进行中' or process_task_status like '%暂停%'",nativeQuery = true)
     List<ProcessTask>  findProducingListByDevice_code(String device);
 
     @Query(value = "select * from produce_process_task where device_code like ?1 and (process_task_status = '生产中' or process_task_status like '%已下达%' or process_task_status like '%暂停%' or process_task_status like '%进行中%')",nativeQuery = true)
@@ -23,6 +23,18 @@ public interface ProcessTaskRepository extends BaseRepository<ProcessTask,Long> 
 
     @Query(value = "SELECT * FROM produce_process_task where plan_finish_time >= ?1 AND plan_finish_time <= ?2 order by finish_time desc",nativeQuery = true)
     List<ProcessTask> findByStartEndTime(String startTime,String endTime);
+
+    @Query(value = "SELECT\n" +
+            "\tt1.id, t1.finish_time, t1.is_rohs, t1.model_ver, t1.pcb_name,t1.count_type, t1.pcb_task_id, t1.process_name, t1.start_time, t1.task_sheet_id, t1.device_name, t1.device_code, t1.process_task_status, t1.status, t1.pcb_task_code, t1.process_task_code, t1.task_sheet_code, t1.plan_finish_time, t1.plan_start_time, t1.work_time, t1.plant_code, t1.priority, t1.pcb_code, t1.is_now_flag, t1.last_count_time,t2.plan_count pcb_quantity,t2.finish_count amount_completed\n" +
+            "FROM\n" +
+            "\tproduce_process_task t1 LEFT JOIN produce_process_task_detail t2 on t1.process_task_code = t2.process_task_code AND CONVERT ( VARCHAR ( 100 ), t2.plan_day_time, 23 ) = ?1 \n" +
+            "WHERE\n" +
+            "\t?1 <= CONVERT ( VARCHAR ( 100 ), t1.plan_finish_time, 23 ) \n" +
+            "\tAND ?1 >= CONVERT ( VARCHAR ( 100 ), t1.plan_start_time, 23 ) and t2.plan_count != 0 \n" +
+            "ORDER BY\n" +
+            "\tt1.finish_time DESC",nativeQuery = true)
+    List<ProcessTask> findTodayBetweenTime(String today);
+
 
     @Query(value = "SELECT * FROM produce_process_task where process_task_code = ?1",nativeQuery = true)
     ProcessTask findByProcessTaskCode(String processTaskCode);

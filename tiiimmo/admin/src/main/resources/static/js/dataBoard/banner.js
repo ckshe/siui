@@ -1,17 +1,17 @@
-;(function ($) {
-    $.fn.banner = function (items,options) {
+; (function ($) {
+    $.fn.banner = function (items, options) {
         options = options || {};
         this._obj_ = {
-            items:items,
-            but:options.but === false ? false : true,
-            list:options.list === false ? false : true,
-            butahidden:options.butahidden === false ? false : true,
-            index:options.index || 0,
-            autoPlay:options.autoPlay === false ? false : true,
-            delayTiem:options.delayTiem || 2000,
-            moveTime:options.moveTime || 300,
+            items: items,
+            but: options.but === false ? false : true,
+            list: options.list === false ? false : true,
+            butahidden: options.butahidden === false ? false : true,
+            index: options.index || 0,
+            autoPlay: options.autoPlay === false ? false : true,
+            delayTiem: options.delayTiem || 2000,
+            moveTime: options.moveTime || 300,
             // 假设上一张是最后一个索引
-			iPrev:items.length-1,
+            iPrev: items.length - 1,
         };
         var that = this;
         // 初始化布局
@@ -22,11 +22,11 @@
             });
             // 每张图片的定位位置
             items.css({
-                position:"absolute",
-                left:items.eq(0).width(),
-                top:0
+                position: "absolute",
+                left: items.eq(0).width(),
+                top: 0
             }).eq((this.index)).css({
-                left:0
+                left: 0
             });
         }
         this._obj_.init();
@@ -47,14 +47,14 @@
             that.append(str);
             // 左右按钮样式
             that.children(".btns").css({
-                width:1920,
+                width: 1920,
                 height: 1080,
                 position: "absolute",
                 left: 0,
                 // top:0,
-                top:515,
+                top: 515,
                 display: "flex",
-                justifyContent:"space-between",
+                justifyContent: "space-between",
                 // alignItems: "center"
             }).children().css({
                 border: 0,
@@ -66,32 +66,93 @@
                 font: "30px/1em ''",
                 opacity: 0.5,
                 position: "absolute",
-                zIndex:2
+                zIndex: 2
             }).eq(0).css({
-                left:0
+                left: 0
             }).end().eq(1).css({
-                left:items.eq(1).width() - $(".btns>input:first-child").width()
+                left: items.eq(1).width() - $(".btns>input:first-child").width()
             })
         }
         // 左按钮方法
         function butLeft() {
             if (that._obj_.index == 0) {
-                that._obj_.index = items.length-1;
+                that._obj_.index = items.length - 1;
                 that._obj_.iPrev = 0;
-            }else{
+            } else {
                 that._obj_.index--;
                 that._obj_.iPrev = that._obj_.index + 1;
             }
+            setTimeOutQueryApi();
             btnMove(1);
             // 按钮焦点
             focalPoint(that._obj_.index);
         }
         // 右按钮方法
         function butReft() {
-            if (that._obj_.index == items.length-1) {
+            if (that._obj_.index == items.length - 1) {
                 that._obj_.index = 0;
-                that._obj_.iPrev = items.length-1;
-            }else{
+                that._obj_.iPrev = items.length - 1;
+            } else {
+                that._obj_.index++;
+                that._obj_.iPrev = that._obj_.index - 1;
+            }
+            setTimeOutQueryApi();
+            btnMove(-1);
+            // 按钮焦点
+            focalPoint(that._obj_.index);
+        }
+        // 根据当前板进行定时请求
+        var board1Interval,board2Interval,board3Interval,board4Interval,deviceInterval;
+        function setTimeOutQueryApi() {
+            switch (that._obj_.index) {
+                case 0:
+                    clearInterval(board2Interval);//上一页
+                    clearInterval(board4Interval);//下一页
+                    clearInterval(deviceInterval);//温度与启停
+                    board1Interval = setInterval(function () {
+                        var hsaClassOn = $(".button-span button:first").hasClass("on");
+                        board1(hsaClassOn)
+                    }, 60000);
+                    break;
+                case 1:
+                    clearInterval(board11Interval);//清除初始首页定时
+                    clearInterval(board1Interval);//上一页
+                    clearInterval(board3Interval);//下一页
+                    board2Interval = setInterval(function () {
+                        board2()
+                    }, 60000);
+                    break;
+                case 2:
+                    clearInterval(board2Interval);//上一页
+                    clearInterval(board4Interval);//下一页
+                    clearInterval(deviceInterval);//温度与启停
+                    board3Interval = setInterval(function () {
+                        board3();
+                    }, 60000);
+                    break;
+                case 3:
+                    clearInterval(board11Interval);//清除初始首页定时
+                    clearInterval(board3Interval);//上一页
+                    clearInterval(board1Interval);//下一页
+                    board4Interval = setInterval(function () {
+                        board4();
+                    }, 60000);
+                    deviceInterval = setInterval(function () {
+                        getData();
+                        getEnvironmentRecord();
+                    }, 5000);
+                    break;
+                default:
+                   console.log('没有对应的页面')
+                    break;
+            }
+        }
+        // 右按钮方法
+        function autoButReft() {
+            if (that._obj_.index == items.length - 1) {
+                that._obj_.index = 0;
+                that._obj_.iPrev = items.length - 1;
+            } else {
                 that._obj_.index++;
                 that._obj_.iPrev = that._obj_.index - 1;
             }
@@ -102,19 +163,19 @@
         // 移动图片
         function btnMove(type) {
             items.eq(that._obj_.iPrev).css({
-                left:0
+                left: 0
             }).stop().animate({
-                left:items.eq(0).width() * type
-            },that._obj_.moveTime).end().eq(that._obj_.index).css({
-                left:-items.eq(0).width() * type
+                left: items.eq(0).width() * type
+            }, that._obj_.moveTime).end().eq(that._obj_.index).css({
+                left: -items.eq(0).width() * type
             }).stop().animate({
-                left:0
-            },that._obj_.moveTime);
+                left: 0
+            }, that._obj_.moveTime);
         }
         // 如果list为true就创建小按钮
         if (this._obj_.list) {
             var str = "";
-            for (var i=0;i<items.length;i++) {
+            for (var i = 0; i < items.length; i++) {
                 // 给每个li加上索引
                 str += `<li index=${i}></li>`;
             }
@@ -128,15 +189,15 @@
                 listStyle: "none",
                 zIndex: 99999999
             }).children().css({
-                width:10,
-                height:10,
-                borderRadius: 50+"%",
+                width: 10,
+                height: 10,
+                borderRadius: 50 + "%",
                 cursor: "pointer",
-                margin:5,
+                margin: 5,
             });
         }
         // 按钮焦点
-        function  focalPoint(i) {                                
+        function focalPoint(i) {
             that.children("#navigationButtons").children().css({
                 background: "#1a1a1aa6",
                 border: "1px solid rgb(206, 206, 206, 0.33)"
@@ -149,24 +210,24 @@
         that.children("#navigationButtons").children().click(function () {
             // 如果当前索引大于点击的按钮索引，就向左远动
             if (that._obj_.index > this.getAttribute("index")) {
-                limove(1,this.getAttribute("index"));
+                limove(1, this.getAttribute("index"));
                 // 如果当前索引小于点击的按钮索引，就向右远动
-            }else if (that._obj_.index < this.getAttribute("index")) {
-                limove(-1,this.getAttribute("index"));
+            } else if (that._obj_.index < this.getAttribute("index")) {
+                limove(-1, this.getAttribute("index"));
             }
             focalPoint(this.getAttribute("index"));
-        that._obj_.index = this.getAttribute("index")
+            that._obj_.index = this.getAttribute("index")
         })
-        function limove(type,q) {
+        function limove(type, q) {
             items.eq(that._obj_.index).css({
-                left:0
+                left: 0
             }).stop().animate({
-                left:items.eq(0).width() * type
-            },that._obj_.moveTime).end().eq(q).css({
-                left:-items.eq(0).width() * type
+                left: items.eq(0).width() * type
+            }, that._obj_.moveTime).end().eq(q).css({
+                left: -items.eq(0).width() * type
             }).stop().animate({
-                left:0
-            },that._obj_.moveTime);
+                left: 0
+            }, that._obj_.moveTime);
         }
         // 按钮焦点
         focalPoint(that._obj_.index);
@@ -175,17 +236,17 @@
         function automatic() {
             clearInterval(t)
             t = setInterval(() => {
-                butReft();
-            },that._obj_.delayTiem);
+                autoButReft();
+            }, that._obj_.delayTiem);
         }
         // that._obj_.autoPlay为true是才能自动播放
         if (that._obj_.autoPlay) {
             automatic();
             // 鼠标进入事件
-            $(this).hover(()=> {
+            $(this).hover(() => {
                 showdis();
                 clearInterval(t)
-            },()=>{
+            }, () => {
                 hidden();
                 automatic();
             })
@@ -193,9 +254,9 @@
         // 开启隐藏功能后自动隐藏
         if (that._obj_.butahidden) {
             hidden();
-            $(this).find(".swiper-button,.btns input").hover(()=> {
+            $(this).find(".swiper-button,.btns input").hover(() => {
                 showdis();
-            },()=>{
+            }, () => {
                 hidden();
             })
         }
@@ -203,22 +264,22 @@
         function hidden() {
             if (that._obj_.butahidden) {
                 that.children(".btns").children('input:first').stop().animate({
-                    left:-that.children(".btns").children('input:last').width()
-                },500)
+                    left: -that.children(".btns").children('input:last').width()
+                }, 500)
                 that.children(".btns").children('input:last').stop().animate({
-                    left:items.eq(0).width()
-                },500)
+                    left: items.eq(0).width()
+                }, 500)
             }
         }
         // 显示
         function showdis() {
             that.children(".btns").children('input:first').stop().animate({
-                left:0
-            },500)
+                left: 0
+            }, 500)
             that.children(".btns").children('input:last').stop().animate({
-                left:items.eq(0).width() - that.children(".btns").children('input:first').width()
-            },500)
+                left: items.eq(0).width() - that.children(".btns").children('input:first').width()
+            }, 500)
         }
     }
-    
+
 })(jQuery);

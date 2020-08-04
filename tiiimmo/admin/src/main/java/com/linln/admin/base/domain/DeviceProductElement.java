@@ -16,15 +16,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author ww
@@ -51,6 +43,7 @@ public class DeviceProductElement implements Serializable {
     // 元件名
     private String element_name;
     // 物料编号
+    //@Column(name = "productCode")
     private String product_code;
     // 安装位置
     private String position;
@@ -60,8 +53,38 @@ public class DeviceProductElement implements Serializable {
     // 更新时间
     @LastModifiedDate
     private Date updateDate;
-
+    // 规格型号
     private String pcb_code;
+    //AB面
+    private String a_or_b;
+
+    private String X ;
+
+    private String Y ;
+
+    private String R ;
+    //工作台
+    private String work_desk ;
+    //Head
+    private String head ;
+    //坏板标记
+    private String bad_flag ;
+    //基准标记
+    private String base_flag ;
+    //轨道
+    private String track ;
+    //原拼板号码
+    private String ori_palte_no ;
+    //送料器类型
+    private String machine_type;
+    //组ID
+    private String group_id ;
+    //组内顺序
+    private String group_sort ;
+  /*  //备注
+    private String remark;*/
+
+
     // 创建者
     @CreatedBy
     @ManyToOne(fetch=FetchType.LAZY)
@@ -79,6 +102,4 @@ public class DeviceProductElement implements Serializable {
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
 
-    //AB面
-    private String a_or_b;
 }

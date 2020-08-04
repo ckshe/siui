@@ -38,4 +38,10 @@ public interface ProductionShiftService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    /**
+     * 删除
+     * @param id
+     */
+    void delete(Long id);
 }
