@@ -195,7 +195,7 @@
                         , { field: 'pcb_quantity', title: '计划生产数量', minWidth: 120 }
 
                         , { field: 'amount_completed', title: '实际生产数量', minWidth: 120 }
-                        , { field: 'device_name', title: '选择设备', minWidth: 86, toolbar: '#im' }
+                        // , { field: 'device_name', title: '选择设备', minWidth: 86, toolbar: '#im' }
 
                         , { field: 'work_time', title: '工时', minWidth: 80 }
                         , {
@@ -203,13 +203,13 @@
                                 if (d.process_task_status === '未下达') {
                                     return '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-xs" type="button">下达</button>' +
                                         // '<button lay-event="edit" class="layui-btn layui-btn-normal layui-btn-xs" type="button">编辑</button>'+
-                                        '<button lay-event="status" class="layui-btn layui-btn-danger layui-btn-xs" type="button">修改状态</button>' +
+                                        // '<button lay-event="status" class="layui-btn layui-btn-danger layui-btn-xs" type="button">修改状态</button>' +
                                         '<button lay-event="split" class="layui-btn layui-btn-normal layui-btn-xs" style="background-color:#009688" type="button">工序日计划</button>'
 
                                 } else {
                                     // return '<button lay-event="edit" class="layui-btn layui-btn-normal layui-btn-xs" type="button">编辑</button>' +
-                                    return '<button lay-event="status" class="layui-btn layui-btn-danger layui-btn-xs" type="button">修改状态</button>' +
-                                        '<button lay-event="split" class="layui-btn layui-btn-normal layui-btn-xs" style="background-color:#009688" type="button">工序日计划</button>'
+                                   // '<button lay-event="status" class="layui-btn layui-btn-danger layui-btn-xs" type="button">修改状态</button>' +
+                                    return     '<button lay-event="split" class="layui-btn layui-btn-normal layui-btn-xs" style="background-color:#009688" type="button">工序日计划</button>'
 
                                 }
                             }

@@ -10,16 +10,16 @@ project:
     global-session-timeout: 43200              #Session会话超时时间，默认30分钟（秒）
   upload:
     #file-path: F:/upload/                    #文件上传路径，默认在项目根目录upload下
-    static-path: /upload/**                   #上传文件静态访问路径
+    static-path: /upload/**                   #上传文件静态访问路径理论
 
 ### spring配置
 spring:
   ## 数据库配置vehicle
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://10.33.77.66:5419;DatabaseName=chaosheng
+    url: jdbc:sqlserver://10.33.77.66:1433;DatabaseName=chaosheng
     username: sa
-    password: ss123$%^
+    password: ss123456
 
   ## jpa配置
   jpa:
