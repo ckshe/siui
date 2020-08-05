@@ -591,7 +591,7 @@ function setDataBoard1(params) {
     board11Interval = setInterval(function () {
         var hsaClassOn = $(".button-span button:first").hasClass("on");
         board1(hsaClassOn)
-    }, 6000);
+    }, 60000);
 
     $(".button-span button").off().on('click', function () {
         $(this).siblings('button').removeClass('on');
