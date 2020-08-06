@@ -17,7 +17,7 @@ spring:
   ## 数据库配置vehicle
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://10.33.77.66:1433;DatabaseName=chaosheng
+    url: jdbc:sqlserver://10.33.104.139:1433;DatabaseName=chaosheng
     username: sa
     password: ss123456
 
@@ -57,3 +57,4 @@ apkVersion-path: c:/apkVersion/
 #E-SOP 模具编号格式设置   奥飞需要加上AD
 ESOPFormat: AD{0}-
 backup-path: C:/backup/backup.bat
+
