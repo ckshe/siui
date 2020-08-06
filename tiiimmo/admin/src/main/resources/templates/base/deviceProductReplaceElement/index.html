@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:mo="https://gitee.com/aun/Timo">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body class="timo-layout-page">
+    <div class="layui-card">
+        <div class="layui-card-header timo-card-header">
+            <span><i class="fa fa-bars"></i> 物料元件替代料管理</span>
+            <i class="layui-icon layui-icon-refresh refresh-btn"></i>
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-row timo-card-screen">
+                <div class="pull-left layui-form-pane timo-search-box">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-block timo-search-status">
+                            <select class="timo-search-select" name="status" mo:dict="SEARCH_STATUS" mo-selected="${param.status}"></select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">规格型号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="pcb_code" th:value="${param.pcb_code}" placeholder="请输入规格型号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">原物料</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="original_product_name" th:value="${param.original_product_name}" placeholder="请输入原物料" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">替代料</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="replace_product_name" th:value="${param.replace_product_name}" placeholder="请输入替代料" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn timo-search-btn">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="pull-right screen-btn-group">
+                    <button class="layui-btn open-popup" data-title="添加物料元件替代料" th:attr="data-url=@{/base/deviceProductReplaceElement/add}" data-size="auto">
+                        <i class="fa fa-plus"></i> 添加</button>
+                    <div class="btn-group">
+                        <button class="layui-btn">操作<span class="caret"></span></button>
+                        <dl class="layui-nav-child layui-anim layui-anim-upbit">
+                            <dd><a class="ajax-status" th:href="@{/base/deviceProductReplaceElement/status/ok}">启用</a></dd>
+                            <dd><a class="ajax-status" th:href="@{/base/deviceProductReplaceElement/status/freezed}">冻结</a></dd>
+                            <dd><a class="ajax-status" th:href="@{/base/deviceProductReplaceElement/status/delete}">删除</a></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="timo-table-wrap">
+                <table class="layui-table timo-table">
+                    <thead>
+                    <tr>
+                        <th class="timo-table-checkbox">
+                            <label class="timo-checkbox"><input type="checkbox">
+                                <i class="layui-icon layui-icon-ok"></i></label>
+                        </th>
+                        <th>规格型号</th>
+                        <th>原物料</th>
+                        <th>原物料编号</th>
+                        <th>替代料</th>
+                        <th>替代料编号</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item:${list}">
+                        <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
+                            <i class="layui-icon layui-icon-ok"></i></label></td>
+                        <td th:text="${item.pcb_code}">规格型号</td>
+                        <td th:text="${item.original_product_name}">原物料</td>
+                        <td th:text="${item.original_prodcut_code}">原物料编号</td>
+                        <td th:text="${item.replace_product_name}">替代料</td>
+                        <td th:text="${item.replace_product_code}">替代料编号</td>
+                        <td>
+                            <a class="open-popup" data-title="编辑物料元件替代料" th:attr="data-url=@{'/base/deviceProductReplaceElement/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
+                            <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/base/deviceProductReplaceElement/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>
+                            <a class="ajax-get" data-msg="您是否确认删除" th:href="@{/base/deviceProductReplaceElement/status/delete(ids=${item.id})}">删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:replace="/common/fragment :: page"></div>
+        </div>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

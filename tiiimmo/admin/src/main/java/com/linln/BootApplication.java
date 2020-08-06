@@ -17,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableJpaAuditing // 使用jpa自动赋值
 @EnableCaching // 开启缓存
 @EnableScheduling
-@EnableSwagger2
+//@EnableSwagger2
 public class BootApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

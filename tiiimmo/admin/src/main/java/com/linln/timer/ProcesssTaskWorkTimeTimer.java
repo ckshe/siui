@@ -10,8 +10,10 @@ import com.linln.admin.produce.repository.ProcessTaskRepository;
 import com.linln.admin.produce.repository.ProcessTaskStatusHistoryRepository;
 import com.linln.admin.produce.repository.UserDeviceHistoryRepository;
 import com.linln.admin.quality.domain.DeviceStatusRecord;
+import com.linln.admin.system.service.OpenService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +37,12 @@ public class ProcesssTaskWorkTimeTimer {
 
     @Autowired
     private DeviceRepository deviceRepository;
+
+    @Autowired
+    private OpenService openService;
+
+    @Value("${backup-path}")
+    private String backupPath;
 
     //定时计算工时
     @Scheduled(cron = "0 * * * * ?")
@@ -76,7 +84,7 @@ public class ProcesssTaskWorkTimeTimer {
 
 
     //机台硬件接口心跳包，五分钟无调用则自动停机
-    @Scheduled(cron = "0 0/1 * * * ? ")
+    @Scheduled(cron = "0 0/5 * * * ? ")
     public void autoStopDevice(){
         System.out.println("-------五分钟不响应自动停机开始------------");
         Date today = new Date();
@@ -113,7 +121,11 @@ public class ProcesssTaskWorkTimeTimer {
     }
 
 
-    //每天零点更新同步排产计划
+    //每天三点自动备份数据库
+    @Scheduled(cron = "* * 3 * * ?")
+    public void autoBackUpDatabase(){
+        openService.callCmd(backupPath);
+    }
 
 
 

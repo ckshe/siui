@@ -29,6 +29,8 @@ public class PcbTaskPositionRecordDetail {
     private String position;
     // 安装状态 0无1位置确认2已插入
     private String install_status;
+    //原物料编号
+    private String last_product_code;
 
 
 }

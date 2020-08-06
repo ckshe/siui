@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="layui-form timo-compile">
+    <form th:action="@{/base/deviceProductReplaceElement/save}">
+        <input type="hidden" name="id" th:if="${deviceProductReplaceElement}" th:value="${deviceProductReplaceElement.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">规格型号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="pcb_code" placeholder="请输入规格型号" th:value="${deviceProductReplaceElement?.pcb_code}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">原物料</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="original_product_name" placeholder="请输入原物料" th:value="${deviceProductReplaceElement?.original_product_name}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">原物料编号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="original_prodcut_code" placeholder="请输入原物料编号" th:value="${deviceProductReplaceElement?.original_prodcut_code}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">替代料</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="replace_product_name" placeholder="请输入替代料" th:value="${deviceProductReplaceElement?.replace_product_name}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">替代料编号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="replace_product_code" placeholder="请输入替代料编号" th:value="${deviceProductReplaceElement?.replace_product_code}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">[[${deviceProductReplaceElement?.remark}]]</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

@@ -78,6 +78,7 @@
         <script src="../../js/common.js" ></script>
         <script type="text/javascript">
         var a='';
+        var nowDeviceCode = getQueryString2('deviceCode');
         layui.use(['form','layer','laydate','jquery'], function(){
           var form = layui.form,
           	layer = layui.layer,
@@ -133,7 +134,7 @@
                 success: function (res) {
                     layer.closeAll()
                     res.data.some(function (t,i) {
-                        if(t.is_now_flag==1){
+                        if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
                             nowData=t;
                             return true
                         }

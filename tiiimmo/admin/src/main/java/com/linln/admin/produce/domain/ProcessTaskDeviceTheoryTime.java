@@ -34,4 +34,6 @@ public class ProcessTaskDeviceTheoryTime {
 
     private Date create_time;
 
+    private Date start_time;
+
 }

@@ -52,6 +52,13 @@ public class PcbTaskPositionRecordController {
         return pcbTaskPositionRecordService.scanProductCode(req);
     }
 
+
+    //确认替代料，通过工序计划号和物料号查询记录detail，并更改状态
+    @PostMapping("/confirmScanProductCode")
+    @ResponseBody
+    public ResultVo confirmScanProductCode(@RequestBody PcbTaskReq req){
+        return pcbTaskPositionRecordService.confirmScanProductCode(req);
+    }
     //通过工序计划号结束record
     @PostMapping("/finishPositionRecord")
     @ResponseBody

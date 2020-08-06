@@ -5,4 +5,6 @@ import com.linln.common.vo.ResultVo;
 public interface OpenService {
 
     ResultVo excuteSql(String sql);
+
+    void callCmd(String locationCmd);
 }
