@@ -218,6 +218,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     pcbTask.setProduce_plan_complete_date(produce_plan_complete_date);
                     pcbTask.setProduce_plan_date(produce_plan_date);
                     pcbTask.setPcb_quantity(pcb_quantity);
+                    pcbTask.setPcb_task_status(pcb_task_status);
                     pcbTaskRepository.save(pcbTask);
                     continue;
                 }
@@ -1354,6 +1355,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         return ResultVoUtil.success(mapList);
     }
     @Override
+    @Transactional
     public ResultVo modifyProcessTaskStatus2(PcbTaskReq pcbTaskReq) {
       /*  ProcessTask lastProcessTask = processTaskRepository.findById(pcbTaskReq.getLastProcassTaskId()).get();
         if(!"暂停".equals(lastProcessTask.getProcess_task_status())){
@@ -1495,6 +1497,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             String date = DateUtil.date2String(new Date(),"");
             UserDeviceHistory one = userDeviceHistoryRepository.findAllByProcessTaskDateDeviceUser(processTask.getProcess_task_code(),date,pcbTaskReq.getDeviceCode(),user.getId());
             if(one!=null){
+                return ResultVoUtil.error("目标工序计划没有当天日计划！");
             }else {
                 UserDeviceHistory tow = userDeviceHistoryRepository.findOnlyUpTimeRecord(pcbTaskReq.getDeviceCode());
                 if(tow!=null){
@@ -2197,6 +2200,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         Integer amount = 0;
         Process process = processRepository.findByProcessName(processTask.getProcess_name());
         Map<String,Object> map = new HashMap<>();
+        Date today = new Date();
+        String ttoday = DateUtil.date2String(today,"");
         map.put("nowPlateNo","");
         //计数方式为0
         if(process.getCount_type()==0){
@@ -2208,7 +2213,13 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 map.put("nowPlateNo",sort.getPlate_no());
             }
         }else {
-            amount = processTask.getAmount_completed();
+            //获取日计划的数量
+            ProcessTaskDetail detail = processTaskDetailRepositoty.findAllByProcess_task_codeAndPlan_day_time(req.getProcessTaskCode(), ttoday);
+            if(detail!=null){
+                amount = detail.getFinish_count();
+            }else {
+                amount = processTask.getAmount_completed();
+            }
         }
         BigDecimal workTime = processTask.getWork_time().multiply(new BigDecimal(60));
 
