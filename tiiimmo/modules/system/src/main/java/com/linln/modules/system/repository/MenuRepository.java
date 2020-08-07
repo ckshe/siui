@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author 小懒虫
@@ -71,4 +72,6 @@ public interface MenuRepository extends BaseRepository<Menu, Long> {
     @Transactional
     @Query(value = "DELETE FROM sys_role_menu WHERE menu_id = ?1", nativeQuery = true)
     public Integer cancelRoleJoin(Long id);
+
+    Set<Menu> findByUsers_IdAndStatus(Long id, Byte status);
 }

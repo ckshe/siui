@@ -74,6 +74,23 @@ public class MainController{
                     }
                 });
             });
+
+            //User user = ShiroUtil.getSubject();
+            //users.forEach(user1 -> {
+                user.getMenus().forEach(menu -> {
+                    if(menu.getStatus().equals(StatusEnum.OK.getCode())){
+                        keyMenu.put(menu.getId(), menu);
+                    }
+                });
+            //});
+//            user.getMenus().forEach(menu -> {
+//                if(menu.getStatus().equals(StatusEnum.OK.getCode())){
+//                    keyMenu.put(menu.getId(), menu);
+//                }
+//                System.out.println(keyMenu);
+//            });
+
+
         }
 
         // 封装菜单树形数据
@@ -95,6 +112,7 @@ public class MainController{
 
         model.addAttribute("user", user);
         model.addAttribute("treeMenu", treeMenu);
+        model.addAttribute("keyMenu",keyMenu);
         return "/main";
     }
 

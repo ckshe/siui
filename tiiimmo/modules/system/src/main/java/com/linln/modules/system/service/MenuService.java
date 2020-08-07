@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author 小懒虫
@@ -86,4 +87,12 @@ public interface MenuService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    /**
+     * 获取用户权限列表
+     * @param id 用户ID
+     * @return 权限列表
+     */
+    @Transactional
+    Set<Menu> getUserOkMenuList(Long id);
 }

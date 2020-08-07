@@ -3,8 +3,10 @@ package com.linln.component.shiro;
 import com.linln.common.utils.EncryptUtil;
 import com.linln.common.utils.HttpServletUtil;
 import com.linln.common.utils.SpringContextUtil;
+import com.linln.modules.system.domain.Menu;
 import com.linln.modules.system.domain.Role;
 import com.linln.modules.system.domain.User;
+import com.linln.modules.system.service.MenuService;
 import com.linln.modules.system.service.RoleService;
 import com.linln.modules.system.service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -98,6 +100,31 @@ public class ShiroUtil {
         }
 
         return user.getRoles();
+    }
+
+    /**
+     * 获取当前用户权限列表
+     */
+    public static Set<Menu> getSubjectMenus() {
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+
+        // 如果用户为空，则返回空列表
+        if (user == null) {
+            user = new User();
+        }
+
+        // 判断岗位列表是否已缓存
+        if (!Hibernate.isInitialized(user.getMenus())) {
+            try {
+                Hibernate.initialize(user.getMenus());
+            } catch (LazyInitializationException e) {
+                // 延迟加载超时，重新查询岗位列表数据
+                MenuService menuService = SpringContextUtil.getBean(MenuService.class);
+                user.setMenus(menuService.getUserOkMenuList(user.getId()));
+            }
+        }
+
+        return user.getMenus();
     }
 
     /**

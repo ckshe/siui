@@ -24,8 +24,8 @@ import java.util.*;
 @Data
 @Entity
 @Table(name = "sys_menu")
-@ToString(exclude = {"roles", "createBy", "updateBy"})
-@EqualsAndHashCode(exclude = {"roles", "createBy", "updateBy"})
+@ToString(exclude = {"roles","users","createBy", "updateBy"})
+@EqualsAndHashCode(exclude = {"roles","users", "createBy", "updateBy"})
 @EntityListeners(AuditingEntityListener.class)
 @Where(clause = StatusUtil.NOT_DELETE)
 public class Menu implements Serializable {
@@ -59,9 +59,13 @@ public class Menu implements Serializable {
     private User updateBy;
     private Byte status = StatusEnum.OK.getCode();
 
-    @ManyToMany(mappedBy = "menus")
+    @ManyToMany(mappedBy = "menus",fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Role> roles = new HashSet<>(0);
+
+    @ManyToMany(mappedBy = "menus",fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<User> users = new HashSet<>(0);
 
     @Transient
     @JsonIgnore

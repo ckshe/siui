@@ -27,8 +27,8 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "sys_user")
-@ToString(exclude = {"dept", "roles"})
-@EqualsAndHashCode(exclude = {"dept", "roles"})
+@ToString(exclude = {"dept", "roles","menus"})
+@EqualsAndHashCode(exclude = {"dept", "roles","menus"})
 @EntityListeners(AuditingEntityListener.class)
 @SQLDelete(sql = "update sys_user" + StatusUtil.SLICE_DELETE)
 //@Where(clause = StatusUtil.NOT_DELETE)
@@ -76,6 +76,14 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
     private Set<Role> roles = new HashSet<>(0);
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "sys_user_menu",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "menu_id"))
+    @JsonIgnore
+    private Set<Menu> menus = new HashSet<>(0);
+
     //private Role roles;
     //工号
     //@Excel("工号")

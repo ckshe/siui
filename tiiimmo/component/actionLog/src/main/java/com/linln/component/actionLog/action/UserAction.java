@@ -25,6 +25,7 @@ public class UserAction extends BaseActionMap {
     public static final String USER_SAVE = "user_save";
     public static final String EDIT_PWD = "edit_pwd";
     public static final String EDIT_ROLE = "edit_role";
+    public static final String EDIT_MENU = "edit_menu";
 
     @Override
     public void init() {
@@ -36,6 +37,8 @@ public class UserAction extends BaseActionMap {
         putMethod(EDIT_PWD, new BusinessMethod("用户密码","editPwd"));
         // 岗位分配行为
         putMethod(EDIT_ROLE, new BusinessMethod("岗位分配","editRole"));
+        // 权限分配行为
+        putMethod(EDIT_MENU, new BusinessMethod("权限分配","editMenu"));
     }
 
     /**

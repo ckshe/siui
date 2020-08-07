@@ -139,4 +139,11 @@ public class MenuServiceImpl implements MenuService {
 
         return treeMenus.size() > 0;
     }
+
+    @Override
+    @Transactional
+    public Set<Menu> getUserOkMenuList(Long id) {
+        Byte status = StatusEnum.OK.getCode();
+        return menuRepository.findByUsers_IdAndStatus(id, status);
+    }
 }

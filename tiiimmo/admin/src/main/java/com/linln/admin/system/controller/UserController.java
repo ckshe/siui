@@ -14,9 +14,11 @@ import com.linln.component.actionLog.annotation.EntityParam;
 import com.linln.component.excel.ExcelUtil;
 import com.linln.component.fileUpload.config.properties.UploadProjectProperties;
 import com.linln.component.shiro.ShiroUtil;
+import com.linln.modules.system.domain.Menu;
 import com.linln.modules.system.domain.Role;
 import com.linln.modules.system.domain.User;
 import com.linln.modules.system.repository.UserRepository;
+import com.linln.modules.system.service.MenuService;
 import com.linln.modules.system.service.RoleService;
 import com.linln.modules.system.service.UserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -364,6 +366,64 @@ public class UserController {
         }
     }
 
+    /**
+     * 跳转到授权页面
+     */
+    @GetMapping("/auth")
+    //@RequiresPermissions("system:user:auth")
+    public String toAuth(@RequestParam(value = "ids") Long id, Model model){
+        model.addAttribute("id", id);
+        return "/system/user/auth";
+    }
+
+    @Autowired
+    private MenuService menuService;
+
+    /**
+     * 获取权限资源列表
+     */
+    @GetMapping("/authList")
+    //@RequiresPermissions("system:user:auth")
+    @ResponseBody
+    public ResultVo authList(@RequestParam(value = "ids") User user){
+        // 获取指定岗位权限资源
+        Set<Menu> authMenus = user.getMenus();
+        // 获取全部菜单列表
+        List<Menu> list = menuService.getListBySortOk();
+        // 融合两项数据
+        list.forEach(menu -> {
+            if(authMenus.contains(menu)){
+                menu.setRemark("auth:true");
+            }else {
+                menu.setRemark("");
+            }
+        });
+        return ResultVoUtil.success(list);
+    }
+
+    /**
+     * 保存授权信息
+     */
+    @PostMapping("/auth")
+    //@RequiresPermissions("system:user:auth")
+    @ResponseBody
+    @ActionLog(key = UserAction.EDIT_MENU, action = UserAction.class)
+    public ResultVo menuAuth(
+            @RequestParam(value = "id", required = true) User user,
+            @RequestParam(value = "authId", required = false) HashSet<Menu> menus){
+        // 不允许操作管理员岗位数据
+        if (user.getId().equals(AdminConst.ADMIN_ID) &&
+                !ShiroUtil.getSubject().getId().equals(AdminConst.ADMIN_ID)){
+            throw new ResultException(ResultEnum.NO_ADMINROLE_AUTH);
+        }
+
+        // 更新岗位菜单
+        user.setMenus(menus);
+
+        // 保存数据
+        userService.save(user);
+        return ResultVoUtil.SAVE_SUCCESS;
+    }
     /*@GetMapping("/queryUsers")
     @ResponseBody
     public ResultVo queryUsers(User user){

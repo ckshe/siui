@@ -59,7 +59,7 @@ public class Role implements Serializable {
 
     private String skillIds;
 
-    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<User> users = new HashSet<>(0);
 
