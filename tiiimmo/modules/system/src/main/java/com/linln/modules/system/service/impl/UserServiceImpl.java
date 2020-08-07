@@ -174,5 +174,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.queryById(id);
     }
 
+    @Override
+    public List<String> selectPermsByUserId(Long subjectId) {
+        return userRepository.selectPermsByUserId(subjectId);
+    }
+
 
 }

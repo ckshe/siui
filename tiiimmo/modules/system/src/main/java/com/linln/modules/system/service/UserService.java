@@ -79,4 +79,6 @@ public interface UserService {
     Long getSize();
 
     String getRole(Long id);
+
+    List<String> selectPermsByUserId(Long subjectId);
 }

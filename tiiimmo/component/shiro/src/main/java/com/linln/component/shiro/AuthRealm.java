@@ -53,11 +53,16 @@ public class AuthRealm extends AuthorizingRealm {
         Long roleId = roles.iterator().next().getId();
         List<String> perms = roleService.selectPermsByRoleId(roleId);
 
+        // 给员工授权
+        Long subjectId = ShiroUtil.getSubject().getId();
+        List<String> perms2 = userService.selectPermsByUserId(subjectId);
 
-        int size = perms.size();
+        int size = perms.size() + perms2.size();
         System.out.println(size);
 
+
         info.addStringPermissions(perms);
+        info.addStringPermissions(perms2);
 
 
         /*roles.forEach(role -> {
@@ -70,7 +75,7 @@ public class AuthRealm extends AuthorizingRealm {
                 }
             });
         });
-*/
+        */
         return info;
     }
 
