@@ -109,8 +109,9 @@
                     clearInterval(board2Interval);//上一页
                     clearInterval(board4Interval);//下一页
                     clearInterval(deviceInterval);//温度与启停
+                    var hsaClassOn = $(".button-span button:first").hasClass("on");
+                    board1(hsaClassOn)
                     board1Interval = setInterval(function () {
-                        var hsaClassOn = $(".button-span button:first").hasClass("on");
                         board1(hsaClassOn)
                     }, 60000);
                     break;
@@ -118,6 +119,7 @@
                     clearInterval(board11Interval);//清除初始首页定时
                     clearInterval(board1Interval);//上一页
                     clearInterval(board3Interval);//下一页
+                    board2()
                     board2Interval = setInterval(function () {
                         board2()
                     }, 60000);
@@ -126,6 +128,7 @@
                     clearInterval(board2Interval);//上一页
                     clearInterval(board4Interval);//下一页
                     clearInterval(deviceInterval);//温度与启停
+                    board3();
                     board3Interval = setInterval(function () {
                         board3();
                     }, 60000);
@@ -134,6 +137,9 @@
                     clearInterval(board11Interval);//清除初始首页定时
                     clearInterval(board3Interval);//上一页
                     clearInterval(board1Interval);//下一页
+                    board4();
+                    getData();
+                    getEnvironmentRecord();
                     board4Interval = setInterval(function () {
                         board4();
                     }, 60000);
