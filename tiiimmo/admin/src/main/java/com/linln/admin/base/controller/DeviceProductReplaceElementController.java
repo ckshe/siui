@@ -119,4 +119,24 @@ public class DeviceProductReplaceElementController {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
     }
+
+    @GetMapping("/queryByOriginalProductCode")
+    @ResponseBody
+    public DeviceProductReplaceElement queryByOriginalProductCode(DeviceProductReplaceElement deviceProductReplaceElement) {
+        DeviceProductReplaceElement replaceElement = deviceProductReplaceElementService.queryByOriginalProductCode(deviceProductReplaceElement.getOriginal_product_code());
+        return replaceElement;
+    }
+
+
+    @GetMapping("/queryByReplaceProductCode/{replaceProductCode}")
+    @ResponseBody
+    public ResultVo queryByReplaceProductCode(@PathVariable String replaceProductCode) {
+        return deviceProductReplaceElementService.queryByReplaceProductCode(replaceProductCode);
+    }
+
+    @GetMapping("/queryByProductCode/{ProductCode}")
+    @ResponseBody
+    public ResultVo queryByProductCode(@PathVariable String productCode) {
+        return deviceProductReplaceElementService.queryByReplaceProductCode(productCode);
+    }
 }

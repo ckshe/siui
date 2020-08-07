@@ -122,7 +122,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
         return ResultVoUtil.success("操作成功");
     }
 
-    @Override
+    /*@Override
     public ResultVo confirmScanProductCode(PcbTaskReq pcbTaskReq) {
         PcbTaskPositionRecordDetail detail = recordDetailRepositoty.findByProcess_task_codeAndProduct_code(pcbTaskReq.getProcessTaskCode(),pcbTaskReq.getLastProductCode());
         Map<String,Object> map = new HashMap<>();
@@ -186,7 +186,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
         map.put("status","1");
         map.put("msg","扫描成功");
         return ResultVoUtil.success(map);
-    }
+    }*/
 
     @Override
     public ResultVo finishPositionRecord(PcbTaskReq req) {
@@ -216,5 +216,82 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
 
         }
         return ResultVoUtil.success(user);
+    }
+
+
+    @Override
+    public ResultVo getDetailByProductCode(String productCode) {
+        PcbTaskPositionRecordDetail detail = recordDetailRepositoty.findByProduct_code(productCode);
+        if(detail==null){
+            return ResultVoUtil.error("查询不到该信息");
+        }
+        return ResultVoUtil.success(detail);
+    }
+
+
+    @Override
+    public ResultVo confirmScanProductCode(PcbTaskReq pcbTaskReq) {
+        PcbTaskPositionRecordDetail detail = recordDetailRepositoty.findByProcess_task_codeAndProduct_code(pcbTaskReq.getProcessTaskCode(),pcbTaskReq.getLastProductCode(),pcbTaskReq.getDeviceCode());
+        Map<String,Object> map = new HashMap<>();
+        if(detail == null){
+            map.put("status","3");
+            map.put("msg","找不到该原物料");
+            return ResultVoUtil.success(map);
+        }
+        detail.setProduct_code(pcbTaskReq.getProductCode());
+        detail.setLast_product_code(pcbTaskReq.getLastProductCode());
+        detail.setInstall_status("1");
+        recordDetailRepositoty.save(detail);
+        map.put("status","1");
+        map.put("msg","扫描成功");
+        return ResultVoUtil.success(map);
+    }
+
+    @Override
+    public ResultVo scanProductCode(PcbTaskReq req) {
+        PcbTaskPositionRecordDetail detail = recordDetailRepositoty.findByProcess_task_codeAndProduct_code(req.getProcessTaskCode(),req.getProductCode(),req.getDeviceCode());
+        Map<String,Object> map = new HashMap<>();
+        if(detail==null){
+            //找不到物料则寻找替代料表
+            List<DeviceProductReplaceElement> elementList = deviceProductReplaceElementRepository.findByReplace_prodcut_code(req.getProductCode());
+            //如果只有一个唯一替代料则直接替代，重写数据
+            if(elementList.size()==1){
+                detail = recordDetailRepositoty.findByProcess_task_codeAndProduct_code(req.getProcessTaskCode(),elementList.get(0).getOriginal_product_code(),req.getDeviceCode());
+                detail.setLast_product_code(detail.getProduct_code());
+                detail.setProduct_code(elementList.get(0).getReplace_product_code());
+                detail.setInstall_status("1");
+                recordDetailRepositoty.save(detail);
+                map.put("status","1");
+                map.put("msg","扫描成功");
+            }
+            //
+            if(elementList.size()==0){
+                map.put("status","3");
+                map.put("msg","找不到该物料");
+            }
+            //多于一个返回供选择
+            if(elementList.size()>1){
+                map.put("elementList",elementList);
+                map.put("status","4");
+                map.put("msg","该替代料原物料不唯一，请选择要替代的原物料");
+            }
+            return ResultVoUtil.success(map);
+        }
+        if("1".equals(detail.getInstall_status())){
+
+            map.put("status","1");
+            map.put("msg","该物料已扫描");
+            return ResultVoUtil.success(map);
+        }
+        if("2".equals(detail.getInstall_status())){
+            map.put("status","2");
+            map.put("msg","该物料已插入");
+            return ResultVoUtil.success(map);
+        }
+        detail.setInstall_status("1");
+        recordDetailRepositoty.save(detail);
+        map.put("status","1");
+        map.put("msg","扫描成功");
+        return ResultVoUtil.success(map);
     }
 }

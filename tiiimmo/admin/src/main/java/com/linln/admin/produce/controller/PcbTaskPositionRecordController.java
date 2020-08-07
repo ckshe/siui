@@ -74,6 +74,14 @@ public class PcbTaskPositionRecordController {
         return pcbTaskPositionRecordService.getUserInfoByCard( cardSequence);
     }
 
+    // ______________________________
+    // 根据物料编号查询物料明细
+    @GetMapping("/getDetailByProductCode/{productCode}")
+    @ResponseBody
+    public ResultVo getDetailByProductCode(@PathVariable String productCode){
+        return pcbTaskPositionRecordService.getDetailByProductCode( productCode);
+    }
+
 
 
 }

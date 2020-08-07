@@ -22,4 +22,6 @@ public interface PcbTaskPositionRecordService {
 
     public ResultVo getUserInfoByCard(String cardSequence);
 
+    ResultVo getDetailByProductCode(String productCode);
+
 }

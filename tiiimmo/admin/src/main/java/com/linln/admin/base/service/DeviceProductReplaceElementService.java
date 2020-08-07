@@ -2,6 +2,7 @@ package com.linln.admin.base.service;
 
 import com.linln.admin.base.domain.DeviceProductReplaceElement;
 import com.linln.common.enums.StatusEnum;
+import com.linln.common.vo.ResultVo;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,4 +39,13 @@ public interface DeviceProductReplaceElementService {
      */
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    // ------------------------------------------------------------
+
+    DeviceProductReplaceElement queryByOriginalProductCode(String original_product_code);
+
+    ResultVo queryByReplaceProductCode(String replaceProductCode);
+
+
+    //ResultVo queryByReplaceProductCode(DeviceProductReplaceElementReq req);
 }

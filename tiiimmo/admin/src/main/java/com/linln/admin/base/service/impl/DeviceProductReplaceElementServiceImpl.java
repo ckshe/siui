@@ -12,6 +12,8 @@ import com.linln.admin.produce.domain.ScheduleJobApi;
 import com.linln.admin.produce.repository.ScheduleJobApiRepository;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
+import com.linln.common.utils.ResultVoUtil;
+import com.linln.common.vo.ResultVo;
 import com.linln.utill.ApiUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -143,5 +145,20 @@ public class DeviceProductReplaceElementServiceImpl implements DeviceProductRepl
     @Transactional
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return deviceProductReplaceElementRepository.updateStatus(statusEnum.getCode(), idList) > 0;
+    }
+
+    // ________________________________________________________________
+    @Override
+    public DeviceProductReplaceElement queryByOriginalProductCode(String original_product_code) {
+        return deviceProductReplaceElementRepository.queryByOriginalProductCode(original_product_code);
+    }
+
+    @Override
+    public ResultVo queryByReplaceProductCode(String replaceProductCode) {
+        DeviceProductReplaceElement element = deviceProductReplaceElementRepository.findByReplaceProductCode(replaceProductCode);
+        if (element == null){
+            return ResultVoUtil.error("查询不到替代料");
+        }
+        return ResultVoUtil.success(element);
     }
 }

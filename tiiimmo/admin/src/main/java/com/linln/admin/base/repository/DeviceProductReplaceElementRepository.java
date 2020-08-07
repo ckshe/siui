@@ -17,4 +17,11 @@ public interface DeviceProductReplaceElementRepository extends BaseRepository<De
 
     @Query(value = "select * from base_device_product_replace_element where  replace_product_code = ?1",nativeQuery = true)
     List<DeviceProductReplaceElement> findByReplace_prodcut_code(String replaceProductCode);
+    //________________________
+    @Query(value = "select * from base_device_product_replace_element where  original_product_code = ?1",nativeQuery = true)
+    DeviceProductReplaceElement queryByOriginalProductCode(String original_product_code);
+
+    @Query(value = "select * from base_device_product_replace_element where  replace_product_code = ?1",nativeQuery = true)
+    DeviceProductReplaceElement findByReplaceProductCode(String replaceProductCode);
+
 }
