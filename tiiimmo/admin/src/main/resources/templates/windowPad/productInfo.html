@@ -310,7 +310,7 @@
                                     var old = JSON.parse(localStorage.getItem('gxData'));
                                     if (old.length === res.data.length) {
                                         old.some(function (t, i) {
-                                            if (t.id !== res.data[i].id) {
+                                            if (t.detail_device_finish_count !== res.data[i].detail_device_finish_count || t.detail_device_plan_count !== res.data[i].detail_device_plan_count ) {
                                                 localStorage.setItem('gxData', res.data)
                                                 window.location.reload();
                                                 return true
