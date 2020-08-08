@@ -61,31 +61,33 @@
                         res.data.some(function (t,i) {
                             if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
                                 console.log(t);
-                                $.ajax({
-                                    url: '/produce/pcbTask/countProcessTaskAmount',
-                                    type: "post",
-                                    dataType : "json",
-                                    data : JSON.stringify({
-                                        processTaskCode:t.process_task_code,
-                                        deviceCode:getQueryString2('deviceCode'),
-                                        plateNo:$('#codeBox').val()
-                                    }),
-                                    contentType : "application/json;charset=UTF-8",
-                                    success: function (res2) {
-                                        layer.closeAll();
-                                        if(res2.code === 200){
-                                            layer.msg(res.msg,{icon:1});
-                                            keke.innerHTML=parseInt(keke.innerHTML)+1
+                                if(parentLogin()){
+                                    $.ajax({
+                                        url: '/produce/pcbTask/countProcessTaskAmount',
+                                        type: "post",
+                                        dataType : "json",
+                                        data : JSON.stringify({
+                                            processTaskCode:t.process_task_code,
+                                            deviceCode:getQueryString2('deviceCode'),
+                                            plateNo:$('#codeBox').val()
+                                        }),
+                                        contentType : "application/json;charset=UTF-8",
+                                        success: function (res2) {
+                                            layer.closeAll();
+                                            if(res2.code === 200){
+                                                layer.msg(res.msg,{icon:1});
+                                                keke.innerHTML=parseInt(keke.innerHTML)+1
 
-                                            setTimeout(function () {
-                                               window.location.reload();
-                                            },1000)
-                                        }else{
-                                            layer.alert(res2.msg,{icon:5})
+                                                setTimeout(function () {
+                                                    window.location.reload();
+                                                },1000)
+                                            }else{
+                                                layer.alert(res2.msg,{icon:5})
+                                            }
+
                                         }
-
-                                    }
-                                })
+                                    })
+                                }
                                 return true
                             }
                         });
