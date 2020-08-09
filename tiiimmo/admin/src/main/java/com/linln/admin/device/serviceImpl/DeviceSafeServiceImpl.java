@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,15 +39,8 @@ public class DeviceSafeServiceImpl implements DeviceSafeServiceInter {
     }
 
     @Override
-    public List<DeviceSafeVO> getDeviceSafes(Example<DeviceSafe> deviceSafeExample) {
-        List<DeviceSafeVO> deviceSafeVOS = new ArrayList<>();
-        List<DeviceSafe> deviceSafes = deviceSafeRepository.findAll(deviceSafeExample);
-        for (DeviceSafe deviceSafe : deviceSafes){
-            DeviceSafeVO deviceSafeVO = new DeviceSafeVO();
-            BeanUtils.copyProperties(deviceSafe, deviceSafeVO);
-            deviceSafeVOS.add(deviceSafeVO);
-        }
-        return deviceSafeVOS;
+    public Page<DeviceSafe> getDeviceSafes(Example<DeviceSafe> deviceSafeExample, Pageable pageable) {
+        return deviceSafeRepository.findAll(deviceSafeExample, pageable);
     }
 
     @Override

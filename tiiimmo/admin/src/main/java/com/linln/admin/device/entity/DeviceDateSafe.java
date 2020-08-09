@@ -18,7 +18,7 @@ import java.util.Date;
 public class DeviceDateSafe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer dateSafeId;
     //维护日期
     private Date safeTime;
     //维护类型

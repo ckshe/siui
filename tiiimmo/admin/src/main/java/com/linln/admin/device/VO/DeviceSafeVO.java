@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class DeviceSafeVO {
-    private Integer id;
+    private Integer safeId;
     private String safeDeviceCode;
     private String safeType;
     private String safeContent;

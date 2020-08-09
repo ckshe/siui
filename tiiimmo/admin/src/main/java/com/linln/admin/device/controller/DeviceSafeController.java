@@ -5,15 +5,15 @@ import com.linln.admin.device.entity.DeviceSafe;
 import com.linln.admin.device.enums.ResultEnum;
 import com.linln.admin.device.exception.DeviceException;
 import com.linln.admin.device.form.DeviceSafeForm;
+import com.linln.admin.device.form.DeviceSafeListForm;
 import com.linln.admin.device.realization.DeviceSafeReal;
+import com.linln.admin.device.resultVO.DeviceSafeResultVO;
 import com.linln.admin.device.resultVO.ResultVO;
 import com.linln.admin.device.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,22 +39,27 @@ public class DeviceSafeController {
             log.error("【创建设备维护内容】参数不正确，deviceSafeForm={}", deviceSafeForm.toString());
             throw new DeviceException(ResultEnum.PARAM_ERROR.getCode(), Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
-        deviceSafeForm.setId(null);
+        deviceSafeForm.setSafeId(null);
         deviceSafeReal.createDeviceSafe(deviceSafeForm);
         return ResultVOUtil.success(null);
     }
 
-    @GetMapping("/list")
-    public ResultVO<Object> getDeviceSafes(DeviceSafeForm deviceSafeForm) {
+    @RequestMapping("/list")
+    public ResultVO<Object> getDeviceSafes(@Valid @RequestBody DeviceSafeListForm deviceSafeListForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.error("【查询设备维护内容】参数不正确，deviceSafeForm={}", deviceSafeListForm.toString());
+            throw new DeviceException(ResultEnum.PARAM_ERROR.getCode(), Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+        }
         DeviceSafe deviceSafe = new DeviceSafe();
-        BeanUtils.copyProperties(deviceSafeForm, deviceSafe);
+        BeanUtils.copyProperties(deviceSafeListForm, deviceSafe);
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withMatcher("safeDeviceCode", ExampleMatcher.GenericPropertyMatcher::contains)
                 .withMatcher("safeType", ExampleMatcher.GenericPropertyMatcher::contains)
                 .withMatcher("safeContent", ExampleMatcher.GenericPropertyMatcher::contains);
         Example<DeviceSafe> deviceSafeExample = Example.of(deviceSafe, matcher);
-        List<DeviceSafeVO> deviceSafeVOS = deviceSafeReal.getDeviceSafes(deviceSafeExample);
-        return ResultVOUtil.success(deviceSafeVOS);
+        Pageable pageable = PageRequest.of(deviceSafeListForm.getPage()-1, deviceSafeListForm.getSize());
+        DeviceSafeResultVO deviceSafeResultVO = deviceSafeReal.getDeviceSafes(deviceSafeExample, pageable);
+        return ResultVOUtil.success(deviceSafeResultVO);
     }
 
     @RequestMapping("/edit")
@@ -63,7 +68,7 @@ public class DeviceSafeController {
             log.error("【创建设备维护内容】参数不正确，deviceSafeForm={}", deviceSafeForm.toString());
             throw new DeviceException(ResultEnum.PARAM_ERROR.getCode(), Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
-        if(deviceSafeForm.getId()==null){
+        if(deviceSafeForm.getSafeId()==null){
             log.error("【创建设备维护内容】设备维护内容id不能为空，deviceSafeForm={}", deviceSafeForm.toString());
             throw new DeviceException(ResultEnum.DEVICE_SAFE_ID_NOT_NULL);
         }
@@ -72,12 +77,12 @@ public class DeviceSafeController {
     }
 
     @GetMapping("/delete")
-    public ResultVO<Object> deleteDeviceSafe(Integer id){
-        if(id==null){
-            log.error("【删除设备维护内容】设备维护内容id不能为空，id={}", id);
+    public ResultVO<Object> deleteDeviceSafe(Integer safeId){
+        if(safeId==null){
+            log.error("【删除设备维护内容】设备维护内容id不能为空，id={}", safeId);
             throw new DeviceException(ResultEnum.DEVICE_SAFE_ID_NOT_NULL);
         }
-        deviceSafeReal.deleteDeviceSafe(id);
+        deviceSafeReal.deleteDeviceSafe(safeId);
         return ResultVOUtil.success(null);
     }
 }

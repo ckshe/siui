@@ -8,6 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,15 +28,8 @@ public class DeviceDateSafeServiceImpl implements DeviceDateSafeServiceInter {
     }
 
     @Override
-    public List<DeviceDateSafeVO> getDeviceDateSafes(Example<DeviceDateSafe> deviceDateSafeExample) {
-        List<DeviceDateSafeVO> deviceDateSafeVOS = new ArrayList<>();
-        List<DeviceDateSafe> deviceDateSafes = deviceDateSafeRepository.findAll(deviceDateSafeExample);
-        for (DeviceDateSafe deviceDateSafe : deviceDateSafes){
-            DeviceDateSafeVO deviceDateSafeVO = new DeviceDateSafeVO();
-            BeanUtils.copyProperties(deviceDateSafe, deviceDateSafeVO);
-            deviceDateSafeVOS.add(deviceDateSafeVO);
-        }
-        return deviceDateSafeVOS;
+    public Page<DeviceDateSafe> getDeviceDateSafes(Specification<DeviceDateSafe> Specification, Pageable pageable) {
+        return deviceDateSafeRepository.findAll(Specification, pageable);
     }
 
     @Override
@@ -48,6 +44,6 @@ public class DeviceDateSafeServiceImpl implements DeviceDateSafeServiceInter {
 
     @Override
     public List<DeviceDateSafe> findDeviceDateSafeByIdList(List<Integer> idList) {
-        return deviceDateSafeRepository.findByIdIn(idList);
+        return deviceDateSafeRepository.findByDateSafeIdIn(idList);
     }
 }

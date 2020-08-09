@@ -10,6 +10,7 @@ import com.linln.admin.device.exception.DeviceException;
 import com.linln.admin.device.form.DeviceDateSafeEditForm;
 import com.linln.admin.device.form.DeviceDateSafeForm;
 import com.linln.admin.device.formModel.DeviceDateSafeEditFormModel;
+import com.linln.admin.device.resultVO.DeviceDateSafeListResultVO;
 import com.linln.admin.device.resultVO.DeviceDateSafeResultVO;
 import com.linln.admin.device.serviceImpl.DeviceDateSafeServiceImpl;
 import com.linln.admin.device.serviceImpl.DeviceSafeResultServiceImpl;
@@ -18,6 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,8 +55,18 @@ public class DeviceDateSafeReal {
         this.deviceSafeResultService = deviceSafeResultService;
     }
 
-    public List<DeviceDateSafeVO> getDeviceDateSafes(Example<DeviceDateSafe> deviceDateSafeExample) {
-        return deviceDateSafeService.getDeviceDateSafes(deviceDateSafeExample);
+    public DeviceDateSafeListResultVO getDeviceDateSafes(Specification<DeviceDateSafe> Specification, Pageable pageable) {
+        DeviceDateSafeListResultVO deviceDateSafeListResultVO = new DeviceDateSafeListResultVO();
+        List<DeviceDateSafeVO> deviceDateSafeVOS = new ArrayList<>();
+        Page<DeviceDateSafe> deviceDateSafePage = deviceDateSafeService.getDeviceDateSafes(Specification, pageable);
+        for (DeviceDateSafe deviceDateSafe : deviceDateSafePage.getContent()){
+            DeviceDateSafeVO deviceDateSafeVO = new DeviceDateSafeVO();
+            BeanUtils.copyProperties(deviceDateSafe, deviceDateSafeVO);
+            deviceDateSafeVOS.add(deviceDateSafeVO);
+        }
+        deviceDateSafeListResultVO.setTotal(deviceDateSafePage.getTotalElements());
+        deviceDateSafeListResultVO.setDeviceDateSafeVOS(deviceDateSafeVOS);
+        return deviceDateSafeListResultVO;
     }
 
     @Transactional
@@ -100,11 +114,11 @@ public class DeviceDateSafeReal {
 
     @Transactional
     public void editDeviceDateSafes(DeviceDateSafeEditFormModel deviceDateSafeEditFormModel) {
-        List<Integer> idList = deviceDateSafeEditFormModel.getDeviceDateSafeEditForms().stream().map(DeviceDateSafeEditForm::getId).collect(Collectors.toList());
+        List<Integer> idList = deviceDateSafeEditFormModel.getDeviceDateSafeEditForms().stream().map(DeviceDateSafeEditForm::getDateSafeId).collect(Collectors.toList());
         List<DeviceDateSafe> deviceDateSafes = deviceDateSafeService.findDeviceDateSafeByIdList(idList);
         for (int i = 0; i < deviceDateSafes.size(); i++) {
             int index = i;
-            List<DeviceDateSafeEditForm> deviceDateSafeEditForms = deviceDateSafeEditFormModel.getDeviceDateSafeEditForms().stream().filter(e->e.getId().equals(deviceDateSafes.get(index).getId())).collect(Collectors.toList());
+            List<DeviceDateSafeEditForm> deviceDateSafeEditForms = deviceDateSafeEditFormModel.getDeviceDateSafeEditForms().stream().filter(e->e.getDateSafeId().equals(deviceDateSafes.get(index).getDateSafeId())).collect(Collectors.toList());
             if (deviceDateSafeEditForms.size()!=0){
                 DeviceDateSafeEditForm deviceDateSafeEditForm = deviceDateSafeEditForms.get(0);
                 BeanUtils.copyProperties(deviceDateSafeEditForm, deviceDateSafes.get(index));

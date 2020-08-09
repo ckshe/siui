@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class DeviceSafe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer safeId;
     //维护设备
     private String safeDeviceCode;
     //维护类型

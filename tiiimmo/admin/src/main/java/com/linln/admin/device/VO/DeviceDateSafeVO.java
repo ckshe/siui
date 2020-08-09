@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 public class DeviceDateSafeVO {
-    private Integer id;
+    private Integer dateSafeId;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date safeTime;
     private String safeType;

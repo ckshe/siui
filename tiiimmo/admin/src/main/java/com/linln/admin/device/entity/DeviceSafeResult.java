@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class DeviceSafeResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer safeResultId;
     //维护结果
     private String safeResult;
     //默认选择
