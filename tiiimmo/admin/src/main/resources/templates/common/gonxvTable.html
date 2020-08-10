@@ -79,6 +79,18 @@
                     ,{field: 'task_sheet_code', title: '生产批次', width: 164}
                     ,{field: 'model_name', title: '机型名称', minWidth: 218}
                     ,{field: 'pcb_code', title: '规格型号', minWidth: 160}
+                    , { field: 'detail_plan_count', title: '日计划量', minWidth: 90,templet:function (d) {
+                        if(d.count_type==1){
+                            d.detail_plan_count = d.detail_device_plan_count;
+                        }
+                        return d.detail_plan_count==null?'': d.detail_plan_count;
+                    }}
+                    , { field: 'detail_finish_count', title: '日完成量', minWidth: 90,templet:function (d) {
+                        if(d.count_type==1){
+                            d.detail_finish_count = d.detail_device_finish_count;
+                        }
+                        return d.detail_finish_count ==null?'': d.detail_finish_count;
+        }}
                     ,{field: 'pcb_quantity', title: '计划生产数量', minWidth: 120}
                     ,{field: 'amount_completed', title: '实际生产数量', minWidth: 120}
                     ,{field: 'is_rohs', title: 'RoHS标志', minWidth: 100}
