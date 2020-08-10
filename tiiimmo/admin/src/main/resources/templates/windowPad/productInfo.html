@@ -202,7 +202,7 @@
                             if (t.count_type == 1) {
                                 statusBox.className = color(t.device_detail_status);
                                 statusBox.innerHTML = t.device_detail_status;
-
+                                console.log(t.detail_device_plan_count)
                                 t.detail_plan_count = t.detail_device_plan_count;
                                 t.detail_finish_count = t.detail_device_finish_count;
 
@@ -231,8 +231,18 @@
                         // , { field: 'pcb_task_code', title: '排产任务号', width: 164 }
                         // , { field: 'model_name', title: '机型名称', minWidth: 274 }
                         , { field: 'pcb_code', title: '规格型号', minWidth: 190 }
-                        , { field: 'detail_plan_count', title: '日计划量', minWidth: 90 }
-                        , { field: 'detail_finish_count', title: '日完成量', minWidth: 90 }
+                        , { field: 'detail_plan_count', title: '日计划量', minWidth: 90,templet:function (d) {
+                            if(d.count_type==1){
+                                d.detail_plan_count = d.detail_device_plan_count;
+                            }
+                            return d.detail_plan_count==null?'': d.detail_plan_count;
+                        }}
+                        , { field: 'detail_finish_count', title: '日完成量', minWidth: 90,templet:function (d) {
+                            if(d.count_type==1){
+                                d.detail_finish_count = d.detail_device_finish_count;
+                            }
+                            return d.detail_finish_count ==null?'': d.detail_finish_count;
+                        }}
                         , { field: 'pcb_quantity', title: '计划量', minWidth: 80 }
                         , { field: 'amount_completed', title: '完成量', minWidth: 80 }
                         , { field: 'is_rohs', title: 'RoHS', minWidth: 80 }
