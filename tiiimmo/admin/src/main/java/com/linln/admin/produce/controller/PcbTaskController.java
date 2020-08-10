@@ -389,6 +389,14 @@ public class PcbTaskController {
         return ResultVoUtil.success("删除成功");
     }
 
+    //增加工序机台
+    @PostMapping("/addProcessTaskDevice")
+    @ResponseBody
+    public ResultVo addProcessTaskDevice(@RequestBody PcbTaskReq req){
+        return pcbTaskService.addProcessTaskDevice(req);
+    }
+
+    //日计划列表
 
 
 }

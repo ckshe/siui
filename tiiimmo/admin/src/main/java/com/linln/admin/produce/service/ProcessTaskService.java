@@ -28,4 +28,6 @@ public interface ProcessTaskService {
     List<ProcessTaskDetailDevice> findByTaskCodeAndDayTime(String processTaskCode,String planDayTime);
 
     List<ProcessTaskDetailDevice> findByTaskCodeAndDayTimeAndDeviceCode(String processTaskCode,String planDayTime,String deviceCode);
+
+    void getProcessTaskDetailByPage(ProcessTaskReq req);
 }

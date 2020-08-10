@@ -1075,6 +1075,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 if(plateSort!=null&&plateSort.getRecord_end_time()==null){
                     plateSort.setRecord_end_time(new Date());
                     processTaskRealPlateSortRepository.save(plateSort);
+                    PcbTaskPlateNo pcbTaskPlateNo = pcbTaskPlateNoRepository.findByPlate_no(req.getPlateNo(),processTask.getProcess_task_code());
+                    if(pcbTaskPlateNo!=null){
+                        pcbTaskPlateNo.setIs_count("1");
+                        pcbTaskPlateNoRepository.save(pcbTaskPlateNo);
+                    }
                 }else if(plateSort!=null&&plateSort.getRecord_end_time()!=null) {
                     map.put("result","200");
                     map.put("timeStamp",pcbTaskReq.getTimeStamp());
@@ -1462,7 +1467,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                         processTaskRepository.saveAll(stopList);
                         //continue;
                     }
-                    listByDevice_code.remove(stopList);
+                    listByDevice_code.removeAll(stopList);
                     if(listByDevice_code!=null&&listByDevice_code.size()!=0){
                         if(!deviceCodes[i].equals(pcbTaskReq.getDeviceCode())){
                             return ResultVoUtil.error("欲启动的工序任务中该"+deviceCodes[i]+"机台有其他生产中的任务");
@@ -1531,7 +1536,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
 
             UserDeviceHistory one = userDeviceHistoryRepository.findAllByProcessTaskDateDeviceUser(processTask.getProcess_task_code(),date,pcbTaskReq.getDeviceCode(),user.getId());
-            if(one==null){
+            if(one!=null){
 
             }else {
                 UserDeviceHistory tow = userDeviceHistoryRepository.findOnlyUpTimeRecord(pcbTaskReq.getDeviceCode());
@@ -2272,12 +2277,18 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             }
 
         }else {
-            //获取日计划的数量
+          /*  //获取日计划的数量
             ProcessTaskDetail detail = processTaskDetailRepositoty.findAllByProcess_task_codeAndPlan_day_time(req.getProcessTaskCode(), ttoday);
             if(detail!=null){
                 amount = detail.getFinish_count();
             }else {
                 amount = processTask.getAmount_completed();
+            }*/
+            ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getDeviceCode(),req.getProcessTaskCode());
+            if(processTaskDevice!= null){
+                amount = processTaskDevice.getAmount();
+            }else {
+                amount = 0;
             }
             List<ProcessTaskRealPlateSort> plateSorts = processTaskRealPlateSortRepository.findByProcess_task_code(processTask.getProcess_task_code());
             if(plateSorts!=null&&plateSorts.size()!=0&&amount<plateSorts.size()){
@@ -2287,9 +2298,29 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }
         BigDecimal workTime = processTask.getWork_time().multiply(new BigDecimal(60));
         User user = ShiroUtil.getSubject();
+        if(user!=null){
+            UserDeviceHistory userDeviceHistory = userDeviceHistoryRepository.findAllByProcessTaskDateDeviceUser(req.getProcessTaskCode(),ttoday,req.getDeviceCode(),user.getId());
+            if(userDeviceHistory!=null){
+                long time = ( today.getTime()-userDeviceHistory.getUp_time().getTime() )/1000;
+                map.put("workTime",time);
+            }else {
+                map.put("workTime",0);
+            }
+
+        }else {
+            map.put("workTime",0);
+        }
         map.put("amount",amount);
-        map.put("workTime",workTime);
         return ResultVoUtil.success(map);
+    }
+
+    @Override
+    public ResultVo addProcessTaskDevice(PcbTaskReq req) {
+        ProcessTask processTask = processTaskRepository.findByProcessTaskCode(req.getProcessTaskCode());
+        processTask.setDevice_code(req.getDeviceCode());
+        processTask.setDevice_name(req.getDeviceName());
+        processTaskRepository.save(processTask);
+        return ResultVoUtil.success("修改成功");
     }
 
 

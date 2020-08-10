@@ -15,7 +15,7 @@ public interface ProcessTaskRepository extends BaseRepository<ProcessTask,Long> 
     ProcessTask findProducingByDevice_code(String device);
 
 
-    @Query(value = "select * from produce_process_task where device_code like ?1 and process_task_status = '生产中' or process_task_status = '进行中' or process_task_status like '%暂停%'",nativeQuery = true)
+    @Query(value = "select * from produce_process_task where device_code like ?1 and (process_task_status = '生产中' or process_task_status = '进行中' or process_task_status like '%暂停%')",nativeQuery = true)
     List<ProcessTask>  findProducingListByDevice_code(String device);
 
     @Query(value = "select * from produce_process_task where device_code like ?1 and (process_task_status = '生产中' or process_task_status like '%已下达%' or process_task_status like '%暂停%' or process_task_status like '%进行中%')",nativeQuery = true)

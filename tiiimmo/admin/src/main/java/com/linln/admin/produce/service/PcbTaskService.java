@@ -104,4 +104,6 @@ public interface PcbTaskService {
     ResultVo deviceAmountAndworkTime(PcbTaskReq req);
 
     ResultVo generateBatchId(Long pcbTaskId);
+
+    ResultVo addProcessTaskDevice(PcbTaskReq req);
 }

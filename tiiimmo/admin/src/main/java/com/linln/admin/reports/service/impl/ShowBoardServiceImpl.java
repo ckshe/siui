@@ -268,22 +268,13 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Override
     public ResultVo staffOnBoardForPad(PcbTaskReq pcbTaskReq) {
-        Integer page = 1;
-        Integer size = 10;
+        Integer page = pcbTaskReq.getPage();
+        Integer size = pcbTaskReq.getSize();
         if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
-            page = pcbTaskReq.getPage();
-            size = pcbTaskReq.getSize();
+            page = 1;
+            size = 10;
         }
         StringBuffer sql = new StringBuffer("SELECT\n" +
-                "\t* \n" +
-                "FROM\n" +
-                "\t(\n" +
-                "\tSELECT\n" +
-                "\t\t*,\n" +
-                "\t\tROW_NUMBER ( ) OVER ( ORDER BY t4.Id ASC ) row \n" +
-                "\tFROM\n" +
-                "\t\t(\n" +
-                "\t\tSELECT\n" +
                 "\t\t\t* \n" +
                 "\t\tFROM\n" +
                 "\t\t\t(\n" +
@@ -300,7 +291,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "\t\t\t\tISNULL( t2.pcb_quantity, 0 ) plancount,\n" +
                 "\t\t\t\tt3.task_sheet_code,\n" +
                 "\t\t\t\tt3.pcb_name,\n" +
-                "\t\t\t\tROW_NUMBER ( ) OVER ( partition BY t1.user_name, t1.device_code ORDER BY t1.id DESC ) AS rn,\n" +
+                "\t\t\t\tROW_NUMBER ( ) OVER ( ORDER BY t1.up_time DESC ) AS rn,\n" +
                 "\t\t\t\tCAST (\n" +
                 "\t\t\t\t\t100 * CAST ( ISNULL( t2.amount_completed, 0 ) * 1.0 / ISNULL( t2.pcb_quantity, 1 ) AS DECIMAL ( 8, 2 ) ) AS VARCHAR ( 100 ) \n" +
                 "\t\t\t\t) AS rate \n" +
@@ -310,25 +301,20 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "\t\t\t\tLEFT JOIN produce_pcb_task t3 ON t2.pcb_task_code = t3.pcb_task_code \n" +
                 "\t\t\tWHERE\n" +
                 "\t\t\t\tt1.process_task_code != '未分配' \n" +
-                "\t\t\t\tAND t1.process_task_code IS NOT NULL \n" +
-                "\t\t\t) AS u \n" +
-                "\t\tWHERE\n" +
-                "\t\t\tu.rn = 1 \n" +
-                "\t\t\tAND u.device_code LIKE '%" +
+                "\t\t\t\tAND t1.process_task_code IS NOT NULL AND t1.device_code LIKE '%" +
                 pcbTaskReq.getDeviceCode() +
                 "%' \n" +
-                "\t\t) t4 \n" +
-                "\t) t3 \n" );
+                "\t\t\t) AS u \n" );
         List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
 
-        sql.append("where t3.Row between " +
+        sql.append("where u.rn between " +
                 ((page-1)*size+1) +
                 " and " +
                 (page*size) +
                 "");
 
         sql.append(" ORDER BY\n" +
-                "\tt3.id DESC");
+                "\tu.id DESC");
         List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
 
 
@@ -546,29 +532,31 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
         StringBuffer processTypeSql = new StringBuffer("SELECT process_type FROM base_process GROUP BY process_type");
 
-        StringBuffer processTypeUseRateSql = new StringBuffer("\n" +
-                "SELECT SUM\n" +
-                "\t((CASE \n" +
-                "\tWHEN t1.process_name = '备料' THEN 1\n" +
-                "\tELSE t1.amount_completed\n" +
-                "END\n" +
-                ") * ISNULL( t2.theory_time, 0 ) ) sumTheoryTime,\n" +
-                "\tSUM ( ISNULL( t1.work_time, 0 ) ) workTime,\n" +
-                "\tt3.process_type \n" +
-                "FROM\n" +
-                "\tproduce_process_task t1\n" +
-                "\tLEFT JOIN produce_process_theory_time t2 ON t1.process_name = t2.process_name \n" +
-                "\tAND t1.pcb_code = t2.pcb_code\n" +
-                "\tLEFT JOIN base_process t3 ON t1.process_name = t3.name \n" +
-                "WHERE\n" +
-                "\tt1.plan_finish_time >= '" +
-                startTime+
+        StringBuffer processTypeUseRateSql = new StringBuffer("SELECT SUM\n" +
+                "\t( ( CASE WHEN t1.process_name = '备料' THEN 1 ELSE t1.amount_completed END ) * ISNULL( t2.theory_time, 0 ) ) sumTheoryTime,\n" +
+                "\tSUM (\n" +
+                "\tCASE\n" +
+                "\t\t\tWHEN t1.process_name = '备料' THEN ( CASE WHEN t1.process_task_status = '已完成' THEN ISNULL( t1.work_time, 0 ) ELSE 0 END ) ELSE ISNULL( t1.work_time, 0 ) \n" +
+                "\t\tEND \n" +
+                "\t\t) workTime,\n" +
+                "\t\tt3.process_type \n" +
+                "\tFROM\n" +
+                "\t\tproduce_process_task t1\n" +
+                "\t\tLEFT JOIN produce_process_theory_time t2 ON t1.process_name = t2.process_name \n" +
+                "\t\tAND t1.pcb_code = t2.pcb_code\n" +
+                "\t\tLEFT JOIN base_process t3 ON t1.process_name = t3.name \n" +
+                "\tWHERE\n" +
+                "\t\tt1.plan_finish_time >= '" +
+                startTime +
                 "' \n" +
-                "\tAND t1.plan_finish_time <= '" +
+                "\t\tAND t1.plan_start_time <= '" +
                 endTime +
-                "' and t1.process_task_status !='已下达' and t1.process_task_status !='未下达'\n" +
+                "' \n" +
+                "\t\tAND t1.process_task_status != '已下达' \n" +
+                "\t\tAND t1.process_task_status != '未下达' \n" +
                 "GROUP BY\n" +
-                "\tt3.process_type");
+                "\tt3.process_type\n" +
+                "\t");
 
         List<Map<String, Object>> processTypeSqlList = jdbcTemplate.queryForList(processTypeSql.toString());
         List<Map<String, Object>> countStaffClassSqlList = jdbcTemplate.queryForList(countStaffClassSql.toString());

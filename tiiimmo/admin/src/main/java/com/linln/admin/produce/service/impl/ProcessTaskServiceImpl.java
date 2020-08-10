@@ -296,5 +296,12 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         }
         FileUtil.readPDF(response,path);
     }
+
+    @Override
+    public void getProcessTaskDetailByPage(ProcessTaskReq req) {
+
+
+
+    }
 }
 
