@@ -52,7 +52,7 @@ a{
 }
 ::-webkit-scrollbar {
 	width: 5px;
-    height: 15px;
+    height: 10px;
 	background-color: #1e9fff;
 }
 ::-webkit-scrollbar-thumb {
