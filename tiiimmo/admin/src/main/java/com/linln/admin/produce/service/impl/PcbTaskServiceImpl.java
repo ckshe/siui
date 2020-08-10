@@ -34,6 +34,7 @@ import org.springframework.data.domain.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.xml.soap.Detail;
 import java.math.BigDecimal;
@@ -720,6 +721,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTaskDevice.setTd_status("");
             processTaskDevice.setReCount("0");
             processTaskDevice.setLast_amount(0);
+
+            list.add(processTaskDevice);
+        }
+        if(split.length>0){
             Integer tempCount = pcbTaskFirstPlateNo.getFirst_no();
             for(int o = 0;o<processTask.getPcb_quantity();o++){
                 String tempPlanNo = pcbTaskFirstPlateNo.getPrefix()+(tempCount+200000)+pcbTaskFirstPlateNo.getSuffix();
@@ -732,7 +737,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 pcbTaskPlateNo.setIs_count("0");
                 pcbTaskPlateNoRepository.save(pcbTaskPlateNo);
             }
-            list.add(processTaskDevice);
         }
         processTaskDeviceRepository.saveAll(list);
         return ResultVoUtil.success("工序计划下达到机台成功");
@@ -849,7 +853,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     "' ");
         }*/
         //sql.append(wheresql);
-        List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
+            List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
         sql.append(" where rownumber between " +
                 ((page-1)*size+1) +
                 " and " +
@@ -1095,6 +1099,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         Date today = new Date();
         List<PTDeviceResp> list = new ArrayList<>();
         Set<String> set = new HashSet<>();
+        Set<String> deviceSet = new HashSet<>();
         for(PcbTaskReq req : pcbTaskReq.getData()){
             PTDeviceResp resp = new PTDeviceResp();
             Device device = deviceRepository.fingDeviceBySort(req.getDeviceCode());
@@ -1149,17 +1154,20 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             device.setDevice_status(req.getStatus());
             deviceRepository.save(device);
             ProcessTask processTask = processTaskRepository.findProducingByDevice_code("%"+device.getDevice_code()+"%");
-            set.add(processTask.getProcess_task_code());
+
             //查无生产中的单怎么办
             if(processTask==null){
 
             }else {
                 Process process = processRepository.findByProcessName(processTask.getProcess_name());
-
+                set.add(processTask.getProcess_task_code());
                 if(process.getCount_type()==0){
                     ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(device.getDevice_code(),processTask.getProcess_task_code());
                     if(processTaskDevice!=null){
                         processTaskDevice.setTd_status(req.getStatus());
+                        if(req.getAmount()+processTaskDevice.getLast_amount()==processTaskDevice.getAmount()+1){
+                            deviceSet.add(device.getDevice_code());
+                        }
                         processTaskDevice.setAmount(req.getAmount()+processTaskDevice.getLast_amount());
                         processTaskDevice.setTime_stamp(pcbTaskReq.getTimeStamp());
                         processTaskDeviceRepository.save(processTaskDevice);
@@ -1214,16 +1222,32 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             for(int i=0;i<taskDevicelList.size();i++){
                 ProcessTaskDevice taskDevice = taskDevicelList.get(i);
                 ProcessTaskDeviceTheoryTime deviceTheoryTime = processTaskDeviceTheoryTimeRepository.findByProcess_task_codeAndDevice_code(taskcode, taskDevice.getDevice_code());
-                if(taskDevice.getAmount()== deviceTheoryTime.getAmount()+1){
+                if(deviceTheoryTime==null){
+                    ProcessTask p = processTaskRepository.findByProcessTaskCode(taskcode);
+                    deviceTheoryTime = new ProcessTaskDeviceTheoryTime();
+                    deviceTheoryTime.setAmount(0);
+                    deviceTheoryTime.setCreate_time(today);
+                    deviceTheoryTime.setDevice_code(taskDevice.getDevice_code());
+                    deviceTheoryTime.setPcb_code(p.getPcb_code());
+                    deviceTheoryTime.setProcess_task_code(taskcode);
+                    deviceTheoryTime.setUtilization_rate("0");
+                    deviceTheoryTime.setWork_time(BigDecimal.ZERO);
+                    deviceTheoryTime.setTheory_time(new BigDecimal(2.5));
+                    processTaskDeviceTheoryTimeRepository.save(deviceTheoryTime);
+
+                }
+                //if(taskDevice.getAmount()== deviceTheoryTime.getAmount()+1){
+                if(deviceSet.contains(taskDevice.getDevice_code())){
                     if(deviceTheoryTime.getStart_time()!=null){
-                        long workTime = (today.getTime() - deviceTheoryTime.getStart_time().getTime())/(1000*60);
-                        deviceTheoryTime.setWork_time(new BigDecimal(workTime));
+                        BigDecimal workTime = new BigDecimal((today.getTime() - deviceTheoryTime.getStart_time().getTime())/(1000*60));
+                        deviceTheoryTime.setWork_time(workTime.setScale(2, BigDecimal.ROUND_HALF_UP));
                         deviceTheoryTime.setStart_time(today);
+                        deviceTheoryTime.setAmount(deviceTheoryTime.getAmount()+1);
                         processTaskDeviceTheoryTimeRepository.save(deviceTheoryTime);
                     }
                     deviceTheoryTime.setStart_time(null);
                     processTaskDeviceTheoryTimeRepository.save(deviceTheoryTime);
-                    if(i!=taskDevicelList.size()){
+                    if(i!=taskDevicelList.size()-1){
                         String nextDeviceCode = taskDevicelList.get(i+1).getDevice_code();
                         ProcessTaskDeviceTheoryTime next = processTaskDeviceTheoryTimeRepository.findByProcess_task_codeAndDevice_code(taskcode, nextDeviceCode);
                         if(deviceTheoryTime.getAmount()==next.getAmount()+1){
@@ -1425,7 +1449,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
         //开始工序计划 进行中
         //将未分配的上机员工转移到这里
-        if("进行中".equals(pcbTaskReq.getProcessTaskStatus())){
+        if("进行中".equals(pcbTaskReq.getProcessTaskStatus())||"".equals(pcbTaskReq.getProcessTaskStatus())){
 
             String deviceCodes[] = processTask.getDevice_code().split(",");
             if(pcbTaskReq.getCountType()==1){
@@ -1436,9 +1460,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     if(stopList!=null&&stopList.size()!=0){
                         stopList.forEach(p->p.setIs_now_flag(""));
                         processTaskRepository.saveAll(stopList);
-                        continue;
+                        //continue;
                     }
-
+                    listByDevice_code.remove(stopList);
                     if(listByDevice_code!=null&&listByDevice_code.size()!=0){
                         if(!deviceCodes[i].equals(pcbTaskReq.getDeviceCode())){
                             return ResultVoUtil.error("欲启动的工序任务中该"+deviceCodes[i]+"机台有其他生产中的任务");
@@ -1479,6 +1503,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 if(detailDevice!=null){
                     detailDevice.setDevice_detail_status("进行中");
                     processTaskDetailDeviceRepository.save(detailDevice);
+                }else {
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    return ResultVoUtil.error("目标工序计划没有当天日计划！");
                 }
             }else {
                 if(lastProcessTask!=null){
@@ -1486,6 +1513,13 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 }
                 processTask.setIs_now_flag(processTask.getDevice_code());
             }
+            String date = DateUtil.date2String(new Date(),"");
+            ProcessTaskDetail detail = processTaskDetailRepositoty.findAllByProcess_task_codeAndPlan_day_time(processTask.getProcess_task_code(),date);
+            if(detail==null){
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return ResultVoUtil.error("目标工序计划没有当天日计划！");
+            }
+
             processTask.setProcess_task_status("进行中");
             if(lastProcessTask!=null){
                 processTaskRepository.save(lastProcessTask);
@@ -1494,10 +1528,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             if(processTask.getStart_time()==null){
                 processTask.setStart_time(new Date());
             }
-            String date = DateUtil.date2String(new Date(),"");
+
+
             UserDeviceHistory one = userDeviceHistoryRepository.findAllByProcessTaskDateDeviceUser(processTask.getProcess_task_code(),date,pcbTaskReq.getDeviceCode(),user.getId());
-            if(one!=null){
-                return ResultVoUtil.error("目标工序计划没有当天日计划！");
+            if(one==null){
+
             }else {
                 UserDeviceHistory tow = userDeviceHistoryRepository.findOnlyUpTimeRecord(pcbTaskReq.getDeviceCode());
                 if(tow!=null){
@@ -1828,9 +1863,19 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }
         processTaskDetailRepositoty.save(detail);
         List<ProcessTaskDetail> detailList = processTaskDetailRepositoty.findByProcess_task_code(processTask.getProcess_task_code());
+        //因为事务所以这里先去掉detail的完成数再加回来step1
+        //detailList.remove(detail);
         Integer sumcount = detailList.stream().mapToInt(ProcessTaskDetail::getFinish_count).sum();
+        //step2
+       // sumcount = sumcount + detail.getFinish_count();
         processTask.setAmount_completed(sumcount);
-        ProcessTaskStatusHistory history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(processTask.getProcess_task_code());
+         ProcessTaskStatusHistory history = null;
+        if(processTask.getCount_type()==1){
+            history = processTaskStatusHistoryRepository.findByProcessTaskCodeAndDeviceLastRecord(processTask.getProcess_task_code(),pcbTaskReq.getDeviceCode());
+        }else {
+            history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(processTask.getProcess_task_code());
+        }
+
         if(processTask.getAmount_completed()>=processTask.getPcb_quantity()){
             //新增结束工序计划操作记录
             processTask.setFinish_time(today);
@@ -1858,6 +1903,21 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
 
         }else {
+            if(processTask.getCount_type()==1){
+
+                String lastflag = processTask.getIs_now_flag();
+                List<String> lastresult = new ArrayList<>();
+                if(lastflag!=null&&!lastflag.equals("")){
+                    lastresult = new ArrayList(Arrays.asList(lastflag.split(",")));
+                }
+                lastresult.remove(pcbTaskReq.getDeviceCode());
+                String laststr = Joiner.on(",").join(lastresult);
+                processTask.setIs_now_flag(laststr);
+
+            }else {
+                processTask.setIs_now_flag("");
+            }
+
             //新增暂停工序计划操作记录
             //step2:状态相同则跳过
             if(history!=null&&"暂停".equals(history.getProcess_task_status())){
@@ -1886,7 +1946,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             }
 
         }
-        processTask.setIs_now_flag("");
+
         processTaskRepository.save(processTask);
 
         return ResultVoUtil.success("操作成功");
@@ -1937,7 +1997,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 currentDetail = new ProcessTaskDetail();
                 currentDetail.setPlan_day_time(today);
                 currentDetail.setPlan_count(0);
-                currentDetail.setFinish_count(nowfinish-detailSumCount);
+                currentDetail.setFinish_count(1);
                 currentDetail.setProcess_task_code(processTask.getProcess_task_code());
                 currentDetail.setDetail_type("系统分配");
                 currentDetail.setProcess_name(processTask.getProcess_name());
@@ -1951,14 +2011,14 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     detailDevice.setPlan_day_time(today);
                     detailDevice.setProcess_task_code(processTask.getProcess_task_code());
                     detailDevice.setPlan_count(0);
-                    detailDevice.setFinish_count(nowfinish-detailSumCount);
+                    detailDevice.setFinish_count(1);
                     processTaskDetailDeviceRepository.save(detailDevice);
                 }
             }else {
                 if(processTask.getCount_type()==1){
                     ProcessTaskDetailDevice detailDevice = processTaskDetailDeviceRepository.findByTaskCodeAndDayTimeAndDeviceCode1(processTask.getProcess_task_code(),todaystr,pcbTaskReq.getDeviceCode());
                     if(detailDevice!=null){
-                        detailDevice.setFinish_count(nowfinish-detailSumCount);
+                        detailDevice.setFinish_count(detailDevice.getFinish_count()+1);
                         if(detailDevice.getFinish_count()>=detailDevice.getPlan_count()){
                             detailDevice.setDevice_detail_status("已完成");
                         }
@@ -1969,12 +2029,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                         detailDevice.setPlan_day_time(today);
                         detailDevice.setProcess_task_code(processTask.getProcess_task_code());
                         detailDevice.setPlan_count(0);
-                        detailDevice.setFinish_count(nowfinish-detailSumCount);
+                        detailDevice.setFinish_count(1);
                     }
                     processTaskDetailDeviceRepository.save(detailDevice);
                 }
 
-                currentDetail.setFinish_count(nowfinish-detailSumCount);
+                currentDetail.setFinish_count(currentDetail.getFinish_count()+1);
             }
             processTaskDetailRepositoty.save(currentDetail);
 
@@ -2204,14 +2264,13 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         String ttoday = DateUtil.date2String(today,"");
         map.put("nowPlateNo","");
         //计数方式为0
-        if(process.getCount_type()==0){
-            ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getDeviceCode(),req.getProcessTaskCode());
-            amount = processTaskDevice.getAmount();
-            List<ProcessTaskRealPlateSort> plateSorts = processTaskRealPlateSortRepository.findByProcess_task_code(processTask.getProcess_task_code());
-            if(plateSorts!=null&&plateSorts.size()!=0&&amount<=plateSorts.size()){
-                ProcessTaskRealPlateSort sort = plateSorts.get(amount-1);
-                map.put("nowPlateNo",sort.getPlate_no());
+        if(process.getCount_type()==1){
+            //ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getDeviceCode(),req.getProcessTaskCode())
+            ProcessTaskDetailDevice detailDevice = processTaskDetailDeviceRepository.findByTaskCodeAndDayTimeAndDeviceCode1(req.getProcessTaskCode(),ttoday,req.getDeviceCode());
+            if(detailDevice!=null){
+                amount = detailDevice.getFinish_count();
             }
+
         }else {
             //获取日计划的数量
             ProcessTaskDetail detail = processTaskDetailRepositoty.findAllByProcess_task_codeAndPlan_day_time(req.getProcessTaskCode(), ttoday);
@@ -2220,10 +2279,14 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             }else {
                 amount = processTask.getAmount_completed();
             }
+            List<ProcessTaskRealPlateSort> plateSorts = processTaskRealPlateSortRepository.findByProcess_task_code(processTask.getProcess_task_code());
+            if(plateSorts!=null&&plateSorts.size()!=0&&amount<plateSorts.size()){
+                ProcessTaskRealPlateSort sort = plateSorts.get(amount);
+                map.put("nowPlateNo",sort.getPlate_no());
+            }
         }
         BigDecimal workTime = processTask.getWork_time().multiply(new BigDecimal(60));
-
-
+        User user = ShiroUtil.getSubject();
         map.put("amount",amount);
         map.put("workTime",workTime);
         return ResultVoUtil.success(map);

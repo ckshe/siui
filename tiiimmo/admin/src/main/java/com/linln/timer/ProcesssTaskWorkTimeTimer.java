@@ -122,7 +122,7 @@ public class ProcesssTaskWorkTimeTimer {
 
 
     //每天三点自动备份数据库
-    @Scheduled(cron = "* * 3 * * ?")
+    @Scheduled(cron = "0 0 3 * * ?")
     public void autoBackUpDatabase(){
         openService.callCmd(backupPath);
     }
