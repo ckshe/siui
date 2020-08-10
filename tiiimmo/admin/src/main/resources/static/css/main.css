@@ -952,3 +952,13 @@ a{
 .layui-form-select dl dd.layui-this {
 	background-color: #1e9fff;
 }
+
+#versionID ul{
+	padding: 10px 20px;
+}
+#versionID ul li{
+	line-height: 1.8;
+}
+#versionID ul li:first-child{
+	line-height: 2.5;
+}
