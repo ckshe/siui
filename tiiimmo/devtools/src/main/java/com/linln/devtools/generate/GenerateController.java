@@ -156,7 +156,7 @@ public class GenerateController {
         // 添加管理员岗位权限
         Role role = roleService.getById(AdminConst.ADMIN_ROLE_ID);
         bthMenus.add(pMenu);
-        role.getMenus().addAll(bthMenus);
+        //role.getMenus().addAll(bthMenus); todo
         roleService.save(role);
     }
 }

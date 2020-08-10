@@ -42,10 +42,10 @@ public interface UserRepository extends BaseRepository<User, Long>, JpaSpecifica
      */
     public Integer deleteByIdIn(List<Long> ids);
 
-    @Query(value = "select  * from sys_user where card_sequence =?1 ",nativeQuery = true)
+    @Query(value = "select   * from sys_user where card_sequence =?1 ",nativeQuery = true)
     public User findByCard_sequence(String cardSequence);
 
-    @Query(value = "select  * from sys_user where nickname =?1 ",nativeQuery = true)
+    @Query(value = "select * from sys_user where nickname =?1 ",nativeQuery = true)
     User queryByUserName(String userName);
 
     @Query(value = "select class_no from sys_user where id =?1 ",nativeQuery = true)

@@ -49,19 +49,19 @@ public class AuthRealm extends AuthorizingRealm {
         }
 
         // 赋予岗位和资源授权
-        Set<Role> roles = ShiroUtil.getSubjectRoles();
-        Long roleId = roles.iterator().next().getId();
-        List<String> perms = roleService.selectPermsByRoleId(roleId);
+//        Set<Role> roles = ShiroUtil.getSubjectRoles();
+//        Long roleId = roles.iterator().next().getId();
+//        List<String> perms = roleService.selectPermsByRoleId(roleId);
 
         // 给员工授权
         Long subjectId = ShiroUtil.getSubject().getId();
         List<String> perms2 = userService.selectPermsByUserId(subjectId);
 
-        int size = perms.size() + perms2.size();
-        System.out.println(size);
+        //int size = perms.size() + perms2.size();
+        System.out.println(perms2.size());
 
 
-        info.addStringPermissions(perms);
+        //info.addStringPermissions(perms);
         info.addStringPermissions(perms2);
 
 

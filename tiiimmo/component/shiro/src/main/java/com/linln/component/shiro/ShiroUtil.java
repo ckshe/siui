@@ -80,7 +80,7 @@ public class ShiroUtil {
     /**
      * 获取当前用户岗位列表
      */
-    public static Set<Role> getSubjectRoles() {
+    /*public static Set<Role> getSubjectRoles() {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
 
         // 如果用户为空，则返回空列表
@@ -100,7 +100,8 @@ public class ShiroUtil {
         }
 
         return user.getRoles();
-    }
+    }*/
+
 
     /**
      * 获取当前用户权限列表

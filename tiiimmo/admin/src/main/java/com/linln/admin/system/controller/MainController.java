@@ -66,14 +66,14 @@ public class MainController{
             menus.forEach(menu -> keyMenu.put(menu.getId(), menu));
         }else{
             // 其他用户需从相应的岗位中获取菜单资源
-            Set<Role> roles = ShiroUtil.getSubjectRoles();
-            roles.forEach(role -> {
-                role.getMenus().forEach(menu -> {
-                    if(menu.getStatus().equals(StatusEnum.OK.getCode())){
-                        keyMenu.put(menu.getId(), menu);
-                    }
-                });
-            });
+//            Set<Role> roles = ShiroUtil.getSubjectRoles();
+//            roles.forEach(role -> {
+//                role.getMenus().forEach(menu -> {
+//                    if(menu.getStatus().equals(StatusEnum.OK.getCode())){
+//                        keyMenu.put(menu.getId(), menu);
+//                    }
+//                });
+//            });
 
             //User user = ShiroUtil.getSubject();
             //users.forEach(user1 -> {

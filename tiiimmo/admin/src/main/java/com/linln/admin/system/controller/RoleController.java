@@ -149,17 +149,17 @@ public class RoleController {
     /**
      * 跳转到授权页面
      */
-    @GetMapping("/auth")
+    /*@GetMapping("/auth")
     @RequiresPermissions("system:role:auth")
     public String toAuth(@RequestParam(value = "ids") Long id, Model model){
         model.addAttribute("id", id);
         return "/system/role/auth";
-    }
+    }*/
 
     /**
      * 获取权限资源列表
      */
-    @GetMapping("/authList")
+    /*@GetMapping("/authList")
     @RequiresPermissions("system:role:auth")
     @ResponseBody
     public ResultVo authList(@RequestParam(value = "ids") Role role){
@@ -176,12 +176,12 @@ public class RoleController {
             }
         });
         return ResultVoUtil.success(list);
-    }
+    }*/
 
     /**
      * 保存授权信息
      */
-    @PostMapping("/auth")
+    /*@PostMapping("/auth")
     @RequiresPermissions("system:role:auth")
     @ResponseBody
     @ActionLog(key = RoleAction.ROLE_AUTH, action = RoleAction.class)
@@ -200,7 +200,7 @@ public class RoleController {
         // 保存数据
         roleService.save(role);
         return ResultVoUtil.SAVE_SUCCESS;
-    }
+    }*/
 
     /**
      * 跳转到详细页面

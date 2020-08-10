@@ -258,7 +258,8 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
             if(elementList.size()==1){
                 detail = recordDetailRepositoty.findByProcess_task_codeAndProduct_code(req.getProcessTaskCode(),elementList.get(0).getOriginal_product_code(),req.getDeviceCode());
                 detail.setLast_product_code(detail.getProduct_code());
-                detail.setProduct_code(elementList.get(0).getReplace_product_code());
+                detail.setProduct_code(elementList.get(0).getReplace_product_code()); // 替代料的物料编号
+                //detail.setElement_name(elementList.get(0).getReplace_product_name()); // 替代料的元件号
                 detail.setInstall_status("1");
                 recordDetailRepositoty.save(detail);
                 map.put("status","1");

@@ -122,8 +122,8 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.findAllRoles();
     }
 
-    @Override
-    public List<String> selectPermsByRoleId(Long roleId) {
-        return roleRepository.selectPermsByRoleId(roleId);
-    }
+//    @Override
+//    public List<String> selectPermsByRoleId(Long roleId) {
+//        return roleRepository.selectPermsByRoleId(roleId);
+//    }
 }

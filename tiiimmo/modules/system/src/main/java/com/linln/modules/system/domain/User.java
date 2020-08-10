@@ -64,17 +64,18 @@ public class User implements Serializable {
     @Excel(value = "状态", dict = "DATA_STATUS")
     private Byte status = StatusEnum.OK.getCode();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dept_id")
     @JsonIgnore
     //@Excel("部门")
     private Dept dept;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "sys_user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
+    //@Transient
     private Set<Role> roles = new HashSet<>(0);
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -82,6 +83,7 @@ public class User implements Serializable {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "menu_id"))
     @JsonIgnore
+    //@Transient
     private Set<Menu> menus = new HashSet<>(0);
 
     //private Role roles;

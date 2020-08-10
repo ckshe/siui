@@ -82,6 +82,4 @@ public class PcbTaskPositionRecordController {
         return pcbTaskPositionRecordService.getDetailByProductCode( productCode);
     }
 
-
-
 }

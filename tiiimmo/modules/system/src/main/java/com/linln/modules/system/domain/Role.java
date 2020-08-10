@@ -27,8 +27,8 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "sys_role")
-@ToString(exclude = {"users", "menus", "createBy", "updateBy"})
-@EqualsAndHashCode(exclude = {"users", "menus", "createBy", "updateBy"})
+@ToString(exclude = {"users", "createBy", "updateBy"})
+@EqualsAndHashCode(exclude = {"users", "createBy", "updateBy"})
 @EntityListeners(AuditingEntityListener.class)
 @SQLDelete(sql = "update sys_role" + StatusUtil.SLICE_DELETE)
 @Where(clause = StatusUtil.NOT_DELETE)
@@ -59,14 +59,16 @@ public class Role implements Serializable {
 
     private String skillIds;
 
-    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
     @JsonIgnore
+    //@Transient
     private Set<User> users = new HashSet<>(0);
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "sys_role_menu",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "menu_id"))
-    @JsonIgnore
-    private Set<Menu> menus = new HashSet<>(0);
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "sys_role_menu",
+//            joinColumns = @JoinColumn(name = "role_id"),
+//            inverseJoinColumns = @JoinColumn(name = "menu_id"))
+//    @JsonIgnore
+//    @Transient
+//    private Set<Menu> menus = new HashSet<>(0);
 }

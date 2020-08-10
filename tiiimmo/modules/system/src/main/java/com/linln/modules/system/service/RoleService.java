@@ -81,5 +81,5 @@ public interface RoleService {
 
     List<Role> list();
 
-    List<String> selectPermsByRoleId(Long roleId);
+    //List<String> selectPermsByRoleId(Long roleId);
 }
