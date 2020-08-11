@@ -276,7 +276,7 @@
                 var banCode = document.getElementById('banCode');
                 var year = document.getElementById('year');
                 function codeChange(){
-                    banCode.value=before.value+""+(parseInt(year.value)+parseInt(code.value))+""+after.value
+                    banCode.value=before.value+""+(parseInt(year.value)+("0000"+parseInt(code.value)).substr(-4,4))+""+after.value
                 }
                 before.oninput=function () { codeChange() };
                 after.oninput=function () { codeChange() };
@@ -347,7 +347,7 @@
                                     $.get('/produce/pcbTask/generateBatchId/'+data.id,function(res){
                                         if(res.code===200){
                                             var d=res.data;
-                                                d.code=d.prefix+""+(d.year+d.biginNum)+""+d.suffix;
+                                                d.code=d.prefix+""+(d.year+("0000"+d.biginNum).substr(-4,4))+""+d.suffix;
                                                 d.id=data.id
                                                 form.val('banForm',d)
                                         }else{
