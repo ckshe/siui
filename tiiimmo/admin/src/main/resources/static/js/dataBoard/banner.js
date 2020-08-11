@@ -112,6 +112,7 @@
                     var hsaClassOn = $(".button-span button:first").hasClass("on");
                     board1(hsaClassOn)
                     board1Interval = setInterval(function () {
+                        var hsaClassOn = $(".button-span button:first").hasClass("on");
                         board1(hsaClassOn)
                     }, 60000);
                     break;
