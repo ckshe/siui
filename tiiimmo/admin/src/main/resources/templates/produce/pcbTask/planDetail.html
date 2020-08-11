@@ -108,6 +108,9 @@
             ]
         });
         form.render();
+        if(getQueryString('countType')==0){
+            $("#subAdd").attr("disabled", "disabled").css({'background':'#c9c9c9','color':'#999'})
+        }
         laydate.render({ elem: '#planStartTime', type: 'date' }); $("#planStartTime").val(getQueryString('sTime'))
         laydate.render({ elem: '#planFinishTime', type: 'date' }); $("#planFinishTime").val(getQueryString('fTime'))
         var tdata = [];
