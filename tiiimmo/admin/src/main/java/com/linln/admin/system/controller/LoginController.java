@@ -285,4 +285,10 @@ public class LoginController implements ErrorController {
     public String gonxvTable() {
         return "/common/gonxvTable";
     }
+
+    //    设备增加界面
+    @GetMapping("/addDevice")
+    public String addDevice() {
+        return "/common/addDevice";
+    }
 }

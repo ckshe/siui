@@ -56,6 +56,9 @@
         </form>
         <h3><b>已下达设备：</b></h3>
         <table class="layui-hide" id="table1" lay-filter="table1"></table>
+        <script type="text/html" id="toolbarAddDevice">
+            <button id="subAdd" class="layui-btn layui-btn-sm" type="button"  lay-event="devs">添加设备</button>
+        </script>
         <h3><b>工序日计划：</b></h3>
         <table class="layui-hide" id="table" lay-filter="table"></table>
         <script type="text/html" id="toolbarDemo">
@@ -94,6 +97,7 @@
         table.render({
             elem: '#table1'
             , defaultToolbar: ['filter']
+            , toolbar: '#toolbarAddDevice'
             , limit: 10000
             , data: devData
             , cols: [
@@ -297,7 +301,62 @@
                     break;
             }
         });
-
+        table.on('toolbar(table1)', function (obj) {
+            var deviceNameArr=[],deviceCodeArr=[];
+            var nowData = tdata[0];
+            switch (obj.event) {
+                case 'devs':
+                        imTable = layer.open({
+                            type: 2,
+                            area: ["80%", "80%"],
+                            title: '请选择机台',
+                            content: '/addDevice?process_name=' + nowData.process_name
+                        });
+                        a = function (data) {
+                            //选择的机台编号列表
+                            deviceName = [];
+                            //选择的机台名称列表
+                            deviceCode = [];
+                            data.forEach(function (t) {
+                                deviceName.push(t.device_name);
+                                deviceCode.push(t.device_code)
+                            });
+                            obj.config.data.forEach(function(d){
+                                if(deviceCode.indexOf(d.serial)==-1){
+                                    deviceCode.push(d.serial);
+                                    deviceName.push(d.name);
+                                }
+                            })
+                            $.ajax({
+                                type: "POST",
+                                url: "/produce/pcbTask/addProcessTaskDevice",
+                                contentType: "application/json; charset=utf-8",
+                                data: JSON.stringify({
+                                    processTaskCode:nowData.process_task_code,
+                                    deviceName:deviceName.join(','),
+                                    deviceCode:deviceCode.join(','),
+                                }),
+                                dataType: "json",
+                                success: function (res) {
+                                    if (res.code === 200) {
+                                        index = layer.alert('提交成功！', { icon: 1 }, function () {
+                                           // parent.layer.closeAll();
+                                           parent.location.reload()
+                                            layer.close(imTable);
+                                            // layer.close(index);
+                                        })
+                                    } else {
+                                        layer.msg(res.msg, { offset: '15px', time: 3000, icon: 2 });
+                                    }
+                                },
+                                error: function (err) {
+                                    layer.msg("保存失败！", { offset: '15px', time: 3000, icon: 2 });
+                                }
+                            });
+                        }
+                    break;
+            }
+        });
         table.on('tool(table)', function (obj) {
             var data = obj.data;
             var devDataSerialArr = [];
@@ -363,6 +422,18 @@
             }
         });
     })
+    //数组去重方法
+    function removeDuplicates(arr){
+        var i, len=arr.length;
+        var array=[], obj={};
+        for(i=0; i<len; i++){
+            if(!obj.hasOwnProperty(arr[i])){
+                array.push(arr[i]);
+                obj[arr[i]] = true;
+            }
+        }
+        return array;
+    }
 </script>
 
 </html>
