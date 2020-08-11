@@ -25,5 +25,7 @@ public class PCBPlateNo {
 
     private String suffix;
 
+    private Integer year;
+
 
 }

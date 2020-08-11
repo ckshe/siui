@@ -13,7 +13,7 @@
 <div id="formBox" style="display: none">
     <form  class="layui-form" lay-filter="banForm" >
         <input type="hidden" id="id" name="id">
-        <input type="hidden" id="year" name="year">
+
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">板前缀</label>
@@ -35,6 +35,14 @@
                 <label class="layui-form-label">板后缀</label>
                 <div class="layui-input-inline">
                     <input id="after" type="text" name="suffix" required autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">年份</label>
+                <div class="layui-input-inline">
+                    <input id="year" type="text" name="year" required autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
@@ -306,7 +314,8 @@
                                 prefix: before.value,
                                 suffix: after.value,
                                 biginNum: parseInt(code.value),
-                                pcbTaskId:$('#id').val()
+                                pcbTaskId:$('#id').val(),
+                                year: year.value
                             }),
                             contentType : "application/json;charset=UTF-8",
                             success: function (res2) {

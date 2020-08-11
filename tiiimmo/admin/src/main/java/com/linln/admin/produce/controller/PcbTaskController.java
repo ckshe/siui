@@ -224,6 +224,7 @@ public class PcbTaskController {
         return pcbTaskService.generateBatchId(id);
     }
 
+    //进行投产生成工序计划new
     @PostMapping("/putIntoProduceByPlateInfo")
     @ResponseBody
     public ResultVo putIntoProduceByPlateInfo(@RequestBody PlateNoInfo plateNoInfo){

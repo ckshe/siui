@@ -379,15 +379,24 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         Integer first = 1;
         Integer last = 0;
         Integer biginNum = 1;
+
+        //默认20
+        Integer year = 20;
         if(pcbPlateNo==null){
             pcbPlateNo = new PCBPlateNo();
             pcbPlateNo.setPcb_code(pcbTask.getPcb_id());
             pcbPlateNo.setLast_plate_no("");
             pcbPlateNo.setAll_count(pcbTask.getPcb_quantity());
-            first = first + 200000;
-            last = pcbTask.getPcb_quantity()+200000;
+            first = first + year*10000;
+            last = pcbTask.getPcb_quantity()+ year*10000;
         }else {
-            first = pcbPlateNo.getAll_count()+1 + 200000;
+            if(pcbPlateNo.getYear()!=null){
+                year = pcbPlateNo.getYear();
+            }else {
+                pcbPlateNo.setYear(year);
+            }
+
+            first = pcbPlateNo.getAll_count()+1 + year*10000;
             biginNum = pcbPlateNo.getAll_count()+1;
 
             last = pcbPlateNo.getAll_count()+pcbTask.getPcb_quantity();
@@ -398,14 +407,21 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         // DCY2.909.0186GS-RC
         // DCY2.908.0186GS-RC
         String split[] = pcbTask.getPcb_id().split("\\.");
+        //908
         String code1 = split[1];
+        //0186GS-RC
         String code2[] = split[2].split("-");
+        //0186GS
         String code3 = code2[0];
+        //RC
         String code4 = code2[code2.length-1];
         //提取前四位
-        String trim = code3.substring(0,4);
+        //String trim = code3.substring(0,4);
+        String trim = code3.replace("GS","");
         String prefix = "";
         String suffix = "";
+        //带H DCY2.908.H1356B-AA01-A
+        //C
         char lastLetter = code4.charAt(code4.length()-1);
         if("908".equals(code1)&&"H".equals(code3.charAt(0))){
             trim = code2[1];
@@ -423,15 +439,18 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         String firstStr = first+"";
         String lastStr = last+"";
         String firstPlate = prefix+firstStr+suffix;
-
         PlateNoInfo plateNoInfo = new PlateNoInfo();
         plateNoInfo.setPrefix(prefix);
         plateNoInfo.setSuffix(suffix);
+        if(pcbPlateNo.getSuffix()!=null&&pcbPlateNo.getPrefix()!=null){
+            plateNoInfo.setPrefix(pcbPlateNo.getPrefix());
+            plateNoInfo.setSuffix(pcbPlateNo.getSuffix());
+        }
         plateNoInfo.setBiginPlateNo(firstPlate);
         plateNoInfo.setBiginNum(biginNum);
         plateNoInfo.setPcbCode(pcbTask.getPcb_id());
         plateNoInfo.setPcbTaskId(pcbTaskId);
-        plateNoInfo.setYear(200000);
+        plateNoInfo.setYear(year);
 
 
         return ResultVoUtil.success(plateNoInfo);
@@ -455,20 +474,21 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         Integer last = 0;
         if(pcbPlateNo==null){
             pcbPlateNo = new PCBPlateNo();
-            pcbPlateNo.setPcb_code(pcbTask.getPcb_id());
-            pcbPlateNo.setLast_plate_no("");
-            pcbPlateNo.setAll_count(pcbTask.getPcb_quantity()+plateNoInfo.getBiginNum()-1);
-            pcbPlateNo.setPrefix(plateNoInfo.getPrefix());
-            pcbPlateNo.setSuffix(plateNoInfo.getSuffix());
-            first = plateNoInfo.getBiginNum() + 200000;
-            last = plateNoInfo.getBiginNum() -1 + pcbTask.getPcb_quantity()+200000;
-        }else {
-            pcbPlateNo.setPrefix(plateNoInfo.getPrefix());
-            pcbPlateNo.setSuffix(plateNoInfo.getSuffix());
-            first = plateNoInfo.getBiginNum() + 200000;
-            last = plateNoInfo.getBiginNum() -1 + pcbTask.getPcb_quantity()+200000;
-            pcbPlateNo.setAll_count(pcbTask.getPcb_quantity()+plateNoInfo.getBiginNum()-1);
         }
+        pcbPlateNo.setPcb_code(pcbTask.getPcb_id());
+        pcbPlateNo.setLast_plate_no("");
+        pcbPlateNo.setAll_count(pcbTask.getPcb_quantity()+plateNoInfo.getBiginNum()-1);
+        pcbPlateNo.setPrefix(plateNoInfo.getPrefix());
+        pcbPlateNo.setSuffix(plateNoInfo.getSuffix());
+        first = plateNoInfo.getBiginNum() + plateNoInfo.getYear()*10000;
+        last = plateNoInfo.getBiginNum() -1 + pcbTask.getPcb_quantity()+plateNoInfo.getYear()*10000;
+       /* }else {
+            pcbPlateNo.setPrefix(plateNoInfo.getPrefix());
+            pcbPlateNo.setSuffix(plateNoInfo.getSuffix());
+            first = plateNoInfo.getBiginNum() + pcbPlateNo.getYear()*10000;
+            last = plateNoInfo.getBiginNum() -1 + pcbTask.getPcb_quantity()+pcbPlateNo.getYear()*10000  ;
+            pcbPlateNo.setAll_count(pcbTask.getPcb_quantity()+plateNoInfo.getBiginNum()-1);
+        }*/
         String prefix = plateNoInfo.getPrefix();
         String suffix = plateNoInfo.getSuffix();
         pcbPlateNo.setLast_plate_no(prefix+last+suffix);
