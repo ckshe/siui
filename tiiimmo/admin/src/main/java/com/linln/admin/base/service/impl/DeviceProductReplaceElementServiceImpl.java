@@ -155,10 +155,10 @@ public class DeviceProductReplaceElementServiceImpl implements DeviceProductRepl
 
     @Override
     public ResultVo queryByReplaceProductCode(String replaceProductCode) {
-        DeviceProductReplaceElement element = deviceProductReplaceElementRepository.findByReplaceProductCode(replaceProductCode);
-        if (element == null){
+        List<DeviceProductReplaceElement> elements = deviceProductReplaceElementRepository.findByReplaceProductCode(replaceProductCode);
+        if (elements == null){
             return ResultVoUtil.error("查询不到替代料");
         }
-        return ResultVoUtil.success(element);
+        return ResultVoUtil.success(elements);
     }
 }
