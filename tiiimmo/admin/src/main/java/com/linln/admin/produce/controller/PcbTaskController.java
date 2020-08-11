@@ -398,5 +398,9 @@ public class PcbTaskController {
 
     //日计划列表
 
-
+    @PostMapping("/getProcessTaskDetailByPage")
+    @ResponseBody
+    public ResultVo getProcessTaskDetailByPage(@RequestBody ProcessTaskReq req){
+        return processTaskService.getProcessTaskDetailByPage(req);
+    }
 }

@@ -29,5 +29,5 @@ public interface ProcessTaskService {
 
     List<ProcessTaskDetailDevice> findByTaskCodeAndDayTimeAndDeviceCode(String processTaskCode,String planDayTime,String deviceCode);
 
-    void getProcessTaskDetailByPage(ProcessTaskReq req);
+    ResultVo getProcessTaskDetailByPage(ProcessTaskReq req);
 }

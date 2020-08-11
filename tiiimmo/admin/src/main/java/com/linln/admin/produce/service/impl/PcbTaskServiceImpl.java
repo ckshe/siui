@@ -1158,6 +1158,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             //记录设备启停状态
             device.setDevice_status(req.getStatus());
             deviceRepository.save(device);
+
+
             ProcessTask processTask = processTaskRepository.findProducingByDevice_code("%"+device.getDevice_code()+"%");
 
             //查无生产中的单怎么办

@@ -414,7 +414,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         int all1Count = processTaskListTiepian.size()==0?1:processTaskListTiepian.size();*/
         BigDecimal rate1 = caculateRate(finish1Count, all1Count);
         //后焊工序任务
-        List<ProcessTaskDetail> detailsHouhan = detailList.stream().filter(d-> "手插".equals(d.getProcess_name())||"波峰焊".equals(d.getProcess_name())||"自动焊".equals(d.getProcess_name())||"人工焊".equals(d.getProcess_name())||"后焊线".equals(d.getProcess_name())||"后焊质检".equals(d.getProcess_name())||"手插质检".equals(d.getProcess_name())).collect(Collectors.toList());
+        List<ProcessTaskDetail> detailsHouhan = detailList.stream().filter(d-> "手插".equals(d.getProcess_name())||"波峰焊".equals(d.getProcess_name())||"自动焊".equals(d.getProcess_name())||"人工焊".equals(d.getProcess_name())||"后焊线".equals(d.getProcess_name())||"后焊终检".equals(d.getProcess_name())||"手插质检".equals(d.getProcess_name())).collect(Collectors.toList());
         int finish2Count = (int)detailsHouhan.stream().filter(d -> d.getFinish_count()>=d.getPlan_count()).count();
         int all2Count = detailsHouhan.size()==0?1:detailsHouhan.size();
       /*  List<ProcessTask> processTaskListhouhan = processTaskList.stream().filter(p -> "手插质检".equals(p.getProcess_name())||"手插".equals(p.getProcess_name())||"波峰焊".equals(p.getProcess_name())||"自动焊".equals(p.getProcess_name())||"人工焊".equals(p.getProcess_name())||"后焊终检".equals(p.getProcess_name())).collect(Collectors.toList());

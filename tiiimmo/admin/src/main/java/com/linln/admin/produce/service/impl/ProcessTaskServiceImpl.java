@@ -80,8 +80,8 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         Date finishTime = processTaskReq.getFinishTime(); //实际完成时间
 
         if(page == null||size == null){
-            page = processTaskReq.getPage();
-            size = processTaskReq.getSize();
+            page = 1;
+            size = 10;
         }
 
         StringBuffer wheresql = new StringBuffer(" where 1=1 ");
@@ -298,8 +298,81 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
     }
 
     @Override
-    public void getProcessTaskDetailByPage(ProcessTaskReq req) {
+    public ResultVo getProcessTaskDetailByPage(ProcessTaskReq processTaskReq) {
 
+        Integer page = processTaskReq.getPage(); //当前页
+        Integer size = processTaskReq.getSize(); //每页条数
+        String taskSheetCode = processTaskReq.getTaskSheetCode(); //生产批次
+        String pcbTaskCode = processTaskReq.getPcbTaskCode();  //任务单号
+        String pcbCode = processTaskReq.getPcbCode(); //规格型号
+        String status = processTaskReq.getStatus();//状态
+
+        Date startTime = processTaskReq.getStartTime(); //实际生产时间
+
+
+        if(page == null||size == null){
+            page = 1;
+            size = 10;
+        }
+
+        StringBuffer wheresql = new StringBuffer(" where 1=1 ");
+        if(pcbTaskCode!=null&&!"".equals(pcbTaskCode)){
+            wheresql.append(" and t2.pcb_task_code  like '" +
+                    "%" + pcbTaskCode + "%" +
+                    "' ");
+        }
+
+        if(taskSheetCode!=null&&!"".equals(taskSheetCode)){
+            wheresql.append(" and t2.task_sheet_code  like '" +
+                    "%" + taskSheetCode + "%" +
+                    "' ");
+        }
+
+        if(pcbCode!=null&&!"".equals(pcbCode)){
+            wheresql.append(" and t2. pcb_code  like '" +
+                    "%" + pcbCode + "%" +
+                    "' ");
+        }
+        if(status!=null&&!"".equals(status)){
+            if("已完成".equals(status)){
+                wheresql.append(" and t1.finish_count>= t1.plan_count ");
+            }else {
+                wheresql.append(" and t1.finish_count< t1.plan_count ");
+            }
+
+        }
+        if(startTime!=null&&!"".equals(startTime)){
+            String startTimeString = DateUtil.date2String(startTime,"yyyy-MM-dd");
+            //startTimeString.substring(0,10);
+            wheresql.append(" AND CONVERT ( VARCHAR ( 100 ), t1.plan_day_time, 23 )  = '" +
+                    startTimeString  +
+                    "' ");
+
+        }
+
+
+        //System.out.println(wheresql);
+
+        StringBuffer sql = new StringBuffer("SELECT *\n" +
+                "FROM\n" +
+                "\t( SELECT row_number ( ) OVER ( ORDER BY plan_day_time DESC ) AS rownumber,t1.*,(CASE \n" +
+                "\tWHEN t1.finish_count>= t1.plan_count  THEN '已完成'\n" +
+                "\tELSE '进行中'\n" +
+                "END) as detail_status,\n" +
+                " t2.pcb_code,t2.pcb_task_code,t2.task_sheet_code FROM produce_process_task_detail t1  LEFT JOIN produce_process_task t2 on t2.process_task_code = t1.process_task_code " +
+                wheresql +
+                ") temp_row  ");
+
+        List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
+        sql.append(" where rownumber between " +
+                ((page-1)*size+1) +
+                " and " +
+                (page*size) +
+                "");
+
+        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+
+        return ResultVoUtil.success("查询成功",mapList,count.size());
 
 
     }
