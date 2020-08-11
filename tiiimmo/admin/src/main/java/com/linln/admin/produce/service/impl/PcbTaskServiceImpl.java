@@ -1689,11 +1689,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         return ResultVoUtil.success("操作成功");
     }
     @Override
-    public ResultVo modifyProcessTaskStatus(PcbTaskReq pcbTaskReq) {
-      /*  ProcessTask lastProcessTask = processTaskRepository.findById(pcbTaskReq.getLastProcassTaskId()).get();
+    public ResultVo modifyProcessTaskStatus(PcbTaskReq pcbTaskReq) {/*
+      *//*  ProcessTask lastProcessTask = processTaskRepository.findById(pcbTaskReq.getLastProcassTaskId()).get();
         if(!"暂停".equals(lastProcessTask.getProcess_task_status())){
             return ResultVoUtil.error("切单前请先暂停当前工序任务");
-        }*/
+        }*//*
         ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
 
         if("已完成".equals(processTask.getProcess_task_status())){
@@ -1760,7 +1760,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                         userDeviceHistoryRepository.save(tow);
                     }
                 }
-               /* ProcessTaskDevice now = processTaskDeviceRepository.findByPTCodeDeviceCode(pcbTaskReq.getDeviceCode(),processTask.getProcess_task_code());
+               *//* ProcessTaskDevice now = processTaskDeviceRepository.findByPTCodeDeviceCode(pcbTaskReq.getDeviceCode(),processTask.getProcess_task_code());
 
                 if(now !=null){
 
@@ -1770,7 +1770,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     processTaskDeviceRepository.save(now);
                     no.setUser_ids("");
                     processTaskDeviceRepository.save(no);
-                }*/
+                }*//*
             }
             //启动工序计划 生产中
             if("生产中".equals(pcbTaskReq.getProcessTaskStatus())){
@@ -1829,8 +1829,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 Date finishTime = new Date();
                 processTask.setFinish_time(finishTime);
                 processTask.setIs_now_flag("0");
-               /* BigDecimal workTime = DateUtil.differTwoDate(finishTime,processTask.getStart_time());
-                processTask.setWork_time(workTime);*/
+               *//* BigDecimal workTime = DateUtil.differTwoDate(finishTime,processTask.getStart_time());
+                processTask.setWork_time(workTime);*//*
                 //重新计数
                 List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(processTask.getProcess_task_code());
                 for(ProcessTaskDevice de:prl){
@@ -1841,11 +1841,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     processTaskDeviceRepository.save(de);
                 }
             }
-       /* }else {
+       *//* }else {
 
-        }*/
+        }*//*
         processTask.setProcess_task_status(pcbTaskReq.getProcessTaskStatus());
-        processTaskRepository.save(processTask);
+        processTaskRepository.save(processTask);*/
         return ResultVoUtil.success("操作成功");
     }
 

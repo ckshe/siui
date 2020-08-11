@@ -13,6 +13,9 @@ public interface ProcessTaskStatusHistoryRepository extends BaseRepository<Proce
     ProcessTaskStatusHistory findByProcessTaskCodeLastRecord(String processTaskCode);
 
 
+    @Query(value = "select * from produce_process_task_status_history where process_task_code = ?1 AND start_time is NOT null and end_time is null",nativeQuery = true)
+    List<ProcessTaskStatusHistory> findByProcessTaskCodeLastRecordList(String processTaskCode);
+
     @Query(value = "select * from produce_process_task_status_history where process_task_code = ?1 and device_code = ?2 AND start_time is NOT null and end_time is null",nativeQuery = true)
     ProcessTaskStatusHistory findByProcessTaskCodeAndDeviceLastRecord(String processTaskCode,String deviceCode);
 

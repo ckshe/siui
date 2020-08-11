@@ -218,9 +218,9 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
             processTask.setProcess_task_status("已完成");
             processTask.setFinish_time(today);
             //新增一条操作历史记录
-            ProcessTaskStatusHistory history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(processTask.getProcess_task_code());
+            List<ProcessTaskStatusHistory> historyList = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecordList(processTask.getProcess_task_code());
             //step3:状态不同结束上一条并计算持续时间，新增一条
-            if(history!=null){
+            for(ProcessTaskStatusHistory history : historyList){
                 history.setEnd_time(today);
                 Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
                 history.setContinue_time(Integer.parseInt(cha+""));
