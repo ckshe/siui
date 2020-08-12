@@ -510,7 +510,30 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         String today = DateUtil.date2String(xdate,"");
         String startTime = today+" 00:00:00";
         String endTime = today+" 23:59:59";
-        StringBuffer staffOntimeSql = new StringBuffer("\n" +
+        StringBuffer staffOntimeSql = new StringBuffer("SELECT COUNT\n" +
+                "\t( t4.userid ) countOnTime,\n" +
+                "\tt4.process_type \n" +
+                "FROM\n" +
+                "\t(\n" +
+                "\tSELECT MAX\n" +
+                "\t\t( t1.user_id ) userid,\n" +
+                "\t\tt3.process_type \n" +
+                "\tFROM\n" +
+                "\t\tproduce_user_device_history t1\n" +
+                "\t\tLEFT JOIN base_production_shift t2 ON t2.users = t1.user_id\n" +
+                "\t\tLEFT JOIN base_process t3 ON t3.name = t2.process \n" +
+                "\t\tWHERE t1.up_time >= '" +
+                startTime +
+                "' and t1.up_time <= '" +
+                endTime +
+                "' \n" +
+                "\tGROUP BY\n" +
+                "\t\tt3.process_type ,\n" +
+                "\t\tt1.user_id \n" +
+                "\t) t4 \n" +
+                "GROUP BY\n" +
+                "\tt4.process_type");
+       /* StringBuffer staffOntimeSql = new StringBuffer("\n" +
                 "SELECT COUNT(t4.userid) countOnTime,t4.process_type FROM(\n" +
                 "\tSELECT\n" +
                 "\t\tMAX(t1.user_id) userid ,t3.process_type\n" +
@@ -526,7 +549,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "\t\tand t1.process_task_code != '未分配' \n" +        //去掉未分配防止查出process_type为NULL的情况 SSR-0614
                 "\tGROUP BY t3.process_type ,t1.user_id\n" +
                 "\t\n" +
-                "\t) t4 GROUP BY t4.process_type");
+                "\t) t4 GROUP BY t4.process_type");*/
 
         StringBuffer countStaffClassSql =  new StringBuffer("SELECT COUNT(t1.id) staffAllCount, t2.process_type FROM base_production_shift t1 LEFT JOIN base_process t2 ON t2.name = t1.process GROUP BY t2.process_type");
 
