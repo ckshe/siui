@@ -27,5 +27,7 @@ public class PCBPlateNo {
 
     private Integer year;
 
+    //拼板数
+    private Integer multiple;
 
 }

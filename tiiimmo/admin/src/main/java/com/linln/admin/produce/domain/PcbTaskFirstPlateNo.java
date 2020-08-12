@@ -18,4 +18,6 @@ public class PcbTaskFirstPlateNo {
     private Integer first_no;
     private String pcb_task_code;
 
+    private Integer year;
+
 }

@@ -480,6 +480,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         pcbPlateNo.setAll_count(pcbTask.getPcb_quantity()+plateNoInfo.getBiginNum()-1);
         pcbPlateNo.setPrefix(plateNoInfo.getPrefix());
         pcbPlateNo.setSuffix(plateNoInfo.getSuffix());
+        pcbPlateNo.setYear(plateNoInfo.getYear());
         first = plateNoInfo.getBiginNum() + plateNoInfo.getYear()*10000;
         last = plateNoInfo.getBiginNum() -1 + pcbTask.getPcb_quantity()+plateNoInfo.getYear()*10000;
        /* }else {
@@ -506,6 +507,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         firstPlateNo.setPrefix(prefix);
         firstPlateNo.setSuffix(suffix);
         firstPlateNo.setStatus(StatusEnum.OK.getCode());
+        firstPlateNo.setYear(pcbPlateNo.getYear());
         pcbTaskFirstPlateNoRepository.save(firstPlateNo);
 
         pcbTask.setBatch_id(firstPlate+"~"+lastPlate);
@@ -744,10 +746,14 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
             list.add(processTaskDevice);
         }
+        Integer year = pcbTaskFirstPlateNo.getYear();
+        if(year==null){
+            year = 20;
+        }
         if(split.length>0){
             Integer tempCount = pcbTaskFirstPlateNo.getFirst_no();
             for(int o = 0;o<processTask.getPcb_quantity();o++){
-                String tempPlanNo = pcbTaskFirstPlateNo.getPrefix()+(tempCount+200000)+pcbTaskFirstPlateNo.getSuffix();
+                String tempPlanNo = pcbTaskFirstPlateNo.getPrefix()+(tempCount+year*10000)+pcbTaskFirstPlateNo.getSuffix();
                 tempCount ++;
                 PcbTaskPlateNo pcbTaskPlateNo = new PcbTaskPlateNo();
                 pcbTaskPlateNo.setProcess_task_code(processTask.getProcess_task_code());
@@ -1092,14 +1098,15 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     return map;
                 }
             }else {
+                PcbTaskPlateNo pcbTaskPlateNo = pcbTaskPlateNoRepository.findByPlate_no(req.getPlateNo(),processTask.getProcess_task_code());
+                if(pcbTaskPlateNo!=null){
+                    pcbTaskPlateNo.setIs_count("1");
+                    pcbTaskPlateNoRepository.save(pcbTaskPlateNo);
+                }
                 if(plateSort!=null&&plateSort.getRecord_end_time()==null){
                     plateSort.setRecord_end_time(new Date());
                     processTaskRealPlateSortRepository.save(plateSort);
-                    PcbTaskPlateNo pcbTaskPlateNo = pcbTaskPlateNoRepository.findByPlate_no(req.getPlateNo(),processTask.getProcess_task_code());
-                    if(pcbTaskPlateNo!=null){
-                        pcbTaskPlateNo.setIs_count("1");
-                        pcbTaskPlateNoRepository.save(pcbTaskPlateNo);
-                    }
+
                 }else if(plateSort!=null&&plateSort.getRecord_end_time()!=null) {
                     map.put("result","200");
                     map.put("timeStamp",pcbTaskReq.getTimeStamp());
@@ -1266,11 +1273,13 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 //if(taskDevice.getAmount()== deviceTheoryTime.getAmount()+1){
                 if(deviceSet.contains(taskDevice.getDevice_code())){
                     if(deviceTheoryTime.getStart_time()!=null){
-                        BigDecimal workTime = new BigDecimal((today.getTime() - deviceTheoryTime.getStart_time().getTime())/(1000*60));
-                        deviceTheoryTime.setWork_time(workTime.setScale(2, BigDecimal.ROUND_HALF_UP));
-                        deviceTheoryTime.setStart_time(today);
-                        deviceTheoryTime.setAmount(deviceTheoryTime.getAmount()+1);
-                        processTaskDeviceTheoryTimeRepository.save(deviceTheoryTime);
+                        BigDecimal workTime = (new BigDecimal((today.getTime() - deviceTheoryTime.getStart_time().getTime()))).multiply(new BigDecimal((1000*60)));
+                        if(workTime.compareTo(new BigDecimal(60))<0){
+                            deviceTheoryTime.setWork_time(deviceTheoryTime.getWork_time().add(workTime.setScale(2, BigDecimal.ROUND_HALF_UP)) );
+                            deviceTheoryTime.setStart_time(today);
+                            deviceTheoryTime.setAmount(deviceTheoryTime.getAmount()+1);
+                            processTaskDeviceTheoryTimeRepository.save(deviceTheoryTime);
+                        }
                     }
                     deviceTheoryTime.setStart_time(null);
                     processTaskDeviceTheoryTimeRepository.save(deviceTheoryTime);
@@ -2289,6 +2298,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         Map<String,Object> map = new HashMap<>();
         Date today = new Date();
         String ttoday = DateUtil.date2String(today,"");
+        //查找不良记录
+        List<BadClassDetail> recordList = badClassDetailRepository.findByPcb_task_codeAndAndRecord_time(processTask.getPcb_task_code(), ttoday);
+        map.put("badCount",recordList.size());
         map.put("nowPlateNo","");
         //计数方式为0
         if(process.getCount_type()==1){
@@ -2307,8 +2319,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 amount = processTask.getAmount_completed();
             }*/
             ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(req.getDeviceCode(),req.getProcessTaskCode());
+            List<ProcessTaskDetail> details = processTaskDetailRepositoty.findAllByProcess_task_codeAndBefoPlan_day_time(req.getProcessTaskCode(), ttoday);
             if(processTaskDevice!= null){
-                amount = processTaskDevice.getAmount();
+                Integer detailsumCount = details.stream().mapToInt(ProcessTaskDetail::getFinish_count).sum();
+                amount = processTaskDevice.getAmount() - detailsumCount;
             }else {
                 amount = 0;
             }

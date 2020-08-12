@@ -238,7 +238,31 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
             newRecord.setProcess_name(processTask.getProcess_name());
             newRecord.setEnd_time(today);
             processTaskStatusHistoryRepository.save(newRecord);
+        }else if(finishCount<processTask.getPcb_quantity()&&processTask.getProcess_task_status().equals("已完成")){
+            Date today =  new Date();
+            processTask.setProcess_task_status("暂停");
+            processTask.setFinish_time(today);
+            //新增一条操作历史记录
+            List<ProcessTaskStatusHistory> historyList = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecordList(processTask.getProcess_task_code());
+            //step3:状态不同结束上一条并计算持续时间，新增一条
+            for(ProcessTaskStatusHistory history : historyList){
+                history.setEnd_time(today);
+                Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
+                history.setContinue_time(Integer.parseInt(cha+""));
+                processTaskStatusHistoryRepository.save(history);
+            }
 
+            //新增
+            ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
+            newRecord.setStart_time(today);
+            newRecord.setContinue_time(0);
+            newRecord.setDevice_code(processTask.getDevice_code());
+            newRecord.setProcess_task_status("暂停");
+            newRecord.setDevice_name(processTask.getDevice_name());
+            newRecord.setProcess_task_code(processTask.getProcess_task_code());
+            newRecord.setProcess_name(processTask.getProcess_name());
+            newRecord.setEnd_time(today);
+            processTaskStatusHistoryRepository.save(newRecord);
         }
         processTask.setAmount_completed(finishCount);
         processTaskRepository.save(processTask);
