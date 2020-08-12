@@ -1284,7 +1284,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 //if(taskDevice.getAmount()== deviceTheoryTime.getAmount()+1){
                 if(deviceSet.contains(taskDevice.getDevice_code())){
                     if(deviceTheoryTime.getStart_time()!=null){
-                        BigDecimal workTime = (new BigDecimal((today.getTime() - deviceTheoryTime.getStart_time().getTime()))).divide(new BigDecimal((1000*60)));
+                        BigDecimal workTime = (new BigDecimal((today.getTime() - deviceTheoryTime.getStart_time().getTime()))).divide(new BigDecimal((1000*60)),2,BigDecimal.ROUND_HALF_UP);
                         if(workTime.compareTo(new BigDecimal(60))<0){
                             deviceTheoryTime.setWork_time(deviceTheoryTime.getWork_time().add(workTime.setScale(2, BigDecimal.ROUND_HALF_UP)) );
                             deviceTheoryTime.setStart_time(today);
