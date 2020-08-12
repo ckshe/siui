@@ -175,7 +175,7 @@
                     </li>
                     <li class="userLi">
                         <div class="title cu">不良数</div>
-                        <div class="title hui">0</div>
+                        <div class="title hui" id="badCount">0</div>
                     </li>
                     <li class="userLi">
                         <div class="title cu">工作时长</div>
@@ -301,6 +301,7 @@
                                         if(res6.code===200){
                                             document.getElementById('scs').innerHTML=res6.data.amount;
                                             document.getElementById('nowPlateNo').innerHTML=res6.data.nowPlateNo;
+                                            document.getElementById('badCount').innerHTML=res6.data.badCount;
                                             document.getElementById('workTime').innerHTML=cacWorkTime(res6.data.workTime*1000);
 
                                         }else{
@@ -713,6 +714,10 @@
             });
             //不良录入
             $('#bad').on('click',function () {
+                if(nowGonDan==''){
+                    layer.alert('当前无工序,不良类型不能录入',{icon:5})
+                    return;
+                }
                 if(isLogin()) {
                     layer.open({
                         title: '不良录入',
@@ -725,6 +730,7 @@
             });
 
             var systemTime = document.getElementById('systemTime');
+            var badCount = document.getElementById('badCount');
             var workTime = document.getElementById('workTime');
             var upTime = document.getElementById('upTime');
             systemTime.innerHTML=timeToDate(new Date());
@@ -762,6 +768,7 @@
                                        if(res6.code===200){
                                            document.getElementById('scs').innerHTML=res6.data.amount;
                                            workTime.innerHTML=cacWorkTime(res6.data.workTime*1000);
+                                           document.getElementById('badCount').innerHTML=res6.data.badCount;
                                            document.getElementById('nowPlateNo').innerHTML=res6.data.nowPlateNo;
                                        }else{
                                            layer.alert(res6.msg,{icon:5})
