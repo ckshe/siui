@@ -17,6 +17,8 @@ public class PlateNoInfo {
     private Long pcbTaskId;
 
     private Integer year;
+    //拼板数
+    private Integer multiple;
 
 
 }

@@ -48,6 +48,14 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
+                <label class="layui-form-label">拼板数</label>
+                <div class="layui-input-inline">
+                    <input id="multiple" type="text" name="multiple" required autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label">初始板编号</label>
                 <div class="layui-input-inline">
                     <input id="banCode" disabled style="border:none" type="text" required name="code"  autocomplete="off" class="layui-input">
@@ -275,7 +283,9 @@
                 var code = document.getElementById('code');
                 var banCode = document.getElementById('banCode');
                 var year = document.getElementById('year');
-                function codeChange(){
+                var multiple = document.getElementById('multiple');
+
+            function codeChange(){
                     banCode.value=before.value+""+(parseInt(year.value)+("0000"+parseInt(code.value)).substr(-4,4))+""+after.value
                 }
                 before.oninput=function () { codeChange() };
@@ -315,7 +325,8 @@
                                 suffix: after.value,
                                 biginNum: parseInt(code.value),
                                 pcbTaskId:$('#id').val(),
-                                year: year.value
+                                year: year.value,
+                                multiple: multiple.value
                             }),
                             contentType : "application/json;charset=UTF-8",
                             success: function (res2) {

@@ -382,6 +382,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
         //默认20
         Integer year = 20;
+        //默认1
+        Integer multiple = 1;
         if(pcbPlateNo==null){
             pcbPlateNo = new PCBPlateNo();
             pcbPlateNo.setPcb_code(pcbTask.getPcb_id());
@@ -394,6 +396,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 year = pcbPlateNo.getYear();
             }else {
                 pcbPlateNo.setYear(year);
+            }
+            if(pcbPlateNo.getMultiple()!=null){
+                multiple = pcbPlateNo.getMultiple();
             }
 
             first = pcbPlateNo.getAll_count()+1 + year*10000;
@@ -451,6 +456,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         plateNoInfo.setPcbCode(pcbTask.getPcb_id());
         plateNoInfo.setPcbTaskId(pcbTaskId);
         plateNoInfo.setYear(year);
+        plateNoInfo.setMultiple(multiple);
 
 
         return ResultVoUtil.success(plateNoInfo);
@@ -475,6 +481,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         if(pcbPlateNo==null){
             pcbPlateNo = new PCBPlateNo();
         }
+        pcbPlateNo.setMultiple(plateNoInfo.getMultiple());
         pcbPlateNo.setPcb_code(pcbTask.getPcb_id());
         pcbPlateNo.setLast_plate_no("");
         pcbPlateNo.setAll_count(pcbTask.getPcb_quantity()+plateNoInfo.getBiginNum()-1);
@@ -546,6 +553,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             processTask.setTask_sheet_code(pcbTask.getTask_sheet_code());
             processTask.setPcb_name(pcbTask.getPcb_name());
             processTask.setProcess_task_status("未下达");
+            processTask.setMultiple(plateNoInfo.getMultiple());
             String processTaskCode = pre+last_no;
             i++;
             processTask.setProcess_task_code(processTaskCode);
@@ -1196,6 +1204,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 Process process = processRepository.findByProcessName(processTask.getProcess_name());
                 set.add(processTask.getProcess_task_code());
                 if(process.getCount_type()==0){
+                    if(processTask.getMultiple()!=null&&processTask.getMultiple()==1){
+                        req.setAmount(req.getAmount()*processTask.getMultiple());
+                    }
                     ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(device.getDevice_code(),processTask.getProcess_task_code());
                     if(processTaskDevice!=null){
                         processTaskDevice.setTd_status(req.getStatus());
@@ -1273,7 +1284,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 //if(taskDevice.getAmount()== deviceTheoryTime.getAmount()+1){
                 if(deviceSet.contains(taskDevice.getDevice_code())){
                     if(deviceTheoryTime.getStart_time()!=null){
-                        BigDecimal workTime = (new BigDecimal((today.getTime() - deviceTheoryTime.getStart_time().getTime()))).multiply(new BigDecimal((1000*60)));
+                        BigDecimal workTime = (new BigDecimal((today.getTime() - deviceTheoryTime.getStart_time().getTime()))).divide(new BigDecimal((1000*60)));
                         if(workTime.compareTo(new BigDecimal(60))<0){
                             deviceTheoryTime.setWork_time(deviceTheoryTime.getWork_time().add(workTime.setScale(2, BigDecimal.ROUND_HALF_UP)) );
                             deviceTheoryTime.setStart_time(today);

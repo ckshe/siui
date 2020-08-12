@@ -63,6 +63,8 @@ public class ProcessTask {
     private Date last_count_time;
     //计数类型
     private Integer count_type;
+    //拼板数
+    private Integer multiple;
 
 
 }
