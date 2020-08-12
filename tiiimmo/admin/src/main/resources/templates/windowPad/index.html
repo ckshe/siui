@@ -387,6 +387,15 @@
             })
             $('#out').on('click',function(){
                 console.log('下机');
+                console.log(nowGonDan,isLogin())
+                if(!isLogin()){
+                    layer.alert('当前未上机，不能下机!',{icon:5})
+                    return;
+                }
+                if(nowGonDan.process_task_status=="进行中" || nowGonDan.process_task_status=="生产中" ){
+                    layer.alert('工单状态在"进行中"或"生产中"，不能下机!',{icon:5})
+                    return;
+                }
                 document.getElementById('zezao2').style.display='block';
                 outCode.focus();
             });
