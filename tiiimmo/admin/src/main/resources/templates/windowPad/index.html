@@ -532,7 +532,7 @@
                                         var status = "";
                                         if(t.count_type==1){status=t.device_detail_status}else{status=t.process_task_status}
                                         if(t.count_type==1){ t.detail_plan_count = t.detail_device_plan_count;}
-                                        if(status=="暂停" || t.detail_plan_count == null ){
+                                        if(status=="暂停" || (t.count_type==1 && t.detail_plan_count == null) ){
                                             layer.open({
                                                 type:2,
                                                 area:["80%","80%"],
