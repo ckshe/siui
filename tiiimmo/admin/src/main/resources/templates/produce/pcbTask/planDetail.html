@@ -86,6 +86,7 @@
             })
         });
         var devData = [];
+
         var dd = JSON.parse($('[name=data]').val());
         if (dd.device_code != null) {
             var serial = dd.device_code.split(',');
@@ -121,7 +122,8 @@
             finish_count: "",
             plan_day_time: "",
             count_type: getQueryString('countType'),
-            process_task_code: getQueryString('process_task_code')
+            process_task_code: getQueryString('process_task_code'),
+            process_name:getQueryString('process_name')
         };
         layer.load(1, {
             content: '加载中...',
@@ -151,6 +153,7 @@
                             t.count_type = getQueryString('countType')
                         })
                         tdata = res.data
+
                     }
                 } else {
                     layer.alert(res.msg, { icon: 5 });
@@ -305,13 +308,15 @@
             }
         });
         table.on('toolbar(table1)', function (obj) {
+            var dd = JSON.parse(JSON.stringify(d));
+            console.log(dd)
             switch (obj.event) {
                 case 'addDev':
                         imTable = layer.open({
                             type: 2,
                             area: ["80%", "80%"],
                             title: '请选择机台',
-                            content: '/addDevice'
+                            content: '/addDevice?process_name=' + dd.process_name
                         });
                         a = function (data) {
                             //选择的机台编号列表
@@ -333,7 +338,7 @@
                                 url: "/produce/pcbTask/addProcessTaskDevice",
                                 contentType: "application/json; charset=utf-8",
                                 data: JSON.stringify({
-                                    processTaskCode:nowData.process_task_code,
+                                    processTaskCode:dd.process_task_code,
                                     deviceName:deviceName.join(','),
                                     deviceCode:deviceCode.join(','),
                                 }),

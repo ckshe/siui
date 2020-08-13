@@ -34,10 +34,10 @@
     <!--        <button type="reset" class="layui-btn layui-bg-blue" >清除</button>-->
     <!--    </form>-->
     <table class="layui-hide" id="table" lay-filter="table"></table>
-    <script type="text/html" id="tool">
-        <a class=" layui-btn layui-btn-xs  "  lay-event="ok">确定</a>
-        <a class=" layui-btn layui-btn-xs  layui-btn-normal"  lay-event="detail">详情</a>
-    </script>
+<!--    <script type="text/html" id="tool">-->
+<!--        <a class=" layui-btn layui-btn-xs  "  lay-event="ok">确定</a>-->
+<!--        <a class=" layui-btn layui-btn-xs  layui-btn-normal"  lay-event="detail">详情</a>-->
+<!--    </script>-->
     <script type="text/html" id="toolbarDemo">
         <button id="sub" class="layui-btn layui-btn-sm" type="button"  lay-event="devs">确定所选</button>
     </script>
@@ -87,7 +87,8 @@
                     ,{field: 'device_type', title: '设备类型', minWidth:140}
                     ,{field: 'mac', title: 'Mac', minWidth:170}
                     ,{field: 'belong_line', title: '所属厂区', minWidth:240}
-                    ,{ title: '操作',fixed:'right', toolbar: '#tool', width: 120}]
+                    // ,{ title: '操作',fixed:'right', toolbar: '#tool', width: 120}
+                    ]
             ]
         });
         table.on('toolbar(table)',function (obj) {
