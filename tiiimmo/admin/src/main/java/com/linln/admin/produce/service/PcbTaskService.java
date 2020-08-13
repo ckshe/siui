@@ -88,6 +88,8 @@ public interface PcbTaskService {
 
     ResultVo recordBadTypeList(PcbTaskReq req);
 
+    ResultVo badDetailRecordQc(PcbTaskReq req);
+
     ResultVo findBadTypeRecordList(PcbTaskReq req);
 
     /**

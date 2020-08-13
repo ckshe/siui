@@ -321,6 +321,14 @@ public class PcbTaskController {
         return pcbTaskService.recordBadTypeList(req);
     }
 
+
+    //不良QC
+    @PostMapping("/badDetailRecordQc")
+    @ResponseBody
+    public ResultVo badDetailRecordQc(@RequestBody PcbTaskReq req){
+        return pcbTaskService.badDetailRecordQc(req);
+    }
+
     //查询不良录入
     @PostMapping("/findBadTypeRecordList")
     @ResponseBody

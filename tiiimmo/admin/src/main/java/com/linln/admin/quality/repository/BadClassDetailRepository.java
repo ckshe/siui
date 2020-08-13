@@ -15,4 +15,6 @@ public interface BadClassDetailRepository extends BaseRepository<BadClassDetail,
 
     @Query(value = "select  * from quality_badclass_detail where  pcb_task_code = ?1 and CONVERT ( VARCHAR ( 100 ), record_time, 23 ) = ?2",nativeQuery = true)
     List<BadClassDetail> findByPcb_task_codeAndAndRecord_time(String pcbTaskCode,String date);
+
+    List<BadClassDetail> findByIdIn(List<Long> ids);
 }

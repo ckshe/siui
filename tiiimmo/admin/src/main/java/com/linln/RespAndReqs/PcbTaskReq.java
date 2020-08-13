@@ -42,6 +42,8 @@ public class PcbTaskReq {
     private String username;
     private String reCounttimeStamp;
     private Integer countType;
+    private String cardSequence;
 
+    private String ids;
 
 }

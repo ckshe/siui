@@ -1109,6 +1109,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 PcbTaskPlateNo pcbTaskPlateNo = pcbTaskPlateNoRepository.findByPlate_no(req.getPlateNo(),processTask.getProcess_task_code());
                 if(pcbTaskPlateNo!=null){
                     pcbTaskPlateNo.setIs_count("1");
+                    pcbTaskPlateNo.setUpdate_time(new Date());
                     pcbTaskPlateNoRepository.save(pcbTaskPlateNo);
                 }
                 if(plateSort!=null&&plateSort.getRecord_end_time()==null){
@@ -1989,7 +1990,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
                     processTaskStatusHistoryRepository.save(newRecord);
                 }
-                processTask.setProcess_task_status("暂停");
+                if(processTask.getCount_type()==0){
+                    processTask.setProcess_task_status("暂停");
+                }
             }
 
         }
@@ -2251,10 +2254,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     public ResultVo recordBadTypeList(PcbTaskReq req) {
         List<BadClassDetail> detailList = new ArrayList<>();
         String userName = "";
-        User user = ShiroUtil.getSubject();
+       /* User user = ShiroUtil.getSubject();
         if(user!=null){
             userName = user.getNickname();
-        }
+        }*/
         Date date = new Date();
         for(PcbTaskReq bad : req.getBadNewsList()){
             BadClassDetail detail = new BadClassDetail();
@@ -2263,10 +2266,27 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             detail.setRecorder_name(userName);
             detail.setRecord_time(date);
             detail.setPlate_no(req.getPlateNo());
+            detail.setCard_sequence(req.getCardSequence());
             detailList.add(detail);
+
         }
         badClassDetailRepository.saveAll(detailList);
         return ResultVoUtil.success("录入成功");
+    }
+
+
+    @Override
+    public ResultVo badDetailRecordQc(PcbTaskReq req) {
+        String [] ids = req.getIds().split(",");
+        List<Long> iids = new ArrayList<>();
+        Arrays.asList(ids).forEach(s -> iids.add(Long.parseLong(s)));
+        Date today = new Date();
+        List<BadClassDetail> list = badClassDetailRepository.findByIdIn(iids);
+        list.forEach(l->{
+            l.setQc_nama(req.getCardSequence());
+            l.setQc_time(today);
+        });
+        return  ResultVoUtil.success("");
     }
 
     @Override
@@ -2280,15 +2300,14 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         Integer page = req.getPage()==null?1:req.getPage(); //当前页
         Integer size = req.getSize()==null?10:req.getSize(); //每页条数
         StringBuffer sql = new StringBuffer("select * from(\n" +
-                "select *, ROW_NUMBER() OVER(order by t4.Id asc) row from\n" +
+                "select *, ROW_NUMBER() OVER(order by  t4.update_time desc ,t4.is_count desc ) row from\n" +
                 "(SELECT * FROM produce_pcbtask_plate_no WHERE process_task_code = '" +
                 req.getProcessTaskCode() +
                 "'  )t4)t3\n" +
                 "where t3.Row between " +
                 ((page-1)*size+1) +
                 " and " +
-                (page*size) +
-                "  ORDER BY t3.update_time desc ,t3.is_count desc");
+                (page*size) );
 
         List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString());
         StringBuffer allSql = new StringBuffer("select * from produce_pcbtask_plate_no WHERE process_task_code = '" +
@@ -2333,13 +2352,13 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             List<ProcessTaskDetail> details = processTaskDetailRepositoty.findAllByProcess_task_codeAndBefoPlan_day_time(req.getProcessTaskCode(), ttoday);
             if(processTaskDevice!= null){
                 Integer detailsumCount = details.stream().mapToInt(ProcessTaskDetail::getFinish_count).sum();
-                amount = processTaskDevice.getAmount() - detailsumCount;
+                amount = (processTaskDevice.getAmount() - detailsumCount)>0?(processTaskDevice.getAmount() - detailsumCount):0;
             }else {
                 amount = 0;
             }
             List<ProcessTaskRealPlateSort> plateSorts = processTaskRealPlateSortRepository.findByProcess_task_code(processTask.getProcess_task_code());
-            if(plateSorts!=null&&plateSorts.size()!=0&&amount<plateSorts.size()){
-                ProcessTaskRealPlateSort sort = plateSorts.get(amount);
+            if(plateSorts!=null&&plateSorts.size()!=0&&processTaskDevice.getAmount()<plateSorts.size()){
+                ProcessTaskRealPlateSort sort = plateSorts.get(processTaskDevice.getAmount());
                 map.put("nowPlateNo",sort.getPlate_no());
             }
         }
