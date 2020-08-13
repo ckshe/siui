@@ -393,7 +393,9 @@
                     layer.alert('当前未上机，不能下机!',{icon:5})
                     return;
                 }
-                if(nowGonDan.process_task_status=="进行中" || nowGonDan.process_task_status=="生产中" ){
+                var deviceStatus='';
+                if(nowGonDan.count_type==1){deviceStatus=nowGonDan.device_detail_status}else{deviceStatus=nowGonDan.process_task_status}
+                if(deviceStatus=="进行中" || deviceStatus=="生产中" ){
                     layer.alert('工单状态在"进行中"或"生产中"，不能下机!',{icon:5})
                     return;
                 }
