@@ -8,6 +8,9 @@
         box-sizing: border-box;
         padding:14px;
     }
+    .layui-form-label{
+        width: 120px !important;
+    }
 </style>
 <body class="timo-layout-page">
 <div id="formBox" style="display: none">
@@ -214,10 +217,10 @@
                             ,{field: 'model_name', title: '机型名称', sort: true, minWidth:216}
                             ,{field: 'model_ver', title: '机型型号', sort: true, minWidth:170}
                             ,{field: 'remark', title: '备注', minWidth:120}
-                            ,{ title: '操作',fixed:'right', minWidth: 210,templet:function (d) {
+                            ,{ title: '操作',fixed:'right', minWidth: 210,align:'center',templet:function (d) {
                                 return  '<button lay-event="tou" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">'+(d.pcb_task_status==="已投产"?"已投产":"投产")+'</button>'
                                        +'<button lay-event="kan" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"":"background-color:#e4e4e4")+'"'+(d.pcb_task_status==="已投产"?"":"disabled")+' type="button">查看工序计划</button>'
-                                       +'<button lay-event="edit" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">编辑</button>'
+                                       // +'<button lay-event="edit" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">编辑</button>'
                             }
                     }
                         ]
@@ -352,7 +355,7 @@
                             layer.open({
                                 type:1,
                                 title:"填写板编号",
-                                area:['400px','420px'],
+                                area:['450px','520px'],
                                 content:$("#formBox"),
                                 success:function () {
                                     $.get('/produce/pcbTask/generateBatchId/'+data.id,function(res){
