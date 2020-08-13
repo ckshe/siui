@@ -57,7 +57,7 @@
         <h3><b>已下达设备：</b></h3>
         <table class="layui-hide" id="table1" lay-filter="table1"></table>
         <script type="text/html" id="toolbarAddDevice">
-            <button id="subAdd" class="layui-btn layui-btn-sm" type="button"  lay-event="devs">添加设备</button>
+            <button id="subAdd" class="layui-btn layui-btn-sm" type="button"  lay-event="addDev">添加设备</button>
         </script>
         <h3><b>工序日计划：</b></h3>
         <table class="layui-hide" id="table" lay-filter="table"></table>
@@ -305,15 +305,13 @@
             }
         });
         table.on('toolbar(table1)', function (obj) {
-            var deviceNameArr=[],deviceCodeArr=[];
-            var nowData = tdata[0];
             switch (obj.event) {
-                case 'devs':
+                case 'addDev':
                         imTable = layer.open({
                             type: 2,
                             area: ["80%", "80%"],
                             title: '请选择机台',
-                            content: '/addDevice?process_name=' + nowData.process_name
+                            content: '/addDevice'
                         });
                         a = function (data) {
                             //选择的机台编号列表
