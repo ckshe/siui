@@ -257,13 +257,41 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
             //如果只有一个唯一替代料则直接替代，重写数据
             if(elementList.size()==1){
                 detail = recordDetailRepositoty.findByProcess_task_codeAndProduct_code(req.getProcessTaskCode(),elementList.get(0).getOriginal_product_code(),req.getDeviceCode());
-                detail.setLast_product_code(detail.getProduct_code());
-                detail.setProduct_code(elementList.get(0).getReplace_product_code()); // 替代料的物料编号
+                //detail.setLast_product_code(elementList.get(0).getReplace_product_code()); // 替代料的物料编号
+                //detail.setProduct_code(elementList.get(0).getReplace_product_code());
                 //detail.setElement_name(elementList.get(0).getReplace_product_name()); // 替代料的元件号
-                detail.setInstall_status("1");
+                // 这里准确的应该是获取扫描的物料码,并通过扫描的物料码查询到对应的元件名 (替代料唯一时可以直接获取替代料的物料编号和元件名)
+                detail.setLast_product_code(elementList.get(0).getReplace_product_code());
+                detail.setLast_element_name(elementList.get(0).getReplace_product_name());
+                //detail.setLast_product_code(req.getPcbTaskCode());
+//                List<DeviceProductReplaceElement> replace_prodcut_code = deviceProductReplaceElementRepository.findByReplace_prodcut_code(detail.getLast_product_code());
+//                detail.setLast_element_name(replace_prodcut_code.get(0).getReplace_product_name());
+
+                //if(detail.getProduct_code().equals(detail.getLast_product_code())){
+                    //detail.setInstall_status("1");
+                //}
+                // 状态为0的数据,更新状态为1进行上料,上料完成的不执行
+                if (detail.getInstall_status().equals("0")){
+                    detail.setInstall_status("1");
+                }
+
                 recordDetailRepositoty.save(detail);
                 map.put("status","1");
                 map.put("msg","扫描成功");
+
+                if("1".equals(detail.getInstall_status())){
+
+                    map.put("status","1");
+                    map.put("msg","该物料已扫描");
+                    return ResultVoUtil.success(map);
+                }
+                if("2".equals(detail.getInstall_status())){
+                    map.put("status","2");
+                    map.put("msg","该物料已插入");
+                    return ResultVoUtil.success(map);
+                }
+
+
             }
             //
             if(elementList.size()==0){

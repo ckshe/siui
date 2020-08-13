@@ -40,12 +40,11 @@ public interface DeviceProductReplaceElementService {
     @Transactional
     Boolean updateStatus(StatusEnum statusEnum, List<Long> idList);
 
-    // ------------------------------------------------------------
+    // _______________________________________________________________________________
 
     DeviceProductReplaceElement queryByOriginalProductCode(String original_product_code);
 
     ResultVo queryByReplaceProductCode(String replaceProductCode);
-
 
     //ResultVo queryByReplaceProductCode(DeviceProductReplaceElementReq req);
 }
