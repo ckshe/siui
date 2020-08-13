@@ -270,7 +270,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
                 //if(detail.getProduct_code().equals(detail.getLast_product_code())){
                     //detail.setInstall_status("1");
                 //}
-                // 状态为0的数据,更新状态为1进行上料,上料完成的不执行
+                // 状态为0的数据,更新状态为1进行上料,上料完成的不更改detail状态
                 if (detail.getInstall_status().equals("0")){
                     detail.setInstall_status("1");
                 }
@@ -293,7 +293,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
 
 
             }
-            //
+            //扫描替代料后没有找到该替代料对应的物料编号 (物料不存在的情况)
             if(elementList.size()==0){
                 map.put("status","3");
                 map.put("msg","找不到该物料");
@@ -318,6 +318,8 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
             return ResultVoUtil.success(map);
         }
         detail.setInstall_status("1");
+        detail.setLast_product_code(detail.getProduct_code());
+        detail.setLast_element_name(detail.getElement_name());
         recordDetailRepositoty.save(detail);
         map.put("status","1");
         map.put("msg","扫描成功");
