@@ -1204,7 +1204,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 Process process = processRepository.findByProcessName(processTask.getProcess_name());
                 set.add(processTask.getProcess_task_code());
                 if(process.getCount_type()==0){
-                    if(processTask.getMultiple()!=null&&processTask.getMultiple()==1){
+                    if(processTask.getMultiple()!=null){
                         req.setAmount(req.getAmount()*processTask.getMultiple());
                     }
                     ProcessTaskDevice processTaskDevice = processTaskDeviceRepository.findByPTCodeDeviceCode(device.getDevice_code(),processTask.getProcess_task_code());

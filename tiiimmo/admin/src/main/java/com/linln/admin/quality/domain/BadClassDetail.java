@@ -27,4 +27,8 @@ public class BadClassDetail {
 
     private String recorder_name;
 
+    private String qc_nama;
+
+    private Date qc_time;
+
 }
