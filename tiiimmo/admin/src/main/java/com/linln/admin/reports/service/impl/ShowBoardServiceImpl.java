@@ -788,7 +788,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         //正在进行的贴片任务
         StringBuffer runningSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code like '%B16011%' and  is_now_flag like '%B16011%'");
 
-        StringBuffer waitingSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code like '%B16011%' and process_task_status != '已完成' and process_task_status != '生产中' and process_task_status != '进行中' AND is_now_flag not like '%B16011%'  ORDER BY priority DESC ,plan_finish_time ");
+        StringBuffer waitingSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code like '%B16011%' and process_task_status != '已完成' and process_task_status != '生产中' and process_task_status != '进行中' AND is_now_flag not like '%B16011%'  ORDER BY priority DESC ,plan_finish_time desc");
 
         StringBuffer beiliaoSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code = 'work0022' and is_now_flag like '%work0022%' ");
 

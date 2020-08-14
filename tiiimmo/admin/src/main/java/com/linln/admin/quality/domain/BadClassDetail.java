@@ -31,7 +31,8 @@ public class BadClassDetail {
 
     private Date qc_time;
 
-    private String card_sequence;
+    private String recorder_sequence;
+    private String qc_sequence;
 
     private String position;
 

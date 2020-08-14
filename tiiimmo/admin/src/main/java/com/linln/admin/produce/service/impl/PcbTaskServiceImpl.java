@@ -26,6 +26,7 @@ import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
 import com.linln.component.shiro.ShiroUtil;
 import com.linln.modules.system.domain.User;
+import com.linln.modules.system.repository.UserRepository;
 import com.linln.utill.ApiUtil;
 import com.linln.utill.DateUtil;
 import org.apache.xmlbeans.impl.common.ResolverUtil;
@@ -48,6 +49,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class PcbTaskServiceImpl implements PcbTaskService {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private PcbTaskRepository pcbTaskRepository;
@@ -2253,11 +2257,13 @@ public class PcbTaskServiceImpl implements PcbTaskService {
     @Override
     public ResultVo recordBadTypeList(PcbTaskReq req) {
         List<BadClassDetail> detailList = new ArrayList<>();
+        User user = userRepository.findByCard_sequence(req.getCardSequence());
         String userName = "";
-       /* User user = ShiroUtil.getSubject();
+
         if(user!=null){
             userName = user.getNickname();
-        }*/
+        }
+
         Date date = new Date();
         for(PcbTaskReq bad : req.getBadNewsList()){
             BadClassDetail detail = new BadClassDetail();
@@ -2267,7 +2273,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             detail.setRecord_time(date);
             detail.setPosition(req.getPosition());
             detail.setPlate_no(req.getPlateNo());
-            detail.setCard_sequence(req.getCardSequence());
+            detail.setRecorder_sequence(req.getCardSequence());
             detailList.add(detail);
 
         }
@@ -2278,13 +2284,21 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
     @Override
     public ResultVo badDetailRecordQc(PcbTaskReq req) {
+        User user = userRepository.findByCard_sequence(req.getCardSequence());
+        String userName = "";
+
+        if(user!=null){
+            userName = user.getNickname();
+        }
         String [] ids = req.getIds().split(",");
         List<Long> iids = new ArrayList<>();
         Arrays.asList(ids).forEach(s -> iids.add(Long.parseLong(s)));
         Date today = new Date();
         List<BadClassDetail> list = badClassDetailRepository.findByIdIn(iids);
+        String finalUserName = userName;
         list.forEach(l->{
-            l.setQc_nama(req.getCardSequence());
+            l.setQc_sequence(req.getCardSequence());
+            l.setQc_nama(finalUserName);
             l.setQc_time(today);
         });
         return  ResultVoUtil.success("");
