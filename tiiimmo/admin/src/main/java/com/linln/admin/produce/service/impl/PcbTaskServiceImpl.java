@@ -2266,6 +2266,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
         Date date = new Date();
         for(PcbTaskReq bad : req.getBadNewsList()){
+            BadClassDetail badClassDetail = badClassDetailRepository.findByPlatenoAndBadType(req.getPlateNo(),bad.getBadNews());
+            if(badClassDetail!=null){
+                continue;
+            }
             BadClassDetail detail = new BadClassDetail();
             detail.setBad_type(bad.getBadNews());
             detail.setPcb_task_code(req.getPcbTaskCode());
@@ -2301,6 +2305,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             l.setQc_nama(finalUserName);
             l.setQc_time(today);
         });
+        badClassDetailRepository.saveAll(list);
         return  ResultVoUtil.success("");
     }
 
