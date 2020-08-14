@@ -33,4 +33,8 @@ public class BadClassDetail {
 
     private String card_sequence;
 
+    private String position;
+
+    private String situation;
+
 }

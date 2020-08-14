@@ -451,7 +451,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
         StringBuffer sql = new StringBuffer("\n" +
                 "SELECT\n" +
-                "\tt1.process_task_code,t1.process_name,t1.pcb_quantity,t1.amount_completed ,t2.process_type,\n" +
+                "\tt1.process_task_code,CONVERT( VARCHAR ( 100 ), t1.finish_time, 23 ) as finish_time,t1.process_name,t1.pcb_quantity,t1.amount_completed ,t2.process_type,\n" +
                 "\tISNULL(t1.amount_completed, 0)/ISNULL(t1.pcb_quantity, 1)  rate2,\n" +
                 "\t\tcast(100*CAST(ISNULL(t1.amount_completed, 0)*1.0/ISNULL(t1.pcb_quantity, 1) as decimal(8,2)) AS varchar(100))  AS rate\n" +
                 "FROM \n" +
@@ -462,7 +462,18 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "' AND t1.plan_start_time  <= '" +
                 endTime +
                 "'");
-        List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+        List<Map<String, Object>> mapList2 = jdbcTemplate.queryForList(sql.toString());
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        for(Map<String,Object> map: mapList2){
+            String finishTime = (String)map.get("finish_time");
+            Integer pcb_quantity = (Integer)map.get("pcb_quantity");
+            Integer amount_completed = (Integer)map.get("amount_completed");
+            if(amount_completed>=pcb_quantity&&!finishTime.equals(today)){
+                continue;
+            }
+            mapList.add(map);
+
+        }
         List<Map<String, Object>> tiepianList = new ArrayList<>();
         List<Map<String, Object>> houhanList = new ArrayList<>();
         List<Map<String, Object>> zhijianList = new ArrayList<>();
@@ -598,7 +609,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
             staffOntimeRateResp.setRate(BigDecimal.ZERO);
             for(Map<String, Object> staffOnTime :staffOntimeSqlList){
                 String processName = (String)staffOnTime.get("process_type");
-                if(processName.equals(processTypeName)){
+                if(processName!=null&&processTypeName!=null&&processName.equals(processTypeName)){
                     Integer countOnTime = (Integer) staffOnTime.get("countOnTime");
                     staffOntimeRateResp.setProcessTypeStaffOnTimeCount(countOnTime);
                 }

@@ -44,6 +44,7 @@ public class PcbTaskReq {
     private Integer countType;
     private String cardSequence;
 
+    private String position;
     private String ids;
 
 }

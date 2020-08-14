@@ -2265,6 +2265,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             detail.setPcb_task_code(req.getPcbTaskCode());
             detail.setRecorder_name(userName);
             detail.setRecord_time(date);
+            detail.setPosition(req.getPosition());
             detail.setPlate_no(req.getPlateNo());
             detail.setCard_sequence(req.getCardSequence());
             detailList.add(detail);
