@@ -809,7 +809,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 ")t4)t3\n");
         Integer page = 1;
         Integer size = 10;
-        if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
+        if(pcbTaskReq.getPage()!=null&&pcbTaskReq.getSize()!=null){
             page = pcbTaskReq.getPage();
             size = pcbTaskReq.getSize();
         }
@@ -843,7 +843,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         if(status==null||"".equals(status)){
             status = "已投产";
         }
-        if(pcbTaskReq.getPage()==null||pcbTaskReq.getSize()==null){
+        if(pcbTaskReq.getPage()!=null&&pcbTaskReq.getSize()!=null){
             page = pcbTaskReq.getPage();
             size = pcbTaskReq.getSize();
         }
