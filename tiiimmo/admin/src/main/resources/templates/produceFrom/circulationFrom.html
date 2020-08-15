@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:mo="https://gitee.com/aun/Timo">
+
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<style>
+    #formBox {
+        box-sizing: border-box;
+        padding: 14px;
+    }
+
+    .layui-form-label {
+        width: 120px !important;
+    }
+</style>
+
+<body class="timo-layout-page">
+    <div class="layui-card">
+        <div class="layui-card-header timo-card-header">
+            <span><i class="fa fa-bars"></i> 生产流通表</span>
+            <i class="layui-icon layui-icon-refresh refresh-btn"></i>
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-row timo-card-screen">
+                <form class="layui-form pull-left layui-form-pane timo-search-box">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">生产任务单号</label>
+                        <div class="layui-input-block">
+                            <input id="pcbTaskCode" type="text" name="pcbTaskCode" placeholder="请输入生产任务单号"
+                                autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">生产批次</label>
+                        <div class="layui-input-block">
+                            <input id="taskSheetCode" type="text" name="taskSheetCode" placeholder="请输入生产批次"
+                                autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">规格型号</label>
+                        <div class="layui-input-block">
+                            <input id="pcbId" type="text" name="pcbId" placeholder="请输入规格型号" autocomplete="off"
+                                class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">物料名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="pcbName" name="pcbName" placeholder="请输入物料名称" autocomplete="off"
+                                class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn" id="search" type="button" lay-submit lay-filter="search">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <button type="reset" class="layui-btn layui-bg-blue">清除</button>
+                    </div>
+                </form>
+            </div>
+            <div class="timo-table-wrap">
+                <table class="layui-hide" id="table" lay-filter="table"></table>
+            </div>
+        </div>
+    </div>
+    <script th:replace="/common/template :: script"></script>
+    <script src="../../js/common.js"></script>
+    <script>
+        layui.use(['form', 'laydate', 'table', 'jquery', 'form'], function () {
+            var layer = layui.layer,
+                $ = layui.jquery,
+                table = layui.table,
+                laydate = layui.laydate,
+                form = layui.form;
+            parent.layer.closeAll();
+
+            laydate.render({
+                elem: '#time'
+                , type: 'datetime'
+            });
+            table.render({
+                elem: '#table'
+                , url: '/produce/pcbTask/findScheduling' //数据接口
+                , method: 'POST'
+                , loading: false
+                , contentType: 'application/json'
+                , response: {
+                    statusCode: 200
+                }
+                , page: true
+                , limit: 20
+                , parseData: function (res) {
+                    // var page = this.page.curr;
+                    // if(res.data.length===0&&page>1){
+                    //     table.reload('table',{
+                    //         page:{
+                    //             curr:(page-1)
+                    //         }
+                    //     })
+                    // }
+                    return {
+                        "code": res.code, //解析接口状态
+                        "data": res.data, //解析数据列表
+                        "count": res.total //解析数据长度
+                    };
+                }
+                , where: {
+                    status: "全部"
+                }
+                , cols: [
+                    [
+                        { field: 'pcb_task_code', title: '生产任务单号', sort: true, minWidth: 140 }
+                        , { field: 'task_sheet_code', title: '生产批次', sort: true, minWidth: 140 }
+                        , { field: 'pcb_id', title: '规格型号', sort: true, minWidth: 200 }
+                        , { field: 'pcb_name', title: '物料名称', sort: true, minWidth: 300 }
+                        , { field: 'pcb_quantity', title: '计划量', sort: true, minWidth: 140 }
+                        , { field: 'quantity}', title: '完成量', sort: true, minWidth: 120 }
+                        , {
+                            title: '流通表', fixed: 'right', minWidth: 150, align: 'center', templet: function (d) {
+                                return '<button lay-event="tiepian" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#f37b1d" type="button">贴片</button>'
+                                    + '<button lay-event="zhengxing" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#39b54a" type="button">整形</button>'
+                                    + '<button lay-event="houhan" class="layui-btn  layui-btn-xs" style="margin-right:6px;" type="button">后焊</button>'
+                            }
+                        }
+                    ]
+                ]
+            });
+            form.on('submit(search)', function (obj) {
+                table.reload('table', {
+                    page: { curr: 1 },
+                    where: obj.field
+                })
+            });
+
+            new Enter('pcbTaskCode', function () { $('#search').click() });
+            new Enter('taskSheetCode', function () { $('#search').click() });
+            new Enter('pcbId', function () { $('#search').click() });
+            new Enter('pcbName', function () { $('#search').click() });
+            table.on('tool(table)', function (obj) {
+                var data = obj.data;
+                console.log("data===",data)
+                switch (obj.event) {
+                    case 'tiepian':
+                        layer.open({
+                            title: '贴片流通表',
+                            type: 2,
+                            area: ['96%', '96%'],
+                            content: '/produceFrom/circulationDetail?id=1&pcb_task_code='+data.pcb_task_code
+                        });
+                        break;
+                    case 'zhengxing':
+                        layer.open({
+                            title: '整形流通表',
+                            type: 2,
+                            area: ['96%', '96%'],
+                            content: '/produceFrom/circulationDetail?id=2&pcb_task_code='+data.pcb_task_code
+                        });
+                        break;
+                    case 'houhan':
+                        layer.open({
+                            title: '后焊流通表',
+                            type: 2,
+                            area: ['96%', '96%'],
+                            content: '/produceFrom/circulationDetail?id=3&pcb_task_code='+data.pcb_task_code
+                        });
+                        break;
+                }
+            })
+        })
+    </script>
+    <style>
+        .layui-laydate .layui-this {
+            background-color: #1e9fff !important;
+        }
+    </style>
+</body>
+
+</html>

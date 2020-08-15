@@ -193,9 +193,32 @@
         .layui-table-body.layui-table-main.mainHeight {
             height: auto !important;
         }
-        .layui-table-cell{
+
+        .layui-table-cell {
             height: 38px !important;
             line-height: 38px !important;
+        }
+
+        .pageError {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-height: calc(100vh - 110px);
+            margin-bottom: 0;
+        }
+
+        .borderHide {
+            border: transparent;
         }
     </style>
 </head>
@@ -206,6 +229,7 @@
         <ul class="layui-tab-title">
             <li class="layui-this">日常维护</li>
             <li>定期维护</li>
+            <li>设备使用记录</li>
             <li>设备参数</li>
         </ul>
 
@@ -254,8 +278,8 @@
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">设备编号: </label>
                                     <div class="layui-input-inline">
-                                        <input class="layui-input" autocomplete="off" type="text" name="deviceCode"
-                                            id="deviceCode" placeholder="请输入设备编号">
+                                        <input class="layui-input borderHide" autocomplete="off" type="text"
+                                            name="deviceCode" disabled placeholder="">
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
@@ -374,6 +398,114 @@
                     </div>
                 </div>
             </div>
+            <!-- 设备使用记录 -->
+            <div class="layui-tab-item">
+                <div class="layui-card pageTrue">
+                    <div class="layui-card-header timo-card-header">
+                        <span><i class="fa fa-bars"></i> <span id="deviceCode"></span> 设备使用记录</span>
+                        <!-- <i class="layui-icon layui-icon-refresh refresh-btn"></i> -->
+                    </div>
+                    <div class="layui-card-body">
+                        <div class="layui-row timo-card-screen">
+                            <form class="layui-form" lay-filter="lay_form">
+                                <input class="layui-input" type="hidden" name="deviceHistoryId" id="deviceHistoryId">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">设备编号: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input borderHide" autocomplete="off" type="text"
+                                            name="deviceCode" disabled placeholder="">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">生产任务单号: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input borderHide" autocomplete="off" type="text"
+                                            name="pcbTaskCode" disabled id="pcbTaskCode" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">生产批次: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input borderHide" autocomplete="off" type="text"
+                                            name="taskSheetCode" disabled id="taskSheetCode" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">规格型号: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input borderHide" autocomplete="off" type="text"
+                                            name="pcbCode" disabled id="pcbCode" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">开始使用日期: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" autocomplete="off" type="text" id="useStartTime"
+                                            name="useStartTime" placeholder="请输入开始使用日期">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">结束使用日期: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" autocomplete="off" type="text" id="useEndTime"
+                                            name="useEndTime" placeholder="请输入结束使用日期">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">员工号: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" autocomplete="off" type="text" name="usePerson"
+                                            placeholder="请输入员工号">
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">使用时长（小时）: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" autocomplete="off" type="text" name="useTime"
+                                            placeholder="请输入使用时长">
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">设备完成数量: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" autocomplete="off" type="text" name="amount"
+                                            id="amount" placeholder="请输入设备完成数量">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">结果: </label>
+                                    <div class="layui-input-inline">
+                                        <input type="radio" name="useResult" lay-filter="useResultM" value="正常"
+                                            title="正常">
+                                        <input type="radio" name="useResult" lay-filter="useResultM" value="不正常"
+                                            title="不正常">
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item" style="width: 99%;">
+                                    <label class="layui-form-label">备注: </label>
+                                    <div class="layui-input-inline" style="width: 566px;">
+                                        <input class="layui-input" autocomplete="off" type="text" name="remark"
+                                            placeholder="请输入备注">
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item timo-finally" style="width: 100%; text-align: center;">
+                                    <button class="layui-btn" type="button" lay-submit lay-filter="deviceUseFrom">
+                                        提交</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="pageError" style="color: #1e9fff;display: none;">
+                    <div style="font-size: 100px">哎呀呀！</div>
+                    <div style="font-size: 24px">当前没有生产任务哦</div>
+                </div>
+            </div>
             <!-- 设备参数 -->
             <div class="layui-tab-item">
                 <div class="layui-card">
@@ -395,6 +527,7 @@
 </body>
 <script>
     window.onload = function () {
+        var nowDeviceCode = getQueryString2('deviceCode');
         layui.use(['jquery', 'form', 'table', 'element', 'laydate'], function () {
             var $ = layui.jquery,
                 table = layui.table,
@@ -405,39 +538,12 @@
             var tdata = [];
             var tableObj = {
                 elem: '#table'
-                // , url: '/deviceDateSafe/get' //数据接口
-                // , page: true //开启分页
-                // , method: 'POST'
-                // , loading: false
-                // , contentType: 'application/json'
                 , defaultToolbar: []
                 , toolbar: '#toolbarmaintenace'
                 , data: tdata
                 , response: {
                     statusCode: 200
                 }
-                // , parseData: function (res) {
-                //     return {
-                //         "code": res.code, //解析接口状态
-                //         "data": res.data.deviceDateSafeVOS, //解析数据列表
-                //         'deviceSafeResultS': res.data.deviceSafeResultS,
-                //         "count": res.total, //解析数据长度
-                //     };
-                // }
-                // , where: {
-                //     safeTime: timeToDate(new Date(), true).trim(),
-                //     safeDeviceCode: getQueryString2('deviceCode'),
-                //     safeType: null
-                // }
-                // , done: function (res, index) {
-                //     console.log(res)
-                //     if (res.code == 200) {
-                //         deviceSafeResultSArr = res.deviceSafeResultS
-                //         console.log(deviceSafeResultSArr)
-                //     } else {
-                //         layer.msg(res.msg, { offset: '15px', time: 3000, icon: 2 });
-                //     }
-                // }
                 , cols: [
                     [
                         {
@@ -686,6 +792,41 @@
                     }
                 });
             });
+            form.on('submit(deviceUseFrom)', function (obj) {
+                var regularFomeData = {
+                    deviceHistoryId: parseInt(obj.field.deviceHistoryId),
+                    pcbTaskCode: obj.field.pcbTaskCode,
+                    taskSheetCode: obj.field.taskSheetCode,
+                    pcbCode: obj.field.pcbCode,
+                    deviceCode: obj.field.deviceCode,
+                    useStartTime: obj.field.useStartTime,
+                    useEndTime: obj.field.useEndTime,
+                    usePerson: obj.field.usePerson,
+                    useTime: parseFloat(obj.field.useTime),
+                    amount: obj.field.amount,
+                    useResult: obj.field.useResult,
+                    remark: obj.field.remark
+                }
+                console.log(regularFomeData)
+                $.ajax({
+                    type: "POST",
+                    url: '/deviceUseHistory/edit',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(regularFomeData),
+                    dataType: "json",
+                    async: false,
+                    success: function (res) {
+                        if (res.code == 200) {
+                            layer.alert(res.msg, { icon: 1, time: 1000 });
+                        } else {
+                            layer.alert(res.msg, { icon: 5, time: 3000 });
+                        }
+                    },
+                    error: function (message) {
+                        layer.alert("提交失败！", { icon: 5, time: 1000 });
+                    }
+                });
+            });
             //tab事件监听
             element.on('tab(regular)', function (data) {
                 if (data.index == 0) {
@@ -701,6 +842,77 @@
                     }
                 }
                 if (data.index == 2) {
+                    $.ajax({
+                        url: "/produce/pcbTask/findProcessTaskByDevice",
+                        type: 'post',
+                        dataType: "json",
+                        contentType: "application/json;charset=UTF-8",
+                        data: JSON.stringify({
+                            deviceCode: getQueryString2('deviceCode'),
+                        }),
+                        success: function (res) {
+                            layer.closeAll();
+                            var isPCBTask = false;
+                            $('.pageTrue').show();
+                            res.data.some(function (t, i) {
+                                if (("" + t.is_now_flag).indexOf(nowDeviceCode) != -1) {
+                                    isPCBTask = true;
+                                    $('.pageError').hide();
+                                    if (parentLogin()) {
+                                        $.ajax({
+                                            type: "POST",
+                                            url: '/deviceUseHistory/get',
+                                            contentType: "application/json; charset=utf-8",
+                                            data: JSON.stringify({
+                                                pcbTaskCode: t.pcb_task_code,
+                                                taskSheetCode: t.task_sheet_code,
+                                                pcbCode: t.pcb_code,
+                                                deviceCode: getQueryString2('deviceCode')
+                                            }),
+                                            dataType: "json",
+                                            async: false,
+                                            success: function (res) {
+                                                if (res.code == 200) {
+                                                    console.log(res.data)
+                                                    var data = res.data;
+                                                    $('[name=deviceHistoryId]').val(data.deviceHistoryId)
+                                                    $('[name=deviceCode]').val(data.deviceCode)
+                                                    $('[name=pcbTaskCode]').val(data.pcbTaskCode)
+                                                    $('[name=taskSheetCode]').val(data.taskSheetCode)
+                                                    $('[name=pcbCode]').val(data.pcbCode)
+                                                    $('[name=useStartTime]').val(data.useStartTime)
+                                                    $('[name=useEndTime]').val(data.useEndTime)
+                                                    $('[name=usePerson]').val(data.usePerson)
+                                                    $('[name=useTime]').val(data.useTime)
+                                                    $('[name=amount]').val(data.amount)
+                                                    if (data.useResult == '正常') {
+                                                        $("input[name=useResult][value='正常']").prop("checked", "true");
+                                                    }
+                                                    if (data.useResult == '不正常') {
+                                                        $("input[name=useResult][value='不正常']").prop("checked", "true");
+                                                    }
+                                                    form.render("radio"); //更新全部
+                                                    $('[name=remark]').val(data.remark)
+                                                } else {
+                                                    layer.alert(res.msg, { icon: 5 });
+                                                }
+                                            },
+                                            error: function (message) {
+                                                layer.alert("保存失败！", { icon: 5 });
+                                            }
+                                        });
+                                    }
+                                    return true
+                                }
+                            });
+                            if (!isPCBTask) {
+                                $('.pageTrue').hide();
+                                $('.pageError').show();
+                            }
+                        }
+                    })
+                }
+                if (data.index == 3) {
                     var data = {
                         "deviceCode": getQueryString2('deviceCode') || ''
                     }
@@ -713,6 +925,10 @@
                         success: function (response) {
                             console.log('设备信息=', response)
                             var responseData = response.data.device;
+                            if (responseData == null) {
+                                layer.alert("没有当前设备信息", { icon: 5, time: 3000 });
+                                return;
+                            }
                             responseData.last_check_time != null ? responseData.last_check_time = timeToDate(responseData.last_check_time, true) : '';
                             responseData.next_check_time != null ? responseData.next_check_time = timeToDate(responseData.next_check_time, true) : '';
                             var devstatus = {
@@ -761,6 +977,14 @@
             });
             laydate.render({
                 elem: '#lastSafeTime'
+                , value: new Date()
+            });
+            laydate.render({
+                elem: '#useStartTime'
+                , value: new Date()
+            });
+            laydate.render({
+                elem: '#useEndTime'
                 , value: new Date()
             });
             // table.render();

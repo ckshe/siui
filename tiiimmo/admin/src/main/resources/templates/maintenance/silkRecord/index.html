@@ -1,93 +1,151 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:mo="https://gitee.com/aun/Timo">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:mo="https://gitee.com/aun/Timo">
+
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
 </head>
+
+
+
 <body class="timo-layout-page">
     <div class="layui-card">
         <div class="layui-card-header timo-card-header">
-            <span><i class="fa fa-bars"></i> 丝印机使用记录管理</span>
+            <span><i class="fa fa-bars"></i> 设备使用记录列表</span>
             <i class="layui-icon layui-icon-refresh refresh-btn"></i>
         </div>
         <div class="layui-card-body">
             <div class="layui-row timo-card-screen">
-                <div class="pull-left layui-form-pane timo-search-box">
-                    <div class="layui-inline" style="display: none">
-                        <label class="layui-form-label">状态</label>
-                        <div class="layui-input-block timo-search-status">
-                            <select class="timo-search-select" name="status" mo:dict="SEARCH_STATUS" mo-selected="${param.status}"></select>
+                <form class="layui-form pull-left layui-form-pane timo-search-box">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">设备编号</label>
+                        <div class="layui-input-block">
+                            <input id="deviceCode" type="text" name="deviceCode" placeholder="请输入设备编号"
+                                autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <button class="layui-btn timo-search-btn">
+                        <label class="layui-form-label">生产任务单号</label>
+                        <div class="layui-input-block">
+                            <input id="pcbTaskCode" type="text" name="pcbTaskCode" placeholder="请输入生产任务单号"
+                                autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">批次号</label>
+                        <div class="layui-input-block">
+                            <input id="taskSheetCode" type="text" name="taskSheetCode" placeholder="请输入批次号"
+                                autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">规格型号</label>
+                        <div class="layui-input-block">
+                            <input id="pcbCode" type="text" name="pcbCode" placeholder="选择规格型号" autocomplete="off"
+                                class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn" id="search" type="button" lay-submit lay-filter="search">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
-                </div>
-                <div class="pull-right screen-btn-group">
-                    <button class="layui-btn open-popup" data-title="添加丝印机使用记录" th:attr="data-url=@{/maintenance/silkRecord/add}" data-size="auto">
-                        <i class="fa fa-plus"></i> 添加</button>
-                    <div class="btn-group">
-                        <button class="layui-btn">操作<span class="caret"></span></button>
-                        <dl class="layui-nav-child layui-anim layui-anim-upbit">
-                            <dd><a class="ajax-status" th:href="@{/maintenance/silkRecord/status/ok}">启用</a></dd>
-                            <dd><a class="ajax-status" th:href="@{/maintenance/silkRecord/status/freezed}">冻结</a></dd>
-                            <dd><a class="ajax-status" th:href="@{/maintenance/silkRecord/status/delete}">删除</a></dd>
-                        </dl>
-                    </div>
-                </div>
+                </form>
+
+
             </div>
             <div class="timo-table-wrap">
-                <table class="layui-table timo-table">
-                    <thead>
-                    <tr>
-                        <th class="timo-table-checkbox">
-                            <label class="timo-checkbox"><input type="checkbox">
-                                <i class="layui-icon layui-icon-ok"></i></label>
-                        </th>
-                        <th>主键ID</th>
-                        <th>开始时间</th>
-                        <th>PBC板号</th>
-                        <th>板编码</th>
-                        <th>焊接面</th>
-                        <th>元件面</th>
-                        <th>校板人</th>
-                        <th>丝印人</th>
-                        <th>结束时间</th>
-                        <th>创建时间</th>
-                        <th>更新时间</th>
-                        <th>数据状态</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="item:${list}">
-                        <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
-                            <i class="layui-icon layui-icon-ok"></i></label></td>
-                        <td th:text="${item.id}">主键ID</td>
-                        <td th:text="${item.beginTime}">开始时间</td>
-                        <td th:text="${item.pbcNo}">PBC板号</td>
-                        <td th:text="${item.pbcCode}">板编码</td>
-                        <td th:text="${item.welding}">焊接面</td>
-                        <td th:text="${item.element }">元件面</td>
-                        <td th:text="${item.checker}">校板人</td>
-                        <td th:text="${item.silker}">丝印人</td>
-                        <td th:text="${item.endTime}">结束时间</td>
-                        <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
-                        <td th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
-                        <td th:text="${#dicts.dataStatus(item.status)}">数据状态</td>
-                        <td>
-                            <a class="open-popup" data-title="编辑丝印机使用记录" th:attr="data-url=@{'/maintenance/silkRecord/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
-                            <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/maintenance/silkRecord/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>
-                            <a class="ajax-get" data-msg="您是否确认删除" th:href="@{/maintenance/silkRecord/status/delete(ids=${item.id})}">删除</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <table class="layui-hide" id="table" lay-filter="table"></table>
             </div>
-            <div th:replace="/common/fragment :: page"></div>
         </div>
     </div>
-<script th:replace="/common/template :: script"></script>
+    <script th:replace="/common/template :: script"></script>
+    <script src="../../js/common.js"></script>
+    <script>
+        layui.use(['form', 'laydate', 'table', 'jquery', 'form'], function () {
+            var layer = layui.layer,
+                $ = layui.jquery,
+                table = layui.table,
+                laydate = layui.laydate,
+                form = layui.form;
+            table.render({
+                elem: '#table'
+                , url: '/deviceUseHistory/list' //数据接口
+                , method: 'post'
+                , loading: false
+                , contentType: 'application/json'
+                , response: {
+                    statusCode: 200
+                }
+                , page: true
+                , limit: 20
+                , where: {
+                    deviceCode: getQueryString2('deviceCode')
+                }
+                , parseData: function (res) {
+                    // var page = this.page.curr;
+                    // if(res.data.length===0&&page>1){
+                    //     table.reload('table',{
+                    //         page:{
+                    //             curr:(page-1)
+                    //         }
+                    //     })
+                    // }
+                    return {
+                        "code": res.code, //解析接口状态
+                        "data": res.data.deviceUseHistoryVOS, //解析数据列表
+                        "count": res.data.total, //解析数据长度
+                    };
+                }
+                , cols: [
+                    [
+                        { field: 'pcbTaskCode', title: '生产任务单号', sort: true, minWidth: 140 }
+                        , { field: 'taskSheetCode', title: '批次号', sort: true, minWidth: 140 }
+                        , { field: 'pcbCode', title: '规格型号', sort: true, minWidth: 182 }
+                        , { field: 'deviceCode', title: '设备编号', sort: true, minWidth: 110 }
+                        , { field: 'usePerson', title: '员工工号', sort: true, minWidth: 100 }
+                        , { field: 'useTime', title: '时长（h）', sort: true, minWidth: 80 }
+                        , { field: 'amount', title: '完成量', sort: true, minWidth: 80 }
+                        , {
+                            field: 'useStartTime', title: '开始时间', sort: true, minWidth: 120, templet: function (d) {
+                                return d.useStartTime ? timeToDate(d.useStartTime, true) : "";
+                            }
+                        }
+                        , {
+                            field: 'useEndTime', title: '结束时间', sort: true, minWidth: 120, templet: function (d) {
+                                return d.useEndTime ? timeToDate(d.useEndTime, true) : "";
+                            }
+                        }
+                        , { field: 'useResult', title: '结果', sort: true, minWidth: 80 }
+                        , { field: 'remark', title: '备注', sort: true, minWidth: 80 }
+                    ]
+                ]
+            });
+            form.on('submit(search)', function (obj) {
+                var data = {};
+                // console.log(obj.field);
+                data.deviceCode = obj.field.deviceCode;
+                data.safeDepcbTaskCodeviceCode = obj.field.pcbTaskCode;
+                data.taskSheetCode = obj.field.taskSheetCode;
+                data.pcbCode = obj.field.pcbCode;
+                table.reload('table', {
+                    where: data
+                })
+            });
+            // laydate.render({
+            //     elem: '#safeTimeStart',
+            //     range: "~"
+            // });
+            new Enter('pcbTaskCode', function () { $('#search').click() });
+            new Enter('taskSheetCode', function () { $('#search').click() });
+            new Enter('deviceCode', function () { $('#search').click() });
+            new Enter('pcbCode', function () { $('#search').click() });
+            // new Enter('safeTimeStart',function () {$('#search').click()});
+        })
+    </script>
+    <style>
+        .layui-laydate .layui-this {
+            background-color: #1e9fff !important;
+        }
+    </style>
 </body>
+
 </html>

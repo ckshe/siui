@@ -120,7 +120,7 @@
             });
             form.on('submit(search)',function (obj) {
                 var data = {};
-                // console.log(obj.field);
+                console.log(obj.field);
                 data.pcbTaskCode=obj.field.pcbTaskCode;
                 data.taskSheetCode=obj.field.taskSheetCode;
                 data.pcbCode=obj.field.pcbCode;
@@ -135,10 +135,10 @@
             //     elem: '#startTime'
             //     ,value: new Date()
             // });
-            laydate.render({
-                elem: '#startTime',
-                range: "~"
-            });
+            // laydate.render({
+            //     elem: '#startTime',
+            //     range: "~"
+            // });
             new Enter('pcbTaskCode',function () {$('#search').click()});
             new Enter('taskSheetCode',function () {$('#search').click()});
             new Enter('pcbCode',function () {$('#search').click()});

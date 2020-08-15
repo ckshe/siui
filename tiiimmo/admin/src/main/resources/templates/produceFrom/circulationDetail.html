@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>生产流通表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+
+</head>
+<style>
+    .mainBox {
+        box-sizing: border-box;
+        padding: 0 14px;
+    }
+
+    .layui-form-label {
+        width: 95px !important;
+    }
+</style>
+
+<div class="mainBox">
+    <div class="layui-card-header timo-card-header">
+        <span><i class="fa fa-bars"></i> <span id="deviceCode"></span>交接人/承接人</span>
+    </div>
+    <table class="layui-table" id="utable" lay-filter="utable"></table>
+    <hr style="margin: 10px 0;  padding: 2px 0;">
+    <div class="layui-card-header timo-card-header">
+        <span><i class="fa fa-bars"></i> <span id="deviceCode"></span>流通表信息</span>
+    </div>
+    <table class="layui-table" id="table" lay-filter="table"></table>
+</div>
+
+<script src="../../lib/layui-v2.3.0/layui.js"></script>
+<script src="../../js/common.js"></script>
+</body>
+<script>
+    var a = "";
+    var imTable = "";
+    window.onload = function () {
+        layui.use(['jquery', 'layer', 'table'], function () {
+            var $ = layui.jquery,
+                table = layui.table,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                form = layui.form;
+            var nowData = {};
+            var tdata = [], udata = [];
+            var udataTableObj = {
+                elem: '#utable'
+                , defaultToolbar: []
+                , data: udata
+                , response: {
+                    statusCode: 200
+                }
+                , cols: [
+                    [
+                        { field: 'device_code', title: '设备编号', sort: true, minWidth: 170 }
+                        , {
+                            field: 'type', title: '人员类型', sort: true, minWidth: 120, templet: function (d) {
+                                if (d.type == 1) {
+                                    return "交接人";
+                                } else {
+                                    return '承接人';
+                                }
+                            }
+                        }
+                        , { field: 'pcb_task_code', title: '生产任务单号', sort: true, minWidth: 120 }
+                        , { field: 'process_task_code', title: '工序任务号', sort: true, minWidth: 120 }
+                        , { field: 'count', title: '数量', sort: true, minWidth: 70 }
+                        , { field: 'user_name', title: '使用者', sort: true, minWidth: 100 }
+                        , { field: 'cardSequence', title: '操作员', sort: true, minWidth: 100 }
+                        , {
+                            field: 'create_time', title: '创建时间', sort: true, minWidth: 180, templet: function (d) {
+                                return d.create_time ? timeToDate(d.create_time) : "";
+                            }
+                        }
+
+                    ]
+                ]
+            }
+            var tableObj = {
+                elem: '#table'
+                , defaultToolbar: []
+                , data: tdata
+                , response: {
+                    statusCode: 200
+                }
+                , cols: [
+                    [
+                        { field: 'device_name', title: '设备名称', sort: true, minWidth: 170 }
+                        , { field: 'craft_param', title: '工艺参数', sort: true, minWidth: 180 }
+                        , { field: 'pcb_task_code', title: '生产任务单号', sort: true, minWidth: 140 }
+                        , { field: 'process_task_code', title: '工序任务号', sort: true, minWidth: 120 }
+                        , { field: 'program_name', title: '程序名', sort: true, minWidth: 120 }
+                        , { field: 'program_status', title: '程序状态', sort: true, minWidth: 120 }
+                        , { field: 'class_info', title: '班次', sort: true, minWidth: 80 }
+                        , { field: 'record_name', title: '记录员', sort: true, minWidth: 110 }
+                        , { field: 'cardSequence', title: '操作员', sort: true, minWidth: 110 }
+                        , { field: 'plan_count', title: '数量', sort: true, minWidth: 80 }
+                        , { field: 'firstInspection_name', title: '首检人员', sort: true, minWidth: 140 }
+                        , {
+                            field: 'record_time', title: '记录时间', sort: true, minWidth: 180, templet: function (d) {
+                                return d.record_time ? timeToDate(d.record_time) : "";
+                            }
+                        }
+
+                    ]
+                ]
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '/circulate/findCirculate',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    pcbTaskCode: getQueryString('pcb_task_code'),
+                    type: getQueryString('id')
+                }),
+                dataType: "json",
+                async: false,
+                success: function (res) {
+                    layer.closeAll()
+                    if (res.code == 200) {
+                        udata = res.data.handoverlist;
+                        tdata = res.data.recordlist;
+                        udataTableObj.data = udata;
+                        tableObj.data = tdata;
+                        setTimeout(function () {
+                            table.render(tableObj);
+                            table.render(udataTableObj);
+                        }, 100)
+                    } else {
+                        layer.alert(res.msg, { icon: 5 });
+                    }
+                },
+                error: function (message) {
+                    layer.alert("获取接口失败！", { icon: 5 });
+                }
+            });
+
+        });
+
+    };
+
+</script>
+
+</html>

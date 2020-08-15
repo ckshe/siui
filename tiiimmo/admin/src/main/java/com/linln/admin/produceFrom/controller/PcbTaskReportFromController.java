@@ -35,12 +35,22 @@ import java.util.List;
 public class PcbTaskReportFromController {
 
    /**
-     * 工序计划列表页面
+     * 生产进度报表页面
      */
     @GetMapping("/dateReportForm")
     @RequiresPermissions("produceFrom:dateReportForm")
-    public String processTask() {
+    public String processTask() {return "/produceFrom/dateReportForm";}
 
-        return "/produceFrom/dateReportForm";
-    }
+    /**
+     * 生产流通表页面
+     */
+    @GetMapping("/circulationFrom")
+    @RequiresPermissions("produceFrom:circulationFrom")
+    public String circulation() {return "/produceFrom/circulationFrom";}
+
+    /**
+     * 生产流通表页面
+     */
+    @GetMapping("/circulationDetail")
+    public String circulationDetail() {return "/produceFrom/circulationDetail";}
 }
