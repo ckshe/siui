@@ -11,4 +11,8 @@ public interface ProcessTaskHandoverRepository extends BaseRepository<ProcessTas
 
     @Query(value = "select * from produce_process_task_handover where process_task_code = ?1 and device_code = ?2",nativeQuery = true)
     List<ProcessTaskHandover> findPRocessTaskHandover(String processTaskCode,String deviceCode);
+
+    @Query(value = "select * from produce_process_task_handover where pcb_task_code = ?1 ",nativeQuery = true)
+    List<ProcessTaskHandover> findPRocessTaskHandoverByPcb(String pcbTaskCode);
+
 }
