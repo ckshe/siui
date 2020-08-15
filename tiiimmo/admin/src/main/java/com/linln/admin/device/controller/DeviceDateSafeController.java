@@ -1,12 +1,10 @@
 package com.linln.admin.device.controller;
 
-import com.linln.admin.device.VO.DeviceDateSafeVO;
 import com.linln.admin.device.entity.DeviceDateSafe;
 import com.linln.admin.device.enums.ResultEnum;
 import com.linln.admin.device.exception.DeviceException;
 import com.linln.admin.device.form.DeviceDateSafeForm;
 import com.linln.admin.device.form.DeviceDateSafeListForm;
-import com.linln.admin.device.form.DeviceSafeForm;
 import com.linln.admin.device.formModel.DeviceDateSafeEditFormModel;
 import com.linln.admin.device.realization.DeviceDateSafeReal;
 import com.linln.admin.device.resultVO.DeviceDateSafeListResultVO;
@@ -14,22 +12,18 @@ import com.linln.admin.device.resultVO.DeviceDateSafeResultVO;
 import com.linln.admin.device.resultVO.ResultVO;
 import com.linln.admin.device.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Objects;
 
 @CrossOrigin()

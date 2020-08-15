@@ -1,8 +1,6 @@
 package com.linln.admin.device.serviceInter;
 
-import com.linln.admin.device.VO.DeviceSafeVO;
 import com.linln.admin.device.entity.DeviceSafe;
-import com.linln.admin.device.form.DeviceSafeForm;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
