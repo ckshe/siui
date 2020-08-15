@@ -14,6 +14,7 @@ import com.linln.admin.device.resultVO.DeviceDateSafeResultVO;
 import com.linln.admin.device.serviceImpl.DeviceDateSafeServiceImpl;
 import com.linln.admin.device.serviceImpl.DeviceSafeResultServiceImpl;
 import com.linln.admin.device.serviceImpl.DeviceSafeServiceImpl;
+import com.linln.modules.system.domain.User;
 import com.linln.modules.system.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -53,6 +54,11 @@ public class DeviceDateSafeReal {
     @Autowired
     public void setDeviceSafeResultService(DeviceSafeResultServiceImpl deviceSafeResultService) {
         this.deviceSafeResultService = deviceSafeResultService;
+    }
+
+    @Autowired
+    public void setUserService(UserServiceImpl userService) {
+        this.userService = userService;
     }
 
     public DeviceDateSafeListResultVO getDeviceDateSafes(Specification<DeviceDateSafe> Specification, Pageable pageable) {
@@ -116,12 +122,17 @@ public class DeviceDateSafeReal {
     public void editDeviceDateSafes(DeviceDateSafeEditFormModel deviceDateSafeEditFormModel) {
         List<Integer> idList = deviceDateSafeEditFormModel.getDeviceDateSafeEditForms().stream().map(DeviceDateSafeEditForm::getDateSafeId).collect(Collectors.toList());
         List<DeviceDateSafe> deviceDateSafes = deviceDateSafeService.findDeviceDateSafeByIdList(idList);
+        List<User> users = userService.findAll();
         for (int i = 0; i < deviceDateSafes.size(); i++) {
             int index = i;
             List<DeviceDateSafeEditForm> deviceDateSafeEditForms = deviceDateSafeEditFormModel.getDeviceDateSafeEditForms().stream().filter(e -> e.getDateSafeId().equals(deviceDateSafes.get(index).getDateSafeId())).collect(Collectors.toList());
             if (deviceDateSafeEditForms.size() != 0) {
                 DeviceDateSafeEditForm deviceDateSafeEditForm = deviceDateSafeEditForms.get(0);
                 deviceDateSafes.get(index).setSafeResult(deviceDateSafeEditForm.getSafeResult());
+                List<User> userList = users.stream().filter(e -> deviceDateSafeEditForm.getSafePerson() != null && deviceDateSafeEditForm.getSafePerson().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
+                if (userList.size() != 0) {
+                    deviceDateSafeEditForm.setSafePerson(userList.get(0).getNickname());
+                }
                 deviceDateSafes.get(index).setSafePerson(deviceDateSafeEditForm.getSafePerson());
             }
         }

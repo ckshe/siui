@@ -16,6 +16,8 @@ import com.linln.admin.device.resultVO.DeviceRegularSafeResultVO;
 import com.linln.admin.device.serviceImpl.DeviceRegularSafeContentServiceImpl;
 import com.linln.admin.device.serviceImpl.DeviceRegularSafeResultServiceImpl;
 import com.linln.admin.device.serviceImpl.DeviceRegularSafeServiceImpl;
+import com.linln.modules.system.domain.User;
+import com.linln.modules.system.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,7 @@ public class DeviceRegularSafeReal {
     private DeviceRegularSafeContentServiceImpl deviceRegularSafeContentService;
     private DeviceServiceImpl deviceService;
     private DeviceRegularSafeResultServiceImpl deviceRegularSafeResultService;
+    private UserServiceImpl userService;
 
     @Autowired
     public void setDeviceRegularSafeService(DeviceRegularSafeServiceImpl deviceRegularSafeService) {
@@ -55,6 +58,11 @@ public class DeviceRegularSafeReal {
     @Autowired
     public void setDeviceRegularSafeResultService(DeviceRegularSafeResultServiceImpl deviceRegularSafeResultService){
         this.deviceRegularSafeResultService = deviceRegularSafeResultService;
+    }
+
+    @Autowired
+    public void setUserService(UserServiceImpl userService){
+        this.userService = userService;
     }
 
     @Transactional
@@ -98,11 +106,32 @@ public class DeviceRegularSafeReal {
     @Transactional
     public void editDeviceRegularSafe(DeviceRegularSafeEditFormModel deviceRegularSafeEditFormModel){
         DeviceRegularSafe deviceRegularSafe = deviceRegularSafeService.findById(deviceRegularSafeEditFormModel.getRegularSafeId());
+        List<User> users = userService.findAll();
         if (deviceRegularSafe==null){
             log.error("【编辑设备定期检测内容】设备定期检测内容不存在，deviceRegularSafeEditFormModel={}", deviceRegularSafeEditFormModel.toString());
             throw new DeviceException(ResultEnum.DEVICE_REGULAR_SAFE_NOT_EXIST);
         }
         List<DeviceRegularSafeResult> deviceRegularSafeResults = deviceRegularSafeResultService.findByTheSafeTimeAndDeviceCode(deviceRegularSafe.getThisSafeTime(), deviceRegularSafe.getDeviceCode());
+        List<User> userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getAmongstPerson()!=null && deviceRegularSafeEditFormModel.getAmongstPerson().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
+        if (userList.size() != 0) {
+            deviceRegularSafeEditFormModel.setAmongstPerson(userList.get(0).getNickname());
+        }
+        userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getDeviceOperator()!=null && deviceRegularSafeEditFormModel.getDeviceOperator().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
+        if (userList.size() != 0) {
+            deviceRegularSafeEditFormModel.setDeviceOperator(userList.get(0).getNickname());
+        }
+        userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getQcOperator()!=null && deviceRegularSafeEditFormModel.getQcOperator().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
+        if (userList.size() != 0) {
+            deviceRegularSafeEditFormModel.setQcOperator(userList.get(0).getNickname());
+        }
+        userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getSafePerson()!=null && deviceRegularSafeEditFormModel.getSafePerson().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
+        if (userList.size() != 0) {
+            deviceRegularSafeEditFormModel.setSafePerson(userList.get(0).getNickname());
+        }
+        userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getTestOperator()!=null && deviceRegularSafeEditFormModel.getTestOperator().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
+        if (userList.size() != 0) {
+            deviceRegularSafeEditFormModel.setTestOperator(userList.get(0).getNickname());
+        }
         BeanUtils.copyProperties(deviceRegularSafeEditFormModel, deviceRegularSafe);
         if (deviceRegularSafeEditFormModel.getDeviceRegularSafeResForms() != null) {
             int index = 0;
