@@ -39,7 +39,7 @@ public class ReportServiceImpl implements ReportService {
         }
 
 
-        if(req.getStartTime()!=null&&req.getEndTime()!=null){
+        if(req.getStartTime()!=null&&req.getEndTime()!=null&&!"".equals(req.getEndTime())&&!"".equals(req.getStartTime())){
             String startTime = req.getStartTime()+" 00:00:00";
             String endTime = req.getEndTime()+" 23:59:59";
             wheresql.append(" and t1.record_time > '" +
@@ -57,7 +57,7 @@ public class ReportServiceImpl implements ReportService {
                 "\t\t*,\n" +
                 "\t\tROW_NUMBER ( ) OVER ( ORDER BY t4.Id ASC ) row \n" +
                 "\tFROM\n" +
-                "\t\t( SELECT t1.*, t2.pcb_code FROM quality_badclass_detail t1 LEFT JOIN produce_process_task t2 ON t2.pcb_task_code = t1.pcb_task_code " +
+                "\t\t( SELECT t1.*, t2.pcb_id as pcb_code FROM quality_badclass_detail t1 LEFT JOIN produce_pcb_task t2 ON t2.pcb_task_code = t1.pcb_task_code " +
                 wheresql +
                 ") t4 \n" +
                 "\t) t3 \n");
