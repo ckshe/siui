@@ -39,7 +39,7 @@ public class ReportServiceImpl implements ReportService {
         }
 
 
-        if(req.getStartTime()!=null&&req.getEndTime()!=null){
+        if(req.getStartTime()!=null&&req.getEndTime()!=null&&!"".equals(req.getEndTime())&&!"".equals(req.getStartTime())){
             String startTime = req.getStartTime()+" 00:00:00";
             String endTime = req.getEndTime()+" 23:59:59";
             wheresql.append(" and t1.record_time > '" +
