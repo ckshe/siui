@@ -23,6 +23,7 @@ public class ReportController {
     @PostMapping("/badDetailReport")
     @ResponseBody
     public ResultVo findProcessTaskByDevice(@RequestBody BadDetailReq req){
-        return ResultVoUtil.success(reportService.badDetailReport(req));}
+        return reportService.badDetailReport(req);
+    }
 
 }
