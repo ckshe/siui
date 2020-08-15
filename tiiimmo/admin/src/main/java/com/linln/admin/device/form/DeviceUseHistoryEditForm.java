@@ -18,7 +18,7 @@ public class DeviceUseHistoryEditForm {
     //使用人
     private String usePerson;
     //使用时间
-    private Integer useTime;
+    private Float useTime;
     //生产数量
     private Integer amount;
     //使用情况

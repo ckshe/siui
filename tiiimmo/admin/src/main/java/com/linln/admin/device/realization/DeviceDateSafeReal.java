@@ -14,6 +14,7 @@ import com.linln.admin.device.resultVO.DeviceDateSafeResultVO;
 import com.linln.admin.device.serviceImpl.DeviceDateSafeServiceImpl;
 import com.linln.admin.device.serviceImpl.DeviceSafeResultServiceImpl;
 import com.linln.admin.device.serviceImpl.DeviceSafeServiceImpl;
+import com.linln.modules.system.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class DeviceDateSafeReal {
     private DeviceDateSafeServiceImpl deviceDateSafeService;
     private DeviceSafeServiceImpl deviceSafeService;
     private DeviceSafeResultServiceImpl deviceSafeResultService;
+    private UserServiceImpl userService;
 
     @Autowired
     public void setDeviceDateSafeService(DeviceDateSafeServiceImpl deviceDateSafeService) {
