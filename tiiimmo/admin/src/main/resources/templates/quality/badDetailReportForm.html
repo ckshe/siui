@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:mo="https://gitee.com/aun/Timo">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+
+
+
+<body class="timo-layout-page">
+<div class="layui-card">
+    <div class="layui-card-header timo-card-header">
+        <span><i class="fa fa-bars"></i> 工序计划</span>
+        <i class="layui-icon layui-icon-refresh refresh-btn"></i>
+    </div>
+    <div class="layui-card-body">
+        <div class="layui-row timo-card-screen">
+            <form  class="layui-form pull-left layui-form-pane timo-search-box">
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">任务单号</label>
+                    <div class="layui-input-block">
+                        <input id="pcbTaskCode" type="text" name="pcbTaskCode" placeholder="请输入生产任务单号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">板编号</label>
+                    <div class="layui-input-block">
+                        <input id="plateNo" type="text" name="plateNo" placeholder="请输入板编号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">录入时间</label>
+                    <div class="layui-input-block">
+                        <input id="startTime" type="text" name="startTime" placeholder="选择录入时间" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <button class="layui-btn" id="search"  type="button" lay-submit lay-filter="search">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
+
+
+        </div>
+        <div class="timo-table-wrap">
+            <table class="layui-hide" id="table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<script th:replace="/common/template :: script"></script>
+<script src="../../js/common.js" ></script>
+<script>
+    layui.use(['form','laydate','table','jquery','form'],function () {
+        var layer = layui.layer,
+            $ = layui.jquery,
+            table = layui.table,
+            laydate = layui.laydate,
+            form = layui.form;
+        laydate.render({
+            elem: '#time'
+            ,type:'datetime'
+        });
+        table.render({
+            elem: '#table'
+            ,url: '/report/badDetailReport' //数据接口
+            ,method:'post'
+            ,loading:false
+
+            ,contentType: 'application/json'
+            ,response: {
+                statusCode: 200
+            }
+            ,page: true
+            ,limit:20
+            ,parseData: function(res){
+                return {
+                    "code": res.code, //解析接口状态
+                    "data": res.data, //解析数据列表
+                    "count": res.total, //解析数据长度
+                };
+            }
+            ,cols: [
+                [
+                    {field: 'pcb_task_code', title: '生产任务单号', sort: true, minWidth:140}
+                    ,{field: 'bad_type', title: '不良类型', sort: true, minWidth:110}
+                    ,{field: 'pcb_code', title: '规格型号', sort: true, minWidth:182}
+                    ,{field: 'plate_no', title: '板编号', sort: true, minWidth:140}
+                    ,{field: 'position', title: '位号', sort: true, minWidth:80}
+                    ,{field: 'record_time', title: '记录时间', sort: true, minWidth:160,templet:function (d) {
+                        return d.record_time?timeToDate(d.record_time):"";}}
+                    ,{field: 'recorder_name', title: '质检人员', sort: true, minWidth:110}
+                    ,{field: 'qc_nama', title: 'QC人员', sort: true, minWidth:110}
+                ]
+            ]
+        });
+        form.on('submit(search)',function (obj) {
+            var data = {};
+            console.log(obj.field);
+            data.pcbTaskCode=obj.field.pcbTaskCode;
+            data.plateNo=obj.field.plateNo; 
+            data.startTime=obj.field.startTime.length>0?obj.field.startTime.split(' ~ ')[0]:"";
+            data.endTime=obj.field.startTime.length>0?obj.field.startTime.split(' ~ ')[1]:"";
+            table.reload('table',{
+                where:data
+            })
+        });
+        laydate.render({
+            elem: '#startTime',
+            range: "~"
+        });
+        new Enter('pcbTaskCode',function () {$('#search').click()});
+        new Enter('plateNo',function () {$('#search').click()});
+        new Enter('startTime',function () {$('#search').click()});
+
+    })
+</script>
+<style>
+    .layui-laydate .layui-this{
+        background-color:#1e9fff!important;
+    }
+
+</style>
+</body>
+</html>
