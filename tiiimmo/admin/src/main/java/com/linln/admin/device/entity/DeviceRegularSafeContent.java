@@ -23,7 +23,7 @@ public class DeviceRegularSafeContent {
     //设备名称
     private String deviceName;
     //检测内容
-    private String deviceRegularSafeContent;
+    private String safeContent;
     //单位
     private String company;
 }
