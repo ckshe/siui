@@ -17,6 +17,9 @@ import com.linln.admin.device.serviceImpl.DeviceRegularSafeServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -97,5 +100,24 @@ public class DeviceRegularSafeReal {
             log.error("【编辑设备定期检测内容】设备定期检测内容不存在，deviceRegularSafeEditFormModel={}", deviceRegularSafeEditFormModel.toString());
             throw new DeviceException(ResultEnum.DEVICE_REGULAR_SAFE_NOT_EXIST);
         }
+    }
+
+    public List<DeviceRegularSafeResultVO> getDeviceRegularSafes(Specification<DeviceRegularSafe> Specification, Pageable pageable){
+        List<DeviceRegularSafeResultVO> deviceRegularSafeResultVOS = new ArrayList<>();
+        Page<DeviceRegularSafe> deviceRegularSafePage = deviceRegularSafeService.getDeviceRegularSafes(Specification, pageable);
+        for (DeviceRegularSafe deviceRegularSafe : deviceRegularSafePage.getContent()){
+            DeviceRegularSafeResultVO deviceRegularSafeResultVO = new DeviceRegularSafeResultVO();
+            BeanUtils.copyProperties(deviceRegularSafe, deviceRegularSafeResultVO);
+            List<DeviceRegularSafeResult> deviceRegularSafeResults = deviceRegularSafeResultService.findByTheSafeTimeAndDeviceCode(deviceRegularSafe.getThisSafeTime(), deviceRegularSafe.getDeviceCode());
+            List<DeviceRegularSafeResVO> deviceRegularSafeResVOS = new ArrayList<>();
+            for (DeviceRegularSafeResult deviceRegularSafeResult : deviceRegularSafeResults){
+                DeviceRegularSafeResVO deviceRegularSafeResVO = new DeviceRegularSafeResVO();
+                BeanUtils.copyProperties(deviceRegularSafeResult, deviceRegularSafeResVO);
+                deviceRegularSafeResVOS.add(deviceRegularSafeResVO);
+            }
+            deviceRegularSafeResultVO.setDeviceRegularSafeResVOS(deviceRegularSafeResVOS);
+            deviceRegularSafeResultVOS.add(deviceRegularSafeResultVO);
+        }
+        return deviceRegularSafeResultVOS;
     }
 }
