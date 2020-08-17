@@ -46,5 +46,6 @@ public class PcbTaskReq {
 
     private String position;
     private String ids;
+    private String installStatus;
 
 }

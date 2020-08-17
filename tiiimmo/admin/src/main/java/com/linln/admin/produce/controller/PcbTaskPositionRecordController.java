@@ -4,6 +4,7 @@ package com.linln.admin.produce.controller;
 import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.admin.produce.domain.PcbTaskPositionRecord;
 import com.linln.admin.produce.domain.PcbTaskPositionRecordDetail;
+import com.linln.admin.produce.service.PcbTaskPositionRecordDetailService;
 import com.linln.admin.produce.service.PcbTaskPositionRecordService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
@@ -19,6 +20,9 @@ public class PcbTaskPositionRecordController {
 
     @Autowired
     private PcbTaskPositionRecordService pcbTaskPositionRecordService;
+
+    @Autowired
+    private PcbTaskPositionRecordDetailService pcbTaskPositionRecordDetailService;
 
     //通过设备号和工序任务号生成记录
     @PostMapping("/buildPositionRecordAndReturn")
@@ -81,5 +85,14 @@ public class PcbTaskPositionRecordController {
     public ResultVo getDetailByProductCode(@PathVariable String productCode){
         return pcbTaskPositionRecordService.getDetailByProductCode( productCode);
     }
+
+    //下料
+    @PostMapping("/downPositionRecordDetail")
+    @ResponseBody
+    public ResultVo downPositionRecordDetail(@RequestBody PcbTaskReq req){
+        PcbTaskPositionRecordDetail detail = pcbTaskPositionRecordDetailService.downPositionRecordDetail(req);
+        return ResultVoUtil.success(detail);
+    }
+
 
 }
