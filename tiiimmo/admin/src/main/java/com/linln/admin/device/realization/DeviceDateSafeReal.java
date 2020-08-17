@@ -57,7 +57,7 @@ public class DeviceDateSafeReal {
         DeviceDateSafeListResultVO deviceDateSafeListResultVO = new DeviceDateSafeListResultVO();
         List<DeviceDateSafeVO> deviceDateSafeVOS = new ArrayList<>();
         Page<DeviceDateSafe> deviceDateSafePage = deviceDateSafeService.getDeviceDateSafes(Specification, pageable);
-        for (DeviceDateSafe deviceDateSafe : deviceDateSafePage.getContent()){
+        for (DeviceDateSafe deviceDateSafe : deviceDateSafePage.getContent()) {
             DeviceDateSafeVO deviceDateSafeVO = new DeviceDateSafeVO();
             BeanUtils.copyProperties(deviceDateSafe, deviceDateSafeVO);
             deviceDateSafeVOS.add(deviceDateSafeVO);
@@ -94,7 +94,7 @@ public class DeviceDateSafeReal {
         }
         List<String> safeTypeList = deviceDateSafes.stream().map(DeviceDateSafe::getSafeType).distinct().collect(Collectors.toList());
         deviceDateSafeResultVO.setDeviceSafeTypeS(safeTypeList);
-        if (deviceDateSafeForm.getSafeType() != null) {
+        if (deviceDateSafeForm.getSafeType() != null && !"".equals(deviceDateSafeForm.getSafeType())) {
             deviceDateSafes = deviceDateSafes.stream().filter(e -> e.getSafeType().equals(deviceDateSafeForm.getSafeType())).collect(Collectors.toList());
         }
         for (DeviceDateSafe deviceDateSafe : deviceDateSafes) {
@@ -116,8 +116,8 @@ public class DeviceDateSafeReal {
         List<DeviceDateSafe> deviceDateSafes = deviceDateSafeService.findDeviceDateSafeByIdList(idList);
         for (int i = 0; i < deviceDateSafes.size(); i++) {
             int index = i;
-            List<DeviceDateSafeEditForm> deviceDateSafeEditForms = deviceDateSafeEditFormModel.getDeviceDateSafeEditForms().stream().filter(e->e.getDateSafeId().equals(deviceDateSafes.get(index).getDateSafeId())).collect(Collectors.toList());
-            if (deviceDateSafeEditForms.size()!=0){
+            List<DeviceDateSafeEditForm> deviceDateSafeEditForms = deviceDateSafeEditFormModel.getDeviceDateSafeEditForms().stream().filter(e -> e.getDateSafeId().equals(deviceDateSafes.get(index).getDateSafeId())).collect(Collectors.toList());
+            if (deviceDateSafeEditForms.size() != 0) {
                 DeviceDateSafeEditForm deviceDateSafeEditForm = deviceDateSafeEditForms.get(0);
                 BeanUtils.copyProperties(deviceDateSafeEditForm, deviceDateSafes.get(index));
             }
