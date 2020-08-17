@@ -432,7 +432,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         //带H DCY2.908.H1356B-AA01-A
         //C
         char lastLetter = code4.charAt(code4.length()-1);
-        if("908".equals(code1)&&"H".equals(code3.charAt(0))){
+        if("908".equals(code1)&&"H".equals(code3.charAt(0)+"")){
             trim = code2[1];
             prefix = trim+lastLetter;
         }else {
