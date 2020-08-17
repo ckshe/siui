@@ -2,12 +2,9 @@ package com.linln.admin.device.controller;
 
 import com.linln.admin.device.enums.ResultEnum;
 import com.linln.admin.device.exception.DeviceException;
-import com.linln.admin.device.form.DeviceDateSafeForm;
 import com.linln.admin.device.form.DeviceRegularSafeForm;
-import com.linln.admin.device.formModel.DeviceDateSafeEditFormModel;
 import com.linln.admin.device.formModel.DeviceRegularSafeEditFormModel;
 import com.linln.admin.device.realization.DeviceRegularSafeReal;
-import com.linln.admin.device.resultVO.DeviceDateSafeResultVO;
 import com.linln.admin.device.resultVO.DeviceRegularSafeResultVO;
 import com.linln.admin.device.resultVO.ResultVO;
 import com.linln.admin.device.utils.ResultVOUtil;
@@ -53,4 +50,7 @@ public class DeviceRegularSafeController {
         deviceRegularSafeReal.editDeviceRegularSafe(deviceRegularSafeEditFormModel);
         return ResultVOUtil.success(null);
     }
+
+    /*@RequestMapping("/list")
+    public ResultVO<Object> getDeviceRegularSafes()*/
 }
