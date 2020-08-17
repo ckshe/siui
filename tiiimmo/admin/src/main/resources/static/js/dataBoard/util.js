@@ -62,3 +62,76 @@ var deviceInfo = [
         device_code:'B170101'
     }
 ]
+
+function getweek(dateString){
+	var da='';
+	if(dateString==undefined){
+		var now=new Date();
+		var now_m=now.getMonth()+1;
+		now_m=(now_m<10)?'0'+now_m:now_m;
+		var now_d=now.getDate();
+		now_d=(now_d<10)?'0'+now_d:now_d;
+		da=now.getFullYear()+'-'+now_m+'-'+now_d;
+		console.log('今天系统时间是:'+da);
+	}else{
+		da=dateString;//日期格式2015-12-30
+	}  
+    var date1 = new Date(da.substring(0,4), parseInt(da.substring(5,7)) - 1, da.substring(8,10));//当前日期
+	var date2 = new Date(da.substring(0,4), 0, 1); //1月1号
+	//获取1月1号星期（以周一为第一天，0周一~6周日）
+    var dateWeekNum=date2.getDay()-1;
+	if(dateWeekNum<0){dateWeekNum=6;}
+	if(dateWeekNum<4){
+	  //前移日期
+	  date2.setDate(date2.getDate()-dateWeekNum);
+	}else{
+	  //后移日期
+	  date2.setDate(date2.getDate()+7-dateWeekNum);
+	}
+	var d = Math.round((date1.valueOf() - date2.valueOf()) / 86400000);
+	if(d<0){
+	  var date3 = (date1.getFullYear()-1)+"-12-31";
+	  return getYearWeek(date3);
+	}else{
+	  //得到年数周数
+	  var year=date1.getFullYear();
+	  var week=Math.ceil((d+1 )/ 7);
+	  console.log(year+"年第"+week+"周");
+	  return  week;
+	}
+}
+function weekinyear(){
+    var newWeek = getweek(),oldWeek=0;
+    var now=new Date();
+    var now_m=now.getMonth()+1;
+    now_m=(now_m<10)?'0'+now_m:now_m;
+    var now_d=now.getDate();
+    now_d=(now_d<10)?'0'+now_d:now_d;
+    da=now.getFullYear()+'-'+now_m+'-'+now_d;
+    var firstweekNum = new Date(da.substring(0,4), 0, 1).getDay(); //1月1号
+    console.log((now.getFullYear()-1).toString().substr(2, 2))
+    var oldYear = (now.getFullYear()-1).toString().substr(2, 2)+'年';
+    var nowYear = now.getFullYear().toString().substr(2, 2)+'年';
+    if(newWeek<4){
+        oldWeek = getweek((now.getFullYear()-1)+"-12-31")
+        if(firstweekNum>0){
+            oldWeek = oldWeek -1;
+        }
+        switch(newWeek){
+            case 1:
+                return [oldYear+(oldWeek-2)+'周',oldYear+(oldWeek-1)+'周',oldYear+oldWeek+'周',nowYear+newWeek+'周']
+            break;
+            case 2:
+                return [oldYear+(oldWeek-1)+'周',oldYear+oldWeek+'周',nowYear+(newWeek-1)+'周',nowYear+newWeek+'周']
+            break;
+            case 3:
+                return [oldYear+oldWeek+'周',nowYear+(newWeek-2)+'周',nowYear+(newWeek-1)+'周',nowYear+newWeek+'周']
+            break;
+            default:
+                console.log('出错了')
+            break
+        } 
+    }else{
+        return [nowYear+(newWeek-3)+'周',nowYear+(newWeek-2)+'周',nowYear+(newWeek-1)+'周',nowYear+newWeek+'周']
+    }
+}

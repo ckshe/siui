@@ -384,7 +384,7 @@ function setOption(response) {
         var weeks = response.mapWeekRate
         var weekArrdata = [weeks.week1, weeks.week2, weeks.week3, weeks.week4]
         db1P1Option.series[0].data = weekArrdata;
-        db1P1Option.xAxis.data = ["第一周", "第二周", "第三周", "第四周"]
+        db1P1Option.xAxis.data = weekinyear();
         db1P1.setOption(db1P1Option);
         $('.box1 .basicInfo  .border-green').html('周任务达成率')
         var mapProcessWeekRate = response.mapProcessWeekRate;
