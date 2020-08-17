@@ -11,5 +11,5 @@ public class DeviceRegularSafeContentListForm {
     @NotNull(message = "每页记录数不能为空")
     private Integer size;
     private String deviceCode;
-    private String deviceRegularSafeContent;
+    private String safeContent;
 }
