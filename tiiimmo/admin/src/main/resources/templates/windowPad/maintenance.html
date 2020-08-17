@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>设备维护</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/windowPad/scancalc.css">
+    <style>
+        .layui-form-pane .layui-inline {
+            margin: 5px 0;
+        }
+
+        .layui-form-pane .layui-form-label {
+            width: auto;
+            background-color: #fff;
+            border-color: #1e9fff;
+            color: #1e9fff;
+            font-weight: bold;
+        }
+
+        .layui-form-pane input,
+        .layui-form-pane select {
+            border-color: #1e9fff;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .layui-form-pane input:hover,
+        .layui-form-pane input:focus {
+            border-color: #1e9fff !important;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(21, 144, 238, 0.6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(21, 144, 238, 0.6);
+        }
+
+        .layui-form-pane .layui-input-block {
+            margin-left: 0px;
+            float: left;
+        }
+
+        .screen-btn-group .layui-btn {
+            padding: 0 14px;
+        }
+
+        .timo-table-wrap {
+            overflow-y: auto;
+            margin: 5px 0;
+            position: relative;
+        }
+
+        .timo-table {
+            color: #000000;
+            margin: 0;
+        }
+
+        .timo-table.timo-table-fixed {
+            table-layout: fixed;
+        }
+
+        .timo-table a {
+            color: #1e9fff;
+        }
+
+        .timo-table a:hover {
+            color: #1590ee;
+            text-decoration: underline;
+        }
+
+        .timo-table th,
+        .timo-table td {
+            border: 1px solid #dee2e6;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .timo-table td {
+            padding: 2px 6px !important;
+        }
+
+        .timo-table th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: bold;
+            background-color: #ffffff;
+        }
+
+        .timo-table .timo-table-checkbox {
+            width: 20px;
+        }
+
+        .timo-table .timo-checkbox {
+            margin: 0 1px;
+        }
+
+        .timo-table .timo-table-null {
+            text-align: center;
+        }
+
+        .timo-table .sortable {
+            cursor: pointer;
+            padding-right: 18px;
+            background: #FFFFFF url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAQAAADYWf5HAAAAkElEQVQoz7X QMQ5AQBCF4dWQSJxC5wwax1Cq1e7BAdxD5SL+Tq/QCM1oNiJidwox0355mXnG/DrEtIQ6azioNZQxI0ykPhTQIwhCR+BmBYtlK7kLJYwWCcJA9M4qdrZrd8pPjZWPtOqdRQy320YSV17OatFC4euts6z39GYMKRPCTKY9UnPQ6P+GtMRfGtPnBCiqhAeJPmkqAAAAAElFTkSuQmCC") no-repeat right;
+        }
+
+        .timo-table .sortable.asc {
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAZ0lEQVQ4y2NgGLKgquEuFxBPAGI2ahhWCsS/gDibUoO0gPgxEP8H4ttArEyuQYxAPBdqEAxPBImTY5gjEL9DM+wTENuQahAvEO9DMwiGdwAxOymGJQLxTyD+jgWDxCMZRsEoGAVoAADeemwtPcZI2wAAAABJRU5ErkJggg==");
+        }
+
+        .timo-table .sortable.desc {
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAZUlEQVQ4y2NgGAWjYBSggaqGu5FA/BOIv2PBIPFEUgxjB+IdQPwfC94HxLykus4GiD+hGfQOiB3J8SojEE9EM2wuSJzcsFMG4ttQgx4DsRalkZENxL+AuJQaMcsGxBOAmGvopk8AVz1sLZgg0bsAAAAASUVORK5CYII=");
+        }
+
+        .page-info {
+            padding-top: 12px;
+            vertical-align: center;
+        }
+
+        .page-number {
+            display: inline-block;
+            padding: 3px;
+            padding-top: 1px;
+            border-radius: 2px;
+            cursor: pointer;
+            border: 1px solid #e2e2e2;
+            height: 24px;
+            margin-left: 6px;
+        }
+
+        .btn-group {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .caret {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-left: 2px;
+            vertical-align: middle;
+            border-top: 4px dashed;
+            border-top: 4px solid\9;
+            border-right: 4px solid transparent;
+            border-left: 4px solid transparent;
+        }
+
+        .btn-group .layui-nav-child {
+            top: initial;
+            left: -20px;
+            right: 0;
+            margin-top: 2px;
+        }
+
+        .btn-group .layui-nav-child a {
+            display: block;
+            padding: 0 20px;
+        }
+
+        .btn-group .layui-nav-child a:hover {
+            background-color: #f2f2f2;
+            color: #000;
+        }
+
+        .btn-group.show .layui-nav-child {
+            display: block;
+        }
+
+        .screen-btn-group .layui-btn {
+            margin-left: 2px;
+        }
+
+        .screen-btn-group .btn-group .layui-btn {
+            padding-right: 12px;
+        }
+
+        .screen-btn-group .btn-group .caret {
+            margin-left: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mainBox">
+        <div class="layui-card">
+            <div class="layui-card-header timo-card-header">
+                <span><i class="fa fa-bars"></i> 设备维护</span>
+                <!-- <i class="layui-icon layui-icon-refresh refresh-btn"></i> -->
+            </div>
+            <div class="layui-card-body">
+                <div class="layui-row timo-card-screen">
+                    <form class="layui-form pull-left layui-form-pane timo-search-box">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-block">
+                                <select id="status" name="status" lay-filter="state" placeholder="请输入状态"
+                                    autocomplete="off">
+                                    <option value="全部">全部</option>
+                                    <option value="已投产">已投产</option>
+                                    <option value="下达">下达</option>
+                                    <option value="已完成">已完成</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="layui-inline">
+                            <label class="layui-form-label">生产日期</label>
+                            <div class="layui-input-block">
+                                <input id="startTime" type="text" name="startTime" placeholder="选择日期"
+                                    autocomplete="off" class="layui-input">
+                            </div>
+                        </div> -->
+                        <div class="layui-inline">
+                            <button class="layui-btn" id="search" type="button" lay-submit lay-filter="search">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <table class="layui-hide" id="table" lay-filter="table"></table>
+    </div>
+
+    <script src="../../lib/layui-v2.3.0/layui.js"></script>
+    <script src="../../js/common.js"></script>
+</body>
+<script>
+    window.onload = function () {
+        layui.use(['jquery', 'form', 'table'], function () {
+            var $ = layui.jquery,
+                table = layui.table,
+                form = layui.form;
+                laydate = layui.laydate,
+
+                table.render({
+                    elem: '#table'
+                    , url: '/open/staffOnBoardForPad' //数据接口
+                    , page: true //开启分页
+                    , method: 'POST'
+                    , loading: false
+                    , contentType: 'application/json'
+                    , response: {
+                        statusCode: 200
+                    }
+                    , parseData: function (res) {
+                        return {
+                            "code": res.code, //解析接口状态
+                            "data": res.data, //解析数据列表
+                            "count": res.total, //解析数据长度
+                        };
+                    }
+                    , where: {
+                        deviceCode: getQueryString2('deviceCode')
+                    }
+                    , cols: [
+                        [
+                            { field: 'user_name', title: '员工名称', sort: true, minWidth: 120 }
+                            // , { field: 'pcb_name', title: '物料名称', minWidth: 200 }
+                            // , { field: 'task_sheet_code', title: '生产批次', sort: true, minWidth: 206 }
+                            , { field: 'process_task_code', title: '工序任务号', sort: true, minWidth: 170 }
+                            , { field: 'process_name', title: '工序名称', sort: true, minWidth: 100 }
+                            , {
+                                field: 'up_time', title: '上机时间', sort: true, minWidth: 180, templet: function (d) {
+                                    return d.up_time ? timeToDate(d.up_time) : "";
+                                }
+                            }
+                            , {
+                                field: 'down_time', title: '下机时间', sort: true, minWidth: 180, templet: function (d) {
+                                    return d.down_time ? timeToDate(d.down_time) : "";
+                                }
+                            }
+                        ]
+                    ]
+                });
+            laydate.render({
+                elem: '#startTime'
+                , value: new Date()
+            });
+        })
+    };
+
+</script>
+
+</html>

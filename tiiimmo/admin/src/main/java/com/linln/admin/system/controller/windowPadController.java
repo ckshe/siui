@@ -55,9 +55,10 @@ public class windowPadController {
     public String showPDF(){
         return "/windowPad/showPDF";
     }
-    @GetMapping("/history")
+
+    @GetMapping("/maintenance")
     public String history(){
-        return "/windowPad/history";
+        return "/windowPad/maintenance";
     }
 
 }
