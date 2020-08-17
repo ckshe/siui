@@ -3,7 +3,6 @@ package com.linln.admin.device.form;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class DeviceSafeForm {

@@ -1,7 +1,6 @@
 package com.linln.admin.device.realization;
 
 import com.linln.admin.device.VO.DeviceDateSafeVO;
-import com.linln.admin.device.VO.DeviceSafeVO;
 import com.linln.admin.device.entity.DeviceDateSafe;
 import com.linln.admin.device.entity.DeviceSafe;
 import com.linln.admin.device.entity.DeviceSafeResult;
@@ -18,7 +17,6 @@ import com.linln.admin.device.serviceImpl.DeviceSafeServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

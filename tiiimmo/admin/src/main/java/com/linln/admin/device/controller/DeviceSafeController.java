@@ -1,6 +1,5 @@
 package com.linln.admin.device.controller;
 
-import com.linln.admin.device.VO.DeviceSafeVO;
 import com.linln.admin.device.entity.DeviceSafe;
 import com.linln.admin.device.enums.ResultEnum;
 import com.linln.admin.device.exception.DeviceException;
@@ -13,12 +12,14 @@ import com.linln.admin.device.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Objects;
 
 @CrossOrigin()
