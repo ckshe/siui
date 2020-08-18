@@ -20,8 +20,8 @@ overflow: hidden;
   padding: 10px;
 }
 .listStyle div{
-  display: inline-block;
-   float: left;
+  display: block;
+  float: left;
   height: 50px;
   line-height: 50px;
 }
