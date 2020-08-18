@@ -1,6 +1,7 @@
 package com.linln.admin.produce.repository;
 
 import com.linln.admin.produce.domain.PcbTaskPositionRecordDetail;
+import com.linln.common.vo.ResultVo;
 import com.linln.modules.system.repository.BaseRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -28,4 +29,7 @@ public interface PcbTaskPositionRecordDetailRepositoty extends BaseRepository<Pc
 
     @Query(value = "SELECT * FROM produce_task_position_record_detail WHERE product_code = ?1 ",nativeQuery = true)
     PcbTaskPositionRecordDetail findByProduct_code(String productCode);
+
+    @Query(value = "SELECT * FROM produce_task_position_record_detail WHERE product_code = ?1 ",nativeQuery = true)
+    PcbTaskPositionRecordDetail findByProductCode(String productCode);
 }

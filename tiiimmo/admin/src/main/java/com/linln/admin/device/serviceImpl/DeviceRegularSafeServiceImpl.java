@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,9 +23,10 @@ public class DeviceRegularSafeServiceImpl implements DeviceRegularSafeServiceInt
         this.deviceRegularSafeRepository = deviceRegularSafeRepository;
     }
 
+
     @Override
-    public List<DeviceRegularSafe> findByThisSafeTimeAndDeviceCode(Date thisSafeTime, String deviceCode) {
-        return deviceRegularSafeRepository.findByThisSafeTimeAndDeviceCode(thisSafeTime, deviceCode);
+    public List<DeviceRegularSafe> findByThisSafeTime(Date thisSafeTime) {
+        return deviceRegularSafeRepository.findByThisSafeTime(thisSafeTime);
     }
 
     @Override
@@ -38,7 +40,7 @@ public class DeviceRegularSafeServiceImpl implements DeviceRegularSafeServiceInt
     }
 
     @Override
-    public Page<DeviceRegularSafe> findByDeviceCodeOrderByThisSafeTimeDesc(String deviceCode, Pageable pageable) {
-        return deviceRegularSafeRepository.findByDeviceCodeOrderByThisSafeTimeDesc(deviceCode, pageable);
+    public Page<DeviceRegularSafe> getDeviceRegularSafes(Specification<DeviceRegularSafe> Specification, Pageable pageable) {
+        return deviceRegularSafeRepository.findAll(Specification, pageable);
     }
 }
