@@ -10,6 +10,6 @@ public class DeviceRegularSafeContentForm {
     @NotEmpty(message = "设备编号不能为空")
     private String deviceCode;
     @NotEmpty(message = "检测内容不能为空")
-    private String deviceRegularSafeContent;
+    private String safeContent;
     private String company;
 }

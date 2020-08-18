@@ -55,7 +55,7 @@ public class DeviceRegularSafeContentController {
         BeanUtils.copyProperties(deviceRegularSafeContentListForm, deviceRegularSafeContent);
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withMatcher("deviceCode", ExampleMatcher.GenericPropertyMatcher::contains)
-                .withMatcher("deviceRegularSafeContent", ExampleMatcher.GenericPropertyMatcher::contains);
+                .withMatcher("safeContent", ExampleMatcher.GenericPropertyMatcher::contains);
         Example<DeviceRegularSafeContent> deviceRegularSafeContentExample = Example.of(deviceRegularSafeContent, matcher);
         Pageable pageable = PageRequest.of(deviceRegularSafeContentListForm.getPage()-1, deviceRegularSafeContentListForm.getSize());
         DeviceRegularSafeContentListResultVO deviceRegularSafeContentListResultVO = deviceRegularSafeContentReal.getDeviceRegularSafeContents(deviceRegularSafeContentExample, pageable);

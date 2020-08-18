@@ -119,7 +119,8 @@ public class DeviceDateSafeReal {
             List<DeviceDateSafeEditForm> deviceDateSafeEditForms = deviceDateSafeEditFormModel.getDeviceDateSafeEditForms().stream().filter(e -> e.getDateSafeId().equals(deviceDateSafes.get(index).getDateSafeId())).collect(Collectors.toList());
             if (deviceDateSafeEditForms.size() != 0) {
                 DeviceDateSafeEditForm deviceDateSafeEditForm = deviceDateSafeEditForms.get(0);
-                BeanUtils.copyProperties(deviceDateSafeEditForm, deviceDateSafes.get(index));
+                deviceDateSafes.get(index).setSafeResult(deviceDateSafeEditForm.getSafeResult());
+                deviceDateSafes.get(index).setSafePerson(deviceDateSafeEditForm.getSafePerson());
             }
         }
         deviceDateSafeService.saveAllDeviceDateSafe(deviceDateSafes);
