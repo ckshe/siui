@@ -183,6 +183,15 @@
         .screen-btn-group .btn-group .caret {
             margin-left: 4px;
         }
+
+        tr td:nth-child(5) .layui-table-cell {
+            overflow: initial !important;
+            padding: 0 !important;
+        }
+
+        .layui-table-body.layui-table-main {
+            height: 450px !important;
+        }
     </style>
 </head>
 
@@ -197,36 +206,32 @@
                 <div class="layui-row timo-card-screen">
                     <form class="layui-form pull-left layui-form-pane timo-search-box">
                         <div class="layui-inline">
-                            <label class="layui-form-label">状态</label>
+                            <label class="layui-form-label">维护类型</label>
                             <div class="layui-input-block">
-                                <select id="status" name="status" lay-filter="state" placeholder="请输入状态"
+                                <select id="status" name="status" lay-filter="status" placeholder="请输入维护类型"
                                     autocomplete="off">
-                                    <option value="全部">全部</option>
-                                    <option value="已投产">已投产</option>
-                                    <option value="下达">下达</option>
-                                    <option value="已完成">已完成</option>
                                 </select>
                             </div>
                         </div>
                         <!-- <div class="layui-inline">
-                            <label class="layui-form-label">生产日期</label>
-                            <div class="layui-input-block">
-                                <input id="startTime" type="text" name="startTime" placeholder="选择日期"
-                                    autocomplete="off" class="layui-input">
-                            </div>
-                        </div> -->
-                        <div class="layui-inline">
                             <button class="layui-btn" id="search" type="button" lay-submit lay-filter="search">
                                 <i class="fa fa-search"></i>
                             </button>
-                        </div>
+                        </div> -->
+                        <!-- <div class="layui-inline" style="right: 15px;  position: fixed;">
+                            <button class="layui-btn" id="search" type="button" lay-submit lay-filter="search">
+                                提交
+                            </button>
+                        </div> -->
                     </form>
                 </div>
             </div>
         </div>
         <table class="layui-hide" id="table" lay-filter="table"></table>
     </div>
-
+    <script type="text/html" id="toolbarmaintenace">
+            <button id="sub" class="layui-btn layui-btn-sm" type="button"  lay-event="devs">提交</button>
+    </script>
     <script src="../../lib/layui-v2.3.0/layui.js"></script>
     <script src="../../js/common.js"></script>
 </body>
@@ -236,52 +241,199 @@
             var $ = layui.jquery,
                 table = layui.table,
                 form = layui.form;
-                laydate = layui.laydate,
-
-                table.render({
-                    elem: '#table'
-                    , url: '/open/staffOnBoardForPad' //数据接口
-                    , page: true //开启分页
-                    , method: 'POST'
-                    , loading: false
-                    , contentType: 'application/json'
-                    , response: {
-                        statusCode: 200
-                    }
-                    , parseData: function (res) {
-                        return {
-                            "code": res.code, //解析接口状态
-                            "data": res.data, //解析数据列表
-                            "count": res.total, //解析数据长度
-                        };
-                    }
-                    , where: {
-                        deviceCode: getQueryString2('deviceCode')
-                    }
-                    , cols: [
-                        [
-                            { field: 'user_name', title: '员工名称', sort: true, minWidth: 120 }
-                            // , { field: 'pcb_name', title: '物料名称', minWidth: 200 }
-                            // , { field: 'task_sheet_code', title: '生产批次', sort: true, minWidth: 206 }
-                            , { field: 'process_task_code', title: '工序任务号', sort: true, minWidth: 170 }
-                            , { field: 'process_name', title: '工序名称', sort: true, minWidth: 100 }
-                            , {
-                                field: 'up_time', title: '上机时间', sort: true, minWidth: 180, templet: function (d) {
-                                    return d.up_time ? timeToDate(d.up_time) : "";
-                                }
+            laydate = layui.laydate;
+            var deviceSafeResultSArr = [];
+            var tdata = [];
+            var tableObj = {
+                elem: '#table'
+                // , url: '/deviceDateSafe/get' //数据接口
+                // , page: true //开启分页
+                // , method: 'POST'
+                // , loading: false
+                // , contentType: 'application/json'
+                , defaultToolbar: []
+                , toolbar: '#toolbarmaintenace'
+                , data: tdata
+                , response: {
+                    statusCode: 200
+                }
+                // , parseData: function (res) {
+                //     return {
+                //         "code": res.code, //解析接口状态
+                //         "data": res.data.deviceDateSafeVOS, //解析数据列表
+                //         'deviceSafeResultS': res.data.deviceSafeResultS,
+                //         "count": res.total, //解析数据长度
+                //     };
+                // }
+                // , where: {
+                //     safeTime: timeToDate(new Date(), true).trim(),
+                //     safeDeviceCode: getQueryString2('deviceCode'),
+                //     safeType: null
+                // }
+                // , done: function (res, index) {
+                //     console.log(res)
+                //     if (res.code == 200) {
+                //         deviceSafeResultSArr = res.deviceSafeResultS
+                //         console.log(deviceSafeResultSArr)
+                //     } else {
+                //         layer.msg(res.msg, { offset: '15px', time: 3000, icon: 2 });
+                //     }
+                // }
+                , cols: [
+                    [
+                        {
+                            field: 'safeType', title: '维护类型', sort: true, minWidth: 120, templet: function (d) {
+                                return d.safeType;
                             }
-                            , {
-                                field: 'down_time', title: '下机时间', sort: true, minWidth: 180, templet: function (d) {
-                                    return d.down_time ? timeToDate(d.down_time) : "";
-                                }
+                        }
+                        , { field: 'safeContent', title: '维护内容', sort: true, minWidth: 170 }
+                        , { field: 'safePerson', title: '维护人员', sort: true, minWidth: 100 }
+                        , {
+                            field: 'safeTime', title: '维护时间', sort: true, minWidth: 180, templet: function (d) {
+                                return d.safeTime ? timeToDate(d.safeTime) : "";
                             }
-                        ]
+                        }
+                        , {
+                            field: '', title: '维护结果', minWidth: 120, templet: function (d) {
+                                var html = '<select name="process_task_status"  class="status" lay-filter="status1">';
+                                    // + '<option value="">维护结果</option>';
+                                deviceSafeResultSArr.forEach(function (t, i) {
+                                    if (t == d.safeResult) {
+                                        html += '<option  value="' + t + '" selected="selected" >' + t + '</option>';
+                                    } else {
+                                        html += '<option  value="' + t + '">' + t + '</option>';
+                                    }
+                                });
+                                html += '</select>';
+                                return html;
+                            }
+                        }
                     ]
-                });
-            laydate.render({
-                elem: '#startTime'
-                , value: new Date()
+                ]
+            }
+
+            var datawher = {
+                safeTime: timeToDate(new Date(), true).trim(),
+                safeDeviceCode: getQueryString2('deviceCode'),
+                safeType: null
+            }
+            form.on('select(status)', function (data) {
+                if (data.value == '全部') {
+                    data.value = null
+                }
+                datawher.safeType = data.value;
+                ajax(datawher, data.value);
             });
+            form.on('select(status1)', function (data) {
+                console.log(data)
+            });
+            table.on('toolbar(table)', function (obj) {
+                switch (obj.event) {
+                    case 'devs':
+                        var status = document.getElementsByClassName('status');
+                        var k = 0;
+                        tdata.forEach(function (t, i) {
+                            t.safeResult = status[i].value;
+                            t.safePerson = parent.document.getElementById('userName').innerHTML;
+                        })
+                        console.log(tdata)
+                        deviceDateSafeEditAjax(tdata)
+                        break;
+                }
+            });
+            // form.on('submit(search)',function (obj) {
+            //         console.log(tableObj.table)
+            //         console.log(obj)
+            //     });
+            function ajax(datawher, selectValue) {
+                $.ajax({
+                    type: "POST",
+                    url: '/deviceDateSafe/get',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(datawher),
+                    dataType: "json",
+                    async: false,
+                    success: function (res) {
+                        layer.closeAll()
+                        if (res.code == 200) {
+                            tdata = res.data.deviceDateSafeVOS;
+                            deviceSafeResultSArr = res.data.deviceSafeResultS
+                            tableObj.data = tdata;
+                            var sel = document.getElementById("status");
+                            $("#status").html("");
+                            $("#status").find("option").remove();
+                            var deviceSafeTypeS = res.data.deviceSafeTypeS;
+                            if (selectValue == "undefined" || selectValue == "全部") {
+                                $("#status").append("<option value='全部' selected='selected'>全部</option>")
+                            } else {
+                                $("#status").append("<option value='全部'>全部</option>")
+                            }
+                            deviceSafeTypeS.forEach(function (t, i) {
+                                if (selectValue == t) {
+                                    $("#status").append("<option value='" + t + "' selected='selected' >" + t + "</option>")
+                                } else {
+                                    $("#status").append("<option value='" + t + "' >" + t + "</option>")
+                                }
+                            });
+                            form.render('select');
+                            table.render(tableObj);
+                        } else {
+                            layer.alert(res.msg, { icon: 5 });
+                        }
+                    },
+                    error: function (message) {
+                        layer.alert("保存失败！", { icon: 5 });
+                    }
+                });
+            }
+            function deviceDateSafeEditAjax(data) {
+               if(isLogin()){
+                layer.alert('当前未上机，请先上机',{icon:5})
+                    return;
+               }
+                var dataValue ={
+                    deviceDateSafeEditForms:data
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '/deviceDateSafe/edit',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(dataValue),
+                    dataType: "json",
+                    async: false,
+                    success: function (res) {
+                        layer.closeAll()
+                        if (res.code == 200) {
+                            layer.alert(res.msg, { icon: 1 }, function () {
+                                layer.closeAll()
+                                window.location.reload();
+                            })
+                        } else {
+                            layer.alert(res.msg, { icon: 5 });
+                        }
+                    },
+                    error: function (message) {
+                        layer.alert("保存失败！", { icon: 5 });
+                    }
+                });
+            }
+            function init() {
+                ajax(datawher)
+            }
+            function isLogin(){
+                var userName =  parent.document.getElementById('userName').innerHTML;
+                if(userName=='无' || userName == '' || userName =='undefiend' ){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+            init();
+            // table.render();
+            // laydate.render({
+            //     elem: '#startTime'
+            //     , value: new Date()
+            // });
         })
     };
 
