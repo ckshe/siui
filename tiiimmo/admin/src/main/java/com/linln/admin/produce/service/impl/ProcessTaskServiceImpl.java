@@ -337,6 +337,8 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
 
         Date startTime = processTaskReq.getStartTime(); //实际生产时间
 
+        Date endTime = processTaskReq.getFinishTime();//实际结束时间
+
 
         if(page == null||size == null){
             page = 1;
@@ -369,12 +371,15 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
             }
 
         }
-        if(startTime!=null&&!"".equals(startTime)){
-            String startTimeString = DateUtil.date2String(startTime,"yyyy-MM-dd");
+        if(startTime!=null&&!"".equals(startTime)&&endTime!=null&&!"".equals(endTime)){
+            String startTimeString = DateUtil.date2String(startTime,"yyyy-MM-dd") + " 00:00:00";
+            String endTimeString = DateUtil.date2String(endTime,"yyyy-MM-dd") + " 23:59:59";
             //startTimeString.substring(0,10);
-            wheresql.append(" AND CONVERT ( VARCHAR ( 100 ), t1.plan_day_time, 23 )  = '" +
+            wheresql.append(" AND t1.plan_day_time >= '" +
                     startTimeString  +
-                    "' ");
+                    "' AND t1.plan_day_time <= '" +
+                    endTimeString +
+                    "'");
 
         }
 

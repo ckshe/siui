@@ -218,8 +218,8 @@
                             ,{field: 'model_ver', title: '机型型号', sort: true, minWidth:170}
                             ,{field: 'remark', title: '备注', minWidth:120}
                             ,{ title: '操作',fixed:'right', minWidth: 210,align:'center',templet:function (d) {
-                                return  '<button lay-event="tou" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">'+(d.pcb_task_status==="已投产"?"已投产":"投产")+'</button>'
-                                       +'<button lay-event="kan" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"":"background-color:#e4e4e4")+'"'+(d.pcb_task_status==="已投产"?"":"disabled")+' type="button">查看工序计划</button>'
+                                return  '<button lay-event="tou" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status!="下达"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status!="下达"?"disabled":"")+' type="button">'+(d.pcb_task_status!="下达"?"已投产":"投产")+'</button>'
+                                       +'<button lay-event="kan" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status!="下达"?"":"background-color:#e4e4e4")+'"'+(d.pcb_task_status!="下达"?"":"disabled")+' type="button">查看工序计划</button>'
                                        // +'<button lay-event="edit" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">编辑</button>'
                             }
                     }
