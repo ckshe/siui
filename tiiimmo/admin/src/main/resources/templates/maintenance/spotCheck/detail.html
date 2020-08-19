@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${spotCheck.id}"></td>
+                    <th>点检日期</th>
+                    <td th:text="${spotCheck.checkData}"></td>
+                </tr>
+                <tr>
+                    <th>点检设备</th>
+                    <td th:text="${spotCheck.checkDevice}"></td>
+                    <th>点检人</th>
+                    <td th:text="${spotCheck.checkUser}"></td>
+                </tr>
+                <tr>
+                    <th>点检内容</th>
+                    <td th:text="${spotCheck.checkContent}"></td>
+                    <th>点检结果</th>
+                    <td th:text="${spotCheck.checkResult}"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${spotCheck.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${spotCheck.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${spotCheck.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

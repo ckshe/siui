@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="layui-form timo-compile">
+    <form th:action="@{/maintenance/checkRecord/save}">
+        <input type="hidden" name="id" th:if="${checkRecord}" th:value="${checkRecord.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">检查日期</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="checkDate" placeholder="请输入检查日期" th:value="${checkRecord?.checkDate}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">检查设备</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="checkDevice" placeholder="请输入检查设备" th:value="${checkRecord?.checkDevice}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">检查人</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="checkUser" placeholder="请输入检查人" th:value="${checkRecord?.checkUser}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">检查内容</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="checkContent" placeholder="请输入检查内容" th:value="${checkRecord?.checkContent}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">检查结果</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="checkResult" placeholder="请输入检查结果" th:value="${checkRecord?.checkResult}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">[[${checkRecord?.remark}]]</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

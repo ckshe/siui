@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${keepRecord.id}"></td>
+                    <th>保养日期</th>
+                    <td th:text="${keepRecord.keepDate}"></td>
+                </tr>
+                <tr>
+                    <th>保养设备</th>
+                    <td th:text="${keepRecord.keepDevice}"></td>
+                    <th>保养人</th>
+                    <td th:text="${keepRecord.keepUser}"></td>
+                </tr>
+                <tr>
+                    <th>保养内容</th>
+                    <td th:text="${keepRecord.keepContent}"></td>
+                    <th>保养结果</th>
+                    <td th:text="${keepRecord.keepResult}"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${keepRecord.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${keepRecord.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${keepRecord.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>
