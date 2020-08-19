@@ -1657,6 +1657,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
             }else {
                 ProcessTaskDetailDevice detailDevice = processTaskDetailDeviceRepository.findByTaskCodeAndDayTimeAndDeviceCode1(processTask.getProcess_task_code(), dayStr, pcbTaskReq.getDeviceCode());
+                if(detailDevice==null){
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    return  ResultVoUtil.error("该工单没有当天工站日计划");
+                }
                 detailDevice.setDevice_detail_status("生产中");
                 processTaskDetailDeviceRepository.save(detailDevice);
             }

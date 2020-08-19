@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="layui-form timo-compile">
+    <form th:action="@{/maintenance/spotCheck/save}">
+        <input type="hidden" name="id" th:if="${spotCheck}" th:value="${spotCheck.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">点检日期</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="checkData" placeholder="请输入点检日期" th:value="${spotCheck?.checkData}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">点检设备</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="checkDevice" placeholder="请输入点检设备" th:value="${spotCheck?.checkDevice}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">点检人</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="checkUser" placeholder="请输入点检人" th:value="${spotCheck?.checkUser}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">点检内容</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="checkContent" placeholder="请输入点检内容" th:value="${spotCheck?.checkContent}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">点检结果</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="checkResult" placeholder="请输入点检结果" th:value="${spotCheck?.checkResult}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">[[${spotCheck?.remark}]]</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

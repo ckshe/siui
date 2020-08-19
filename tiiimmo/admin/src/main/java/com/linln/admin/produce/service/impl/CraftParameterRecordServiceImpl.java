@@ -59,7 +59,6 @@ public class CraftParameterRecordServiceImpl implements CraftParameterRecordServ
         record.setRecord_name(user.getNickname());
         //数量根据工序计划查找
         ProcessTask processTask = processTaskRepository.findByProcessTaskCode(record.getProcess_task_code());
-        record.setPlan_count(processTask.getPcb_quantity());
         record.setPcb_task_code(processTask.getPcb_task_code());
         //设备名称根据设备号查找
         Device device = deviceRepository.findbyDeviceCode(record.getDevice_code());
