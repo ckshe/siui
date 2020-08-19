@@ -9,6 +9,7 @@ import com.linln.admin.produce.repository.DeviceStatusRecordRepository;
 import com.linln.admin.produce.repository.ProcessTaskRepository;
 import com.linln.admin.produce.repository.ProcessTaskStatusHistoryRepository;
 import com.linln.admin.produce.repository.UserDeviceHistoryRepository;
+import com.linln.admin.produce.service.PcbTaskService;
 import com.linln.admin.quality.domain.DeviceStatusRecord;
 import com.linln.admin.system.service.OpenService;
 import org.springframework.beans.BeanUtils;
@@ -40,6 +41,9 @@ public class ProcesssTaskWorkTimeTimer {
 
     @Autowired
     private OpenService openService;
+
+    @Autowired
+    private PcbTaskService pcbTaskService;
 
     @Value("${backup-path}")
     private String backupPath;
@@ -127,6 +131,11 @@ public class ProcesssTaskWorkTimeTimer {
         openService.callCmd(backupPath);
     }
 
+    //凌晨一点同步erp数据
+    @Scheduled(cron = "0 0 1 * * ?")
+    public void autoUpdateErp(){
+        pcbTaskService.getPcbTaskFromERP(null);
+    }
 
 
 }

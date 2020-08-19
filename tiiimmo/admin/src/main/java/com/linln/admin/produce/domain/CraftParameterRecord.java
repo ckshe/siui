@@ -1,8 +1,10 @@
 package com.linln.admin.produce.domain;
 
+import com.linln.common.enums.StatusEnum;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -12,7 +14,7 @@ public class CraftParameterRecord {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id ;
     //是否冻结
-    private Byte status;
+    private Byte status = StatusEnum.OK.getCode();
 
     private String device_code;
 
@@ -34,5 +36,9 @@ public class CraftParameterRecord {
 
     private String firstInspection_name;
 
-    private Integer plant_count;
+    private Integer plan_count;
+
+    private Date record_time;
+
+    private Date qc_time;
 }

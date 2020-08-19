@@ -193,7 +193,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         System.out.println("-----------list-------------"+lists.size());
         List<PcbTask> pckTaskList = new ArrayList<>();
         List<PCBPlateNo> plateNoList = new ArrayList<>();
-        for(int i = 0 ; i<lists.size();i++){
+        for(int i = 0 ; i<lists.size();i++){ 
             JSONObject param = lists.getJSONObject(i);
             //生产任务单号
             String pcb_task_code = param.getString("FRWFBillNo");
@@ -1586,11 +1586,26 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             if(one!=null){
 
             }else {
-                UserDeviceHistory tow = userDeviceHistoryRepository.findOnlyUpTimeRecord(pcbTaskReq.getDeviceCode());
-                if(tow!=null){
-                    tow.setProcess_task_code(processTask.getProcess_task_code());
-                    userDeviceHistoryRepository.save(tow);
+
+                if(processTask.getCount_type()==0){
+                    String [] deviceArray = processTask.getDevice_code().split(",");
+                    for(String devicecode : deviceArray){
+                        UserDeviceHistory tow = userDeviceHistoryRepository.findOnlyUpTimeRecord(devicecode);
+                        if(tow!=null){
+                            tow.setProcess_task_code(processTask.getProcess_task_code());
+                            userDeviceHistoryRepository.save(tow);
+                        }
+
+                    }
+
+                }else {
+                    UserDeviceHistory tow = userDeviceHistoryRepository.findOnlyUpTimeRecord(pcbTaskReq.getDeviceCode());
+                    if(tow!=null){
+                        tow.setProcess_task_code(processTask.getProcess_task_code());
+                        userDeviceHistoryRepository.save(tow);
+                    }
                 }
+
             }
 
         }
