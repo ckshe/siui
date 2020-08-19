@@ -77,8 +77,8 @@ public class DeviceSafeController {
         return ResultVOUtil.success(null);
     }
 
-    @GetMapping("/delete")
-    public ResultVO<Object> deleteDeviceSafe(Integer safeId){
+    @PostMapping("/delete")
+    public ResultVO<Object> deleteDeviceSafe(@RequestParam("safeId") Integer safeId){
         if(safeId==null){
             log.error("【删除设备维护内容】设备维护内容id不能为空，id={}", safeId);
             throw new DeviceException(ResultEnum.DEVICE_SAFE_ID_NOT_NULL);

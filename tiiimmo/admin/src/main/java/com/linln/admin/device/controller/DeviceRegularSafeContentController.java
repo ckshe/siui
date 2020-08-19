@@ -76,8 +76,8 @@ public class DeviceRegularSafeContentController {
         return ResultVOUtil.success(null);
     }
 
-    @GetMapping("/delete")
-    public ResultVO<Object> deleteDeviceSafe(Integer regularSafeId){
+    @PostMapping("/delete")
+    public ResultVO<Object> deleteDeviceSafe(@RequestParam("regularSafeId") Integer regularSafeId){
         if(regularSafeId==null){
             log.error("【删除定期检查内容】定期检查内容id不能为空，id={}", regularSafeId);
             throw new DeviceException(ResultEnum.DEVICE_REGULAR_SAFE_ID_NOT_NULL);
