@@ -43,10 +43,11 @@ public class PcbTaskPositionRecordDetailServiceImpl implements PcbTaskPositionRe
     public ResultVo findFinishRecordDetail(PcbTaskPositionRecordDetailReq req) {
         Integer page = req.getPage(); //当前页
         Integer size = req.getSize(); //每页条数
-        String deviceCode = req.getDeviceCode();
-        String pcbTaskCode = req.getPcbTaskCode();
-        String processTaskCode = req.getProcessTaskCode();
+        String deviceCode = req.getDeviceCode(); // 设备编号
+        String pcbTaskCode = req.getPcbTaskCode(); // 生产任务号
+        String processTaskCode = req.getProcessTaskCode(); // 工序任务号
 
+        // 页数和页面大小为空时,设置默认值
         if(page == null||size == null){
             page = 1;
             size = 10;

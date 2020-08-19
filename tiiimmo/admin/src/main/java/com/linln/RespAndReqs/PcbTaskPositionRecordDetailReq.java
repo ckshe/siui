@@ -26,7 +26,8 @@ public class PcbTaskPositionRecordDetailReq {
     private String lastProductCode;
     // 扫描的元件名
     private String lastElementName;
-
+    // 页数
     private Integer page;
+    // 页面大小
     private Integer size;
 }
