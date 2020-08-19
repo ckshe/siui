@@ -1,5 +1,6 @@
 package com.linln.admin.produce.repository;
 
+import com.linln.RespAndReqs.PcbTaskPositionRecordDetailReq;
 import com.linln.admin.produce.domain.PcbTaskPositionRecordDetail;
 import com.linln.common.vo.ResultVo;
 import com.linln.modules.system.repository.BaseRepository;
@@ -32,4 +33,7 @@ public interface PcbTaskPositionRecordDetailRepositoty extends BaseRepository<Pc
 
     @Query(value = "SELECT * FROM produce_task_position_record_detail WHERE product_code = ?1 ",nativeQuery = true)
     PcbTaskPositionRecordDetail findByProductCode(String productCode);
+
+    @Query(value = "SELECT * FROM produce_task_position_record_detail WHERE install_status = '2' ",nativeQuery = true)
+    List<PcbTaskPositionRecordDetail> findFinishRecordDetail();
 }

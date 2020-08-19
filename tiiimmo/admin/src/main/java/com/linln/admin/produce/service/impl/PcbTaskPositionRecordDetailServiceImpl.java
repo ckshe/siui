@@ -1,15 +1,24 @@
 package com.linln.admin.produce.service.impl;
 
+import com.linln.RespAndReqs.PcbTaskPositionRecordDetailReq;
 import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.admin.produce.domain.PcbTaskPositionRecordDetail;
 import com.linln.admin.produce.repository.PcbTaskPositionRecordDetailRepositoty;
 import com.linln.admin.produce.service.PcbTaskPositionRecordDetailService;
+import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class PcbTaskPositionRecordDetailServiceImpl implements PcbTaskPositionRecordDetailService {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private PcbTaskPositionRecordDetailRepositoty recordDetailRepositoty;
@@ -29,4 +38,56 @@ public class PcbTaskPositionRecordDetailServiceImpl implements PcbTaskPositionRe
         }
         return recordDetail;
     }
+
+    @Override
+    public ResultVo findFinishRecordDetail(PcbTaskPositionRecordDetailReq req) {
+        Integer page = req.getPage(); //当前页
+        Integer size = req.getSize(); //每页条数
+        String deviceCode = req.getDeviceCode();
+        String pcbTaskCode = req.getPcbTaskCode();
+        String processTaskCode = req.getProcessTaskCode();
+
+        if(page == null||size == null){
+            page = 1;
+            size = 10;
+        }
+
+        StringBuffer wheresql = new StringBuffer(" ");
+        if(deviceCode!=null&&!"".equals(deviceCode)){
+            wheresql.append(" and device_code  like '" +
+                    "%" + deviceCode + "%" +
+                    "' ");
+        }
+        if(pcbTaskCode!=null&&!"".equals(pcbTaskCode)){
+            wheresql.append(" and pcb_task_code  like '" +
+                    "%" + pcbTaskCode + "%" +
+                    "' ");
+        }
+        if(processTaskCode!=null&&!"".equals(processTaskCode)){
+            wheresql.append(" and process_task_code  like '" +
+                    "%" + processTaskCode + "%" +
+                    "' ");
+        }
+
+        StringBuffer sql = new StringBuffer("select  *\n" +
+                "                from (select row_number()\n" +
+                "                over(order by device_code) as rownumber,*\n" +
+                "                from produce_task_position_record_detail where install_status = 2" +
+                wheresql.toString() +
+                ") temp_row ");
+
+        List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
+        sql.append(" where rownumber between " +
+                ((page-1)*size+1) +
+                " and " +
+                (page*size) +
+                "");
+
+        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+
+        return ResultVoUtil.success("查询成功",mapList,count.size());
+
+    }
+
+
 }

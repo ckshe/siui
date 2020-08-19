@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:mo="https://gitee.com/aun/Timo">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+
+
+
+<body class="timo-layout-page">
+    <div class="layui-card">
+        <div class="layui-card-header timo-card-header">
+            <span><i class="fa fa-bars"></i> PCB物料追溯</span>
+            <i class="layui-icon layui-icon-refresh refresh-btn"></i>
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-row timo-card-screen">
+                <form  class="layui-form pull-left layui-form-pane timo-search-box">
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">机台编号</label>
+                        <div class="layui-input-block">
+                            <input id="deviceCode" type="text" name="deviceCode" placeholder="请输入机台编号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">生产任务</label>
+                        <div class="layui-input-block">
+                            <input id="pcbTaskCode" type="text" name="pcbTaskCode" placeholder="请输入生产任务单号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">工序任务</label>
+                        <div class="layui-input-block">
+                            <input id="processTaskCode" type="text" name="processTaskCode" placeholder="请输入工序任务号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn" id="search"  type="button" lay-submit lay-filter="search">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+
+
+            </div>
+            <div class="timo-table-wrap">
+                <table class="layui-hide" id="table" lay-filter="table"></table>
+            </div>
+        </div>
+    </div>
+<script th:replace="/common/template :: script"></script>
+    <script src="../../js/common.js" ></script>
+    <script>
+        layui.use(['form','laydate','table','jquery','form'],function () {
+            var layer = layui.layer,
+                $ = layui.jquery,
+                table = layui.table,
+                laydate = layui.laydate,
+                form = layui.form;
+
+            table.render({
+                elem: '#table'
+                ,url: '/pokeYoke/product/findProductCode' //数据接口
+                ,method:'post'
+                ,loading:false
+
+                ,contentType: 'application/json'
+                ,response: {
+                    statusCode: 200
+                }
+                ,page: true
+                ,limit:10
+                ,parseData: function(res){
+                    // var page = this.page.curr;
+                    // if(res.data.length===0&&page>1){
+                    //     table.reload('table',{
+                    //         page:{
+                    //             curr:(page-1)
+                    //         }
+                    //     })
+                    // }
+                    return {
+                        "code": res.code, //解析接口状态
+                        "data": res.data, //解析数据列表
+                        "count": res.total, //解析数据长度
+                    };
+                }
+                ,cols: [
+                    [
+                        {field: 'device_code', title: '机台编号', sort: true, minWidth:140}
+                        ,{field: 'pcb_task_code', title: '生产任务单号', sort: true, minWidth:140}
+                        ,{field: 'process_task_code', title: '工序任务号', sort: true, minWidth:140}
+                        ,{field: 'last_product_code', title: '物料编号', sort: true, minWidth:140}
+                        ,{field: 'last_element_name', title: '元件名', sort: true, minWidth:140}
+                        /*,{ title: '操作',fixed:'right', minWidth: 210,templet:function (d) {
+                            return  '<button lay-event="tou" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">'+(d.pcb_task_status==="已投产"?"已投产":"投产")+'</button>'
+                                +'<button lay-event="kan" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"":"background-color:#e4e4e4")+'"'+(d.pcb_task_status==="已投产"?"":"disabled")+' type="button">查看工序计划</button>'
+                                +'<button lay-event="edit" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">编辑</button>'
+
+                        }
+                    }*/
+                    ]
+                ]
+            });
+            form.on('submit(search)',function (obj) {
+                var data = {};
+                console.log(obj.field);
+
+                data.deviceCode=obj.field.deviceCode;
+                data.pcbTaskCode=obj.field.pcbTaskCode;
+                data.processTaskCode=obj.field.processTaskCode;
+                table.reload('table',{
+                    where:data
+                })
+            });
+
+            new Enter('deviceCode',function () {$('#search').click()});
+            new Enter('pcbTaskCode',function () {$('#search').click()});
+            new Enter('processTaskCode',function () {$('#search').click()});
+
+
+
+
+        })
+    </script>
+    <style>
+        .layui-laydate .layui-this{
+            background-color:#1e9fff!important;
+        }
+
+    </style>
+</body>
+</html>
