@@ -1,41 +1,84 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
 </head>
+
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/maintenance/maintenanceContent/save}">
-        <input type="hidden" name="id" th:if="${maintenanceContent}" th:value="${maintenanceContent.id}">
-        <div class="layui-form-item">
-            <label class="layui-form-label">设备类型</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="deviceType" placeholder="请输入设备类型" th:value="${maintenanceContent?.deviceType}">
+        <form class="layui-form" style="padding-top:20px;" lay-filter="form2">
+            <!-- <input type="hidden" name="id" th:if="${maintenanceContent}" th:value="${maintenanceContent.id}"> -->
+            <div class="layui-form-item">
+                <label class="layui-form-label">设备编号</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" id="safeDeviceCode" type="text" name="safeDeviceCode" placeholder="请输入设备编号" autocomplete="off" >
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">维护类型</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="maintenanceType" placeholder="请输入维护类型" th:value="${maintenanceContent?.maintenanceType}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">维护类型</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" id="safeType" type="text" name="safeType" placeholder="请输入维护类型" autocomplete="off" >
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">维护内容</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="maintenanceContent" placeholder="请输入维护内容" th:value="${maintenanceContent?.maintenanceContent}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">维护内容</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" id="safeContent" type="text" name="safeContent" placeholder="请输入维护内容" autocomplete="off" >
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">备注</label>
-            <div class="layui-input-block">
-                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">[[${maintenanceContent?.remark}]]</textarea>
+
+            <div class="layui-form-item timo-finally">
+                <button class="layui-btn" lay-filter="add" type="button" lay-submit ><i class="fa fa-check-circle"></i> 保存</button>
+                <button class="layui-btn btn-secondary" id="closepop" ><i class="fa fa-times-circle"></i> 关闭</button>
             </div>
-        </div>
-        <div class="layui-form-item timo-finally">
-            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
-            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
-        </div>
-    </form>
-</div>
-<script th:replace="/common/template :: script"></script>
+        </form>
+    </div>
+
+    <script th:replace="/common/template :: script"></script>
+    <script src="../../js/common.js"></script>
+    <script>
+        layui.use(['jquery', 'form'], function () {
+            var $ = layui.jquery,
+                form = layui.form;
+                form.on('submit(add)', function (obj) {
+                console.log(obj.field)
+                if (obj.field.safeDeviceCode == '') {
+                    layer.alert('请录入设备编号！', { icon: 5 })
+                    return;
+                }
+                if (obj.field.safeType == '') {
+                    layer.alert('请录入维护类型！', { icon: 5 })
+                    return;
+                }
+                if (obj.field.safeContent == '') {
+                    layer.alert('请录入维护内容！', { icon: 5 })
+                    return;
+                }
+                    
+                $.ajax({
+                    url: "/deviceSafe/create",
+                    type: 'post',
+                    dataType: "json",
+                    data: JSON.stringify(obj.field),
+                    contentType: "application/json;charset=UTF-8",
+                    success: function (res) {
+                        if (res.code === 200 || res.code == '200') {
+                            layer.alert(res.msg, { icon: 1 }, function () {
+                                parent.layer.closeAll()
+                                parent.window.location.reload()
+                            })
+                        } else {
+                            layer.alert(res.msg, { icon: 5 })
+                        }
+
+                    }
+                });
+            });
+            $('#closepop').on('click', function () {
+                parent.layer.closeAll()
+            });
+        })
+    </script>
 </body>
+
 </html>
