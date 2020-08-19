@@ -90,11 +90,31 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
             detail.setPosition(element.getPosition());
             detail.setProduct_code(element.getProduct_code());
             detail.setStatus(StatusEnum.OK.getCode());
-            DeviceProductReplaceElement replaceElement = deviceProductReplaceElementRepository.queryByOriginalProductCode(detail.getProduct_code());
-            if (replaceElement != null){
-                detail.setLast_product_code(replaceElement.getReplace_product_code());
-                detail.setLast_element_name(replaceElement.getReplace_product_name());
+//            DeviceProductReplaceElement replaceElement = deviceProductReplaceElementRepository.queryByOriginalProductCode(detail.getProduct_code());
+//            if (replaceElement != null){
+//                detail.setLast_product_code(replaceElement.getReplace_product_code());
+//                detail.setLast_element_name(replaceElement.getReplace_product_name());
+//            }
+
+            List<DeviceProductReplaceElement> elements = deviceProductReplaceElementRepository.queryByOriginalProductCodes(detail.getProduct_code());
+            if (elements != null && elements.size() == 1){
+                detail.setLast_product_code(elements.get(0).getReplace_product_code());
+                detail.setLast_element_name(elements.get(0).getReplace_product_name());
             }
+            if (elements != null && elements.size() == 2){
+                detail.setLast_product_code(elements.get(0).getReplace_product_code() + "," + elements.get(1).getReplace_product_code());
+                detail.setLast_element_name(elements.get(0).getReplace_product_name() + "," + elements.get(1).getReplace_product_name());
+//                for (DeviceProductReplaceElement replaceElement : elements) {
+//                    detail.setLast_product_code(replaceElement.getReplace_product_code());
+//                    detail.setLast_element_name(replaceElement.getReplace_product_name());
+//
+//                }
+            }
+            if (elements != null && elements.size() == 3){
+                detail.setLast_product_code(elements.get(0).getReplace_product_code() + "," + elements.get(1).getReplace_product_code() + "," + elements.get(2).getReplace_product_code());
+                detail.setLast_element_name(elements.get(0).getReplace_product_name() + "," + elements.get(1).getReplace_product_name() + "," + elements.get(2).getReplace_product_name());
+            }
+
 
             detailList.add(detail);
         }
@@ -301,9 +321,6 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
                 // 这里准确的应该是获取扫描的物料码,并通过扫描的物料码查询到对应的元件名 (替代料唯一时可以直接获取替代料的物料编号和元件名)
 
                 if (detail == null){
-//                    map.put("status","3");
-//                    map.put("msg","找不到该原物料");
-//                    return ResultVoUtil.success(map);
                     ResultVoUtil.error("找不到该物料");
                 } else {
                     detail.setLast_product_code(elementList.get(0).getReplace_product_code());
@@ -317,7 +334,6 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
                     map.put("msg","扫描成功");
 
                     if("1".equals(detail.getInstall_status())){
-
                         map.put("status","1");
                         map.put("msg","该物料已扫描");
                         return ResultVoUtil.success(map);
@@ -328,7 +344,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
                         return ResultVoUtil.success(map);
                     }
                 }
-
+            }
 
 //                if (StringUtils.hasLength(elementList.get(0).getReplace_product_name())
 //                        && StringUtils.hasLength(elementList.get(0).getReplace_product_code())
@@ -374,7 +390,7 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
 //                }
 
 
-            }
+
             //扫描替代料后没有找到该替代料对应的物料编号 (物料不存在的情况)
             if(elementList.size()==0){
                 map.put("status","3");
@@ -382,9 +398,152 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
             }
             //多于一个返回供选择
             if(elementList.size()>1){
-                map.put("elementList",elementList);
-                map.put("status","4");
-                map.put("msg","该替代料原物料不唯一，请选择要替代的原物料");
+                if (req.getProductCode().equals(elementList.get(0).getReplace_product_code())) {
+                    detail = recordDetailRepositoty.findByProcess_task_codeAndProduct_code(req.getProcessTaskCode(), elementList.get(0).getOriginal_product_code(), req.getDeviceCode());
+                    if (detail == null) {
+                        ResultVoUtil.error("找不到该物料");
+                    } else {
+                        detail.setLast_product_code(elementList.get(0).getReplace_product_code());
+                        detail.setLast_element_name(elementList.get(0).getReplace_product_name());
+                        if (detail.getInstall_status().equals("0")) {
+                            detail.setInstall_status("1");
+                        }
+
+                        recordDetailRepositoty.save(detail);
+                        map.put("status", "1");
+                        map.put("msg", "扫描成功");
+
+                        if ("1".equals(detail.getInstall_status())) {
+                            map.put("status", "1");
+                            map.put("msg", "该物料已扫描");
+                            return ResultVoUtil.success(map);
+                        }
+                        if ("2".equals(detail.getInstall_status())) {
+                            map.put("status", "2");
+                            map.put("msg", "该物料已插入");
+                            return ResultVoUtil.success(map);
+                        }
+                    }
+                }
+
+                if (req.getProductCode().equals(elementList.get(1).getReplace_product_code())) {
+                    detail = recordDetailRepositoty.findByProcess_task_codeAndProduct_code(req.getProcessTaskCode(), elementList.get(1).getOriginal_product_code(), req.getDeviceCode());
+                    if (detail == null) {
+                        ResultVoUtil.error("找不到该物料");
+                    } else {
+                        detail.setLast_product_code(elementList.get(1).getReplace_product_code());
+                        detail.setLast_element_name(elementList.get(1).getReplace_product_name());
+                        if (detail.getInstall_status().equals("0")) {
+                            detail.setInstall_status("1");
+                        }
+
+                        recordDetailRepositoty.save(detail);
+                        map.put("status", "1");
+                        map.put("msg", "扫描成功");
+
+                        if ("1".equals(detail.getInstall_status())) {
+                            map.put("status", "1");
+                            map.put("msg", "该物料已扫描");
+                            return ResultVoUtil.success(map);
+                        }
+                        if ("2".equals(detail.getInstall_status())) {
+                            map.put("status", "2");
+                            map.put("msg", "该物料已插入");
+                            return ResultVoUtil.success(map);
+                        }
+                    }
+                }
+
+                if (req.getProductCode().equals(elementList.get(2).getReplace_product_code())) {
+                    detail = recordDetailRepositoty.findByProcess_task_codeAndProduct_code(req.getProcessTaskCode(), elementList.get(2).getOriginal_product_code(), req.getDeviceCode());
+                    if (detail == null) {
+                        ResultVoUtil.error("找不到该物料");
+                    } else {
+                        detail.setLast_product_code(elementList.get(2).getReplace_product_code());
+                        detail.setLast_element_name(elementList.get(2).getReplace_product_name());
+                        if (detail.getInstall_status().equals("0")) {
+                            detail.setInstall_status("1");
+                        }
+
+                        recordDetailRepositoty.save(detail);
+                        map.put("status", "1");
+                        map.put("msg", "扫描成功");
+
+                        if ("1".equals(detail.getInstall_status())) {
+                            map.put("status", "1");
+                            map.put("msg", "该物料已扫描");
+                            return ResultVoUtil.success(map);
+                        }
+                        if ("2".equals(detail.getInstall_status())) {
+                            map.put("status", "2");
+                            map.put("msg", "该物料已插入");
+                            return ResultVoUtil.success(map);
+                        }
+                    }
+                }
+
+
+//                PcbTaskPositionRecordDetail detail1 = recordDetailRepositoty.findByProcess_task_codeAndProduct_code(req.getProcessTaskCode(),elementList.get(0).getOriginal_product_code(),req.getDeviceCode());
+//                PcbTaskPositionRecordDetail detail2 = recordDetailRepositoty.findByProcess_task_codeAndProduct_code(req.getProcessTaskCode(),elementList.get(1).getOriginal_product_code(),req.getDeviceCode());
+//                //PcbTaskPositionRecordDetail detail3 = recordDetailRepositoty.findByProcess_task_codeAndProduct_code(req.getProcessTaskCode(),elementList.get(2).getOriginal_product_code(),req.getDeviceCode());
+//                if (! detail1.getInstall_status().equals("2")){
+//                    if (detail1 == null){
+//                        ResultVoUtil.error("找不到该物料");
+//                    } else {
+//                        detail1.setLast_product_code(elementList.get(0).getReplace_product_code());
+//                        detail1.setLast_element_name(elementList.get(0).getReplace_product_name());
+//                        if (detail1.getInstall_status().equals("0")){
+//                            detail1.setInstall_status("1");
+//                        }
+//
+//                        recordDetailRepositoty.save(detail1);
+//                        map.put("status","1");
+//                        map.put("msg","扫描成功");
+//
+//                        if("1".equals(detail1.getInstall_status())){
+//                            map.put("status","1");
+//                            map.put("msg","该物料已扫描");
+//                            return ResultVoUtil.success(map);
+//                        }
+//                        if("2".equals(detail1.getInstall_status())){
+//                            map.put("status","2");
+//                            map.put("msg","该物料已插入");
+//                            return ResultVoUtil.success(map);
+//                        }
+//                    }
+//                } else {
+//                    if (! detail2.getInstall_status().equals("2")){
+//                        if (detail2 == null){
+//                            ResultVoUtil.error("找不到该物料");
+//                        } else {
+//                            detail2.setLast_product_code(elementList.get(1).getReplace_product_code());
+//                            detail2.setLast_element_name(elementList.get(1).getReplace_product_name());
+//                            if (detail2.getInstall_status().equals("0")){
+//                                detail2.setInstall_status("1");
+//                            }
+//
+//                            recordDetailRepositoty.save(detail2);
+//                            map.put("status","1");
+//                            map.put("msg","扫描成功");
+//
+//                            if("1".equals(detail2.getInstall_status())){
+//
+//                                map.put("status","1");
+//                                map.put("msg","该物料已扫描");
+//                                return ResultVoUtil.success(map);
+//                            }
+//                            if("2".equals(detail2.getInstall_status())){
+//                                map.put("status","2");
+//                                map.put("msg","该物料已插入");
+//                                return ResultVoUtil.success(map);
+//                            }
+//                        }
+//                    }
+//                }
+
+//                map.put("elementList",elementList);
+//                map.put("status","4");
+//                map.put("msg","该替代料原物料不唯一，请选择要替代的原物料");
             }
             return ResultVoUtil.success(map);
         }
