@@ -9,7 +9,9 @@ import com.linln.admin.device.entity.DeviceRegularSafeResult;
 import com.linln.admin.device.enums.ResultEnum;
 import com.linln.admin.device.exception.DeviceException;
 import com.linln.admin.device.form.DeviceRegularSafeForm;
+import com.linln.admin.device.form.DeviceRegularSafeResForm;
 import com.linln.admin.device.formModel.DeviceRegularSafeEditFormModel;
+import com.linln.admin.device.resultVO.DeviceRegularSafeListResultVO;
 import com.linln.admin.device.resultVO.DeviceRegularSafeResultVO;
 import com.linln.admin.device.serviceImpl.DeviceRegularSafeContentServiceImpl;
 import com.linln.admin.device.serviceImpl.DeviceRegularSafeResultServiceImpl;
@@ -100,9 +102,24 @@ public class DeviceRegularSafeReal {
             log.error("【编辑设备定期检测内容】设备定期检测内容不存在，deviceRegularSafeEditFormModel={}", deviceRegularSafeEditFormModel.toString());
             throw new DeviceException(ResultEnum.DEVICE_REGULAR_SAFE_NOT_EXIST);
         }
+        List<DeviceRegularSafeResult> deviceRegularSafeResults = deviceRegularSafeResultService.findByTheSafeTimeAndDeviceCode(deviceRegularSafe.getThisSafeTime(), deviceRegularSafe.getDeviceCode());
+        BeanUtils.copyProperties(deviceRegularSafeEditFormModel, deviceRegularSafe);
+        if (deviceRegularSafeEditFormModel.getDeviceRegularSafeResForms() != null) {
+            int index = 0;
+            for (DeviceRegularSafeResult deviceRegularSafeResult : deviceRegularSafeResults) {
+                List<DeviceRegularSafeResForm> deviceRegularSafeResForms = deviceRegularSafeEditFormModel.getDeviceRegularSafeResForms().stream().filter(e -> e.getSafeContent().equals(deviceRegularSafeResult.getSafeContent())).collect(Collectors.toList());
+                if (deviceRegularSafeResForms.size() != 0) {
+                    deviceRegularSafeResults.get(index).setSafeResult(deviceRegularSafeResForms.get(0).getSafeResult());
+                }
+                index++;
+            }
+        }
+        deviceRegularSafeService.saveDeviceRegularSafe(deviceRegularSafe);
+        deviceRegularSafeResultService.saveDeviceRegularSafeResults(deviceRegularSafeResults);
     }
 
-    public List<DeviceRegularSafeResultVO> getDeviceRegularSafes(Specification<DeviceRegularSafe> Specification, Pageable pageable){
+    public DeviceRegularSafeListResultVO getDeviceRegularSafes(Specification<DeviceRegularSafe> Specification, Pageable pageable){
+        DeviceRegularSafeListResultVO deviceRegularSafeListResultVO = new DeviceRegularSafeListResultVO();
         List<DeviceRegularSafeResultVO> deviceRegularSafeResultVOS = new ArrayList<>();
         Page<DeviceRegularSafe> deviceRegularSafePage = deviceRegularSafeService.getDeviceRegularSafes(Specification, pageable);
         for (DeviceRegularSafe deviceRegularSafe : deviceRegularSafePage.getContent()){
@@ -118,6 +135,8 @@ public class DeviceRegularSafeReal {
             deviceRegularSafeResultVO.setDeviceRegularSafeResVOS(deviceRegularSafeResVOS);
             deviceRegularSafeResultVOS.add(deviceRegularSafeResultVO);
         }
-        return deviceRegularSafeResultVOS;
+        deviceRegularSafeListResultVO.setTotal(deviceRegularSafePage.getTotalElements());
+        deviceRegularSafeListResultVO.setDeviceRegularSafeResultVOS(deviceRegularSafeResultVOS);
+        return deviceRegularSafeListResultVO;
     }
 }

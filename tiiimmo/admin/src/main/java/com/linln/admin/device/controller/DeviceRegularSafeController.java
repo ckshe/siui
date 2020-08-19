@@ -7,6 +7,7 @@ import com.linln.admin.device.form.DeviceRegularSafeForm;
 import com.linln.admin.device.form.DeviceRegularSafeListForm;
 import com.linln.admin.device.formModel.DeviceRegularSafeEditFormModel;
 import com.linln.admin.device.realization.DeviceRegularSafeReal;
+import com.linln.admin.device.resultVO.DeviceRegularSafeListResultVO;
 import com.linln.admin.device.resultVO.DeviceRegularSafeResultVO;
 import com.linln.admin.device.resultVO.ResultVO;
 import com.linln.admin.device.utils.ResultVOUtil;
@@ -78,7 +79,7 @@ public class DeviceRegularSafeController {
             }
             return predicate;
         };
-        List<DeviceRegularSafeResultVO>  deviceRegularSafeResultVOS = deviceRegularSafeReal.getDeviceRegularSafes(Specification, pageable);
-        return ResultVOUtil.success(deviceRegularSafeResultVOS);
+        DeviceRegularSafeListResultVO deviceRegularSafeListResultVO = deviceRegularSafeReal.getDeviceRegularSafes(Specification, pageable);
+        return ResultVOUtil.success(deviceRegularSafeListResultVO);
     }
 }

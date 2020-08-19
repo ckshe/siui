@@ -197,7 +197,11 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
                     }
                     detailDevice.setProcess_task_code(processTaskCode);
                     detailDevice.setPlan_day_time(detail.getPlan_day_time());
-                    detailDevice.setDevice_detail_status("已下达");
+                    if(detailDevice.getDevice_detail_status()!=null&&!detailDevice.equals("")){
+
+                    }else {
+                        detailDevice.setDevice_detail_status("已下达");
+                    }
                 }
                 processTaskDetailDeviceRepository.saveAll(detail.getDetailDeviceList());
             }
