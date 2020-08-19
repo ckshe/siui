@@ -81,6 +81,8 @@
                                                     window.location.reload();
                                                 },1000)
                                             }else{
+                                                $('#codeBox').val("")
+                                                $('#codeBox').focus();
                                                 layer.alert(res2.msg,{icon:5})
                                             }
 
