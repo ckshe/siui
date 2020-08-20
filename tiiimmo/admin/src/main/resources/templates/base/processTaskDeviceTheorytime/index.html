@@ -71,7 +71,7 @@
                         <th>理论工时</th>
                         <th>实际工时</th>
                         <th>开始时间</th>
-                        <th>稼动率</th>
+                        <th>稼动率(%)</th>
                         <!--<th>创建时间</th>-->
                         <!--<th>数据状态</th>-->
                         <th>操作</th>
@@ -89,7 +89,7 @@
                         <td th:text="${item.theory_time}" id="theoryTime">理论工时</td>
                         <td th:text="${item.work_time}" id="workTime">实际工时</td>
                         <td th:text="${item.start_time}">开始时间</td>
-                        <td th:text="${item.amount}*${item.theory_time}/${item.work_time}" id="cropRate">稼动率</td>
+                        <td th:text="${item.amount}*${item.theory_time}/${item.work_time}*100" id="cropRate">稼动率(%)</td>
                         <!--<script>
                             var num=parseFloat($("#num").value);
                             var theoryTime=parseFloat($("#theoryTime").value);
