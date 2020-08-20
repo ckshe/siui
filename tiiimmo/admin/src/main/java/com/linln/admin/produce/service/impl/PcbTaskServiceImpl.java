@@ -203,7 +203,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             String pcb_id = param.getString("FPCBModel");
             //工单状态
             String pcb_task_status = param.getString("FStatus");
-            if(!pcb_id.contains("DCY2.90")){
+            if(!pcb_id.contains("DCY2.90")&&!pcb_id.contains("DCY5")){
+                continue;
+            }
+            if("结案".equals(pcb_task_status)){
                 continue;
             }
             //这里需要匹配是否已同步过的
@@ -2117,8 +2120,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             if(nowfinish.equals(processTask.getPcb_quantity())){
                 Date finishTime = new Date();
                 processTask.setFinish_time(finishTime);
+
                 BigDecimal workTime = DateUtil.differTwoDate(finishTime,processTask.getStart_time());
-                processTask.setWork_time(workTime);
+                //processTask.setWork_time(workTime);
                 processTask.setProcess_task_status("已完成");
                 //重新计数
                 List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(processTask.getProcess_task_code());
