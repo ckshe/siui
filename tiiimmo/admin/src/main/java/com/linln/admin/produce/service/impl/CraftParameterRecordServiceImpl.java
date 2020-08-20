@@ -21,6 +21,7 @@ import com.linln.modules.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -76,8 +77,35 @@ public class CraftParameterRecordServiceImpl implements CraftParameterRecordServ
 
 
     @Override
-    public ResultVo findCraftParameterRecordByProcessTaskCode(String processTaskCode) {
-        List<CraftParameterRecord> recordlist = craftParameterRecordRepository.findByProcess_task_code(processTaskCode);
+    public ResultVo findCraftParameterRecordByProcessTaskCode(CraftParameterRecordReq recordReq) {
+        ProcessTask processTask = processTaskRepository.findByProcessTaskCode(recordReq.getProcessTaskCode());
+        List<CraftParameterRecord> recordlist = craftParameterRecordRepository.findByProcess_task_code(recordReq.getProcessTaskCode());
+        if(recordlist==null||recordlist.size()==0){
+            List<DeviceCraftParameter> paramList = deviceCraftParameterRepository.findByDevice_code(recordReq.getDeviceCode());
+            String deviceParam = "|";
+            for(DeviceCraftParameter parameter : paramList){
+                deviceParam = deviceParam+parameter.getCraft()+": 0"+parameter.getParameter()+"|";
+            }
+
+            Date today = new Date();
+            CraftParameterRecord record = new CraftParameterRecord();
+            //班次信息根据上机记录用户查找
+            List<UserDeviceHistory> historyList = userDeviceHistoryRepository.findOneLastOnTime(recordReq.getDeviceCode());
+            User user = userRepository.queryByUserName(historyList.get(0).getUser_name());
+            List<ProductionShift> productionShift = productionShiftRepository.findByUserid(user.getId());
+            record.setClass_info(productionShift.get(0).getShift());
+            record.setRecord_name(user.getNickname());
+            record.setCraft_param(deviceParam);
+            //数量根据工序计划查找
+            record.setPcb_task_code(processTask.getPcb_task_code());
+            //设备名称根据设备号查找
+            Device device = deviceRepository.findbyDeviceCode(recordReq.getDeviceCode());
+            record.setDevice_name(device.getDevice_name());
+            record.setRecord_time(today);
+            craftParameterRecordRepository.save(record);
+            recordlist = new ArrayList<>();
+            recordlist.add(record);
+        }
         return ResultVoUtil.success(recordlist);
     }
 

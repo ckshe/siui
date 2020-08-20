@@ -1619,13 +1619,22 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
             //工序计数方式为机台计数时
             if(pcbTaskReq.getCountType()==0){
-                //TODO
-                DeviceTheoryTime deviceTheoryTime = deviceTheoryTimeRepository.findByDevice_codeAndPcb_code(pcbTaskReq.getDeviceCode(), processTask.getPcb_code());
+
+                //DeviceTheoryTime deviceTheoryTime = deviceTheoryTimeRepository.findByDevice_codeAndPcb_code(pcbTaskReq.getDeviceCode(), processTask.getPcb_code());
+                String a_or_b = "";
+                if(processTask.getProcess_name().contains("贴片A")){
+                    a_or_b = "A";
+                }
+                if(processTask.getProcess_name().contains("贴片B")){
+                    a_or_b = "B";
+                }
+                DeviceTheoryTime deviceTheoryTime = deviceTheoryTimeRepository.findByDevice_codeAndPcb_codeAndAB(pcbTaskReq.getDeviceCode(), processTask.getPcb_code(),a_or_b);
                 if(deviceTheoryTime==null){
                     deviceTheoryTime = new DeviceTheoryTime();
                     deviceTheoryTime.setTheory_time(new BigDecimal(2.5));
                     deviceTheoryTime.setPcb_code(processTask.getPcb_code());
                     deviceTheoryTime.setDevice_code(pcbTaskReq.getDeviceCode());
+                    deviceTheoryTime.setA_or_b(a_or_b);
                     deviceTheoryTimeRepository.save(deviceTheoryTime);
                 }
                 //贴片线工序判断生成工时记录表
