@@ -407,7 +407,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         String startTime = today+" 00:00:00";
         String endTime = today+" 23:59:59";
         //List<ProcessTaskDetail> detailList = processTaskDetailRepositoty.findBetweenTime(startTime,endTime);
-        List<ProcessTask> processTaskList = processTaskRepository.findByStartEndTime(startTime, endTime);
+        List<ProcessTask> processTaskList = processTaskRepository.findTodayBetweenTime(today);
         //贴片工序任务
         List<ProcessTask> processTaskListTiepian = processTaskList.stream().filter(d-> "贴片A".equals(d.getProcess_name())||"贴片B".equals(d.getProcess_name())||"备料".equals(d.getProcess_name())||"贴片质检".equals(d.getProcess_name())).collect(Collectors.toList());
         int finish1Count = (int)processTaskListTiepian.stream().filter(d -> d.getAmount_completed()>=d.getPcb_quantity()).count();

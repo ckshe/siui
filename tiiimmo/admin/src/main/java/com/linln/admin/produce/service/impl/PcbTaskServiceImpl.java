@@ -1619,6 +1619,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
             //工序计数方式为机台计数时
             if(pcbTaskReq.getCountType()==0){
+                //TODO
                 DeviceTheoryTime deviceTheoryTime = deviceTheoryTimeRepository.findByDevice_codeAndPcb_code(pcbTaskReq.getDeviceCode(), processTask.getPcb_code());
                 if(deviceTheoryTime==null){
                     deviceTheoryTime = new DeviceTheoryTime();
