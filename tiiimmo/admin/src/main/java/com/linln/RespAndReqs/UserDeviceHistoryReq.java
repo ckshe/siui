@@ -26,4 +26,9 @@ public class UserDeviceHistoryReq {
     private Integer page;
 
     private Integer size;
+
+    private Date upStartTime;
+    private Date upFinishTime;
+    private Date downStartTime;
+    private Date downFinishTime;
 }

@@ -37,6 +37,18 @@
                     </div>
                 </div>
                 <div class="layui-inline">
+                    <label class="layui-form-label">上机时间</label>
+                    <div class="layui-input-block">
+                        <input id="upTime" type="text" name="upTime" placeholder="选择上机时间" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">下机时间</label>
+                    <div class="layui-input-block">
+                        <input id="downTime" type="text" name="downTime" placeholder="选择下机时间" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
                     <button class="layui-btn" id="search"  type="button" lay-submit lay-filter="search">
                         <i class="fa fa-search"></i>
                     </button>
@@ -71,7 +83,7 @@
                 statusCode: 200
             }
             ,page: true
-            ,limit:10
+            ,limit:20
             ,parseData: function(res){
 
                 return {
@@ -99,14 +111,28 @@
             data.deviceCode=obj.field.deviceCode;
             data.processTaskCode=obj.field.processTaskCode;
             data.userName=obj.field.userName;
+            data.upStartTime=obj.field.upTime.length>0?obj.field.upTime.split(' ~ ')[0]:"";
+            data.upFinishTime=obj.field.upTime.length>0?obj.field.upTime.split(' ~ ')[1]:"";
+            data.downStartTime=obj.field.downTime.length>0?obj.field.downTime.split(' ~ ')[0]:"";
+            data.downFinishTime=obj.field.downTime.length>0?obj.field.downTime.split(' ~ ')[1]:"";
             table.reload('table',{
                 where:data
             })
+        });
+        laydate.render({
+            elem: '#upTime',
+            range: "~"
+        });
+        laydate.render({
+            elem: '#downTime',
+            range: "~"
         });
 
         new Enter('deviceCode',function () {$('#search').click()});
         new Enter('processTaskCode',function () {$('#search').click()});
         new Enter('userName',function () {$('#search').click()});
+        new Enter('upTime',function () {$('#search').click()});
+        new Enter('downTime',function () {$('#search').click()});
 
     })
 </script>

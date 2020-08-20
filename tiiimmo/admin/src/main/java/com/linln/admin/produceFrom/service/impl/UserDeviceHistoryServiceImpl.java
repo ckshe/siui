@@ -4,10 +4,12 @@ import com.linln.RespAndReqs.UserDeviceHistoryReq;
 import com.linln.admin.produceFrom.service.UserDeviceHistoryService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
+import com.linln.utill.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +25,12 @@ public class UserDeviceHistoryServiceImpl implements UserDeviceHistoryService {
         String deviceCode = req.getDeviceCode(); // 设备编号
         String processTaskCode = req.getProcessTaskCode(); // 工序任务号
         String userName = req.getUserName();
+        Date upStartTime = req.getUpStartTime();
+        Date upFinishTime = req.getUpFinishTime();
+        Date downStartTime = req.getDownStartTime();
+        Date downFinishTime = req.getDownFinishTime();
+
+
         // 页数和页面大小为空时,设置默认值
         if(page == null||size == null){
             page = 1;
@@ -45,6 +53,31 @@ public class UserDeviceHistoryServiceImpl implements UserDeviceHistoryService {
                     "%" + userName + "%" +
                     "' ");
         }
+
+        if(upStartTime!=null&&!"".equals(upStartTime)&&upFinishTime!=null&&!"".equals(upFinishTime)){
+            String startTimeString = DateUtil.date2String(upStartTime,"yyyy-MM-dd") + " 00:00:00";
+            String endTimeString = DateUtil.date2String(upFinishTime,"yyyy-MM-dd") + " 23:59:59";
+            //startTimeString.substring(0,10);
+            wheresql.append(" and up_time >= '" +
+                    startTimeString  +
+                    "' and up_time <= '" +
+                    endTimeString +
+                    "'");
+
+        }
+        if(downStartTime!=null&&!"".equals(downStartTime)&&downFinishTime!=null&&!"".equals(downFinishTime)){
+            String startTimeString = DateUtil.date2String(downStartTime,"yyyy-MM-dd") + " 00:00:00";
+            String endTimeString = DateUtil.date2String(downFinishTime,"yyyy-MM-dd") + " 23:59:59";
+            //startTimeString.substring(0,10);
+            wheresql.append(" and down_time >= '" +
+                    startTimeString  +
+                    "' and down_time <= '" +
+                    endTimeString +
+                    "'");
+
+        }
+
+
 
         StringBuffer sql = new StringBuffer("select  *\n" +
                 "                from (select row_number()\n" +
