@@ -35,29 +35,34 @@ public class windowPadController {
 
     @GetMapping("/scancalc")
     public String scancalc(){return "/windowPad/scancalc/scancalc";}
-
+//系统设置
     @GetMapping("/systemSet")
     public String systemSet(){
         return "/windowPad/systemSet/systemSet";
     }
-
+//    设备参数
     @GetMapping("/device")
     public String device(){
         return "/windowPad/device";
     }
-
+//物料明细
     @GetMapping("/materiel")
     public String materiel(){
         return "/windowPad/materiel";
     }
-
+// 显示PDF
     @GetMapping("/showPDF")
     public String showPDF(){
         return "/windowPad/showPDF";
     }
-
-    @GetMapping("/maintenance")
+//    历史记录
+    @GetMapping("/history")
     public String history(){
+        return "/windowPad/history";
+    }
+//    设备维护
+    @GetMapping("/maintenance")
+    public String maintenance(){
         return "/windowPad/maintenance";
     }
 
