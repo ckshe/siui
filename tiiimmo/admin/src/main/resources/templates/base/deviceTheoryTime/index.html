@@ -61,6 +61,7 @@
                         <th>规格型号</th>
                         <th>机台编号</th>
                         <th>理论工时</th>
+                        <th>AD面</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -72,6 +73,7 @@
                         <td th:text="${item.pcb_code}">规格型号</td>
                         <td th:text="${item.device_code}">机台编号</td>
                         <td th:text="${item.theory_time}">理论工时</td>
+                        <td th:text="${item.a_or_b}">AB面</td>
                         <td>
                             <a class="open-popup" data-title="编辑设备理论工时" th:attr="data-url=@{'/base/deviceTheoryTime/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
                             <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/base/deviceTheoryTime/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>

@@ -117,4 +117,8 @@ public class TestRecordController {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
     }
+    @GetMapping("/detail")
+    public String distributionDetail() {
+        return "/maintenance/testRecord/detail";
+    }
 }

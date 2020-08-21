@@ -85,8 +85,8 @@
                 ,page: true
                 ,limit:20
                 ,where:{
-                    startTime: timeToDate(new Date(),true),
-                    finishTime:timeToDate(new Date(),true),
+                    startTime: timeToDate(new Date(),true).trim(),
+                    finishTime:timeToDate(new Date(),true).trim(),
                 }
                 ,parseData: function(res){
                     // var page = this.page.curr;

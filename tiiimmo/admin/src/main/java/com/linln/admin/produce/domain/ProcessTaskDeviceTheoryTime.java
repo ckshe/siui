@@ -18,22 +18,22 @@ public class ProcessTaskDeviceTheoryTime {
 
     private Byte status = StatusEnum.OK.getCode();
 
-    private String process_task_code;
+    private String processTaskCode;
 
-    private String pcb_code;
+    private String pcbCode;
 
-    private String device_code;
+    private String deviceCode;
 
     private Integer amount;
 
-    private BigDecimal work_time;
+    private BigDecimal workTime;
 
-    private BigDecimal theory_time;
+    private BigDecimal theoryTime;
 
-    private String utilization_rate;
+    private String utilizationRate;
 
-    private Date create_time;
+    private Date createTime;
 
-    private Date start_time;
+    private Date startTime;
 
 }

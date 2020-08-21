@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${processTaskDeviceTheorytime.id}"></td>
+                    <th>机台编号</th>
+                    <td th:text="${processTaskDeviceTheorytime.deviceCode}"></td>
+                </tr>
+                <tr>
+                    <th>物料编号</th>
+                    <td th:text="${processTaskDeviceTheorytime.pcbCode}"></td>
+                    <th>工序任务号</th>
+                    <td th:text="${processTaskDeviceTheorytime.processTaskCode}"></td>
+                </tr>
+                <tr>
+                    <th>数量</th>
+                    <td th:text="${processTaskDeviceTheorytime.amount}"></td>
+                    <th>理论工时</th>
+                    <td th:text="${processTaskDeviceTheorytime.theoryTime}"></td>
+                </tr>
+                <tr>
+                    <th>实际工时</th>
+                    <td th:text="${processTaskDeviceTheorytime.workTime}"></td>
+                    <th>开始时间</th>
+                    <td th:text="${processTaskDeviceTheorytime.startTime}"></td>
+                </tr>
+                <!--<tr>
+                    <th>创建时间</th>
+                    <td th:text="${processTaskDeviceTheorytime.createTime}" colspan="3"></td>
+                </tr>-->
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

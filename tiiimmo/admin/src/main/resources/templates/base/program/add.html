@@ -9,7 +9,6 @@
         <div class="layui-form-item">
             <label class="layui-form-label">设备编号</label>
             <div class="layui-input-inline">
-                <!--<input class="layui-input" type="text" name="code" placeholder="请输入设备编号" th:value="${program?.code}">-->
                 <input type="hidden" id="codeValue" th:value="${program?.code}">
                 <select name="code" id="code"></select>
             </div>
@@ -52,7 +51,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">修改日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" id="time" name="modifyDate" placeholder="请输入修改日期" th:value="${program?.modifyDate}">
+                <input class="layui-input" type="text" id="time" name="modifyDate" placeholder="请输入修改日期" th:value="${#dates.format(program?.modifyDate, 'yyyy-MM-dd HH:mm:ss')}">
             </div>
         </div>
         <div class="layui-form-item">

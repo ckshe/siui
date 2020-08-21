@@ -9,31 +9,31 @@
         <div class="layui-form-item">
             <label class="layui-form-label">点检日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="checkData" placeholder="请输入点检日期" th:value="${spotCheck?.checkData}">
+            <input class="layui-input" type="text" id="checkData" autocomplete="off" name="checkData" placeholder="请输入点检日期" th:value="${#dates.format(spotCheck?.checkData, 'yyyy-MM-dd HH:mm:ss')}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">点检设备</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="checkDevice" placeholder="请输入点检设备" th:value="${spotCheck?.checkDevice}">
+                <input class="layui-input" type="text" name="checkDevice" autocomplete="off" placeholder="请输入点检设备" th:value="${spotCheck?.checkDevice}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">点检人</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="checkUser" placeholder="请输入点检人" th:value="${spotCheck?.checkUser}">
+                <input class="layui-input" type="text" name="checkUser" autocomplete="off" placeholder="请输入点检人" th:value="${spotCheck?.checkUser}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">点检内容</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="checkContent" placeholder="请输入点检内容" th:value="${spotCheck?.checkContent}">
+                <input class="layui-input" type="text" name="checkContent" autocomplete="off" placeholder="请输入点检内容" th:value="${spotCheck?.checkContent}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">点检结果</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="checkResult" placeholder="请输入点检结果" th:value="${spotCheck?.checkResult}">
+                <input class="layui-input" type="text" name="checkResult" autocomplete="off" placeholder="请输入点检结果" th:value="${spotCheck?.checkResult}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -49,5 +49,19 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#checkData",
+                type:'datetime',
+                trigger:'click'
+            });
+
+        })
+    </script>
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.linln.admin.produce.domain;
 
 import com.linln.common.enums.StatusEnum;
 import lombok.Data;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -41,4 +42,7 @@ public class CraftParameterRecord {
     private Date record_time;
 
     private Date qc_time;
+
+    @Transient
+    private String cardSequence;
 }

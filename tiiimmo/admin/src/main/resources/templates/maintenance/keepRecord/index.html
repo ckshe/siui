@@ -73,7 +73,7 @@
                         <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
                             <i class="layui-icon layui-icon-ok"></i></label></td>
                         <td th:text="${item.id}">主键ID</td>
-                        <td th:text="${item.keepDate}">保养日期</td>
+                        <td th:text="${#dates.format(item.keepDate, 'yyyy-MM-dd HH:mm:ss')}">保养日期</td>
                         <td th:text="${item.keepDevice}">保养设备</td>
                         <td th:text="${item.keepUser}">保养人</td>
                         <td th:text="${item.keepContent}">保养内容</td>

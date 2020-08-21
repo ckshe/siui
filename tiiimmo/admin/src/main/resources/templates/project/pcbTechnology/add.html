@@ -9,61 +9,61 @@
         <div class="layui-form-item">
             <label class="layui-form-label">更改记录编码</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="pcb_technology_code" placeholder="请输入更改记录编码" th:value="${pcbTechnology?.pcb_technology_code}">
+                <input class="layui-input" type="text" name="pcb_technology_code" autocomplete="off" placeholder="请输入更改记录编码" th:value="${pcbTechnology?.pcb_technology_code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">pcb编码</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="pcb_code" placeholder="请输入pcb编码" th:value="${pcbTechnology?.pcb_code}">
+                <input class="layui-input" type="text" name="pcb_code" autocomplete="off" placeholder="请输入pcb编码" th:value="${pcbTechnology?.pcb_code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">pcb版本</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="pcb_version" placeholder="请输入pcb版本" th:value="${pcbTechnology?.pcb_version}">
+                <input class="layui-input" type="text" name="pcb_version" autocomplete="off" placeholder="请输入pcb版本" th:value="${pcbTechnology?.pcb_version}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">生效时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="work_time" placeholder="请输入生效时间" th:value="${pcbTechnology?.work_time}">
+                <input class="layui-input" id="work_time" type="text" name="work_time" autocomplete="off" placeholder="请输入生效时间" th:value="${#dates.format(pcbTechnology?.work_time, 'yyyy-MM-dd HH:mm:ss')}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">更改类型</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="change_type" placeholder="请输入更改类型" th:value="${pcbTechnology?.change_type}">
+                <input class="layui-input" type="text" name="change_type" autocomplete="off" placeholder="请输入更改类型" th:value="${pcbTechnology?.change_type}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">更改内容</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="change_msg" placeholder="请输入更改内容" th:value="${pcbTechnology?.change_msg}">
+                <input class="layui-input" type="text" name="change_msg" autocomplete="off" placeholder="请输入更改内容" th:value="${pcbTechnology?.change_msg}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">更改结果</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="change_result" placeholder="请输入更改结果" th:value="${pcbTechnology?.change_result}">
+                <input class="layui-input" type="text" name="change_result" autocomplete="off" placeholder="请输入更改结果" th:value="${pcbTechnology?.change_result}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">审批人</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="check_user" placeholder="请输入审批人" th:value="${pcbTechnology?.check_user}">
+                <input class="layui-input" type="text" name="check_user" autocomplete="off" placeholder="请输入审批人" th:value="${pcbTechnology?.check_user}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">更改人</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="change_user" placeholder="请输入更改人" th:value="${pcbTechnology?.change_user}">
+                <input class="layui-input" type="text" name="change_user" autocomplete="off" placeholder="请输入更改人" th:value="${pcbTechnology?.change_user}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">生效人</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="work_user" placeholder="请输入生效人" th:value="${pcbTechnology?.work_user}">
+                <input class="layui-input" type="text" name="work_user" autocomplete="off" placeholder="请输入生效人" th:value="${pcbTechnology?.work_user}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -79,5 +79,19 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#work_time",
+                type:'datetime',
+                trigger:'click'
+            });
+
+        })
+    </script>
 </body>
 </html>

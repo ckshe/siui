@@ -1279,34 +1279,34 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     ProcessTask p = processTaskRepository.findByProcessTaskCode(taskcode);
                     deviceTheoryTime = new ProcessTaskDeviceTheoryTime();
                     deviceTheoryTime.setAmount(0);
-                    deviceTheoryTime.setCreate_time(today);
-                    deviceTheoryTime.setDevice_code(taskDevice.getDevice_code());
-                    deviceTheoryTime.setPcb_code(p.getPcb_code());
-                    deviceTheoryTime.setProcess_task_code(taskcode);
-                    deviceTheoryTime.setUtilization_rate("0");
-                    deviceTheoryTime.setWork_time(BigDecimal.ZERO);
-                    deviceTheoryTime.setTheory_time(new BigDecimal(2.5));
+                    deviceTheoryTime.setCreateTime(today);
+                    deviceTheoryTime.setDeviceCode(taskDevice.getDevice_code());
+                    deviceTheoryTime.setPcbCode(p.getPcb_code());
+                    deviceTheoryTime.setProcessTaskCode(taskcode);
+                    deviceTheoryTime.setUtilizationRate("0");
+                    deviceTheoryTime.setWorkTime(BigDecimal.ZERO);
+                    deviceTheoryTime.setTheoryTime(new BigDecimal(2.5));
                     processTaskDeviceTheoryTimeRepository.save(deviceTheoryTime);
 
                 }
                 //if(taskDevice.getAmount()== deviceTheoryTime.getAmount()+1){
                 if(deviceSet.contains(taskDevice.getDevice_code())){
-                    if(deviceTheoryTime.getStart_time()!=null){
-                        BigDecimal workTime = (new BigDecimal((today.getTime() - deviceTheoryTime.getStart_time().getTime()))).divide(new BigDecimal((1000*60)),2,BigDecimal.ROUND_HALF_UP);
+                    if(deviceTheoryTime.getStartTime()!=null){
+                        BigDecimal workTime = (new BigDecimal((today.getTime() - deviceTheoryTime.getStartTime().getTime()))).divide(new BigDecimal((1000*60)),2,BigDecimal.ROUND_HALF_UP);
                         if(workTime.compareTo(new BigDecimal(60))<0){
-                            deviceTheoryTime.setWork_time(deviceTheoryTime.getWork_time().add(workTime.setScale(2, BigDecimal.ROUND_HALF_UP)) );
-                            deviceTheoryTime.setStart_time(today);
+                            deviceTheoryTime.setWorkTime(deviceTheoryTime.getWorkTime().add(workTime.setScale(2, BigDecimal.ROUND_HALF_UP)) );
+                            deviceTheoryTime.setStartTime(today);
                             deviceTheoryTime.setAmount(deviceTheoryTime.getAmount()+1);
                             processTaskDeviceTheoryTimeRepository.save(deviceTheoryTime);
                         }
                     }
-                    deviceTheoryTime.setStart_time(null);
+                    deviceTheoryTime.setStartTime(null);
                     processTaskDeviceTheoryTimeRepository.save(deviceTheoryTime);
                     if(i!=taskDevicelList.size()-1){
                         String nextDeviceCode = taskDevicelList.get(i+1).getDevice_code();
                         ProcessTaskDeviceTheoryTime next = processTaskDeviceTheoryTimeRepository.findByProcess_task_codeAndDevice_code(taskcode, nextDeviceCode);
                         if(deviceTheoryTime.getAmount()==next.getAmount()+1){
-                            next.setStart_time(today);
+                            next.setStartTime(today);
                             processTaskDeviceTheoryTimeRepository.save(next);
                         }
                     }
@@ -1314,11 +1314,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                         String lastDeviceCode = taskDevicelList.get(i-1).getDevice_code();
                         ProcessTaskDeviceTheoryTime last = processTaskDeviceTheoryTimeRepository.findByProcess_task_codeAndDevice_code(taskcode, lastDeviceCode);
                         if(deviceTheoryTime.getAmount()<last.getAmount()){
-                            deviceTheoryTime.setStart_time(today);
+                            deviceTheoryTime.setStartTime(today);
                             processTaskDeviceTheoryTimeRepository.save(deviceTheoryTime);
                         }
                     }else {
-                        deviceTheoryTime.setStart_time(today);
+                        deviceTheoryTime.setStartTime(today);
                         processTaskDeviceTheoryTimeRepository.save(deviceTheoryTime);
                     }
                 }
@@ -1619,13 +1619,22 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
             //工序计数方式为机台计数时
             if(pcbTaskReq.getCountType()==0){
-                //TODO
-                DeviceTheoryTime deviceTheoryTime = deviceTheoryTimeRepository.findByDevice_codeAndPcb_code(pcbTaskReq.getDeviceCode(), processTask.getPcb_code());
+
+                //DeviceTheoryTime deviceTheoryTime = deviceTheoryTimeRepository.findByDevice_codeAndPcb_code(pcbTaskReq.getDeviceCode(), processTask.getPcb_code());
+                String a_or_b = "";
+                if(processTask.getProcess_name().contains("贴片A")){
+                    a_or_b = "A";
+                }
+                if(processTask.getProcess_name().contains("贴片B")){
+                    a_or_b = "B";
+                }
+                DeviceTheoryTime deviceTheoryTime = deviceTheoryTimeRepository.findByDevice_codeAndPcb_codeAndAB(pcbTaskReq.getDeviceCode(), processTask.getPcb_code(),a_or_b);
                 if(deviceTheoryTime==null){
                     deviceTheoryTime = new DeviceTheoryTime();
                     deviceTheoryTime.setTheory_time(new BigDecimal(2.5));
                     deviceTheoryTime.setPcb_code(processTask.getPcb_code());
                     deviceTheoryTime.setDevice_code(pcbTaskReq.getDeviceCode());
+                    deviceTheoryTime.setA_or_b(a_or_b);
                     deviceTheoryTimeRepository.save(deviceTheoryTime);
                 }
                 //贴片线工序判断生成工时记录表
@@ -1637,13 +1646,13 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     for(int i = 0 ;i<deviceCodes.length;i++){
                         ProcessTaskDeviceTheoryTime theoryTime = new ProcessTaskDeviceTheoryTime();
                         theoryTime.setAmount(0);
-                        theoryTime.setCreate_time(today);
-                        theoryTime.setDevice_code(deviceCodes[i]);
-                        theoryTime.setPcb_code(processTask.getPcb_code());
-                        theoryTime.setProcess_task_code(processTask.getProcess_task_code());
-                        theoryTime.setUtilization_rate("0");
-                        theoryTime.setWork_time(BigDecimal.ZERO);
-                        theoryTime.setTheory_time(deviceTheoryTime.getTheory_time());
+                        theoryTime.setCreateTime(today);
+                        theoryTime.setDeviceCode(deviceCodes[i]);
+                        theoryTime.setPcbCode(processTask.getPcb_code());
+                        theoryTime.setProcessTaskCode(processTask.getProcess_task_code());
+                        theoryTime.setUtilizationRate("0");
+                        theoryTime.setWorkTime(BigDecimal.ZERO);
+                        theoryTime.setTheoryTime(deviceTheoryTime.getTheory_time());
                         theoryTimeRecord.add(theoryTime);
                     }
                     processTaskDeviceTheoryTimeRepository.saveAll(theoryTimeRecord);

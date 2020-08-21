@@ -13,4 +13,6 @@ public class CraftParameterRecordReq {
 
     //员工编号
     private String cardSequence;
+
+    private String deviceCode;
 }

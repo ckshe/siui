@@ -39,7 +39,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">出厂日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" id="time" type="text" name="productionDate" placeholder="请输入出厂日期" th:value="${solder?.productionDate}">
+                <input class="layui-input" id="time" type="text" name="productionDate" placeholder="请输入出厂日期" th:value="${#dates.format(solder?.productionDate, 'yyyy-MM-dd HH:mm:ss')}">
             </div>
         </div>
         <div class="layui-form-item">

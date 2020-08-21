@@ -117,8 +117,8 @@
                         <td th:text="${item.belong_process}">所属工序</td>
                         <td th:text="${item.mac}">Mac</td>
                         <td th:text="${item.device_model}">设备型号</td>
-                        <td th:text="${item.last_check_time}">上次检测时间</td>
-                        <td th:text="${item.next_check_time}">下次检测时间</td>
+                        <td th:text="${#dates.format(item.last_check_time, 'yyyy-MM-dd HH:mm:ss')}">上次检测时间</td>
+                        <td th:text="${#dates.format(item.next_check_time, 'yyyy-MM-dd HH:mm:ss')}">下次检测时间</td>
                         <td th:text="${item.year}">年限</td>
                         <td th:text="${item.use_book}">操作说明书</td>
                         <td th:text="${item.work_book}">作业说明书</td>

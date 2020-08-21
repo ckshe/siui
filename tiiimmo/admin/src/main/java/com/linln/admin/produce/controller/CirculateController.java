@@ -44,7 +44,7 @@ public class CirculateController {
     @PostMapping("/findCraftParameterRecordByProcessTaskCode")
     @ResponseBody
     public ResultVo findCraftParameterRecordByProcessTaskCode(@RequestBody CraftParameterRecordReq req){
-        return craftParameterRecordService.findCraftParameterRecordByProcessTaskCode(req.getProcessTaskCode());
+        return craftParameterRecordService.findCraftParameterRecordByProcessTaskCode(req);
     }
 
     //流通表的设备工序工艺参数记录质检

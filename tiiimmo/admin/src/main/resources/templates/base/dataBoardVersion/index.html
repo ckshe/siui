@@ -62,7 +62,7 @@
                         <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
                             <i class="layui-icon layui-icon-ok"></i></label></td>
                         <td th:text="${item.versionNo}">版本号</td>
-                        <td th:text="${item.changeDate}">变更日期</td>
+                        <td th:text="${#dates.format(item.changeDate, 'yyyy-MM-dd HH:mm:ss')}">变更日期</td>
                         <td th:text="${item.versionExplain}">版本说明</td>
                         <td>
                             <a class="open-popup" data-title="编辑看板版本说明" th:attr="data-url=@{'/base/dataBoardVersion/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>

@@ -1,51 +1,269 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>下达工站</title>
+    <meta name="Description" content="基于layUI数据表格操作" />
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+    <link rel="stylesheet" href="../../css/windowPad/scancalc.css">
+    <style type="text/css">
+        .layui-form-switch {
+            width: 55px;
+        }
+
+        .layui-form-switch em {
+            width: 40px;
+        }
+
+        .layui-form-item {
+            margin-bottom: 0;
+        }
+
+        body {
+            overflow-y: scroll;
+        }
+
+        tr td:nth-child(1) .layui-table-cell {
+            overflow: initial !important;
+            padding: 0 !important;
+        }
+
+
+        .layui-input,
+        .layui-select {
+            height: 36px !important;
+            padding-left: 0;
+        }
+
+        .layui-form-selected dl {
+            top: initial !important;
+        }
+
+        .layui-form-item {
+            display: inline-block !important;
+            width: 33%;
+        }
+
+        .layui-form {
+            position: relative;
+            padding: 10px 15px;
+
+        }
+
+        .layui-form-label {
+            width: 150px !important;
+            padding: 5px;
+        }
+
+        .layui-form-item .layui-input-inline {
+            float: left;
+            width: 130px;
+            margin-right: 10px;
+            padding-bottom: 10px;
+            line-height: 36px;
+            height: 36px;
+        }
+
+        .layui-table-body.layui-table-main {
+            height: auto !important;
+            width: fit-content;
+        }
+    </style>
 </head>
+
 <body>
-    <div class="timo-detail-page">
-        <div class="timo-detail-title">基本信息</div>
-        <table class="layui-table timo-detail-table">
-            <colgroup>
-                <col width="100px"><col>
-                <col width="100px"><col>
-            </colgroup>
-            <tbody>
-                <tr>
-                    <th>主键ID</th>
-                    <td th:text="${testRecord.id}"></td>
-                    <th>设备编号</th>
-                    <td th:text="${testRecord.deviceCode}"></td>
-                </tr>
-                <tr>
-                    <th>设备类型</th>
-                    <td th:text="${testRecord.deviceType}"></td>
-                    <th>设备名称</th>
-                    <td th:text="${testRecord.deviceName}"></td>
-                </tr>
-                <tr>
-                    <th>检测时间</th>
-                    <td th:text="${testRecord.testDate}" colspan="3"></td>
-                </tr>
-                <tr>
-                    <th>创建者</th>
-                    <td th:text="${testRecord.createBy?.nickname}"></td>
-                    <th>更新者</th>
-                    <td th:text="${testRecord.updateBy?.nickname}"></td>
-                </tr>
-                <tr>
-                    <th>创建时间</th>
-                    <td th:text="${#dates.format(testRecord.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <th>更新时间</th>
-                    <td th:text="${#dates.format(testRecord.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                </tr>
-                <tr>
-                    <th>备注</th>
-                    <td th:text="${testRecord.remark}" colspan="3"></td>
-                </tr>
-            </tbody>
-        </table>
+    <form>
+        <input type="hidden" name='testRecordeData'>
+    </form>
+    <div class="layui-row timo-card-screen">
+        <form class="layui-form" lay-filter="lay_form">
+            <input class="layui-input" type="hidden" name="regularSafeId" id="regularSafeId">
+            <div class="layui-form-item">
+                <label class="layui-form-label">设备名称: </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" name="deviceName" id="deviceName"
+                        disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">设备编号: </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" name="deviceCode" id="deviceCode"
+                        disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">设备使用地点: </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" name="devicePlace" id="devicePlace"
+                        disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">本次检测日期: </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" id="thisSafeTime" name="thisSafeTime"
+                        disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">上次检测日期: </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" id="lastSafeTime" name="lastSafeTime"
+                        disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">工作环境温度(℃): </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" name="temperature" id="temperature"
+                        disabled>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">检测小组成员: </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" name="safePerson" id="safePerson"
+                        disabled>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">工作环境湿度(%RH): </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" name="humidity" id="humidity" disabled>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">检测辅助工具: </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" name="safeTool" id="safeTool" disabled>
+                </div>
+            </div>
+            <hr>
+            <div>检测内容：</div>
+            <hr>
+            <table class="layui-hide" id="deviceTable" lay-filter="deviceTable"></table>
+            <div class="layui-form-item">
+                <label class="layui-form-label">软件版本及确认: </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" name="softwareVersion" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">检测结论: </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" name="result" disabled>
+                </div>
+            </div>
+            <hr>
+            <div class="layui-form-item">
+                <label class="layui-form-label">设备操作员: </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" name="deviceOperator" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">品质监督员: </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" name="qcOperator" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">检测监督员: </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" name="testOperator" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">车间负责人: </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" name="amongstPerson" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">下次检测日期：</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" autocomplete="off" type="text" id="nextSafeTime" name="nextSafeTime"
+                        disabled>
+                </div>
+            </div>
+            <hr>
+            <div class="layui-form-item timo-finally" style="width: 100%; text-align: center;">
+                <button class="layui-btn" type="button" id="closepop">
+                    关闭</button>
+            </div>
+        </form>
     </div>
-<script th:replace="/common/template :: script"></script>
+
+
+    <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+    <script src="../../js/common.js"></script>
 </body>
+<script>
+    layui.use(['table', 'jquery', 'form'], function () {
+        var table = layui.table,
+            form = layui.form,
+            $ = layui.jquery;
+        form.render();
+        var testRecordeData = JSON.parse($('[name=testRecordeData]').val())[0];
+        console.log(testRecordeData)
+        $('[name=regularSafeId]').val(testRecordeData.regularSafeId)
+        $('[name=amongstPerson]').val(testRecordeData.amongstPerson)
+        $('[name=deviceCode]').val(testRecordeData.deviceCode)
+        $('[name=deviceName]').val(testRecordeData.deviceName)
+        $('[name=deviceOperator]').val(testRecordeData.deviceOperator)
+        $('[name=devicePlace]').val(testRecordeData.devicePlace)
+        $('[name=humidity]').val(testRecordeData.humidity)
+        $('[name=lastSafeTime]').val(testRecordeData.lastSafeTime)
+        $('[name=nextSafeTime]').val(testRecordeData.nextSafeTime)
+        $('[name=qcOperator]').val(testRecordeData.qcOperator)
+        $('[name=result]').val(testRecordeData.result)
+        $('[name=safePerson]').val(testRecordeData.safePerson)
+        $('[name=safeTool]').val(testRecordeData.safeTool)
+        $('[name=softwareVersion]').val(testRecordeData.softwareVersion)
+        $('[name=temperature]').val(testRecordeData.temperature)
+        $('[name=testOperator]').val(testRecordeData.testOperator)
+        $('[name=thisSafeTime]').val(testRecordeData.thisSafeTime)
+        var tdata = [], index = 0;
+        if (testRecordeData.deviceRegularSafeResVOS) {
+            tdata = JSON.parse(JSON.stringify(testRecordeData.deviceRegularSafeResVOS));
+            tdata.forEach(function (t) { t.index = index++ });
+            setTimeout(function () {
+                table.render(tableObj);
+            }, 100)
+        }
+
+        var tableObj = {
+            elem: '#deviceTable'
+            // , height: 'full-60'
+            // , width: 'full'
+            , limit: 10000
+            , data: tdata
+            , cols: [
+                [
+                    { field: 'safeContent', title: '检测内容', minWidth: 150 }
+                    , { field: 'safeResult', title: '检测结果', minWidth: 150 }
+                    , { field: 'company', title: '单位', minWidth: 150 }
+                ]
+            ]
+        };
+        $('#closepop').on('click', function () {
+                parent.layer.closeAll()
+            });
+        setTimeout(function () {
+            table.render(tableObj);
+        }, 100)
+
+    })
+</script>
+
 </html>

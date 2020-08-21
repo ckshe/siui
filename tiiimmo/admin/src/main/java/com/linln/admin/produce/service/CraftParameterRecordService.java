@@ -9,7 +9,7 @@ public interface CraftParameterRecordService {
 
     public ResultVo findDeviceCraftParamByDeviceCode(String deviceCode);
 
-    public ResultVo findCraftParameterRecordByProcessTaskCode(String processTaskCode);
+    public ResultVo findCraftParameterRecordByProcessTaskCode(CraftParameterRecordReq req);
 
     public ResultVo qcCraftParameterRecord(CraftParameterRecordReq recordReq);
 }
