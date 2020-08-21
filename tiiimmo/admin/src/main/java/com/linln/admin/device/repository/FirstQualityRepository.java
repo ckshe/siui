@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface FirstQualityRepository extends JpaRepository<FirstQuality, Integer> {
     List<FirstQuality> findByPcbTaskCode(String pcbTaskCode);
+    List<FirstQuality> findByQualityIdIn(List<Integer> idList);
 }

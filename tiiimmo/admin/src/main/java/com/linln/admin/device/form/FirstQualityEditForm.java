@@ -1,12 +1,14 @@
-package com.linln.admin.device.VO;
+package com.linln.admin.device.form;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
-public class FirstQualityVO {
+public class FirstQualityEditForm {
+    @NotNull(message = "Id不能为空")
     private Integer qualityId;
     //生产任务单号
     private String pcbTaskCode;
@@ -27,7 +29,7 @@ public class FirstQualityVO {
     //检查人
     private String qualityPerson;
     //检查日期
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date qualityDate;
     //备注
     private String qualityRemark;
