@@ -4,6 +4,7 @@ import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.StatusUtil;
 import lombok.Data;
 import org.hibernate.annotations.Where;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -32,23 +33,25 @@ public class ProcessTaskDeviceTheorytime implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     // 机台编号
-    private String device_code;
+    private String deviceCode;
     // 物料编号
-    private String pcb_code;
+    private String pcbCode;
     // 工序任务号
-    private String process_task_code;
+    private String processTaskCode;
     // 数量
     private Integer amount;
     // 理论工时
-    private BigDecimal theory_time;
+    private BigDecimal theoryTime;
     // 实际工时
-    private String work_time;
+    private BigDecimal workTime;
+
+    private String utilizationRate;
     // 开始时间
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date start_time;
+    private Date startTime;
     // 创建时间
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date create_time;
+    private Date createTime;
     // 数据状态
     private Byte status = StatusEnum.OK.getCode();
 }

@@ -2,6 +2,7 @@ package com.linln.admin.base.validator;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
