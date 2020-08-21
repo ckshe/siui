@@ -55,6 +55,9 @@ public class CraftParameterRecordServiceImpl implements CraftParameterRecordServ
         //班次信息根据上机记录用户查找
         List<UserDeviceHistory> historyList = userDeviceHistoryRepository.findOneLastOnTime(record.getDevice_code());
         User user = userRepository.queryByUserName(historyList.get(0).getUser_name());
+        User qcuser = userRepository.findByCard_sequence(record.getCardSequence());
+        record.setFirstInspection_name(qcuser.getNickname());
+        record.setQc_time(new Date());
         List<ProductionShift> productionShift = productionShiftRepository.findByUserid(user.getId());
         record.setClass_info(productionShift.get(0).getShift());
         record.setRecord_name(user.getNickname());
@@ -82,23 +85,21 @@ public class CraftParameterRecordServiceImpl implements CraftParameterRecordServ
         List<CraftParameterRecord> recordlist = craftParameterRecordRepository.findByProcess_task_code(recordReq.getProcessTaskCode());
         if(recordlist==null||recordlist.size()==0){
             List<DeviceCraftParameter> paramList = deviceCraftParameterRepository.findByDevice_code(recordReq.getDeviceCode());
-            String deviceParam = "|";
+            String deviceParam = "";
             for(DeviceCraftParameter parameter : paramList){
-                deviceParam = deviceParam+parameter.getCraft()+": 0"+parameter.getParameter()+"|";
+                deviceParam = deviceParam+parameter.getCraft()+":@-@0@-@"+parameter.getParameter()+"@_@";
             }
+            int lastIndex = deviceParam.lastIndexOf("@_@");
+            deviceParam = deviceParam.substring(0,lastIndex);
 
             Date today = new Date();
             CraftParameterRecord record = new CraftParameterRecord();
             //班次信息根据上机记录用户查找
             List<UserDeviceHistory> historyList = userDeviceHistoryRepository.findOneLastOnTime(recordReq.getDeviceCode());
             User user = userRepository.queryByUserName(historyList.get(0).getUser_name());
-            User qcuser = userRepository.findByCard_sequence(recordReq.getCardSequence());
-
             List<ProductionShift> productionShift = productionShiftRepository.findByUserid(user.getId());
             record.setClass_info(productionShift.get(0).getShift());
             record.setRecord_name(user.getNickname());
-            record.setFirstInspection_name(qcuser.getNickname());
-            record.setQc_time(new Date());
             record.setCraft_param(deviceParam);
             //数量根据工序计划查找
             record.setPcb_task_code(processTask.getPcb_task_code());
