@@ -103,8 +103,10 @@ public class CraftParameterRecordServiceImpl implements CraftParameterRecordServ
             record.setCraft_param(deviceParam);
             //数量根据工序计划查找
             record.setPcb_task_code(processTask.getPcb_task_code());
+            record.setProcess_task_code(recordReq.getProcessTaskCode());
             //设备名称根据设备号查找
             Device device = deviceRepository.findbyDeviceCode(recordReq.getDeviceCode());
+            record.setDevice_code(recordReq.getDeviceCode());
             record.setDevice_name(device.getDevice_name());
             record.setRecord_time(today);
             craftParameterRecordRepository.save(record);
