@@ -92,9 +92,13 @@ public class CraftParameterRecordServiceImpl implements CraftParameterRecordServ
             //班次信息根据上机记录用户查找
             List<UserDeviceHistory> historyList = userDeviceHistoryRepository.findOneLastOnTime(recordReq.getDeviceCode());
             User user = userRepository.queryByUserName(historyList.get(0).getUser_name());
+            User qcuser = userRepository.findByCard_sequence(recordReq.getCardSequence());
+
             List<ProductionShift> productionShift = productionShiftRepository.findByUserid(user.getId());
             record.setClass_info(productionShift.get(0).getShift());
             record.setRecord_name(user.getNickname());
+            record.setFirstInspection_name(qcuser.getNickname());
+            record.setQc_time(new Date());
             record.setCraft_param(deviceParam);
             //数量根据工序计划查找
             record.setPcb_task_code(processTask.getPcb_task_code());
