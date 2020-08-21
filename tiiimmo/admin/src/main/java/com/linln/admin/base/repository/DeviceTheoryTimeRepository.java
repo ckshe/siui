@@ -12,4 +12,7 @@ public interface DeviceTheoryTimeRepository extends BaseRepository<DeviceTheoryT
 
     @Query(value = "select  * from base_device_theory_time where device_code =?1 and pcb_code = ?2",nativeQuery = true)
     DeviceTheoryTime findByDevice_codeAndPcb_code(String device,String pcbCode);
+
+    @Query(value = "select  * from base_device_theory_time where device_code =?1 and pcb_code = ?2 and a_or_b = ?3",nativeQuery = true)
+    DeviceTheoryTime findByDevice_codeAndPcb_codeAndAB(String device,String pcbCode,String aOrB);
 }

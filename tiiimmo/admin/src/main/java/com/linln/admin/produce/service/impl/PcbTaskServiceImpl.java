@@ -203,7 +203,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             String pcb_id = param.getString("FPCBModel");
             //工单状态
             String pcb_task_status = param.getString("FStatus");
-            if(!pcb_id.contains("DCY2.90")){
+            if(!pcb_id.contains("DCY2.90")&&!pcb_id.contains("DCY5")){
+                continue;
+            }
+            if("结案".equals(pcb_task_status)){
                 continue;
             }
             //这里需要匹配是否已同步过的
@@ -1616,12 +1619,22 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
             //工序计数方式为机台计数时
             if(pcbTaskReq.getCountType()==0){
-                DeviceTheoryTime deviceTheoryTime = deviceTheoryTimeRepository.findByDevice_codeAndPcb_code(pcbTaskReq.getDeviceCode(), processTask.getPcb_code());
+
+                //DeviceTheoryTime deviceTheoryTime = deviceTheoryTimeRepository.findByDevice_codeAndPcb_code(pcbTaskReq.getDeviceCode(), processTask.getPcb_code());
+                String a_or_b = "";
+                if(processTask.getProcess_name().contains("贴片A")){
+                    a_or_b = "A";
+                }
+                if(processTask.getProcess_name().contains("贴片B")){
+                    a_or_b = "B";
+                }
+                DeviceTheoryTime deviceTheoryTime = deviceTheoryTimeRepository.findByDevice_codeAndPcb_codeAndAB(pcbTaskReq.getDeviceCode(), processTask.getPcb_code(),a_or_b);
                 if(deviceTheoryTime==null){
                     deviceTheoryTime = new DeviceTheoryTime();
                     deviceTheoryTime.setTheory_time(new BigDecimal(2.5));
                     deviceTheoryTime.setPcb_code(processTask.getPcb_code());
                     deviceTheoryTime.setDevice_code(pcbTaskReq.getDeviceCode());
+                    deviceTheoryTime.setA_or_b(a_or_b);
                     deviceTheoryTimeRepository.save(deviceTheoryTime);
                 }
                 //贴片线工序判断生成工时记录表
@@ -2117,8 +2130,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             if(nowfinish.equals(processTask.getPcb_quantity())){
                 Date finishTime = new Date();
                 processTask.setFinish_time(finishTime);
+
                 BigDecimal workTime = DateUtil.differTwoDate(finishTime,processTask.getStart_time());
-                processTask.setWork_time(workTime);
+                //processTask.setWork_time(workTime);
                 processTask.setProcess_task_status("已完成");
                 //重新计数
                 List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(processTask.getProcess_task_code());

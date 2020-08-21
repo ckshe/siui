@@ -8,14 +8,8 @@ import com.linln.admin.base.domain.DeviceCropRate;
 import com.linln.admin.base.repository.BadNewsRepository;
 import com.linln.admin.base.repository.DeviceCropRateRepository;
 import com.linln.admin.base.repository.DeviceRepository;
-import com.linln.admin.produce.domain.PcbTask;
-import com.linln.admin.produce.domain.ProcessTask;
-import com.linln.admin.produce.domain.ProcessTaskDetail;
-import com.linln.admin.produce.domain.UserDeviceHistory;
-import com.linln.admin.produce.repository.PcbTaskRepository;
-import com.linln.admin.produce.repository.ProcessTaskDetailRepositoty;
-import com.linln.admin.produce.repository.ProcessTaskRepository;
-import com.linln.admin.produce.repository.UserDeviceHistoryRepository;
+import com.linln.admin.produce.domain.*;
+import com.linln.admin.produce.repository.*;
 import com.linln.admin.reports.service.ShowBoardService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
@@ -69,6 +63,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
     @Autowired
     private ProcessTaskDetailRepositoty processTaskDetailRepositoty;
+
+    @Autowired
+    private ProcessTaskDeviceTheoryTimeRepository  processTaskDeviceTheoryTimeRepository;
 
     @Override
     public List<PcbTask> pcbTaskBoard() {
@@ -189,6 +186,12 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         BigDecimal finish2 = new BigDecimal(allcount==0?0:finishCount);
         BigDecimal all2 = new BigDecimal(allcount==0?1:allcount);
         return finish2.divide(all2,2, RoundingMode.HALF_DOWN).multiply(new BigDecimal(100));
+    }
+
+    private BigDecimal caculateRate(BigDecimal finishCount, BigDecimal allcount) {
+        finishCount = (finishCount.compareTo(BigDecimal.ZERO)<1)?BigDecimal.ZERO:finishCount;
+        allcount = (allcount.compareTo(BigDecimal.ZERO)<1)?BigDecimal.ONE:allcount;
+        return finishCount.divide(allcount,2, RoundingMode.HALF_DOWN).multiply(new BigDecimal(100));
     }
 
     @Override
@@ -403,28 +406,37 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         String today = DateUtil.date2String(xdate,"");
         String startTime = today+" 00:00:00";
         String endTime = today+" 23:59:59";
-        List<ProcessTaskDetail> detailList = processTaskDetailRepositoty.findBetweenTime(startTime,endTime);
-       // List<ProcessTask> processTaskList = processTaskRepository.findByStartEndTime(startTime, endTime);
+        //List<ProcessTaskDetail> detailList = processTaskDetailRepositoty.findBetweenTime(startTime,endTime);
+        List<ProcessTask> processTaskList = processTaskRepository.findTodayBetweenTime(today);
         //贴片工序任务
-        List<ProcessTaskDetail> details1TiePian = detailList.stream().filter(d-> "贴片A".equals(d.getProcess_name())||"贴片B".equals(d.getProcess_name())||"备料".equals(d.getProcess_name())||"贴片质检".equals(d.getProcess_name())).collect(Collectors.toList());
+        List<ProcessTask> processTaskListTiepian = processTaskList.stream().filter(d-> "贴片A".equals(d.getProcess_name())||"贴片B".equals(d.getProcess_name())||"备料".equals(d.getProcess_name())||"贴片质检".equals(d.getProcess_name())).collect(Collectors.toList());
+        int finish1Count = (int)processTaskListTiepian.stream().filter(d -> d.getAmount_completed()>=d.getPcb_quantity()).count();
+        int all1Count = processTaskListTiepian.size()==0?1:processTaskListTiepian.size();
+       /* List<ProcessTaskDetail> details1TiePian = detailList.stream().filter(d-> "贴片A".equals(d.getProcess_name())||"贴片B".equals(d.getProcess_name())||"备料".equals(d.getProcess_name())||"贴片质检".equals(d.getProcess_name())).collect(Collectors.toList());
         int finish1Count = (int)details1TiePian.stream().filter(d -> d.getFinish_count()>=d.getPlan_count()).count();
-        int all1Count = details1TiePian.size()==0?1:details1TiePian.size();
+        int all1Count = details1TiePian.size()==0?1:details1TiePian.size();*/
        /* List<ProcessTask> processTaskListTiepian = processTaskList.stream().filter(p -> "贴片A".equals(p.getProcess_name())||"贴片B".equals(p.getProcess_name())||"备料".equals(p.getProcess_name())||"贴片质检".equals(p.getProcess_name())).collect(Collectors.toList());
         int finish1Count = (int)processTaskListTiepian.stream().filter(processTask -> "已完成".equals(processTask.getProcess_task_status())).count();
         int all1Count = processTaskListTiepian.size()==0?1:processTaskListTiepian.size();*/
         BigDecimal rate1 = caculateRate(finish1Count, all1Count);
         //后焊工序任务
-        List<ProcessTaskDetail> detailsHouhan = detailList.stream().filter(d-> "手插".equals(d.getProcess_name())||"波峰焊".equals(d.getProcess_name())||"自动焊".equals(d.getProcess_name())||"人工焊".equals(d.getProcess_name())||"后焊线".equals(d.getProcess_name())||"后焊终检".equals(d.getProcess_name())||"手插质检".equals(d.getProcess_name())).collect(Collectors.toList());
+        List<ProcessTask> processTaskListhouhan = processTaskList.stream().filter(d-> "手插".equals(d.getProcess_name())||"波峰焊".equals(d.getProcess_name())||"自动焊".equals(d.getProcess_name())||"人工焊".equals(d.getProcess_name())||"后焊线".equals(d.getProcess_name())||"后焊终检".equals(d.getProcess_name())||"手插质检".equals(d.getProcess_name())).collect(Collectors.toList());
+        int finish2Count = (int)processTaskListhouhan.stream().filter(d -> d.getAmount_completed()>=d.getPcb_quantity()).count();
+        int all2Count = processTaskListhouhan.size()==0?1:processTaskListhouhan.size();
+      /*  List<ProcessTaskDetail> detailsHouhan = detailList.stream().filter(d-> "手插".equals(d.getProcess_name())||"波峰焊".equals(d.getProcess_name())||"自动焊".equals(d.getProcess_name())||"人工焊".equals(d.getProcess_name())||"后焊线".equals(d.getProcess_name())||"后焊终检".equals(d.getProcess_name())||"手插质检".equals(d.getProcess_name())).collect(Collectors.toList());
         int finish2Count = (int)detailsHouhan.stream().filter(d -> d.getFinish_count()>=d.getPlan_count()).count();
-        int all2Count = detailsHouhan.size()==0?1:detailsHouhan.size();
+        int all2Count = detailsHouhan.size()==0?1:detailsHouhan.size();*/
       /*  List<ProcessTask> processTaskListhouhan = processTaskList.stream().filter(p -> "手插质检".equals(p.getProcess_name())||"手插".equals(p.getProcess_name())||"波峰焊".equals(p.getProcess_name())||"自动焊".equals(p.getProcess_name())||"人工焊".equals(p.getProcess_name())||"后焊终检".equals(p.getProcess_name())).collect(Collectors.toList());
         int finish2Count = (int)processTaskListhouhan.stream().filter(processTask -> "已完成".equals(processTask.getProcess_task_status())).count();
         int all2Count = processTaskListhouhan.size()==0?1:processTaskListhouhan.size();*/
         BigDecimal rate2 = caculateRate(finish2Count, all2Count);
         //调试工序任务
-        List<ProcessTaskDetail> detailsTiaoshi = detailList.stream().filter(d-> "单板调试".equals(d.getProcess_name())||"入库".equals(d.getProcess_name())).collect(Collectors.toList());
+        List<ProcessTask> processTaskListtiaoshi = processTaskList.stream().filter(d-> "单板调试".equals(d.getProcess_name())||"入库".equals(d.getProcess_name())).collect(Collectors.toList());
+        int finish3Count = (int)processTaskListtiaoshi.stream().filter(d -> d.getAmount_completed()>=d.getPcb_quantity()).count();
+        int all3Count = processTaskListtiaoshi.size()==0?1:processTaskListtiaoshi.size();
+      /*  List<ProcessTaskDetail> detailsTiaoshi = detailList.stream().filter(d-> "单板调试".equals(d.getProcess_name())||"入库".equals(d.getProcess_name())).collect(Collectors.toList());
         int finish3Count = (int)detailsTiaoshi.stream().filter(d -> d.getFinish_count()>=d.getPlan_count()).count();
-        int all3Count = detailsTiaoshi.size()==0?1:detailsTiaoshi.size();
+        int all3Count = detailsTiaoshi.size()==0?1:detailsTiaoshi.size();*/
       /*  List<ProcessTask> processTaskListtiaoshi = processTaskList.stream().filter(p -> "单板调试".equals(p.getProcess_name())).collect(Collectors.toList());
         int finish3Count = (int)processTaskListtiaoshi.stream().filter(processTask -> "已完成".equals(processTask.getProcess_task_status())).count();
         int all3Count = processTaskListtiaoshi.size()==0?1:processTaskListtiaoshi.size();*/
@@ -567,30 +579,33 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         StringBuffer processTypeSql = new StringBuffer("SELECT process_type FROM base_process GROUP BY process_type");
 
         StringBuffer processTypeUseRateSql = new StringBuffer("SELECT SUM\n" +
-                "\t( ( CASE WHEN t1.process_name = '备料' THEN 1 ELSE t1.amount_completed END ) * ISNULL( t2.theory_time, 0 ) ) sumTheoryTime,\n" +
-                "\tSUM (\n" +
-                "\tCASE\n" +
-                "\t\t\tWHEN t1.process_name = '备料' THEN ( CASE WHEN t1.process_task_status = '已完成' THEN ISNULL( t1.work_time, 0 ) ELSE 0 END ) ELSE ISNULL( t1.work_time, 0 ) \n" +
-                "\t\tEND \n" +
-                "\t\t) workTime,\n" +
-                "\t\tt3.process_type \n" +
-                "\tFROM\n" +
-                "\t\tproduce_process_task t1\n" +
-                "\t\tLEFT JOIN produce_process_theory_time t2 ON t1.process_name = t2.process_name \n" +
-                "\t\tAND t1.pcb_code = t2.pcb_code\n" +
-                "\t\tLEFT JOIN base_process t3 ON t1.process_name = t3.name \n" +
-                "\tWHERE\n" +
-                "\t\tt1.plan_finish_time >= '" +
+                "( ( CASE WHEN t1.process_name = '备料' THEN 1 ELSE t1.amount_completed END ) * ISNULL( t2.theory_time, 0 ) ) sumTheoryTime,\n" +
+                "SUM (\n" +
+                "CASE\n" +
+                "WHEN t1.process_name = '备料' THEN ( CASE WHEN t1.process_task_status = '已完成' THEN ISNULL( t1.work_time, 0 ) ELSE 0 END ) ELSE ISNULL( t1.work_time, 0 ) \n" +
+                "END \n" +
+                ") workTime,\n" +
+                "t3.process_type \n" +
+                "FROM\n" +
+                "produce_process_task t1\n" +
+                "LEFT JOIN produce_process_theory_time t2 ON t1.process_name = t2.process_name \n" +
+                "LEFT JOIN produce_process_task_detail t4 on t1.process_task_code = t4.process_task_code AND CONVERT ( VARCHAR ( 100 ), t4.plan_day_time, 23 ) = '" +
+                today +
+                "'\n" +
+                "AND t1.pcb_code = t2.pcb_code\n" +
+                "LEFT JOIN base_process t3 ON t1.process_name = t3.name \n" +
+                "WHERE\n" +
+                "t1.plan_finish_time >= '" +
                 startTime +
                 "' \n" +
-                "\t\tAND t1.plan_start_time <= '" +
+                "AND t1.plan_start_time <= '" +
                 endTime +
                 "' \n" +
-                "\t\tAND t1.process_task_status != '已下达' \n" +
-                "\t\tAND t1.process_task_status != '未下达' \n" +
+                "AND t1.process_task_status != '已下达' \n" +
+                "AND t1.process_task_status != '未下达' \n" +
+                "and t4.finish_count !=0\n" +
                 "GROUP BY\n" +
-                "\tt3.process_type\n" +
-                "\t");
+                "t3.process_type");
 
         List<Map<String, Object>> processTypeSqlList = jdbcTemplate.queryForList(processTypeSql.toString());
         List<Map<String, Object>> countStaffClassSqlList = jdbcTemplate.queryForList(countStaffClassSql.toString());
@@ -832,16 +847,19 @@ public class ShowBoardServiceImpl implements ShowBoardService {
     @Override
     public Map<String,Object>  findCropRate(String deviceCode) {
         Date date = new Date();
-        Date xdate = DateUtil.dateAddHours(date,-1);
-        String today = DateUtil.date2String(xdate,"");
-        List<DeviceCropRate> rateList = deviceCropRateRepository.findByDevice_codeAndRecord_time(deviceCode, today);
-        Map<String,Object>  map = new HashMap<>();
-        if(rateList!=null&&rateList.size()!=0){
-            map.put("cropRate",rateList.get(0).getCrop_rate());
-        }else {
-            map.put("cropRate","0");
-        }
+        List<ProcessTaskDeviceTheoryTime> deviceTheoryTimeList = processTaskDeviceTheoryTimeRepository.findByDevice_code(deviceCode);
 
+        List<ProcessTaskDeviceTheoryTime> mapList = deviceTheoryTimeList.stream().limit(10).collect(Collectors.toList());
+        BigDecimal sumWorkTime = BigDecimal.ZERO;
+        BigDecimal sumTheoryyTime = BigDecimal.ZERO;
+        for(ProcessTaskDeviceTheoryTime deviceTheoryTime : mapList){
+            sumWorkTime = sumWorkTime.add(deviceTheoryTime.getWork_time());
+            BigDecimal theoryTime = deviceTheoryTime.getTheory_time().multiply(new BigDecimal(deviceTheoryTime.getAmount()));
+            sumTheoryyTime = sumTheoryyTime.add(theoryTime);
+        }
+        BigDecimal rate = caculateRate(sumWorkTime,sumTheoryyTime);
+        Map<String,Object>  map = new HashMap<>();
+        map.put("cropRate",rate);
         return map;
     }
 

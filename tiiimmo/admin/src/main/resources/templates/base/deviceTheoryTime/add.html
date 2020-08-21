@@ -24,6 +24,12 @@
                 <input class="layui-input" type="text" name="theory_time" placeholder="请输入理论工时" th:value="${deviceTheoryTime?.theory_time}">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">AB面</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="a_or_b" placeholder="请输入AB面" th:value="${deviceTheoryTime?.a_or_b}">
+            </div>
+        </div>
         <div class="layui-form-item timo-finally">
             <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
             <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>

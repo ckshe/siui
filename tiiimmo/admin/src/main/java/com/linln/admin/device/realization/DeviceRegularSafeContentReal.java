@@ -29,25 +29,25 @@ public class DeviceRegularSafeContentReal {
     private DeviceServiceImpl deviceService;
 
     @Autowired
-    public void setDeviceRegularSafeContentService(DeviceRegularSafeContentServiceImpl deviceRegularSafeContentService){
+    public void setDeviceRegularSafeContentService(DeviceRegularSafeContentServiceImpl deviceRegularSafeContentService) {
         this.deviceRegularSafeContentService = deviceRegularSafeContentService;
     }
 
     @Autowired
-    public void setDeviceService(DeviceServiceImpl deviceService){
+    public void setDeviceService(DeviceServiceImpl deviceService) {
         this.deviceService = deviceService;
     }
 
     @Transactional
-    public void createDeviceRegularSafeContent(DeviceRegularSafeContentForm deviceRegularSafeContentForm){
+    public void createDeviceRegularSafeContent(DeviceRegularSafeContentForm deviceRegularSafeContentForm) {
         List<DeviceRegularSafeContent> deviceRegularSafeContents = deviceRegularSafeContentService.findByDeviceCodeAndDeviceRegularSafeContent(deviceRegularSafeContentForm.getDeviceCode(), deviceRegularSafeContentForm.getSafeContent());
-        if (deviceRegularSafeContents.size() != 0){
+        if (deviceRegularSafeContents.size() != 0) {
             log.error("【创建定期检测内容】该定期检测内容已存在，deviceRegularSafeContentForm={}", deviceRegularSafeContentForm.toString());
             throw new DeviceException(ResultEnum.DEVICE_REGULAR_SAFE_CONTENT_IS_EXIST);
         }
         List<Device> devices = deviceService.list();
-        devices = devices.stream().filter(e->e.getDevice_code().equals(deviceRegularSafeContentForm.getDeviceCode())).collect(Collectors.toList());
-        if (devices.size() == 0){
+        devices = devices.stream().filter(e -> e.getDevice_code().equals(deviceRegularSafeContentForm.getDeviceCode())).collect(Collectors.toList());
+        if (devices.size() == 0) {
             log.error("【创建定期检测内容】设备不存在，deviceRegularSafeContentForm={}", deviceRegularSafeContentForm.toString());
             throw new DeviceException(ResultEnum.DEVICE_NOT_EXIST);
         }
@@ -57,7 +57,7 @@ public class DeviceRegularSafeContentReal {
         deviceRegularSafeContentService.createDeviceRegularSafeContent(deviceRegularSafeContent);
     }
 
-    public DeviceRegularSafeContentListResultVO getDeviceRegularSafeContents(Example<DeviceRegularSafeContent> deviceRegularSafeContentExample, Pageable pageable){
+    public DeviceRegularSafeContentListResultVO getDeviceRegularSafeContents(Example<DeviceRegularSafeContent> deviceRegularSafeContentExample, Pageable pageable) {
         DeviceRegularSafeContentListResultVO deviceRegularSafeContentListResultVO = new DeviceRegularSafeContentListResultVO();
         List<DeviceRegularSafeContentVO> deviceRegularSafeContentVOS = new ArrayList<>();
         Page<DeviceRegularSafeContent> deviceRegularSafeContentPage = deviceRegularSafeContentService.getDeviceRegularSafeContents(deviceRegularSafeContentExample, pageable);
@@ -72,20 +72,20 @@ public class DeviceRegularSafeContentReal {
     }
 
     @Transactional
-    public void editDeviceRegularSafeContent(DeviceRegularSafeContentForm deviceRegularSafeContentForm){
+    public void editDeviceRegularSafeContent(DeviceRegularSafeContentForm deviceRegularSafeContentForm) {
         DeviceRegularSafeContent deviceRegularSafeContent = deviceRegularSafeContentService.findById(deviceRegularSafeContentForm.getRegularSafeContentId());
-        if (deviceRegularSafeContent == null){
+        if (deviceRegularSafeContent == null) {
             log.error("【编辑定期检测内容】该定期检测内容不存在，deviceRegularSafeContentForm={}", deviceRegularSafeContentForm.toString());
             throw new DeviceException(ResultEnum.DEVICE_REGULAR_SAFE_CONTENT_NOT_EXIST);
         }
         List<DeviceRegularSafeContent> deviceRegularSafeContents = deviceRegularSafeContentService.findByDeviceCodeAndDeviceRegularSafeContent(deviceRegularSafeContentForm.getDeviceCode(), deviceRegularSafeContentForm.getSafeContent());
-        if (deviceRegularSafeContents.size() != 0){
+        if (deviceRegularSafeContents.size() != 0 && !deviceRegularSafeContents.get(0).getRegularSafeContentId().equals(deviceRegularSafeContentForm.getRegularSafeContentId())) {
             log.error("【编辑定期检测内容】该定期检测内容已存在，deviceRegularSafeContentForm={}", deviceRegularSafeContentForm.toString());
             throw new DeviceException(ResultEnum.DEVICE_REGULAR_SAFE_CONTENT_IS_EXIST);
         }
         List<Device> devices = deviceService.list();
-        devices = devices.stream().filter(e->e.getDevice_code().equals(deviceRegularSafeContentForm.getDeviceCode())).collect(Collectors.toList());
-        if (devices.size() == 0){
+        devices = devices.stream().filter(e -> e.getDevice_code().equals(deviceRegularSafeContentForm.getDeviceCode())).collect(Collectors.toList());
+        if (devices.size() == 0) {
             log.error("【编辑定期检测内容】设备不存在，deviceRegularSafeContentForm={}", deviceRegularSafeContentForm.toString());
             throw new DeviceException(ResultEnum.DEVICE_NOT_EXIST);
         }
@@ -95,9 +95,9 @@ public class DeviceRegularSafeContentReal {
     }
 
     @Transactional
-    public void deleteDeviceRegularSafeContent(Integer id){
+    public void deleteDeviceRegularSafeContent(Integer id) {
         DeviceRegularSafeContent deviceRegularSafeContent = deviceRegularSafeContentService.findById(id);
-        if (deviceRegularSafeContent == null){
+        if (deviceRegularSafeContent == null) {
             log.error("【删除定期检测内容】该定期检测内容不存在，id={}", id);
             throw new DeviceException(ResultEnum.DEVICE_REGULAR_SAFE_CONTENT_NOT_EXIST);
         }

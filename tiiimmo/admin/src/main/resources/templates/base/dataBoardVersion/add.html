@@ -9,19 +9,19 @@
         <div class="layui-form-item">
             <label class="layui-form-label">版本号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="versionNo" placeholder="请输入版本号" th:value="${dataBoardVersion?.versionNo}">
+                <input class="layui-input" type="text" name="versionNo" autocomplete="off" placeholder="请输入版本号" th:value="${dataBoardVersion?.versionNo}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">变更日期</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="changeDate" placeholder="请输入变更日期" th:value="${dataBoardVersion?.changeDate}">
+            <div class="layui-input-inline"> <!--<td th:text="${#dates.format(dataBoardVersion?.changeDate, 'yyyy-MM-dd HH:mm:ss')}">变更日期</td>-->
+                <input class="layui-input" id="changeDate" type="text" name="changeDate" autocomplete="off" placeholder="请输入变更日期" th:value="${#dates.format(dataBoardVersion?.changeDate, 'yyyy-MM-dd HH:mm:ss')}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">版本说明</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="versionExplain" placeholder="请输入版本说明" th:value="${dataBoardVersion?.versionExplain}">
+                <input class="layui-input" type="text" name="versionExplain" autocomplete="off" placeholder="请输入版本说明" th:value="${dataBoardVersion?.versionExplain}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -37,5 +37,19 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#changeDate",
+                type:'datetime',
+                trigger:'click'
+            });
+
+        })
+    </script>
 </body>
 </html>
