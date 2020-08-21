@@ -9,31 +9,31 @@
         <div class="layui-form-item">
             <label class="layui-form-label">维修日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="repairDate" placeholder="请输入维修日期" th:value="${repairRecord?.repairDate}">
+                <input class="layui-input" type="text" id="repairDate" name="repairDate" autocomplete="off" placeholder="请输入维修日期" th:value="${#dates.format(repairRecord?.repairDate, 'yyyy-MM-dd HH:mm:ss')}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">维修设备</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="repairDevice" placeholder="请输入维修设备" th:value="${repairRecord?.repairDevice}">
+                <input class="layui-input" type="text" name="repairDevice" autocomplete="off" placeholder="请输入维修设备" th:value="${repairRecord?.repairDevice}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">维修人</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="repairUser" placeholder="请输入维修人" th:value="${repairRecord?.repairUser}">
+                <input class="layui-input" type="text" name="repairUser" autocomplete="off" placeholder="请输入维修人" th:value="${repairRecord?.repairUser}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">维修内容</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="repairContent" placeholder="请输入维修内容" th:value="${repairRecord?.repairContent}">
+                <input class="layui-input" type="text" name="repairContent" autocomplete="off" placeholder="请输入维修内容" th:value="${repairRecord?.repairContent}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">维修结果</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="repairResult" placeholder="请输入维修结果" th:value="${repairRecord?.repairResult}">
+                <input class="layui-input" type="text" name="repairResult" autocomplete="off" placeholder="请输入维修结果" th:value="${repairRecord?.repairResult}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -49,5 +49,19 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#repairDate",
+                type:'datetime',
+                trigger:'click'
+            });
+
+        })
+    </script>
 </body>
 </html>

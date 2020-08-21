@@ -73,7 +73,7 @@
                         <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
                             <i class="layui-icon layui-icon-ok"></i></label></td>
                         <td th:text="${item.id}">主键ID</td>
-                        <td th:text="${item.checkDate}">检查日期</td>
+                        <td th:text="${#dates.format(item.checkDate, 'yyyy-MM-dd HH:mm:ss')}">检查日期</td>
                         <td th:text="${item.checkDevice}">检查设备</td>
                         <td th:text="${item.checkUser}">检查人</td>
                         <td th:text="${item.checkContent}">检查内容</td>

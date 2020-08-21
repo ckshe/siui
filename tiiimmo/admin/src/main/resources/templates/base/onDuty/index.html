@@ -76,9 +76,9 @@
                         <td th:text="${item.id}">主键ID</td>
                         <td th:text="${item.userName}">员工名称</td>
                         <td th:text="${item.station}">岗位</td>
-                        <td th:text="${item.shiftTime}">上岗时间</td>
+                        <td th:text="${#dates.format(item.shiftTime, 'yyyy-MM-dd HH:mm:ss')}">上岗时间</td>
                         <td th:text="${item.process}">工序</td>
-                        <td th:text="${item.shiftDate}">排班日期</td>
+                        <td th:text="${#dates.format(item.shiftDate, 'yyyy-MM-dd HH:mm:ss')}">排班日期</td>
                         <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
                         <td th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
                         <td th:text="${#dicts.dataStatus(item.status)}">数据状态</td>

@@ -75,7 +75,7 @@
                         <td th:text="${item.manufactor}">厂家</td>
                         <td th:text="${item.batchNumber}">批号</td>
                         <td th:text="${item.number}">数量</td>
-                        <td th:text="${item.productionDate}">出厂日期</td>
+                        <td th:text="${#dates.format(item.productionDate, 'yyyy-MM-dd HH:mm:ss')}">出厂日期</td>
                         <td th:text="${item.shelfLife}">保质期</td>
                         <td style="display: none" th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
                         <td style="display: none" th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>

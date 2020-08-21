@@ -80,7 +80,7 @@
                         <td th:text="${item.pcb_technology_code}">更改记录编码</td>
                         <td th:text="${item.pcb_code}">pcb编码</td>
                         <td th:text="${item.pcb_version}">pcb版本</td>
-                        <td th:text="${item.work_time}">生效时间</td>
+                        <td th:text="${#dates.format(item.work_time, 'yyyy-MM-dd HH:mm:ss')}">生效时间</td>
                         <td th:text="${item.change_type}">更改类型</td>
                         <td th:text="${item.change_msg}">更改内容</td>
                         <td th:text="${item.change_result}">更改结果</td>

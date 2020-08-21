@@ -38,7 +38,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">排班日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" id="time" type="text" name="shiftDate" placeholder="请输入排班日期" th:value="${productionShift?.shiftDate}">
+                <input class="layui-input" autocomplete="off" id="time" type="text" name="shiftDate" placeholder="请输入排班日期" th:value="${#dates.format(productionShift?.shiftDate, 'yyyy-MM-dd HH:mm:ss')}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">

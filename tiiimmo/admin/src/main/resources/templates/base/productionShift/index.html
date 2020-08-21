@@ -85,7 +85,7 @@
                         <td th:text="${item.station}">岗位</td>
                         <td th:text="${item.shift}">班次</td>
                         <td th:text="${item.process}">工序</td>
-                        <td th:text="${item.shiftDate}">排班日期</td>
+                        <td th:text="${#dates.format(item.shiftDate, 'yyyy-MM-dd HH:mm:ss')}">排班日期</td>
                         <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
                         <td th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
                         <td th:text="${#dicts.dataStatus(item.status)}">数据状态</td>

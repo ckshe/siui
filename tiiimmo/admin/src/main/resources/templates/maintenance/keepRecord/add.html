@@ -9,31 +9,31 @@
         <div class="layui-form-item">
             <label class="layui-form-label">保养日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="keepDate" placeholder="请输入保养日期" th:value="${keepRecord?.keepDate}">
+                <input class="layui-input" type="text" id="keepDate" name="keepDate" autocomplete="off" placeholder="请输入保养日期" th:value="${#dates.format(keepRecord?.keepDate, 'yyyy-MM-dd HH:mm:ss')}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">保养设备</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="keepDevice" placeholder="请输入保养设备" th:value="${keepRecord?.keepDevice}">
+                <input class="layui-input" type="text" name="keepDevice" autocomplete="off" placeholder="请输入保养设备" th:value="${keepRecord?.keepDevice}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">保养人</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="keepUser" placeholder="请输入保养人" th:value="${keepRecord?.keepUser}">
+                <input class="layui-input" type="text" name="keepUser" autocomplete="off" placeholder="请输入保养人" th:value="${keepRecord?.keepUser}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">保养内容</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="keepContent" placeholder="请输入保养内容" th:value="${keepRecord?.keepContent}">
+                <input class="layui-input" type="text" name="keepContent" autocomplete="off" placeholder="请输入保养内容" th:value="${keepRecord?.keepContent}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">保养结果</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="keepResult" placeholder="请输入保养结果" th:value="${keepRecord?.keepResult}">
+                <input class="layui-input" type="text" name="keepResult" autocomplete="off" placeholder="请输入保养结果" th:value="${keepRecord?.keepResult}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -49,5 +49,19 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#keepDate",
+                type:'datetime',
+                trigger:'click'
+            });
+
+        })
+    </script>
 </body>
 </html>
