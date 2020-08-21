@@ -853,8 +853,8 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         BigDecimal sumWorkTime = BigDecimal.ZERO;
         BigDecimal sumTheoryyTime = BigDecimal.ZERO;
         for(ProcessTaskDeviceTheoryTime deviceTheoryTime : mapList){
-            sumWorkTime = sumWorkTime.add(deviceTheoryTime.getWork_time());
-            BigDecimal theoryTime = deviceTheoryTime.getTheory_time().multiply(new BigDecimal(deviceTheoryTime.getAmount()));
+            sumWorkTime = sumWorkTime.add(deviceTheoryTime.getWorkTime());
+            BigDecimal theoryTime = deviceTheoryTime.getTheoryTime().multiply(new BigDecimal(deviceTheoryTime.getAmount()));
             sumTheoryyTime = sumTheoryyTime.add(theoryTime);
         }
         BigDecimal rate = caculateRate(sumWorkTime,sumTheoryyTime);
