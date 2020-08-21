@@ -9,45 +9,45 @@
         <div class="layui-form-item">
             <label class="layui-form-label">机台编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="deviceCode" placeholder="请输入机台编号" th:value="${processTaskDeviceTheorytime?.device_code}">
+                <input class="layui-input" type="text" name="deviceCode" autocomplete="off" placeholder="请输入机台编号" th:value="${processTaskDeviceTheorytime?.device_code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">物料编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="pcbCode" placeholder="请输入物料编号" th:value="${processTaskDeviceTheorytime?.pcb_code}">
+                <input class="layui-input" type="text" name="pcbCode" autocomplete="off" placeholder="请输入物料编号" th:value="${processTaskDeviceTheorytime?.pcb_code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">工序任务号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="processTaskCode" placeholder="请输入工序任务号" th:value="${processTaskDeviceTheorytime?.process_task_code}">
+                <input class="layui-input" type="text" name="processTaskCode" autocomplete="off" placeholder="请输入工序任务号" th:value="${processTaskDeviceTheorytime?.process_task_code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">数量</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="amount" placeholder="请输入数量" th:value="${processTaskDeviceTheorytime?.amount}">
+                <input class="layui-input" type="number" name="amount" autocomplete="off" placeholder="请输入数量" th:value="${processTaskDeviceTheorytime?.amount}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">理论工时</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="theoryTime" placeholder="请输入理论工时" th:value="${processTaskDeviceTheorytime?.theory_time}">
+                <input class="layui-input" type="text" name="theoryTime" autocomplete="off" placeholder="请输入理论工时" th:value="${processTaskDeviceTheorytime?.theory_time}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">实际工时</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="workTime" placeholder="请输入实际工时" th:value="${processTaskDeviceTheorytime?.work_time}">
+                <input class="layui-input" type="text" name="workTime" autocomplete="off" placeholder="请输入实际工时" th:value="${processTaskDeviceTheorytime?.work_time}">
             </div>
         </div>
-        <div class="layui-form-item">
+        <!--<div class="layui-form-item">
             <label class="layui-form-label">开始时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="startTime" placeholder="请输入开始时间" th:value="${processTaskDeviceTheorytime?.start_time}">
+                <input class="layui-input" type="text" name="startTime" autocomplete="off" placeholder="请输入开始时间" th:value="${processTaskDeviceTheorytime?.start_time}">
             </div>
-        </div>
+        </div>-->
         <!--<div class="layui-form-item">
             <label class="layui-form-label">创建时间</label>
             <div class="layui-input-inline">
