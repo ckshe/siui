@@ -238,3 +238,45 @@ Enter.prototype={
        }
    }
 };
+//获取机台设备名称
+function getDeviceName(deviceCode){
+    switch(deviceCode){
+        case 'B16011':
+            return '全自动视觉丝印机1'
+            break;
+        case 'B15001':
+            return '全自动视觉丝印机2'
+            break;
+        case 'B15002':
+            return 'YS12 贴片机1'
+            break;
+        case 'B15003':
+            return 'YS12F 贴片机2'
+            break;
+        case 'B1902001':
+            return 'YS12F 贴片机3'
+            break;
+        case 'B16012':
+            return 'Pyramax100A 无铅热风回流炉'
+            break;
+        case 'B1811015':
+            return '自动光学检测(AOI)1'
+            break;
+        case 'B15004':
+            return '自动光学检测(AOI)2'
+            break;
+        case 'B16013':
+            return '自动下板机'
+            break;
+        case 'S16002':
+            return ''
+            break;
+        case 'work0022':
+            return '备料机台'
+            break;
+        default:
+            return deviceCode
+            break;
+        
+    }
+}

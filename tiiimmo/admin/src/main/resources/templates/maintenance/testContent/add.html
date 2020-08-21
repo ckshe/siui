@@ -1,41 +1,82 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
 </head>
+
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/maintenance/testContent/save}">
-        <input type="hidden" name="id" th:if="${testContent}" th:value="${testContent.id}">
-        <div class="layui-form-item">
-            <label class="layui-form-label">设备类型</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="deviceType" placeholder="请输入设备类型" th:value="${testContent?.deviceType}">
+        <form class="layui-form" style="padding-top:20px;" lay-filter="form2">
+            <!-- <input type="hidden" name="id" th:if="${maintenanceContent}" th:value="${maintenanceContent.id}"> -->
+            <div class="layui-form-item">
+                <label class="layui-form-label">设备编号</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" id="deviceCode" type="text" name="deviceCode" placeholder="请输入设备编号" autocomplete="off" >
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">检测内容</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="testContent" placeholder="请输入检测内容" th:value="${testContent?.testContent}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">检测内容</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" id="safeContent" type="text" name="safeContent" placeholder="请输入检测内容" autocomplete="off" >
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">单位</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="unit" placeholder="请输入单位" th:value="${testContent?.unit}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">单位</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" id="company" type="text" name="company" placeholder="请输入单位" autocomplete="off" >
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">备注</label>
-            <div class="layui-input-block">
-                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">[[${testContent?.remark}]]</textarea>
+            <div class="layui-form-item timo-finally">
+                <button class="layui-btn" lay-filter="add" type="button" lay-submit ><i class="fa fa-check-circle"></i> 保存</button>
+                <button class="layui-btn btn-secondary" id="closepop" ><i class="fa fa-times-circle"></i> 关闭</button>
             </div>
-        </div>
-        <div class="layui-form-item timo-finally">
-            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
-            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
-        </div>
-    </form>
-</div>
-<script th:replace="/common/template :: script"></script>
+        </form>
+    </div>
+
+    <script th:replace="/common/template :: script"></script>
+    <script src="../../js/common.js"></script>
+    <script>
+        layui.use(['jquery', 'form'], function () {
+            var $ = layui.jquery,
+                form = layui.form;
+                form.on('submit(add)', function (obj) {
+                console.log(obj.field)
+                if (obj.field.deviceCode == '') {
+                    layer.alert('请录入设备编号！', { icon: 5 })
+                    return;
+                }
+                if (obj.field.safeContent == '') {
+                    layer.alert('请录入检测内容！', { icon: 5 })
+                    return;
+                }
+                if (obj.field.company == '') {
+                    layer.alert('请录入单位！', { icon: 5 })
+                    return;
+                }
+                $.ajax({
+                    url: "/deviceRegularSafeContent/create",
+                    type: 'post',
+                    dataType: "json",
+                    data: JSON.stringify(obj.field),
+                    contentType: "application/json;charset=UTF-8",
+                    success: function (res) {
+                        if (res.code === 200 || res.code == '200') {
+                            layer.alert(res.msg, { icon: 1 }, function () {
+                                parent.layer.closeAll()
+                                parent.window.location.reload()
+                            })
+                        } else {
+                            layer.alert(res.msg, { icon: 5 })
+                        }
+
+                    }
+                });
+            });
+            $('#closepop').on('click', function () {
+                parent.layer.closeAll()
+            });
+        })
+    </script>
 </body>
+
 </html>
