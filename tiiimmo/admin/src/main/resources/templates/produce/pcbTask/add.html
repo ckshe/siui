@@ -21,7 +21,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">通知日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="task_sheet_date" placeholder="请输入通知日期" th:value="${pcbTask?.task_sheet_date}">
+                <input class="layui-input" type="text" id="task_sheet_date" name="task_sheet_date" placeholder="请输入通知日期" th:value="${pcbTask?.task_sheet_date}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -69,7 +69,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">计划完成时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="plan_complete_date" placeholder="请输入计划完成时间" th:value="${pcbTask?.plan_complete_date}">
+                <input class="layui-input" type="text" id="plan_complete_date" name="plan_complete_date" placeholder="请输入计划完成时间" th:value="${pcbTask?.plan_complete_date}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -111,7 +111,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">PCB修改时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="pcb_update_time" placeholder="请输入PCB修改时间" th:value="${pcbTask?.pcb_update_time}">
+                <input class="layui-input" type="text" id="pcb_update_time" name="pcb_update_time" placeholder="请输入PCB修改时间" th:value="${pcbTask?.pcb_update_time}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -135,25 +135,25 @@
         <div class="layui-form-item">
             <label class="layui-form-label">生产计划投产时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="produce_plan_date" placeholder="请输入生产计划投产时间" th:value="${pcbTask?.produce_plan_date}">
+                <input class="layui-input" type="text" id="produce_plan_date" name="produce_plan_date" placeholder="请输入生产计划投产时间" th:value="${pcbTask?.produce_plan_date}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">投产时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="produce_date" placeholder="请输入投产时间" th:value="${pcbTask?.produce_date}">
+                <input class="layui-input" type="text" id="produce_date" name="produce_date" placeholder="请输入投产时间" th:value="${pcbTask?.produce_date}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">生产计划完成时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="produce_plan_complete_date" placeholder="请输入生产计划完成时间" th:value="${pcbTask?.produce_plan_complete_date}">
+                <input class="layui-input" type="text" id="produce_plan_complete_date" name="produce_plan_complete_date" placeholder="请输入生产计划完成时间" th:value="${pcbTask?.produce_plan_complete_date}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">生产完成时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="produce_complete_date" placeholder="请输入生产完成时间" th:value="${pcbTask?.produce_complete_date}">
+                <input class="layui-input" type="text" id="produce_complete_date" name="produce_complete_date" placeholder="请输入生产完成时间" th:value="${pcbTask?.produce_complete_date}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -169,5 +169,51 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#task_sheet_date",
+                type:'datetime',
+                trigger:'click'
+            });
+            laydate.render({
+                elem:"#plan_complete_date",
+                type:'datetime',
+                trigger:'click'
+            });
+            laydate.render({
+                elem:"#produce_plan_date",
+                type:'datetime',
+                trigger:'click'
+            });
+            laydate.render({
+                elem:"#produce_date",
+                type:'datetime',
+                trigger:'click'
+            });
+            laydate.render({
+                elem:"#produce_plan_complete_date",
+                type:'datetime',
+                trigger:'click'
+            });
+            laydate.render({
+                elem:"#produce_complete_date",
+                type:'datetime',
+                trigger:'click'
+            });
+            laydate.render({
+                elem:"#pcb_update_time",
+                type:'datetime',
+                trigger:'click'
+            });
+
+
+        })
+    </script>
 </body>
+
 </html>

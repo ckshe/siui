@@ -131,16 +131,16 @@
 
                         /*,{field: 'pcb_quantity', title: '计划生产数量', sort: true, minWidth:120}
                         ,{field: 'quantity}', title: '完成数量', sort: true, minWidth:120}*/
-                        ,{field: 'plan_start_time', title: '计划生产时间', sort: true, minWidth:160,templet:function (d) {
+                        ,{field: 'plan_start_time', title: '计划生产时间', sort: true, minWidth:180,templet:function (d) {
                             return d.plan_start_time?timeToDate(d.plan_start_time):"";}}
-                        ,{field: 'plan_finish_time', title: '计划完成时间', sort: true, minWidth:160,templet:function (d) {
+                        ,{field: 'plan_finish_time', title: '计划完成时间', sort: true, minWidth:180,templet:function (d) {
                             return d.plan_finish_time?timeToDate(d.plan_finish_time):"";}}
-                        ,{field: 'start_time', title: '实际生产时间', sort: true, minWidth:160,templet:function (d) {
+                        ,{field: 'start_time', title: '实际生产时间', sort: true, minWidth:180,templet:function (d) {
                             return d.start_time?timeToDate(d.start_time):"";}}
-                        ,{field: 'finish_time', title: '实际完成时间', sort: true, minWidth:160,templet:function (d) {
+                        ,{field: 'finish_time', title: '实际完成时间', sort: true, minWidth:180,templet:function (d) {
                             return d.finish_time?timeToDate(d.finish_time):"";}}
-                        ,{field: 'pcb_quantity', title: '计划生产数量', sort: true, minWidth:120}
-                        ,{field: 'amount_completed', title: '实际生产数量', sort: true, minWidth:120}
+                        ,{field: 'pcb_quantity', title: '计划生产数量', sort: true, minWidth:140}
+                        ,{field: 'amount_completed', title: '实际生产数量', sort: true, minWidth:140}
                         ,{field: 'work_time', title: '工时', sort: true, minWidth:120}
                         /*,{ title: '操作',fixed:'right', minWidth: 210,templet:function (d) {
                             return  '<button lay-event="tou" class="layui-btn  layui-btn-xs" style="margin-right:6px;'+(d.pcb_task_status==="已投产"?"background-color:#e4e4e4":"")+'"'+(d.pcb_task_status==="已投产"?"disabled":"")+' type="button">'+(d.pcb_task_status==="已投产"?"已投产":"投产")+'</button>'
