@@ -9,33 +9,33 @@
         <div class="layui-form-item">
             <label class="layui-form-label">参数编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="param_code" placeholder="请输入参数编号" th:value="${deviceTechnology?.param_code}">
+                <input class="layui-input" type="text" name="param_code" autocomplete="off" placeholder="请输入参数编号" th:value="${deviceTechnology?.param_code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">设备编号</label>
             <div class="layui-input-inline">
                 <!--<input class="layui-input" type="text" name="device_code" placeholder="请输入设备编号" th:value="${deviceTechnology?.device_code}">-->
-                <input type="hidden" id="deviceCodeValue" th:value="${deviceTechnology?.device_code}">
+                <input type="hidden" id="deviceCodeValue" autocomplete="off" th:value="${deviceTechnology?.device_code}">
                 <select name="device_code" id="deviceCode"></select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">设备名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="device_name" placeholder="请输入设备名称" th:value="${deviceTechnology?.device_name}">
+                <input class="layui-input" type="text" name="device_name" autocomplete="off" placeholder="请输入设备名称" th:value="${deviceTechnology?.device_name}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">关键工艺名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="key_technology_name" placeholder="请输入关键工艺名称" th:value="${deviceTechnology?.key_technology_name}">
+                <input class="layui-input" type="text" name="key_technology_name" autocomplete="off" placeholder="请输入关键工艺名称" th:value="${deviceTechnology?.key_technology_name}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">单位</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="unit" placeholder="请输入单位" th:value="${deviceTechnology?.unit}">
+                <input class="layui-input" type="text" name="unit" autocomplete="off" placeholder="请输入单位" th:value="${deviceTechnology?.unit}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">

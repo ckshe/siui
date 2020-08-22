@@ -9,43 +9,43 @@
         <div class="layui-form-item">
             <label class="layui-form-label">设备编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="deviceCode" placeholder="请输入设备编号" th:value="${newPBC?.deviceCode}">
+                <input class="layui-input" type="text" name="deviceCode" autocomplete="off" placeholder="请输入设备编号" th:value="${newPBC?.deviceCode}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">机型</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="deviceTypedd" placeholder="请输入机型" th:value="${newPBC?.deviceTypedd}">
+                <input class="layui-input" type="text" name="deviceTypedd" autocomplete="off" placeholder="请输入机型" th:value="${newPBC?.deviceTypedd}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">PBC</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="pbc" placeholder="请输入PBC" th:value="${newPBC?.pbc}">
+                <input class="layui-input" type="text" name="pbc" autocomplete="off" placeholder="请输入PBC" th:value="${newPBC?.pbc}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">温度曲线名</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="temperatureCurve" placeholder="请输入温度曲线名" th:value="${newPBC?.temperatureCurve}">
+                <input class="layui-input" type="text" name="temperatureCurve" autocomplete="off" placeholder="请输入温度曲线名" th:value="${newPBC?.temperatureCurve}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">检测人</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="checker" placeholder="请输入检测人" th:value="${newPBC?.checker}">
+                <input class="layui-input" type="text" name="checker" autocomplete="off" placeholder="请输入检测人" th:value="${newPBC?.checker}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">确认人</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="confirmer" placeholder="请输入确认人" th:value="${newPBC?.confirmer}">
+                <input class="layui-input" type="text" name="confirmer" autocomplete="off" placeholder="请输入确认人" th:value="${newPBC?.confirmer}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="confirmDate" placeholder="请输入日期" th:value="${newPBC?.confirmDate}">
+                <input class="layui-input" type="text" id="confirmDate" name="confirmDate" autocomplete="off" placeholder="请输入日期" th:value="${newPBC?.confirmDate}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -61,5 +61,18 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#confirmDate",
+                type:'datetime',
+                trigger:'click'
+            });
+        })
+      </script>
 </body>
 </html>

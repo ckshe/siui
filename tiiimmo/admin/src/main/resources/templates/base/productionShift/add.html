@@ -21,14 +21,14 @@
         <div class="layui-form-item">
             <label class="layui-form-label">班次</label>
             <div class="layui-input-inline">
-                <input type="hidden" id="classNameValue" th:value="${productionShift?.shift}">
+                <input type="hidden" id="classNameValue" autocomplete="off" th:value="${productionShift?.shift}">
                 <select name="shift" id="className" ></select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">工序</label>
             <div class="layui-input-inline">
-                <input type="hidden" id="processValue" th:value="${productionShift?.process}">
+                <input type="hidden" id="processValue" autocomplete="off" th:value="${productionShift?.process}">
                 <select name="process" id="process" ></select>
 <!--
                 <input class="layui-input" autocomplete="off" type="text" name="process" placeholder="请输入工序" th:value="${productionShift?.process}">

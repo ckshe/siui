@@ -39,7 +39,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">检查日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="InspectorsDate" placeholder="请输入检查日期" th:value="${firstRecordDetails?.InspectorsDate}">
+                <input class="layui-input" type="text" id="InspectorsDate" name="InspectorsDate" placeholder="请输入检查日期" th:value="${firstRecordDetails?.InspectorsDate}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -55,5 +55,18 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#InspectorsDate",
+                type:'datetime',
+                trigger:'click'
+            });
+        })
+    </script>
 </body>
 </html>

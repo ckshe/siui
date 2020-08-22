@@ -6,7 +6,6 @@ import com.linln.admin.base.domain.OperationInstruction;
 import com.linln.admin.base.domain.Process;
 import com.linln.admin.base.domain.TaskInstruction;
 import com.linln.admin.base.repository.*;
-import com.linln.admin.base.service.DataBoardVersionService;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.ProcessTaskDetail;
 import com.linln.admin.produce.domain.ProcessTaskDetailDevice;
@@ -26,10 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.unit.DataUnit;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -76,21 +73,14 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         String taskSheetCode = processTaskReq.getTaskSheetCode(); //生产批次
         String pcbCode = processTaskReq.getPcbCode(); //规格型号
         String pcbName = processTaskReq.getPcbName(); //物料名称
-        Date planStartTimeBegin = processTaskReq.getPlanStartTimeBegin();
+        Date planStartTimeBegin = processTaskReq.getPlanStartTimeBegin(); //计划开始时间
         Date planStartTimeOver = processTaskReq.getPlanStartTimeOver();
-        Date planFinishTimeBegin = processTaskReq.getPlanFinishTimeBegin();
+        Date planFinishTimeBegin = processTaskReq.getPlanFinishTimeBegin(); //计划完成时间
         Date planFinishTimeOver = processTaskReq.getPlanFinishTimeOver();
-        Date startTimeBegin = processTaskReq.getStartTimeBegin();
+        Date startTimeBegin = processTaskReq.getStartTimeBegin(); //实际生产时间
         Date startTimeOver = processTaskReq.getStartTimeOver();
-        Date finishTimeBegin = processTaskReq.getFinishTimeBegin();
+        Date finishTimeBegin = processTaskReq.getFinishTimeBegin(); //实际完成时间
         Date finishTimeOver = processTaskReq.getFinishTimeOver();
-
-
-
-//        Date planStartTime = processTaskReq.getPlanStartTime(); //计划开始时间
-//        Date planFinishTime = processTaskReq.getPlanFinishTime(); //计划完成时间
-//        Date startTime = processTaskReq.getStartTime(); //实际生产时间
-//        Date finishTime = processTaskReq.getFinishTime(); //实际完成时间
 
         if(page == null||size == null){
             page = 1;
@@ -126,7 +116,6 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
             String planStartTimeBeginString = DateUtil.date2String(planStartTimeBegin, "yyyy-MM-dd") + " 00:00:00";
             String planStartTimeOverString = DateUtil.date2String(planStartTimeOver, "yyyy-MM-dd") + " 23:59:59";
 
-
             wheresql.append(" and plan_start_time >= '" +
                     planStartTimeBeginString +
                     "' ");
@@ -137,7 +126,6 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         if(planFinishTimeBegin!=null&&!"".equals(planFinishTimeBegin)&&planFinishTimeOver!=null&&!"".equals(planFinishTimeOver)){
             String planFinishTimeBeginString = DateUtil.date2String(planFinishTimeBegin, "yyyy-MM-dd") + " 00:00:00";
             String planFinishTimeOverString = DateUtil.date2String(planFinishTimeOver, "yyyy-MM-dd") + " 23:59:59";
-
 
             wheresql.append(" and plan_finish_time >= '" +
                     planFinishTimeBeginString +
@@ -150,7 +138,6 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
             String startTimeBeginString = DateUtil.date2String(startTimeBegin, "yyyy-MM-dd") + " 00:00:00";
             String startTimeOverString = DateUtil.date2String(startTimeOver, "yyyy-MM-dd") + " 23:59:59";
 
-
             wheresql.append(" and start_time >= '" +
                     startTimeBeginString +
                     "' ");
@@ -161,7 +148,6 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         if(finishTimeBegin!=null&&!"".equals(finishTimeBegin)&&finishTimeOver!=null&&!"".equals(finishTimeOver)){
             String finishTimeBeginString = DateUtil.date2String(finishTimeBegin, "yyyy-MM-dd") + " 00:00:00";
             String finishTimeOverString = DateUtil.date2String(finishTimeOver, "yyyy-MM-dd") + " 23:59:59";
-
 
             wheresql.append(" and finish_time >= '" +
                     finishTimeBeginString +
@@ -189,7 +175,6 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
 
         return ResultVoUtil.success("查询成功",mapList,count.size());
-
     }
 
 

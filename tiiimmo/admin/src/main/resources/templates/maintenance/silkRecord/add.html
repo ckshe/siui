@@ -9,49 +9,49 @@
         <div class="layui-form-item">
             <label class="layui-form-label">开始时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="beginTime" placeholder="请输入开始时间" th:value="${silkRecord?.beginTime}">
+                <input class="layui-input" id="beginTime" type="text" autocomplete="off" name="beginTime" placeholder="请输入开始时间" th:value="${silkRecord?.beginTime}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">PBC板号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="pbcNo" placeholder="请输入PBC板号" th:value="${silkRecord?.pbcNo}">
+                <input class="layui-input" type="text" name="pbcNo" autocomplete="off" placeholder="请输入PBC板号" th:value="${silkRecord?.pbcNo}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">板编码</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="pbcCode" placeholder="请输入板编码" th:value="${silkRecord?.pbcCode}">
+                <input class="layui-input" type="text" name="pbcCode" autocomplete="off" placeholder="请输入板编码" th:value="${silkRecord?.pbcCode}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">焊接面</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="welding" placeholder="请输入焊接面" th:value="${silkRecord?.welding}">
+                <input class="layui-input" type="text" name="welding" autocomplete="off" placeholder="请输入焊接面" th:value="${silkRecord?.welding}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">元件面</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="element " placeholder="请输入元件面" th:value="${silkRecord?.element }">
+                <input class="layui-input" type="text" name="element" autocomplete="off" placeholder="请输入元件面" th:value="${silkRecord?.element }">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">校板人</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="checker" placeholder="请输入校板人" th:value="${silkRecord?.checker}">
+                <input class="layui-input" type="text" name="checker" autocomplete="off" placeholder="请输入校板人" th:value="${silkRecord?.checker}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">丝印人</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="silker" placeholder="请输入丝印人" th:value="${silkRecord?.silker}">
+                <input class="layui-input" type="text" name="silker" autocomplete="off" placeholder="请输入丝印人" th:value="${silkRecord?.silker}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">结束时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="endTime" placeholder="请输入结束时间" th:value="${silkRecord?.endTime}">
+                <input class="layui-input" id="endTime" type="text" autocomplete="off" name="endTime" placeholder="请输入结束时间" th:value="${silkRecord?.endTime}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -67,5 +67,23 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#beginTime",
+                type:'datetime',
+                trigger:'click'
+            });
+            laydate.render({
+                elem:"#endTime",
+                type:'datetime',
+                trigger:'click'
+            });
+        })
+    </script>
 </body>
 </html>

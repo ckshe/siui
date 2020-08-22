@@ -668,7 +668,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "\tproduce_process_task t1\n" +
                 "\tLEFT JOIN produce_pcb_task t2 ON t2.pcb_task_code = t1.pcb_task_code \n" +
                 "WHERE\n" +
-                "\tt1.device_code LIKE '%" +
+                "\tt1.is_now_flag LIKE '%" +
                 pcbTaskReq.getDeviceCode() +
                 "%' \n" +
                 "\tAND ( t1.process_task_status = '生产中' OR t1.process_task_status LIKE '%已下达%' OR t1.process_task_status LIKE '%暂停%' OR t1.process_task_status LIKE '%进行中%' )\n" +

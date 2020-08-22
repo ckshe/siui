@@ -45,7 +45,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">记录时间</label>
                         <div class="layui-input-block">
-                            <input type="text" name="record_time" th:value="${param.record_time}" placeholder="请输入记录时间" autocomplete="off" class="layui-input">
+                            <input type="text" id="record_time" name="record_time" th:value="${param.record_time}" placeholder="请输入记录时间" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -123,5 +123,18 @@
         </div>
     </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['form','laydate','table','jquery','form'],function () {
+            var layer = layui.layer,
+                $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate;
+            laydate.render({
+                elem:"#record_time",
+                type:'datetime',
+                trigger:'click'
+            });
+        })
+     </script>
 </body>
 </html>

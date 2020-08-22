@@ -33,7 +33,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">通知日期</label>
                         <div class="layui-input-block">
-                            <input type="text" name="task_sheet_date" th:value="${param.task_sheet_date}" placeholder="请输入通知日期" autocomplete="off" class="layui-input">
+                            <input type="text" id="task_sheet_date" name="task_sheet_date" th:value="${param.task_sheet_date}" placeholder="请输入通知日期" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -104,7 +104,8 @@
                         </td>
                         <td th:text="${item.pcb_task_code}">生产任务单号</td>
                         <td th:text="${item.task_sheet_code}">生产批次</td>
-                        <td th:text="${item.task_sheet_date}">通知日期</td>
+
+                        <td th:text="${#dates.format(item.task_sheet_date, 'yyyy-MM-dd HH:mm:ss')}">通知日期</td>
                         <td th:text="${item.factory}">厂区</td>
                         <td th:text="${item.workshop}">车间</td>
                         <td th:text="${item.model_name}">机型名称</td>
@@ -119,10 +120,11 @@
                         <td >
                             <button lay-submit lay-filter="sub" data-type="tou" class="layui-btn  layui-btn-sm " type="button">查看</button>
                         </td>
-                        <td th:text="${item.produce_plan_date}">安排启动日期</td>
-                        <td th:text="${item.produce_date}">实际启动日期</td>
-                        <td th:text="${item.produce_plan_complete_date}">计划完成时间</td>
-                        <td th:text="${item.produce_complete_date}">生产完成时间</td>
+
+                        <td th:text="${#dates.format(item.produce_plan_date, 'yyyy-MM-dd HH:mm:ss')}">安排启动日期</td>
+                        <td th:text="${#dates.format(item.produce_date, 'yyyy-MM-dd HH:mm:ss')}">实际启动日期</td>
+                        <td th:text="${#dates.format(item.produce_plan_complete_date, 'yyyy-MM-dd HH:mm:ss')}">计划完成时间</td>
+                        <td th:text="${#dates.format(item.produce_complete_date, 'yyyy-MM-dd HH:mm:ss')}">生产完成时间</td>
                         <td th:text="${item.pcb_task_status}">工单状态</td>
                         <td th:text="${item.qi_tao_lv}+'%'">齐套率</td>
                         <td th:text="${item.priority}">优先级</td>
@@ -145,10 +147,16 @@
     </div>
 <script th:replace="/common/template :: script"></script>
     <script>
-        layui.use(['form'],function () {
+        layui.use(['form','laydate','table','jquery','form'],function () {
             var layer = layui.layer,
                     $ = layui.jquery,
-                 form = layui.form;
+                 form = layui.form,
+                laydate = layui.laydate;
+            laydate.render({
+                elem:"#task_sheet_date",
+                type:'datetime',
+                trigger:'click'
+            });
 
             form.on('submit(sub)',function (obj) {
                 var id=obj.field.id;

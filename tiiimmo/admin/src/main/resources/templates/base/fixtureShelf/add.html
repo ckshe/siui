@@ -9,13 +9,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">货架编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="shelfNo" placeholder="请输入货架编号" th:value="${fixtureShelf?.shelfNo}">
+                <input class="layui-input" type="text" name="shelfNo" autocomplete="off" placeholder="请输入货架编号" th:value="${fixtureShelf?.shelfNo}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">货架类型</label>
             <div class="layui-input-inline">
-                <input type="hidden" id="shelfTypeValue" th:value="${fixtureShelf?.shelfType}">
+                <input type="hidden" id="shelfTypeValue" autocomplete="off" th:value="${fixtureShelf?.shelfType}">
                 <select name="shelf_type" id="shelfType"></select>
                 <!--<input class="layui-input" type="text" name="shelfType" placeholder="请输入货架类型" th:value="${fixtureShelf?.shelfType}">-->
             </div>
@@ -23,7 +23,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">货位号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="locationNo" placeholder="请输入货位号" th:value="${fixtureShelf?.locationNo}">
+                <input class="layui-input" type="text" name="locationNo" autocomplete="off" placeholder="请输入货位号" th:value="${fixtureShelf?.locationNo}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">

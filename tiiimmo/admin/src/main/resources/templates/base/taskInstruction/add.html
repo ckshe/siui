@@ -9,13 +9,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">作业指导书编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="text" name="code" placeholder="请输入作业指导书编号" th:value="${taskInstruction?.code}">
+                <input class="layui-input" autocomplete="off" type="text" name="code" autocomplete="off" placeholder="请输入作业指导书编号" th:value="${taskInstruction?.code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">作业指导书名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="text" name="name" placeholder="请输入作业指导书名称" th:value="${taskInstruction?.name}">
+                <input class="layui-input" autocomplete="off" type="text" name="name" autocomplete="off" placeholder="请输入作业指导书名称" th:value="${taskInstruction?.name}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -31,7 +31,7 @@
             <label class="layui-form-label">所属工序</label>
             <div class="layui-input-inline">
                 <!--<input autocomplete="off" class="layui-input" type="text" name="processName" placeholder="请输入所属工序" th:value="${taskInstruction?.processName}">-->
-                <input type="hidden" id="processNameValue" th:value="${taskInstruction?.processName}">
+                <input type="hidden" id="processNameValue" autocomplete="off" th:value="${taskInstruction?.processName}">
                 <select name="processName" id="processName"></select>
 
             </div>
