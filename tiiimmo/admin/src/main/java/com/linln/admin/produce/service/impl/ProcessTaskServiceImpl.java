@@ -6,6 +6,7 @@ import com.linln.admin.base.domain.OperationInstruction;
 import com.linln.admin.base.domain.Process;
 import com.linln.admin.base.domain.TaskInstruction;
 import com.linln.admin.base.repository.*;
+import com.linln.admin.base.service.DataBoardVersionService;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.ProcessTaskDetail;
 import com.linln.admin.produce.domain.ProcessTaskDetailDevice;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.unit.DataUnit;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -74,10 +76,21 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         String taskSheetCode = processTaskReq.getTaskSheetCode(); //生产批次
         String pcbCode = processTaskReq.getPcbCode(); //规格型号
         String pcbName = processTaskReq.getPcbName(); //物料名称
-        Date planStartTime = processTaskReq.getPlanStartTime(); //计划开始时间
-        Date planFinishTime = processTaskReq.getPlanFinishTime(); //计划完成时间
-        Date startTime = processTaskReq.getStartTime(); //实际生产时间
-        Date finishTime = processTaskReq.getFinishTime(); //实际完成时间
+        Date planStartTimeBegin = processTaskReq.getPlanStartTimeBegin();
+        Date planStartTimeOver = processTaskReq.getPlanStartTimeOver();
+        Date planFinishTimeBegin = processTaskReq.getPlanFinishTimeBegin();
+        Date planFinishTimeOver = processTaskReq.getPlanFinishTimeOver();
+        Date startTimeBegin = processTaskReq.getStartTimeBegin();
+        Date startTimeOver = processTaskReq.getStartTimeOver();
+        Date finishTimeBegin = processTaskReq.getFinishTimeBegin();
+        Date finishTimeOver = processTaskReq.getFinishTimeOver();
+
+
+
+//        Date planStartTime = processTaskReq.getPlanStartTime(); //计划开始时间
+//        Date planFinishTime = processTaskReq.getPlanFinishTime(); //计划完成时间
+//        Date startTime = processTaskReq.getStartTime(); //实际生产时间
+//        Date finishTime = processTaskReq.getFinishTime(); //实际完成时间
 
         if(page == null||size == null){
             page = 1;
@@ -109,48 +122,52 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
                     "' ");
         }
 
-        if(planStartTime!=null&&!"".equals(planStartTime)){
-            String plantStartTimeString = DateUtil.date2String(planStartTime, "yyyy-MM-dd");
-            /*wheresql.append(" and plan_start_time  = '" +
-                    plantStartTimeString +
-                    "' ");*/
+        if(planStartTimeBegin!=null&&!"".equals(planStartTimeBegin)&&planStartTimeOver!=null&&!"".equals(planStartTimeOver)){
+            String planStartTimeBeginString = DateUtil.date2String(planStartTimeBegin, "yyyy-MM-dd") + " 00:00:00";
+            String planStartTimeOverString = DateUtil.date2String(planStartTimeOver, "yyyy-MM-dd") + " 23:59:59";
+
+
             wheresql.append(" and plan_start_time >= '" +
-                    plantStartTimeString + " 00:00:00" +
+                    planStartTimeBeginString +
                     "' ");
             wheresql.append(" and plan_start_time <= '" +
-                    plantStartTimeString + " 23:59:59" +
+                    planStartTimeOverString  +
                     "' ");
         }
-        if(planFinishTime!=null&&!"".equals(planFinishTime)){
-            String planFinishTimeString = DateUtil.date2String(planFinishTime, "yyyy-MM-dd");
-            /*wheresql.append(" and plan_finish_time  = '" +
-                    planFinishTimeString +
-                    "' ");*/
+        if(planFinishTimeBegin!=null&&!"".equals(planFinishTimeBegin)&&planFinishTimeOver!=null&&!"".equals(planFinishTimeOver)){
+            String planFinishTimeBeginString = DateUtil.date2String(planFinishTimeBegin, "yyyy-MM-dd") + " 00:00:00";
+            String planFinishTimeOverString = DateUtil.date2String(planFinishTimeOver, "yyyy-MM-dd") + " 23:59:59";
+
+
             wheresql.append(" and plan_finish_time >= '" +
-                    planFinishTimeString + " 00:00:00" +
+                    planFinishTimeBeginString +
                     "' ");
             wheresql.append(" and plan_finish_time <= '" +
-                    planFinishTimeString + " 23:59:59" +
+                    planFinishTimeOverString  +
                     "' ");
         }
-        if(startTime!=null&&!"".equals(startTime)){
-            String startTimeString = DateUtil.date2String(startTime,"yyyy-MM-dd");
-            //startTimeString.substring(0,10);
+        if(startTimeBegin!=null&&!"".equals(startTimeBegin)&&startTimeOver!=null&&!"".equals(startTimeOver)){
+            String startTimeBeginString = DateUtil.date2String(startTimeBegin, "yyyy-MM-dd") + " 00:00:00";
+            String startTimeOverString = DateUtil.date2String(startTimeOver, "yyyy-MM-dd") + " 23:59:59";
+
+
             wheresql.append(" and start_time >= '" +
-                    startTimeString + " 00:00:00" +
+                    startTimeBeginString +
                     "' ");
             wheresql.append(" and start_time <= '" +
-                    startTimeString + " 23:59:59" +
+                    startTimeOverString  +
                     "' ");
         }
+        if(finishTimeBegin!=null&&!"".equals(finishTimeBegin)&&finishTimeOver!=null&&!"".equals(finishTimeOver)){
+            String finishTimeBeginString = DateUtil.date2String(finishTimeBegin, "yyyy-MM-dd") + " 00:00:00";
+            String finishTimeOverString = DateUtil.date2String(finishTimeOver, "yyyy-MM-dd") + " 23:59:59";
 
-        if(finishTime!=null&&!"".equals(finishTime)){
-            String finishTimeString = DateUtil.date2String(finishTime,"yyyy-MM-dd");
+
             wheresql.append(" and finish_time >= '" +
-                    finishTimeString + " 00:00:00" +
+                    finishTimeBeginString +
                     "' ");
             wheresql.append(" and finish_time <= '" +
-                    finishTimeString + " 23:59:59" +
+                    finishTimeOverString  +
                     "' ");
         }
         //System.out.println(wheresql);
