@@ -5,4 +5,6 @@ import lombok.Data;
 @Data
 public class ProcessTaskHandoverReq {
     private String processTaskCode;
+
+    private String deviceCode;
 }

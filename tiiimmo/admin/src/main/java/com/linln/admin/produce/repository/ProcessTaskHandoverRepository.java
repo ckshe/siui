@@ -9,6 +9,6 @@ import java.util.List;
 public interface ProcessTaskHandoverRepository extends BaseRepository<ProcessTaskHandover,Long> {
 
 
-    @Query(value = "select * from produce_process_task_handover where process_task_code = ?1",nativeQuery = true)
-    List<ProcessTaskHandover> findPRocessTaskHandover(String processTaskCode);
+    @Query(value = "select * from produce_process_task_handover where process_task_code = ?1 and device_code = ?2",nativeQuery = true)
+    List<ProcessTaskHandover> findPRocessTaskHandover(String processTaskCode,String deviceCode);
 }

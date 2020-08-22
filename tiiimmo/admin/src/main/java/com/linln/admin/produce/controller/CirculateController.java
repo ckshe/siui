@@ -38,7 +38,7 @@ public class CirculateController {
         return ResultVoUtil.success("添加成功");
     }
 
-    //添加交接人记录
+    //查找交接人记录
     @PostMapping("/findPRocessTaskHandover")
     @ResponseBody
     public ResultVo findPRocessTaskHandover(@RequestBody ProcessTaskHandoverReq req){

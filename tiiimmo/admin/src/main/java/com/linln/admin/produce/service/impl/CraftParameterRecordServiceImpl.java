@@ -55,7 +55,7 @@ public class CraftParameterRecordServiceImpl implements CraftParameterRecordServ
         //班次信息根据上机记录用户查找
         List<UserDeviceHistory> historyList = userDeviceHistoryRepository.findOneLastOnTime(record.getDevice_code());
         User user = userRepository.queryByUserName(historyList.get(0).getUser_name());
-        if(record.getCardSequence()!=null){ 
+        if(record.getCardSequence()!=null&&!"".equals(record.getCardSequence())){
             User qcuser = userRepository.findByCard_sequence(record.getCardSequence());
             record.setFirstInspection_name(qcuser.getNickname());
             record.setQc_time(new Date());

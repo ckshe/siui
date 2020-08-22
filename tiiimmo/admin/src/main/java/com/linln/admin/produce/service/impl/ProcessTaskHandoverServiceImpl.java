@@ -36,7 +36,7 @@ public class ProcessTaskHandoverServiceImpl implements ProcessTaskHandoverServic
     @Override
     public ResultVo findPRocessTaskHandover(ProcessTaskHandoverReq req) {
 
-        List<ProcessTaskHandover> halist = processTaskHandoverRepository.findPRocessTaskHandover(req.getProcessTaskCode());
+        List<ProcessTaskHandover> halist = processTaskHandoverRepository.findPRocessTaskHandover(req.getProcessTaskCode(),req.getDeviceCode());
 
         return ResultVoUtil.success(halist);
     }
