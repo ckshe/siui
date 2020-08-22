@@ -28,4 +28,9 @@ public class DeviceUseHistoryServiceImpl implements DeviceUseHistoryServiceInter
     public void saveDeviceUseHistory(DeviceUseHistory deviceUseHistory) {
         deviceUseHistoryRepository.save(deviceUseHistory);
     }
+
+    @Override
+    public DeviceUseHistory findById(Integer Id) {
+        return deviceUseHistoryRepository.findById(Id).orElse(null);
+    }
 }

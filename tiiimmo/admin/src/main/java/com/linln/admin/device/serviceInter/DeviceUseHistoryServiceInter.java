@@ -7,4 +7,5 @@ import java.util.List;
 public interface DeviceUseHistoryServiceInter {
     List<DeviceUseHistory> findByPcbTaskCodeAndDeviceCode(String pcbTaskCode, String deviceCode);
     void saveDeviceUseHistory(DeviceUseHistory deviceUseHistory);
+    DeviceUseHistory findById(Integer Id);
 }

@@ -2,6 +2,9 @@ package com.linln.admin.device.realization;
 
 import com.linln.admin.device.VO.DeviceUseHistoryVO;
 import com.linln.admin.device.entity.DeviceUseHistory;
+import com.linln.admin.device.enums.ResultEnum;
+import com.linln.admin.device.exception.DeviceException;
+import com.linln.admin.device.form.DeviceUseHistoryEditForm;
 import com.linln.admin.device.form.DeviceUseHistoryForm;
 import com.linln.admin.device.serviceImpl.DeviceUseHistoryServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -32,5 +35,14 @@ public class DeviceUseHistoryReal {
         }
         BeanUtils.copyProperties(deviceUseHistories.get(0), deviceUseHistoryVO);
         return deviceUseHistoryVO;
+    }
+
+    public void editDeviceUseHistory(DeviceUseHistoryEditForm deviceUseHistoryEditForm){
+        DeviceUseHistory deviceUseHistory = deviceUseHistoryService.findById(deviceUseHistoryEditForm.getDeviceHistoryId());
+        if (deviceUseHistory == null){
+            log.error("【编辑设备使用记录】该设备使用记录不存在，deviceUseHistoryEditForm={}", deviceUseHistoryEditForm.toString());
+            throw new DeviceException(ResultEnum.DEVICE_SAFE_NOT_EXIST);
+        }
+
     }
 }

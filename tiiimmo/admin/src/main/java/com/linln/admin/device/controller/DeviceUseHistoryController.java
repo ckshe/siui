@@ -5,6 +5,7 @@ import com.linln.admin.device.VO.FirstQualityVO;
 import com.linln.admin.device.entity.DeviceUseHistory;
 import com.linln.admin.device.enums.ResultEnum;
 import com.linln.admin.device.exception.DeviceException;
+import com.linln.admin.device.form.DeviceUseHistoryEditForm;
 import com.linln.admin.device.form.DeviceUseHistoryForm;
 import com.linln.admin.device.form.FirstQualityForm;
 import com.linln.admin.device.formModel.FirstQualityEditFormModel;
@@ -46,12 +47,12 @@ public class DeviceUseHistoryController {
     }
 
     @RequestMapping("/edit")
-    public ResultVO<Object> editDeviceUseHistory(@Valid @RequestBody FirstQualityEditFormModel firstQualityEditFormModel, BindingResult bindingResult) {
+    public ResultVO<Object> editDeviceUseHistory(@Valid @RequestBody DeviceUseHistoryEditForm deviceUseHistoryEditForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            log.error("【编辑工单首检记录】参数不正确，deviceSafeForm={}", firstQualityEditFormModel.toString());
+            log.error("【编辑设备使用历史记录】参数不正确，deviceUseHistoryEditForm={}", deviceUseHistoryEditForm.toString());
             throw new DeviceException(ResultEnum.PARAM_ERROR.getCode(), Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
-        //firstQualityReal.editFirstQuality(firstQualityEditFormModel);
+
         return ResultVOUtil.success(null);
     }
 }
