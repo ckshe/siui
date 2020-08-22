@@ -22,14 +22,14 @@
         <div class="layui-form-item">
             <label class="layui-form-label">PCB光板号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="pcbCode" placeholder="请输入PCB光板号" th:value="${program?.pcbCode}">
+                <input class="layui-input" type="text" name="pcbCode" autocomplete="off" placeholder="请输入PCB光板号" th:value="${program?.pcbCode}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">AB面</label>
             <div class="layui-input-inline">
                 <!--<input class="layui-input" type="text" name="face" placeholder="请输入AB面" th:value="${program?.face}">-->
-                <input type="hidden" id="faceValue" th:value="${program?.face}">
+                <input type="hidden" id="faceValue" autocomplete="off" th:value="${program?.face}">
                 <select name="face" id="face">
                 </select>
                 <!--<input type="hidden" id="faceValue" th:value="${program?.face}">
@@ -39,25 +39,25 @@
         <div class="layui-form-item">
             <label class="layui-form-label">成品号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="productNo" placeholder="请输入成品号" th:value="${program?.productNo}">
+                <input class="layui-input" type="text" name="productNo" autocomplete="off" placeholder="请输入成品号" th:value="${program?.productNo}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">程序名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="processName" placeholder="请输入程序名称" th:value="${program?.processName}">
+                <input class="layui-input" type="text" name="processName" autocomplete="off" placeholder="请输入程序名称" th:value="${program?.processName}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">修改日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" id="time" name="modifyDate" placeholder="请输入修改日期" th:value="${#dates.format(program?.modifyDate, 'yyyy-MM-dd HH:mm:ss')}">
+                <input class="layui-input" type="text" id="time" name="modifyDate" autocomplete="off" placeholder="请输入修改日期" th:value="${#dates.format(program?.modifyDate, 'yyyy-MM-dd HH:mm:ss')}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">程序文件</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="processFile" placeholder="请输入程序文件" th:value="${program?.processFile}">
+                <input class="layui-input" type="text" name="processFile" autocomplete="off" placeholder="请输入程序文件" th:value="${program?.processFile}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">

@@ -28,9 +28,6 @@ public class FirstQualityEditForm {
     private String badResult;
     //检查人
     private String qualityPerson;
-    //检查日期
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date qualityDate;
     //备注
     private String qualityRemark;
 }

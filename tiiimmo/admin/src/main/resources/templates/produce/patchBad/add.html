@@ -9,61 +9,61 @@
         <div class="layui-form-item">
             <label class="layui-form-label">版编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="pcb_code" placeholder="请输入版编号" th:value="${patchBad?.pcb_code}">
+                <input class="layui-input" type="text" name="pcb_code" autocomplete="off" placeholder="请输入版编号" th:value="${patchBad?.pcb_code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">位号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="tag_no" placeholder="请输入位号" th:value="${patchBad?.tag_no}">
+                <input class="layui-input" type="text" name="tag_no" autocomplete="off" placeholder="请输入位号" th:value="${patchBad?.tag_no}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">贴片机台</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="patch_device" placeholder="请输入贴片机台" th:value="${patchBad?.patch_device}">
+                <input class="layui-input" type="text" name="patch_device" autocomplete="off" placeholder="请输入贴片机台" th:value="${patchBad?.patch_device}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">不良类型</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="bad_type" placeholder="请输入不良类型" th:value="${patchBad?.bad_type}">
+                <input class="layui-input" type="text" name="bad_type" autocomplete="off" placeholder="请输入不良类型" th:value="${patchBad?.bad_type}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">不良现象</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="bad_view" placeholder="请输入不良现象" th:value="${patchBad?.bad_view}">
+                <input class="layui-input" type="text" name="bad_view" autocomplete="off" placeholder="请输入不良现象" th:value="${patchBad?.bad_view}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">数量</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="amount" placeholder="请输入数量" th:value="${patchBad?.amount}">
+                <input class="layui-input" type="text" name="amount" autocomplete="off" placeholder="请输入数量" th:value="${patchBad?.amount}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">修复情况</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="repair_situation" placeholder="请输入修复情况" th:value="${patchBad?.repair_situation}">
+                <input class="layui-input" type="text" name="repair_situation" autocomplete="off" placeholder="请输入修复情况" th:value="${patchBad?.repair_situation}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">修复人</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="repair_user" placeholder="请输入修复人" th:value="${patchBad?.repair_user}">
+                <input class="layui-input" type="text" name="repair_user" autocomplete="off" placeholder="请输入修复人" th:value="${patchBad?.repair_user}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">QC</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="QC" placeholder="请输入QC" th:value="${patchBad?.QC}">
+                <input class="layui-input" type="text" name="QC" autocomplete="off" placeholder="请输入QC" th:value="${patchBad?.QC}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">记录时间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="record_time" placeholder="请输入记录时间" th:value="${patchBad?.record_time}">
+                <input class="layui-input" id="record_time" type="text" name="record_time" autocomplete="off" placeholder="请输入记录时间" th:value="${patchBad?.record_time}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -79,5 +79,18 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#record_time",
+                type:'datetime',
+                trigger:'click'
+            });
+        })
+    </script>
 </body>
 </html>

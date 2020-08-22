@@ -6,7 +6,6 @@ import com.linln.admin.base.domain.OperationInstruction;
 import com.linln.admin.base.domain.Process;
 import com.linln.admin.base.domain.TaskInstruction;
 import com.linln.admin.base.repository.*;
-import com.linln.admin.base.service.DataBoardVersionService;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.ProcessTaskDetail;
 import com.linln.admin.produce.domain.ProcessTaskDetailDevice;
@@ -26,10 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.unit.DataUnit;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
