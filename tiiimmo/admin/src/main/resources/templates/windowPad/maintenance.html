@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="stylesheet" href="../../css/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/windowPad/device.css">
     <link rel="stylesheet" href="../../css/windowPad/scancalc.css">
     <style>
         .layui-form-pane .layui-inline {
@@ -201,6 +202,7 @@
         <ul class="layui-tab-title">
             <li class="layui-this">日常维护</li>
             <li>定期维护</li>
+            <li>设备参数</li>
         </ul>
 
         <div class="layui-tab-content">
@@ -365,6 +367,16 @@
                                 </div>
                             </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 设备参数 -->
+            <div class="layui-tab-item">
+                <div class="layui-card">
+                    <div class="layui-card-header timo-card-header">
+                        <span><i class="fa fa-bars"></i> <span id="deviceCode"></span>设备参数</span>
+                        <!-- <i class="layui-icon layui-icon-refresh refresh-btn"></i> -->
+                        <div class="mainBox"></div>
                     </div>
                 </div>
             </div>
@@ -683,6 +695,56 @@
                         $("#deviceTable").next().find('.layui-table-main').addClass('mainHeight');
                         deviceFun();
                     }
+                }
+                if (data.index == 2) {
+                    var data = {
+                        "deviceCode": getQueryString2('deviceCode') || ''
+                    }
+                    $.ajax({
+                        contentType: 'application/json',
+                        type: 'get',
+                        url: '/ShowBoard/getDeviceByCode/' + data.deviceCode,
+                        dataType: "json",
+                        // data: JSON.stringify(data),
+                        success: function (response) {
+                            console.log('设备信息=', response)
+                            var responseData = response.data.device;
+                            responseData.last_check_time != null ? responseData.last_check_time = timeToDate(responseData.last_check_time, true) : '';
+                            responseData.next_check_time != null ? responseData.next_check_time = timeToDate(responseData.next_check_time, true) : '';
+                            var devstatus = {
+                                "0": "启动",
+                                "1": "暂停",
+                                "2": "停机",
+                                null: "停机",
+                            }
+                            var deviceInfostatus = {
+                                "0": "state-green",
+                                "1": "state-yellow",
+                                "2": "state-gray",
+                                null: "state-gray",
+                            }
+                            var html = '';
+                            html += '<div>' +
+                                // '   <div class="itemTit">' +
+                                // '       <span class="border-blue">设备参数</span>' +
+                                // '   </div>' +
+                                '       <div class="listStyle">' +
+                                '			<div class="col2"><span>所属厂区:</span><span>' + responseData.belong_plant_area + '</span></div>' +
+                                '			<div class="col2"><span>设备状态:</span><span>' + devstatus[responseData.device_status] +
+                                '				<i class="' + deviceInfostatus[responseData.device_status] + '" style="margin-left: 10px;"></i></span></div>' +
+                                '			<div class="col2"><span>设备名称:</span><span>' + responseData.device_name + '</span></div>' +
+                                '			<div class="col2"><span>设备型号:</span><span>' + responseData.device_model + '</span></div>' +
+                                '           <div class="col2"><span>上次检测时间:</span><span>' + responseData.last_check_time + '</span></div>' +
+                                '           <div class="col2"><span>下次检测时间:</span><span>' + responseData.next_check_time + '</span></div>' +
+                                '			<div class="col2"><span>设备类型:</span><span>' + responseData.device_type + '</span></div>' +
+                                '			<div class="col2"><span>设备站位:</span><span>' + responseData.device_sort + '</span></div>' +
+                                '		    <div class="col2"><span>所属产线:</span><span>' + responseData.belong_line + '</span></div>' +
+                                '			<div class="col2"><span>所属工序:</span><span>' + responseData.belong_process + '</span></div>' +
+                                '       </div>' +
+                                '</div>';
+                            $('.mainBox').html(html)
+                        }
+                    });
                 }
             });
             laydate.render({

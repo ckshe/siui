@@ -87,7 +87,7 @@ public class CraftParameterRecordServiceImpl implements CraftParameterRecordServ
             List<DeviceCraftParameter> paramList = deviceCraftParameterRepository.findByDevice_code(recordReq.getDeviceCode());
             String deviceParam = "";
             for(DeviceCraftParameter parameter : paramList){
-                deviceParam = deviceParam+parameter.getCraft()+":@-@0@-@"+parameter.getParameter()+"@_@";
+                deviceParam = deviceParam+parameter.getCraft()+"@-@0@-@"+parameter.getParameter()+"@_@";
             }
             int lastIndex = deviceParam.lastIndexOf("@_@");
             deviceParam = deviceParam.substring(0,lastIndex);

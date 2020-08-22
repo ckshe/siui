@@ -41,9 +41,9 @@ public class windowPadController {
         return "/windowPad/systemSet/systemSet";
     }
 //    设备参数
-    @GetMapping("/device")
+    @GetMapping("/circulation")
     public String device(){
-        return "/windowPad/device";
+        return "/windowPad/circulation";
     }
 //物料明细
     @GetMapping("/materiel")
