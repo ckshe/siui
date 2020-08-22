@@ -29,6 +29,7 @@ public class CraftParameterRecord {
 
     private String program_name;
 
+    //1是0否
     private String program_status;
 
     private String class_info;
