@@ -41,29 +41,29 @@
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">计划时间</label>
+                        <label class="layui-form-label">计划开始</label>
                         <div class="layui-input-block">
-                            <input id="planTime" type="text" name="planTime" placeholder="选择计划开始和完成时间" autocomplete="off" class="layui-input">
+                            <input id="planStartTime" type="text" name="planStartTime" placeholder="选择计划开始时间" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <!--<div class="layui-inline">
+                    <div class="layui-inline">
                         <label class="layui-form-label">计划完成</label>
                         <div class="layui-input-block">
-                            <input id="planFinishTime" type="text" name="planFinishTime" placeholder="请输入计划完成时间" autocomplete="off" class="layui-input">
+                            <input id="planFinishTime" type="text" name="planFinishTime" placeholder="选择计划完成时间" autocomplete="off" class="layui-input">
                         </div>
-                    </div>-->
+                    </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">实际时间</label>
                         <div class="layui-input-block">
-                            <input id="realTime" type="text" name="realTime" placeholder="选择实际开始和完成时间" autocomplete="off" class="layui-input">
+                            <input id="startTime" type="text" name="startTime" placeholder="选择实际开始时间" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <!--<div class="layui-inline">
+                    <div class="layui-inline">
                         <label class="layui-form-label">实际完成</label>
                         <div class="layui-input-block">
-                            <input id="finishTime" type="text" name="finishTime" placeholder="请输入实际完成时间" autocomplete="off" class="layui-input">
+                            <input id="finishTime" type="text" name="finishTime" placeholder="选择实际完成时间" autocomplete="off" class="layui-input">
                         </div>
-                    </div>-->
+                    </div>
 
                     <div class="layui-inline">
                         <button class="layui-btn" id="search"  type="button" lay-submit lay-filter="search">
@@ -156,46 +156,46 @@
                 var data = {};
                 console.log(obj.field);
 
-
                 data.pcbTaskCode=obj.field.pcbTaskCode;
                 data.taskSheetCode=obj.field.taskSheetCode;
                 data.pcbCode=obj.field.pcbCode;
                 data.pcbName=obj.field.pcbName;
-                data.planStartTime=obj.field.planTime.length>0?obj.field.planTime.split(' ~ ')[0]:"";
-                data.planFinishTime=obj.field.planTime.length>0?obj.field.planTime.split(' ~ ')[1]:"";
-                data.startTime=obj.field.realTime.length>0?obj.field.realTime.split(' ~ ')[0]:"";
-                data.finishTime=obj.field.realTime.length>0?obj.field.realTime.split(' ~ ')[1]:"";
+                data.planStartTimeBegin=obj.field.planStartTime.length>0?obj.field.planStartTime.split(' ~ ')[0]:"";
+                data.planStartTimeOver=obj.field.planStartTime.length>0?obj.field.planStartTime.split(' ~ ')[1]:"";
+                data.planFinishTimeBegin=obj.field.planFinishTime.length>0?obj.field.planFinishTime.split(' ~ ')[0]:"";
+                data.planFinishTimeOver=obj.field.planFinishTime.length>0?obj.field.planFinishTime.split(' ~ ')[1]:"";
+                data.startTimeBegin=obj.field.startTime.length>0?obj.field.startTime.split(' ~ ')[0]:"";
+                data.startTimeOver=obj.field.startTime.length>0?obj.field.startTime.split(' ~ ')[1]:"";
+                data.finishTimeBegin=obj.field.finishTime.length>0?obj.field.finishTime.split(' ~ ')[0]:"";
+                data.finishTimeOver=obj.field.finishTime.length>0?obj.field.finishTime.split(' ~ ')[1]:"";
                 table.reload('table',{
                     where:data
                 })
             });
             laydate.render({
-                elem: '#realTime',
+                elem: '#planStartTime',
                 range: "~"
             });
-            /*laydate.render({
-                elem: '#finishTime'
-            });*/
             laydate.render({
-                elem: '#planTime',
+                elem: '#planFinishTime',
                 range: "~"
             });
-            /*laydate.render({
-                elem: '#planFinishTime'
-            });*/
+            laydate.render({
+                elem: '#startTime',
+                range: "~"
+            });
+            laydate.render({
+                elem: '#finishTime',
+                range: "~"
+            });
             new Enter('pcbTaskCode',function () {$('#search').click()});
             new Enter('taskSheetCode',function () {$('#search').click()});
             new Enter('pcbCode',function () {$('#search').click()});
             new Enter('pcbName',function () {$('#search').click()});
-            new Enter('planTime',function () {$('#search').click()});
-            new Enter('realTime',function () {$('#search').click()});
-            /*new Enter('planFinishTime',function () {$('#search').click()});
+            new Enter('planStartTime',function () {$('#search').click()});
+            new Enter('planFinishTime',function () {$('#search').click()});
             new Enter('startTime',function () {$('#search').click()});
-            new Enter('finishTime',function () {$('#search').click()});*/
-            /*new Enter('pcbName',function () {$('#search').click()});*/
-
-
-
+            new Enter('finishTime',function () {$('#search').click()});
         })
     </script>
     <style>

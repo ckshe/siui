@@ -37,6 +37,20 @@ public class ProcessTaskReq {
     private String pcbCode; // 规格型号
     private List<detailDeviceReq> detailDeviceList;
 
+    // 查询时的时间区间参数
+    // 计划开始
+    private Date planStartTimeBegin;
+    private Date planStartTimeOver;
+    // 计划完成
+    private Date planFinishTimeBegin;
+    private Date planFinishTimeOver;
+    // 实际开始
+    private Date startTimeBegin;
+    private Date startTimeOver;
+    // 实际完成
+    private Date finishTimeBegin;
+    private Date finishTimeOver;
+
 
 
     @Data
