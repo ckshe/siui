@@ -142,6 +142,9 @@
                     <li class="navLi" data-url="/windowPad/circulation">
                         <span class="layui-icon" >&#xe629;</span><span>生产登记</span>
                     </li>
+                    <li class="navLi" data-url="/windowPad/firstQuality">
+                        <span class="layui-icon" >&#xe629;</span><span>首检记录</span>
+                    </li>
                     <li class="navLi" data-url="/windowPad/showPDF">
                         <span class="layui-icon" >&#xe705;</span><span>操作规范</span>
                     </li>
@@ -166,6 +169,7 @@
                         <img class="layui-icon userImg" src="../../images/user.png"/><!--
                     --><div class="userRight">
                             <div >名称：<span class="hui"  id="userName" >无</span></div>
+                            <div style="display: none;"><span id="userCode" ></span></div>
                             <div >职位：<span class="hui"  id="juese" >无</span></div>
                         <div >上机：<span class="hui" id="upTime" >无</span></div>
                     </div>
@@ -333,6 +337,7 @@
                     if(res.data.id!=null){
                         var data = res.data
                         $('#userName').html(data.nickname);
+                        $('#userCode').html(data.cardSequence);
                         $('#juese').html(data.roleNames);
                         $('#upTime').html(timeToDate(data.upTime));
                         // upTime.html('无');

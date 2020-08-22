@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>生产登记</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/windowPad/scancalc.css">
+    <style>
+        .layui-form-pane .layui-inline {
+            margin: 5px 0;
+        }
+
+        .layui-form-pane .layui-form-label {
+            width: auto;
+            background-color: #fff;
+            border-color: #1e9fff;
+            color: #1e9fff;
+            font-weight: bold;
+        }
+
+        .layui-form-pane input,
+        .layui-form-pane select {
+            border-color: #1e9fff;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .layui-form-pane input:hover,
+        .layui-form-pane input:focus {
+            border-color: #1e9fff !important;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(21, 144, 238, 0.6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(21, 144, 238, 0.6);
+        }
+
+        .layui-form-pane .layui-input-block {
+            margin-left: 0px;
+            float: left;
+        }
+
+        .screen-btn-group .layui-btn {
+            padding: 0 14px;
+        }
+
+        .timo-table-wrap {
+            overflow-y: auto;
+            margin: 5px 0;
+            position: relative;
+        }
+
+        .timo-table {
+            color: #000000;
+            margin: 0;
+        }
+
+        .timo-table.timo-table-fixed {
+            table-layout: fixed;
+        }
+
+        .timo-table a {
+            color: #1e9fff;
+        }
+
+        .timo-table a:hover {
+            color: #1590ee;
+            text-decoration: underline;
+        }
+
+        .timo-table th,
+        .timo-table td {
+            border: 1px solid #dee2e6;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .timo-table td {
+            padding: 2px 6px !important;
+        }
+
+        .timo-table th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: bold;
+            background-color: #ffffff;
+        }
+
+        .timo-table .timo-table-checkbox {
+            width: 20px;
+        }
+
+        .timo-table .timo-checkbox {
+            margin: 0 1px;
+        }
+
+        .timo-table .timo-table-null {
+            text-align: center;
+        }
+
+        .page-info {
+            padding-top: 12px;
+            vertical-align: center;
+        }
+
+        .page-number {
+            display: inline-block;
+            padding: 3px;
+            padding-top: 1px;
+            border-radius: 2px;
+            cursor: pointer;
+            border: 1px solid #e2e2e2;
+            height: 24px;
+            margin-left: 6px;
+        }
+
+        .btn-group {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .caret {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-left: 2px;
+            vertical-align: middle;
+            border-top: 4px dashed;
+            border-top: 4px solid\9;
+            border-right: 4px solid transparent;
+            border-left: 4px solid transparent;
+        }
+
+        .btn-group .layui-nav-child {
+            top: initial;
+            left: -20px;
+            right: 0;
+            margin-top: 2px;
+        }
+
+        .btn-group .layui-nav-child a {
+            display: block;
+            padding: 0 20px;
+        }
+
+        .btn-group .layui-nav-child a:hover {
+            background-color: #f2f2f2;
+            color: #000;
+        }
+
+        .btn-group.show .layui-nav-child {
+            display: block;
+        }
+
+        .screen-btn-group .layui-btn {
+            margin-left: 2px;
+        }
+
+        .screen-btn-group .btn-group .layui-btn {
+            padding-right: 12px;
+        }
+
+        .screen-btn-group .btn-group .caret {
+            margin-left: 4px;
+        }
+
+        tr td:nth-child(5) .layui-table-cell {
+            overflow: initial !important;
+            padding: 0 !important;
+        }
+
+        .layui-table-body.layui-table-main {
+            height: 320px !important;
+        }
+
+        .layui-form-item {
+            display: inline-block !important;
+            margin-bottom: 0;
+            width: 49%;
+        }
+
+        .layui-form-label {
+            width: 140px !important;
+            margin-right: 5px;
+        }
+
+        .layui-table-body.layui-table-main.mainHeight {
+            height: auto !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 定期维护 -->
+
+    <div class="layui-card">
+        <div class="layui-card-header timo-card-header">
+            <span><i class="fa fa-bars"></i> <span id="deviceCode"></span>生产流通表</span>
+            <!-- <i class="layui-icon layui-icon-refresh refresh-btn"></i> -->
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-row timo-card-screen">
+                <form class="layui-form" lay-filter="lay_form" id="lay_form">
+                    <input class="layui-input" type="hidden" name="id" id="id">
+                    <div id="craftParam">
+
+                    </div>
+                    <hr>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">设备名称: </label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input" style="border: transparent;" autocomplete="off" type="text"
+                                name="device_name" disabled id="device_name" placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">设备编号: </label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input" style="border: transparent;" autocomplete="off" type="text"
+                                id="device_code" disabled name="device_code" placeholder="">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">程序名称: </label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input" autocomplete="off" type="text" id="program_name"
+                                name="program_name" placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">工序任务号: </label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input" style="border: transparent;" autocomplete="off" type="text"
+                                id="process_task_code" disabled name="process_task_code" placeholder="">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">程序正常: </label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="level" lay-filter="levelM" value="1" title="正常">
+                            <input type="radio" name="level" lay-filter="levelM" value="0" title="不正常">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">班次: </label>
+                        <div class="layui-input-inline">
+                            <div class="layui-input-inline">
+                                <input type="radio" name="frequency" lay-filter="frequencyM" value="日" title="日">
+                                <input type="radio" name="frequency" lay-filter="frequencyM" value="夜" title="夜">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">数量: </label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input" autocomplete="off" type="text" name="plan_count" id="plan_count"
+                                placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">记录日期：</label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input" style="border: transparent;" autocomplete="off" type="text"
+                                id="record_time" name="record_time" disabled placeholder="">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">首检人员: </label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input" autocomplete="off" type="text" name="cardSequence"
+                                placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">操作员: </label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input" style="border: transparent;" autocomplete="off" type="text"
+                                name="record_name" disabled placeholder="">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="layui-form-item timo-finally" style="width: 100%; text-align: center;">
+                        <button class="layui-btn" type="button" lay-submit lay-filter="regularFrom">
+                            提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/html" id="toolbarmaintenace">
+            <button id="sub" class="layui-btn layui-btn-sm" type="button"  lay-event="devs">提交</button>
+    </script>
+    <script src="../../lib/layui-v2.3.0/layui.js"></script>
+    <script src="../../js/common.js"></script>
+</body>
+<script>
+    window.onload = function () {
+        layui.use(['jquery', 'form', 'table', 'element', 'laydate'], function () {
+            var $ = layui.jquery,
+                table = layui.table,
+                form = layui.form,
+                laydate = layui.laydate;
+            var nowDeviceCode = getQueryString2('deviceCode');
+            init();
+            var resData = []
+            function init() {
+                $.ajax({
+                    url: "/produce/pcbTask/findProcessTaskByDevice",
+                    type: 'post',
+                    dataType: "json",
+                    contentType: "application/json;charset=UTF-8",
+                    data: JSON.stringify({
+                        deviceCode: getQueryString2('deviceCode'),
+                    }),
+                    success: function (res) {
+                        layer.closeAll();
+                        res.data.some(function (t, i) {
+                            if (("" + t.is_now_flag).indexOf(nowDeviceCode) != -1) {
+                                if (parentLogin()) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: '/circulate/findCraftParameterRecordByProcessTaskCode',
+                                        contentType: "application/json; charset=utf-8",
+                                        data: JSON.stringify({
+                                            processTaskCode: t.process_task_code,
+                                            deviceCode: getQueryString2('deviceCode'),
+                                        }),
+                                        dataType: "json",
+                                        async: false,
+                                        success: function (res) {
+                                            if (res.code == 200) {
+                                                // layer.msg(res.msg, { icon: 1 });
+                                                // console.log(res.data[0].craft_param = '供气压力@-@0@-@kgf/cm2@_@供气压力1@-@0@-@kgf1/cm2')
+                                                resData = res.data[0];
+                                                var craftParamData = resData.craft_param.split('@_@');
+                                                console.log(craftParamData)
+                                                $('#craftParam').html(craftParamHmtl(craftParamData))
+                                                if (resData.program_status == 1 || resData.program_status == null) {
+                                                    $("input[name=level][value=1]").prop("checked", "true");
+                                                }
+                                                if (resData.program_status == 0) {
+                                                    $("input[name=level][value=0]").prop("checked", "true");
+                                                }
+
+                                                if (resData.class_info == '日') {
+                                                    $("input[name=frequency][value='日']").prop("checked", "true");
+                                                }
+                                                if (resData.class_info == '夜') {
+                                                    $("input[name=frequency][value='夜']").prop("checked", "true");
+                                                }
+                                                form.render("radio"); //更新全部
+                                                $('[name=id]').val(resData.id)
+                                                $('[name=device_code]').val(resData.device_code)
+                                                $('[name=device_name]').val(resData.device_name)
+                                                $('[name=process_task_code]').val(resData.process_task_code)
+                                                $('[name=plan_count]').val(resData.plan_count)
+                                                $('[name=record_name]').val(resData.record_name)
+                                                $('[name=cardSequence]').val(resData.cardSequence)
+                                                $('[name=record_time]').val(timeToDate(resData.record_time))
+                                            } else {
+                                                layer.alert(res.msg, { icon: 5 });
+                                            }
+                                        },
+                                        error: function (message) {
+                                            layer.alert("保存失败！", { icon: 5 });
+                                        }
+                                    });
+                                }
+                                return true
+                            }
+                        });
+                    }
+                })
+            }
+            function craftParamHmtl(data) {
+                var html = '';
+                for (var i = 0; i < data.length; i++) {
+                    var craftData;
+                    if (data != '') {
+                        craftData = data[i].split('@-@');
+                    }
+                    console.log(craftData)
+                    // var craftData = data
+                    html += '<div class="layui-form-item" >' +
+                        '<label class="layui-form-label"> ' + craftData[0] + '(' + craftData[2] + '): </label>' +
+                        '<div class="layui-input-inline">' +
+                        '<input class="layui-input" autocomplete="off" type="text"  onfocus=\"this.value=\'\'\" value="' + craftData[1] + '" name="deviceName' + i + '" id="deviceName' + i + '" placeholder="">' +
+                        '</div>' +
+                        ' </div>';
+                }
+                return html;
+
+            }
+
+            //提交维护
+            form.on('submit(regularFrom)', function (obj) {
+                var craftParamStr = '';
+                if (resData.craft_param.length > 0) {
+                    var craftparamArr = resData.craft_param.split("@_@");
+                    var tempCraftparamArr = [];
+                    craftparamArr.forEach((element, i) => {
+                        // console.log(element,obj.field['deviceName'+i],element.replace(/@-@0@-@/, '@-@'+obj.field['deviceName'+i]+'@-@'))
+                        tempCraftparamArr.push(element.replace(/@-@0@-@/, '@-@' + obj.field['deviceName' + i] + '@-@'));
+                    });
+                    craftParamStr = tempCraftparamArr.join('@_@')
+                }
+
+                var fromeData = {
+                    device_code: obj.field.device_code,
+                    craft_param: craftParamStr,
+                    process_task_code: obj.field.process_task_code,
+                    program_name: obj.field.program_name,
+                    class_info: obj.field.frequency,
+                    program_status: obj.field.level,
+                    plan_count: obj.field.plan_count,
+                    id: obj.field.id,
+                    cardSequence: obj.field.cardSequence
+
+                }
+                console.log(fromeData)
+                $.ajax({
+                    type: "POST",
+                    url: '/circulate/addCraftParameterRecord',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(fromeData),
+                    dataType: "json",
+                    async: false,
+                    success: function (res) {
+                        if (res.code == 200) {
+                            layer.alert(res.msg, { icon: 1, time: 1000 });
+                        } else {
+                            layer.alert(res.msg, { icon: 5, time: 3000 });
+                        }
+                    },
+                    error: function (message) {
+                        layer.alert("提交失败！", { icon: 5, time: 1000 });
+                    }
+                });
+            });
+        })
+    };
+
+</script>
+
+</html>
