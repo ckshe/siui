@@ -190,14 +190,14 @@
                             ,{field: 'task_sheet_code', title: '生产批次', sort: true, minWidth:140}
                             ,{field: 'task_sheet_date', title: '通知日期', sort: true, minWidth:170,templet:function (d) {
                                 return d.task_sheet_date?timeToDate(d.task_sheet_date):"";}}
-                            ,{field: 'pcb_id', title: '规格型号', sort: true, minWidth:206}
+                            ,{field: 'pcb_id', title: '规格型号', sort: true, minWidth:200}
                             ,{title: '领料单', minWidth:120,templet:function (d) {
                                 return "<span style='color:#1e9fff;cursor: pointer' lay-event='lin'>查看领料单</span>"
                             }}
-                            ,{field: 'pcb_name', title: '物料名称', sort: true, minWidth:216}
+                            ,{field: 'pcb_name', title: '物料名称', sort: true, minWidth:300}
                             ,{field: 'feeding_task_code', title: '投料单号', sort: true, minWidth:120}
 
-                            ,{field: 'pcb_quantity', title: '计划生产数量', sort: true, minWidth:120}
+                            ,{field: 'pcb_quantity', title: '计划生产数量', sort: true, minWidth:140}
                             ,{field: 'quantity}', title: '完成数量', sort: true, minWidth:120}
                             ,{field: 'produce_plan_date', title: '安排启动日期', sort: true, minWidth:170,templet:function (d) {
                                 return d.produce_plan_date?timeToDate(d.produce_plan_date):"";}}
@@ -208,9 +208,9 @@
                             ,{field: 'roduce_complete_date', title: '生产完成时间', sort: true, minWidth:170,templet:function (d) {
                                 return d.roduce_complete_date?timeToDate(d.roduce_complete_date):"";}}
                             ,{field: 'pcb_task_status', title: '工单状态', sort: true, minWidth:120}
-                            ,{field: 'batch_id', title: '板编号', sort: true, minWidth:120}
-                            ,{field: 'is_rohs', title: 'RoHS', sort: true, minWidth:120}
-                            ,{field: 'pcb_plate_id', title: '光板号', sort: true, minWidth:237}
+                            ,{field: 'batch_id', title: '板编号', sort: true, minWidth:140}
+                            ,{field: 'is_rohs', title: 'RoHS', sort: true, minWidth:100}
+                            ,{field: 'pcb_plate_id', title: '光板号', sort: true, minWidth:150}
                             ,{field: 'priority', title: '优先级', sort: true, minWidth:120}
                             ,{field: 'factory', title: '厂区', sort: true, minWidth:110}
                             ,{field: 'workshop', title: '车间', minWidth:200}
