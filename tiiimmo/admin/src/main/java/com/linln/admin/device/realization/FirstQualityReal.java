@@ -4,6 +4,8 @@ import com.linln.admin.device.VO.FirstQualityVO;
 import com.linln.admin.device.entity.DeviceSafe;
 import com.linln.admin.device.entity.FirstQuality;
 import com.linln.admin.device.entity.QualityType;
+import com.linln.admin.device.enums.ResultEnum;
+import com.linln.admin.device.exception.DeviceException;
 import com.linln.admin.device.form.FirstQualityEditForm;
 import com.linln.admin.device.form.FirstQualityForm;
 import com.linln.admin.device.formModel.FirstQualityEditFormModel;
@@ -18,7 +20,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,6 +78,19 @@ public class FirstQualityReal {
                 firstQualities.get(index).setPcbTaskCode(firstQualityEditForm.getPcbTaskCode());
                 firstQualities.get(index).setTaskSheetCode(firstQualityEditForm.getTaskSheetCode());
                 firstQualities.get(index).setSegment(firstQualityEditForm.getSegment());
+                if (firstQualityEditForm.getQualityOne()!=null&&firstQualities.get(index).getQualityDate()==null){
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date = new Date();
+                    String dateStr = format.format(date);
+                    try {
+                        date = format.parse(dateStr);
+                    } catch (ParseException e) {
+                        log.error("【编辑首检记录】日期转换异常 date={}", date);
+                        e.printStackTrace();
+                        throw new DeviceException(ResultEnum.DATE_FORMAT_ERROR);
+                    }
+                    firstQualities.get(index).setQualityDate(date);
+                }
             }
             index++;
         }
