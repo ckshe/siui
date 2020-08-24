@@ -43,7 +43,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">设备占位</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="number" name="device_sort" placeholder="请输入设备占位顺序" th:value="${device?.device_sort}">
+                <input class="layui-input" autocomplete="off" type="number" min="0" name="device_sort" placeholder="请输入设备占位顺序" th:value="${device?.device_sort}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">
@@ -80,7 +80,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">年限</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="number" name="year" placeholder="请输入年限" th:value="${device?.year}">
+                <input class="layui-input" autocomplete="off" type="number" min="0" name="year" placeholder="请输入年限" th:value="${device?.year}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">

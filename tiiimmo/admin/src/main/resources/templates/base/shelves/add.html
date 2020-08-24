@@ -21,7 +21,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">货架层数</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="number" name="number" placeholder="请输入货架层数" th:value="${shelves?.number}">
+                <input class="layui-input" autocomplete="off" type="number" min="0" name="number" placeholder="请输入货架层数" th:value="${shelves?.number}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">

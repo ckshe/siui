@@ -21,13 +21,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">库存</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="number" name="num" placeholder="请输入库存" th:value="${spares?.num}">
+                <input class="layui-input" autocomplete="off" type="number" min="0" name="num" placeholder="请输入库存" th:value="${spares?.num}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">最低库存</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="number" name="lowNum" placeholder="请输入最低库存" th:value="${spares?.lowNum}">
+                <input class="layui-input" autocomplete="off" type="number" min="0" name="lowNum" placeholder="请输入最低库存" th:value="${spares?.lowNum}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">

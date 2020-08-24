@@ -15,7 +15,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">元件号码</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="element_no" autocomplete="off" placeholder="请输入元件号码" th:value="${deviceProductElement?.element_no}">
+                <input class="layui-input" type="number" min="0" name="element_no" autocomplete="off" placeholder="请输入元件号码" th:value="${deviceProductElement?.element_no}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">
@@ -45,7 +45,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">安装位置</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="position" autocomplete="off" placeholder="请输入安装位置" th:value="${deviceProductElement?.position}">
+                <input class="layui-input" type="number" min="0" name="position" autocomplete="off" placeholder="请输入安装位置" th:value="${deviceProductElement?.position}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">

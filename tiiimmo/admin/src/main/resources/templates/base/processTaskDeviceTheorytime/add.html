@@ -27,33 +27,25 @@
         <div class="layui-form-item">
             <label class="layui-form-label">数量</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="number" min="0" name="amount" autocomplete="off" placeholder="请输入数量" th:value="${processTaskDeviceTheorytime?.amount}">
+                <input class="layui-input" type="number" min="0" name="amount" autocomplete="off" placeholder="请输入数量" th:value="${processTaskDeviceTheorytime?.amount}"
+                       oninput="value=value.replace(/[^\d]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">理论工时</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="number" min="0" name="theoryTime" autocomplete="off" placeholder="请输入理论工时" th:value="${processTaskDeviceTheorytime?.theoryTime}">
+                <input class="layui-input" type="number" min="0" name="theoryTime" autocomplete="off" placeholder="请输入理论工时" th:value="${processTaskDeviceTheorytime?.theoryTime}"
+                       oninput="value=value.replace(/[^\d]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">实际工时</label>
             <div class="layui-input-inline">
-                <input class="layui-input" name="workTime" autocomplete="off" placeholder="请输入实际工时" th:value="${processTaskDeviceTheorytime?.workTime}">
+                <input class="layui-input" type="number" id="number" min="0.01" name="workTime" autocomplete="off" placeholder="请输入实际工时" th:value="${processTaskDeviceTheorytime?.workTime}"
+                       onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
-        <!--<div class="layui-form-item">
-            <label class="layui-form-label">开始时间</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="startTime" autocomplete="off" placeholder="请输入开始时间" th:value="${processTaskDeviceTheorytime?.start_time}">
-            </div>
-        </div>-->
-        <!--<div class="layui-form-item">
-            <label class="layui-form-label">创建时间</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="createTime" placeholder="请输入创建时间" th:value="${processTaskDeviceTheorytime?.create_time}">
-            </div>
-        </div>-->
+
         <div class="layui-form-item timo-finally">
             <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
             <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
@@ -61,5 +53,10 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+<script>
+    document.getElementById("number").addEventListener("input",function(event){
+        event.target.value = event.target.value.replace(/\-/g,"");
+    });
+</script>
 </body>
 </html>

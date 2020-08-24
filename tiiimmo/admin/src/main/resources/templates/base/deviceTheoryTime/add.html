@@ -21,7 +21,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">理论工时</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="theory_time" autocomplete="off" placeholder="请输入理论工时" th:value="${deviceTheoryTime?.theory_time}">
+                <input class="layui-input" type="number" min="0" name="theory_time" autocomplete="off" placeholder="请输入理论工时" th:value="${deviceTheoryTime?.theory_time}"
+                       onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">

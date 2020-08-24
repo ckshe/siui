@@ -33,7 +33,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">数量</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="number" name="number" placeholder="请输入数量" th:value="${solder?.number}">
+                <input class="layui-input" autocomplete="off" type="number" name="number" min="0" placeholder="请输入数量" th:value="${solder?.number}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">
