@@ -3,7 +3,7 @@
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
 </head>
 <body>
-    <div class="layui-form timo-compile">
+<div class="layui-form timo-compile">
     <form th:action="@{/base/processTaskDeviceTheorytime/save}">
         <input type="hidden" name="id" th:if="${processTaskDeviceTheorytime}" th:value="${processTaskDeviceTheorytime.id}">
         <div class="layui-form-item">
@@ -42,7 +42,7 @@
             <label class="layui-form-label">实际工时</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="number" id="number" min="0.01" name="workTime" autocomplete="off" placeholder="请输入实际工时" th:value="${processTaskDeviceTheorytime?.workTime}"
-                       onkeyup="value=value.replace(/[^\d.]/g,'')">
+                       onkeyup="value=value.replace(/[^\d.]/g,'')=='0' ? '0.1':value">
             </div>
         </div>
 
@@ -58,5 +58,6 @@
         event.target.value = event.target.value.replace(/\-/g,"");
     });
 </script>
+
 </body>
 </html>

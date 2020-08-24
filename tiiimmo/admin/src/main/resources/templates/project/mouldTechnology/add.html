@@ -3,7 +3,7 @@
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
 </head>
 <body>
-    <div class="layui-form timo-compile">
+<div class="layui-form timo-compile">
     <form th:action="@{/project/mouldTechnology/save}">
         <input type="hidden" name="id" th:if="${mouldTechnology}" th:value="${mouldTechnology.id}">
         <div class="layui-form-item">
@@ -11,8 +11,6 @@
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="mould_technology_code" autocomplete="off" placeholder="请输入更改记录编码" th:value="${mouldTechnology?.mould_technology_code}">
             </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">pcb编码</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="pcb_code" autocomplete="off" placeholder="请输入pcb编码" th:value="${mouldTechnology?.pcb_code}">
@@ -23,8 +21,6 @@
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="pcb_version" autocomplete="off" placeholder="请输入pcb版本" th:value="${mouldTechnology?.pcb_version}">
             </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">生效时间</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" id="work_time" name="work_time" autocomplete="off" placeholder="请输入生效时间" th:value="${#dates.format(mouldTechnology?.work_time, 'yyyy-MM-dd HH:mm:ss')}">
@@ -35,8 +31,6 @@
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="change_type" autocomplete="off" placeholder="请输入更改类型" th:value="${mouldTechnology?.change_type}">
             </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">更改内容</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="change_msg" autocomplete="off" placeholder="请输入更改内容" th:value="${mouldTechnology?.change_msg}">
@@ -47,25 +41,23 @@
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="change_result" autocomplete="off" placeholder="请输入更改结果" th:value="${mouldTechnology?.change_result}">
             </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">审批人</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="check_user" autocomplete="off" placeholder="请输入审批人" th:value="${mouldTechnology?.check_user}">
             </div>
         </div>
+
         <div class="layui-form-item">
             <label class="layui-form-label">更改人</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="change_user" autocomplete="off" placeholder="请输入更改人" th:value="${mouldTechnology?.change_user}">
             </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">生效人</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="work_user" autocomplete="off" placeholder="请输入生效人" th:value="${mouldTechnology?.work_user}">
             </div>
         </div>
+
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">备注</label>
             <div class="layui-input-block">
@@ -79,19 +71,19 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
-    <script>
-        layui.use(['jquery','layer','form','laydate'],function () {
-            var $ = layui.jquery,
-                form = layui.form,
-                laydate = layui.laydate,
-                layer = layui.layer;
-            laydate.render({
-                elem:"#work_time",
-                type:'datetime',
-                trigger:'click'
-            });
+<script>
+    layui.use(['jquery','layer','form','laydate'],function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate,
+            layer = layui.layer;
+        laydate.render({
+            elem:"#work_time",
+            type:'datetime',
+            trigger:'click'
+        });
 
-        })
-    </script>
+    })
+</script>
 </body>
 </html>

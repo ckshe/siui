@@ -3,19 +3,19 @@
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
 </head>
 <body>
-    <div class="layui-form timo-compile">
+<div class="layui-form timo-compile">
     <form class="layui-form" lay-filter="lay_form" th:action="@{/base/taskInstruction/save}" enctype="multipart/form-data">
         <input type="hidden" name="id" th:if="${taskInstruction}" th:value="${taskInstruction.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">作业指导书编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="text" name="code" autocomplete="off" placeholder="请输入作业指导书编号" th:value="${taskInstruction?.code}">
+                <input class="layui-input" autocomplete="off" type="text" name="code" placeholder="请输入作业指导书编号" th:value="${taskInstruction?.code}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">作业指导书名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="text" name="name" autocomplete="off" placeholder="请输入作业指导书名称" th:value="${taskInstruction?.name}">
+                <input class="layui-input" autocomplete="off" type="text" name="name" placeholder="请输入作业指导书名称" th:value="${taskInstruction?.name}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -44,66 +44,66 @@
         </div>
         <div class="layui-form-item timo-finally">
             <button class="layui-btn" lay-submit lay-filter="sub" type="button"><i class="fa fa-check-circle"></i> 保存</button>
-<!--            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>-->
+            <!--            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>-->
             <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
         </div>
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
-    <script>
-        layui.use(['form','jquery','layer'], function() {
-            var form = layui.form,
-                layer = layui.layer,
-                $ = layui.jquery;
+<script>
+    layui.use(['form','jquery','layer'], function() {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.jquery;
 
-            $.get('/base/process/findProcessType',function (res) {
-                if(res.code===200){
-                    var select = document.getElementById('processName');
-                    var str = "";
-                    var d = res.data.map(function (t) {
-                        return {process_type:t}
-                    })
-                    d.forEach(function (t) {
-                        str+="<option value='"+t.process_type+"'>"+t.process_type+"</option>"
-                    })
-                    select.innerHTML=str;
-                    form.val('lay_form',{processName:$('#processNameValue').val()});
-                }
-            })
-            form.on('submit(sub)',function (obj) {
-                var data=obj.field;
-                console.log(data);
-                var formData = new FormData();
-                var uploadFile=document.getElementById('uploadFile');
-
-                formData.append('file',uploadFile.files[0]);
-                console.log(formData);
-                for(var k in data){
-                    formData.append(k,data[k]);
-                }
-
-                $.ajax({
-                    type:'post',
-                    url:'/base/taskInstruction/save',
-                    data:formData,
-                    processData : false,
-                    contentType : false,
-                    success:function (res) {
-                        if(res.code===200){
-                            layer.alert('提交成功！',{icon:1},function () {
-                                layer.closeAll();
-                                window.parent.location.reload();
-                            })
-                        }else{
-                            layer.alert(res.msg,{icon:2},function () {
-                                layer.closeAll()
-                            })
-                        }
-                    }
-                });
-            });
+        $.get('/base/process/findProcessType',function (res) {
+            if(res.code===200){
+                var select = document.getElementById('processName');
+                var str = "";
+                var d = res.data.map(function (t) {
+                    return {process_type:t}
+                })
+                d.forEach(function (t) {
+                    str+="<option value='"+t.process_type+"'>"+t.process_type+"</option>"
+                })
+                select.innerHTML=str;
+                form.val('lay_form',{processName:$('#processNameValue').val()});
+            }
         })
+        form.on('submit(sub)',function (obj) {
+            var data=obj.field;
+            console.log(data);
+            var formData = new FormData();
+            var uploadFile=document.getElementById('uploadFile');
 
-    </script>
+            formData.append('file',uploadFile.files[0]);
+            console.log(formData);
+            for(var k in data){
+                formData.append(k,data[k]);
+            }
+
+            $.ajax({
+                type:'post',
+                url:'/base/taskInstruction/save',
+                data:formData,
+                processData : false,
+                contentType : false,
+                success:function (res) {
+                    if(res.code===200){
+                        layer.alert('提交成功！',{icon:1},function () {
+                            layer.closeAll();
+                            window.parent.location.reload();
+                        })
+                    }else{
+                        layer.alert(res.msg,{icon:2},function () {
+                            layer.closeAll()
+                        })
+                    }
+                }
+            });
+        });
+    })
+
+</script>
 </body>
 </html>
