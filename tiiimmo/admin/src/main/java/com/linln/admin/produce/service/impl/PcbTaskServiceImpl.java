@@ -193,11 +193,16 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         System.out.println("-----------list-------------"+lists.size());
         List<PcbTask> pckTaskList = new ArrayList<>();
         List<PCBPlateNo> plateNoList = new ArrayList<>();
-        for(int i = 0 ; i<lists.size();i++){ 
+        List<String> pcbTaskCodeList = new ArrayList<>();
+        List<PcbTask> touchanPcbTaskList = new ArrayList<>();
+
+        for(int i = 0 ; i<lists.size();i++){
             JSONObject param = lists.getJSONObject(i);
             //生产任务单号
             String pcb_task_code = param.getString("FRWFBillNo");
-
+            pcbTaskCodeList.add(pcb_task_code);
+            //入库数量
+            Integer finishCount = param.getInteger("FAuxStockQty");
 
             //pcb编码
             String pcb_id = param.getString("FPCBModel");
@@ -222,7 +227,17 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
             if(oldPcbTasks!=null&&oldPcbTasks.size()!=0){
                 pcbTask = oldPcbTasks.get(0);
+                if("已投产".equals(pcbTask.getPcb_task_status())){
+                    touchanPcbTaskList.add(pcbTask);
+                }
                 if(pcbTask.getPcb_task_status().contains("下达")||"确认".equals(pcbTask.getPcb_task_status())){
+                    pcbTask.setAmount_completed(finishCount);
+                    //修改入库工序
+                    ProcessTask rukuProcessTaskCode = processTaskRepository.findByPcb_task_idAndProcess(pcbTask.getId(), "入库");
+                    rukuProcessTaskCode.setProcess_task_status("进行中");
+                    rukuProcessTaskCode.setAmount_completed(finishCount);
+                    rukuProcessTaskCode.setFinish_time(new Date());
+                    processTaskRepository.save(rukuProcessTaskCode);
                     pcbTask.setProduce_plan_complete_date(produce_plan_complete_date);
                     pcbTask.setProduce_plan_date(produce_plan_date);
                     pcbTask.setPcb_quantity(pcb_quantity);
@@ -231,6 +246,13 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     continue;
                 }
                 if(!"已完成".equals(pcbTask.getPcb_task_status())){
+                    pcbTask.setAmount_completed(finishCount);
+                    //修改入库工序
+                    ProcessTask rukuProcessTaskCode = processTaskRepository.findByPcb_task_idAndProcess(pcbTask.getId(), "入库");
+                    rukuProcessTaskCode.setProcess_task_status("进行中");
+                    rukuProcessTaskCode.setAmount_completed(finishCount);
+                    rukuProcessTaskCode.setFinish_time(new Date());
+                    processTaskRepository.save(rukuProcessTaskCode);
                     pcbTask.setProduce_plan_complete_date(produce_plan_complete_date);
                     pcbTask.setProduce_plan_date(produce_plan_date);
                     pcbTaskRepository.save(pcbTask);
@@ -300,6 +322,23 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }
         pcbPlateNoRepository.saveAll(plateNoList);
         pcbTaskRepository.saveAll(pckTaskList);
+
+        //循环本地已投产的排产计划
+        for(PcbTask pcbTask : touchanPcbTaskList){
+            boolean isExist = pcbTaskCodeList.contains(pcbTask.getPcb_task_code());
+            if(!isExist){
+                pcbTask.setAmount_completed(pcbTask.getPcb_quantity());
+                pcbTask.setPcb_task_status("已完成");
+                pcbTask.setProduce_complete_date(new Date());
+                pcbTaskRepository.save(pcbTask);
+                //修改入库工序
+                ProcessTask rukuProcessTaskCode = processTaskRepository.findByPcb_task_idAndProcess(pcbTask.getId(), "入库");
+                rukuProcessTaskCode.setProcess_task_status("已完成");
+                rukuProcessTaskCode.setAmount_completed(rukuProcessTaskCode.getPcb_quantity());
+                rukuProcessTaskCode.setFinish_time(new Date());
+                processTaskRepository.save(rukuProcessTaskCode);
+            }
+        }
         System.out.println("-----------结束同步-------------");
 
         return ResultVoUtil.success("同步完成");
