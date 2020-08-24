@@ -17,9 +17,9 @@ spring:
   ## 数据库配置vehicle
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://localhost:1433;DatabaseName=chaosheng
+    url: jdbc:sqlserver://10.33.77.66:1433;DatabaseName=chaosheng
     username: sa
-    password: ss123$%^
+    password: ss123456
 
   ## jpa配置
   jpa:
