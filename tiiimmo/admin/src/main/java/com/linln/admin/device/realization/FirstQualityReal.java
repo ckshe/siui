@@ -12,6 +12,8 @@ import com.linln.admin.device.formModel.FirstQualityEditFormModel;
 import com.linln.admin.device.resultVO.FirstQualityListResultVO;
 import com.linln.admin.device.serviceImpl.FirstQualityServiceImpl;
 import com.linln.admin.device.serviceImpl.QualityTypeServiceImpl;
+import com.linln.modules.system.domain.User;
+import com.linln.modules.system.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,6 +35,7 @@ import java.util.stream.Collectors;
 public class FirstQualityReal {
     private FirstQualityServiceImpl firstQualityService;
     private QualityTypeServiceImpl qualityTypeService;
+    private UserServiceImpl userService;
 
     @Autowired
     public void setFirstQualityService(FirstQualityServiceImpl firstQualityService){
@@ -41,6 +45,11 @@ public class FirstQualityReal {
     @Autowired
     public void setQualityTypeService(QualityTypeServiceImpl qualityTypeService){
         this.qualityTypeService = qualityTypeService;
+    }
+
+    @Autowired
+    public void setUserService(UserServiceImpl userService){
+        this.userService = userService;
     }
 
     public List<FirstQualityVO> getFirstQuality(FirstQualityForm firstQualityForm){
@@ -64,15 +73,20 @@ public class FirstQualityReal {
         }
         return firstQualityVOS;
     }
-
+    @Transactional
     public void editFirstQuality(FirstQualityEditFormModel firstQualityEditFormModel){
         List<Integer> idList = firstQualityEditFormModel.getFirstQualityEditForms().stream().map(FirstQualityEditForm::getQualityId).collect(Collectors.toList());
         List<FirstQuality> firstQualities = firstQualityService.findByQualityIdIn(idList);
+        List<User> users = userService.findAll();
         int index=0;
         for (FirstQuality firstQuality : firstQualities){
             List<FirstQualityEditForm> firstQualityEditForms = firstQualityEditFormModel.getFirstQualityEditForms().stream().filter(e -> e.getQualityId().equals(firstQuality.getQualityId())).collect(Collectors.toList());
             if (firstQualityEditForms.size() != 0){
                 FirstQualityEditForm firstQualityEditForm = firstQualityEditForms.get(0);
+                List<User> userList = users.stream().filter(e -> firstQualityEditForm.getQualityPerson() != null && firstQualityEditForm.getQualityPerson().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
+                if (userList.size() != 0) {
+                    firstQualityEditForm.setQualityPerson(userList.get(0).getNickname());
+                }
                 BeanUtils.copyProperties(firstQualityEditForm, firstQualities.get(index));
                 firstQualities.get(index).setPcbCode(firstQualityEditForm.getPcbCode());
                 firstQualities.get(index).setPcbTaskCode(firstQualityEditForm.getPcbTaskCode());
