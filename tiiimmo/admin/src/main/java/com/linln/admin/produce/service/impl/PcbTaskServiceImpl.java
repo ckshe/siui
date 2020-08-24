@@ -842,6 +842,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         String taskSheetCode = pcbTaskReq.getTaskSheetCode();  //生产批次
         String pcbId = pcbTaskReq.getPcbId(); //规格型号
         String pcbName = pcbTaskReq.getPcbName(); //物料名称
+        String pcbTask = pcbTaskReq.getPcbTaskCode();
         String status = pcbTaskReq.getStatus();
         if(status==null||"".equals(status)){
             status = "已投产";
@@ -865,6 +866,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         if(pcbName!=null&&!"".equals(pcbName)){
             wheresql.append(" and pcb_name like '" +
                     "%" + pcbName + "%" +
+                    "' ");
+        }
+        if(pcbTask!=null&&!"".equals(pcbTask)){
+            wheresql.append(" and pcb_task_code like '" +
+                    "%" + pcbTask + "%" +
                     "' ");
         }
         if(status!=null&&!"".equals(status)&&!"全部".equals(status)){

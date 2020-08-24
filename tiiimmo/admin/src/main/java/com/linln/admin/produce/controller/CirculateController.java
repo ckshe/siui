@@ -2,6 +2,7 @@ package com.linln.admin.produce.controller;
 
 import com.linln.admin.produce.domain.CraftParameterRecord;
 import com.linln.admin.produce.domain.ProcessTaskHandover;
+import com.linln.admin.produce.request.CirclateReq;
 import com.linln.admin.produce.request.CraftParameterRecordReq;
 import com.linln.admin.produce.request.CraftParameterReq;
 import com.linln.admin.produce.request.ProcessTaskHandoverReq;
@@ -73,6 +74,14 @@ public class CirculateController {
     @ResponseBody
     public ResultVo qcCraftParameterRecord(@RequestBody CraftParameterRecordReq req){
         return craftParameterRecordService.qcCraftParameterRecord(req);
+    }
+
+
+    //根据排产计划号查找流通表
+    @PostMapping("/findCirculate")
+    @ResponseBody
+    public ResultVo findCirculate(@RequestBody CirclateReq req){
+        return craftParameterRecordService.findCirculate(req);
     }
 
 }

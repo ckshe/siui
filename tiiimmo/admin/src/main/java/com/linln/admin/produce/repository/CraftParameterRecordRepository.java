@@ -10,4 +10,7 @@ public interface CraftParameterRecordRepository extends BaseRepository<CraftPara
 
     @Query(value = "select * from produce_craft_parameter_record where process_task_code = ?1",nativeQuery = true)
     List<CraftParameterRecord> findByProcess_task_code(String processTaskCode);
+
+    @Query(value = "select * from produce_craft_parameter_record where pcb_task_code = ?1",nativeQuery = true)
+    List<CraftParameterRecord> findByPcb_task_code(String pcbTaskCode);
 }
