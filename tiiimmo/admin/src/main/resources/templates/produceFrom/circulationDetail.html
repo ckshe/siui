@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>生产流通表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+
+</head>
+<style>
+    .mainBox {
+        box-sizing: border-box;
+        padding: 0 14px;
+    }
+
+    .layui-form-label {
+        width: 95px !important;
+    }
+</style>
+
+<body>
+    <div style="display: none" id="timeBox">
+        <div class="site-demo-laydate">
+            <div class="layui-inline" id="time"></div>
+        </div>
+    </div>
+    <form class="layui-form" id="editForm" style="display: none;padding:14px 0;">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">计划生产时间</label>
+                <div class="layui-input-inline">
+                    <input id="planStartTime" type="text" name="planStartTime" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">计划完成时间</label>
+                <div class="layui-input-inline">
+                    <input id="planFinishTime" type="text" name="planFinishTime" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">选择设备</label>
+                <div class="layui-input-inline">
+                    <textarea id="imConfig" type="text" class="layui-textarea" placeholder="选择机台"></textarea>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center">
+            <button class="layui-btn  layui-btn-sm" lay-submit lay-filter="sub" type="button">确定</button>
+        </div>
+    </form>
+    <!--备料工序计划页面-->
+    <div id="status" style="display: none;padding:14px;box-sizing: border-box">
+        <form class="layui-form" id="statusForm" lay-filter="statusForm">
+            <input type="hidden" name="id">
+            <div class="layui-form-item">
+                <label class="layui-form-label">工序任务号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="process_task_code" disabled autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">工序状态</label>
+                <div class="layui-input-block">
+                    <select name="process_task_status" lay-filter="status">
+                        <option value="">请选择状态</option>
+                        <option value="进行中">进行中</option>
+                        <option value="生产中">生产中</option>
+                        <option value="暂停">暂停</option>
+                        <option value="已完成">已完成</option>
+                    </select>
+                </div>
+            </div>
+            <div id="isOver" style="display: none">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">计划生产数量</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="pcb_quantity" disabled autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">实际生产数量</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="amount_completed" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center">
+                <button class="layui-btn" type="button" lay-submit lay-filter="status">确定</button>
+            </div>
+        </form>
+    </div>
+
+    <form class="layui-form" lay-filter="bianjiBox" id="bianjiBox" style="display: none;padding:14px 0;">
+        <input type="hidden" name="processId">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">计划生产时间</label>
+                <div class="layui-input-inline">
+                    <input id="planStartTime2" type="text" name="planStartTime" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">计划完成时间</label>
+                <div class="layui-input-inline">
+                    <input id="planFinishTime2" type="text" name="planFinishTime" autocomplete="off"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">计划生产数量</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="pcbQuantity" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center">
+            <button class="layui-btn  layui-btn-sm" lay-submit lay-filter="edit" type="button">保存</button>
+        </div>
+    </form>
+    <div class="mainBox">
+        <table class="layui-table" id="table" lay-filter="table"></table>
+    </div>
+    <script type="text/html" id="im">
+    <button lay-event="im" class="layui-btn layui-btn-normal layui-btn-xs" type="button">查看</button>
+</script>
+    <script type="text/html" id="baobiao">
+    <button lay-event="baobiao" class="layui-btn layui-btn-normal layui-btn-xs" type="button">查看</button>
+</script>
+
+    <script src="../../lib/layui-v2.3.0/layui.js"></script>
+    <script src="../../js/common.js"></script>
+</body>
+<script>
+    var a = "";
+    var imTable = "";
+    window.onload = function () {
+        layui.use(['jquery', 'form', 'layer', 'table', 'laydate'], function () {
+            var $ = layui.jquery,
+                table = layui.table,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                form = layui.form;
+            var nowData = {};
+            var deviceName = [],//选择的机台编号列表
+                deviceCode = [];//选择的机台名称列表
+            laydate.render({ elem: '#planStartTime', type: 'date' })
+            laydate.render({ elem: '#planFinishTime', type: 'date' })
+            //展示已知数据
+            table.render({
+                elem: '#table'
+                , url: '/produce/pcbTask/findProcessTaskByPCBTaskId/' + getQueryString('id') //数据接口
+                , page: false //开启分页
+                , height: 'full-30'
+                , response: {
+                    statusCode: 200 //规定成功的状态码，默认：0，改为200
+                }
+                , parseData: function (res) {
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "data": res.data //解析数据列表
+                    };
+                }
+                , cols: [
+                    [
+                        { field: 'process_task_code', title: '工序任务号', minWidth: 178 }
+                        , { field: 'process_name', title: '工序名称', minWidth: 120 }
+                        , { field: 'process_task_status', title: '工单状态', minWidth: 100 }
+                        , {
+                            field: 'plan_start_time', title: '计划生产时间', minWidth: 140, templet: function (d) {
+                                return d.plan_start_time ? timeToDate(d.plan_start_time, true) : "";
+                            }
+                        }
+                        , {
+                            field: 'plan_finish_time', title: '计划完成时间', minWidth: 140, templet: function (d) {
+                                return d.plan_finish_time ? timeToDate(d.plan_finish_time, true) : "";
+                            }
+                        }
+                        , {
+                            field: 'start_time', title: '实际生产时间', minWidth: 140, templet: function (d) {
+                                return d.start_time ? timeToDate(d.start_time, true) : "";
+                            }
+                        }
+                        , {
+                            field: 'finish_time', title: '实际完成时间', minWidth: 140, templet: function (d) {
+                                return d.finish_time ? timeToDate(d.finish_time, true) : "";
+                            }
+                        }
+                        , { field: 'pcb_quantity', title: '计划生产数量', minWidth: 120 }
+
+                        , { field: 'amount_completed', title: '实际生产数量', minWidth: 120 }
+                        // , { field: 'device_name', title: '选择设备', minWidth: 86, toolbar: '#im' }
+
+                        , { field: 'work_time', title: '工时', minWidth: 80 }
+                        , {
+                            field: 'wealth', title: '操作', fixed: 'right', minWidth: 270, templet: function (d) {
+                                if (d.process_task_status === '未下达') {
+                                    return '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-xs" type="button">下达</button>' +
+                                        // '<button lay-event="edit" class="layui-btn layui-btn-normal layui-btn-xs" type="button">编辑</button>'+
+                                        // '<button lay-event="status" class="layui-btn layui-btn-danger layui-btn-xs" type="button">修改状态</button>' +
+                                        '<button lay-event="split" class="layui-btn layui-btn-normal layui-btn-xs" style="background-color:#009688" type="button">工序日计划</button>'
+
+                                } else {
+                                    // return '<button lay-event="edit" class="layui-btn layui-btn-normal layui-btn-xs" type="button">编辑</button>' +
+                                   // '<button lay-event="status" class="layui-btn layui-btn-danger layui-btn-xs" type="button">修改状态</button>' +
+                                    return     '<button lay-event="split" class="layui-btn layui-btn-normal layui-btn-xs" style="background-color:#009688" type="button">工序日计划</button>'
+
+                                }
+                            }
+                        }
+                    ]
+                ]
+            });
+
+            table.on('tool(table)', function (obj) {
+                var data = obj.data;
+                switch (obj.event) {
+                    case 'im': break;
+                    case 'baobiao': break;
+                    case 'set':
+                        nowData = data;
+                        layer.open({
+                            title: '下达',
+                            offset: 20,
+                            content: $('#editForm'),
+                            type: 1,
+                            area: ['360px', '310px']
+                        });
+                        break;
+                    case 'status':
+                        layer.open({
+                            title: '修改状态',
+                            type: 1,
+                            offset: 20,
+                            area: ['400px', '400px'],
+                            content: $("#status"),
+                        });
+                        form.val('statusForm', data);
+                        break;
+                    case 'split':
+                        var sTime = data.plan_start_time ? timeToDate(data.plan_start_time, true) : "";
+                        var fTime = data.plan_finish_time ? timeToDate(data.plan_finish_time, true) : "";
+                        layer.open({
+                            type: 2,
+                            title: '工序日计划',
+                            area: ['90%', '90%'],
+                            content: '/produce/pcbTask/planDetail?process_task_code=' + data.process_task_code + "&processId=" + data.id + "&sTime=" + sTime + "&fTime=" + fTime + "&countType=" + data.count_type + "&process_name=" + data.process_name,
+                            success: function (layero, index) {
+                                var body = layer.getChildFrame('body', index);
+                                var d = JSON.stringify(data)
+                                body.contents().find("input[name='data']").val(d);
+                            }
+                        });
+                        break;
+                }
+            });
+            form.on('select(status)', function (obj) {
+                if (obj.value === '已完成') {
+                    document.getElementById('isOver').style.display = "block"
+                } else {
+                    document.getElementById('isOver').style.display = "none"
+
+                }
+            });
+            $("#imConfig").on('click', function () {
+                imTable = layer.open({
+                    type: 2,
+                    area: ["80%", "80%"],
+                    title: '请选择机台',
+                    content: '/imTable?process_name=' + nowData.process_name
+                });
+                a = function (data) {
+                    //选择的机台编号列表
+                    deviceName = [];
+                    //选择的机台名称列表
+                    deviceCode = [];
+                    data.forEach(function (t) {
+                        deviceName.push(t.device_name);
+                        deviceCode.push(t.device_code)
+                    });
+                    $('#imConfig').val(deviceName.join('\r\n'));
+                    layer.close(imTable)
+                }
+            })
+            //下达
+            form.on('submit(sub)', function (obj) {
+                obj.field.deviceName = deviceName.join(',')
+                obj.field.deviceCode = deviceCode.join(',')
+                obj.field.processTaskId = nowData.id
+                if (obj.field.planStartTime == '' || obj.field.planFinishTime == '' || obj.field.deviceCode == '') {
+                    layer.msg('计划时间与机台设备不能为空', function () { time: 2000 });
+                    return false;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '/produce/pcbTask/putIntoProduce',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(obj.field),
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.code === 200) {
+                            layer.alert(res.msg, { icon: 1 }, function () {
+                                table.reload('table')
+                                layer.closeAll();
+
+                            })
+                        } else {
+                            layer.msg(res.msg, { offset: '15px', time: 3000, icon: 2 });
+                        }
+                    },
+                    error: function (message) {
+                        layer.msg("保存失败！", { offset: '15px', time: 3000, icon: 2 });
+                    }
+                });
+            })
+            //编辑
+            // form.on('submit(edit)',function (obj) {
+            //     console.log(obj.field);
+            //     $.ajax({
+            //         type: "POST",
+            //         url: "/produce/pcbTask/updateProcessTask/",
+            //         contentType: "application/json; charset=utf-8",
+            //         data: JSON.stringify(obj.field),
+            //         dataType: "json",
+            //         success: function (res) {
+            //             if(res.code === 200){
+            //                 layer.alert(res.msg,{icon:1},function () {
+            //                     table.reload('table');
+            //                     layer.closeAll();
+            //                 })
+            //             }else{
+            //                 layer.msg(res.msg, {offset: '15px', time: 3000, icon: 2});
+            //             }
+            //         },
+            //         error: function (message) {
+            //             layer.msg("保存失败！", {offset: '15px', time: 3000, icon: 2});
+            //         }
+            //     });
+            // })
+            //修改状态
+            form.on('submit(status)', function (obj) {
+                var data = obj.field;
+                var d = {};
+                d.processTaskId = data.id;
+                d.processTaskStatus = data.process_task_status;
+                if (data.process_task_status == '已完成') {
+                    d.amountCompleted = data.amount_completed;
+                }
+                $.ajax({
+                    url: '/produce/pcbTask/modifyProcessTaskStatus',
+                    type: "post",
+                    dataType: "json",
+                    data: JSON.stringify(d),
+                    contentType: "application/json;charset=UTF-8",
+                    success: function (res) {
+                        if (res.code === 200) {
+                            layer.msg(res.msg, { icon: 1, time: 500 }, function () {
+                                table.reload('table');
+                                layer.closeAll();
+                            })
+                        } else {
+                            layer.alert(res.msg, { icon: 5 })
+                        }
+                    }
+                })
+
+            });
+
+            laydate.render({
+                elem: '#planStartTime2'
+                , type: 'date'
+            });
+            laydate.render({
+                elem: '#planFinishTime2'
+                , type: 'date'
+            });
+            laydate.render({
+                elem: '#startTime'
+                , type: 'date'
+            });
+            laydate.render({
+                elem: '#finishTime'
+                , type: 'date'
+            });
+
+        });
+
+    };
+
+</script>
+
+</html>
