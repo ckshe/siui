@@ -198,104 +198,180 @@
 
 <body>
 
-    <!-- 定期维护 -->
+    <!-- 板面参数设置 -->
+    <div class="layui-tab layui-tab-brief" lay-filter="regular">
+        <ul class="layui-tab-title">
+            <li class="layui-this">板面参数设置</li>
+            <li>下道工序交接</li>
+        </ul>
 
-    <div class="layui-card">
-        <div class="layui-card-header timo-card-header">
-            <span><i class="fa fa-bars"></i> <span id="deviceCode"></span>生产流通表</span>
-            <!-- <i class="layui-icon layui-icon-refresh refresh-btn"></i> -->
-        </div>
-        <div class="layui-card-body">
-            <div class="layui-row timo-card-screen">
-                <form class="layui-form" lay-filter="lay_form" id="lay_form">
-                    <input class="layui-input" type="hidden" name="id" id="id">
-                    <div id="craftParam">
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-card">
+                    <div class="layui-card-header timo-card-header">
+                        <span><i class="fa fa-bars"></i> <span id="deviceCode"></span>生产流通表</span>
+                        <!-- <i class="layui-icon layui-icon-refresh refresh-btn"></i> -->
+                    </div>
+                    <div class="layui-card-body">
+                        <div class="layui-row timo-card-screen">
+                            <form class="layui-form" lay-filter="lay_form" id="lay_form">
+                                <input class="layui-input" type="hidden" name="id" id="id">
+                                <div id="craftParam">
 
-                    </div>
-                    <hr>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">设备名称: </label>
-                        <div class="layui-input-inline">
-                            <input class="layui-input" style="border: transparent;" autocomplete="off" type="text"
-                                name="device_name" disabled id="device_name" placeholder="">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">设备编号: </label>
-                        <div class="layui-input-inline">
-                            <input class="layui-input" style="border: transparent;" autocomplete="off" type="text"
-                                id="device_code" disabled name="device_code" placeholder="">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">程序名称: </label>
-                        <div class="layui-input-inline">
-                            <input class="layui-input" autocomplete="off" type="text" id="program_name"
-                                name="program_name" placeholder="">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">工序任务号: </label>
-                        <div class="layui-input-inline">
-                            <input class="layui-input" style="border: transparent;" autocomplete="off" type="text"
-                                id="process_task_code" disabled name="process_task_code" placeholder="">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">程序正常: </label>
-                        <div class="layui-input-inline">
-                            <input type="radio" name="level" lay-filter="levelM" value="1" title="正常">
-                            <input type="radio" name="level" lay-filter="levelM" value="0" title="不正常">
-                        </div>
-                    </div>
+                                </div>
+                                <hr>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">设备名称: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" style="border: transparent;" autocomplete="off"
+                                            type="text" name="device_name" disabled id="device_name" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">设备编号: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" style="border: transparent;" autocomplete="off"
+                                            type="text" id="device_code" disabled name="device_code" placeholder="">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">程序名称: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" autocomplete="off" type="text" id="program_name"
+                                            name="program_name" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">工序任务号: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" style="border: transparent;" autocomplete="off"
+                                            type="text" id="process_task_code" disabled name="process_task_code"
+                                            placeholder="">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">程序正常: </label>
+                                    <div class="layui-input-inline">
+                                        <input type="radio" name="level" lay-filter="levelM" value="1" title="正常">
+                                        <input type="radio" name="level" lay-filter="levelM" value="0" title="不正常">
+                                    </div>
+                                </div>
 
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">班次: </label>
-                        <div class="layui-input-inline">
-                            <div class="layui-input-inline">
-                                <input type="radio" name="frequency" lay-filter="frequencyM" value="日" title="日">
-                                <input type="radio" name="frequency" lay-filter="frequencyM" value="夜" title="夜">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">班次: </label>
+                                    <div class="layui-input-inline">
+                                        <div class="layui-input-inline">
+                                            <input type="radio" name="frequency" lay-filter="frequencyM" value="日"
+                                                title="日">
+                                            <input type="radio" name="frequency" lay-filter="frequencyM" value="夜"
+                                                title="夜">
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">数量: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" autocomplete="off" type="text" name="plan_count"
+                                            id="plan_count" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">记录日期：</label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" style="border: transparent;" autocomplete="off"
+                                            type="text" id="record_time" name="record_time" disabled placeholder="">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">首检人员: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" autocomplete="off" type="text" name="cardSequence"
+                                            placeholder="">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">操作员: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" style="border: transparent;" autocomplete="off"
+                                            type="text" name="record_name" disabled placeholder="">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="layui-form-item timo-finally" style="width: 100%; text-align: center;">
+                                    <button class="layui-btn" type="button" lay-submit lay-filter="regularFrom">
+                                        提交</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- 下道工序交接人 -->
+            <div class="layui-tab-item">
+                <div class="layui-card">
+                    <div class="layui-card-header timo-card-header">
+                        <span><i class="fa fa-bars"></i> <span id="deviceCode"></span>生产流通表</span>
+                        <!-- <i class="layui-icon layui-icon-refresh refresh-btn"></i> -->
+                    </div>
+                    <div class="layui-card-body">
+                        <form class="layui-form" lay-filter="next_form" id="next_form">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">设备编号: </label>
+                                <div class="layui-input-inline">
+                                    <input class="layui-input" style="border: transparent;" autocomplete="off"
+                                        type="text" disabled name="device_code" placeholder="">
+                                </div>
                             </div>
-                        </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">工序任务号: </label>
+                                <div class="layui-input-inline">
+                                    <input class="layui-input" style="border: transparent;" autocomplete="off"
+                                        type="text" disabled name="process_task_code" placeholder="">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">排序产任务号: </label>
+                                <div class="layui-input-inline">
+                                    <input class="layui-input" style="border: transparent;" autocomplete="off"
+                                        type="text" name="pcb_task_code" disabled placeholder="">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">数量: </label>
+                                <div class="layui-input-inline">
+                                    <input class="layui-input" autocomplete="off" type="text" name="count"
+                                        placeholder="请输入数量">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">交接人类型: </label>
+                                <div class="layui-input-inline">
+                                    <div class="layui-input-inline">
+                                        <input type="radio" name="type" lay-filter="type" value="1" checked title="交接人">
+                                        <input type="radio" name="type" lay-filter="type" value="2" title="承接人">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">交接人工号: </label>
+                                <div class="layui-input-inline">
+                                    <input class="layui-input" autocomplete="off" type="text" name="cardSequence"
+                                        placeholder="请输入交接人员信息">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item timo-finally" style="width: 100%; text-align: center;">
+                                <button class="layui-btn" type="button" lay-submit lay-filter="handoveFrom">
+                                    提交</button>
+                            </div>
+                        </form>
                     </div>
-                    <hr>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">数量: </label>
-                        <div class="layui-input-inline">
-                            <input class="layui-input" autocomplete="off" type="text" name="plan_count" id="plan_count"
-                                placeholder="">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">记录日期：</label>
-                        <div class="layui-input-inline">
-                            <input class="layui-input" style="border: transparent;" autocomplete="off" type="text"
-                                id="record_time" name="record_time" disabled placeholder="">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">首检人员: </label>
-                        <div class="layui-input-inline">
-                            <input class="layui-input" autocomplete="off" type="text" name="cardSequence"
-                                placeholder="">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">操作员: </label>
-                        <div class="layui-input-inline">
-                            <input class="layui-input" style="border: transparent;" autocomplete="off" type="text"
-                                name="record_name" disabled placeholder="">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="layui-form-item timo-finally" style="width: 100%; text-align: center;">
-                        <button class="layui-btn" type="button" lay-submit lay-filter="regularFrom">
-                            提交</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -312,10 +388,11 @@
             var $ = layui.jquery,
                 table = layui.table,
                 form = layui.form,
+                element = layui.element,
                 laydate = layui.laydate;
             var nowDeviceCode = getQueryString2('deviceCode');
             init();
-            var resData = []
+            var resData = [];
             function init() {
                 $.ajax({
                     url: "/produce/pcbTask/findProcessTaskByDevice",
@@ -370,6 +447,8 @@
                                                 $('[name=record_name]').val(resData.record_name)
                                                 $('[name=cardSequence]').val(resData.cardSequence)
                                                 $('[name=record_time]').val(timeToDate(resData.record_time))
+                                                $('[name=pcb_task_code]').val(resData.pcb_task_code)
+
                                             } else {
                                                 layer.alert(res.msg, { icon: 5 });
                                             }
@@ -405,15 +484,15 @@
 
             }
 
-            //提交维护
+            //提交界面参数
             form.on('submit(regularFrom)', function (obj) {
                 var craftParamStr = '';
                 if (resData.craft_param.length > 0) {
                     var craftparamArr = resData.craft_param.split("@_@");
                     var tempCraftparamArr = [];
-                    craftparamArr.forEach((element, i) => {
-                        // console.log(element,obj.field['deviceName'+i],element.replace(/@-@0@-@/, '@-@'+obj.field['deviceName'+i]+'@-@'))
-                        tempCraftparamArr.push(element.replace(/@-@0@-@/, '@-@' + obj.field['deviceName' + i] + '@-@'));
+                    craftparamArr.forEach((item, i) => {
+                        // console.log(item,obj.field['deviceName'+i],item.replace(/@-@0@-@/, '@-@'+obj.field['deviceName'+i]+'@-@'))
+                        tempCraftparamArr.push(item.replace(/@-@0@-@/, '@-@' + obj.field['deviceName' + i] + '@-@'));
                     });
                     craftParamStr = tempCraftparamArr.join('@_@')
                 }
@@ -430,7 +509,7 @@
                     cardSequence: obj.field.cardSequence
 
                 }
-                console.log(fromeData)
+
                 $.ajax({
                     type: "POST",
                     url: '/circulate/addCraftParameterRecord',
@@ -450,6 +529,55 @@
                     }
                 });
             });
+            //提交界面参数
+            form.on('submit(handoveFrom)', function (obj) {
+                console.log(obj)
+                var fromeData = {
+                    device_code: obj.field.device_code,
+                    processTaskCode: obj.field.process_task_code,
+                    pcb_task_code: obj.field.pcb_task_code,
+                    type: obj.field.type,
+                    count: obj.field.count,
+                    cardSequence: obj.field.cardSequence
+                }
+                console.log(fromeData)
+                if (cardSequenceIsNull(fromeData.cardSequence)) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/circulate/addProceeTaskHandover',
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(fromeData),
+                        dataType: "json",
+                        async: false,
+                        success: function (res) {
+                            if (res.code == 200) {
+                                layer.alert(res.msg, { icon: 1, time: 1000 });
+                            } else {
+                                layer.alert(res.msg, { icon: 5, time: 3000 });
+                            }
+                        },
+                        error: function (message) {
+                            layer.alert("提交失败！", { icon: 5, time: 1000 });
+                        }
+                    });
+                }
+            });
+            //tab事件监听
+            element.on('tab(regular)', function (data) {
+                if (data.index == 0) {
+                }
+                if (data.index == 1) {
+                }
+            });
+            function cardSequenceIsNull(cardSequence) {
+                if (cardSequence == '' || cardSequence == null) {
+                    layer.alert('交接人工号不能为空！', { icon: 5 });
+                    return false
+                } else {
+
+                    return true
+                }
+            }
         })
     };
 
