@@ -8,22 +8,24 @@ import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.base.repository.ProductionShiftRepository;
 import com.linln.admin.produce.domain.CraftParameterRecord;
 import com.linln.admin.produce.domain.ProcessTask;
+import com.linln.admin.produce.domain.ProcessTaskHandover;
 import com.linln.admin.produce.domain.UserDeviceHistory;
 import com.linln.admin.produce.repository.CraftParameterRecordRepository;
+import com.linln.admin.produce.repository.ProcessTaskHandoverRepository;
 import com.linln.admin.produce.repository.ProcessTaskRepository;
 import com.linln.admin.produce.repository.UserDeviceHistoryRepository;
+import com.linln.admin.produce.request.CirclateReq;
 import com.linln.admin.produce.request.CraftParameterRecordReq;
 import com.linln.admin.produce.service.CraftParameterRecordService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
 import com.linln.modules.system.domain.User;
 import com.linln.modules.system.repository.UserRepository;
+import org.apache.xmlbeans.impl.common.ResolverUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CraftParameterRecordServiceImpl implements CraftParameterRecordService {
@@ -48,6 +50,10 @@ public class CraftParameterRecordServiceImpl implements CraftParameterRecordServ
 
     @Autowired
     private DeviceCraftParameterRepository deviceCraftParameterRepository;
+
+    @Autowired
+    private ProcessTaskHandoverRepository processTaskHandoverRepository;
+
     @Override
     public void addCraftParameterRecord(CraftParameterRecord record) {
 
@@ -129,5 +135,17 @@ public class CraftParameterRecordServiceImpl implements CraftParameterRecordServ
         craftParameterRecord.setQc_time(new Date());
         craftParameterRecordRepository.save(craftParameterRecord);
         return ResultVoUtil.success("操作成功");
+    }
+
+    @Override
+    public ResultVo findCirculate(CirclateReq req) {
+        List<CraftParameterRecord> recordlist = craftParameterRecordRepository.findByPcb_task_code(req.getPcbTaskCode());
+        List<ProcessTaskHandover> handoverlist = processTaskHandoverRepository.findPRocessTaskHandoverByPcb(req.getPcbTaskCode());
+        Map<String,Object> map = new HashMap<>();
+        map.put("recordlist",recordlist);
+        map.put("handoverlist",handoverlist);
+
+
+        return ResultVoUtil.success(map);
     }
 }
