@@ -21,13 +21,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">使用次数</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="number" name="use_times" placeholder="请输入使用次数" th:value="${feeder?.use_times}">
+                <input class="layui-input" autocomplete="off" type="number" min="0" name="use_times" placeholder="请输入使用次数" th:value="${feeder?.use_times}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">最高使用次数</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="number" name="highest_use_times" placeholder="请输入最高使用次数" th:value="${feeder?.highest_use_times}">
+                <input class="layui-input" autocomplete="off" type="number" min="0" name="highest_use_times" placeholder="请输入最高使用次数" th:value="${feeder?.highest_use_times}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">

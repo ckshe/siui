@@ -21,19 +21,19 @@
         <div class="layui-form-item">
             <label class="layui-form-label">损耗库存</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="number" name="loss_stock" placeholder="请输入损耗库存" th:value="${lossStock?.loss_stock}">
+                <input class="layui-input" autocomplete="off" type="number" min="0" name="loss_stock" placeholder="请输入损耗库存" th:value="${lossStock?.loss_stock}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">损耗率</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="number" name="loss_rate" placeholder="请输入损耗率" th:value="${lossStock?.loss_rate}">
+                <input class="layui-input" autocomplete="off" type="number" min="0" name="loss_rate" placeholder="请输入损耗率" th:value="${lossStock?.loss_rate}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">最低库存</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="number" name="min_stock" placeholder="请输入最低库存" th:value="${lossStock?.min_stock}">
+                <input class="layui-input" autocomplete="off" type="number" min="0" name="min_stock" placeholder="请输入最低库存" th:value="${lossStock?.min_stock}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item timo-finally">

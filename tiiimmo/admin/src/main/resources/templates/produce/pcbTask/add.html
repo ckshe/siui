@@ -63,7 +63,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">生产数量</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="number" name="quantity" autocomplete="off" placeholder="请输入生产数量" th:value="${pcbTask?.quantity}">
+                <input class="layui-input" type="number" min="0" name="quantity" autocomplete="off" placeholder="请输入生产数量" th:value="${pcbTask?.quantity}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">
@@ -87,7 +87,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">PCB数量</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="number" name="pcb_quantity" autocomplete="off" placeholder="请输入PCB数量" th:value="${pcbTask?.pcb_quantity}">
+                <input class="layui-input" type="number" min="0" name="pcb_quantity" autocomplete="off" placeholder="请输入PCB数量" th:value="${pcbTask?.pcb_quantity}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">

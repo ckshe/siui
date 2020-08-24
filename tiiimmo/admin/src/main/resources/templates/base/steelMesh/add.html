@@ -35,7 +35,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">使用次数</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="number" name="useTimes" placeholder="请输入使用次数" th:value="${steelMesh?.useTimes}">
+                <input class="layui-input" autocomplete="off" type="number" min="0" name="useTimes" placeholder="请输入使用次数" th:value="${steelMesh?.useTimes}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">
