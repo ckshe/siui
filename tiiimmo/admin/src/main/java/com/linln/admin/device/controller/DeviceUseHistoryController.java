@@ -2,18 +2,24 @@ package com.linln.admin.device.controller;
 
 import com.linln.admin.device.VO.DeviceUseHistoryVO;
 import com.linln.admin.device.VO.FirstQualityVO;
+import com.linln.admin.device.entity.DeviceSafe;
 import com.linln.admin.device.entity.DeviceUseHistory;
 import com.linln.admin.device.enums.ResultEnum;
 import com.linln.admin.device.exception.DeviceException;
-import com.linln.admin.device.form.DeviceUseHistoryEditForm;
-import com.linln.admin.device.form.DeviceUseHistoryForm;
-import com.linln.admin.device.form.FirstQualityForm;
+import com.linln.admin.device.form.*;
 import com.linln.admin.device.formModel.FirstQualityEditFormModel;
 import com.linln.admin.device.realization.DeviceUseHistoryReal;
+import com.linln.admin.device.resultVO.DeviceSafeResultVO;
+import com.linln.admin.device.resultVO.DeviceUseHistoryListResultVO;
 import com.linln.admin.device.resultVO.ResultVO;
 import com.linln.admin.device.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,7 +58,26 @@ public class DeviceUseHistoryController {
             log.error("【编辑设备使用历史记录】参数不正确，deviceUseHistoryEditForm={}", deviceUseHistoryEditForm.toString());
             throw new DeviceException(ResultEnum.PARAM_ERROR.getCode(), Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
-
+        deviceUseHistoryReal.editDeviceUseHistory(deviceUseHistoryEditForm);
         return ResultVOUtil.success(null);
+    }
+
+    @RequestMapping("/list")
+    public ResultVO<Object> getDeviceUseHistoryList(@Valid @RequestBody DeviceUseHistoryListForm deviceUseHistoryListForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.error("【查询设备使用历史列表】参数不正确，deviceSafeForm={}", deviceUseHistoryListForm.toString());
+            throw new DeviceException(ResultEnum.PARAM_ERROR.getCode(), Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+        }
+        DeviceUseHistory deviceUseHistory = new DeviceUseHistory();
+        BeanUtils.copyProperties(deviceUseHistoryListForm, deviceUseHistory);
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withMatcher("pcbTaskCode", ExampleMatcher.GenericPropertyMatcher::contains)
+                .withMatcher("taskSheetCode", ExampleMatcher.GenericPropertyMatcher::contains)
+                .withMatcher("pcbCode", ExampleMatcher.GenericPropertyMatcher::contains)
+                .withMatcher("deviceCode", ExampleMatcher.GenericPropertyMatcher::contains);
+        Example<DeviceUseHistory> deviceUseHistoryExample = Example.of(deviceUseHistory, matcher);
+        Pageable pageable = PageRequest.of(deviceUseHistoryListForm.getPage()-1, deviceUseHistoryListForm.getSize());
+        DeviceUseHistoryListResultVO deviceUseHistoryListResultVO = deviceUseHistoryReal.getDeviceUseHistoryList(deviceUseHistoryExample, pageable);
+        return ResultVOUtil.success(deviceUseHistoryListResultVO);
     }
 }
