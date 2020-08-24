@@ -26,7 +26,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">生产任务单号</label>
                         <div class="layui-input-block">
-                            <input id="pcb_task_code" type="text" name="pcb_task_code" placeholder="请输入生产任务单号"
+                            <input id="pcbTaskCode" type="text" name="pcbTaskCode" placeholder="请输入生产任务单号"
                                 autocomplete="off" class="layui-input">
                         </div>
                     </div>
@@ -133,19 +133,20 @@
                 })
             });
 
-            new Enter('pcb_task_code', function () { $('#search').click() });
+            new Enter('pcbTaskCode', function () { $('#search').click() });
             new Enter('taskSheetCode', function () { $('#search').click() });
             new Enter('pcbId', function () { $('#search').click() });
             new Enter('pcbName', function () { $('#search').click() });
             table.on('tool(table)', function (obj) {
                 var data = obj.data;
+                console.log("data===",data)
                 switch (obj.event) {
                     case 'tiepian':
                         layer.open({
                             title: '贴片流通表',
                             type: 2,
                             area: ['96%', '96%'],
-                            content: '/produceFrom/circulationDetail?id=' + data.id
+                            content: '/produceFrom/circulationDetail?id=1&pcb_task_code='+data.pcb_task_code
                         });
                         break;
                     case 'zhengxing':
@@ -153,7 +154,7 @@
                             title: '整形流通表',
                             type: 2,
                             area: ['96%', '96%'],
-                            content: '/produceFrom/circulationDetail?id=' + data.id
+                            content: '/produceFrom/circulationDetail?id=2&pcb_task_code='+data.pcb_task_code
                         });
                         break;
                     case 'houhan':
@@ -161,7 +162,7 @@
                             title: '后焊流通表',
                             type: 2,
                             area: ['96%', '96%'],
-                            content: '/produceFrom/circulationDetail?id=' + data.id
+                            content: '/produceFrom/circulationDetail?id=3&pcb_task_code='+data.pcb_task_code
                         });
                         break;
                 }
