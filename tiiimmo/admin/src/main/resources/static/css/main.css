@@ -513,7 +513,7 @@ a{
 /* 页面通用样式 */
 .timo-layout-page{
 	background-color: #eeeeee;
-	padding: 18px;
+	/* padding: 18px; */
 }
 .timo-layout-page .timo-card-header{
 	border-radius: 0;
