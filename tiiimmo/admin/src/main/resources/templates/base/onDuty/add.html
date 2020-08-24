@@ -35,7 +35,7 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">排班日期</label>
-            <div class="layui-input-inline"> ${#dates.format(onDuty?.shiftDate, 'yyyy-MM-dd HH:mm:ss')}
+            <div class="layui-input-inline">
                 <input class="layui-input" autocomplete="off" id="time2" type="text" name="shiftDate" placeholder="请输入排班日期" th:value="${#dates.format(onDuty?.shiftDate, 'yyyy-MM-dd HH:mm:ss')}">
             </div>
         </div>

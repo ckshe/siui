@@ -53,4 +53,7 @@ public interface UserRepository extends BaseRepository<User, Long>, JpaSpecifica
 
     @Query(value = "select perms from sys_menu where id in (select menu_id FROM sys_user_menu where user_id = ?1)", nativeQuery = true)
     List<String> selectPermsByUserId(Long subjectId);
+
+    @Query(value = "select * from sys_user where status = 1 ",nativeQuery = true)
+    List<User> findAllUsers();
 }
