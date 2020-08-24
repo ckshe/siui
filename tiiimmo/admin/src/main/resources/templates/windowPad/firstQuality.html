@@ -19,6 +19,10 @@
         <div class="taskBox">
             <div class="title">首检记录</div>
             <table class="layui-hide" id="table" lay-filter="table"></table>
+            <div class="pageError" style="color: #1e9fff;display: none;">
+                <div style="font-size: 100px">哎呀呀！</div>
+                <div style="font-size: 24px">当前没有生产任务哦</div>
+            </div>
         </div>
     </div>
     <script type="text/html" id="toolfirstQuality">
@@ -40,6 +44,24 @@
         tr td:nth-child(8) .layui-table-cell {
             overflow: initial !important;
             padding: 0 !important;
+        }
+
+        .pageError {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-height: calc(100vh - 110px);
+            margin-bottom: 0;
         }
     </style>
 </body>
@@ -65,8 +87,11 @@
                     }),
                     success: function (res) {
                         layer.closeAll();
+                        var isPCBTask = false;
                         res.data.some(function (t, i) {
                             if (("" + t.is_now_flag).indexOf(nowDeviceCode) != -1) {
+                                isPCBTask = true;
+                                $('.pageError').hide();
                                 if (parentLogin()) {
                                     $.ajax({
                                         type: "POST",
@@ -104,6 +129,9 @@
                                 return true
                             }
                         });
+                        if (!isPCBTask) {
+                            $('.pageError').show();
+                        }
                     }
                 })
             }
@@ -217,7 +245,7 @@
                                 async: false,
                                 success: function (res) {
                                     if (res.code == 200) {
-                                        layer.alert(res.msg, { icon: 1,time:2000 }, function () {
+                                        layer.alert(res.msg, { icon: 1, time: 2000 }, function () {
                                             layer.closeAll()
                                             window.location.reload();
                                         })
