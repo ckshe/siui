@@ -1,6 +1,9 @@
 package com.linln.admin.device.VO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class DeviceUseHistoryVO {
@@ -14,13 +17,15 @@ public class DeviceUseHistoryVO {
     //设备编号
     private String deviceCode;
     //开始时间
-    private String useStartTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date useStartTime;
     //结束时间
-    private String useEndTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date useEndTime;
     //使用人
     private String usePerson;
     //使用时间
-    private String useTime;
+    private Integer useTime;
     //生产数量
     private Integer amount;
     //使用情况
