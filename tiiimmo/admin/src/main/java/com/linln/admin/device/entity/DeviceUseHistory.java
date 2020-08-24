@@ -34,7 +34,7 @@ public class DeviceUseHistory {
     //使用人
     private String usePerson;
     //使用时间
-    private Date useTime;
+    private Integer useTime;
     //生产数量
     private Integer amount;
     //使用情况

@@ -5,6 +5,9 @@ import com.linln.admin.device.repository.DeviceUseHistoryRepository;
 import com.linln.admin.device.serviceInter.DeviceUseHistoryServiceInter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,5 +35,10 @@ public class DeviceUseHistoryServiceImpl implements DeviceUseHistoryServiceInter
     @Override
     public DeviceUseHistory findById(Integer Id) {
         return deviceUseHistoryRepository.findById(Id).orElse(null);
+    }
+
+    @Override
+    public Page<DeviceUseHistory> getDeviceUseHistoryList(Example<DeviceUseHistory> deviceUseHistoryExample, Pageable pageable) {
+        return deviceUseHistoryRepository.findAll(deviceUseHistoryExample, pageable);
     }
 }
