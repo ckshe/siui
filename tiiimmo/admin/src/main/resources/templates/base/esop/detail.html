@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${esop.id}"></td>
+                    <th>操作指导书编号</th>
+                    <td th:text="${esop.code}"></td>
+                </tr>
+                <tr>
+                    <th>操作指导书名称</th>
+                    <td th:text="${esop.name}"></td>
+                    <th>上传人</th>
+                    <td th:text="${esop.uploadPeople}"></td>
+                </tr>
+                <tr>
+                    <th>上传时间</th>
+                    <td th:text="${esop.uploadTime}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>上传文件</th>
+                    <td th:text="${esop.uploadFile}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${esop.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${esop.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(esop.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(esop.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${esop.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>
