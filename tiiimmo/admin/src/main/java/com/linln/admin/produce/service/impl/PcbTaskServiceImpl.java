@@ -194,13 +194,13 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         List<PcbTask> pckTaskList = new ArrayList<>();
         List<PCBPlateNo> plateNoList = new ArrayList<>();
         List<String> pcbTaskCodeList = new ArrayList<>();
-        List<PcbTask> touchanPcbTaskList = new ArrayList<>();
+        List<PcbTask> touchanPcbTaskList = pcbTaskRepository.findAllByPcbTaskStatus("已投产");
 
         for(int i = 0 ; i<lists.size();i++){
             JSONObject param = lists.getJSONObject(i);
             //生产任务单号
             String pcb_task_code = param.getString("FRWFBillNo");
-            pcbTaskCodeList.add(pcb_task_code);
+
             //入库数量
             Integer finishCount = param.getInteger("FAuxStockQty");
 
@@ -211,9 +211,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             if(!pcb_id.contains("DCY2.90")&&!pcb_id.contains("DCY5")){
                 continue;
             }
-            if("结案".equals(pcb_task_status)){
+            if("结案".equals(pcb_task_status)||"计划".equals(pcb_task_status)){
                 continue;
             }
+            pcbTaskCodeList.add(pcb_task_code);
+
             //这里需要匹配是否已同步过的
             PcbTask pcbTask = new PcbTask();
 
@@ -227,9 +229,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
             if(oldPcbTasks!=null&&oldPcbTasks.size()!=0){
                 pcbTask = oldPcbTasks.get(0);
-                if("已投产".equals(pcbTask.getPcb_task_status())){
-                    touchanPcbTaskList.add(pcbTask);
-                }
+
                 if(pcbTask.getPcb_task_status().contains("下达")||"确认".equals(pcbTask.getPcb_task_status())){
                     pcbTask.setAmount_completed(finishCount);
                    /* //修改入库工序
@@ -251,7 +251,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     ProcessTask rukuProcessTaskCode = processTaskRepository.findByPcb_task_idAndProcess(pcbTask.getId(), "入库");
                     rukuProcessTaskCode.setProcess_task_status("进行中");
                     rukuProcessTaskCode.setAmount_completed(finishCount);
-                    rukuProcessTaskCode.setFinish_time(new Date());
                     processTaskRepository.save(rukuProcessTaskCode);
                     pcbTask.setProduce_plan_complete_date(produce_plan_complete_date);
                     pcbTask.setProduce_plan_date(produce_plan_date);
