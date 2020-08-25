@@ -211,7 +211,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             if(!pcb_id.contains("DCY2.90")&&!pcb_id.contains("DCY5")){
                 continue;
             }
-            if("结案".equals(pcb_task_status)){
+            if("结案".equals(pcb_task_status)||"计划".equals(pcb_task_status)){
                 continue;
             }
             //这里需要匹配是否已同步过的
