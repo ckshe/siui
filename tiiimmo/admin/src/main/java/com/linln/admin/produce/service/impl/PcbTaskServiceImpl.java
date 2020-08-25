@@ -232,12 +232,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 }
                 if(pcbTask.getPcb_task_status().contains("下达")||"确认".equals(pcbTask.getPcb_task_status())){
                     pcbTask.setAmount_completed(finishCount);
-                    //修改入库工序
+                   /* //修改入库工序
                     ProcessTask rukuProcessTaskCode = processTaskRepository.findByPcb_task_idAndProcess(pcbTask.getId(), "入库");
                     rukuProcessTaskCode.setProcess_task_status("进行中");
                     rukuProcessTaskCode.setAmount_completed(finishCount);
                     rukuProcessTaskCode.setFinish_time(new Date());
-                    processTaskRepository.save(rukuProcessTaskCode);
+                    processTaskRepository.save(rukuProcessTaskCode);*/
                     pcbTask.setProduce_plan_complete_date(produce_plan_complete_date);
                     pcbTask.setProduce_plan_date(produce_plan_date);
                     pcbTask.setPcb_quantity(pcb_quantity);
