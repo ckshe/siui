@@ -251,7 +251,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     ProcessTask rukuProcessTaskCode = processTaskRepository.findByPcb_task_idAndProcess(pcbTask.getId(), "入库");
                     rukuProcessTaskCode.setProcess_task_status("进行中");
                     rukuProcessTaskCode.setAmount_completed(finishCount);
-                    rukuProcessTaskCode.setFinish_time(new Date());
                     processTaskRepository.save(rukuProcessTaskCode);
                     pcbTask.setProduce_plan_complete_date(produce_plan_complete_date);
                     pcbTask.setProduce_plan_date(produce_plan_date);
