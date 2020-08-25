@@ -30,4 +30,7 @@ public interface ProcessRepository extends BaseRepository<Process, Long> {
 
     @Query(value = "select  * from base_process where name = ?1",nativeQuery = true)
     Process findByProcessName(String processName);
+
+    @Query(value = "select name from base_process", nativeQuery = true)
+    List<String> queryProcessName();
 }

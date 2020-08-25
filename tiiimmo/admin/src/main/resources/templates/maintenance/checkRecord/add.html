@@ -4,7 +4,7 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/maintenance/checkRecord/save}">
+    <form class="layui-form" lay-filter="form2" th:action="@{/maintenance/checkRecord/save}">
         <input type="hidden" name="id" th:if="${checkRecord}" th:value="${checkRecord.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">检查日期</label>
@@ -21,7 +21,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">检查人</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="checkUser" autocomplete="off" placeholder="请输入检查人" th:value="${checkRecord?.checkUser}">
+                <input class="layui-input" type="text" id="checkUser" name="checkUser" autocomplete="off" placeholder="请输入检查人" th:value="${checkRecord?.checkUser}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -59,6 +59,20 @@
                 elem:"#checkDate",
                 type:'datetime',
                 trigger:'click'
+            });
+
+            $("#checkUser").on('click',function () {
+                var userBox =  layer.open({
+                    title:'用户列表',
+                    type:2,
+                    area:['70%',"90%"],
+                    content:'/userTable'
+                });
+                a=function (data) {
+                    layer.close(userBox);
+                    var d=data[0];
+                    form.val('form2',{checkUser:d.nickname})
+                }
             });
 
         })

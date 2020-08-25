@@ -4,12 +4,14 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/deviceCraftParameter/save}">
+    <form class="layui-form" lay-filter="lay_form" th:action="@{/base/deviceCraftParameter/save}">
         <input type="hidden" name="id" th:if="${deviceCraftParameter}" th:value="${deviceCraftParameter.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">设备编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="device_code" autocomplete="off" placeholder="请输入设备编号" th:value="${deviceCraftParameter?.device_code}">
+                <!--<input class="layui-input" type="text" id="deviceCode" name="device_code" autocomplete="off" placeholder="请输入设备编号" th:value="${deviceCraftParameter?.device_code}">-->
+                <input type="hidden" id="deviceCodeValue" autocomplete="off" th:value="${deviceCraftParameter?.device_code}">
+                <select name="device_code" id="deviceCode"></select>
             </div>
         </div>
         <div class="layui-form-item">
@@ -37,5 +39,33 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        var a="";
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#time",
+                type:'datetime',
+                trigger:'click'
+            });
+
+            $.get('/base/device/findDeviceCode',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('deviceCode');
+                    var str = "";
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.device_code+"'>"+t.device_code+"</option>"
+                    });
+
+                    select.innerHTML=str;
+                    form.val('lay_form',{device_code:$('#deviceCodeValue').val()});
+                }
+            })
+
+        })
+    </script>
 </body>
 </html>

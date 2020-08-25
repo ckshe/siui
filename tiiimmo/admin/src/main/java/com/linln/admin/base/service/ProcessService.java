@@ -53,5 +53,15 @@ public interface ProcessService {
 
     List<Process> list();
 
+    /**
+     * 查询工序类型
+     * @return
+     */
     List<String> queryProcessType();
+
+    /**
+     * 查询工序名称
+     * @return
+     */
+    List<String> queryProcessName();
 }
