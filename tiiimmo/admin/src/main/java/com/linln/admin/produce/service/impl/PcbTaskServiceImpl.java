@@ -194,7 +194,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         List<PcbTask> pckTaskList = new ArrayList<>();
         List<PCBPlateNo> plateNoList = new ArrayList<>();
         List<String> pcbTaskCodeList = new ArrayList<>();
-        List<PcbTask> touchanPcbTaskList = new ArrayList<>();
+        List<PcbTask> touchanPcbTaskList = pcbTaskRepository.findAllByPcbTaskStatus("已投产");
 
         for(int i = 0 ; i<lists.size();i++){
             JSONObject param = lists.getJSONObject(i);
@@ -227,9 +227,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
             if(oldPcbTasks!=null&&oldPcbTasks.size()!=0){
                 pcbTask = oldPcbTasks.get(0);
-                if("已投产".equals(pcbTask.getPcb_task_status())){
-                    touchanPcbTaskList.add(pcbTask);
-                }
+
                 if(pcbTask.getPcb_task_status().contains("下达")||"确认".equals(pcbTask.getPcb_task_status())){
                     pcbTask.setAmount_completed(finishCount);
                    /* //修改入库工序
