@@ -480,7 +480,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
             String finishTime = (String)map.get("finish_time");
             Integer pcb_quantity = (Integer)map.get("pcb_quantity");
             Integer amount_completed = (Integer)map.get("amount_completed");
-            if(amount_completed>=pcb_quantity&&!finishTime.equals(today)){
+            if(finishTime==null||(amount_completed>=pcb_quantity&&!finishTime.equals(today))){
                 continue;
             }
             mapList.add(map);
