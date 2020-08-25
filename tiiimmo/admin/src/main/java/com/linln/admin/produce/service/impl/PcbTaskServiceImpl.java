@@ -200,7 +200,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             JSONObject param = lists.getJSONObject(i);
             //生产任务单号
             String pcb_task_code = param.getString("FRWFBillNo");
-            pcbTaskCodeList.add(pcb_task_code);
+
             //入库数量
             Integer finishCount = param.getInteger("FAuxStockQty");
 
@@ -214,6 +214,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             if("结案".equals(pcb_task_status)||"计划".equals(pcb_task_status)){
                 continue;
             }
+            pcbTaskCodeList.add(pcb_task_code);
+
             //这里需要匹配是否已同步过的
             PcbTask pcbTask = new PcbTask();
 
