@@ -130,6 +130,16 @@ public class OpenController {
 
     }
     /**
+     * 在线浏览ESOPPDF文件
+     * @return
+     */
+    @RequestMapping("/showESOPPDF")
+    @ResponseBody
+    public void showESOPPDF(HttpServletResponse response, String  pcbCode)throws IOException, DocumentException {
+        processTaskService.showESOPPDF(response,pcbCode);
+    }
+
+    /**
      * 在线浏览PDF文件
      * @return
      */

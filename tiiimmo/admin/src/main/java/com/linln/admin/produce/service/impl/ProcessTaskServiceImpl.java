@@ -1,10 +1,8 @@
 package com.linln.admin.produce.service.impl;
 
 import com.linln.RespAndReqs.ProcessTaskReq;
-import com.linln.admin.base.domain.Device;
-import com.linln.admin.base.domain.OperationInstruction;
+import com.linln.admin.base.domain.*;
 import com.linln.admin.base.domain.Process;
-import com.linln.admin.base.domain.TaskInstruction;
 import com.linln.admin.base.repository.*;
 import com.linln.admin.produce.domain.ProcessTask;
 import com.linln.admin.produce.domain.ProcessTaskDetail;
@@ -21,6 +19,7 @@ import com.linln.common.vo.ResultVo;
 import com.linln.constant.CommonConstant;
 import com.linln.utill.DateUtil;
 import com.linln.utill.FileUtil;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -64,6 +63,8 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
     @Autowired
     private ProcessTaskDetailDeviceRepository processTaskDetailDeviceRepository;
 
+    @Autowired
+    private ESOPRepository esopRepository;
     @Override
     public ResultVo findProcessTask(ProcessTaskReq processTaskReq) {
 
@@ -324,6 +325,18 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
             path = CommonConstant.file_path+CommonConstant.workbook_path+taskInstruction.getUploadFile();
 
         }
+        FileUtil.readPDF(response,path);
+    }
+
+    @Override
+    public void showESOPPDF(HttpServletResponse response, String pcbCode) {
+        ESOP esop = esopRepository.findByPcbCode(pcbCode);
+        String path = "";
+        if(esop ==null){
+            return;
+        }
+        path = CommonConstant.file_path+CommonConstant.esop_path+esop.getUploadFile();
+
         FileUtil.readPDF(response,path);
     }
 
