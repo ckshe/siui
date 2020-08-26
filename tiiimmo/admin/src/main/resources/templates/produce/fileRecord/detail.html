@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>主键ID</th>
+                    <td th:text="${fileRecord.id}"></td>
+                    <th>文件名</th>
+                    <td th:text="${fileRecord.title}"></td>
+                </tr>
+                <tr>
+                    <th>类型</th>
+                    <td th:text="${fileRecord.type}"></td>
+                    <th>记录人</th>
+                    <td th:text="${fileRecord.recorder_name}"></td>
+                </tr>
+                <tr>
+                    <th>规格型号</th>
+                    <td th:text="${fileRecord.pcb_code}"></td>
+                    <th>esop记录id</th>
+                    <td th:text="${fileRecord.esop_id}"></td>
+                </tr>
+                <tr>
+                    <th>文件</th>
+                    <td th:text="${fileRecord.file_path}" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>创建者</th>
+                    <td th:text="${fileRecord.createBy?.nickname}"></td>
+                    <th>更新者</th>
+                    <td th:text="${fileRecord.updateBy?.nickname}"></td>
+                </tr>
+                <tr>
+                    <th>创建时间</th>
+                    <td th:text="${#dates.format(fileRecord.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <th>更新时间</th>
+                    <td th:text="${#dates.format(fileRecord.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td th:text="${fileRecord.remark}" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

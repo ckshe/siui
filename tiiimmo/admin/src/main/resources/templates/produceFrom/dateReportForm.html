@@ -84,19 +84,19 @@
                 }
                 ,page: true
                 ,limit:20
-                ,where:{
-                    startTime: timeToDate(new Date(),true).trim(),
-                    finishTime:timeToDate(new Date(),true).trim(),
-                }
+                // ,where:{
+                //     startTime: timeToDate(new Date(),true).trim(),
+                //     finishTime:timeToDate(new Date(),true).trim(),
+                // }
                 ,parseData: function(res){
-                    // var page = this.page.curr;
-                    // if(res.data.length===0&&page>1){
-                    //     table.reload('table',{
-                    //         page:{
-                    //             curr:(page-1)
-                    //         }
-                    //     })
-                    // }
+                    var page = this.page.curr;
+                    if(res.data.length===0&&page>1){
+                        table.reload('table',{
+                            page:{
+                                curr:(page-1)
+                            }
+                        })
+                    }
                     return {
                         "code": res.code, //解析接口状态
                         "data": res.data, //解析数据列表
@@ -135,10 +135,10 @@
             //     elem: '#startTime'
             //     ,value: new Date()
             // });
-            // laydate.render({
-            //     elem: '#startTime',
-            //     range: "~"
-            // });
+            laydate.render({
+                elem: '#startTime',
+                range: "~"
+            });
             new Enter('pcbTaskCode',function () {$('#search').click()});
             new Enter('taskSheetCode',function () {$('#search').click()});
             new Enter('pcbCode',function () {$('#search').click()});

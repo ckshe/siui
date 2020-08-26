@@ -4,7 +4,7 @@
 </head>
 <body>
 <div class="layui-form timo-compile">
-    <form th:action="@{/base/processTaskDeviceTheorytime/save}">
+    <form id="editForm" th:action="@{/base/processTaskDeviceTheorytime/save}">
         <input type="hidden" name="id" th:if="${processTaskDeviceTheorytime}" th:value="${processTaskDeviceTheorytime.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">机台编号</label>
@@ -41,8 +41,14 @@
         <div class="layui-form-item">
             <label class="layui-form-label">实际工时</label>
             <div class="layui-input-inline">
+                <!--
+                    禁止粘贴: onpaste="return false"  防止输入0后做除法出错
+                    禁止选取: onselectstart="return false"
+                    禁止复制: oncopy="return false"
+                    禁止剪切: oncut="return false"
+                -->
                 <input class="layui-input" type="number" id="number" min="0.01" name="workTime" autocomplete="off" placeholder="请输入实际工时" th:value="${processTaskDeviceTheorytime?.workTime}"
-                       onkeyup="value=value.replace(/[^\d.]/g,'')=='0' ? '0.1':value">
+                       onkeyup="value=value.replace(/[^\d.]/g,'')=='0' ? '0.01':value" onpaste="return false">
             </div>
         </div>
 
@@ -53,11 +59,11 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
-<script>
+<!--<script>
     document.getElementById("number").addEventListener("input",function(event){
         event.target.value = event.target.value.replace(/\-/g,"");
     });
-</script>
+</script>-->
 
 </body>
 </html>

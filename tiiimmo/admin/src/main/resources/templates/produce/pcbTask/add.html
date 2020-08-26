@@ -4,7 +4,7 @@
 </head>
 <body>
 <div class="layui-form timo-compile">
-    <form th:action="@{/produce/pcbTask/save}">
+    <form class="layui-form" lay-filter="lay_form" th:action="@{/produce/pcbTask/save}">
         <input type="hidden" name="id" th:if="${pcbTask}" th:value="${pcbTask.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">任务号</label>
@@ -19,11 +19,15 @@
         <div class="layui-form-item">
             <label class="layui-form-label">厂区</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="factory" autocomplete="off" placeholder="请输入厂区" th:value="${pcbTask?.factory}">
+                <!--<input class="layui-input" type="text"  name="factory" autocomplete="off" placeholder="请输入厂区" th:value="${pcbTask?.factory}">-->
+                <input type="hidden" id="areaValue" placeholder="请选择厂区" th:value="${pcbTask?.factory}">
+                <select name="factory" id="area"></select>
             </div>
             <label class="layui-form-label">车间</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="workshop" autocomplete="off" placeholder="请输入车间" th:value="${pcbTask?.workshop}">
+                <!--<input class="layui-input" type="text" name="workshop" autocomplete="off" placeholder="请输入车间" th:value="${pcbTask?.workshop}">-->
+                <input type="hidden" id="lineValue" placeholder="请选择车间" th:value="${pcbTask?.workshop}">
+                <select name="workshop" id="line"></select>
             </div>
         </div>
         <div class="layui-form-item">
@@ -106,7 +110,11 @@
         <div class="layui-form-item">
             <label class="layui-form-label">AB面</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="pcb_is_ab" autocomplete="off" placeholder="请输入AB面" th:value="${pcbTask?.pcb_is_ab}">
+                <!--<input class="layui-input" type="text" name="pcb_is_ab" autocomplete="off" placeholder="请输入AB面" th:value="${pcbTask?.pcb_is_ab}">-->
+                <select id="pcb_is_ab" name="pcb_is_ab" lay-filter="pcb_is_ab" placeholder="请选择AB面" autocomplete="off">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                </select>
             </div>
             <label class="layui-form-label">贴片领料</label>
             <div class="layui-input-inline">
@@ -117,7 +125,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">工单状态</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="pcb_task_status" autocomplete="off" placeholder="请输入工单状态" th:value="${pcbTask?.pcb_task_status}">
+                <!--<input class="layui-input" type="text" name="pcb_task_status" autocomplete="off" placeholder="请输入工单状态" th:value="${pcbTask?.pcb_task_status}">-->
+                <input type="hidden" id="pcb_task_status_value" th:value="${pcbTask?.pcb_task_status}">
+                <select id="pcb_task_status" name="pcb_task_status" lay-filter="pcb_task_status" placeholder="请选择工单状态" autocomplete="off">
+                    <option value="已投产">已投产</option>
+                    <option value="下达">下达</option>
+                    <option value="已完成">已完成</option>
+                </select>
             </div>
             <label class="layui-form-label">生产计划投产时间</label>
             <div class="layui-input-inline">
@@ -195,6 +209,30 @@
             type:'datetime',
             trigger:'click'
         });
+
+        $.get('/base/plantArea/findArea',function (res) {
+            if(res.code===200){
+                var select = document.getElementById('area');
+                var str = "";
+                res.data.forEach(function (t) {
+                    str+="<option value='"+t.name+"'>"+t.name+"</option>"
+                });
+                select.innerHTML=str;
+                form.val('lay_form',{factory:$('#areaValue').val()});
+            }
+        })
+
+        $.get('/base/line/findLine',function (res) {
+            if(res.code===200){
+                var select = document.getElementById('line');
+                var str = "";
+                res.data.forEach(function (t) {
+                    str+="<option value='"+t.name+"'>"+t.name+"</option>"
+                });
+                select.innerHTML=str;
+                form.val('lay_form',{workshop:$('#lineValue').val()});
+            }
+        })
 
     })
 </script>

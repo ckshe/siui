@@ -4,7 +4,7 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/maintenance/repairRecord/save}">
+    <form class="layui-form" lay-filter="form2"th:action="@{/maintenance/repairRecord/save}">
         <input type="hidden" name="id" th:if="${repairRecord}" th:value="${repairRecord.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">维修日期</label>
@@ -21,7 +21,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">维修人</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="repairUser" autocomplete="off" placeholder="请输入维修人" th:value="${repairRecord?.repairUser}">
+                <input class="layui-input" type="text" id="repairUser" name="repairUser" autocomplete="off" placeholder="请输入维修人" th:value="${repairRecord?.repairUser}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -59,6 +59,20 @@
                 elem:"#repairDate",
                 type:'datetime',
                 trigger:'click'
+            });
+
+            $("#repairUser").on('click',function () {
+                var userBox =  layer.open({
+                    title:'用户列表',
+                    type:2,
+                    area:['70%',"90%"],
+                    content:'/userTable'
+                });
+                a=function (data) {
+                    layer.close(userBox);
+                    var d=data[0];
+                    form.val('form2',{repairUser:d.nickname})
+                }
             });
 
         })

@@ -129,8 +129,21 @@ public class ProcessServiceImpl implements ProcessService {
         return processRepository.findAll();
     }
 
+    /**
+     * 查询工序类型
+     * @return 工序类型集合
+     */
     @Override
     public List<String> queryProcessType() {
         return processRepository.queryProcessType();
+    }
+
+    /**
+     * 查询工序名称
+     * @return 工序名称集合
+     */
+    @Override
+    public List<String> queryProcessName() {
+        return processRepository.queryProcessName();
     }
 }

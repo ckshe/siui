@@ -4,7 +4,7 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/fixture/save}">
+    <form class="layui-form" lay-filter="lay_form" th:action="@{/base/fixture/save}">
         <input type="hidden" name="id" th:if="${fixture}" th:value="${fixture.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">编号</label>
@@ -21,7 +21,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属设备类型</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="equipmentType" autocomplete="off" placeholder="请输入所属设备类型" th:value="${fixture?.equipmentType}">
+                <!--<input class="layui-input" type="text" name="equipmentType" autocomplete="off" placeholder="请输入所属设备类型" th:value="${fixture?.equipmentType}">-->
+                <input type="hidden" id="equipmentTypeValue" autocomplete="off" th:value="${fixture?.equipmentType}">
+                <select name="equipmentType" id="equipmentType"></select>
             </div>
         </div>
         <div class="layui-form-item">
@@ -49,5 +51,37 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        var a="";
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#time",
+                type:'datetime',
+                trigger:'click'
+            });
+
+
+            $.get('/base/fixtureShelf/findShelfType',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('equipmentType');
+                    var str = "";
+                    var d = res.data.map(function (t) {
+                        return {equipmentType:t}
+                    });
+                    d.forEach(function (t) {
+                        str+="<option value='"+t.equipmentType+"'>"+t.equipmentType+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('lay_form',{equipmentType:$('#equipmentTypeValue').val()});
+                }
+            })
+
+
+        })
+    </script>
 </body>
 </html>

@@ -13,8 +13,6 @@
                 <input type="hidden" id="areaValue" th:value="${device?.belong_plant_area}">
                 <select name="belong_plant_area" id="area"></select>
             </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">所属车间</label>
             <div class="layui-input-inline">
                 <input type="hidden" id="lineValue" th:value="${device?.belong_line}">
@@ -27,8 +25,6 @@
                 <input type="hidden" id="deviceTypeValue" th:value="${device?.device_type}">
                 <select name="device_type" id="device_type"></select>
             </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">设备编号</label>
             <div class="layui-input-inline">
                 <input class="layui-input" autocomplete="off" type="text" name="device_code" placeholder="请输入设备编号" th:value="${device?.device_code}">
@@ -39,8 +35,6 @@
             <div class="layui-input-inline">
                 <input class="layui-input" autocomplete="off" type="text" name="device_name" placeholder="请输入设备名称" th:value="${device?.device_name}">
             </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">设备占位</label>
             <div class="layui-input-inline">
                 <input class="layui-input" autocomplete="off" type="number" min="0" name="device_sort" placeholder="请输入设备占位顺序" th:value="${device?.device_sort}" onkeyup="value=value.replace(/[^\d.]/g,'')">
@@ -52,8 +46,6 @@
                 <input type="hidden" id="processNameValue" th:value="${device?.belong_process}">
                 <select name="belong_process" id="processName"></select>
             </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">Mac</label>
             <div class="layui-input-inline">
                 <input class="layui-input" autocomplete="off" type="text" name="mac" placeholder="请输入Mac" th:value="${device?.mac}">
@@ -64,23 +56,19 @@
             <div class="layui-input-inline">
                 <input class="layui-input" autocomplete="off" type="text" name="device_model" placeholder="请输入设备型号" th:value="${device?.device_model}">
             </div>
+            <label class="layui-form-label">年限</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" autocomplete="off" type="number" min="0" name="year" placeholder="请输入年限" th:value="${device?.year}" onkeyup="value=value.replace(/[^\d.]/g,'')">
+            </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">上次检测时间</label>
             <div class="layui-input-inline">
                 <input class="layui-input" autocomplete="off" id="time1" type="text" name="last_check_time" placeholder="请输入上次检测时间" th:value="${#dates.format(device?.last_check_time, 'yyyy-MM-dd HH:mm:ss')}">
             </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">下次检测时间</label>
             <div class="layui-input-inline">
                 <input class="layui-input" autocomplete="off" id="time2" type="text" name="next_check_time" placeholder="请输入下次检测时间" th:value="${#dates.format(device?.next_check_time, 'yyyy-MM-dd HH:mm:ss')}">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">年限</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="number" min="0" name="year" placeholder="请输入年限" th:value="${device?.year}" onkeyup="value=value.replace(/[^\d.]/g,'')">
             </div>
         </div>
         <div class="layui-form-item">
@@ -88,8 +76,6 @@
             <div class="layui-input-inline">
                 <input class="layui-input" autocomplete="off" type="text" name="use_book" placeholder="请输入操作说明书" th:value="${device?.use_book}">
             </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">作业说明书</label>
             <div class="layui-input-inline">
                 <input class="layui-input" autocomplete="off" type="text" name="work_book" placeholder="请输入作业说明书" th:value="${device?.work_book}">

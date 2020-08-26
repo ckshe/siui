@@ -25,6 +25,9 @@ public interface ProcessTaskService {
     //查看pdf
     void showPDF(HttpServletResponse response, String  deviceCode,String type);
 
+    //根据规格型号查看ESOP
+    void showESOPPDF(HttpServletResponse response, String pcbCode);
+
     List<ProcessTaskDetailDevice> findByTaskCodeAndDayTime(String processTaskCode,String planDayTime);
 
     List<ProcessTaskDetailDevice> findByTaskCodeAndDayTimeAndDeviceCode(String processTaskCode,String planDayTime,String deviceCode);

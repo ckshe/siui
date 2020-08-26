@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+    <script src="../../../static/js/plugins/jquery-2.2.4.js"></script>
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/base/deviceProductElement/save}">
+    <form class="layui-form" lay-filter="lay_form" th:action="@{/base/deviceProductElement/save}">
         <input type="hidden" name="id" th:if="${deviceProductElement}" th:value="${deviceProductElement.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">图样名</label>
@@ -33,7 +34,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">机台编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="device_code" autocomplete="off" placeholder="请输入机台编号" th:value="${deviceProductElement?.device_code}">
+                <!--<input class="layui-input" type="text" name="device_code" autocomplete="off" placeholder="请输入机台编号" th:value="${deviceProductElement?.device_code}">-->
+                <input type="hidden" id="deviceCodeValue" autocomplete="off" th:value="${deviceProductElement?.device_code}">
+                <select name="device_code" id="deviceCode"></select>
             </div>
         </div>
         <div class="layui-form-item">
@@ -51,7 +54,10 @@
         <div class="layui-form-item">
             <label class="layui-form-label">AB面</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="a_or_b" autocomplete="off" placeholder="请输入AB面" th:value="${deviceProductElement?.a_or_b}">
+                <!--<input class="layui-input" type="text" name="a_or_b" autocomplete="off" placeholder="请输入AB面" th:value="${deviceProductElement?.a_or_b}">-->
+                <input type="hidden" id="faceValue" autocomplete="off" th:value="${deviceProductElement?.a_or_b}">
+                <select name="a_or_b" id="a_or_b"></select>
+
             </div>
         </div>
         <div class="layui-form-item timo-finally">
@@ -61,5 +67,46 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#time",
+                type:'datetime',
+                trigger:'click'
+            });
+
+            $.get('/base/device/findDeviceCode',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('deviceCode');
+                    var str = "";
+
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.device_code+"'>"+t.device_code+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('lay_form',{device_code:$('#deviceCodeValue').val()});
+                }
+            });
+
+            $.get('/base/program/findFace',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('a_or_b');
+                    var str = "";
+                    var d = res.data.map(function (t) {
+                        return {face:t}
+                    });
+                    d.forEach(function (t) {
+                        str+="<option value='"+t.face+"'>"+t.face+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('lay_form',{a_or_b:$('#faceValue').val()});
+                }
+            })
+        })
+    </script>
 </body>
 </html>

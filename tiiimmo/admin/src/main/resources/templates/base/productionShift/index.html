@@ -11,7 +11,7 @@
         </div>
         <div class="layui-card-body">
             <div class="layui-row timo-card-screen">
-                <div class="pull-left layui-form-pane timo-search-box">
+                <div class="pull-left layui-form-pane timo-search-box layui-form">
                     <div class="layui-inline" style="display: none">
                         <label class="layui-form-label">状态</label>
                         <div class="layui-input-block timo-search-status">
@@ -33,7 +33,12 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">班次</label>
                         <div class="layui-input-block">
-                            <input type="text" name="shift" th:value="${param.shift}" placeholder="请输入班次" autocomplete="off" class="layui-input">
+                            <!--<input type="text" name="shift" th:value="${param.shift}" placeholder="请输入班次" autocomplete="off" class="layui-input">-->
+                            <select id="shift" name="shift" lay-filter="shift" placeholder="请输入班次" autocomplete="off" class="layui-input">
+                                <option value="">全部</option>
+                                <option value="日">日</option>
+                                <option value="夜">夜</option>
+                            </select>
                         </div>
                     </div>
 
@@ -82,7 +87,7 @@
                             <i class="layui-icon layui-icon-ok"></i></label></td>
                         <td th:text="${item.id}">主键ID</td>
                         <td th:text="${item.userName}">员工名称</td>
-                        <td th:text="${item.users.classNo}">岗位</td>
+                        <td th:text="${item.users.classNo==null}?'':${item.users.classNo}">岗位</td>
                         <td th:text="${item.shift}">班次</td>
                         <td th:text="${item.process}">工序</td>
                         <td th:text="${#dates.format(item.shiftDate, 'yyyy-MM-dd HH:mm:ss')}">排班日期</td>
