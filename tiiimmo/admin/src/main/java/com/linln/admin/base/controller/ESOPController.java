@@ -3,6 +3,7 @@ package com.linln.admin.base.controller;
 import com.linln.admin.base.domain.ESOP;
 import com.linln.admin.base.service.ESOPService;
 import com.linln.admin.base.util.ApiResponse;
+import com.linln.admin.produce.domain.FileRecord;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.EntityBeanUtil;
 import com.linln.common.utils.ResultVoUtil;
@@ -10,7 +11,9 @@ import com.linln.common.utils.StatusUtil;
 import com.linln.common.vo.ResultVo;
 import com.linln.component.shiro.ShiroUtil;
 import com.linln.constant.CommonConstant;
+import com.linln.modules.system.domain.User;
 import com.linln.utill.FileUtil;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +43,8 @@ public class ESOPController {
 
     @Autowired
     private ESOPService esopService;
+
+
 
     /**
      * 列表页面
@@ -91,17 +96,22 @@ public class ESOPController {
     public ResultVo save(  ESOP esop,
                          @RequestParam("file")MultipartFile file,
                          HttpServletRequest request) {
+
+        FileRecord fileRecord = new FileRecord();
+        fileRecord.setType("新增");
         // 复制保留无需修改的数据
         if (esop.getId() != null) {
             ESOP beesop = esopService.getById(esop.getId());
             EntityBeanUtil.copyProperties(beesop, esop);
+            fileRecord.setType("修改");
         }
+
         esop.setUploadTime(new Date());
         esop.setUserId(ShiroUtil.getSubject().getId());
         esop.setUploadPeople(ShiroUtil.getSubject().getUsername());
         //esop.set;
         File nfile = null;
-        String path = CommonConstant.file_path+CommonConstant.usebook_path;
+        String path = CommonConstant.file_path+CommonConstant.esop_path;
 
         //String path = "D:\\test\\";
         try {
@@ -115,6 +125,14 @@ public class ESOPController {
 
         // 保存数据
         esopService.save(esop);
+
+        fileRecord.setPcb_code(esop.getPcbCode());
+        fileRecord.setEsop_id(esop.getId());
+        fileRecord.setFile_path(esop.getUploadFile());
+        fileRecord.setTitle(esop.getName());
+        User user = ShiroUtil.getSubject();
+        fileRecord.setRecorder_name(user.getNickname());
+        esopService.saveFileRecord(fileRecord);
         return ResultVoUtil.SAVE_SUCCESS;
     }
     /**
