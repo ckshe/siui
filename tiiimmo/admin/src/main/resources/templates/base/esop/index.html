@@ -28,6 +28,12 @@
                         </div>
                     </div>
                     <div class="layui-inline">
+                        <label class="layui-form-label">规格型号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="pcbCode" th:value="${param.pcbCode}" placeholder="请输入规格型号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
                         <button class="layui-btn timo-search-btn">
                             <i class="fa fa-search"></i>
                         </button>
@@ -36,7 +42,7 @@
                 <div class="pull-right screen-btn-group">
                     <button class="layui-btn open-popup" data-title="添加" th:attr="data-url=@{/base/esop/add}" data-size="auto">
                         <i class="fa fa-plus"></i> 添加</button>
-                    <div class="btn-group">
+                    <div style="display: none" class="btn-group">
                         <button class="layui-btn">操作<span class="caret"></span></button>
                         <dl class="layui-nav-child layui-anim layui-anim-upbit">
                             <dd><a class="ajax-status" th:href="@{/base/esop/status/ok}">启用</a></dd>
@@ -60,7 +66,7 @@
                         <th>上传人</th>
                         <th>上传时间</th>
                         <th>文件</th>
-                        <th>所属工序</th>
+                        <th>规格型号</th>
                         <th>创建时间</th>
                         <th>更新时间</th>
                         <th>数据状态</th>

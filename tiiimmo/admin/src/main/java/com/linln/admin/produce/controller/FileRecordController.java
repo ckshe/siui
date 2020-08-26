@@ -40,7 +40,8 @@ public class FileRecordController {
 
         // 创建匹配器，进行动态查询匹配
         ExampleMatcher matcher = ExampleMatcher.matching()
-                .withMatcher("title", match -> match.contains());
+                .withMatcher("title", match -> match.contains())
+                .withMatcher("pcb_code", match -> match.contains());
 
         // 获取数据列表
         Example<FileRecord> example = Example.of(fileRecord, matcher);

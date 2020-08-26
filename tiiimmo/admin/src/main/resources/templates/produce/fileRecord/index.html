@@ -12,11 +12,18 @@
         <div class="layui-card-body">
             <div class="layui-row timo-card-screen">
                 <div class="pull-left layui-form-pane timo-search-box">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">状态</label>
+                    <div style="display: none;" class="layui-inline">
+                        <label  class="layui-form-label">状态</label>
                         <div class="layui-input-block timo-search-status">
                             <select class="timo-search-select" name="status" mo:dict="SEARCH_STATUS" mo-selected="${param.status}"></select>
                         </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">规格型号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="pcb_code" th:value="${param.pcb_code}" placeholder="请输入规格型号" autocomplete="off" class="layui-input">
+                        </div>
+
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">文件名</label>
@@ -34,7 +41,7 @@
                     <button class="layui-btn open-popup" data-title="添加文件操作记录" th:attr="data-url=@{/produce/fileRecord/add}" data-size="auto">
                         <i class="fa fa-plus"></i> 添加</button>
                     <div class="btn-group">
-                        <button class="layui-btn">操作<span class="caret"></span></button>
+                        <button style="display: none;" class="layui-btn">操作<span class="caret"></span></button>
                         <dl class="layui-nav-child layui-anim layui-anim-upbit">
                             <dd><a class="ajax-status" th:href="@{/produce/fileRecord/status/ok}">启用</a></dd>
                             <dd><a class="ajax-status" th:href="@{/produce/fileRecord/status/freezed}">冻结</a></dd>

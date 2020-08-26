@@ -55,7 +55,8 @@ public class ESOPController {
 
         // 创建匹配器，进行动态查询匹配
         ExampleMatcher matcher = ExampleMatcher.matching()
-                .withMatcher("name", match -> match.contains());
+                .withMatcher("name", match -> match.contains())
+                .withMatcher("pcbCode", match -> match.contains());
 
         // 获取数据列表
         Example<ESOP> example = Example.of(esop, matcher);
