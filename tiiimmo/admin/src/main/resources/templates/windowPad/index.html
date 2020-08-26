@@ -200,7 +200,9 @@
                     <button id="stop" class="redButton">暂停</button>
                 </div>
                 <div class="fourRight">
-                    <button id="pdf" class="greenButton" type="button" style="height:calc(100% - 10px)">操作指导</button>
+<!--                    <button id="pdf" class="greenButton" type="button" style="height:calc(100% - 10px)">操作指导</button>-->
+                    <button id="pdf" class="greenButton" type="button" >操作指导</button>
+                    <button id="esopPdf" class="greenButton" type="button">工艺文件</button>
                 </div>
             </div>
             <div class="fourBox">
@@ -719,6 +721,36 @@
                     offset:10,
                     area:['900px','700px'],
                     content:$('#zhidao')
+                })
+            });
+            //工艺文件
+            $('#esopPdf').on('click',function () {
+                console.log(nowGonDan)
+                if(nowGonDan==''){
+                    layer.alert('当前无工序',{icon:5})
+                    return;
+                }
+                $.ajax({
+                    url:'/open/showESOPPDF?pcbCode='+nowGonDan.pcb_code,
+                    success: function(data) {
+                        if(data){
+                            document.getElementById('zhidao').src='/open/showESOPPDF?pcbCode='+nowGonDan.pcb_code;
+                            layer.open({
+                                title:'工艺文件',
+                                type:1,
+                                offset:10,
+                                area:['900px','700px'],
+                                content:$('#zhidao')
+                            })
+                        }else {
+                            layer.alert('当前无相应工艺文件',{icon:5})
+                            return;
+                        }
+                    },
+                    error: function(data){
+                        //失败的操作
+                        console.log(data.status);//404表示连接无效
+                    }
                 })
             });
             //不良录入
