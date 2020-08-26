@@ -4,7 +4,7 @@
 </head>
 <body>
     <div class="layui-form timo-compile">
-    <form th:action="@{/produce/processTheoryTime/save}">
+    <form class="layui-form" lay-filter="lay_form" th:action="@{/produce/processTheoryTime/save}">
         <input type="hidden" name="id" th:if="${processTheoryTime}" th:value="${processTheoryTime.id}">
         <div class="layui-form-item">
             <label class="layui-form-label">规格型号</label>
@@ -21,7 +21,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">工序名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="process_name" autocomplete="off" placeholder="请输入工序名称" th:value="${processTheoryTime?.process_name}">
+                <input type="hidden" id="processNameValue" autocomplete="off" th:value="${processTheoryTime?.process_name}">
+                <select name="process_name" id="processName"></select>
             </div>
         </div>
         <div class="layui-form-item">
@@ -43,5 +44,34 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+    <script>
+        var a="";
+        layui.use(['jquery','layer','form','laydate'],function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
+            laydate.render({
+                elem:"#time",
+                type:'datetime',
+                trigger:'click'
+            });
+
+            $.get('/base/process/findProcessName',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('processName');
+                    var str = "";
+                    var d = res.data.map(function (t) {
+                        return {name:t}
+                    });
+                    d.forEach(function (t) {
+                        str+="<option value='"+t.name+"'>"+t.name+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('lay_form',{process_name:$('#processNameValue').val()});
+                }
+            })
+        })
+    </script>
 </body>
 </html>

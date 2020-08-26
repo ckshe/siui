@@ -29,7 +29,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/base/process")
-public class ProcessController {
+public class  ProcessController {
 
     @Autowired
     private ProcessService processService;
@@ -156,6 +156,20 @@ public class ProcessController {
         }
 
     }
+
+    @GetMapping("/findProcessName")
+    @ResponseBody
+    public ResultVo findProcessName(){
+
+        List<String> processeNames = processService.queryProcessName();
+        if (processeNames!= null){
+            return ResultVoUtil.success("查询成功",processeNames);
+        } else {
+            return ResultVoUtil.error(400,"查询失败");
+        }
+
+    }
+
 
     @GetMapping("/findProcess")
     @ResponseBody

@@ -52,7 +52,6 @@
 </div>
 <script th:replace="/common/template :: script"></script>
 <script>
-    var a="";
     layui.use(['jquery','layer','form','laydate'],function () {
         var $ = layui.jquery,
             form = layui.form,
@@ -68,12 +67,7 @@
             if(res.code===200){
                 var select = document.getElementById('deviceCode');
                 var str = "";
-                /*var d = res.data.map(function (t) {
-                    return {device_code:t}
-                });
-                d.forEach(function (t) {
-                    str+="<option value='"+t.device_code+"'>"+t.device_code+"</option>"
-                });*/
+
                 res.data.forEach(function (t) {
                     str+="<option value='"+t.device_code+"'>"+t.device_code+"</option>"
                 });

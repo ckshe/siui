@@ -12,6 +12,8 @@
                 <label class="layui-form-label">设备编号</label>
                 <div class="layui-input-inline">
                     <input class="layui-input" id="deviceCode" type="text" autocomplete="off" name="deviceCode" placeholder="请输入设备编号" >
+                    <!--<input type="hidden" id="deviceCodeValue" autocomplete="off">
+                    <select name="device_code" id="deviceCode"></select>-->
                 </div>
             </div>
             <div class="layui-form-item">
@@ -75,6 +77,20 @@
             $('#closepop').on('click', function () {
                 parent.layer.closeAll()
             });
+
+            $.get('/base/device/findDeviceCode',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('deviceCode');
+                    var str = "";
+
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.device_code+"'>"+t.device_code+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('form2',{device_code:$('#deviceCodeValue').val()});
+                }
+            })
+
         })
     </script>
 </body>

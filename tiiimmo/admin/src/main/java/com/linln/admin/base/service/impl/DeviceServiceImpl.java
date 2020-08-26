@@ -88,7 +88,7 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public List<Device> list() {
-        return deviceRepository.findAll();
+        return deviceRepository.findAllbyDeviceSort();
     }
 
 }
