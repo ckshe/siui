@@ -15,7 +15,9 @@ public enum ResultEnum {
     DEVICE_REGULAR_SAFE_CONTENT_ID_NOT_NULL("EX1010","定期检测内容id不能为空"),
     DEVICE_REGULAR_SAFE_CONTENT_NOT_EXIST("EX1011","该定期检测内容不存在"),
     DEVICE_REGULAR_SAFE_ID_NOT_NULL("EX1012", "定期检测内容id不能为空"),
-    DEVICE_REGULAR_SAFE_NOT_EXIST("EX1013","设备定期检测内容不存在")
+    DEVICE_REGULAR_SAFE_NOT_EXIST("EX1013","设备定期检测内容不存在"),
+    DEVICE_AMBIENT_NOT_EXIST("EX1014", "编辑车间环境记录"),
+    DEVICE_AMBIENT_ID_NOT_NULL("EX1015", "温湿度记录id不能为空")
     ;
     private String code;
     private String message;
