@@ -12,5 +12,7 @@ public interface ESOPRepository extends BaseRepository<ESOP, Long> {
 
     ESOP findByCode(String code);
 
+    ESOP findByPcbCode(String pcbCode);
+
 
 }

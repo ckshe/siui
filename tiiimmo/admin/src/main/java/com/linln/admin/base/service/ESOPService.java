@@ -3,6 +3,7 @@ package com.linln.admin.base.service;
 import com.linln.admin.base.domain.ESOP;
 import com.linln.admin.base.domain.OperationInstruction;
 import com.linln.admin.base.util.ApiResponse;
+import com.linln.admin.produce.domain.FileRecord;
 import com.linln.common.enums.StatusEnum;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -33,7 +34,7 @@ public interface ESOPService {
 
     /**
      * 保存数据
-     * @param operationInstruction 实体对象
+     * @param
      */
     ESOP save(ESOP esop);
 
@@ -51,5 +52,7 @@ public interface ESOPService {
     ApiResponse importOperationManual(MultipartFile file);
     //查看pdf
     void showPDF(HttpServletResponse response, Long id);
+
+    FileRecord saveFileRecord(FileRecord fileRecord);
 
 }

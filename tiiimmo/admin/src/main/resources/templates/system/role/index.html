@@ -73,7 +73,7 @@
                     <th class="sortable" data-field="createDate">创建时间</th>
                     <th class="sortable" data-field="updateDate">更新时间</th>
                     <th>用户列表</th>
-                    <th>岗位技能</th>
+                    <!--<th>岗位技能</th>-->
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -90,11 +90,11 @@
                            th:attr="data-url=@{'/system/role/userList/'+${item.id}}" data-size="800,600"
                            href="#">查看</a>
                     </td>
-                    <td>
+                    <!--<td>
                         <form style="text-align: center">
                             <button type="button"  lay-submit th:data-id="${item.id}" lay-filter="skill" class="layui-btn layui-btn-xs">查看</button>
                         </form>
-                    </td>
+                    </td>-->
                     <td>
                         <a class="open-popup" data-title="编辑岗位" th:attr="data-url=@{'/system/role/edit/'+${item.id}+'?id='+${item.id} }"
                            shiro:hasPermission="system:role:edit"

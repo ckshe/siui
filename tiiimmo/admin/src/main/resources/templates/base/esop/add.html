@@ -7,15 +7,15 @@
     <form  class="layui-form" lay-filter="lay_form" th:action="@{/base/esop/save}" enctype="multipart/form-data">
         <input type="hidden" name="id" th:if="${esop}" th:value="${esop.id}">
         <div class="layui-form-item">
-            <label class="layui-form-label">操作指导书编号</label>
+            <label class="layui-form-label">ESOP编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="text" name="code" placeholder="请输入操作指导书编号" th:value="${esop?.code}">
+                <input class="layui-input" autocomplete="off" type="text" name="code" placeholder="请输入ESOP编号" th:value="${esop?.code}">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">操作指导书名称</label>
+            <label class="layui-form-label">ESOP名称</label>
             <div class="layui-input-inline">
-                <input class="layui-input" autocomplete="off" type="text" name="name" placeholder="请输入操作指导书名称" th:value="${esop?.name}">
+                <input class="layui-input" autocomplete="off" type="text" name="name" placeholder="请输入ESOP名称" th:value="${esop?.name}">
             </div>
         </div>
 

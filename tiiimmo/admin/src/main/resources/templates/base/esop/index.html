@@ -55,8 +55,8 @@
                                 <i class="layui-icon layui-icon-ok"></i></label>
                         </th>
                         <!--<th>主键ID</th>-->
-                        <th>操作指导书编号</th>
-                        <th>操作指导书名称</th>
+                        <th>ESOP编号</th>
+                        <th>ESOP名称</th>
                         <th>上传人</th>
                         <th>上传时间</th>
                         <th>文件</th>
@@ -72,8 +72,8 @@
                         <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
                             <i class="layui-icon layui-icon-ok"></i></label></td>
                         <!--<td th:text="${item.id}">主键ID</td>-->
-                        <td th:text="${item.code}">操作指导书编号</td>
-                        <td th:text="${item.name}">操作指导书名称</td>
+                        <td th:text="${item.code}">ESOP编号</td>
+                        <td th:text="${item.name}">ESOP名称</td>
                         <td th:text="${item.uploadPeople}">上传人</td>
                         <td th:text="${#dates.format(item.uploadTime, 'yyyy-MM-dd HH:mm:ss')}">上传时间</td>
                         <td>

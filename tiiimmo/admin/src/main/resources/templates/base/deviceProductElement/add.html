@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+    <script src="../../../static/js/plugins/jquery-2.2.4.js"></script>
 </head>
 <body>
     <div class="layui-form timo-compile">
@@ -53,7 +54,10 @@
         <div class="layui-form-item">
             <label class="layui-form-label">AB面</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="a_or_b" autocomplete="off" placeholder="请输入AB面" th:value="${deviceProductElement?.a_or_b}">
+                <!--<input class="layui-input" type="text" name="a_or_b" autocomplete="off" placeholder="请输入AB面" th:value="${deviceProductElement?.a_or_b}">-->
+                <input type="hidden" id="faceValue" autocomplete="off" th:value="${deviceProductElement?.a_or_b}">
+                <select name="a_or_b" id="a_or_b"></select>
+
             </div>
         </div>
         <div class="layui-form-item timo-finally">
@@ -86,9 +90,22 @@
                     select.innerHTML=str;
                     form.val('lay_form',{device_code:$('#deviceCodeValue').val()});
                 }
+            });
+
+            $.get('/base/program/findFace',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('a_or_b');
+                    var str = "";
+                    var d = res.data.map(function (t) {
+                        return {face:t}
+                    });
+                    d.forEach(function (t) {
+                        str+="<option value='"+t.face+"'>"+t.face+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('lay_form',{a_or_b:$('#faceValue').val()});
+                }
             })
-
-
         })
     </script>
 </body>

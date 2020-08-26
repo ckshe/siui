@@ -11,7 +11,7 @@
         </div>
         <div class="layui-card-body">
             <div class="layui-row timo-card-screen">
-                <div class="pull-left layui-form-pane timo-search-box">
+                <div class="pull-left layui-form-pane timo-search-box layui-form">
                     <div class="layui-inline" style="display: none">
                         <label class="layui-form-label">状态</label>
                         <div class="layui-input-block timo-search-status">
@@ -45,7 +45,12 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">AB面 </label>
                         <div class="layui-input-block">
-                            <input type="text" name="a_or_b" th:value="${param.a_or_b}" placeholder="请输入规格型号" autocomplete="off" class="layui-input">
+                            <!--<input type="text" name="a_or_b" th:value="${param.a_or_b}" placeholder="请输入规格型号" autocomplete="off" class="layui-input">-->
+                            <select id="a_or_b" name="a_or_b" lay-filter="a_or_b" placeholder="请输入班次" autocomplete="off" class="layui-input">
+                                <option value="">全部</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                            </select>
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -160,28 +165,8 @@
 
     </script>
 
-    <!--<script>
-        var objTable = document.getElementById("tab");
-        var objTR;
-        var objTD;
-        var objInput;
-        for(var i=2; i< objTable.rows.length; i++)
-        {
-            objTR =  objTable.rows[i];
-            for(var j=1; j<objTR.cells.length; j++)
-            {
-                objTD = objTR.cells[j];
-                objInput = objTD.childNodes[0];
-                if( typeof(objInput.value) == "undefined")
-                {
-                    alert('请确认表格内数据填写完整');
-                }
-            }
-        }
 
-    </script>-->
-
-<script>
+<!--<script>
     layui.use(['form','jquery','layer'],function () {
         var form=layui.form,
             $   = layui.jquery,
@@ -198,10 +183,7 @@
             });
         }
     })
-
-
-
-</script>
+</script>-->
 
 
 

@@ -8,6 +8,8 @@ import com.linln.admin.base.repository.OperationManualRepository;
 import com.linln.admin.base.service.ESOPService;
 import com.linln.admin.base.service.OperationInstructionService;
 import com.linln.admin.base.util.ApiResponse;
+import com.linln.admin.produce.domain.FileRecord;
+import com.linln.admin.produce.repository.FileRecordRepository;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
 import com.linln.constant.CommonConstant;
@@ -16,6 +18,7 @@ import com.spire.xls.PaperSizeType;
 import com.spire.xls.Worksheet;
 import com.spire.xls.WorksheetVisibility;
 import com.spire.xls.core.spreadsheet.collections.PrstGeomShapeCollection;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
@@ -42,6 +45,9 @@ public class ESOPServiceImpl implements ESOPService {
 
     @Autowired
     private OperationManualRepository operationManualRepository;
+
+    @Autowired
+    private FileRecordRepository fileRecordRepository;
 
     @Value("${operationManual-path}")
     public String operationManualPath;
@@ -161,5 +167,10 @@ public class ESOPServiceImpl implements ESOPService {
         }
         String path = CommonConstant.file_path+CommonConstant.usebook_path+esop.getUploadFile();
         FileUtil.readPDF(response,path);
+    }
+
+    @Override
+    public FileRecord saveFileRecord(FileRecord fileRecord) {
+        return fileRecordRepository.save(fileRecord);
     }
 }

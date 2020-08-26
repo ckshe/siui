@@ -11,7 +11,7 @@
         </div>
         <div class="layui-card-body">
             <div class="layui-row timo-card-screen">
-                <div class="pull-left layui-form-pane timo-search-box">
+                <div class="pull-left layui-form-pane timo-search-box layui-form">
                     <div class="layui-inline" style="display: none">
                         <label class="layui-form-label">状态</label>
                         <div class="layui-input-block timo-search-status">
@@ -33,7 +33,12 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">班次</label>
                         <div class="layui-input-block">
-                            <input type="text" name="shift" th:value="${param.shift}" placeholder="请输入班次" autocomplete="off" class="layui-input">
+                            <!--<input type="text" name="shift" th:value="${param.shift}" placeholder="请输入班次" autocomplete="off" class="layui-input">-->
+                            <select id="shift" name="shift" lay-filter="shift" placeholder="请输入班次" autocomplete="off" class="layui-input">
+                                <option value="">全部</option>
+                                <option value="日">日</option>
+                                <option value="夜">夜</option>
+                            </select>
                         </div>
                     </div>
 
