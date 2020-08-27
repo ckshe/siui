@@ -44,9 +44,13 @@ public class windowPadController {
     @GetMapping("/circulation")
     public String device(){ return "/windowPad/circulation";}
 
-    //    设备参数
+    //    首检记录
     @GetMapping("/firstQuality")
     public String firstQuality(){ return "/windowPad/firstQuality";}
+
+    //    环境记录
+    @GetMapping("/ambient")
+    public String ambient(){ return "/windowPad/ambient";}
 
     //  物料明细
     @GetMapping("/materiel")
