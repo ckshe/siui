@@ -91,10 +91,19 @@ function setDataBoard3(params) {
         setdievClick(deviceCode, $(this).index());
     })
     $('#temperature').off().on('click', function () {
-        var temperature1 = $(this).attr("data-temperature");
-        var humidity1 = $(this).attr("data-humidity");
-        console.log(temperature1, humidity1)
-        settemperatureClick(temperature1, humidity1);
+        // var temperature1 = $(this).attr("data-temperature");
+        // var humidity1 = $(this).attr("data-humidity");
+        // console.log(temperature1, humidity1)   
+        $.ajax({
+            contentType: 'application/json',
+            type: 'get',
+            url: '/deviceAmbient/getTheLatest',
+            dataType: "json",
+            success: function (response) {
+                var data = response.data
+                settemperatureClick(data.ambientTemperature, data.ambientHumidity);
+            }
+        });
     })
     $('#humidity').off().on('click', function () {
         var board_version = "SELECT@@@*@@@FROM@@@base_data_board_version@@@order@@@by@@@update_date@@@desc";
