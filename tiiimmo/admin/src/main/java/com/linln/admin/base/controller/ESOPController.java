@@ -62,7 +62,7 @@ public class ESOPController {
         Example<ESOP> example = Example.of(esop, matcher);
         Page<ESOP> list = esopService.getPageList(example);
 
-        // 封装数据
+        // 封装数据 
         model.addAttribute("list", list.getContent());
         model.addAttribute("page", list);
         return "/base/esop/index";
@@ -111,18 +111,18 @@ public class ESOPController {
         esop.setUserId(ShiroUtil.getSubject().getId());
         esop.setUploadPeople(ShiroUtil.getSubject().getUsername());
         //esop.set;
-        File nfile = null;
+        String  nfile = null;
         String path = CommonConstant.file_path+CommonConstant.esop_path;
 
         //String path = "D:\\test\\";
         try {
-            nfile = FileUtil.multipartFileToFile(file, path);
+            nfile = FileUtil.multipartFileToFileTimeStamp(file, path);
         } catch (IOException e) {
             e.printStackTrace();
             return ResultVoUtil.error(20001, "保存文件错误，请联系系统管理员");
         }
         //FileUtil.upload(file);
-        esop.setUploadFile(file.getOriginalFilename());
+        esop.setUploadFile(nfile);
 
         // 保存数据
         esopService.save(esop);

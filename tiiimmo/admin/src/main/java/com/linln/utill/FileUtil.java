@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -116,6 +118,34 @@ public class FileUtil {
         return dest;
     }
 
+    /**
+     * 将文件保存起来，并返回文件信息
+     * @param multipartFile
+     * @param savePath 保存的路径
+     * @return
+     * @throws IOException
+     */
+    public static String multipartFileToFileTimeStamp(MultipartFile multipartFile, String savePath) throws IOException{
+        if (multipartFile == null || multipartFile.isEmpty() || StringHelper.isBlank(savePath)){
+            return null;
+        }
+        Date  date = new Date();
+        String strDate = DateUtil.date2String(date,"");
+        String timestamp = System.currentTimeMillis()+"";
+        timestamp = timestamp.substring(5,9);
+        String fileName = multipartFile.getOriginalFilename();
+        String name[] = fileName.split("\\.");
+        fileName = name[0]+strDate+"-"+timestamp+".pdf";
+        File saveFileDir = new File(savePath);
+        if (!saveFileDir.exists()){
+            saveFileDir.mkdirs();
+        }
+        File dest = new File(savePath + fileName);
+
+        multipartFile.transferTo(dest);
+
+        return fileName;
+    }
 
     /**
      * 读取本地pdf,这里设置的是预览constant

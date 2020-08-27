@@ -9,6 +9,7 @@ import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.utils.StatusUtil;
 import com.linln.common.vo.ResultVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -18,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -117,5 +120,16 @@ public class FileRecordController {
         } else {
             return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
         }
+    }
+
+    /**
+     * 在线浏览PDF文件
+     * @return
+     */
+    @RequestMapping("/showPDF")
+    @ResponseBody
+    public void showPDF(HttpServletResponse response, Long  id)throws IOException, DocumentException {
+        fileRecordService.showPDF(response,id);
+
     }
 }

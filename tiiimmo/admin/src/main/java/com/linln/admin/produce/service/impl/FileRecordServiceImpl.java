@@ -1,10 +1,13 @@
 package com.linln.admin.produce.service.impl;
 
+import com.linln.admin.base.domain.ESOP;
 import com.linln.admin.produce.domain.FileRecord;
 import com.linln.admin.produce.repository.FileRecordRepository;
 import com.linln.admin.produce.service.FileRecordService;
 import com.linln.common.data.PageSort;
 import com.linln.common.enums.StatusEnum;
+import com.linln.constant.CommonConstant;
+import com.linln.utill.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -12,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -62,5 +66,16 @@ public class FileRecordServiceImpl implements FileRecordService {
     @Transactional
     public Boolean updateStatus(StatusEnum statusEnum, List<Long> idList) {
         return fileRecordRepository.updateStatus(statusEnum.getCode(), idList) > 0;
+    }
+
+    @Override
+    public void showPDF(HttpServletResponse response, Long id ) {
+
+        FileRecord fileRecord = fileRecordRepository.findById(id).get();
+        if(fileRecord ==null){
+            return;
+        }
+        String path = CommonConstant.file_path+CommonConstant.esop_path+fileRecord.getFile_path();
+        FileUtil.readPDF(response,path);
     }
 }

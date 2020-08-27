@@ -165,7 +165,7 @@ public class ESOPServiceImpl implements ESOPService {
         if(esop ==null){
             return;
         }
-        String path = CommonConstant.file_path+CommonConstant.usebook_path+esop.getUploadFile();
+        String path = CommonConstant.file_path+CommonConstant.esop_path+esop.getUploadFile();
         FileUtil.readPDF(response,path);
     }
 
