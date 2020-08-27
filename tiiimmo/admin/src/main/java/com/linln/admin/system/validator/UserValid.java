@@ -3,8 +3,10 @@ package com.linln.admin.system.validator;
 import com.linln.modules.system.domain.Dept;
 import lombok.Data;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -22,4 +24,9 @@ public class UserValid implements Serializable {
     private String confirm;
     @NotNull(message = "所在部门不能为空")
     private Dept dept;
+    @Pattern(regexp = "^1(3|4|5|7|8)\\d{9}$",message = "手机号码格式错误")
+    private String phone;
+
+    @Pattern(regexp = "^[a-z0-9._%-]+@([a-z0-9-]+\\.)+[a-z]{2,4}$|^1[3|4|5|7|8]\\d{9}$",message = "邮箱格式错误")
+    private String email;
 }
