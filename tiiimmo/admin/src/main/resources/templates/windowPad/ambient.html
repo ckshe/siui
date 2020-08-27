@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>首检记录</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/windowPad/scancalc.css">
+    <style>
+        .layui-tab-item {
+            display: inline-block !important;
+            width: 100%;
+        }
+
+        .layui-form-item {
+            width: 49%;
+            display: inline-block !important;
+        }
+
+        .layui-table-body.layui-table-main {
+            height: auto !important;
+            max-height: 450px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layui-tab layui-tab-brief">
+        <div class="layui-tab-content layui-show">
+            <div class="layui-tab-item">
+                <div class="layui-card pageTrue">
+                    <div class="layui-card-header timo-card-header">
+                        <span><i class="fa fa-bars"></i> <span id="deviceCode"></span> 设备使用记录</span>
+                        <!-- <i class="layui-icon layui-icon-refresh refresh-btn"></i> -->
+                    </div>
+                    <div class="layui-card-body">
+                        <div class="layui-row timo-card-screen">
+                            <form class="layui-form" lay-filter="lay_form">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">记录时间: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" autocomplete="off" type="text" id="ambientRecordTime"
+                                            name="ambientRecordTime" placeholder="请输入记录时间">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">记录员: </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" autocomplete="off" type="text"
+                                            name="ambientRecordPerson" placeholder="请输入录入人员">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">温度(℃): </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" autocomplete="off" type="text"
+                                            name="ambientTemperature" placeholder="请输入温度">
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">湿度(%RH): </label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" autocomplete="off" type="text" name="ambientHumidity"
+                                            placeholder="请输入湿度">
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item" style="width: 100%;">
+                                    <label class="layui-form-label">备注: </label>
+                                    <div class="layui-input-inline" style="width: 568px;">
+                                        <input class="layui-input" autocomplete="off" type="text" name="remark"
+                                            placeholder="请输入备注">
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item timo-finally" style="width: 100%; text-align: center;">
+                                    <button class="layui-btn" type="button" lay-submit lay-filter="ambientRecordFrom">
+                                        提交</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="timo-table-wrap">
+                            <table class="layui-hide" id="table" lay-filter="table"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/html" id="toolfirstQuality">
+        <button id="sub" class="layui-btn layui-btn-sm" type="button"  lay-event="devs">提交</button>
+    </script>
+    <script src="../../lib/layui-v2.3.0/layui.js"></script>
+    <script src="../../js/common.js"></script>
+</body>
+<script>
+    window.onload = function () {
+        var nowDeviceCode = getQueryString2('deviceCode');
+        layui.use(['jquery', 'form', 'table', 'laydate'], function () {
+            var $ = layui.jquery,
+                table = layui.table,
+                form = layui.form,
+                laydate = layui.laydate;
+            var tablelist = {};
+            $.ajax({
+                url: "/produce/pcbTask/findProcessTaskByDevice",
+                type: 'post',
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify({
+                    deviceCode: getQueryString2('deviceCode'),
+                }),
+                success: function (res) {
+                    layer.closeAll();
+                    res.data.some(function (t, i) {
+                        if (("" + t.is_now_flag).indexOf(nowDeviceCode) != -1) {
+                            if (parentLogin()) {
+                                tablelist = table.render({
+                                    elem: '#table'
+                                    , url: '/deviceAmbient/list' //数据接口
+                                    , method: 'post'
+                                    , loading: false
+                                    , contentType: 'application/json'
+                                    , response: {
+                                        statusCode: 200
+                                    }
+                                    , page: true
+                                    , limit: 10
+                                    , where: {
+                                        AmbientTimeStart: timeToDate(new Date(), true) + '00:00:00',
+                                        AmbientTimeEnd: timeToDate(new Date(), true) + '23:59:59'
+                                    }
+                                    , parseData: function (res) {
+                                        return {
+                                            "code": res.code, //解析接口状态
+                                            "data": res.data.deviceAmbientVOList, //解析数据列表
+                                            "count": res.data.total, //解析数据长度
+                                        };
+                                    }
+                                    , cols: [
+                                        [
+                                            { field: 'ambientRecordPerson', title: '记录人', sort: true, minWidth: 110 }
+                                            , { field: 'ambientTemperature', title: '温度(℃)', sort: true, minWidth: 100 }
+                                            , { field: 'ambientHumidity', title: '湿度(%RH)', sort: true, minWidth: 100 }
+                                            , {
+                                                field: 'ambientRecordTime', title: '记录时间', sort: true, minWidth: 120, templet: function (d) {
+                                                    return d.ambientRecordTime ? timeToDate(d.ambientRecordTime) : "";
+                                                }
+                                            }
+                                            , { field: 'remark', title: '备注', sort: true, minWidth: 100 }
+                                        ]
+                                    ]
+                                });
+                                $('[name=ambientRecordPerson]').val(parent.document.getElementById('userCode').innerHTML)
+                            }
+                            return true
+                        }
+                    });
+                }
+            })
+
+            form.on('submit(ambientRecordFrom)', function (obj) {
+                var ambientRecordData = {
+                    ambientRecordTime: obj.field.ambientRecordTime,
+                    ambientTemperature: obj.field.ambientTemperature,
+                    ambientHumidity: obj.field.ambientHumidity,
+                    ambientRecordPerson: obj.field.ambientRecordPerson,
+                    remark: obj.field.remark
+                }
+                console.log(ambientRecordData)
+                $.ajax({
+                    type: "POST",
+                    url: '/deviceAmbient/create',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(ambientRecordData),
+                    dataType: "json",
+                    async: false,
+                    success: function (res) {
+                        if (res.code == 200) {
+                            layer.alert(res.msg, { icon: 1 }, function () {
+                                parent.location.reload();
+                            });
+                        } else {
+                            layer.alert(res.msg, { icon: 5, time: 3000 });
+                        }
+                    },
+                    error: function (message) {
+                        layer.alert("提交失败！", { icon: 5, time: 1000 });
+                    }
+                });
+            });
+            laydate.render({
+                elem: '#ambientRecordTime'
+                , value: new Date(),
+                format: 'yyyy-MM-dd HH:mm:ss'
+            });
+        });
+    };
+</script>
+
+</html>

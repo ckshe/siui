@@ -92,7 +92,7 @@
                     <th class="sortable" data-field="dept">所在部门</th>
                     <th class="sortable" data-field="roles">所在岗位</th>
                     <th class="sortable" data-field="sex">性别</th>
-                    <th class="sortable" data-field="phone">电话</th>
+                    <th class="sortable" data-field="phone">手机号码</th>
                     <th class="sortable" data-field="email">邮箱</th>
                     <th class="sortable" data-field="createDate">创建时间</th>
                     <th>状态</th>
@@ -117,7 +117,7 @@
                     <!--<td th:text="${item.roles.iterator().next().title!=null?item.roles.iterator().next().title:'1'}">所在岗位</td>-->
                     <td th:text="${item.classNo}">所在部门</td>
                     <td th:text="${#dicts.keyValue('USER_SEX', item.sex)}">性别</td>
-                    <td th:text="${item.phone}">电话</td>
+                    <td th:text="${item.phone}">手机号码</td>
                     <td th:text="${item.email}">邮箱</td>
                     <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
                     <td th:text="${#dicts.dataStatus(item.status)}">状态</td>
