@@ -11,4 +11,5 @@ public interface DeviceAmbientServiceInter {
     DeviceAmbient findById(Integer Id);
     void deleteDeviceAmbient(DeviceAmbient deviceAmbient);
     Page<DeviceAmbient> getDeviceAmbientList(Specification<DeviceAmbient> Specification, Pageable pageable);
+    Page<DeviceAmbient> getTheLatestDeviceAmbient(Pageable pageable);
 }

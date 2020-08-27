@@ -12,5 +12,6 @@ public interface DeviceRegularSafeServiceInter {
     List<DeviceRegularSafe> findByThisSafeTime(Date thisSafeTime);
     void saveDeviceRegularSafe(DeviceRegularSafe deviceRegularSafe);
     DeviceRegularSafe findById(Integer id);
+    Page<DeviceRegularSafe> findByDeviceCodeOrderByThisSafeTimeDesc(String deviceCode, Pageable pageable);
     Page<DeviceRegularSafe> getDeviceRegularSafes(Specification<DeviceRegularSafe> Specification, Pageable pageable);
 }

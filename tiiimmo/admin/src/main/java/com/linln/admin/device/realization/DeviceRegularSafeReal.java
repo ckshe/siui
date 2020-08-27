@@ -3,6 +3,7 @@ package com.linln.admin.device.realization;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.service.impl.DeviceServiceImpl;
 import com.linln.admin.device.VO.DeviceRegularSafeResVO;
+import com.linln.admin.device.entity.DeviceAmbient;
 import com.linln.admin.device.entity.DeviceRegularSafe;
 import com.linln.admin.device.entity.DeviceRegularSafeContent;
 import com.linln.admin.device.entity.DeviceRegularSafeResult;
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -46,22 +48,22 @@ public class DeviceRegularSafeReal {
     }
 
     @Autowired
-    public void setDeviceRegularSafeContentService(DeviceRegularSafeContentServiceImpl deviceRegularSafeContentService){
+    public void setDeviceRegularSafeContentService(DeviceRegularSafeContentServiceImpl deviceRegularSafeContentService) {
         this.deviceRegularSafeContentService = deviceRegularSafeContentService;
     }
 
     @Autowired
-    public void setDeviceService(DeviceServiceImpl deviceService){
+    public void setDeviceService(DeviceServiceImpl deviceService) {
         this.deviceService = deviceService;
     }
 
     @Autowired
-    public void setDeviceRegularSafeResultService(DeviceRegularSafeResultServiceImpl deviceRegularSafeResultService){
+    public void setDeviceRegularSafeResultService(DeviceRegularSafeResultServiceImpl deviceRegularSafeResultService) {
         this.deviceRegularSafeResultService = deviceRegularSafeResultService;
     }
 
     @Autowired
-    public void setUserService(UserServiceImpl userService){
+    public void setUserService(UserServiceImpl userService) {
         this.userService = userService;
     }
 
@@ -71,17 +73,22 @@ public class DeviceRegularSafeReal {
         List<DeviceRegularSafe> deviceRegularSafes = deviceRegularSafeService.findByThisSafeTime(deviceRegularSafeForm.getThisSafeTime());
         List<DeviceRegularSafeResult> deviceRegularSafeResults = deviceRegularSafeResultService.findByTheSafeTimeAndDeviceCode(deviceRegularSafeForm.getThisSafeTime(), deviceRegularSafeForm.getDeviceCode());
         List<Device> devices = deviceService.list();
-        devices = devices.stream().filter(e->e.getDevice_code().equals(deviceRegularSafeForm.getDeviceCode())).collect(Collectors.toList());
-        if (devices.size() == 0){
+        devices = devices.stream().filter(e -> e.getDevice_code().equals(deviceRegularSafeForm.getDeviceCode())).collect(Collectors.toList());
+        if (devices.size() == 0) {
             log.error("【获取设备定期检测内容】设备不存在，deviceRegularSafeForm={}", deviceRegularSafeForm.toString());
             throw new DeviceException(ResultEnum.DEVICE_NOT_EXIST);
         }
         if (deviceRegularSafes.size() == 0) {
             List<DeviceRegularSafeContent> deviceRegularSafeContents = deviceRegularSafeContentService.findByDeviceCode(deviceRegularSafeForm.getDeviceCode());
+            Pageable pageable = PageRequest.of(0, 1);
+            Page<DeviceRegularSafe> deviceRegularSafePage = deviceRegularSafeService.findByDeviceCodeOrderByThisSafeTimeDesc(deviceRegularSafeForm.getDeviceCode(), pageable);
             DeviceRegularSafe deviceRegularSafe = new DeviceRegularSafe();
             BeanUtils.copyProperties(deviceRegularSafeForm, deviceRegularSafe);
+            if (deviceRegularSafePage.getTotalElements() != 0) {
+                deviceRegularSafe.setLastSafeTime(deviceRegularSafePage.getContent().get(0).getThisSafeTime());
+            }
             deviceRegularSafes.add(deviceRegularSafe);
-            for (DeviceRegularSafeContent deviceRegularSafeContent : deviceRegularSafeContents){
+            for (DeviceRegularSafeContent deviceRegularSafeContent : deviceRegularSafeContents) {
                 DeviceRegularSafeResult deviceRegularSafeResult = new DeviceRegularSafeResult();
                 BeanUtils.copyProperties(deviceRegularSafeContent, deviceRegularSafeResult);
                 deviceRegularSafeResult.setTheSafeTime(deviceRegularSafe.getThisSafeTime());
@@ -94,7 +101,7 @@ public class DeviceRegularSafeReal {
         BeanUtils.copyProperties(deviceRegularSafes.get(0), deviceRegularSafeResultVO);
         deviceRegularSafeResultVO.setDeviceName(devices.get(0).getDevice_name());
         List<DeviceRegularSafeResVO> deviceRegularSafeResVOS = new ArrayList<>();
-        for (DeviceRegularSafeResult deviceRegularSafeResult : deviceRegularSafeResults){
+        for (DeviceRegularSafeResult deviceRegularSafeResult : deviceRegularSafeResults) {
             DeviceRegularSafeResVO deviceRegularSafeResVO = new DeviceRegularSafeResVO();
             BeanUtils.copyProperties(deviceRegularSafeResult, deviceRegularSafeResVO);
             deviceRegularSafeResVOS.add(deviceRegularSafeResVO);
@@ -104,31 +111,31 @@ public class DeviceRegularSafeReal {
     }
 
     @Transactional
-    public void editDeviceRegularSafe(DeviceRegularSafeEditFormModel deviceRegularSafeEditFormModel){
+    public void editDeviceRegularSafe(DeviceRegularSafeEditFormModel deviceRegularSafeEditFormModel) {
         DeviceRegularSafe deviceRegularSafe = deviceRegularSafeService.findById(deviceRegularSafeEditFormModel.getRegularSafeId());
         List<User> users = userService.findAll();
-        if (deviceRegularSafe==null){
+        if (deviceRegularSafe == null) {
             log.error("【编辑设备定期检测内容】设备定期检测内容不存在，deviceRegularSafeEditFormModel={}", deviceRegularSafeEditFormModel.toString());
             throw new DeviceException(ResultEnum.DEVICE_REGULAR_SAFE_NOT_EXIST);
         }
         List<DeviceRegularSafeResult> deviceRegularSafeResults = deviceRegularSafeResultService.findByTheSafeTimeAndDeviceCode(deviceRegularSafe.getThisSafeTime(), deviceRegularSafe.getDeviceCode());
-        List<User> userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getAmongstPerson()!=null && deviceRegularSafeEditFormModel.getAmongstPerson().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
+        List<User> userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getAmongstPerson() != null && deviceRegularSafeEditFormModel.getAmongstPerson().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
         if (userList.size() != 0) {
             deviceRegularSafeEditFormModel.setAmongstPerson(userList.get(0).getNickname());
         }
-        userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getDeviceOperator()!=null && deviceRegularSafeEditFormModel.getDeviceOperator().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
+        userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getDeviceOperator() != null && deviceRegularSafeEditFormModel.getDeviceOperator().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
         if (userList.size() != 0) {
             deviceRegularSafeEditFormModel.setDeviceOperator(userList.get(0).getNickname());
         }
-        userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getQcOperator()!=null && deviceRegularSafeEditFormModel.getQcOperator().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
+        userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getQcOperator() != null && deviceRegularSafeEditFormModel.getQcOperator().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
         if (userList.size() != 0) {
             deviceRegularSafeEditFormModel.setQcOperator(userList.get(0).getNickname());
         }
-        userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getSafePerson()!=null && deviceRegularSafeEditFormModel.getSafePerson().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
+        userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getSafePerson() != null && deviceRegularSafeEditFormModel.getSafePerson().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
         if (userList.size() != 0) {
             deviceRegularSafeEditFormModel.setSafePerson(userList.get(0).getNickname());
         }
-        userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getTestOperator()!=null && deviceRegularSafeEditFormModel.getTestOperator().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
+        userList = users.stream().filter(e -> deviceRegularSafeEditFormModel.getTestOperator() != null && deviceRegularSafeEditFormModel.getTestOperator().equalsIgnoreCase(e.getCardSequence())).collect(Collectors.toList());
         if (userList.size() != 0) {
             deviceRegularSafeEditFormModel.setTestOperator(userList.get(0).getNickname());
         }
@@ -147,16 +154,16 @@ public class DeviceRegularSafeReal {
         deviceRegularSafeResultService.saveDeviceRegularSafeResults(deviceRegularSafeResults);
     }
 
-    public DeviceRegularSafeListResultVO getDeviceRegularSafes(Specification<DeviceRegularSafe> Specification, Pageable pageable){
+    public DeviceRegularSafeListResultVO getDeviceRegularSafes(Specification<DeviceRegularSafe> Specification, Pageable pageable) {
         DeviceRegularSafeListResultVO deviceRegularSafeListResultVO = new DeviceRegularSafeListResultVO();
         List<DeviceRegularSafeResultVO> deviceRegularSafeResultVOS = new ArrayList<>();
         Page<DeviceRegularSafe> deviceRegularSafePage = deviceRegularSafeService.getDeviceRegularSafes(Specification, pageable);
-        for (DeviceRegularSafe deviceRegularSafe : deviceRegularSafePage.getContent()){
+        for (DeviceRegularSafe deviceRegularSafe : deviceRegularSafePage.getContent()) {
             DeviceRegularSafeResultVO deviceRegularSafeResultVO = new DeviceRegularSafeResultVO();
             BeanUtils.copyProperties(deviceRegularSafe, deviceRegularSafeResultVO);
             List<DeviceRegularSafeResult> deviceRegularSafeResults = deviceRegularSafeResultService.findByTheSafeTimeAndDeviceCode(deviceRegularSafe.getThisSafeTime(), deviceRegularSafe.getDeviceCode());
             List<DeviceRegularSafeResVO> deviceRegularSafeResVOS = new ArrayList<>();
-            for (DeviceRegularSafeResult deviceRegularSafeResult : deviceRegularSafeResults){
+            for (DeviceRegularSafeResult deviceRegularSafeResult : deviceRegularSafeResults) {
                 DeviceRegularSafeResVO deviceRegularSafeResVO = new DeviceRegularSafeResVO();
                 BeanUtils.copyProperties(deviceRegularSafeResult, deviceRegularSafeResVO);
                 deviceRegularSafeResVOS.add(deviceRegularSafeResVO);

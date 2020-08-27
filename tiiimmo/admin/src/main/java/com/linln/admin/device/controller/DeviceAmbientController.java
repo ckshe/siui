@@ -1,5 +1,6 @@
 package com.linln.admin.device.controller;
 
+import com.linln.admin.device.VO.DeviceAmbientVO;
 import com.linln.admin.device.entity.DeviceAmbient;
 import com.linln.admin.device.entity.DeviceDateSafe;
 import com.linln.admin.device.enums.ResultEnum;
@@ -75,7 +76,7 @@ public class DeviceAmbientController {
     @RequestMapping("/list")
     public ResultVO<Object> getDeviceAmbientList(@Valid @RequestBody DeviceAmbientListForm deviceAmbientListForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            log.error("【查询设备日常维护内容】参数不正确，deviceAmbientListForm={}", deviceAmbientListForm.toString());
+            log.error("【查询车间环境记录列表】参数不正确，deviceAmbientListForm={}", deviceAmbientListForm.toString());
             throw new DeviceException(ResultEnum.PARAM_ERROR.getCode(), Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
         Pageable pageable = PageRequest.of(deviceAmbientListForm.getPage() - 1, deviceAmbientListForm.getSize());
@@ -84,12 +85,19 @@ public class DeviceAmbientController {
             if (deviceAmbientListForm.getAmbientTimeStart() != null) {
                 predicate.getExpressions().add(criteriaBuilder.greaterThanOrEqualTo(root.get("ambientRecordTime"), deviceAmbientListForm.getAmbientTimeStart()));
             }
-            if (deviceAmbientListForm.getAmbientTimeEnd()!=null){
+            if (deviceAmbientListForm.getAmbientTimeEnd() != null) {
                 predicate.getExpressions().add(criteriaBuilder.lessThanOrEqualTo(root.get("ambientRecordTime"), deviceAmbientListForm.getAmbientTimeEnd()));
             }
             return predicate;
         };
         DeviceAmbientListResultVO deviceAmbientListResultVO = deviceAmbientReal.getDeviceAmbientList(Specification, pageable);
         return ResultVOUtil.success(deviceAmbientListResultVO);
+    }
+
+    //看板温湿度
+    @GetMapping("/getTheLatest")
+    public ResultVO<Object> getTheLatestDeviceAmbient() {
+        DeviceAmbientVO deviceAmbientVO = deviceAmbientReal.getTheLatestDeviceAmbient();
+        return ResultVOUtil.success(deviceAmbientVO);
     }
 }

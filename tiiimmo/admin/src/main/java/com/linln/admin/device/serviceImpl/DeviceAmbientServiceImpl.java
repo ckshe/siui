@@ -40,4 +40,9 @@ public class DeviceAmbientServiceImpl implements DeviceAmbientServiceInter {
     public Page<DeviceAmbient> getDeviceAmbientList(Specification<DeviceAmbient> Specification, Pageable pageable) {
         return deviceAmbientRepository.findAll(Specification, pageable);
     }
+
+    @Override
+    public Page<DeviceAmbient> getTheLatestDeviceAmbient(Pageable pageable) {
+        return deviceAmbientRepository.findAllByOrderByAmbientRecordTimeDesc(pageable);
+    }
 }

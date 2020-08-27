@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -90,5 +91,16 @@ public class DeviceAmbientReal {
         deviceAmbientListResultVO.setTotal(deviceAmbientPage.getTotalElements());
         deviceAmbientListResultVO.setDeviceAmbientVOList(deviceAmbientVOS);
         return deviceAmbientListResultVO;
+    }
+
+
+    public DeviceAmbientVO getTheLatestDeviceAmbient(){
+        DeviceAmbientVO deviceAmbientVO = new DeviceAmbientVO();
+        Pageable pageable = PageRequest.of(0, 1);
+        Page<DeviceAmbient> deviceAmbientPage = deviceAmbientService.getTheLatestDeviceAmbient(pageable);
+        if (deviceAmbientPage.getTotalElements() != 0) {
+            BeanUtils.copyProperties(deviceAmbientPage.getContent().get(0), deviceAmbientVO);
+        }
+        return deviceAmbientVO;
     }
 }

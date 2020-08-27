@@ -73,6 +73,7 @@ public class ShiroConfig {
         filterMap.put("/images/**", "anon");
         filterMap.put("/lib/**", "anon");
         filterMap.put("/favicon.ico", "anon");
+        filterMap.put("/deviceAmbient/getTheLatest", "anon");
         // 通过yml配置文件方式配置的[anon]忽略规则
         filterMap.put("/#/system/user/queryUsers", "anon");
         String[] excludes = properties.getExcludes().split(",");

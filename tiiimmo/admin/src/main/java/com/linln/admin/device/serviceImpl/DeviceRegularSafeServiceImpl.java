@@ -40,6 +40,11 @@ public class DeviceRegularSafeServiceImpl implements DeviceRegularSafeServiceInt
     }
 
     @Override
+    public Page<DeviceRegularSafe> findByDeviceCodeOrderByThisSafeTimeDesc(String deviceCode, Pageable pageable) {
+        return deviceRegularSafeRepository.findByDeviceCodeOrderByThisSafeTimeDesc(deviceCode, pageable);
+    }
+
+    @Override
     public Page<DeviceRegularSafe> getDeviceRegularSafes(Specification<DeviceRegularSafe> Specification, Pageable pageable) {
         return deviceRegularSafeRepository.findAll(Specification, pageable);
     }
