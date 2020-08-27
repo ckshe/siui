@@ -1,18 +1,26 @@
 package com.linln.admin.device.realization;
 
+import com.linln.admin.device.VO.DeviceAmbientVO;
 import com.linln.admin.device.entity.DeviceAmbient;
+import com.linln.admin.device.entity.DeviceDateSafe;
 import com.linln.admin.device.enums.ResultEnum;
 import com.linln.admin.device.exception.DeviceException;
 import com.linln.admin.device.form.DeviceAmbientForm;
+import com.linln.admin.device.resultVO.DeviceAmbientListResultVO;
+import com.linln.admin.device.resultVO.DeviceUseHistoryListResultVO;
 import com.linln.admin.device.serviceImpl.DeviceAmbientServiceImpl;
 import com.linln.modules.system.domain.User;
 import com.linln.modules.system.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,5 +76,19 @@ public class DeviceAmbientReal {
             throw new DeviceException(ResultEnum.DEVICE_AMBIENT_NOT_EXIST);
         }
         deviceAmbientService.deleteDeviceAmbient(deviceAmbient);
+    }
+
+    public DeviceAmbientListResultVO getDeviceAmbientList(Specification<DeviceAmbient> Specification, Pageable pageable){
+        DeviceAmbientListResultVO deviceAmbientListResultVO = new DeviceAmbientListResultVO();
+        List<DeviceAmbientVO> deviceAmbientVOS = new ArrayList<>();
+        Page<DeviceAmbient> deviceAmbientPage = deviceAmbientService.getDeviceAmbientList(Specification, pageable);
+        for (DeviceAmbient deviceAmbient : deviceAmbientPage.getContent()){
+            DeviceAmbientVO deviceAmbientVO = new DeviceAmbientVO();
+            BeanUtils.copyProperties(deviceAmbient, deviceAmbientVO);
+            deviceAmbientVOS.add(deviceAmbientVO);
+        }
+        deviceAmbientListResultVO.setTotal(deviceAmbientPage.getTotalElements());
+        deviceAmbientListResultVO.setDeviceAmbientVOList(deviceAmbientVOS);
+        return deviceAmbientListResultVO;
     }
 }

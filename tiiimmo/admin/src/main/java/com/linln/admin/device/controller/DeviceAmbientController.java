@@ -1,5 +1,6 @@
 package com.linln.admin.device.controller;
 
+import com.linln.admin.device.entity.DeviceAmbient;
 import com.linln.admin.device.entity.DeviceDateSafe;
 import com.linln.admin.device.enums.ResultEnum;
 import com.linln.admin.device.exception.DeviceException;
@@ -8,6 +9,7 @@ import com.linln.admin.device.form.DeviceAmbientListForm;
 import com.linln.admin.device.form.DeviceDateSafeListForm;
 import com.linln.admin.device.form.DeviceRegularSafeContentForm;
 import com.linln.admin.device.realization.DeviceAmbientReal;
+import com.linln.admin.device.resultVO.DeviceAmbientListResultVO;
 import com.linln.admin.device.resultVO.DeviceDateSafeListResultVO;
 import com.linln.admin.device.resultVO.ResultVO;
 import com.linln.admin.device.utils.ResultVOUtil;
@@ -77,7 +79,7 @@ public class DeviceAmbientController {
             throw new DeviceException(ResultEnum.PARAM_ERROR.getCode(), Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
         Pageable pageable = PageRequest.of(deviceAmbientListForm.getPage() - 1, deviceAmbientListForm.getSize());
-        Specification<DeviceDateSafe> Specification = (Specification<DeviceDateSafe>) (root, criteriaQuery, criteriaBuilder) -> {
+        Specification<DeviceAmbient> Specification = (Specification<DeviceAmbient>) (root, criteriaQuery, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
             if (deviceAmbientListForm.getAmbientTimeStart() != null) {
                 predicate.getExpressions().add(criteriaBuilder.greaterThanOrEqualTo(root.get("ambientRecordTime"), deviceAmbientListForm.getAmbientTimeStart()));
@@ -87,7 +89,7 @@ public class DeviceAmbientController {
             }
             return predicate;
         };
-
-        return ResultVOUtil.success(null);
+        DeviceAmbientListResultVO deviceAmbientListResultVO = deviceAmbientReal.getDeviceAmbientList(Specification, pageable);
+        return ResultVOUtil.success(deviceAmbientListResultVO);
     }
 }
