@@ -9,7 +9,7 @@
 </iframe>
     <div class="layui-card">
         <div class="layui-card-header timo-card-header">
-            <span><i class="fa fa-bars"></i> 文件操作记录管理</span>
+            <span><i class="fa fa-bars"></i> 工艺变更记录管理</span>
             <i class="layui-icon layui-icon-refresh refresh-btn"></i>
         </div>
         <div class="layui-card-body">
@@ -22,16 +22,15 @@
                         </div>
                     </div>
                     <div class="layui-inline">
+                        <label class="layui-form-label" style="width: auto !important;">ESOP名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" th:value="${param.title}" placeholder="请输入ESOP名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
                         <label class="layui-form-label">规格型号</label>
                         <div class="layui-input-block">
                             <input type="text" name="pcb_code" th:value="${param.pcb_code}" placeholder="请输入规格型号" autocomplete="off" class="layui-input">
-                        </div>
-
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">ESOP名称</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="title" th:value="${param.title}" placeholder="请输入ESOP名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
