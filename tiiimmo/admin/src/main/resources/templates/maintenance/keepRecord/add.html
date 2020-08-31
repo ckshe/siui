@@ -15,7 +15,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">保养设备</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="keepDevice" autocomplete="off" placeholder="请输入保养设备" th:value="${keepRecord?.keepDevice}">
+                <!--<input class="layui-input" type="text" name="keepDevice" autocomplete="off" placeholder="请输入保养设备" th:value="${keepRecord?.keepDevice}">-->
+                <input type="hidden" id="keepDeviceValue" autocomplete="off" th:value="${keepRecord?.keepDevice}">
+                <select name="keepDevice" id="keepDevice"></select>
             </div>
         </div>
         <div class="layui-form-item">
@@ -74,7 +76,18 @@
                     form.val('form2',{keepUser:d.nickname})
                 }
             });
+            $.get('/base/device/findDeviceCode',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('keepDevice');
+                    var str = "";
 
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.device_code+"'>"+t.device_code+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('form2',{keepDevice:$('#keepDeviceValue').val()});
+                }
+            });
 
         })
     </script>

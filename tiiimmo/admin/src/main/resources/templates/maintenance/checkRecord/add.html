@@ -15,7 +15,11 @@
         <div class="layui-form-item">
             <label class="layui-form-label">检查设备</label>
             <div class="layui-input-inline">
+<!--
                 <input class="layui-input" type="text" name="checkDevice" autocomplete="off" placeholder="请输入检查设备" th:value="${checkRecord?.checkDevice}">
+-->
+                <input type="hidden" id="checkDeviceValue" autocomplete="off" th:value="${checkRecord?.checkDevice}">
+                <select name="checkDevice" id="checkDevice"></select>
             </div>
         </div>
         <div class="layui-form-item">
@@ -72,6 +76,19 @@
                     layer.close(userBox);
                     var d=data[0];
                     form.val('form2',{checkUser:d.nickname})
+                }
+            });
+
+            $.get('/base/device/findDeviceCode',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('checkDevice');
+                    var str = "";
+
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.device_code+"'>"+t.device_code+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('form2',{checkDevice:$('#checkDeviceValue').val()});
                 }
             });
 

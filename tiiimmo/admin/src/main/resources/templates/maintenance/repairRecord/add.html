@@ -15,7 +15,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">维修设备</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="repairDevice" autocomplete="off" placeholder="请输入维修设备" th:value="${repairRecord?.repairDevice}">
+                <!--<input class="layui-input" type="text" name="repairDevice" autocomplete="off" placeholder="请输入维修设备" th:value="${repairRecord?.repairDevice}">-->
+                <input type="hidden" id="repairDeviceValue" autocomplete="off" th:value="${repairRecord?.repairDevice}">
+                <select name="repairDevice" id="repairDevice"></select>
             </div>
         </div>
         <div class="layui-form-item">
@@ -72,6 +74,19 @@
                     layer.close(userBox);
                     var d=data[0];
                     form.val('form2',{repairUser:d.nickname})
+                }
+            });
+
+            $.get('/base/device/findDeviceCode',function (res) {
+                if(res.code===200){
+                    var select = document.getElementById('repairDevice');
+                    var str = "";
+
+                    res.data.forEach(function (t) {
+                        str+="<option value='"+t.device_code+"'>"+t.device_code+"</option>"
+                    });
+                    select.innerHTML=str;
+                    form.val('form2',{repairDevice:$('#repairDeviceValue').val()});
                 }
             });
 

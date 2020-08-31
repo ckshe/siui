@@ -45,27 +45,7 @@
                        type="text" name="dept"  placeholder="请选择所在部门" th:value="${user?.dept?.title}">
             </div>
         </div>
-        <!--<div class="layui-form-item">
-            <label class="layui-form-label">岗位</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="roles" placeholder="" th:value="${user?.roles}">
-            </div>
-        </div>-->
-        <!--<div class="layui-form-item">
-            <label class="layui-form-label">所在岗位</label>
-            <div class="layui-input-inline">
-                &lt;!&ndash;<input class="layui-input" type="text" name="area" placeholder="请输入所在产区" th:value="${line?.area}">&ndash;&gt;
-                <input type="hidden" id="roleValue">
-                <select name="roles" id="roles"></select>
-            </div>
-        </div>-->
-        <!--<div class="layui-form-item">
-            <label class="layui-form-label required">所在岗位</label>
-            <div class="layui-input-inline">
-                <input class="layui-input select-tree" th:attr="data-url=@{/system/role/list}, data-value=${user?.roles?.iterator().next().id}"
-                       type="text" name="roles"  placeholder="请选择所在岗位" th:value="${user?.roles?.iterator().next().title}">
-            </div>
-        </div>-->
+
         <div class="layui-form-item">
             <label class="layui-form-label">手机号码</label>
             <div class="layui-input-inline">
@@ -118,17 +98,6 @@
             trigger:'click'
         });
 
-        // $.get('/system/role/findAllRoles',function (res) {
-        //     if(res.code===200){
-        //         var select = document.getElementById('roles');
-        //         var str = "";
-        //         res.data.forEach(function (t) {
-        //             str+="<option value='"+t.title+"'>"+t.title+"</option>"
-        //         });
-        //         select.innerHTML=str;
-        //         form.val('lay_form',{roles:$('#roleValue').val()});
-        //     }
-        // })
     })
 </script>
 </body>
