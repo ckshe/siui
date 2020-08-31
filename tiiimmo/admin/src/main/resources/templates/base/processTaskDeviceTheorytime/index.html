@@ -70,7 +70,7 @@
                         <th>数量</th>
                         <th>理论工时</th>
                         <th>实际工时</th>
-                        <!--<th>开始时间</th>-->
+                        <!--<th>实际工时(0)</th>-->
                         <th>稼动率</th>
                         <!--<th>创建时间</th>-->
                         <!--<th>数据状态</th>-->
@@ -88,10 +88,16 @@
                         <td th:text="${item.amount}" id="num">数量</td>
                         <td th:text="${item.theoryTime}" id="theoryTime">理论工时</td>
                         <td th:text="${item.workTime}" id="workTime">实际工时</td>
-                        <!--th:text="*{age != null}? *{age} : '(no age specified)'"-->
+                        <!--<td th:text="*{item.workTime != 0}? *{item.workTime} : ''">实际工时(0)</td>-->
+                        <td th:text="*{item.workTime != 0}? *{#numbers.formatDecimal((item.amount*item.theoryTime/item.workTime*100),1,0)}+'%' : '0'">实际工时(0)</td>
                         <!--<td th:text="${item.start_time}">开始时间</td> ${item.amount}*${item.theory_time}/${item.work_time}*100-->
                         <!--<td th:text="${item.amount*item.theoryTime/item.workTime*100}" id="cropRate">稼动率(%)</td>-->
-                        <td th:text="${#numbers.formatDecimal((item.amount*item.theoryTime/item.workTime*100),1,0)+'%'}" id="cropRate">稼动率</td>
+                        <!--<p th:text="${testBoolean}?'当testBoolean为真的时候，显示本句话，这是用三相表达式做的':''" ></p>-->
+                        <!--<td th:if="${item.workTime!=0.00}">
+                            <td th:text="${#numbers.formatDecimal((item.amount*item.theoryTime/item.workTime*100),1,0)+'%'}" id="cropRate">稼动率</td>
+                        </td>-->
+                        <!--<td th:text="${#numbers.formatDecimal((item.amount*item.theoryTime/item.workTime*100),1,0)+'%'}" id="cropRate">稼动率</td>-->
+
 
                         <td>
                             <a class="open-popup" data-title="编辑稼动率" th:attr="data-url=@{'/base/processTaskDeviceTheorytime/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
