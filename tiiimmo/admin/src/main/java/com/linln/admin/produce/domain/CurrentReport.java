@@ -31,6 +31,7 @@ public class CurrentReport {
     private String task_sheet_code;
 
     //json数据
+    @Lob
     private String json_data;
 
 }
