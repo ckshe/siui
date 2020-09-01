@@ -36,11 +36,14 @@ public class CurrentReportServiceImpl implements CurrentReportService {
         CurrentReport oldCurrentReport = currentReportRepository.findByPcb_task_code(currentReport.getPcb_task_code());
         if(oldCurrentReport!=null){
            oldCurrentReport.setJson_data(currentReport.getJson_data());
+           currentReportRepository.save(oldCurrentReport);
+
         }else {
             currentReport.setPcb_code(pcbTask.getPcb_id());
             currentReport.setTask_sheet_code(pcbTask.getTask_sheet_code());
+            currentReportRepository.save(currentReport);
+
         }
-        currentReportRepository.save(currentReport);
         return ResultVoUtil.success("保存成功");
     }
 }
