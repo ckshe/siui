@@ -98,9 +98,8 @@
                         </td>-->
                         <!--<td th:text="${#numbers.formatDecimal((item.amount*item.theoryTime/item.workTime*100),1,0)+'%'}" id="cropRate">稼动率</td>-->
 
-
                         <td>
-                            <!--<a class="open-popup" data-title="编辑稼动率" th:attr="data-url=@{'/base/processTaskDeviceTheorytime/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>-->
+                            <a class="open-popup" data-title="编辑稼动率" th:attr="data-url=@{'/base/processTaskDeviceTheorytime/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
                             <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/base/processTaskDeviceTheorytime/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>
                             <a class="ajax-get" data-msg="您是否确认删除" th:href="@{/base/processTaskDeviceTheorytime/status/delete(ids=${item.id})}">删除</a>
                         </td>

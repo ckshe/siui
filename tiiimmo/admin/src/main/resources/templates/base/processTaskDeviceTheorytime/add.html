@@ -38,8 +38,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">理论工时</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="number" min="0.0" name="theoryTime" autocomplete="off" placeholder="请输入理论工时" th:value="${processTaskDeviceTheorytime?.theoryTime}"
-                       onkeyup="value=value.replace(/[^\d.]/g,'')=='0' ? '0.0':value" onpaste="return false">
+                <input class="layui-input" type="number" min="0.0" name="theoryTime" autocomplete="off" placeholder="请输入理论工时" th:value="${processTaskDeviceTheorytime?.theoryTime}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -51,8 +50,8 @@
                     禁止复制: oncopy="return false"
                     禁止剪切: oncut="return false"
                 -->
-                <input class="layui-input" type="number" id="number" min="0.01" name="workTime" autocomplete="off" placeholder="请输入实际工时" th:value="${processTaskDeviceTheorytime?.workTime}"
-                       onkeyup="value=value.replace(/[^\d.]/g,'')=='0' ? '0.01':value" onpaste="return false">
+                <input class="layui-input" type="number" id="number" min="0.0" name="workTime" autocomplete="off" placeholder="请输入实际工时" th:value="${processTaskDeviceTheorytime?.workTime}">
+                       <!--onkeyup="value=value.replace(/[^\d.]/g,'')=='0' ? '0.01':value" onpaste="return false"-->
             </div>
         </div>
 
