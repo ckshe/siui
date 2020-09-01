@@ -2,6 +2,7 @@ package com.linln.admin.reports.controller;
 
 import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.admin.reports.request.BadDetailReq;
+import com.linln.admin.reports.request.CurrentReportReq;
 import com.linln.admin.reports.service.ReportService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
@@ -26,4 +27,13 @@ public class ReportController {
         return reportService.badDetailReport(req);
     }
 
+
+    //通用报表查询
+    @PostMapping("/findCurrentReport")
+    @ResponseBody
+    public ResultVo findCurrentReport(@RequestBody CurrentReportReq req){
+        return reportService.findCurrentReport(req);
+    }
+
+    //班次分析
 }
