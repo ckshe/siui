@@ -474,6 +474,27 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 "' AND t1.plan_start_time  <= '" +
                 endTime +
                 "'");
+
+        StringBuffer rusql = new StringBuffer("SELECT\n" +
+                "\tt1.process_task_code,\n" +
+                "\tCONVERT ( VARCHAR ( 100 ), t3.warehousing_time, 23 ) AS warehousing_time,\n" +
+                "\tCONVERT ( VARCHAR ( 100 ), t1.finish_time, 23 ) AS finish_time,\n" +
+                "\tt1.process_name,\n" +
+                "\tt1.pcb_quantity,\n" +
+                "\tt1.amount_completed ,\n" +
+                "\tt2.process_type,\n" +
+                "\tISNULL( t1.amount_completed, 0 ) / ISNULL( t1.pcb_quantity, 1 ) rate2,\n" +
+                "\t cast (\n" +
+                "\t\t100 * CAST ( ISNULL( t1.amount_completed, 0 ) * 1.0 / ISNULL( t1.pcb_quantity, 1 ) AS DECIMAL ( 8, 2 ) ) AS VARCHAR ( 100 ) \n" +
+                "\t) AS rate \n" +
+                "FROM\n" +
+                "\tproduce_process_task t1\n" +
+                "\tLEFT JOIN base_process t2 ON t2.name = t1.process_name\n" +
+                "\tLEFT JOIN produce_pcb_task t3 ON t1.pcb_task_code = t3.pcb_task_code \n" +
+                "\twhere t1.process_name = '入库' ORDER BY t3.warehousing_time DESC  \n");
+
+        List<Map<String, Object>> rukuList2 = jdbcTemplate.queryForList(rusql.toString());
+
         List<Map<String, Object>> mapList2 = jdbcTemplate.queryForList(sql.toString());
         List<Map<String, Object>> mapList = new ArrayList<>();
         for(Map<String,Object> map: mapList2){
@@ -484,12 +505,11 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 continue;
             }
             mapList.add(map);
-
         }
         List<Map<String, Object>> tiepianList = new ArrayList<>();
         List<Map<String, Object>> houhanList = new ArrayList<>();
         List<Map<String, Object>> zhijianList = new ArrayList<>();
-        List<Map<String, Object>> rukuList = new ArrayList<>();
+        List<Map<String, Object>> rukuList =  rukuList2.stream().limit(5).collect(Collectors.toList());
         List<Map<String, Object>> tiaoshiList = new ArrayList<>();
         List<Map<String, Object>> beiliaoList = new ArrayList<>();
 
@@ -509,12 +529,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
             if("调试".equals(process_type)){
                 tiaoshiList.add(map);
             }
-            if("入库".equals(process_type)){
-                String warehousing_time = (String)map.get("warehousing_time");
-                if(warehousing_time.equals(today)){
-                    rukuList.add(map);
-                }
-            }
+
             if("备料".equals(process_name)){
                 beiliaoList.add(map);
             }
