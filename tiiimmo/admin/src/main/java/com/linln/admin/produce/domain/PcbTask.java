@@ -136,4 +136,7 @@ public class PcbTask implements Serializable {
 
     //齐套率
     private String qi_tao_lv;
+
+    //入库时间
+    private Date warehousing_time;
 }

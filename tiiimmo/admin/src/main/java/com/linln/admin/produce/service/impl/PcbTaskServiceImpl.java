@@ -231,6 +231,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 pcbTask = oldPcbTasks.get(0);
 
                 if(pcbTask.getPcb_task_status().contains("下达")||"确认".equals(pcbTask.getPcb_task_status())){
+                    if(!pcbTask.getAmount_completed().equals(finishCount)){
+                        //更改入库时间
+                        pcbTask.setWarehousing_time(new Date());
+                    }
                     pcbTask.setAmount_completed(finishCount);
                    /* //修改入库工序
                     ProcessTask rukuProcessTaskCode = processTaskRepository.findByPcb_task_idAndProcess(pcbTask.getId(), "入库");
@@ -246,6 +250,10 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     continue;
                 }
                 if(!"已完成".equals(pcbTask.getPcb_task_status())){
+                    if(!pcbTask.getAmount_completed().equals(finishCount)){
+                        //更改入库时间
+                        pcbTask.setWarehousing_time(new Date());
+                    }
                     pcbTask.setAmount_completed(finishCount);
                     //修改入库工序
                     ProcessTask rukuProcessTaskCode = processTaskRepository.findByPcb_task_idAndProcess(pcbTask.getId(), "入库");
@@ -326,13 +334,19 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         for(PcbTask pcbTask : touchanPcbTaskList){
             boolean isExist = pcbTaskCodeList.contains(pcbTask.getPcb_task_code());
             if(!isExist){
+                if(!pcbTask.getAmount_completed().equals(pcbTask.getPcb_quantity())){
+                    //更改入库时间
+                    pcbTask.setWarehousing_time(new Date());
+                }
                 pcbTask.setAmount_completed(pcbTask.getPcb_quantity());
                 pcbTask.setPcb_task_status("已完成");
                 pcbTask.setProduce_complete_date(new Date());
+
                 pcbTaskRepository.save(pcbTask);
                 //修改入库工序
                 ProcessTask rukuProcessTaskCode = processTaskRepository.findByPcb_task_idAndProcess(pcbTask.getId(), "入库");
                 rukuProcessTaskCode.setProcess_task_status("已完成");
+                rukuProcessTaskCode.setIs_now_flag("");
                 rukuProcessTaskCode.setAmount_completed(rukuProcessTaskCode.getPcb_quantity());
                 rukuProcessTaskCode.setFinish_time(new Date());
                 processTaskRepository.save(rukuProcessTaskCode);
@@ -2178,6 +2192,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 BigDecimal workTime = DateUtil.differTwoDate(finishTime,processTask.getStart_time());
                 //processTask.setWork_time(workTime);
                 processTask.setProcess_task_status("已完成");
+                processTask.setIs_now_flag("");
                 //重新计数
                 List<ProcessTaskDevice> prl = processTaskDeviceRepository.findByPTCode(processTask.getProcess_task_code());
                 for(ProcessTaskDevice de:prl){

@@ -30,4 +30,7 @@ public class UserDeviceHistory {
     //工序计划编号
     private String process_task_code;
 
+    //班次
+    private String class_info;
+
 }

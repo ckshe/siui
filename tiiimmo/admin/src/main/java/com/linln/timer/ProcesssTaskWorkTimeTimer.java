@@ -131,8 +131,8 @@ public class ProcesssTaskWorkTimeTimer {
         openService.callCmd(backupPath);
     }
 
-    //凌晨一点同步erp数据
-    @Scheduled(cron = "0 0 1 * * ?")
+    //每一小时同步erp数据
+    @Scheduled(cron = "0 0 0/1 * * ?")
     public void autoUpdateErp(){
         pcbTaskService.getPcbTaskFromERP(null);
     }

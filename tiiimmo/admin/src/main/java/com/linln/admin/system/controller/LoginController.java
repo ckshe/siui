@@ -2,7 +2,9 @@ package com.linln.admin.system.controller;
 
 import com.linln.RespAndReqs.CardLoginReq;
 import com.linln.RespAndReqs.DeviceReq;
+import com.linln.admin.base.domain.ClassInfo;
 import com.linln.admin.base.domain.Device;
+import com.linln.admin.base.repository.ClassInfoRepository;
 import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.produce.domain.ProcessTaskDevice;
 import com.linln.admin.produce.domain.UserDeviceHistory;
@@ -24,6 +26,7 @@ import com.linln.modules.system.domain.Role;
 import com.linln.modules.system.domain.User;
 import com.linln.modules.system.service.RoleService;
 import com.linln.modules.system.service.UserService;
+import com.linln.utill.DateUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -42,6 +45,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -63,6 +67,9 @@ public class LoginController implements ErrorController {
 
     @Autowired
     private ProcessTaskDeviceRepository processTaskDeviceRepository;
+
+    @Autowired
+    private ClassInfoRepository classInfoRepository;
 
     @Autowired
     private UserDeviceHistoryRepository userDeviceHistoryRepository;
@@ -171,6 +178,16 @@ public class LoginController implements ErrorController {
             history.setProcess_task_code(req.getProcessTaskCode());
             history.setUp_time(new Date());
             history.setDo_type("");
+            List<ClassInfo> infoList= classInfoRepository.findAll();
+            for(ClassInfo classInfo : infoList){
+                String start = classInfo.getStart_time();
+                String end = classInfo.getEnd_time();
+                boolean flag = DateUtil.isTimeRange(start,end);
+                if(flag){
+                    history.setClass_info(classInfo.getName());
+                }
+
+            }
             userDeviceHistoryRepository.save(history);
         }else {
            return ResultVoUtil.error("请先下机！");

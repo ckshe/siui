@@ -11,6 +11,37 @@ import java.util.*;
 @Component
 public class DateUtil {
 
+    //判断时间是否在该时间段内
+    public static  boolean isTimeRange(String start,String end){
+
+        Integer ssecondSum =  caculateSecond(start);
+        Integer esecondSum = caculateSecond(end);
+        if(ssecondSum>esecondSum){
+            esecondSum = esecondSum + 86400;
+        }
+        Date date = new Date();
+        String today = date2String(date,"HH:mm:ss");
+        Integer datee = caculateSecond(today);
+        if(datee>=ssecondSum&&datee<esecondSum){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public static Integer caculateSecond(String time){
+        String [] d = time.split(":");
+        Integer hour = Integer.parseInt(d[0]);
+        Integer minute = Integer.parseInt(d[1]);
+        Integer second = Integer.parseInt(d[2]);
+        Integer secondSum = hour*60*60+minute*60+second;
+        if(secondSum==0){
+            secondSum = 86400;
+        }
+        return secondSum;
+    }
+
+
 
     //时间往前推n个小时
     public static Date dateAddHours(Date date,int hour){
@@ -28,7 +59,7 @@ public class DateUtil {
             format = "yyyy-MM-dd";
         }
         SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(date);
+            return sdf.format(date);
     }
 
     //string 转date

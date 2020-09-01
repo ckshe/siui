@@ -1,5 +1,7 @@
 package com.linln.admin.reports.service.impl;
 
+import com.linln.admin.produce.domain.CurrentReport;
+import com.linln.admin.produce.repository.CurrentReportRepository;
 import com.linln.admin.quality.repository.BadClassDetailRepository;
 import com.linln.admin.reports.request.BadDetailReq;
 import com.linln.admin.reports.service.ReportService;
@@ -20,6 +22,12 @@ public class ReportServiceImpl implements ReportService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private CurrentReportRepository currentReportRepository;
+    @Override
+    public void addCurrentReport(CurrentReport currentReport) {
+        currentReportRepository.save(currentReport);
+    }
 
     //不良记录报表
     @Override

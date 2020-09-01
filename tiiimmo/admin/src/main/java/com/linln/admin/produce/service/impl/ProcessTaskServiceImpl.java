@@ -223,6 +223,7 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         if(finishCount>=processTask.getPcb_quantity()){
             Date today =  new Date();
             processTask.setProcess_task_status("已完成");
+            processTask.setIs_now_flag("");
             processTask.setFinish_time(today);
             //新增一条操作历史记录
             List<ProcessTaskStatusHistory> historyList = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecordList(processTask.getProcess_task_code());

@@ -463,12 +463,12 @@ public class ShowBoardServiceImpl implements ShowBoardService {
 
         StringBuffer sql = new StringBuffer("\n" +
                 "SELECT\n" +
-                "\tt1.process_task_code,CONVERT( VARCHAR ( 100 ), t1.finish_time, 23 ) as finish_time,t1.process_name,t1.pcb_quantity,t1.amount_completed ,t2.process_type,\n" +
+                "\tt1.process_task_code,CONVERT( VARCHAR ( 100 ), t3.warehousing_time, 23 ) as warehousing_time,CONVERT( VARCHAR ( 100 ), t1.finish_time, 23 ) as finish_time,t1.process_name,t1.pcb_quantity,t1.amount_completed ,t2.process_type,\n" +
                 "\tISNULL(t1.amount_completed, 0)/ISNULL(t1.pcb_quantity, 1)  rate2,\n" +
                 "\t\tcast(100*CAST(ISNULL(t1.amount_completed, 0)*1.0/ISNULL(t1.pcb_quantity, 1) as decimal(8,2)) AS varchar(100))  AS rate\n" +
                 "FROM \n" +
                 "\tproduce_process_task t1\n" +
-                "\tLEFT JOIN base_process t2 ON t2.name = t1.process_name \n" +
+                "\tLEFT JOIN base_process t2 ON t2.name = t1.process_name LEFT JOIN produce_pcb_task t3 ON t1.pcb_task_code = t3.pcb_task_code  \n" +
                 "WHERE   t1.plan_finish_time  >= '" +
                 startTime +
                 "' AND t1.plan_start_time  <= '" +
@@ -510,7 +510,10 @@ public class ShowBoardServiceImpl implements ShowBoardService {
                 tiaoshiList.add(map);
             }
             if("入库".equals(process_type)){
-                rukuList.add(map);
+                String warehousing_time = (String)map.get("warehousing_time");
+                if(warehousing_time.equals(today)){
+                    rukuList.add(map);
+                }
             }
             if("备料".equals(process_name)){
                 beiliaoList.add(map);
@@ -801,7 +804,7 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         String endTime = thisWeekDate.get("weekEnd")+" 23:59:59";
 
         //正在进行的贴片任务
-        StringBuffer runningSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code like '%B16011%' and  is_now_flag like '%B16011%'");
+        StringBuffer runningSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code like '%B16011%' and  is_now_flag like '%B16011%' and process_task_status != '已完成'");
 
         StringBuffer waitingSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code like '%B16011%' and process_task_status != '已完成' and process_task_status != '生产中' and process_task_status != '进行中' AND is_now_flag not like '%B16011%'  ORDER BY priority DESC ,plan_finish_time desc");
 
