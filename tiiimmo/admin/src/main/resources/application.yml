@@ -1,6 +1,6 @@
 ### 服务器配置
 server:
-  port: 8756
+  port: 8755
 
 ### TIMO配置
 project:

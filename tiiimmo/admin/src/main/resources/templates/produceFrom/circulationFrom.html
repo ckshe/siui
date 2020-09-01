@@ -145,16 +145,26 @@
                         layer.open({
                             title: '贴片流通表',
                             type: 2,
-                            area: ['96%', '96%'],
-                            content: '/produceFrom/circulationDetail?id=1&pcb_task_code='+data.pcb_task_code
+                            area: ['1350px', '96%'],
+                            content: '/circulationTable/circulation4?id=1&pcb_task_code='+data.pcb_task_code,
+                            success: function (layero, index) {
+                                var body = layer.getChildFrame('body', index);
+                                var d = JSON.stringify(data)
+                                body.contents().find("input[name='data']").val(d);
+                            }
                         });
                         break;
                     case 'zhengxing':
                         layer.open({
                             title: '整形流通表',
                             type: 2,
-                            area: ['96%', '96%'],
-                            content: '/produceFrom/circulationDetail?id=2&pcb_task_code='+data.pcb_task_code
+                            area: ['1000px', '96%'],
+                            content: '/circulationTable/circulation2?id=2&pcb_task_code='+data.pcb_task_code,
+                            success: function (layero, index) {
+                                var body = layer.getChildFrame('body', index);
+                                var d = JSON.stringify(data)
+                                body.contents().find("input[name='data']").val(d);
+                            }
                         });
                         break;
                     case 'houhan':
@@ -162,7 +172,12 @@
                             title: '后焊流通表',
                             type: 2,
                             area: ['96%', '96%'],
-                            content: '/produceFrom/circulationDetail?id=3&pcb_task_code='+data.pcb_task_code
+                            content: '/produceFrom/circulationDetail?id=3&pcb_task_code='+data.pcb_task_code,
+                            success: function (layero, index) {
+                                var body = layer.getChildFrame('body', index);
+                                var d = JSON.stringify(data)
+                                body.contents().find("input[name='data']").val(d);
+                            }
                         });
                         break;
                 }
