@@ -22,8 +22,7 @@ public class CurrentReportController {
     @PostMapping("/addCurrentReport")
     @ResponseBody
     public ResultVo addCurrentReport(@RequestBody CurrentReport currentReport){
-        currentReportService.addCurrentReport(currentReport);
-        return ResultVoUtil.success("保存成功");
+        return currentReportService.addCurrentReport(currentReport);
 
     }
 }
