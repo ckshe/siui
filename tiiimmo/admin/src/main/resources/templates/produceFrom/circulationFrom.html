@@ -171,8 +171,8 @@
                         layer.open({
                             title: '后焊流通表',
                             type: 2,
-                            area: ['96%', '96%'],
-                            content: '/produceFrom/circulationDetail?id=3&pcb_task_code='+data.pcb_task_code,
+                            area: ['850px', '96%'],
+                            content: '/circulationTable/circulation1?id=2&pcb_task_code='+data.pcb_task_code,
                             success: function (layero, index) {
                                 var body = layer.getChildFrame('body', index);
                                 var d = JSON.stringify(data)
