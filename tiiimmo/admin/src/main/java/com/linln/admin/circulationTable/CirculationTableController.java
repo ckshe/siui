@@ -19,4 +19,10 @@ public class CirculationTableController {
     //    流通表2反面
     @GetMapping("/circulation2_1")
     public String circulation2_1(){ return "/circulationTable/circulation2_1";}
+    //    流通表1正面
+    @GetMapping("/circulation1")
+    public String circulation1(){ return "/circulationTable/circulation1";}
+    //    流通表1反面
+    @GetMapping("/circulation1_1")
+    public String circulation1_1(){ return "/circulationTable/circulation1_1";}
 }
