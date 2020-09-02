@@ -33,7 +33,7 @@ public class CurrentReportServiceImpl implements CurrentReportService {
             return ResultVoUtil.success("找不到该排产计划");
         }
         PcbTask pcbTask = allByPcb_task_code.get(0);
-        CurrentReport oldCurrentReport = currentReportRepository.findByPcb_task_code(currentReport.getPcb_task_code());
+        CurrentReport oldCurrentReport = currentReportRepository.findByPcb_task_code(currentReport.getPcb_task_code(),currentReport.getReport_type());
         if(oldCurrentReport!=null){
            oldCurrentReport.setJson_data(currentReport.getJson_data());
            currentReportRepository.save(oldCurrentReport);

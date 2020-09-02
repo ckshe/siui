@@ -6,9 +6,9 @@ public enum CurrentReportEnum {
     /**
      * 正常的数据
      */
-    ZXLTB("1", "整形流通表"),
-    HHLTB("2", "后焊流通表"),
-    TPLTB("3", "贴片流通表");
+    TPLTB("1", "贴片流通表"),
+    ZXLTB("2", "整形流通表"),
+    HHLTB("3", "后焊流通表");
 
 
 
