@@ -123,7 +123,10 @@ public class DeviceProductElementServiceImpl implements DeviceProductElementServ
             for(int label =0; label<entity.size();label++){
                 //同步根据元件号码同步查找物料号
                 String element_name = ConvertUtil.ConvertToString(entity.get(label).get("元件名"));
-                String product_code = (new BigDecimal(ConvertUtil.ConvertToString(entity.get(label).get("物料代码")))).toString();
+                String product_code = "";
+                if(entity.get(label).get("物料代码")!=null&&!"".equals(entity.get(label).get("物料代码"))){
+                    product_code = (new BigDecimal(ConvertUtil.ConvertToString(entity.get(label).get("物料代码")))).toString();
+                }
                 if(product_code==null||product_code.equals("")){
                     //不存在则调用ERP接口同步并存至本地，存在则获取物料编号
                     ElementProduct elementProduct = elementProductRepository.findByElement_name(element_name);

@@ -33,4 +33,7 @@ public interface ProcessTaskService {
     List<ProcessTaskDetailDevice> findByTaskCodeAndDayTimeAndDeviceCode(String processTaskCode,String planDayTime,String deviceCode);
 
     ResultVo getProcessTaskDetailByPage(ProcessTaskReq req);
+
+
+    ResultVo changeMultiple(ProcessTaskReq req);
 }

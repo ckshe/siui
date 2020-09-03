@@ -412,4 +412,12 @@ public class PcbTaskController {
     public ResultVo getProcessTaskDetailByPage(@RequestBody ProcessTaskReq req){
         return processTaskService.getProcessTaskDetailByPage(req);
     }
+
+    //修改拼板数
+    @PostMapping("/changeMultiple")
+    @ResponseBody
+    public ResultVo changeMultiple(@RequestBody ProcessTaskReq req){
+        return processTaskService.changeMultiple(req);
+
+    }
 }

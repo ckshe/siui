@@ -4,14 +4,8 @@ import com.linln.RespAndReqs.ProcessTaskReq;
 import com.linln.admin.base.domain.*;
 import com.linln.admin.base.domain.Process;
 import com.linln.admin.base.repository.*;
-import com.linln.admin.produce.domain.ProcessTask;
-import com.linln.admin.produce.domain.ProcessTaskDetail;
-import com.linln.admin.produce.domain.ProcessTaskDetailDevice;
-import com.linln.admin.produce.domain.ProcessTaskStatusHistory;
-import com.linln.admin.produce.repository.ProcessTaskDetailDeviceRepository;
-import com.linln.admin.produce.repository.ProcessTaskDetailRepositoty;
-import com.linln.admin.produce.repository.ProcessTaskRepository;
-import com.linln.admin.produce.repository.ProcessTaskStatusHistoryRepository;
+import com.linln.admin.produce.domain.*;
+import com.linln.admin.produce.repository.*;
 import com.linln.admin.produce.service.ProcessTaskService;
 import com.linln.common.enums.StatusEnum;
 import com.linln.common.utils.ResultVoUtil;
@@ -52,7 +46,7 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
     private OperationInstructionRepository operationInstructionRepository;
 
     @Autowired
-    private OperationManualRepository operationManualRepository;
+    private PCBPlateNoRepository pcbPlateNoRepository;
 
     @Autowired
     private ProcessTaskStatusHistoryRepository processTaskStatusHistoryRepository;
@@ -424,6 +418,22 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         return ResultVoUtil.success("查询成功",mapList,count.size());
 
 
+    }
+
+    @Override
+    public ResultVo changeMultiple(ProcessTaskReq req) {
+
+        ProcessTask processTask = processTaskRepository.findByProcessTaskCode(req.getProcess_task_code());
+        processTask.setMultiple(req.getMultiple());
+        processTaskRepository.save(processTask);
+
+        PCBPlateNo pcbPlateNo = pcbPlateNoRepository.findByPcb_code(processTask.getPcb_code());
+        if(pcbPlateNo!=null){
+            pcbPlateNo.setMultiple(req.getMultiple());
+            pcbPlateNoRepository.save(pcbPlateNo);
+        }
+
+        return ResultVoUtil.success("修改成功");
     }
 }
 

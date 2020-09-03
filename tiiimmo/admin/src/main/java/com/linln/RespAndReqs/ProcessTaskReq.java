@@ -23,7 +23,8 @@ public class ProcessTaskReq {
     private Integer amountCompleted;
     private BigDecimal workTime;
     private String status;
-
+    //拼板数
+    private Integer multiple;
 
     private Integer page;
     private Integer size;
