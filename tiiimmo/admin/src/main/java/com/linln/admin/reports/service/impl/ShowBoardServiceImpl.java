@@ -821,9 +821,9 @@ public class ShowBoardServiceImpl implements ShowBoardService {
         //正在进行的贴片任务
         StringBuffer runningSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code like '%B16011%' and  is_now_flag like '%B16011%' and process_task_status != '已完成'");
 
-        StringBuffer waitingSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code like '%B16011%' and process_task_status != '已完成' and process_task_status != '生产中' and process_task_status != '进行中' AND is_now_flag not like '%B16011%'  ORDER BY priority DESC ,plan_finish_time desc");
+        StringBuffer waitingSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code like '%B16011%' and process_task_status != '已完成' and process_task_status != '生产中' and process_task_status != '进行中' AND is_now_flag not like '%B16011%'  ORDER BY plan_finish_time DESC");
 
-        StringBuffer beiliaoSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code = 'work0022' and is_now_flag like '%work0022%' ");
+        StringBuffer beiliaoSql = new StringBuffer("SELECT * FROM produce_process_task WHERE device_code = 'work0022' and is_now_flag like '%work0022%' and process_task_status != '已完成'");
 
         List<Map<String,Object>> runningMapList = jdbcTemplate.queryForList(runningSql.toString());
         List<Map<String,Object>> waitingMapList = jdbcTemplate.queryForList(waitingSql.toString());
