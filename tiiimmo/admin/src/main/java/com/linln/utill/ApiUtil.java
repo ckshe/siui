@@ -29,6 +29,7 @@ public class ApiUtil {
 
         RestTemplate restTemplate = new RestTemplateBuilder().setConnectTimeout(Duration.ZERO).setReadTimeout(Duration.ZERO).build();
         JSONObject s = (JSONObject) JSON.toJSON(scheduleJobReq);
+        System.out.println(s.toString());
         JSONArray result = new JSONArray();
         //logger.info("-----json:"+s.toJSONString());
         try {
