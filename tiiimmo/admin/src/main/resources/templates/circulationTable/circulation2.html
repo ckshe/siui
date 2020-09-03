@@ -351,7 +351,7 @@
         <input id='tjz_qcUser_3' class="inputall ipt60" type="text">
       </td>
       <td colspan='2' class='x112' style='border-right:2px solid windowtext;border-bottom:2px solid windowtext;'>
-        <input id='tjz_dater_3' class="inputall ipt60 dateType" type="text">
+        <input id='tjz_date_3' class="inputall ipt60 dateType" type="text">
       </td>
       <td colspan='2' class='x112' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'>
         <input id='zpgj_scUser_3' class="inputall ipt60" type="text">
@@ -447,7 +447,7 @@
       <td class='x73'><input id='sc_record_scUser_19' class="inputall ipt40" type="text"></td>
       <td class='x118'><input id='sc_record_qchd_19' type="checkbox"></td>
       <td colspan='4' class='x163' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
-        <span class="font5">QC：<input id='sc_sjStatue' class="inputall ipt80" type="text"></span>
+        <span class="font5">QC：<input id='sc_qcUser' class="inputall ipt80" type="text"></span>
       </td>
       <td></td>
     </tr>
@@ -633,7 +633,7 @@
           <table cellpadding='0' cellspacing='0'>
             <tr>
               <td colspan='17' height='36' class='x203' width='689' style='height:27pt;width:516.75pt;'> <input
-                  id='remark' class="inputall" style="width: 780px;" type="text"></td>
+                  id='remarks' class="inputall" style="width: 780px;" type="text"></td>
             </tr>
           </table>
         </span></td>
@@ -755,15 +755,15 @@
                 $('#kzsx_date').val(dj.kzsx[0].date)
                 //贴胶纸
                 $('#tjz_scUser_1').val(dj.tjz[0].scUser)
-                $('#tjz_qcUser_1').val(dj.tjz[0].qrUser)
+                $('#tjz_qcUser_1').val(dj.tjz[0].qcUser)
                 $('#tjz_date_1').val(dj.tjz[0].date)
 
                 $('#tjz_scUser_2').val(dj.tjz[1].scUser)
-                $('#tjz_qcUser_2').val(dj.tjz[1].qrUser)
+                $('#tjz_qcUser_2').val(dj.tjz[1].qcUser)
                 $('#tjz_date_2').val(dj.tjz[1].date)
 
                 $('#tjz_scUser_3').val(dj.tjz[2].scUser)
-                $('#tjz_qcUser_3').val(dj.tjz[2].qrUser)
+                $('#tjz_qcUser_3').val(dj.tjz[2].qcUser)
                 $('#tjz_date_3').val(dj.tjz[2].date)
                 // 装配固件
                 $('#zpgj_scUser_1').val(dj.zpgj[0].scUser)
@@ -925,9 +925,9 @@
           ],
           "sc": {
             "plateAmount": $('#sc_plateAmount').val(),
-            "sjStatue": "合格",
-            "qcUser": "方XX",
-            "date": "20.01.02",
+            "sjStatue": $('#sc_sjStatue').val(),
+            "qcUser": $('#sc_qcUser').val(),
+            "date": $('#sc_date').val(),
             "record": [
               {
                 "num": "1",
