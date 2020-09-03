@@ -231,7 +231,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 pcbTask = oldPcbTasks.get(0);
 
                 if(pcbTask.getPcb_task_status().contains("下达")||"确认".equals(pcbTask.getPcb_task_status())){
-                    if(!pcbTask.getAmount_completed().equals(finishCount)){
+                    if(pcbTask.getAmount_completed()!=null&&!pcbTask.getAmount_completed().equals(finishCount)){
                         //更改入库时间
                         pcbTask.setWarehousing_time(new Date());
                     }
