@@ -34,6 +34,7 @@ public class ApiUtil {
         try {
             logger.info("Begin get data by first page ...");
             JSONObject dd = restTemplate.postForEntity(scheduleJobUrl,s, JSONObject.class).getBody();
+            System.out.println(dd.toString());
             logger.info("Finish get first page data");
             Integer pageIndex = dd.getInteger("pageIndex");
             Integer total = dd.getInteger("total");
@@ -57,7 +58,6 @@ public class ApiUtil {
                 JSONObject dd2 = restTemplate.postForEntity(scheduleJobUrl,s, JSONObject.class).getBody();
                 logger.info("Finish get data by page " + pageIndex.toString() + ".");
                 JSONArray ree = dd2.getJSONArray("data");
-                System.out.println(dd2.toString());
                 result.addAll(ree);
                 flag = tempSum <total;
             }
