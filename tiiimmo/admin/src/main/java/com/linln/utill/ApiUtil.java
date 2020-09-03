@@ -57,6 +57,7 @@ public class ApiUtil {
                 JSONObject dd2 = restTemplate.postForEntity(scheduleJobUrl,s, JSONObject.class).getBody();
                 logger.info("Finish get data by page " + pageIndex.toString() + ".");
                 JSONArray ree = dd2.getJSONArray("data");
+                System.out.println(dd2.toString());
                 result.addAll(ree);
                 flag = tempSum <total;
             }
