@@ -73,8 +73,8 @@ public class DeviceProductReplaceElementServiceImpl implements DeviceProductRepl
             String originalProductCode = "";
             ElementProduct elementProduct = elementProductRepository.findByElement_name(originalProductName);
             if(elementProduct==null){
-                //ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_WU_LIAO_ID");
-                ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCTLDCX");
+                ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_WU_LIAO_ID");
+                //ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCTLDCX");
                 ScheduleJobReq scheduleJobReq = new ScheduleJobReq();
                 scheduleJobReq.setDesc(jobApi.getRemark() == null ? "" : jobApi.getRemark());
                 scheduleJobReq.setKey(jobApi.getKey() == null ? "" : jobApi.getKey());
@@ -107,8 +107,8 @@ public class DeviceProductReplaceElementServiceImpl implements DeviceProductRepl
             String replaceProductCode = "";
             ElementProduct relementProduct = elementProductRepository.findByElement_name(replaceProductName);
             if(relementProduct==null){
-                //ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_WU_LIAO_ID");
-                ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCTLDCX");
+                ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_WU_LIAO_ID");
+                //ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCTLDCX");
                 ScheduleJobReq scheduleJobReq = new ScheduleJobReq();
                 scheduleJobReq.setDesc(jobApi.getRemark() == null ? "" : jobApi.getRemark());
                 scheduleJobReq.setKey(jobApi.getKey() == null ? "" : jobApi.getKey());

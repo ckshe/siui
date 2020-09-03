@@ -131,8 +131,8 @@ public class DeviceProductElementServiceImpl implements DeviceProductElementServ
                     //不存在则调用ERP接口同步并存至本地，存在则获取物料编号
                     ElementProduct elementProduct = elementProductRepository.findByElement_name(element_name);
                     if(elementProduct==null){
-                        //ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_WU_LIAO_ID");
-                        ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCTLDCX");
+                        ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_WU_LIAO_ID");
+                        //ScheduleJobApi jobApi = scheduleJobApiRepository.findAllByApiName("SIUI_MES_SCTLDCX");
                         ScheduleJobReq scheduleJobReq = new ScheduleJobReq();
                         scheduleJobReq.setDesc(jobApi.getRemark() == null ? "" : jobApi.getRemark());
                         scheduleJobReq.setKey(jobApi.getKey() == null ? "" : jobApi.getKey());
