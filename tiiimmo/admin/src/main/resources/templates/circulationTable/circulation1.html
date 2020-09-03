@@ -97,8 +97,8 @@
     <input type="hidden" name="data">
 
 </form>
-    <table border=0 cellpadding=0 cellspacing=0 width=756 style='border-collapse:
- collapse;table-layout:fixed;width:800px;'>
+    <table border=0 cellpadding=0 cellspacing=0 width=800 style='border-collapse:
+ collapse;table-layout:fixed;width:835px;'>
         <col width=75 style='width:56pt'>
         <col width=101 style='width:76pt'>
         <col width=37 span=2 style='width:28pt'>
@@ -121,7 +121,7 @@
             <td width=69 style='width:52pt'></td>
             <td class=xl95 colspan=4 width=196 style='width:148pt'>万吉厂区<input id="area" type="checkbox" />
                 金砂厂区<input id="area1" type="checkbox" /></td>
-            <td class=xl70 width=61 style='width:46pt'>ZJ-F043H</td>
+            <td class=xl70 width=80 style='width:46pt'>ZJ-F043H</td>
         </tr>
         <tr class=xl89 height=24 style='height:18.6pt' id="r1">
             <td colspan=14 height=24 class=xl117 style='height:18.6pt'>生产流通表（一）</td>
@@ -363,8 +363,8 @@
             <td class=xl102></td>
         </tr>
         <tr height=20 style='height:15.6pt'>
-            <td height=20 class=xl92 colspan=12 style='height:15.6pt;'><span
-                    >    </span>2.生产该板使用到的设备、程序正常项<input type="checkbox" />打√，填写相应的关键工艺参数、程序名称。
+            <td height=20 class=xl92 colspan=12 style='height:15.6pt;'>
+                &nbsp;&nbsp;2.生产该板使用到的设备、程序正常项<input type="checkbox" />打√，填写相应的关键工艺参数、程序名称。
             </td>
             <td colspan=2 class=xl68></td>
         </tr>
@@ -422,11 +422,11 @@
         //生产批次
         $('#taskSheetCode').val(dd.task_sheet_code)
         //投产台数
-        $('#produceAmount').val(dd.amount_completed)
+        $('#produceAmount').val(dd.quantity)
         //数量
         $('#amount').val(dd.pcb_quantity)
         //修改标记
-        $('#changeFlag').val(dd.patch_pick)
+        $('#changeFlag').val(dd.pcb_modify_tag)
         //pcb板号
         $('#pcbCode').val(dd.pcb_id)
         //板编码
@@ -668,7 +668,7 @@
                                     $('#xdgxjj_cjAmount_' + (i + 1)).val(dj.xdgxjj[i].cjAmount)
                                     $('#xdgxjj_cjDate_' + (i + 1)).val(dj.xdgxjj[i].cjDate)
                             }
-                            $('#remarks').val(dj.remarks)
+                            //$('#remarks').val(dj.remarks)
                         }
                     } else {
                         layer.alert(res.msg, { icon: 5 })
@@ -680,12 +680,14 @@
         $('#onsubmit').on('click', function () {
             var datajson = {
                 "area": dd.factory,
-                "tempParam": "ZJ-F044L",
+                "tempParam": "ZJ-F043H",
                 "RoHS": dd.is_rohs,
                 "model": dd.model_ver,
                 "modelName": dd.model_name,
                 "taskSheetCode": dd.task_sheet_code,
-                "produceAmount": dd.amount_completed,
+                "produceAmount": dd.quantity,
+                "amount":dd.pcb_quantity,
+                "changeFlag":dd.pcb_modify_tag,
                 "pcbCode": dd.pcb_id,
                 "plateCode": dd.batch_id,
                 "cjsdgx": [
@@ -1050,7 +1052,7 @@
                     }
                 ],
 */
-                "remarks": $('#remarks').val()
+                //"remarks": $('#remarks').val()
             }
             console.log(datajson)
             $.ajax({
