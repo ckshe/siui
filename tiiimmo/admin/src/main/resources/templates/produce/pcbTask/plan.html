@@ -21,6 +21,10 @@
     .layui-form-label {
         width: 95px !important;
     }
+
+    .layui-icon-subtraction:before {
+        margin-left: -1px;
+    }
 </style>
 
 <body>
@@ -45,8 +49,9 @@
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">选择设备</label>
-                <div class="layui-input-inline">
-                    <textarea id="imConfig" type="text" class="layui-textarea" placeholder="选择机台"></textarea>
+                <div class="layui-input-inline" style="width: 518px; border: 1px solid #e6e6e6;">
+                    <div id="test7" class="demo-tree"></div>
+                    <!-- <textarea id="imConfig" type="text" class="layui-textarea" placeholder="选择机台"></textarea> -->
                 </div>
             </div>
         </div>
@@ -140,11 +145,13 @@
     var a = "";
     var imTable = "";
     window.onload = function () {
-        layui.use(['jquery', 'form', 'layer', 'table', 'laydate'], function () {
+        layui.use(['jquery', 'form', 'layer', 'table', 'laydate', 'util', 'tree'], function () {
             var $ = layui.jquery,
                 table = layui.table,
                 laydate = layui.laydate,
                 layer = layui.layer,
+                tree = layui.tree,
+                util = layui.util,
                 form = layui.form;
             var nowData = {};
             var deviceName = [],//选择的机台编号列表
@@ -208,8 +215,8 @@
 
                                 } else {
                                     // return '<button lay-event="edit" class="layui-btn layui-btn-normal layui-btn-xs" type="button">编辑</button>' +
-                                   // '<button lay-event="status" class="layui-btn layui-btn-danger layui-btn-xs" type="button">修改状态</button>' +
-                                    return     '<button lay-event="split" class="layui-btn layui-btn-normal layui-btn-xs" style="background-color:#009688" type="button">工序日计划</button>'
+                                    // '<button lay-event="status" class="layui-btn layui-btn-danger layui-btn-xs" type="button">修改状态</button>' +
+                                    return '<button lay-event="split" class="layui-btn layui-btn-normal layui-btn-xs" style="background-color:#009688" type="button">工序日计划</button>'
 
                                 }
                             }
@@ -217,6 +224,22 @@
                     ]
                 ]
             });
+            $.ajax({
+                contentType: 'application/json',
+                type: 'get',
+                url: '/base/device/getDeviceByProcessType',
+                dataType: "json",
+                success: function (res) {
+                    data2 = res.data;
+                    tree.render({
+                        elem: '#test7'
+                        , data: data2
+                        , showCheckbox: true
+                        , id: 'id'
+                    });
+                }
+            });
+            //开启复选框
 
             table.on('tool(table)', function (obj) {
                 var data = obj.data;
@@ -230,7 +253,7 @@
                             offset: 20,
                             content: $('#editForm'),
                             type: 1,
-                            area: ['360px', '310px']
+                            area: ['720px', '96%']
                         });
                         break;
                     case 'status':
@@ -250,7 +273,7 @@
                             type: 2,
                             title: '工序日计划',
                             area: ['90%', '90%'],
-                            content: '/produce/pcbTask/planDetail?process_task_code=' + data.process_task_code + "&processId=" + data.id + "&sTime=" + sTime + "&fTime=" + fTime + "&countType=" + data.count_type + "&process_name=" + data.process_name+ "&process_task_status=" + data.process_task_status,
+                            content: '/produce/pcbTask/planDetail?process_task_code=' + data.process_task_code + "&processId=" + data.id + "&sTime=" + sTime + "&fTime=" + fTime + "&countType=" + data.count_type + "&process_name=" + data.process_name + "&process_task_status=" + data.process_task_status,
                             success: function (layero, index) {
                                 var body = layer.getChildFrame('body', index);
                                 var d = JSON.stringify(data)
@@ -268,7 +291,7 @@
 
                 }
             });
-            var deviceData =[];
+            var deviceData = [];
             $("#imConfig").on('click', function () {
                 imTable = layer.open({
                     type: 2,
@@ -278,7 +301,7 @@
                     success: function (layero, index) {
                         var body = layer.getChildFrame('body', index);
                         var d = JSON.stringify(deviceData)
-                        console.log('d===',d)
+                        console.log('d===', d)
                         body.contents().find("input[name='data']").val(d);
                     }
                 });
@@ -297,9 +320,24 @@
                 }
             })
             //下达
+            var selectDeviceName = [], selectDeviceCode = [];
             form.on('submit(sub)', function (obj) {
-                obj.field.deviceName = deviceName.join(',')
-                obj.field.deviceCode = deviceCode.join(',')
+                console.log(obj)
+                var filedTemp = "layuiTreeCheck_";
+                for (var k in obj.field) {
+                    if (k.indexOf(filedTemp) != -1) {
+                        console.log(k.split(filedTemp)[1])
+                    }
+                }
+                var checkData = tree.getChecked('id');
+                var list = new Array();
+                list = getChecked_list(checkData);
+                selectDeviceName = [];
+                selectDeviceCode = [];
+                console.log(list.split('_')[0]);
+                console.log(list.split('_')[1]);
+                obj.field.deviceName = list.split('_')[0];  //deviceName.join(',')
+                obj.field.deviceCode = list.split('_')[1]; //deviceCode.join(',')
                 obj.field.processTaskId = nowData.id
                 if (obj.field.planStartTime == '' || obj.field.planFinishTime == '' || obj.field.deviceCode == '') {
                     layer.msg('计划时间与机台设备不能为空', function () { time: 2000 });
@@ -327,6 +365,19 @@
                     }
                 });
             })
+            // 获取选中节点的id
+            function getChecked_list(data) {
+                $.each(data, function (index, item) {
+                    if (!item.hasOwnProperty('children')) {
+                        console.log('item==', item)
+                        selectDeviceName.push(item.device_name)
+                        selectDeviceCode.push(item.device_code)
+                    }
+                    getChecked_list(item.children);
+                });
+                var result = selectDeviceName.join(',') + '_' + selectDeviceCode.join(',');
+                return result;
+            }
             //编辑
             // form.on('submit(edit)',function (obj) {
             //     console.log(obj.field);
