@@ -240,6 +240,11 @@
                         layer.msg('计划时间不能为空', function () { time: 2000 });
                         return false;
                     }
+                    if(getQueryString('countType')==0 && (getQueryString('process_task_status')=='生产中' || getQueryString('process_task_status')=='进行中')){
+                        layer.msg('当前贴片工序正在生产中，不能修改日计划', function () { time: 2000 });
+                        return false;
+                    }
+                    return ;
                     layer.load(1, {
                         content: '提交中...',
                         success: function (layero) {
