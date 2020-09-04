@@ -66,6 +66,9 @@ public class ProcessTask {
     //拼板数
     private Integer multiple;
 
+    //上一次计数数量
+    private Integer last_amount;
+
 
 }
 

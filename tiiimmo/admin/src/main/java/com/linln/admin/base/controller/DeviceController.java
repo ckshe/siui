@@ -141,6 +141,16 @@ public class DeviceController {
     }
 
 
+    //根据类型分类
+    @GetMapping("/getDeviceByProcessType")
+    //@RequiresPermissions("base:device:status")
+    @ResponseBody
+    //暂时所有设备可选
+    public ResultVo getDeviceByProcessType(){
+        return deviceService.getDeviceByProcessType();
+    }
+
+
     //查询设备编号
     @GetMapping("/findDeviceCode")
     @ResponseBody

@@ -2017,7 +2017,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }else {
             history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(processTask.getProcess_task_code());
         }
-
         if(processTask.getAmount_completed()>=processTask.getPcb_quantity()){
             //新增结束工序计划操作记录
             processTask.setFinish_time(today);
@@ -2041,9 +2040,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 newRecord.setEnd_time(today);
                 processTaskStatusHistoryRepository.save(newRecord);
             }
-
-
-
         }else {
             if(processTask.getCount_type()==1){
 

@@ -45,6 +45,8 @@ public interface DeviceService {
 
     ResultVo getDeviceByProcess(DeviceReq req);
 
+    ResultVo getDeviceByProcessType();
+
     List<Device> list();
 
 }
