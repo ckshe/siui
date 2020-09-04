@@ -306,6 +306,7 @@ function board3() {
 			// 	{"processType":"质检","rate":0,"processTypeStaffOnTimeCount":0,"processTypeStaffAllCount":0,"sumTheoryTime":0,"workTime":1200,"useRate":0}],
 			// 	"total":null}
 			for (var i = 0; i < response.data.length; i++) {
+				if (response.data[i].processType == '入库') continue;
 				kRateArr.push(response.data[i].rate);
 				axiskRateArr.push(response.data[i].processType);
 			}
