@@ -98,7 +98,7 @@ public class DeviceServiceImpl implements DeviceService {
         List<Map<String,Object>> result = new ArrayList<>();
         for(int i = 0;i<typeList.size();i++){
             String type = (String)typeList.get(i).get("device_type");
-            StringBuffer deviceListByTypeSql = new StringBuffer("SELECT id ,device_code,device_name from base_device WHERE device_type = '" +
+            StringBuffer deviceListByTypeSql = new StringBuffer("SELECT device_code+'\\'+device_name as title,id ,device_code,device_name from base_device WHERE device_type = '" +
                     type +
                     "'");
             if(type==null){
