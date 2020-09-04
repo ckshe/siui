@@ -102,7 +102,7 @@ public class DeviceServiceImpl implements DeviceService {
                     type +
                     "'");
             if(type==null){
-                deviceListByTypeSql = new StringBuffer("SELECT id ,device_code,device_name from base_device WHERE device_type is null ");
+                deviceListByTypeSql = new StringBuffer("SELECT device_code+'\\'+device_name as title,id ,device_code,device_name from base_device WHERE device_type is null ");
                 type = "other";
             }
             List<Map<String, Object>> mapList = jdbcTemplate.queryForList(deviceListByTypeSql.toString());
