@@ -1,6 +1,4 @@
-﻿<!doctype html
-    public "-//w3c//dtd xhtml 1.0 transitional//en" "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
-<html>
+﻿<html>
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -10,29 +8,73 @@
             margin: 0 auto;
         }
 
+        .inputall {
+            border: none;
+            height: 80%;
+            width: 70px !important;
+            vertical-align: top;
+            text-align: center;
+        }
+
         .ipt {
             width: 80px !important;
             border: none;
         }
+        input{
+            border: none;
+        }
 
-        .ipt1 {
+        .ipt40{
+            width: 40px !important;
+        }
+        .ipt60{
+            width: 60px !important;
+        }
+        .ipt100 {
             width: 100px !important;
         }
 
-        .ipt2 {
+        .ipt120 {
             width: 120px !important;
         }
 
-        .ipt3 {
+        .ipt140 {
             width: 140px !important;
         }
 
-        .ipt4 {
+        .ipt160{
             width: 160px !important;
         }
 
-        .ipt5 {
+        .ipt180 {
             width: 180px !important;
+        }
+        .ipt200 {
+            width: 200px !important;
+        }
+        .ipt220 {
+            width: 220px !important;
+        }
+        .ipt240 {
+            width: 240px !important;
+        }
+        .ipt1000 {
+            width: 1200px !important;
+        }
+
+        #onsubmit {
+            display: inline-block;
+            height: 28px;
+            line-height: 28px;
+            padding: 0 18px;
+            background-color: #1e9fff;
+            color: #fff;
+            white-space: nowrap;
+            text-align: center;
+            font-size: 14px;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
         }
 
         /* * {
@@ -41,10 +83,14 @@
     outline: solid #f00 1px !important;
 } */
     </style>
+    <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+    <script src="../../js/common.js"></script>
 </head>
 
 <body link='blue' vlink='purple'>
-
+<form>
+    <input type="hidden" name="data">
+</form>
     <table border='0' cellpadding='0' cellspacing='0' width='1288' style='border-collapse: 
  collapse;table-layout:fixed;width:966pt'>
         <col width='32' style='width:24pt'>
@@ -65,7 +111,7 @@
         <col width='45' span='2' style='width:33.75pt'>
         <col width='65' span='2' style='width:48.75pt'>
         <tr height='19' style='height:14.25pt' id='r0'>
-            <td height='19' width='32' style='height:14.25pt;width:24pt;'></td>
+            <td height='19' width='32' style='height:14.25pt;width:24pt;'><button id="onsubmit">保存</button></td>
             <td width='38' style='width:28.5pt;'></td>
             <td width='37' style='width:27.75pt;'></td>
             <td class='x100' width='75' style='width:56.25pt;'></td>
@@ -94,24 +140,38 @@
             <td colspan='21' height='40' class='x101' style='height:30pt;'>生产流通表（四）</td>
         </tr>
         <tr height='26' style='height:20.1pt' id='r2'>
-            <td colspan='21' height='24' class='x102' style='border-bottom:2px solid windowtext;height:18.6pt;'>
+            <td colspan='21' height='24' class='x102' style='border-bottom:2px solid windowtext;height:18.6pt; border-right:0px solid windowtext'>
                 RoHS:Y<input id='RoHS' type="checkbox"> /N<input id='RoHS1' type="checkbox"> <span>&nbsp;&nbsp;
-                </span>清产核对□</td>
+                </span>清产核对<input id='qchd' type="checkbox"></td>
         </tr>
+
+        <!--<td colspan=14 height=20 class=xl121 style='border-right:1.0pt solid black;height:15.0pt'>
+            生产型号：<span class="inputSpan"><input id='model' class="ipt80"></span>
+            <font class="font14"><span > </span></font>
+            <font class="font9">生产批次：<span class="inputSpan"><input id='taskSheetCode'></span></font>投产台数：<span
+                class="inputSpan"><input id='produceAmount'></span></font>数量：<span class="inputSpan"><input id="amount"></span></font>
+            <font class="font9"><span >  </span>修改标记：<span class="inputSpan"><input id="changeFlag"></span>
+            </font>
+        </td>-->
         <tr height='26' style='height:20.1pt' id='r3'>
             <td colspan='21' height='23' class='x104'
                 style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:17.85pt;'>
-                生产型号：Apogee1234<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </span>生产批次：MBA1234803<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </span>投产台数：200<span>&nbsp;&nbsp;&nbsp; </span>数量：200<span>&nbsp;&nbsp;&nbsp;&nbsp;
-                </span>修改标记：0<span>&nbsp;&nbsp;&nbsp;&nbsp; </span>承接人：<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>日期：
+
+                生产型号：<span class="inputSpan"><input id='model'></span>
+                生产批次：<span class="inputSpan"><input id='taskSheetCode'></span>
+                投产台数：<span class="inputSpan"><input id='produceAmount' class="ipt100"></span>
+                数量：<span class="inputSpan"><input id="amount" class="ipt100"></span>
+                修改标记：<span class="inputSpan"><input id="changeFlag" ></span>
+                承接人：<span class="inputSpan"><input id="cjUser" class="ipt100"></span>
+
             </td>
         </tr>
         <tr height='26' style='height:20.1pt' id='r4'>
-            <td colspan='21' height='24' class='x106' style='border-right:2px solid windowtext;height:18.6pt;'>
-                部件名称：探头板<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </span>PCB板号：<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </span>板编码：</td>
+            <td colspan='21' height='24' class='x104' style='border-right:2px solid windowtext; border-bottom:2px solid windowtext; height:18.6pt;'>
+                日期：<span class="inputSpan"><input id="date" class="dateType ipt220"></span>
+                部件名称：<span class="inputSpan"><input id="modelName" class="ipt220"></span>
+                PCB板号：<span class="inputSpan"><input id="pcbCode" class="ipt220"></span>
+                板编码：<span class="inputSpan"><input id="plateCode" class="ipt220"></span>
         </tr>
         <tr height='33' style='height:24.95pt' id='r5'>
             <td height='31' class='x108' style='height:23.45pt;'>板面</td>
@@ -123,8 +183,8 @@
             <td colspan='3' class='x109' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 程序名称</td>
             <td class='x111'>程序正常</td>
-            <td class='x158'>生产日期</td>
-            <td class='x209'>生产<span>&nbsp;&nbsp; </span>内容</td>
+            <td class='x158'>生产 日期</td>
+            <td class='x209'>生产 内容</td>
             <td class='x210'>班次</td>
             <td height='30' class='x232' width='45' style='height:22.7pt;width:33.75pt;' align='left' valign='top'><span
                     style='position:absolute;z-index:29;margin-left:0px;margin-top:0px;width:175px;height:1px'></span><span
@@ -143,205 +203,210 @@
         <tr height='24' style='height:18pt' id='r6'>
             <td height='23' class='x113' style='height:17.25pt;'></td>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                100MV<span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span></td>
-            <td class='x115'>32008</td>
-            <td class='x116'>□</td>
-            <td colspan='6' class='x117' style='border-bottom:1px solid windowtext;'>供气压力：<span>&nbsp;&nbsp;&nbsp;&nbsp;
-                </span>kgf/cm2；丝印速度：<span>&nbsp;&nbsp;&nbsp;&nbsp; </span>mm/s<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </span></td>
-            <td colspan='3' class='x71' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='sbcs_sbmc_1' class="inputall" type="text"><span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span></td>
+            <td class='x115'><input id='sbcs_sbbh_1' class="inputall" type="text"></td>
+            <td class='x116'><input id='sbcs_sbzt_1' type="checkbox"></td>
+            <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                供气压力：<input id='sbcs_gjgycs_1_1' class="inputall" type="text">kgf/cm2；丝印速度：<input id='sbcs_gjgycs_1_2' class="inputall" type="text"><span>&nbsp;
+                </span>mm/s<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
+            <td colspan='3' class='x71' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_1' class="ipt140" type="text">
             </td>
-            <td class='x109'>□</td>
+            <td class='x109'><input id='sbcs_cxzc_1' type="checkbox"></td>
             <td rowspan='10' height='235' class='x159'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:176.25pt;'></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:176.25pt;'>
+                <input id="sj_date_1" class="dateType ipt40 inputall">
+            </td>
+            <!--丝印-->
             <td rowspan='3' height='70' class='x214'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:52.5pt;'>丝印</td>
-            <td class='x134'></td>
-            <td class='x134'></td>
-            <td class='x215'></td>
-            <td class='x175'></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:52.5pt;'><input id='sj_sjxq_scnr1' class="ipt40 inputall" type="text"></td>
+            <td class='x134'><input id='sj_sjxq_bc1' class="ipt40 inputall" type="text"></td>
+            <td class='x134'><input id='sj_sjxq_amount1' class="ipt40 inputall" type="text"></td>
+            <td class='x215'><input id='sj_sjxq_sjUser1' class="ipt60 inputall" type="text"></td>
+            <td class='x175'><input id='sj_sjxq_czUser1' class="ipt60 inputall" type="text"></td>
         </tr>
         <tr height='24' style='height:18pt' id='r7'>
             <td rowspan='5' height='120' class='x119' style='border-right:1px solid windowtext;height:90pt;'>
-                A<span>&nbsp;&nbsp;&nbsp; </span>□</td>
+                A<input id='bm' name="bm" type="checkbox"></td>
             <td colspan='2' rowspan='2' height='46' class='x114'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'>G5<span
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'><input id='sbcs_sbmc_2' class="inputall" type="text"><span
                     style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
-            <td class='x115'>B15001</td>
-            <td class='x120'>□</td>
+            <td class='x115'><input id='sbcs_sbbh_2' class="inputall" type="text"></td>
+            <td class='x120'><input id='sbcs_sbzt_2' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                供气压力：<span>&nbsp;&nbsp;&nbsp;&nbsp; </span>kgf/cm2；丝印速度： 80<span>&nbsp;
+                供气压力：<input id='sbcs_gjgycs_2_1' class="inputall" type="text">kgf/cm2；丝印速度：<input id='sbcs_gjgycs_2_2' class="inputall" type="text"><span>&nbsp;
                 </span>mm/s<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_2' class="ipt140" type="text">
             </td>
-            <td class='x109'>□</td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x217'></td>
+            <td class='x109'><input id='sbcs_cxzc_2' type="checkbox"></td>
+            <td class='x216'><input id='sj_sjxq_bc2' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_amount2' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_sjUser2' class="ipt60 inputall" type="text"></td>
+            <td class='x217'><input id='sj_sjxq_czUser2' class="ipt60 inputall" type="text"></td>
         </tr>
         <tr height='24' style='height:18pt' id='r8'>
-            <td class='x115'>B16011</td>
-            <td class='x121'>□</td>
+            <td class='x115'><input id='sbcs_sbbh_3' class="inputall" type="text"></td>
+            <td class='x121'><input id='sbcs_sbzt_3' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                供气压力：<span>&nbsp;&nbsp;&nbsp;&nbsp; </span>kgf/cm2；丝印速度：<span>&nbsp;&nbsp;&nbsp;&nbsp;
+                供气压力：<input id='sbcs_gjgycs_3_1' class="inputall" type="text">kgf/cm2；丝印速度：<input id='sbcs_gjgycs_3_2' class="inputall" type="text"><span>&nbsp;
                 </span>mm/s<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_3' class="ipt140" type="text">
             </td>
-            <td class='x109'>□</td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x217'></td>
+            <td class='x109'><input id='sbcs_cxzc_3' type="checkbox"></td>
+            <td class='x216'><input id='sj_sjxq_bc3' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_amount3' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_sjUser3' class="ipt60 inputall" type="text"></td>
+            <td class='x217'><input id='sj_sjxq_czUser3' class="ipt60 inputall" type="text"></td>
         </tr>
         <tr height='24' style='height:18pt' id='r9'>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                YS12<span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
-            <td class='x115'>B15002</td>
-            <td class='x120'>□</td>
+                <input id='sbcs_sbmc_4' class="inputall" type="text"><span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
+            <td class='x115'><input id='sbcs_sbbh_4' class="inputall" type="text"></td>
+            <td class='x120'><input id='sbcs_sbzt_4' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                供气压力：4.5<span>&nbsp; </span>kgf/cm2；<span>&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                供气压力：<input id='sbcs_gjgycs_4_1' class="inputall" type="text">kgf/cm2；<span>&nbsp;&nbsp; </span></td>
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_4' class="ipt140" type="text">
             </td>
-            <td class='x109'>□</td>
+            <td class='x109'><input id='sbcs_cxzc_4' type="checkbox"></td>
+            <!--贴片-->
             <td rowspan='4' height='94' class='x214'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:70.5pt;'>贴片</td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x217'></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:70.5pt;'><input id='sj_sjxq_scnr2' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_bc4' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_amount4' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_sjUser4' class="ipt60 inputall" type="text"></td>
+            <td class='x217'><input id='sj_sjxq_czUser4' class="ipt60 inputall" type="text"></td>
         </tr>
         <tr height='24' style='height:18pt' id='r10'>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                YS12F背包 </td>
-            <td class='x115'>B1902001</td>
-            <td class='x120'>□</td>
+                <input id='sbcs_sbmc_5' class="inputall" type="text"> <span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp; </span> </td>
+            <td class='x115'><input id='sbcs_sbbh_5' class="inputall" type="text"></td>
+            <td class='x120'><input id='sbcs_sbzt_5' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                供气压力：4.5<span>&nbsp; </span>kgf/cm2；<span>&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                供气压力：<input id='sbcs_gjgycs_5_1' class="inputall" type="text">kgf/cm2；<span>&nbsp;&nbsp; </span></td>
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_5' class="ipt140" type="text">
             </td>
-            <td class='x109'>□</td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x217'></td>
+            <td class='x109'><input id='sbcs_cxzc_5' type="checkbox"></td>
+            <td class='x216'><input id='sj_sjxq_bc5' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_amount5' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_sjUser5' class="ipt60 inputall" type="text"></td>
+            <td class='x217'><input id='sj_sjxq_czUser5' class="ipt60 inputall" type="text"></td>
         </tr>
         <tr height='24' style='height:18pt' id='r11'>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                YS12F<span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span></td>
-            <td class='x115'>B15003</td>
-            <td class='x121'>□</td>
+                <input id='sbcs_sbmc_6' class="inputall" type="text"><span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span></td>
+            <td class='x115'><input id='sbcs_sbbh_6' class="inputall" type="text"></td>
+            <td class='x121'><input id='sbcs_sbzt_6' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                供气压力：<span>&nbsp;&nbsp;&nbsp;&nbsp; </span>kgf/cm2；<span>&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                供气压力：<input id='sbcs_gjgycs_6_1' class="inputall" type="text">kgf/cm2；<span>&nbsp;&nbsp; </span></td>
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_6' class="ipt140" type="text">
             </td>
-            <td class='x109'>□</td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x217'></td>
+            <td class='x109'><input id='sbcs_cxzc_6' type="checkbox"></td>
+            <td class='x216'><input id='sj_sjxq_bc6' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_amount6' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_sjUser6' class="ipt60 inputall" type="text"></td>
+            <td class='x217'><input id='sj_sjxq_czUser6' class="ipt60 inputall" type="text"></td>
         </tr>
         <tr height='24' style='height:18pt' id='r12'>
             <td height='24' class='x119' style='height:18pt;'></td>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                MV-6e </td>
-            <td class='x115'>B1811015</td>
-            <td class='x120'>□</td>
+                <input id='sbcs_sbmc_7' class="inputall" type="text"><span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span> </td>
+            <td class='x115'><input id='sbcs_sbbh_7' class="inputall" type="text"></td>
+            <td class='x120'><input id='sbcs_sbzt_7' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                供气压力：4.5<span>&nbsp; </span>kgf/cm2；<span>&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                供气压力：<input id='sbcs_gjgycs_7_1' class="inputall" type="text">kgf/cm2；<span>&nbsp;&nbsp; </span></td>
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_7' class="ipt140" type="text">
             </td>
-            <td class='x109'>□</td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x217'></td>
+            <td class='x109'><input id='sbcs_cxzc_7' type="checkbox"></td>
+            <td class='x216'><input id='sj_sjxq_bc7' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_amount7' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_sjUser7' class="ipt60 inputall" type="text"></td>
+            <td class='x217'><input id='sj_sjxq_czUser7' class="ipt60 inputall" type="text"></td>
 
         </tr>
         <tr height='20' style='height:15pt' id='r13'>
-            <td rowspan='5' height='108' class='x122'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:81pt;'>
-                B<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>□</td>
+            <td rowspan='5' height='120' class='x119' style='border-right:1px solid windowtext;height:90pt;'>
+                B<input id='bm1' name="bm" type="checkbox"></td>
             <td colspan='4' class='x123' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
             </td>
             <td colspan='6' class='x109' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 回流炉实时显示温度、速度</td>
             <td colspan='3' rowspan='3' height='67' class='x77'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:50.25pt;'></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:50.25pt;'><input id='sbcs_cxmc_8' class="ipt140 inputall" type="text"></td>
             <td rowspan='3' height='67' class='x165'
-                style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:50.25pt;'>□</td>
+                style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:50.25pt;'><input id='sbcs_cxzc_8' type="checkbox"></td>
+            <!--回流焊接-->
             <td rowspan='3' height='66' class='x214'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:49.5pt;'>回流焊接</td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x217'></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:49.5pt;'> <input id='sj_sjxq_scnr3' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_bc8' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_amount8' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_sjUser8' class="ipt60 inputall" type="text"></td>
+            <td class='x217'><input id='sj_sjxq_czUser8' class="ipt60 inputall" type="text"></td>
 
         </tr>
         <tr height='24' style='height:18pt' id='r14'>
-            <td colspan='2' rowspan='2' height='47' class='x126'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'>Py100A</td>
+            <td colspan='2' rowspan='2' height='46' class='x114'
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'><input id='sbcs_sbmc_8' class="inputall" type="text"><span
+                    style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
             <td rowspan='2' height='47' class='x128'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'>B16012</td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input id='sbcs_sbbh_8' class="inputall" type="text"></td>
             <td rowspan='2' height='47' class='x129'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'>□</td>
-            <td class='x130'>温区1：150 ℃</td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input id='sbcs_sbzt_8' type="checkbox"></td>
+            <td class='x130'>温区1：<input id='sbcs_gjgycs_wq1' class="ipt40" type="text"> ℃</td>
             <td colspan='2' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                温区2：150 ℃<span style='white-space:nowrap;'>&nbsp; </span></td>
-            <td class='x130'>温区3：170 ℃</td>
-            <td class='x130'>温区4：185 ℃</td>
+                温区2：<input id='sbcs_gjgycs_wq2' class="ipt40" type="text"> ℃<span style='white-space:nowrap;'>&nbsp; </span></td>
+            <td class='x130'>温区3：<input id='sbcs_gjgycs_wq3' class="ipt40" type="text"> ℃</td>
+            <td class='x130'>温区4：<input id='sbcs_gjgycs_wq4' class="ipt40" type="text"> ℃</td>
             <td rowspan='2' height='47' class='x166'
                 style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><span
-                    style='float:right'>55cm/min</span></td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x217'></td>
+                    style='float:right'><input id='sbcs_gjgycs_sd' class="ipt40" type="text">cm/min</span></td>
+            <td class='x216'><input id='sj_sjxq_bc9' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_amount9' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_sjUser9' class="ipt60 inputall" type="text"></td>
+            <td class='x217'><input id='sj_sjxq_czUser9' class="ipt60 inputall" type="text"></td>
 
         </tr>
         <tr height='24' style='height:18pt' id='r15'>
-            <td class='x130'>温区5：185 ℃</td>
+            <td class='x130'>温区5：<input id='sbcs_gjgycs_wq5' class="ipt40" type="text"> ℃</td>
             <td colspan='2' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                温区6：210 ℃</td>
-            <td class='x130'>温区7：225 ℃</td>
-            <td class='x130'>温区8：260 ℃</td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x217'></td>
-
+                温区6：<input id='sbcs_gjgycs_wq6' class="ipt40" type="text"> ℃</td>
+            <td class='x130'>温区7：<input id='sbcs_gjgycs_wq7' class="ipt40" type="text"> ℃</td>
+            <td class='x130'>温区8：<input id='sbcs_gjgycs_wq8' class="ipt40" type="text"> ℃</td>
+            <td class='x216'><input id='sj_sjxq_bc10' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_amount10' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_sjUser10' class="ipt60 inputall" type="text"></td>
+            <td class='x217'><input id='sj_sjxq_czUser10' class="ipt60 inputall" type="text"></td>
         </tr>
         <tr height='20' style='height:15pt' id='r16'>
-            <td colspan='2' rowspan='2' height='38' class='x114'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:28.5pt;'>MV-6e<span
-                    style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span></td>
-            <td rowspan='2' height='38' class='x115'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:28.5pt;'>B15004</td>
+            <td colspan='2' rowspan='2' height='46' class='x114'
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'><input id='sbcs_sbmc_9' class="inputall" type="text"><span
+                    style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
+            <td rowspan='2' height='47' class='x128'
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input id='sbcs_sbbh_9' class="inputall" type="text"></td>
             <td rowspan='2' height='39' class='x129'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'>□</td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'><input id='sbcs_sbzt_9' type="checkbox"></td>
             <td colspan='6' rowspan='2' height='39' class='x126'
                 style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'>
-                供气压力：4.5<span>&nbsp; </span>kgf/cm2； </td>
+                供气压力：<input id='sbcs_gjgycs_9_1' class="ipt100" type="text"><span>&nbsp; </span>kgf/cm2； </td>
             <td colspan='3' rowspan='2' height='39' class='x77'
                 style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'>
-                1234A_1234A_A</td>
+                <input id='sbcs_cxmc_9' class="ipt140 inputall" type="text"></td>
             <td rowspan='2' height='39' class='x165'
-                style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'>□</td>
+                style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'><input id='sbcs_cxzc_9' type="checkbox"></td>
             <td rowspan='2' height='39' class='x177'
-                style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:29.25pt;'></td>
+                style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:29.25pt;'><input id='sj_date_2' class="dateType ipt40 inputall"  type="text"></td>
+            <!--QC -->
             <td rowspan='2' height='39' class='x218'
-                style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:29.25pt;'>QC</td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x216'></td>
-            <td class='x217'></td>
+                style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:29.25pt;'><input id='sj_sjxq_scnr4' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_bc11' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_amount11' class="ipt40 inputall" type="text"></td>
+            <td class='x216'><input id='sj_sjxq_sjUser11' class="ipt60 inputall" type="text"></td>
+            <td class='x217'><input id='sj_sjxq_czUser11' class="ipt60 inputall" type="text"></td>
 
         </tr>
         <tr height='20' style='height:15pt' id='r17'>
-            <td class='x220'></td>
-            <td class='x220'></td>
-            <td class='x220'></td>
-            <td class='x221'></td>
+            <td class='x220'><input id='sj_sjxq_bc12' class="ipt40 inputall" type="text"></td>
+            <td class='x220'><input id='sj_sjxq_amount12' class="ipt40 inputall" type="text"></td>
+            <td class='x220'><input id='sj_sjxq_sjUser12' class="ipt60 inputall" type="text"></td>
+            <td class='x221'><input id='sj_sjxq_czUser12' class="ipt60 inputall" type="text"></td>
 
         </tr>
         <tr height='10' style='height:8.1pt' id='r18'>
@@ -584,13 +649,13 @@
             <td class='x67'>日期</td>
             <td rowspan='2' height='48' class='x140'
                 style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:36.6pt;'>
-                二次<span>&nbsp;&nbsp; </span>交接</td>
+                二次交接</td>
             <td class='x67'>交接人</td>
             <td class='x67'>数量</td>
             <td class='x67'>日期</td>
             <td rowspan='2' height='48' class='x140'
                 style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:36.6pt;'>
-                三次<span>&nbsp;&nbsp; </span>交接</td>
+                三次交接</td>
             <td colspan='2' class='x69' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 交接人</td>
             <td colspan='2' class='x69' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>数量
@@ -602,27 +667,28 @@
 
         </tr>
         <tr height='26' style='height:20.1pt' id='r33'>
-            <td colspan='3' class='x144' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+            <td colspan='3' class='x144' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='jjxd_cjUser1' class="ipt60 inputall" type="text">
             </td>
-            <td class='x147'></td>
-            <td class='x148'></td>
-            <td class='x201'></td>
-            <td class='x201'></td>
-            <td class='x202'></td>
-            <td colspan='2' class='x123' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+            <td class='x147'><input id='jjxd_cjAmount1' class="ipt60 inputall" type="text"></td>
+            <td class='x148'><input id='jjxd_cjDate1' class="ipt60 inputall" type="text"></td>
+            <td class='x147'><input id='jjxd_cjUser2' class="ipt60 inputall" type="text"></td>
+            <td class='x147'><input id='jjxd_cjAmount2' class="ipt60 inputall" type="text"></td>
+            <td class='x147'><input id='jjxd_cjDate2' class="ipt60 inputall" type="text"></td>
+            <td colspan='2' class='x147' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='jjxd_cjUser3' class="ipt60 inputall" type="text">
             </td>
-            <td colspan='2' class='x123' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+            <td colspan='2' class='x147' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='jjxd_cjAmount3' class="ipt60 inputall" type="text">
             </td>
-            <td colspan='2' class='x123' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+            <td colspan='2' class='x147' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='jjxd_cjDate3' class="ipt60 inputall" type="text">
             </td>
-            <td colspan='3' class='x123' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
+            <td colspan='3' class='x147' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
             </td>
 
         </tr>
         <tr height='40' style='height:30pt' id='r34'>
             <td colspan='2' height='37' class='x149'
                 style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:27.75pt;'>备注</td>
-            <td colspan='19' class='x80' style='border-right:2px solid windowtext;border-bottom:2px solid windowtext;'>
+            <td colspan='19' class='x147' style='border-right:2px solid windowtext;border-bottom:2px solid windowtext;'>
+                <input id='remarks'  class="ipt1000 inputall">
             </td>
 
         </tr>
@@ -691,6 +757,1012 @@
             }
         }
         ChangeRowspanHiddenData();
+
+        layui.use(['table', 'jquery', 'form', 'layer', 'laydate'], function () {
+            var table = layui.table,
+                layer = layui.layer,
+                form = layui.form,
+                laydate = layui.laydate,
+                $ = layui.jquery;
+            var dd = JSON.parse($('[name=data]').val());
+            console.log(dd)
+            //这里开始拿数据
+            $('.dateType').focus(function () {
+                $(this).attr('type', 'date')
+            }).blur(function () {
+                var timeTxt = $(this).val().replace(/-/g, '.').substring(2);
+                $(this).attr('type', 'text').val(timeTxt);
+            })
+
+            if (dd.factory == "万吉厂区") {
+                $('#area').attr('checked', true)
+            }
+            if (dd.factory == "金砂厂区") {
+                $('#area1').attr('checked', true)
+            }
+            if (dd.is_rohs == "是") {
+                $('#RoHS').attr('checked', true)
+            }
+            if (dd.is_rohs == "否") {
+                $('#RoHS1').attr('checked', true)
+            }
+
+            //型号
+            $('#model').val(dd.model_ver)
+            //部件名称
+            $('#modelName').val(dd.model_name)
+            //生产批次
+            $('#taskSheetCode').val(dd.task_sheet_code)
+            //投产台数
+            $('#produceAmount').val(dd.quantity)
+            //数量
+            $('#amount').val(dd.pcb_quantity)
+            //修改标记
+            $('#changeFlag').val(dd.pcb_modify_tag)
+            //pcb板号
+            $('#pcbCode').val(dd.pcb_id)
+            //板编码
+            $('#plateCode').val(dd.batch_id)
+            // 时间
+            $('#date').val(dd.date)
+            // 承接人
+            $('#cjUser').val(dd.cjUser)
+
+
+
+            var dj = {}
+
+            function initAjax() {
+                $.ajax({
+                    url: '/report/findCurrentReport',
+                    type: "post",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        pcbTaskCode: dd.pcb_task_code,
+                        reportType: '1'
+                    }),
+                    contentType: "application/json;charset=UTF-8",
+                    success: function (res) {
+                        if (res.code === 200) {
+                            if (res.data.length > 0) {
+                                dj = JSON.parse(res.data[0].json_data);
+                            }
+                            console.log(dj)
+                            //console.log("111" + dj.sbcs[0].sbmc)
+                            if (Object.keys(dj).length > 0) {
+                                // TODO 9.4 (程序)
+                                $('#sbcs_sbmc_1').val(dj.sbcs[0].sbmc)
+                                $('#sbcs_sbbh_1').val(dj.sbcs[0].sbbh)
+                                $('#sbcs_sbzt_1').val(dj.sbcs[0].sbzt)
+                                $('#sbcs_gjgycs_1_1').val(dj.sbcs[0].gjgyc_yl)
+                                $('#sbcs_gjgycs_1_2').val(dj.sbcs[0].gjgyc_sd)
+                                $('#sbcs_cxmc_1').val(dj.sbcs[0].cxmc)
+                                $('#sbcs_cxzc_1').val(dj.sbcs[0].cxzc)
+
+                                $('#sbcs_sbmc_2').val(dj.sbcs[1].sbmc)
+                                $('#sbcs_sbbh_2').val(dj.sbcs[1].sbbh)
+                                $('#sbcs_sbzt_2').val(dj.sbcs[1].sbzt)
+                                $('#sbcs_gjgycs_2_1').val(dj.sbcs[1].gjgyc_yl)
+                                $('#sbcs_gjgycs_2_2').val(dj.sbcs[1].gjgyc_sd)
+                                $('#sbcs_cxmc_2').val(dj.sbcs[1].cxmc)
+                                $('#sbcs_cxzc_2').val(dj.sbcs[1].cxzc)
+
+                                $('#sbcs_sbbh_3').val(dj.sbcs[2].sbbh)
+                                $('#sbcs_sbzt_3').val(dj.sbcs[2].sbzt)
+                                $('#sbcs_gjgycs_3_1').val(dj.sbcs[2].gjgyc_yl)
+                                $('#sbcs_gjgycs_3_2').val(dj.sbcs[2].gjgyc_sd)
+                                $('#sbcs_cxmc_3').val(dj.sbcs[2].cxmc)
+                                $('#sbcs_cxzc_3').val(dj.sbcs[2].cxzc)
+
+                                $('#sbcs_sbmc_4').val(dj.sbcs[3].sbmc)
+                                $('#sbcs_sbbh_4').val(dj.sbcs[3].sbbh)
+                                $('#sbcs_sbzt_4').val(dj.sbcs[3].sbzt)
+                                $('#sbcs_gjgycs_4_1').val(dj.sbcs[3].gjgyc_yl)
+                                //$('#sbcs_gjgycs_4_2').val(dj.sbcs[3].gjgyc_sd)
+                                $('#sbcs_cxmc_4').val(dj.sbcs[3].cxmc)
+                                $('#sbcs_cxzc_4').val(dj.sbcs[3].cxzc)
+
+                                $('#sbcs_sbmc_5').val(dj.sbcs[4].sbmc)
+                                $('#sbcs_sbbh_5').val(dj.sbcs[4].sbbh)
+                                $('#sbcs_sbzt_5').val(dj.sbcs[4].sbzt)
+                                $('#sbcs_gjgycs_5_1').val(dj.sbcs[4].gjgyc_yl)
+                                //$('#sbcs_gjgycs_5_2').val(dj.sbcs[4].gjgyc_sd)
+                                $('#sbcs_cxmc_5').val(dj.sbcs[4].cxmc)
+                                $('#sbcs_cxzc_5').val(dj.sbcs[4].cxzc)
+
+                                $('#sbcs_sbmc_6').val(dj.sbcs[5].sbmc)
+                                $('#sbcs_sbbh_6').val(dj.sbcs[5].sbbh)
+                                $('#sbcs_sbzt_6').val(dj.sbcs[5].sbzt)
+                                $('#sbcs_gjgycs_6_1').val(dj.sbcs[5].gjgyc_yl)
+                                //$('#sbcs_gjgycs_6_2').val(dj.sbcs[5].gjgyc_sd)
+                                $('#sbcs_cxmc_6').val(dj.sbcs[5].cxmc)
+                                $('#sbcs_cxzc_6').val(dj.sbcs[5].cxzc)
+
+                                $('#sbcs_sbmc_7').val(dj.sbcs[6].sbmc)
+                                $('#sbcs_sbbh_7').val(dj.sbcs[6].sbbh)
+                                $('#sbcs_sbzt_7').val(dj.sbcs[6].sbzt)
+                                $('#sbcs_gjgycs_7_1').val(dj.sbcs[6].gjgyc_yl)
+                                //$('#sbcs_gjgycs_7_2').val(dj.sbcs[6].gjgyc_sd)
+                                $('#sbcs_cxmc_7').val(dj.sbcs[6].cxmc)
+                                $('#sbcs_cxzc_7').val(dj.sbcs[6].cxzc)
+
+                                $('#sbcs_sbmc_8').val(dj.sbcs[7].sbmc)
+                                $('#sbcs_sbbh_8').val(dj.sbcs[7].sbbh)
+                                $('#sbcs_sbzt_8').val(dj.sbcs[7].sbzt)
+                                $('#sbcs_gjgycs_wq1').val(dj.sbcs[7].gjgycs.wq1)
+                                $('#sbcs_gjgycs_wq2').val(dj.sbcs[7].gjgycs.wq2)
+                                $('#sbcs_gjgycs_wq3').val(dj.sbcs[7].gjgycs.wq3)
+                                $('#sbcs_gjgycs_wq4').val(dj.sbcs[7].gjgycs.wq4)
+                                $('#sbcs_gjgycs_wq5').val(dj.sbcs[7].gjgycs.wq5)
+                                $('#sbcs_gjgycs_wq6').val(dj.sbcs[7].gjgycs.wq6)
+                                $('#sbcs_gjgycs_wq7').val(dj.sbcs[7].gjgycs.wq7)
+                                $('#sbcs_gjgycs_wq8').val(dj.sbcs[7].gjgycs.wq8)
+                                $('#sbcs_gjgycs_sd').val(dj.sbcs[7].gjgycs.sd)
+                                $('#sbcs_cxmc_8').val(dj.sbcs[7].cxmc)
+                                $('#sbcs_cxzc_8').val(dj.sbcs[7].cxzc)
+
+
+                                $('#sbcs_sbmc_9').val(dj.sbcs[8].sbmc)
+                                $('#sbcs_sbbh_9').val(dj.sbcs[8].sbbh)
+                                $('#sbcs_sbzt_9').val(dj.sbcs[8].sbzt)
+                                $('#sbcs_gjgycs_9_1').val(dj.sbcs[8].gjgyc_yl)
+                                $('#sbcs_cxmc_9').val(dj.sbcs[8].cxmc)
+                                $('#sbcs_cxzc_9').val(dj.sbcs[8].cxzc)
+
+                                // TODO 9.4 (生产)
+                                //console.log("日期"+ dj.sj[0].date);
+                                //$('#sj_date_1').val(dj.sj.date)
+                                // --------------
+                                $('#sj_sjxq_scnr1').val(dj.sj.sjxq[0].scnr)
+                                $('#sj_sjxq_bc1').val(dj.sj.sjxq[0].bc)
+                                $('#sj_sjxq_amount1').val(dj.sj.sjxq[0].amount)
+                                $('#sj_sjxq_sjUser1').val(dj.sj.sjxq[0].sjUser)
+                                $('#sj_sjxq_czUser1').val(dj.sj.sjxq[0].czUser)
+
+                                //$('#sj_sjxq_scnr1').val(dj.sj.sjxq[0].scnr)
+                                $('#sj_sjxq_bc2').val(dj.sj.sjxq[1].bc)
+                                $('#sj_sjxq_amount2').val(dj.sj.sjxq[1].amount)
+                                $('#sj_sjxq_sjUser2').val(dj.sj.sjxq[1].sjUser)
+                                $('#sj_sjxq_czUser2').val(dj.sj.sjxq[1].czUser)
+
+                                $('#sj_sjxq_bc3').val(dj.sj.sjxq[2].bc)
+                                $('#sj_sjxq_amount3').val(dj.sj.sjxq[2].amount)
+                                $('#sj_sjxq_sjUser3').val(dj.sj.sjxq[2].sjUser)
+                                $('#sj_sjxq_czUser3').val(dj.sj.sjxq[2].czUser)
+
+                                // --------------
+                                $('#sj_sjxq_scnr2').val(dj.sj.sjxq[3].scnr)
+                                $('#sj_sjxq_bc4').val(dj.sj.sjxq[3].bc)
+                                $('#sj_sjxq_amount4').val(dj.sj.sjxq[3].amount)
+                                $('#sj_sjxq_sjUser4').val(dj.sj.sjxq[3].sjUser)
+                                $('#sj_sjxq_czUser4').val(dj.sj.sjxq[3].czUser)
+
+                                $('#sj_sjxq_bc5').val(dj.sj.sjxq[4].bc)
+                                $('#sj_sjxq_amount5').val(dj.sj.sjxq[4].amount)
+                                $('#sj_sjxq_sjUser5').val(dj.sj.sjxq[4].sjUser)
+                                $('#sj_sjxq_czUser5').val(dj.sj.sjxq[4].czUser)
+
+                                $('#sj_sjxq_bc6').val(dj.sj.sjxq[5].bc)
+                                $('#sj_sjxq_amount6').val(dj.sj.sjxq[5].amount)
+                                $('#sj_sjxq_sjUser6').val(dj.sj.sjxq[5].sjUser)
+                                $('#sj_sjxq_czUser6').val(dj.sj.sjxq[5].czUser)
+
+                                $('#sj_sjxq_bc7').val(dj.sj.sjxq[6].bc)
+                                $('#sj_sjxq_amount7').val(dj.sj.sjxq[6].amount)
+                                $('#sj_sjxq_sjUser7').val(dj.sj.sjxq[6].sjUser)
+                                $('#sj_sjxq_czUser7').val(dj.sj.sjxq[6].czUser)
+
+                                // --------------
+                                $('#sj_sjxq_scnr3').val(dj.sj.sjxq[7].scnr)
+                                $('#sj_sjxq_bc8').val(dj.sj.sjxq[7].bc)
+                                $('#sj_sjxq_amount8').val(dj.sj.sjxq[7].amount)
+                                $('#sj_sjxq_sjUser8').val(dj.sj.sjxq[7].sjUser)
+                                $('#sj_sjxq_czUser8').val(dj.sj.sjxq[7].czUser)
+
+                                $('#sj_sjxq_bc9').val(dj.sj.sjxq[8].bc)
+                                $('#sj_sjxq_amount9').val(dj.sj.sjxq[8].amount)
+                                $('#sj_sjxq_sjUser9').val(dj.sj.sjxq[8].sjUser)
+                                $('#sj_sjxq_czUser9').val(dj.sj.sjxq[8].czUser)
+
+                                $('#sj_sjxq_bc10').val(dj.sj.sjxq[9].bc)
+                                $('#sj_sjxq_amount10').val(dj.sj.sjxq[9].amount)
+                                $('#sj_sjxq_sjUser10').val(dj.sj.sjxq[9].sjUser)
+                                $('#sj_sjxq_czUser10').val(dj.sj.sjxq[9].czUser)
+
+                                // --------------
+                                $('#sj_sjxq_scnr4').val(dj.sj.sjxq[10].scnr)
+                                $('#sj_sjxq_bc11').val(dj.sj.sjxq[10].bc)
+                                $('#sj_sjxq_amount11').val(dj.sj.sjxq[10].amount)
+                                $('#sj_sjxq_sjUser11').val(dj.sj.sjxq[10].sjUser)
+                                $('#sj_sjxq_czUser11').val(dj.sj.sjxq[10].czUser)
+
+                                $('#sj_sjxq_bc12').val(dj.sj.sjxq[11].bc)
+                                $('#sj_sjxq_amount12').val(dj.sj.sjxq[11].amount)
+                                $('#sj_sjxq_sjUser12').val(dj.sj.sjxq[11].sjUser)
+                                $('#sj_sjxq_czUser12').val(dj.sj.sjxq[11].czUser)
+
+
+
+                                // TODO 9.4______________
+
+
+
+                                /*$('#cjsdgx_cjUser_1').val(dj.cjsdgx[0].cjUser)
+                                $('#cjsdgx_cjNum_1').val(dj.cjsdgx[0].cjNum)
+                                $('#cjsdgx_cjAmount_1').val(dj.cjsdgx[0].cjAmount)
+                                $('#cjsdgx_cjDate_1').val(dj.cjsdgx[0].cjDate)
+
+                                $('#cjsdgx_cjUser_2').val(dj.cjsdgx[1].cjUser)
+                                $('#cjsdgx_cjNum_2').val(dj.cjsdgx[1].cjNum)
+                                $('#cjsdgx_cjAmount_2').val(dj.cjsdgx[1].cjAmount)
+                                $('#cjsdgx_cjDate_2').val(dj.cjsdgx[1].cjDate)
+
+                                $('#cjsdgx_cjUser_3').val(dj.cjsdgx[2].cjUser)
+                                $('#cjsdgx_cjNum_3').val(dj.cjsdgx[2].cjNum)
+                                $('#cjsdgx_cjAmount_3').val(dj.cjsdgx[2].cjAmount)
+                                $('#cjsdgx_cjDate_3').val(dj.cjsdgx[2].cjDate)
+                                //可追溯性
+                                $('#kzsx_zxUser').val(dj.kzsx[0].zxUser)
+                                $('#kzsx_qrUser').val(dj.kzsx[0].qrUser)
+                                console.log(dj.kzsx[0].date)
+                                $('#kzsx_date').val(dj.kzsx[0].date)
+                                //贴胶纸
+
+                                // todo
+                                console.log(""+ dj.sbcs)
+                                $('#sbcs_scnr').val(dj.sbcs.scnr)
+                                $('#sbcs_sbmc').val(dj.sbcs.sbmc)
+                                $('#sbcs_sbbh').val(dj.sbcs.sbbh)
+                                $('#sbcs_gjgycs_gqyl').val(dj.sbcs.gjgycs.gqyl)
+                                $('#sbcs_gjgycs_htwd').val(dj.sbcs.gjgycs.htwd)
+                                $('#sbcs_gjgycs_cxmc').val(dj.sbcs.gjgycs.cxmc)
+                                /!*if (dj.sbcs.gjgycs.cxzc.equals("on")) {
+                                    $('#zpgj_qchs_1').attr('checked', true)
+                                }*!/
+                                console.log("程序正常:" + dj.sbcs.gjgycs.cxzc);
+                                if (dj.sbcs.gjgycs.cxzc == "on") {
+                                    console.log("程序正常:" + true);
+                                    $('#sbcs_gjgycs_cxzc').attr('checked', true)
+                                }
+                                /!*$('#sbcs_gjgycs_cxzc').val(dj.sbcs.gjgycs.cxzc)*!/
+                                $('#sbcs_gjgycs_czUser').val(dj.sbcs.gjgycs.czUser)
+
+                                // 生产数据 ---------------
+                                $('#scqc_gx_1').val(dj.scqc[0].gx)
+                                $('#scqc_scUser_1').val(dj.scqc[0].scUser)
+                                $('#scqc_scAmount_1').val(dj.scqc[0].scAmount)
+                                /!*$('#scqc_qchd_1').val(dj.scqc[0].qchd)*!/
+                                console.log("清产核对1:" + dj.scqc[0].qchd);
+                                if (dj.scqc[0].qchd == "on"){
+                                    $('#scqc_qchd_1').attr('checked', true)
+                                }
+                                $('#scqc_sj_1').val(dj.scqc[0].sj)
+                                $('#scqc_qc_1').val(dj.scqc[0].qc)
+                                $('#scqc_jcsl_1').val(dj.scqc[0].jcsl)
+                                $('#scqc_date_1').val(dj.scqc[0].date)
+
+                                $('#scqc_gx_2').val(dj.scqc[1].gx)
+                                $('#scqc_scUser_2').val(dj.scqc[1].scUser)
+                                $('#scqc_scAmount_2').val(dj.scqc[1].scAmount)
+                                /!*$('#scqc_qchd_2').val(dj.scqc[1].qchd)*!/
+                                if (dj.scqc[1].qchd == "on"){
+                                    $('#scqc_qchd_2').attr('checked', true)
+                                }
+                                $('#scqc_sj_2').val(dj.scqc[1].sj)
+                                $('#scqc_qc_2').val(dj.scqc[1].qc)
+                                $('#scqc_jcsl_2').val(dj.scqc[1].jcsl)
+                                $('#scqc_date_2').val(dj.scqc[1].date)
+
+                                $('#scqc_gx_3').val(dj.scqc[2].gx)
+                                $('#scqc_scUser_3').val(dj.scqc[2].scUser)
+                                $('#scqc_scAmount_3').val(dj.scqc[2].scAmount)
+                                /!*$('#scqc_qchd_3').val(dj.scqc[2].qchd)*!/
+                                if (dj.scqc[2].qchd == "on"){
+                                    $('#scqc_qchd_3').attr('checked', true)
+                                }
+                                $('#scqc_sj_3').val(dj.scqc[2].sj)
+                                $('#scqc_qc_3').val(dj.scqc[2].qc)
+                                $('#scqc_jcsl_3').val(dj.scqc[2].jcsl)
+                                $('#scqc_date_3').val(dj.scqc[2].date)
+
+                                $('#scqc_gx_4').val(dj.scqc[3].gx)
+                                $('#scqc_scUser_4').val(dj.scqc[3].scUser)
+                                $('#scqc_scAmount_4').val(dj.scqc[3].scAmount)
+                                /!*$('#scqc_qchd_4').val(dj.scqc[3].qchd)*!/
+                                if (dj.scqc[3].qchd == "on"){
+                                    $('#scqc_qchd_4').attr('checked', true)
+                                }
+                                $('#scqc_sj_4').val(dj.scqc[3].sj)
+                                $('#scqc_qc_4').val(dj.scqc[3].qc)
+                                $('#scqc_jcsl_4').val(dj.scqc[3].jcsl)
+                                $('#scqc_date_4').val(dj.scqc[3].date)
+
+                                $('#scqc_gx_5').val(dj.scqc[4].gx)
+                                $('#scqc_scUser_5').val(dj.scqc[4].scUser)
+                                $('#scqc_scAmount_5').val(dj.scqc[4].scAmount)
+                                /!*$('#scqc_qchd_5').val(dj.scqc[4].qchd)*!/
+                                if (dj.scqc[4].qchd == "on"){
+                                    $('#scqc_qchd_5').attr('checked', true)
+                                }
+                                $('#scqc_sj_5').val(dj.scqc[4].sj)
+                                $('#scqc_qc_5').val(dj.scqc[4].qc)
+                                $('#scqc_jcsl_5').val(dj.scqc[4].jcsl)
+                                $('#scqc_date_5').val(dj.scqc[4].date)
+                                // 交接数据------------------------
+                                $('#jjxd_cjNum_1').val(dj.jjxd[0].cjNum)
+                                $('#jjxd_cjUser_1').val(dj.jjxd[0].cjUser)
+                                $('#jjxd_cjAmount_1').val(dj.jjxd[0].cjAmount)
+                                $('#jjxd_cjDate_1').val(dj.jjxd[0].cjDate)
+                                $('#jjxd_cjNum_2').val(dj.jjxd[1].cjNum)
+                                $('#jjxd_cjUser_2').val(dj.jjxd[1].cjUser)
+                                $('#jjxd_cjAmount_2').val(dj.jjxd[1].cjAmount)
+                                $('#jjxd_cjDate_2').val(dj.jjxd[1].cjDate)
+                                $('#jjxd_cjNum_3').val(dj.jjxd[2].cjNum)
+                                $('#jjxd_cjUser_3').val(dj.jjxd[2].cjUser)
+                                $('#jjxd_cjAmount_3').val(dj.jjxd[2].cjAmount)
+                                $('#jjxd_cjDate_3').val(dj.jjxd[2].cjDate)
+                                $('#jjxd_cjNum_4').val(dj.jjxd[3].cjNum)
+                                $('#jjxd_cjUser_4').val(dj.jjxd[3].cjUser)
+                                $('#jjxd_cjAmount_4').val(dj.jjxd[3].cjAmount)
+                                $('#jjxd_cjDate_4').val(dj.jjxd[3].cjDate)
+                                $('#jjxd_cjNum_5').val(dj.jjxd[4].cjNum)
+                                $('#jjxd_cjUser_5').val(dj.jjxd[4].cjUser)
+                                $('#jjxd_cjAmount_5').val(dj.jjxd[4].cjAmount)
+                                $('#jjxd_cjDate_5').val(dj.jjxd[4].cjDate)
+
+                                $('#remark').val(dj.remark);
+                                $('#xdgxjj_cjNum_1').val(dj.xdgxjj[0].cjNum)
+                                $('#xdgxjj_cjNum_2').val(dj.xdgxjj[1].cjNum)
+                                $('#xdgxjj_cjNum_3').val(dj.xdgxjj[2].cjNum)
+
+
+                                // ------------------------------------------
+                                /!*$('#bfhjj_deviceCode').val(dj.bfhjj.deviceCode)
+                                $('#bfhjj_deviceName').val(dj.bfhjj.deviceName)
+                                $('#bfhjj_craftParam_yr1B').val(dj.bfhjj.craftParam.yr1B)
+                                $('#bfhjj_craftParam_yr2B').val(dj.bfhjj.craftParam.yr2B)
+                                $('#bfhjj_craftParam_yr3B').val(dj.bfhjj.craftParam.yr3B)
+                                $('#bfhjj_craftParam_yr2T').val(dj.bfhjj.craftParam.yr2T)
+                                $('#bfhjj_craftParam_yr3T').val(dj.bfhjj.craftParam.yr3T)
+                                $('#bfhjj_craftParam_ltsd').val(dj.bfhjj.craftParam.ltsd)
+                                $('#bfhjj_craftParam_xlwd').val(dj.bfhjj.craftParam.xlwd)
+                                $('#bfhjj_craftParam_gqyl').val(dj.bfhjj.craftParam.gqyl)
+                                $('#bfhjj_craftParam_pwqy').val(dj.bfhjj.craftParam.pwqy)
+                                $('#bfhjj_craftParam_zfqy').val(dj.bfhjj.craftParam.zfqy)
+                                $('#bfhjj_programName').val(dj.bfhjj.programName)
+                                if (dj.bfhjj.programStatus == 1) {
+                                    $('#bfhjj_programStatus').attr('checked', true)
+                                }
+                                $('#bfhjj_produceDate').val(dj.bfhjj.produceDate)
+                                $('#bfhjj_amount').val(dj.bfhjj.amount)
+                                if (dj.bfhjj.qchd == 1) {
+                                    $('#bfhjj_qchd').attr('checked', true)
+                                }
+                                $('#bfhjj_doUser').val(dj.bfhjj.doUser)
+                                $('#bfhjj_sjStatus').val(dj.bfhjj.sjStatus)
+                                $('#bfhjj_sjUser').val(dj.bfhjj.sjUser)
+                                $('#bfhjj_qcUser').val(dj.bfhjj.qcUser)
+                                $('#bfhjj_checkDate').val(dj.bfhjj.checkDate)*!/
+*/
+
+                                for (var i = 0; i < 3; i++) {
+                                    //$('#sbcs_sbmc_' + (i + 1)).val(dj.sbcs[i].sbmc)
+                                    // $('#xdgxjj_cjAmount_' + (i + 1)).val(dj.xdgxjj[i].cjAmount)
+                                    // $('#xdgxjj_cjDate_' + (i + 1)).val(dj.xdgxjj[i].cjDate)
+                                }
+                                //$('#remarks').val(dj.remarks)
+                            }
+                        } else {
+                            layer.alert(res.msg, { icon: 5 })
+                        }
+                    }
+                })
+            }
+            initAjax();
+            $('#onsubmit').on('click', function () {
+                var datajson = {
+                    "area": dd.factory,
+                    "tempParam": "ZJ-F252J",
+                    "RoHS": dd.is_rohs,
+                    "model": dd.model_ver,
+                    "modelName": dd.model_name,
+                    "taskSheetCode": dd.task_sheet_code,
+                    "produceAmount": dd.quantity,
+                    "amount":dd.pcb_quantity,
+                    "changeFlag":dd.pcb_modify_tag,
+                    "pcbCode": dd.pcb_id,
+                    "plateCode": dd.batch_id,
+                    "date":$('#date').val(),
+                    "cjUser":$('#cjUser').val(),
+                    // TODO 9.4
+                    "sbcs": [
+                        {
+                            "sbmc": $('#sbcs_sbmc_1').val(),
+                            "sbbh": $('#sbcs_sbbh_1').val(),
+                            "sbzt": $('#sbcs_sbzt_1').val(),
+                            "gjgyc_yl": $('#sbcs_gjgycs_1_1').val(),
+                            "gjgyc_sd": $('#sbcs_gjgycs_1_2').val(),
+                            "cxmc":$('#sbcs_cxmc_1').val(),
+                            "cxzc":$('#sbcs_cxzc_1').val()
+                        },
+                        {
+                            "sbmc": $('#sbcs_sbmc_2').val(),
+                            "sbbh": $('#sbcs_sbbh_2').val(),
+                            "sbzt": $('#sbcs_sbzt_2').val(),
+                            "gjgyc_yl": $('#sbcs_gjgycs_2_1').val(),
+                            "gjgyc_sd": $('#sbcs_gjgycs_2_2').val(),
+                            "cxmc":$('#sbcs_cxmc_2').val(),
+                            "cxzc":$('#sbcs_cxzc_2').val()
+                        },
+                        {
+                            //"sbmc": $('#sbcs_sbmc_3').val(),
+                            "sbbh": $('#sbcs_sbbh_3').val(),
+                            "sbzt": $('#sbcs_sbzt_3').val(),
+                            "gjgyc_yl": $('#sbcs_gjgycs_3_1').val(),
+                            "gjgyc_sd": $('#sbcs_gjgycs_3_2').val(),
+                            "cxmc":$('#sbcs_cxmc_3').val(),
+                            "cxzc":$('#sbcs_cxzc_3').val()
+                        },
+                        {
+                            "sbmc": $('#sbcs_sbmc_4').val(),
+                            "sbbh": $('#sbcs_sbbh_4').val(),
+                            "sbzt": $('#sbcs_sbzt_4').val(),
+                            "gjgyc_yl": $('#sbcs_gjgycs_4_1').val(),
+                            //"gjgyc_sd": $('#sbcs_gjgycs_4_2').val(),
+                            "cxmc":$('#sbcs_cxmc_4').val(),
+                            "cxzc":$('#sbcs_cxzc_4').val()
+                        },
+                        {
+                            "sbmc": $('#sbcs_sbmc_5').val(),
+                            "sbbh": $('#sbcs_sbbh_5').val(),
+                            "sbzt": $('#sbcs_sbzt_5').val(),
+                            "gjgyc_yl": $('#sbcs_gjgycs_5_1').val(),
+                            //"gjgyc_sd": $('#sbcs_gjgycs_5_2').val(),
+                            "cxmc":$('#sbcs_cxmc_5').val(),
+                            "cxzc":$('#sbcs_cxzc_5').val()
+                        },
+                        {
+                            "sbmc": $('#sbcs_sbmc_6').val(),
+                            "sbbh": $('#sbcs_sbbh_6').val(),
+                            "sbzt": $('#sbcs_sbzt_6').val(),
+                            "gjgyc_yl": $('#sbcs_gjgycs_6_1').val(),
+                            //"gjgyc_sd": $('#sbcs_gjgycs_6_2').val(),
+                            "cxmc":$('#sbcs_cxmc_6').val(),
+                            "cxzc":$('#sbcs_cxzc_6').val()
+                        },
+                        {
+                            "sbmc": $('#sbcs_sbmc_7').val(),
+                            "sbbh": $('#sbcs_sbbh_7').val(),
+                            "sbzt": $('#sbcs_sbzt_7').val(),
+                            "gjgyc_yl": $('#sbcs_gjgycs_7_1').val(),
+                            //"gjgyc_sd": $('#sbcs_gjgycs_7_2').val(),
+                            "cxmc":$('#sbcs_cxmc_7').val(),
+                            "cxzc":$('#sbcs_cxzc_7').val()
+                        },
+                        {
+                            "sbmc": $('#sbcs_sbmc_8').val(),
+                            "sbbh": $('#sbcs_sbbh_8').val(),
+                            "sbzt": $('#sbcs_sbzt_8').val(),
+                            "gjgycs":{
+                                "wq1":$('#sbcs_gjgycs_wq1').val(),
+                                "wq2":$('#sbcs_gjgycs_wq2').val(),
+                                "wq3":$('#sbcs_gjgycs_wq3').val(),
+                                "wq4":$('#sbcs_gjgycs_wq4').val(),
+                                "wq5":$('#sbcs_gjgycs_wq5').val(),
+                                "wq6":$('#sbcs_gjgycs_wq6').val(),
+                                "wq7":$('#sbcs_gjgycs_wq7').val(),
+                                "wq8":$('#sbcs_gjgycs_wq8').val(),
+                                "sd":$('#sbcs_gjgycs_sd').val()
+                            },
+                            "cxmc":$('#sbcs_cxmc_8').val(),
+                            "cxzc":$('#sbcs_cxzc_8').val()
+
+                        },
+                        {
+                            "sbmc": $('#sbcs_sbmc_9').val(),
+                            "sbbh": $('#sbcs_sbbh_9').val(),
+                            "sbzt": $('#sbcs_sbzt_9').val(),
+                            "gjgyc_yl": $('#sbcs_gjgycs_9_1').val(),
+                            "cxmc":$('#sbcs_cxmc_9').val(),
+                            "cxzc":$('#sbcs_cxzc_9').val()
+                        },
+
+                    ],
+                    "sj":{
+                        "date":"20.01.01",
+                        "sjxq":[
+                            {
+                                "scnr":$('#sj_sjxq_scnr1').val(),
+                                "bc":$('#sj_sjxq_bc1').val(),
+                                "amount":$('#sj_sjxq_amount1').val(),
+                                "sjUser":$('#sj_sjxq_sjUser1').val(),
+                                "czUser":$('#sj_sjxq_czUser1').val()
+                            },
+                            {
+                                "scnr":$('#sj_sjxq_scnr1').val(),
+                                "bc":$('#sj_sjxq_bc2').val(),
+                                "amount":$('#sj_sjxq_amount2').val(),
+                                "sjUser":$('#sj_sjxq_sjUser2').val(),
+                                "czUser":$('#sj_sjxq_czUser2').val()
+                            },
+                            {
+                                "scnr":$('#sj_sjxq_scnr1').val(),
+                                "bc":$('#sj_sjxq_bc3').val(),
+                                "amount":$('#sj_sjxq_amount3').val(),
+                                "sjUser":$('#sj_sjxq_sjUser3').val(),
+                                "czUser":$('#sj_sjxq_czUser3').val()
+                            },
+                            {
+                                "scnr":$('#sj_sjxq_scnr2').val(),
+                                "bc":$('#sj_sjxq_bc4').val(),
+                                "amount":$('#sj_sjxq_amount4').val(),
+                                "sjUser":$('#sj_sjxq_sjUser4').val(),
+                                "czUser":$('#sj_sjxq_czUser4').val()
+                            },
+                            {
+                                "scnr":$('#sj_sjxq_scnr2').val(),
+                                "bc":$('#sj_sjxq_bc5').val(),
+                                "amount":$('#sj_sjxq_amount5').val(),
+                                "sjUser":$('#sj_sjxq_sjUser5').val(),
+                                "czUser":$('#sj_sjxq_czUser5').val()
+                            },
+                            {
+                                "scnr":$('#sj_sjxq_scnr2').val(),
+                                "bc":$('#sj_sjxq_bc6').val(),
+                                "amount":$('#sj_sjxq_amount6').val(),
+                                "sjUser":$('#sj_sjxq_sjUser6').val(),
+                                "czUser":$('#sj_sjxq_czUser6').val()
+                            },
+                            {
+                                "scnr":$('#sj_sjxq_scnr2').val(),
+                                "bc":$('#sj_sjxq_bc7').val(),
+                                "amount":$('#sj_sjxq_amount7').val(),
+                                "sjUser":$('#sj_sjxq_sjUser7').val(),
+                                "czUser":$('#sj_sjxq_czUser7').val()
+                            },
+                            {
+                                "scnr":$('#sj_sjxq_scnr3').val(),
+                                "bc":$('#sj_sjxq_bc8').val(),
+                                "amount":$('#sj_sjxq_amount8').val(),
+                                "sjUser":$('#sj_sjxq_sjUser8').val(),
+                                "czUser":$('#sj_sjxq_czUser8').val()
+                            },
+                            {
+                                "scnr":$('#sj_sjxq_scnr3').val(),
+                                "bc":$('#sj_sjxq_bc9').val(),
+                                "amount":$('#sj_sjxq_amount9').val(),
+                                "sjUser":$('#sj_sjxq_sjUser9').val(),
+                                "czUser":$('#sj_sjxq_czUser9').val()
+                            },
+                            {
+                                "scnr":$('#sj_sjxq_scnr3').val(),
+                                "bc":$('#sj_sjxq_bc10').val(),
+                                "amount":$('#sj_sjxq_amount10').val(),
+                                "sjUser":$('#sj_sjxq_sjUser10').val(),
+                                "czUser":$('#sj_sjxq_czUser10').val()
+                            },
+                            {
+                                "scnr":$('#sj_sjxq_scnr4').val(),
+                                "bc":$('#sj_sjxq_bc11').val(),
+                                "amount":$('#sj_sjxq_amount11').val(),
+                                "sjUser":$('#sj_sjxq_sjUser11').val(),
+                                "czUser":$('#sj_sjxq_czUser11').val()
+                            },
+                            {
+                                "scnr":$('#sj_sjxq_scnr4').val(),
+                                "bc":$('#sj_sjxq_bc12').val(),
+                                "amount":$('#sj_sjxq_amount12').val(),
+                                "sjUser":$('#sj_sjxq_sjUser12').val(),
+                                "czUser":$('#sj_sjxq_czUser12').val()
+                            },
+
+                            // {
+                            //     "scnr":"回流焊接",
+                            //     "bc":"早",
+                            //     "amount":"200",
+                            //     "sjUser":"陈XX",
+                            //     "czUser":"张XX"
+                            // },
+                            // {
+                            //     "scnr":"QC",
+                            //     "bc":"早",
+                            //     "amount":"200",
+                            //     "sjUser":"陈XX",
+                            //     "czUser":"张XX"
+                            // }
+                        ]
+                    },
+
+                    // TODO 9.4_____________
+                    /*"cjsdgx": [
+                        {
+                            "cjUser": $('#cjsdgx_cjUser_1').val(),
+                            "cjNum": $('#cjsdgx_cjNum_1').val(),
+                            "cjAmount": $('#cjsdgx_cjAmount_1').val(),
+                            "cjDate": $('#cjsdgx_cjDate_1').val()
+                        },
+                        {
+                            "cjUser": $('#cjsdgx_cjUser_2').val(),
+                            "cjNum": $('#cjsdgx_cjNum_2').val(),
+                            "cjAmount": $('#cjsdgx_cjAmount_2').val(),
+                            "cjDate": $('#cjsdgx_cjDate_2').val()
+                        },
+                        {
+                            "cjUser": $('#cjsdgx_cjUser_3').val(),
+                            "cjNum": $('#cjsdgx_cjNum_3').val(),
+                            "cjAmount": $('#cjsdgx_cjAmount_3').val(),
+                            "cjDate": $('#cjsdgx_cjDate_3').val()
+                        }
+                    ],
+                    "kzsx": [
+                        {
+                            "zxUser": $('#kzsx_zxUser').val(),
+                            "qrUser": $('#kzsx_qrUser').val(),
+                            "date": $('#kzsx_date').val()
+                        },
+                        // {
+                        //   "zxUser": "李XX",
+                        //   "qrUser": "张XX",
+                        //   "date": "20.01.02"
+                        // }
+                    ],
+
+                    // todo______________
+                    "tjz": [
+                        {
+                            "scUser": $('#tjz_scUser_1').val(),
+                            "qcUser": $('#tjz_qcUser_1').val(),
+                            "date": $('#tjz_date_1').val()
+                        },
+                        {
+                            "scUser": $('#tjz_scUser_2').val(),
+                            "qcUser": $('#tjz_qcUser_2').val(),
+                            "date": $('#tjz_date_2').val()
+                        },
+                        {
+                            "scUser": $('#tjz_scUser_3').val(),
+                            "qcUser": $('#tjz_qcUser_3').val(),
+                            "date": $('#tjz_date_3').val()
+                        }
+                    ],
+                    "zpgj": [
+                        {
+                            "scUser": $('#zpgj_scUser_1').val(),
+                            "qchdUser": $('#zpgj_qchdUser_1').val(),
+                            "qchs": $('#zpgj_qchs_1').val(),
+                            "date": $('#zpgj_date_1').val()
+                        },
+                        {
+                            "scUser": $('#zpgj_scUser_2').val(),
+                            "qchdUser": $('#zpgj_qchdUser_2').val(),
+                            "qchs": $('#zpgj_qchs_2').val(),
+                            "date": $('#zpgj_date_2').val()
+                        },
+                        {
+                            "scUser": $('#zpgj_scUser_3').val(),
+                            "qchdUser": $('#zpgj_qchdUser_3').val(),
+                            "qchs": $('#zpgj_qchs_3').val(),
+                            "date": $('#zpgj_date_3').val()
+                        }
+                    ],
+                    "sc": {
+                        "plateAmount": $('#sc_plateAmount').val(),
+                        "sjStatue": "合格",
+                        "qcUser": "方XX",
+                        "date": "20.01.02",
+                        "record": [
+                            {
+                                "num": "1",
+                                "scUser": $('#sc_record_scUser_1').val(),
+                                "qchd": $('#sc_record_qchd_1').val()
+                            },
+                            {
+                                "num": "2",
+                                "scUser": $('#sc_record_scUser_2').val(),
+                                "qchd": $('#sc_record_qchd_2').val()
+                            },
+                            {
+                                "num": "3",
+                                "scUser": $('#sc_record_scUser_3').val(),
+                                "qchd": $('#sc_record_qchd_3').val()
+                            },
+                            {
+                                "num": "4",
+                                "scUser": $('#sc_record_scUser_4').val(),
+                                "qchd": $('#sc_record_qchd_4').val()
+                            },
+                            {
+                                "num": "5",
+                                "scUser": $('#sc_record_scUser_5').val(),
+                                "qchd": $('#sc_record_qchd_5').val()
+                            },
+                            {
+                                "num": "6",
+                                "scUser": $('#sc_record_scUser_6').val(),
+                                "qchd": $('#sc_record_qchd_6').val()
+                            },
+                            {
+                                "num": "7",
+                                "scUser": $('#sc_record_scUser_7').val(),
+                                "qchd": $('#sc_record_qchd_7').val()
+                            },
+                            {
+                                "num": "8",
+                                "scUser": $('#sc_record_scUser_8').val(),
+                                "qchd": $('#sc_record_qchd_8').val()
+                            },
+                            {
+                                "num": "9",
+                                "scUser": $('#sc_record_scUser_9').val(),
+                                "qchd": $('#sc_record_qchd_9').val()
+                            },
+                            {
+                                "num": "10",
+                                "scUser": $('#sc_record_scUser_10').val(),
+                                "qchd": $('#sc_record_qchd_10').val()
+                            },
+                            {
+                                "num": "11",
+                                "scUser": $('#sc_record_scUser_11').val(),
+                                "qchd": $('#sc_record_qchd_11').val()
+                            },
+                            {
+                                "num": "12",
+                                "scUser": $('#sc_record_scUser_12').val(),
+                                "qchd": $('#sc_record_qchd_12').val()
+                            },
+                            {
+                                "num": "13",
+                                "scUser": $('#sc_record_scUser_13').val(),
+                                "qchd": $('#sc_record_qchd_13').val()
+                            },
+                            {
+                                "num": "14",
+                                "scUser": $('#sc_record_scUser_14').val(),
+                                "qchd": $('#sc_record_qchd_14').val()
+                            },
+                            {
+                                "num": "15",
+                                "scUser": $('#sc_record_scUser_15').val(),
+                                "qchd": $('#sc_record_qchd_15').val()
+                            },
+                            {
+                                "num": "16",
+                                "scUser": $('#sc_record_scUser_16').val(),
+                                "qchd": $('#sc_record_qchd_16').val()
+                            },
+                            {
+                                "num": "17",
+                                "scUser": $('#sc_record_scUser_17').val(),
+                                "qchd": $('#sc_record_qchd_17').val()
+                            },
+                            {
+                                "num": "18",
+                                "scUser": $('#sc_record_scUser_18').val(),
+                                "qchd": $('#sc_record_qchd_18').val()
+                            },
+                            {
+                                "num": "19",
+                                "scUser": $('#sc_record_scUser_19').val(),
+                                "qchd": $('#sc_record_qchd_19').val()
+                            },
+                            {
+                                "num": "20",
+                                "scUser": $('#sc_record_scUser_20').val(),
+                                "qchd": $('#sc_record_qchd_20').val()
+                            }
+                        ]
+                    },
+                    // todo
+                    "sbcs":
+                        {
+                            "scnr": $('#sbcs_scnr').val(),
+                            "sbmc": $('#sbcs_sbmc').val(),
+                            "sbbh": $('#sbcs_sbbh').val(),
+                            "gjgycs":
+                                {
+                                    "gqyl": $('#sbcs_gjgycs_gqyl').val(),
+                                    "htwd": $('#sbcs_gjgycs_htwd').val(),
+                                    "cxmc": $('#sbcs_gjgycs_cxmc').val(),
+                                    "cxzc": $('#sbcs_gjgycs_cxzc').val(),
+                                    "czUser": $('#sbcs_gjgycs_czUser').val()
+                                }
+
+                        },
+                    // {
+                    //     "scnr": "1",
+                    //     "sbmc": "2",
+                    //     "sbbh": "3",
+                    //     "gjgycs": [
+                    //         {
+                    //             "gqyl": "4_1",
+                    //             "htwd": "4_2",
+                    //             "cxmc": "4_3",
+                    //             "cxzc": "4_4",
+                    //             "czUser": "4_5"
+                    //         }
+                    //     ],
+                    // },
+
+                    "scqc": [
+                        {
+                            "gx": $('#scqc_gx_1').val(),
+                            "scUser": $('#scqc_scUser_1').val(),
+                            "scAmount": $('#scqc_scAmount_1').val(),
+                            "qchd": $('#scqc_qchd_1').val(),
+                            "sj": $('#scqc_sj_1').val(),
+                            "qc": $('#scqc_qc_1').val(),
+                            "jcsl": $('#scqc_jcsl_1').val(),
+                            "date": $('#scqc_date_1').val()
+                        },
+                        {
+                            "gx": $('#scqc_gx_2').val(),
+                            "scUser": $('#scqc_scUser_2').val(),
+                            "scAmount": $('#scqc_scAmount_2').val(),
+                            "qchd": $('#scqc_qchd_2').val(),
+                            "sj": $('#scqc_sj_2').val(),
+                            "qc": $('#scqc_qc_2').val(),
+                            "jcsl": $('#scqc_jcsl_2').val(),
+                            "date": $('#scqc_date_2').val()
+                        },
+                        {
+                            "gx": $('#scqc_gx_3').val(),
+                            "scUser": $('#scqc_scUser_3').val(),
+                            "scAmount": $('#scqc_scAmount_3').val(),
+                            "qchd": $('#scqc_qchd_3').val(),
+                            "sj": $('#scqc_sj_3').val(),
+                            "qc": $('#scqc_qc_3').val(),
+                            "jcsl": $('#scqc_jcsl_3').val(),
+                            "date": $('#scqc_date_3').val()
+                        },
+                        {
+                            "gx": $('#scqc_gx_4').val(),
+                            "scUser": $('#scqc_scUser_4').val(),
+                            "scAmount": $('#scqc_scAmount_4').val(),
+                            "qchd": $('#scqc_qchd_4').val(),
+                            "sj": $('#scqc_sj_4').val(),
+                            "qc": $('#scqc_qc_4').val(),
+                            "jcsl": $('#scqc_jcsl_4').val(),
+                            "date": $('#scqc_date_4').val()
+                        },
+                        {
+                            "gx": $('#scqc_gx_5').val(),
+                            "scUser": $('#scqc_scUser_5').val(),
+                            "scAmount": $('#scqc_scAmount_5').val(),
+                            "qchd": $('#scqc_qchd_5').val(),
+                            "sj": $('#scqc_sj_5').val(),
+                            "qc": $('#scqc_qc_5').val(),
+                            "jcsl": $('#scqc_jcsl_5').val(),
+                            "date": $('#scqc_date_5').val()
+                        }
+
+                    ],
+
+                    "jjxd": [
+                        {
+                            "cjNum": $('#jjxd_cjNum_1').val(),
+                            "cjUser": $('#jjxd_cjUser_1').val(),
+                            "cjAmount": $('#jjxd_cjAmount_1').val(),
+                            "cjDate": $('#jjxd_cjDate_1').val(),
+                        },
+                        {
+                            "cjNum": $('#jjxd_cjNum_2').val(),
+                            "cjUser": $('#jjxd_cjUser_2').val(),
+                            "cjAmount": $('#jjxd_cjAmount_2').val(),
+                            "cjDate": $('#jjxd_cjDate_2').val(),
+                        },
+                        {
+                            "cjNum": $('#jjxd_cjNum_3').val(),
+                            "cjUser": $('#jjxd_cjUser_3').val(),
+                            "cjAmount": $('#jjxd_cjAmount_3').val(),
+                            "cjDate": $('#jjxd_cjDate_3').val(),
+                        },
+                        {
+                            "cjNum": $('#jjxd_cjNum_4').val(),
+                            "cjUser": $('#jjxd_cjUser_4').val(),
+                            "cjAmount": $('#jjxd_cjAmount_4').val(),
+                            "cjDate": $('#jjxd_cjDate_4').val(),
+                        },
+                        {
+                            "cjNum": $('#jjxd_cjNum_5').val(),
+                            "cjUser": $('#jjxd_cjUser_5').val(),
+                            "cjAmount": $('#jjxd_cjAmount_5').val(),
+                            "cjDate": $('#jjxd_cjDate_5').val(),
+                        }
+                    ],
+                    "remark": $('#remark').val(),
+
+                    "xdgxjj": [
+                        {
+                            "cjNum": $('#xdgxjj_cjNum_1').val()
+                        },
+                        {
+                            "cjNum": $('#xdgxjj_cjNum_2').val()
+                        },
+                        {
+                            "cjNum": $('#xdgxjj_cjNum_3').val()
+                        },
+
+                    ],
+
+                    "bfhjj": {
+                        "isUser": $('#bfhjj_isUser').val(),
+                        "deviceCode": $('#bfhjj_deviceCode').val(),
+                        "deviceName": $('#bfhjj_deviceName').val(),
+                        "programName": $('#bfhjj_programName').val(),
+                        "programStatus": $('#bfhjj_programStatus').val(),
+                        "produceDate": $('#bfhjj_produceDate').val(),
+                        "amount": $('#bfhjj_amount').val(),
+                        "qchd": $('#bfhjj_qchd').val(),
+                        "doUser": $('#bfhjj_doUser').val(),
+                        "sjStatus": $('#bfhjj_sjStatus').val(),
+                        "sjUser": $('#bfhjj_sjUser').val(),
+                        "qcUser": $('#bfhjj_qcUser').val(),
+                        "checkDate": $('#bfhjj_checkDate').val(),
+                        "craftParam": {
+                            "yr1B": $('#bfhjj_craftParam_yr1B').val(),
+                            "yr2B": $('#bfhjj_craftParam_yr2B').val(),
+                            "yr3B": $('#bfhjj_craftParam_yr3B').val(),
+                            "yr4B": "",
+                            "yr2T": $('#bfhjj_craftParam_yr2T').val(),
+                            "yr3T": $('#bfhjj_craftParam_yr3T').val(),
+                            "ltsd": $('#bfhjj_craftParam_ltsd').val(),
+                            "xlwd": $('#bfhjj_craftParam_xlwd').val(),
+                            "gqyl": $('#bfhjj_craftParam_gqyl').val(),
+                            "pwqy": $('#bfhjj_craftParam_pwqy').val(),
+                            "zfqy": $('#bfhjj_craftParam_zfqy').val()
+                        }
+                    },*/
+
+                    /*
+                                    "xdgxjj": [
+                                        {
+                                            "cjUser": $('#xdgxjj_cjUser_1').val(),
+                                            "cjNum": "1",
+                                            "cjAmount": $('#xdgxjj_cjAmount_1').val(),
+                                            "cjDate": $('#xdgxjj_cjDate_1').val()
+                                        },
+                                        {
+                                            "cjUser": $('#xdgxjj_cjUser_2').val(),
+                                            "cjNum": "2",
+                                            "cjAmount": $('#xdgxjj_cjAmount_2').val(),
+                                            "cjDate": $('#xdgxjj_cjDate_2').val()
+                                        },
+                                        {
+                                            "cjUser": $('#xdgxjj_cjUser_3').val(),
+                                            "cjNum": "3",
+                                            "cjAmount": $('#xdgxjj_cjAmount_3').val(),
+                                            "cjDate": $('#xdgxjj_cjDate_3').val()
+                                        }
+                                    ],
+                    */
+                    //"remarks": $('#remarks').val()
+                }
+                console.log(datajson)
+                $.ajax({
+                    url: '/currentReport/addCurrentReport',
+                    type: "post",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        pcb_task_code: dd.pcb_task_code,
+                        json_data: JSON.stringify(datajson),
+                        report_type: '1'
+                    }),
+                    contentType: "application/json;charset=UTF-8",
+                    success: function (res) {
+                        if (res.code === 200) {
+                            var initajax = layer.alert(res.msg, { icon: 1 }, function () {
+                                initAjax()
+                                layer.close(initajax);
+                            })
+                        } else {
+                            layer.alert(res.msg, { icon: 5 })
+                        }
+                    }
+                })
+            })
+        })
+
     </script>
 </body>
 
