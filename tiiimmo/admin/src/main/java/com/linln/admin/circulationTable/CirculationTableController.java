@@ -25,4 +25,7 @@ public class CirculationTableController {
     //    流通表1反面
     @GetMapping("/circulation1_1")
     public String circulation1_1(){ return "/circulationTable/circulation1_1";}
+    //    电路板调试流通表正面
+    @GetMapping("/f308b")
+    public String f308b(){ return "/circulationTable/f308b";}
 }

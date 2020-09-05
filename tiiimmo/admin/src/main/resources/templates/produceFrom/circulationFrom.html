@@ -114,13 +114,17 @@
                         , { field: 'task_sheet_code', title: '生产批次', sort: true, minWidth: 140 }
                         , { field: 'pcb_id', title: '规格型号', sort: true, minWidth: 200 }
                         , { field: 'pcb_name', title: '物料名称', sort: true, minWidth: 300 }
-                        , { field: 'pcb_quantity', title: '计划量', sort: true, minWidth: 140 }
-                        , { field: 'quantity}', title: '完成量', sort: true, minWidth: 120 }
+                        // , { field: 'pcb_quantity', title: '计划量', sort: true, minWidth: 140 }
+                        // , { field: 'quantity}', title: '完成量', sort: true, minWidth: 120 }
                         , {
-                            title: '流通表', fixed: 'right', minWidth: 150, align: 'center', templet: function (d) {
+                            title: '流通表', fixed: 'right', minWidth: 450, align: 'center', templet: function (d) {
                                 return '<button lay-event="tiepian" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#f37b1d" type="button">贴片</button>'
+                                    + '<button lay-event="tiepianbm" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#f37b1d" type="button">贴片背面</button>'
                                     + '<button lay-event="zhengxing" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#39b54a" type="button">整形</button>'
+                                    + '<button lay-event="zhengxingbm" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#39b54a" type="button">整形背面</button>'
                                     + '<button lay-event="houhan" class="layui-btn  layui-btn-xs" style="margin-right:6px;" type="button">后焊</button>'
+                                    + '<button lay-event="houhanbm" class="layui-btn  layui-btn-xs" style="margin-right:6px;" type="button">后焊背面</button>'
+                                    + '<button lay-event="tiaoshi" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#b52aef" type="button">电路板调试</button>'
                             }
                         }
                     ]
@@ -139,14 +143,14 @@
             new Enter('pcbName', function () { $('#search').click() });
             table.on('tool(table)', function (obj) {
                 var data = obj.data;
-                console.log("data===",data)
+                console.log("data===", data)
                 switch (obj.event) {
                     case 'tiepian':
                         layer.open({
                             title: '贴片流通表',
                             type: 2,
                             area: ['1350px', '96%'],
-                            content: '/circulationTable/circulation4?id=1&pcb_task_code='+data.pcb_task_code,
+                            content: '/circulationTable/circulation4?id=3&pcb_task_code=' + data.pcb_task_code,
                             success: function (layero, index) {
                                 var body = layer.getChildFrame('body', index);
                                 var d = JSON.stringify(data)
@@ -154,17 +158,33 @@
                             }
                         });
                         break;
+                    case 'tiepianbm':
+                        layer.open({
+                            title: '贴片背面流通表',
+                            type: 2,
+                            area: ['1350px', '96%'],
+                            content: '/circulationTable/circulation4_1?id=301&pcb_task_code=' + data.pcb_task_code
+                        });
+                        break;
                     case 'zhengxing':
                         layer.open({
                             title: '整形流通表',
                             type: 2,
-                            area: ['1000px', '96%'],
-                            content: '/circulationTable/circulation2?id=2&pcb_task_code='+data.pcb_task_code,
+                            area: ['1030px', '96%'],
+                            content: '/circulationTable/circulation2?id=2&pcb_task_code=' + data.pcb_task_code,
                             success: function (layero, index) {
                                 var body = layer.getChildFrame('body', index);
                                 var d = JSON.stringify(data)
                                 body.contents().find("input[name='data']").val(d);
                             }
+                        });
+                        break;
+                    case 'zhengxingbm':
+                        layer.open({
+                            title: '整形背面流通表',
+                            type: 2,
+                            area: ['1000px', '96%'],
+                            content: '/circulationTable/circulation2_1?id=201&pcb_task_code=' + data.pcb_task_code
                         });
                         break;
                     case 'houhan':
@@ -172,7 +192,28 @@
                             title: '后焊流通表',
                             type: 2,
                             area: ['850px', '96%'],
-                            content: '/circulationTable/circulation1?id=2&pcb_task_code='+data.pcb_task_code,
+                            content: '/circulationTable/circulation1?id=1&pcb_task_code=' + data.pcb_task_code,
+                            success: function (layero, index) {
+                                var body = layer.getChildFrame('body', index);
+                                var d = JSON.stringify(data)
+                                body.contents().find("input[name='data']").val(d);
+                            }
+                        });
+                        break;
+                    case 'houhanbm':
+                        layer.open({
+                            title: '后焊背面流通表',
+                            type: 2,
+                            area: ['850px', '96%'],
+                            content: '/circulationTable/circulation1_1?id=101&pcb_task_code=' + data.pcb_task_code
+                        });
+                        break;
+                    case 'tiaoshi':
+                        layer.open({
+                            title: '电路板调试流通表',
+                            type: 2,
+                            area: ['1100px', '96%'],
+                            content: '/circulationTable/f308b?id=4&pcb_task_code=' + data.pcb_task_code,
                             success: function (layero, index) {
                                 var body = layer.getChildFrame('body', index);
                                 var d = JSON.stringify(data)
