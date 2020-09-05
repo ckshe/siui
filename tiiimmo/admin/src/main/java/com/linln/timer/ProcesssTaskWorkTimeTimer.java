@@ -3,6 +3,7 @@ package com.linln.timer;
 import com.linln.admin.base.domain.Device;
 import com.linln.admin.base.repository.DeviceRepository;
 import com.linln.admin.produce.domain.ProcessTask;
+import com.linln.admin.produce.domain.ProcessTaskHandover;
 import com.linln.admin.produce.domain.ProcessTaskStatusHistory;
 import com.linln.admin.produce.domain.UserDeviceHistory;
 import com.linln.admin.produce.repository.DeviceStatusRecordRepository;
@@ -58,7 +59,7 @@ public class ProcesssTaskWorkTimeTimer {
             Integer workTime = 0;
             BigDecimal tempWorkTime = p.getWork_time();
             for(ProcessTaskStatusHistory history : historyListist){
-                if(history.getProcess_task_status().contains("进行中")||history.getProcess_task_status().contains("生产中")){
+                if(history.getProcess_task_status().contains("生产中")){
                     if(history.getEnd_time()!=null){
                         workTime = workTime + history.getContinue_time();
                     }else {
@@ -135,6 +136,45 @@ public class ProcesssTaskWorkTimeTimer {
     @Scheduled(cron = "0 0 0/1 * * ?")
     public void autoUpdateErp(){
         pcbTaskService.getPcbTaskFromERP(null);
+    }
+
+
+    //每30分钟检测是否有变动
+    @Scheduled(cron = "0 0/30 * * * ?")
+    public void autoPauseProcessTaskStatus(){
+        List<ProcessTask> processTaskList = processTaskRepository.findByProducing();
+        for(ProcessTask task : processTaskList){
+            Integer lastAmount = task.getLast_amount()==null?0:task.getLast_amount();
+            if(!lastAmount.equals(task.getAmount_completed())){
+                task.setLast_amount(task.getAmount_completed());
+                processTaskRepository.save(task);
+            }else {
+                //相等则改为暂停状态
+                task.setProcess_task_status("暂停");
+                ProcessTaskStatusHistory history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(task.getProcess_task_code());
+                Date today = new Date();
+
+                history.setEnd_time(today);
+                Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
+                history.setContinue_time(Integer.parseInt(cha+""));
+                processTaskStatusHistoryRepository.save(history);
+                //新增
+                ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
+                newRecord.setContinue_time(0);
+                newRecord.setStart_time(today);
+                newRecord.setDevice_code(task.getDevice_code());
+                newRecord.setDevice_name(task.getDevice_name());
+                newRecord.setProcess_task_status("暂停");
+                newRecord.setProcess_name(task.getProcess_name());
+                newRecord.setProcess_task_code(task.getProcess_task_code());
+                //newRecord.setEnd_time(today);
+
+                processTaskStatusHistoryRepository.save(newRecord);
+
+            }
+
+        }
+
     }
 
 

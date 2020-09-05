@@ -80,6 +80,8 @@ public interface PcbTaskService {
 
     ResultVo settlementDetailCount(PcbTaskReq pcbTaskReq);
 
+    ResultVo settlementDetailCountByList(List<PcbTaskReq> pcbTaskReqList);
+
     ResultVo countProcessTaskAmount(PcbTaskReq pcbTaskReq);
 
     ResultVo tempChangeTaskrocess(PcbTaskReq pcbTaskReq);
