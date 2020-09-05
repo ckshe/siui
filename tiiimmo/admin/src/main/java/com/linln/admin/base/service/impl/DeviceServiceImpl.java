@@ -93,7 +93,7 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public ResultVo getDeviceByProcessType() {
 
-        StringBuffer sql = new StringBuffer("SELECT device_type FROM base_device GROUP BY device_type");
+        StringBuffer sql = new StringBuffer("SELECT device_type FROM base_device GROUP BY device_type order by device_type desc");
         List<Map<String, Object>> typeList = jdbcTemplate.queryForList(sql.toString());
         List<Map<String,Object>> result = new ArrayList<>();
         for(int i = 0;i<typeList.size();i++){
@@ -103,7 +103,7 @@ public class DeviceServiceImpl implements DeviceService {
                     "'");
             if(type==null){
                 deviceListByTypeSql = new StringBuffer("SELECT device_code+'\\'+device_name as title,id ,device_code,device_name from base_device WHERE device_type is null ");
-                type = "other";
+                type = "OTHER";
             }
             List<Map<String, Object>> mapList = jdbcTemplate.queryForList(deviceListByTypeSql.toString());
             Map<String,Object> map = new HashMap<>();

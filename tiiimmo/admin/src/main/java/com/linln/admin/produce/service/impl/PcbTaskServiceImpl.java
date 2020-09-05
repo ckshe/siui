@@ -1458,7 +1458,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         String todaystr = DateUtil.date2String(today,"");
         StringBuffer sql = new StringBuffer("SELECT\n" +
                 "\tt1.*,\n" +
-                "\tt2.pcb_id,\n" +
+                "\tt2.pcb_id,t1.multiple,\n" +
                 "\tt2.feeding_task_code,\n" +
                 "\tt2.model_name,\n" +
                 "\tt2.batch_id ,t2.pcb_plate_id,\n" +
@@ -2088,6 +2088,139 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }
 
         processTaskRepository.save(processTask);
+
+        return ResultVoUtil.success("操作成功");
+    }
+
+
+    @Override
+    @Transactional
+    public ResultVo settlementDetailCountByList(List<PcbTaskReq> pcbTaskReqList) {
+        //记录工序任务当天日计划数量，统计并反写入工序计划，低于总计划数量则暂停，否则结束，新增操作记录
+        Date today = new Date();
+        String todayStr = DateUtil.date2String(today,"");
+        for(PcbTaskReq pcbTaskReq : pcbTaskReqList){
+
+            ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
+            ProcessTaskDetail detail = processTaskDetailRepositoty.findAllByProcess_task_codeAndPlan_day_time(processTask.getProcess_task_code(), todayStr);
+            detail.setFinish_count(pcbTaskReq.getAmountCompleted());
+            boolean deviceDetailFinishFlag = false;
+            if(processTask.getCount_type()==1){
+                ProcessTaskDetailDevice detailDevice = processTaskDetailDeviceRepository.findByTaskCodeAndDayTimeAndDeviceCode1(processTask.getProcess_task_code(),todayStr,pcbTaskReq.getDeviceCode());
+                detailDevice.setFinish_count(pcbTaskReq.getAmountCompleted());
+                if(detailDevice.getFinish_count()>=detailDevice.getPlan_count()){
+                    deviceDetailFinishFlag = true;
+                    detailDevice.setDevice_detail_status("已完成");
+                    ProcessTaskStatusHistory history = processTaskStatusHistoryRepository.findByProcessTaskCodeAndDeviceLastRecord(processTask.getProcess_task_code(),pcbTaskReq.getDeviceCode());
+                    history.setEnd_time(today);
+                    Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
+                    history.setContinue_time(Integer.parseInt(cha+""));
+                    processTaskStatusHistoryRepository.save(history);
+                    //新增
+                    ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
+                    newRecord.setStart_time(today);
+                    newRecord.setContinue_time(0);
+                    newRecord.setDevice_code(pcbTaskReq.getDeviceCode());
+                    newRecord.setProcess_task_status("已完成");
+                    //newRecord.setDevice_name(processTask.getDevice_name());
+                    newRecord.setProcess_task_code(processTask.getProcess_task_code());
+                    newRecord.setProcess_name(processTask.getProcess_name());
+                    newRecord.setEnd_time(today);
+                    processTaskStatusHistoryRepository.save(newRecord);
+
+                }
+                processTaskDetailDeviceRepository.save(detailDevice);
+                List<ProcessTaskDetailDevice> detailDeviceList = processTaskDetailDeviceRepository.findByTaskCodeAndDayTime(processTask.getProcess_task_code(),todayStr);
+                Integer sumdevicecount = detailDeviceList.stream().mapToInt(ProcessTaskDetailDevice::getFinish_count).sum();
+                detail.setFinish_count(sumdevicecount);
+            }
+            processTaskDetailRepositoty.save(detail);
+            List<ProcessTaskDetail> detailList = processTaskDetailRepositoty.findByProcess_task_code(processTask.getProcess_task_code());
+            //因为事务所以这里先去掉detail的完成数再加回来step1
+            //detailList.remove(detail);
+            Integer sumcount = detailList.stream().mapToInt(ProcessTaskDetail::getFinish_count).sum();
+            //step2
+            // sumcount = sumcount + detail.getFinish_count();
+            processTask.setAmount_completed(sumcount);
+            ProcessTaskStatusHistory history = null;
+            if(processTask.getCount_type()==1){
+                history = processTaskStatusHistoryRepository.findByProcessTaskCodeAndDeviceLastRecord(processTask.getProcess_task_code(),pcbTaskReq.getDeviceCode());
+            }else {
+                history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(processTask.getProcess_task_code());
+            }
+            if(processTask.getAmount_completed()>=processTask.getPcb_quantity()){
+                //新增结束工序计划操作记录
+                processTask.setFinish_time(today);
+                processTask.setIs_now_flag("");
+                processTask.setProcess_task_status("已完成");
+                //step3:状态不同结束上一条并计算持续时间，新增一条
+                if(!deviceDetailFinishFlag){
+                    history.setEnd_time(today);
+                    Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
+                    history.setContinue_time(Integer.parseInt(cha+""));
+                    processTaskStatusHistoryRepository.save(history);
+                    //新增
+                    ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
+                    newRecord.setStart_time(today);
+                    newRecord.setContinue_time(0);
+                    newRecord.setDevice_code(processTask.getDevice_code());
+                    newRecord.setProcess_task_status("已完成");
+                    newRecord.setDevice_name(processTask.getDevice_name());
+                    newRecord.setProcess_task_code(processTask.getProcess_task_code());
+                    newRecord.setProcess_name(processTask.getProcess_name());
+                    newRecord.setEnd_time(today);
+                    processTaskStatusHistoryRepository.save(newRecord);
+                }
+            }else {
+                if(processTask.getCount_type()==1){
+
+                    String lastflag = processTask.getIs_now_flag();
+                    List<String> lastresult = new ArrayList<>();
+                    if(lastflag!=null&&!lastflag.equals("")){
+                        lastresult = new ArrayList(Arrays.asList(lastflag.split(",")));
+                    }
+                    lastresult.remove(pcbTaskReq.getDeviceCode());
+                    String laststr = Joiner.on(",").join(lastresult);
+                    processTask.setIs_now_flag(laststr);
+
+                }else {
+                    processTask.setIs_now_flag("");
+                }
+
+                //新增暂停工序计划操作记录
+                //step2:状态相同则跳过
+                if(history!=null&&"暂停".equals(history.getProcess_task_status())){
+
+                }else {
+                    //step3:状态不同结束上一条并计算持续时间，新增一条
+                    if(!deviceDetailFinishFlag){
+                        history.setEnd_time(today);
+                        Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
+                        history.setContinue_time(Integer.parseInt(cha+""));
+                        processTaskStatusHistoryRepository.save(history);
+                        //新增
+                        ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
+                        newRecord.setContinue_time(0);
+                        newRecord.setStart_time(today);
+                        newRecord.setDevice_code(processTask.getDevice_code());
+                        newRecord.setDevice_name(processTask.getDevice_name());
+                        newRecord.setProcess_task_status("暂停");
+                        newRecord.setProcess_name(processTask.getProcess_name());
+                        newRecord.setProcess_task_code(processTask.getProcess_task_code());
+                        //newRecord.setEnd_time(today);
+
+                        processTaskStatusHistoryRepository.save(newRecord);
+                    }
+                    if(processTask.getCount_type()==0){
+                        processTask.setProcess_task_status("暂停");
+                    }
+                }
+
+            }
+
+
+            processTaskRepository.save(processTask);
+        }
 
         return ResultVoUtil.success("操作成功");
     }
