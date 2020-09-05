@@ -1053,8 +1053,6 @@
             // 承接人
             $('#cjUser').val(dd.cjUser)
 
-
-
             var dj = {}
 
             function initAjax() {
@@ -1076,6 +1074,23 @@
                             //console.log("111" + dj.sbcs[0].sbmc)
                             if (Object.keys(dj).length > 0) {
                                 // TODO 9.4 (程序)
+                                $('#date').val(dj.date)
+                                // 承接人
+                                $('#cjUser').val(dj.cjUser)
+                                if(dj.bm == 1){
+                                    $('#bm').attr('checked', true)
+                                    //$('#bm2').attr('checked', true)
+                                } else {
+                                    $('#bm1').attr('checked', true)
+                                    //$('#bm3').attr('checked', true)
+                                }
+                                if(dj.bm2 == 1){
+                                    //$('#bm').attr('checked', true)
+                                    $('#bm2').attr('checked', true)
+                                } else {
+                                    //$('#bm1').attr('checked', true)
+                                    $('#bm3').attr('checked', true)
+                                }
 
                                 $('#sbcs_sbmc_1').val(dj.sbcs[0].sbmc)
                                 $('#sbcs_sbbh_1').val(dj.sbcs[0].sbbh)
@@ -1658,6 +1673,10 @@
                     "plateCode": dd.batch_id,
                     "date":$('#date').val(),
                     "cjUser":$('#cjUser').val(),
+                    "bm": $('#bm').is(":checked")?1:0,
+                    "bm1": $('#bm1').is(":checked")?1:0,
+                    "bm2": $('#bm2').is(":checked")?1:0,
+                    "bm3": $('#bm3').is(":checked")?1:0,
                     // TODO 9.4
                     "sbcs": [
                         {
