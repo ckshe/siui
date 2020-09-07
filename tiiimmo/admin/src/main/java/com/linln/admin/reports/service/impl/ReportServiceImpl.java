@@ -4,6 +4,7 @@ import com.linln.admin.produce.domain.CurrentReport;
 import com.linln.admin.produce.repository.CurrentReportRepository;
 import com.linln.admin.quality.repository.BadClassDetailRepository;
 import com.linln.admin.reports.request.BadDetailReq;
+import com.linln.admin.reports.request.ClassInfoReq;
 import com.linln.admin.reports.request.CurrentReportReq;
 import com.linln.admin.reports.service.ReportService;
 import com.linln.common.utils.ResultVoUtil;
@@ -85,8 +86,54 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public ResultVo findClassInfo() {
-        return null;
+    public ResultVo findClassInfo(ClassInfoReq req) {
+        //produce_user_device_history
+
+        StringBuffer wheresql = new StringBuffer( " where 1=1 ");
+
+        if(req.getShift()!=null&&!"".equals(req.getShift())){
+            wheresql.append(" and t1.class_info like '%" +
+                    req.getShift() +
+                    "%' ");
+        }
+
+
+
+        if(req.getStartTime()!=null&&req.getEndTime()!=null&&!"".equals(req.getEndTime())&&!"".equals(req.getStartTime())){
+            String startTime = req.getStartTime()+" 00:00:00";
+            String endTime = req.getEndTime()+" 23:59:59";
+            wheresql.append(" and t1.up_time > '" +
+                    startTime +
+                    "' and t1.up_time < '" +
+                    endTime +
+                    "'");
+
+        }
+
+        StringBuffer sql = new StringBuffer("SELECT\n" +
+                "\t* \n" +
+                "FROM\n" +
+                "\t( SELECT *, ROW_NUMBER ( ) OVER ( ORDER BY t4.Id ASC ) row FROM ( SELECT t1.* FROM produce_user_device_history t1 " +
+                wheresql +
+                ") t4 ) t3 \n");
+
+        Integer page = 1;
+        Integer size = 10;
+        if(req.getPage()!=null&&req.getSize()!=null){
+            page = req.getPage();
+            size = req.getSize();
+        }
+
+        List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
+
+        sql.append("where t3.Row between " +
+                ((page-1)*size+1) +
+                " and " +
+                (page*size) +
+                "");
+
+        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+        return ResultVoUtil.success("查询成功",mapList,count.size());
     }
 
     //不良记录报表

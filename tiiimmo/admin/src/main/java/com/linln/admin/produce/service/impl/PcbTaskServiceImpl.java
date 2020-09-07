@@ -2099,6 +2099,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         //记录工序任务当天日计划数量，统计并反写入工序计划，低于总计划数量则暂停，否则结束，新增操作记录
         Date today = new Date();
         String todayStr = DateUtil.date2String(today,"");
+        Integer amountSum = 0;
+        BigDecimal workTimeSum = BigDecimal.ZERO;
+        List<ProcessTask> processTaskList = new ArrayList<>();
         for(PcbTaskReq pcbTaskReq : pcbTaskReqList){
 
             ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
@@ -2217,9 +2220,22 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 }
 
             }
-
-
+            Integer finishAomout = processTask.getAmount_completed()==null?0:processTask.getAmount_completed();
+            BigDecimal workTime = processTask.getWork_time()==null?BigDecimal.ZERO:processTask.getWork_time();
+            amountSum = amountSum + finishAomout;
+            workTimeSum = workTimeSum.add(workTime) ;
             processTaskRepository.save(processTask);
+        }
+
+        for(PcbTaskReq pcbTaskReq : pcbTaskReqList){
+            ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
+
+            Integer finishAomout = processTask.getAmount_completed()==null?0:processTask.getAmount_completed();
+            BigDecimal rate = new BigDecimal((float)finishAomout/amountSum).setScale(2, BigDecimal.ROUND_HALF_UP);
+
+            BigDecimal workTime = workTimeSum.multiply(rate);
+            processTask.setWork_time(workTime);
+            processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
         }
 
         return ResultVoUtil.success("操作成功");

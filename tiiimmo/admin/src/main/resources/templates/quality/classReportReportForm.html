@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:mo="https://gitee.com/aun/Timo">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+
+
+
+<body class="timo-layout-page">
+<div class="layui-card">
+    <div class="layui-card-header timo-card-header">
+        <span><i class="fa fa-bars"></i> 班次分析</span>
+        <i class="layui-icon layui-icon-refresh refresh-btn"></i>
+    </div>
+    <div class="layui-card-body">
+        <div class="layui-row timo-card-screen">
+            <form  class="layui-form pull-left layui-form-pane timo-search-box">
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">班次</label>
+                    <div class="layui-input-block">
+                        <input id="shift" type="text" name="shift" placeholder="请输入班次   " autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">录入时间</label>
+                    <div class="layui-input-block">
+                        <input id="startTime" type="text" name="startTime" placeholder="选择时间" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <button class="layui-btn" id="search"  type="button" lay-submit lay-filter="search">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
+
+
+        </div>
+        <div class="timo-table-wrap">
+            <table class="layui-hide" id="table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<script th:replace="/common/template :: script"></script>
+<script src="../../js/common.js" ></script>
+<script>
+    layui.use(['form','laydate','table','jquery','form'],function () {
+        var layer = layui.layer,
+            $ = layui.jquery,
+            table = layui.table,
+            laydate = layui.laydate,
+            form = layui.form;
+        laydate.render({
+            elem: '#time'
+            ,type:'datetime'
+        });
+        table.render({
+            elem: '#table'
+            ,url: '/report/findClassInfo' //数据接口
+            ,method:'post'
+            ,loading:false
+
+            ,contentType: 'application/json'
+            ,response: {
+                statusCode: 200
+            }
+            ,page: true
+            ,limit:20
+            ,parseData: function(res){
+                return {
+                    "code": res.code, //解析接口状态
+                    "data": res.data, //解析数据列表
+                    "count": res.total, //解析数据长度
+                };
+            }
+            ,cols: [
+                [
+                    {field: 'device_code', title: '机台编号', sort: true, minWidth:140}
+                    ,{field: 'user_name', title: '员工姓名', sort: true, minWidth:110}
+                    ,{field: 'process_task_code', title: '工序计划编号', sort: true, minWidth:182}
+                    ,{field: 'class_info', title: '班次', sort: true, minWidth:140}
+                    ,{field: 'up_time', title: '上机时间', sort: true, minWidth:160,templet:function (d) {
+                        return d.up_time?timeToDate(d.up_time):"";}}
+                    ,{field: 'down_time', title: '下机时间', sort: true, minWidth:160,templet:function (d) {
+                        return d.down_time?timeToDate(d.down_time):"";}}
+
+                ]
+            ]
+        });
+        form.on('submit(search)',function (obj) {
+            var data = {};
+            console.log(obj.field);
+            data.shift=obj.field.shift;
+            data.startTime=obj.field.startTime.length>0?obj.field.startTime.split(' ~ ')[0]:"";
+            data.endTime=obj.field.startTime.length>0?obj.field.startTime.split(' ~ ')[1]:"";
+            table.reload('table',{
+                where:data
+            })
+        });
+        laydate.render({
+            elem: '#startTime',
+            range: "~"
+        });
+        new Enter('pcbTaskCode',function () {$('#search').click()});
+        new Enter('plateNo',function () {$('#search').click()});
+        new Enter('startTime',function () {$('#search').click()});
+
+    })
+</script>
+<style>
+    .layui-laydate .layui-this{
+        background-color:#1e9fff!important;
+    }
+
+</style>
+</body>
+</html>
