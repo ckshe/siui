@@ -184,17 +184,6 @@
       </td>
 
     </tr>
-    <!--<tr height=24 style='height:18.0pt'>
-      <td colspan=15 height=24 class=xl83 style='border-right:1.0pt solid black;height:18.0pt'>
-        工艺依据：<span style="height:18.0pt;"><input id="basis" type="text" class="inputall ipt100"></span>
-        根据文件编号为：<span class="inputSpan" style="position:relative;width:180px;"><input></span>
-        <font class="font5">的调试手册</font>
-        <font class="font7"><span class="inputSpan" style="position:relative"><input></span></font>
-        <font class="font5">版本第</font>
-        <font class="font0"><span class="inputSpan" style="position:relative"><input></span></font>
-        <font class="font5">项</font>
-      </td>
-    </tr>-->
     <tr height=20 style='height:15.0pt'>
       <td width="77" height=220 rowspan=11 class=xl113 style='border-bottom:1.0pt solid black;
   height:165.0pt;border-top:none'>领入<br>
@@ -517,9 +506,8 @@
       </span><span></span>÷<span class="inputSpan" style="position: relative;">
           <input id='num_value2' class="ipt60" onChange="change()" type="text"></span>)×100%＝<span
           class="inputSpan" style="position: relative;"><input id='num_value3' disabled class="ipt60" type="text"></span>%<br>-->
-        <span class="font29"><span
-                span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </span>( 1 </span>
+        <span class="font29">
+          ( 1
         <span class="font2">－</span>
         <span class="font29"><input id='num_value1' class="ipt80 " onChange="change()" type="text"></span>
         <span class="font2">÷</span>
@@ -529,7 +517,8 @@
         <span class="font29">&nbsp;100% </span>
         <span class="font2">＝</span>
         <span class="font29"><input id='num_value3' disabled class="ipt80 " type="text"></span>
-        </span>%</span>
+        <span class="font2">%</span>
+        </span>
 
       </td>
       <td colspan=2 class=xl66 style='border-right:1.0pt solid black;border-left:
@@ -1093,8 +1082,6 @@
         "num_value1": $('#num_value1').val(),
         "num_value2": $('#num_value2').val(),
         "num_value3": $('#num_value3').val(),
-
-
       }
       console.log(datajson)
       $.ajax({
