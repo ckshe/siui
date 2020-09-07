@@ -30,6 +30,7 @@
         .inputall {
             border: none;
             height: 80%;
+            width: 100%;
             vertical-align: top;
             text-align: left;
         }
@@ -364,8 +365,10 @@
         </tr>
         <tr height=26 style='height:20.1pt'>
             <td colspan=12 height=26 class=xl108 style='border-right:.5pt solid black;
-  height:20.1pt'>(1－<span class="inputSpan"><input id="xdgxjj_cjNum_1" style="text-align: center"></span>÷<span class="inputSpan"><input id="xdgxjj_cjNum_2" style="text-align: center"></span>)×100%＝<span
-                    class="inputSpan"><input id="xdgxjj_cjNum_3" style="text-align: center"></span>%</td>
+  height:20.1pt'>(1－<span class="inputSpan">
+                <input id="xdgxjj_cjNum_1" style="text-align: center"></span>÷<span class="inputSpan">
+                <input id="xdgxjj_cjNum_2" style="text-align: center"></span>)×100%＝<span class="inputSpan">
+                <input id="xdgxjj_cjNum_3" style="text-align: center"></span>%</td>
             <td colspan=2 class=xl109 style='border-right:1.0pt solid black'><span class="inputSpan"><input id="statisticsUser" style="text-align: center"></span></td>
         </tr>
         <tr height=33 style='height:24.95pt'>
@@ -647,37 +650,24 @@
                             $('#statisticsUser').val(dj.statisticsUser);
                             $('#xdgxjj_cjNum_1').val(dj.xdgxjj[0].cjNum)
                             $('#xdgxjj_cjNum_2').val(dj.xdgxjj[1].cjNum)
-                            $('#xdgxjj_cjNum_3').val(dj.xdgxjj[2].cjNum)
+                            $('#xdgxjj_cjNum_3').val(dj.xdgxjj[2].cjNum);
+
+                            /*var a=document.getElementById('xdgxjj_cjNum_1').value;
+                            var b=document.getElementById('xdgxjj_cjNum_2').value;
+                            //var c=document.getElementById('c');
+                            var c;
+                            c.value=Number(a)+Number(b);
+                            console.log("a="+ a);
+                            console.log("b="+ b);
+                            console.log("c="+ c);
+                            $('#xdgxjj_cjNum_3').val(c.value)*/
+                            /*var num1 = $('#xdgxjj_cjNum_1').val(dj.xdgxjj[0].cjNum);
+                            var num2 = $('#xdgxjj_cjNum_2').val(dj.xdgxjj[1].cjNum);
+                            var num3 = num1+num2;
+                            ;*/
 
 
                             // ------------------------------------------
-                            /*$('#bfhjj_deviceCode').val(dj.bfhjj.deviceCode)
-                            $('#bfhjj_deviceName').val(dj.bfhjj.deviceName)
-                            $('#bfhjj_craftParam_yr1B').val(dj.bfhjj.craftParam.yr1B)
-                            $('#bfhjj_craftParam_yr2B').val(dj.bfhjj.craftParam.yr2B)
-                            $('#bfhjj_craftParam_yr3B').val(dj.bfhjj.craftParam.yr3B)
-                            $('#bfhjj_craftParam_yr2T').val(dj.bfhjj.craftParam.yr2T)
-                            $('#bfhjj_craftParam_yr3T').val(dj.bfhjj.craftParam.yr3T)
-                            $('#bfhjj_craftParam_ltsd').val(dj.bfhjj.craftParam.ltsd)
-                            $('#bfhjj_craftParam_xlwd').val(dj.bfhjj.craftParam.xlwd)
-                            $('#bfhjj_craftParam_gqyl').val(dj.bfhjj.craftParam.gqyl)
-                            $('#bfhjj_craftParam_pwqy').val(dj.bfhjj.craftParam.pwqy)
-                            $('#bfhjj_craftParam_zfqy').val(dj.bfhjj.craftParam.zfqy)
-                            $('#bfhjj_programName').val(dj.bfhjj.programName)
-                            if (dj.bfhjj.programStatus == 1) {
-                                $('#bfhjj_programStatus').attr('checked', true)
-                            }
-                            $('#bfhjj_produceDate').val(dj.bfhjj.produceDate)
-                            $('#bfhjj_amount').val(dj.bfhjj.amount)
-                            if (dj.bfhjj.qchd == 1) {
-                                $('#bfhjj_qchd').attr('checked', true)
-                            }
-                            $('#bfhjj_doUser').val(dj.bfhjj.doUser)
-                            $('#bfhjj_sjStatus').val(dj.bfhjj.sjStatus)
-                            $('#bfhjj_sjUser').val(dj.bfhjj.sjUser)
-                            $('#bfhjj_qcUser').val(dj.bfhjj.qcUser)
-                            $('#bfhjj_checkDate').val(dj.bfhjj.checkDate)*/
-
 
                             for (var i = 0; i < 3; i++) {
                                     $('#xdgxjj_cjUser_' + (i + 1)).val(dj.xdgxjj[i].cjUser)

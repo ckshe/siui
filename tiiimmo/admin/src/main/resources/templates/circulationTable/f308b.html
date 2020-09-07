@@ -16,8 +16,16 @@
       position: absolute;
       width: 98%;
       border: none;
-      text-align: left;
+      text-align: center;
       left: 0;
+    }
+
+    .inputall {
+      border: none;
+      height: 80%;
+      vertical-align: top;
+      text-align: center;
+      position: relative;
     }
 
     td {
@@ -39,59 +47,160 @@
       width: 90%;
       margin: 0px;
     }
+
+    .ipt30 {
+      width: 26px !important;
+    }
+
+    .ipt40 {
+      width: 36px !important;
+    }
+
+    .ipt50 {
+      width: 45px !important;
+    }
+
+    .ipt60 {
+      width: 55px !important;
+    }
+
+    .ipt70 {
+      width: 65px !important;
+    }
+
+    .ipt80 {
+      width: 75px !important;
+    }
+
+    .ipt100 {
+      width: 95px !important;
+    }
+
+    .ipt120 {
+      width: 120px !important;
+    }
+
+    .ipt140 {
+      width: 140px !important;
+    }
+
+    .ipt160 {
+      width: 160px !important;
+    }
+
+    .ipt180 {
+      width: 180px !important;
+    }
+
+    .ipt200 {
+      width: 200px !important;
+    }
+
+    .ipt220 {
+      width: 220px !important;
+    }
+
+    .ipt240 {
+      width: 240px !important;
+    }
+    .ipt260 {
+      width: 260px !important;
+    }
+    .ipt280 {
+      width: 280px !important;
+    }
+    .ipt300 {
+      width: 300px !important;
+    }
+    .ipt400 {
+      width: 400px !important;
+    }
+    .ipt1000 {
+      width: 1200px !important;
+    }
+
+    #onsubmit {
+      display: inline-block;
+      height: 28px;
+      line-height: 28px;
+      padding: 0 18px;
+      background-color: #1e9fff;
+      color: #fff;
+      white-space: nowrap;
+      text-align: center;
+      font-size: 14px;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
   </style>
     <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
     <script src="../../js/common.js"></script>
 </head>
 
 <body link=blue vlink=purple>
-
+<form>
+  <input type="hidden" name="data">
+</form>
   <table border=0 cellpadding=0 cellspacing=0 width=945 style='border-collapse:
  collapse;table-layout:fixed;width:1050px;height:1800px'>
     <tr height=52 style='height:39.0pt'>
+      <button id="onsubmit">保存</button>
       <td colspan=15 height=52 class=xl65 style='height:39.0pt;
   width:594pt'><a name="Print_Area">电路板调试流通表</a></td>
     </tr>
     <tr height=22 style='height:16.5pt'>
-      <td height=22 class=xl85 colspan=3 style='height:16.5pt;'>RoHS:Y<input type="checkbox">
+      <td height=22 class=xl85 colspan=3 style='height:16.5pt;'>RoHS:Y<input id="RoHS" type="checkbox">
         <font class="font5">/N</font>
-        <font class="font0"><input type="checkbox"></font>
+        <font class="font0"><input id="RoHS1" type="checkbox"></font>
       </td>
       <td colspan=12 class=xl65></td>
     </tr>
-    <tr height=24 style='height:18.0pt'>
-      <td height=24 class=xl84 colspan=2 style='height:18.0pt;'>型号：</td>
-      <td colspan=2 class=xl82><textarea></textarea></td>
-      <td class=xl80 colspan=2>生产批次：</td>
-      <td colspan=3 class=xl82><textarea></textarea></td>
-      <td class=xl80 colspan=2>投产台数：<span class="inputSpan" style="position:relative"><input></span></td>
-      <td width="69" class=xl82></td>
-      <td width="88" class=xl80>部件名称：</td>
-      <td colspan=2 class=xl82 style='border-right:1.0pt solid black'><textarea></textarea></td>
+    <tr height="24" style="height:18.0pt">
+      <td height="24" class="xl84" style="height:18.0pt;" colspan="1">型号：</td>
+      <td colspan="3" class="xl82"><input id="model" type="text" class="inputall ipt160"></td>
+      <td class="xl80">生产批次：</td>
+      <td colspan="3" class="xl82"><input id="taskSheetCode" type="text" class="inputall ipt160"></td>
+      <td class="xl80">投产台数：</td>
+      <td colspan="2" width="69" class="xl82"><input id="produceAmount" type="text" class="inputall ipt120"></td>
+      <td width="88" class="xl80">部件名称：</td>
+      <td colspan="3" class="xl82" style="border-right:1.0pt solid black">
+        <input id="modelName" type="text" class="inputall ipt200">
+      </td>
     </tr>
     <tr height=24 style='height:18.0pt'>
-      <td height=24 class=xl83 colspan=2 style='height:18.0pt;'>成品图号：</td>
-      <td colspan=6 class=xl87><textarea></textarea></td>
-      <td class=xl79 colspan=2>序列码：</td>
-      <td colspan=5 class=xl87 style='border-right:1.0pt solid black'><textarea></textarea></td>
+      <td height=24 class=xl83 style='height:18.0pt;'>成品图号：</td>
+      <td colspan=7 class=xl87><input id="pcbId" type="text" class="inputall ipt400"></td>
+      <td class=xl79>序列码：</td>
+      <td colspan=6 class=xl87 style='border-right:1.0pt solid black'><input id="serialNum" type="text" class="inputall ipt400"></td>
     </tr>
-    <tr height=24 style='height:18.0pt'>
-      <td colspan=15 height=24 class=xl110 style='border-right:1.0pt solid black;
-  height:18.0pt'>工艺依据：<span class="inputSpan" style="position:relative"><input></span>根据文件编号为：<span class="inputSpan"
-          style="position:relative;width:180px;"><input></span>
+    <tr height=18 style='height:15.0pt'>
+      <td colspan=15 height=18 class=xl83 style='border-right:1.0pt solid black;height:15.0pt'>
+        工艺依据：<!--<input id="basis" type="text" class="inputall ipt100">-->
+        根据文件编号为： <input id="fileNum" type="text" class="inputall ipt300">
+        的调试手册 <input id="version" type="text" class="inputall ipt100">
+        版本第 <input id="itemNum" type="text" class="inputall ipt100"> 项
+      </td>
+
+    </tr>
+    <!--<tr height=24 style='height:18.0pt'>
+      <td colspan=15 height=24 class=xl83 style='border-right:1.0pt solid black;height:18.0pt'>
+        工艺依据：<span style="height:18.0pt;"><input id="basis" type="text" class="inputall ipt100"></span>
+        根据文件编号为：<span class="inputSpan" style="position:relative;width:180px;"><input></span>
         <font class="font5">的调试手册</font>
         <font class="font7"><span class="inputSpan" style="position:relative"><input></span></font>
         <font class="font5">版本第</font>
         <font class="font0"><span class="inputSpan" style="position:relative"><input></span></font>
         <font class="font5">项</font>
       </td>
-    </tr>
+    </tr>-->
     <tr height=20 style='height:15.0pt'>
       <td width="77" height=220 rowspan=11 class=xl113 style='border-bottom:1.0pt solid black;
   height:165.0pt;border-top:none'>领入<br>
         记录</td>
       <td width="78" class=xl66>序号</td>
-      <td colspan=2 class=xl66 style='border-left:none'>经手人</td>
+      <td class=xl66 style='border-left:none'>经手人</td>
       <td width="129" class=xl66>数量</td>
       <td colspan=2 class=xl66 style='border-left:none'>日期</td>
       <td width="73" class=xl67 style='border-top:none'>备注</td>
@@ -101,176 +210,178 @@
       <td width="69" class=xl66>序号</td>
       <td width="69" class=xl66>经手人</td>
       <td class=xl66>数量</td>
-      <td class=xl66>日期</td>
+      <td colspan=2 class=xl66>日期</td>
       <td colspan=2 class=xl66 style='border-right:1.0pt solid black;border-left:
   none'>批次</td>
     </tr>
     <tr height=20 style='height:15.0pt'>
       <td height=20 class=xl68 style='height:15.0pt;border-top:none;border-left:
   none'>1</td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl70 style='border-top:none'><textarea></textarea></td>
+      <td class=xl68 style='border-left:none'><input id="lr_jsr_1" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="lr_amount_1" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl68 style='border-left:none'><input id="lr_date_1" type="text" class="inputall ipt120 dateType"></td>
+      <td class=xl70 style='border-top:none'><input id="lr_remark_1" type="text" class="inputall ipt70"></td>
       <td class=xl68>1</td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-right:1.0pt solid black;border-left:
-  none'><textarea></textarea></td>
+      <td class=xl68><input id="yj_jsr_1" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="yj_amount_1" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl66><input id="yj_date_1" type="text" class="inputall ipt120 dateType"></td>
+      <td colspan=2 class=xl66 style='border-right:1.0pt solid black;border-left:none'>
+        <input id="yj_remark_1" type="text" class="inputall ipt120"></td>
     </tr>
+
     <tr height=20 style='height:15.0pt'>
       <td height=20 class=xl68 style='height:15.0pt;border-top:none;border-left:
   none'>2</td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl70 style='border-top:none'><textarea></textarea></td>
+      <td class=xl68 style='border-left:none'><input id="lr_jsr_2" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="lr_amount_2" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl68 style='border-left:none'><input id="lr_date_2" type="text" class="inputall ipt120 dateType"></td>
+      <td class=xl70 style='border-top:none'><input id="lr_remark_2" type="text" class="inputall ipt70"></td>
       <td class=xl68>2</td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-right:1.0pt solid black;border-left:
-  none'><textarea></textarea></td>
+      <td class=xl68><input id="yj_jsr_2" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="yj_amount_2" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl66><input id="yj_date_2" type="text" class="inputall ipt120 dateType"></td>
+      <td colspan=2 class=xl66 style='border-right:1.0pt solid black;border-left:none'>
+        <input id="yj_remark_2" type="text" class="inputall ipt120"></td>
     </tr>
     <tr height=20 style='height:15.0pt'>
       <td height=20 class=xl68 style='height:15.0pt;border-top:none;border-left:
   none'>3</td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl70 style='border-top:none'><textarea></textarea></td>
+      <td class=xl68 style='border-left:none'><input id="lr_jsr_3" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="lr_amount_3" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl68 style='border-left:none'><input id="lr_date_3" type="text" class="inputall ipt120 dateType"></td>
+      <td class=xl70 style='border-top:none'><input id="lr_remark_3" type="text" class="inputall ipt70"></td>
       <td class=xl68>3</td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-right:1.0pt solid black;border-left:
-  none'><textarea></textarea></td>
+      <td class=xl68><input id="yj_jsr_3" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="yj_amount_3" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl66><input id="yj_date_3" type="text" class="inputall ipt120 dateType"></td>
+      <td colspan=2 class=xl66 style='border-right:1.0pt solid black;border-left:none'>
+        <input id="yj_remark_3" type="text" class="inputall ipt120"></td>
     </tr>
     <tr height=20 style='height:15.0pt'>
       <td height=20 class=xl68 style='height:15.0pt;border-top:none;border-left:
   none'>4</td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl70 style='border-top:none'><textarea></textarea></td>
+      <td class=xl68 style='border-left:none'><input id="lr_jsr_4" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="lr_amount_4" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl68 style='border-left:none'><input id="lr_date_4" type="text" class="inputall ipt120 dateType"></td>
+      <td class=xl70 style='border-top:none'><input id="lr_remark_4" type="text" class="inputall ipt70"></td>
       <td class=xl68>4</td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-right:1.0pt solid black;border-left:
-  none'><textarea></textarea></td>
+      <td class=xl68><input id="yj_jsr_4" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="yj_amount_4" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl66><input id="yj_date_4" type="text" class="inputall ipt120 dateType"></td>
+      <td colspan=2 class=xl66 style='border-right:1.0pt solid black;border-left:none'>
+        <input id="yj_remark_4" type="text" class="inputall ipt120"></td>
     </tr>
     <tr height=20 style='height:15.0pt'>
       <td height=20 class=xl68 style='height:15.0pt;border-top:none;border-left:
   none'>5</td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl70 style='border-top:none'><textarea></textarea></td>
+      <td class=xl68 style='border-left:none'><input id="lr_jsr_5" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="lr_amount_5" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl68 style='border-left:none'><input id="lr_date_5" type="text" class="inputall ipt120 dateType"></td>
+      <td class=xl70 style='border-top:none'><input id="lr_remark_5" type="text" class="inputall ipt70"></td>
       <td class=xl68>5</td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-right:1.0pt solid black;border-left:
-  none'><textarea></textarea></td>
+      <td class=xl68><input id="yj_jsr_5" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="yj_amount_5" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl66><input id="yj_date_5" type="text" class="inputall ipt120 dateType"></td>
+      <td colspan=2 class=xl66 style='border-right:1.0pt solid black;border-left:none'>
+        <input id="yj_remark_5" type="text" class="inputall ipt120"></td>
     </tr>
     <tr height=20 style='height:15.0pt'>
       <td height=20 class=xl68 style='height:15.0pt;border-top:none;border-left:
   none'>6</td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl70 style='border-top:none'><textarea></textarea></td>
+      <td class=xl68 style='border-left:none'><input id="lr_jsr_6" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="lr_amount_6" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl68 style='border-left:none'><input id="lr_date_6" type="text" class="inputall ipt120 dateType"></td>
+      <td class=xl70 style='border-top:none'><input id="lr_remark_6" type="text" class="inputall ipt70"></td>
       <td class=xl68>6</td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-right:1.0pt solid black;border-left:
-  none'><textarea></textarea></td>
+      <td class=xl68><input id="yj_jsr_6" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="yj_amount_6" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl66><input id="yj_date_6" type="text" class="inputall ipt120 dateType"></td>
+      <td colspan=2 class=xl66 style='border-right:1.0pt solid black;border-left:none'>
+        <input id="yj_remark_6" type="text" class="inputall ipt120"></td>
     </tr>
     <tr height=20 style='height:15.0pt'>
       <td height=20 class=xl68 style='height:15.0pt;border-top:none;border-left:
   none'>7</td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl70 style='border-top:none'><textarea></textarea></td>
+      <td class=xl68 style='border-left:none'><input id="lr_jsr_7" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="lr_amount_7" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl68 style='border-left:none'><input id="lr_date_7" type="text" class="inputall ipt120 dateType"></td>
+      <td class=xl70 style='border-top:none'><input id="lr_remark_7" type="text" class="inputall ipt70"></td>
       <td class=xl68>7</td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-right:1.0pt solid black;border-left:
-  none'><textarea></textarea></td>
+      <td class=xl68><input id="yj_jsr_7" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="yj_amount_7" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl66><input id="yj_date_7" type="text" class="inputall ipt120 dateType"></td>
+      <td colspan=2 class=xl66 style='border-right:1.0pt solid black;border-left:none'>
+        <input id="yj_remark_7" type="text" class="inputall ipt120"></td>
     </tr>
     <tr height=20 style='height:15.0pt'>
       <td height=20 class=xl68 style='height:15.0pt;border-top:none;border-left:
   none'>8</td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl70 style='border-top:none'><textarea></textarea></td>
+      <td class=xl68 style='border-left:none'><input id="lr_jsr_8" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="lr_amount_8" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl68 style='border-left:none'><input id="lr_date_8" type="text" class="inputall ipt120 dateType"></td>
+      <td class=xl70 style='border-top:none'><input id="lr_remark_8" type="text" class="inputall ipt70"></td>
       <td class=xl68>8</td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-right:1.0pt solid black;border-left:
-  none'><textarea></textarea></td>
+      <td class=xl68><input id="yj_jsr_8" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="yj_amount_8" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl66><input id="yj_date_8" type="text" class="inputall ipt120 dateType"></td>
+      <td colspan=2 class=xl66 style='border-right:1.0pt solid black;border-left:none'>
+        <input id="yj_remark_8" type="text" class="inputall ipt120"></td>
     </tr>
     <tr height=20 style='height:15.0pt'>
       <td height=20 class=xl68 style='height:15.0pt;border-top:none;border-left:
   none'>9</td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-left:none'><textarea></textarea></td>
-      <td class=xl70 style='border-top:none'><textarea></textarea></td>
+      <td class=xl68 style='border-left:none'><input id="lr_jsr_9" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="lr_amount_9" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl68 style='border-left:none'><input id="lr_date_9" type="text" class="inputall ipt120 dateType"></td>
+      <td class=xl70 style='border-top:none'><input id="lr_remark_9" type="text" class="inputall ipt70"></td>
       <td class=xl68>9</td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl68><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td colspan=2 class=xl68 style='border-right:1.0pt solid black;border-left:
-  none'><textarea></textarea></td>
+      <td class=xl68><input id="yj_jsr_9" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="yj_amount_9" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl66><input id="yj_date_9" type="text" class="inputall ipt120 dateType"></td>
+      <td colspan=2 class=xl66 style='border-right:1.0pt solid black;border-left:none'>
+        <input id="yj_remark_9" type="text" class="inputall ipt120"></td>
     </tr>
     <tr height=20 style='height:15.0pt'>
-      <td height=20 class=xl71 style='height:15.0pt;border-top:none;border-left:
+      <td height=20 class=xl68 style='height:15.0pt;border-top:none;border-left:
   none'>10</td>
-      <td colspan=2 class=xl71 style='border-left:none'><textarea></textarea></td>
-      <td class=xl71><textarea></textarea></td>
-      <td colspan=2 class=xl71 style='border-left:none'><textarea></textarea></td>
-      <td class=xl81 style='border-top:none'><textarea></textarea></td>
-      <td class=xl71>10</td>
-      <td class=xl71><textarea></textarea></td>
-      <td class=xl71><textarea></textarea></td>
-      <td class=xl72><textarea></textarea></td>
-      <td colspan=2 class=xl71 style='border-right:1.0pt solid black;border-left:
-  none'><textarea></textarea></td>
+      <td class=xl68 style='border-left:none'><input id="lr_jsr_10" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="lr_amount_10" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl68 style='border-left:none'><input id="lr_date_10" type="text" class="inputall ipt120 dateType"></td>
+      <td class=xl70 style='border-top:none'><input id="lr_remark_10" type="text" class="inputall ipt70"></td>
+      <td class=xl68>10</td>
+      <td class=xl68><input id="yj_jsr_10" type="text" class="inputall ipt70"></td>
+      <td class=xl68><input id="yj_amount_10" type="text" class="inputall ipt70"></td>
+      <td colspan=2 class=xl66><input id="yj_date_10" type="text" class="inputall ipt120 dateType"></td>
+      <td colspan=2 class=xl66 style='border-right:1.0pt solid black;border-left:none'>
+        <input id="yj_remark_10" type="text" class="inputall ipt120"></td>
     </tr>
     <tr height=20 style='height:15.0pt'>
       <td height=20 class=xl73 style='height:15.0pt;border-top:none'>序号</td>
       <td colspan=2 class=xl66 style='border-left:none'>序列码</td>
       <td colspan=3 class=xl66 style='border-left:none'>调试结果</td>
-      <td colspan=3 class=xl66 style='border-left:none'>调试者</td>
+      <td colspan=2 class=xl66 style='border-left:none'>调试者</td>
       <td class=xl66>序号</td>
       <td colspan=2 class=xl66 style='border-left:none'>序列码</td>
-      <td colspan=2 class=xl66 style='border-left:none'>调试结果</td>
+      <td colspan=3 class=xl66 style='border-left:none'>调试结果</td>
       <td width="111" class=xl67>调试者</td>
     </tr>
     <tr height=20 style='height:15.0pt'>
       <td rowspan=5 height=100 class=xl74 style='height:75.0pt;border-top:none'>1</td>
       <td colspan=2 rowspan=4 class=xl91 style='border-right:.5pt solid black;
-  border-bottom:.5pt solid black;width:62pt'><textarea></textarea></td>
-      <td colspan=3 rowspan=4 class=xl99 style='width:108pt'><input type="checkbox">1.被测电路板均正常<br>
-        <input type="checkbox">2.共有(<span class="inputSpan" style="position: relative;"><input></span>)块板故障，分别对应第(<span
-          class="inputSpan" style="position: relative;"><input></span>)号排故记录，其余被测电路板正常。<br>
+  border-bottom:.5pt solid black;width:62pt'><textarea id="yq_xlm_1"></textarea></td>
+      <td colspan=3 rowspan=4 class=xl99 style='width:108pt'>
+        <font class="font5"><input type="checkbox" id="yq_testStatu_1">1.被测电路板均正常<br>
+        <input type="checkbox" id="yq_testResult_1">2.共有(<span class="inputSpan" style="position: relative;"><input id="yq_banNum_1"></span>)块板故障，分别对应第(<span
+                class="inputSpan" style="position: relative;"><input id="yq_sizeNum_1"></span>)号排故记录，其余被测电路板正常。</font><br>
       </td>
-      <td colspan=3 rowspan=4 class=xl68><textarea></textarea></td>
+      <td colspan=2 rowspan=4 class=xl68><input type="text" id="yq_testUser_1" class="inputall ipt120"></td>
       <td rowspan=5 class=xl68 style='border-top:none'>2</td>
-      <td colspan=2 rowspan=4 class=xl68><textarea></textarea></td>
-      <td colspan=2 rowspan=4 class=xl99 style='width:104pt'><input type="checkbox">1.被测电路板均正常<br>
-        <input type="checkbox">2.共有(<span class="inputSpan" style="position: relative;"><input></span>)块板故障，分别对应第(<span
-          class="inputSpan" style="position: relative;"><input></span>)号排故记录，其余被测电路板正常。<br>
+      <td colspan=2 rowspan=4 class=xl68><textarea id="yq_xlm_2"></textarea></td>
+      <td colspan=3 rowspan=4 class=xl99 style='width:104pt'><font class="font5"><input type="checkbox" id="yq_testStatu_2">1.被测电路板均正常<br>
+        <input type="checkbox" id="yq_testResult_2">2.共有(<span class="inputSpan" style="position: relative;"><input id="yq_banNum_2"></span>)块板故障，分别对应第(<span
+          class="inputSpan" style="position: relative;"><input id="yq_sizeNum_2"></span>)号排故记录，其余被测电路板正常。</font><br>
       </td>
-      <td rowspan=4 class=xl70 style='border-top:none'><textarea></textarea></td>
+      <td rowspan=4 class=xl70 style='border-top:none'><input id="yq_testUser_2" type="text" class="inputall ipt60"></td>
     </tr>
     <tr height=20 style='height:15.0pt'>
     </tr>
@@ -279,38 +390,37 @@
     <tr height=20 style='height:15.0pt'>
     </tr>
     <tr height=20 style='height:15.0pt'>
-      <td colspan=8 height=20 class=xl97 style='height:15.0pt;border-left:none'>仪器编号：<span class="inputSpan"
-          style="position: relative;"><input></span></td>
-      <td colspan=5 class=xl97 style='border-right:1.0pt solid black;border-left:
-  none'>仪器编号：<span class="inputSpan" style="position: relative;"><input></span></td>
+      <td colspan=7 height=20 class=xl97 style='height:15.0pt;border-left:none'>
+        仪器编号：<input id="yq_bh_1" type="text" class="inputall ipt300"></td>
+      <td colspan=6 class=xl97 style='border-right:1.0pt solid black;border-left:none'>
+        仪器编号：<input id="yq_bh_2" type="text" class="inputall ipt300"></td>
     </tr>
     <tr height=20 style='height:15.0pt'>
       <td height=20 class=xl74 style='height:15.0pt;border-top:none'>序号</td>
       <td colspan=2 class=xl68 style='border-left:none'>序列码</td>
       <td colspan=3 class=xl68 style='border-left:none'>调试结果</td>
-      <td colspan=3 class=xl68 style='border-left:none'>调试者</td>
+      <td colspan=2 class=xl68 style='border-left:none'>调试者</td>
       <td class=xl68>序号</td>
       <td colspan=2 class=xl68 style='border-left:none'>序列码</td>
-      <td colspan=2 class=xl68 style='border-left:none'>调试结果</td>
+      <td colspan=3 class=xl68 style='border-left:none'>调试结果</td>
       <td class=xl70>调试者</td>
     </tr>
     <tr height=20 style='height:15.0pt'>
       <td rowspan=5 height=100 class=xl74 style='border-bottom:1.0pt solid black;
   height:75.0pt;border-top:none'>3</td>
-      <td colspan=2 rowspan=4 class=xl68><textarea></textarea></td>
-      <td colspan=3 rowspan=4 class=xl99 style='width:108pt'><input type="checkbox">1.被测电路板均正常<br>
-        <input type="checkbox">2.共有(<span class="inputSpan" style="position: relative;"><input></span>)块板故障，分别对应第(<span
-          class="inputSpan" style="position: relative;"><input></span>)号排故记录，其余被测电路板正常。<br>
+      <td colspan=2 rowspan=4 class=xl68><textarea id="yq_xlm_3"></textarea></td>
+      <td colspan=3 rowspan=4 class=xl99 style='width:108pt'><font class="font5"><input type="checkbox" id="yq_testStatu_3">1.被测电路板均正常<br>
+        <input type="checkbox" id="yq_testResult_3">2.共有(<span class="inputSpan" style="position: relative;"><input id="yq_banNum_3"></span>)块板故障，分别对应第(<span
+          class="inputSpan" style="position: relative;"><input id="yq_sizeNum_3"></span>)号排故记录，其余被测电路板正常。</font><br>
       </td>
-      <td colspan=3 rowspan=4 class=xl68><textarea></textarea></td>
-      <td rowspan=5 class=xl68 style='border-bottom:1.0pt solid black;border-top:
-  none'>4</td>
-      <td colspan=2 rowspan=4 class=xl68><textarea></textarea></td>
-      <td colspan=2 rowspan=4 class=xl99 style='width:104pt'><input type="checkbox">1.被测电路板均正常<br>
-        <input type="checkbox">2.共有(<span class="inputSpan" style="position: relative;"><input></span>)块板故障，分别对应第(<span
-          class="inputSpan" style="position: relative;"><input></span>)号排故记录，其余被测电路板正常。<br>
+      <td colspan=2 rowspan=4 class=xl68><input type="text" id="yq_testUser_3" class="inputall ipt120"></td>
+      <td rowspan=5 class=xl68 style='border-bottom:1.0pt solid black;border-top:none'>4</td>
+      <td colspan=2 rowspan=4 class=xl68><textarea id="yq_xlm_4"></textarea></td>
+      <td colspan=3 rowspan=4 class=xl99 style='width:104pt'><font class="font5"><input type="checkbox" id="yq_testStatu_4">1.被测电路板均正常<br>
+        <input type="checkbox" id="yq_testResult_4">2.共有(<span class="inputSpan" style="position: relative;"><input id="yq_banNum_4"></span>)块板故障，分别对应第(<span
+          class="inputSpan" style="position: relative;"><input id="yq_sizeNum_4"></span>)号排故记录，其余被测电路板正常。</font><br>
       </td>
-      <td rowspan=4 class=xl70 style='border-top:none'><textarea></textarea></td>
+      <td rowspan=4 class=xl70 style='border-top:none'><input type="text" id="yq_testUser_4" class="inputall ipt60"></td>
     </tr>
     <tr height=20 style='height:15.0pt'>
     </tr>
@@ -319,10 +429,11 @@
     <tr height=20 style='height:15.0pt'>
     </tr>
     <tr height=20 style='height:15.0pt'>
-      <td colspan=8 height=20 class=xl102 style='height:15.0pt;border-left:none'>仪器编号：<span class="inputSpan"
-          style="position: relative;"><input></span></td>
-      <td colspan=5 class=xl102 style='border-right:1.0pt solid black;border-left:
-  none'>仪器编号：<span class="inputSpan" style="position: relative;"><input></span></td>
+      <td colspan=7 height=20 class=xl102 style='height:15.0pt;border-left:none'>
+        仪器编号：<input id="yq_bh_3" type="text" class="inputall ipt300"></td>
+      <td colspan=6 class=xl102 style='border-right:1.0pt solid black;border-left:
+  none'>
+        仪器编号：<input id="yq_bh_4" type="text" class="inputall ipt300"></td>
     </tr>
     <tr height=26 style='height:20.1pt'>
       <td colspan=15 height=26 class=xl116 style='border-right:1.0pt solid black;
@@ -331,95 +442,683 @@
     <tr height=26 style='height:20.1pt'>
       <td height=26 class=xl73 style='height:20.1pt;border-top:none'>序号</td>
       <td colspan=2 class=xl66 style='border-left:none'>序列码</td>
-      <td colspan=4 class=xl66 style='border-left:none'>故障现象</td>
+      <td colspan=3 class=xl66 style='border-left:none'>故障现象</td>
       <td colspan=5 class=xl100 style='border-right:.5pt solid black;border-left:
   none'>原因及解决方法</td>
       <td class=xl66>排故者</td>
       <td width="69" class=xl66>确认者</td>
-      <td class=xl67>日期</td>
+      <td colspan=2 class=xl67>日期</td>
     </tr>
     <tr height=40 style='height:30.0pt'>
       <td height=40 class=xl74 style='height:30.0pt;border-top:none'>1</td>
       <td colspan=2 class=xl89 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
-      <td colspan=4 class=xl89 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
+  none'><textarea id="pgjl_xlm_1"></textarea></td>
+      <td colspan=3 class=xl89 style='border-right:.5pt solid black;border-left:
+  none'><textarea id="pgjl_appearance_1"></textarea></td>
       <td colspan=5 class=xl89 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td class=xl76><textarea></textarea></td>
+  none'><textarea id="pgjl_reasonAndMethod_1"></textarea></td>
+      <td class=xl69><input type="text" id="pgjl_finder_1" class="inputall ipt70"></td>
+      <td class=xl69><input type="text" id="pgjl_confirmer_1" class="inputall ipt70"></td>
+      <td colspan=2 class=xl76><input type="text" id="pgjl_date_1" class="inputall ipt120 dateType"></td>
     </tr>
     <tr height=40 style='height:30.0pt'>
       <td height=40 class=xl74 style='height:30.0pt;border-top:none'>2</td>
       <td colspan=2 class=xl89 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
-      <td colspan=4 class=xl89 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
+  none'><textarea id="pgjl_xlm_2"></textarea></td>
+      <td colspan=3 class=xl89 style='border-right:.5pt solid black;border-left:
+  none'><textarea id="pgjl_appearance_2"></textarea></td>
       <td colspan=5 class=xl89 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td class=xl76><textarea></textarea></td>
+  none'><textarea id="pgjl_reasonAndMethod_2"></textarea></td>
+      <td class=xl69><input type="text" id="pgjl_finder_2" class="inputall ipt70"></td>
+      <td class=xl69><input type="text" id="pgjl_confirmer_2" class="inputall ipt70"></td>
+      <td colspan=2 class=xl76><input type="text" id="pgjl_date_2" class="inputall ipt120 dateType"></td>
     </tr>
     <tr height=40 style='height:30.0pt'>
       <td height=40 class=xl74 style='height:30.0pt;border-top:none'>3</td>
       <td colspan=2 class=xl89 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
-      <td colspan=4 class=xl89 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
+  none'><textarea id="pgjl_xlm_3"></textarea></td>
+      <td colspan=3 class=xl89 style='border-right:.5pt solid black;border-left:
+  none'><textarea id="pgjl_appearance_3"></textarea></td>
       <td colspan=5 class=xl89 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td class=xl76><textarea></textarea></td>
+  none'><textarea id="pgjl_reasonAndMethod_3"></textarea></td>
+      <td class=xl69><input type="text" id="pgjl_finder_3" class="inputall ipt70"></td>
+      <td class=xl69><input type="text" id="pgjl_confirmer_3" class="inputall ipt70"></td>
+      <td colspan=2 class=xl76><input type="text" id="pgjl_date_3" class="inputall ipt120 dateType"></td>
     </tr>
     <tr height=40 style='height:30.0pt'>
       <td height=40 class=xl74 style='height:30.0pt;border-top:none'>4</td>
       <td colspan=2 class=xl89 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
-      <td colspan=4 class=xl89 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
+  none'><textarea id="pgjl_xlm_4"></textarea></td>
+      <td colspan=3 class=xl89 style='border-right:.5pt solid black;border-left:
+  none'><textarea id="pgjl_appearance_4"></textarea></td>
       <td colspan=5 class=xl89 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td class=xl69><textarea></textarea></td>
-      <td class=xl76><textarea></textarea></td>
+  none'><textarea id="pgjl_reasonAndMethod_4"></textarea></td>
+      <td class=xl69><input type="text" id="pgjl_finder_4" class="inputall ipt70"></td>
+      <td class=xl69><input type="text" id="pgjl_confirmer_4" class="inputall ipt70"></td>
+      <td colspan=2 class=xl76><input type="text" id="pgjl_date_4" class="inputall ipt120 dateType"></td>
     </tr>
     <tr height=40 style='height:30.0pt'>
       <td height=40 class=xl75 style='height:30.0pt;border-top:none'>5</td>
       <td colspan=2 class=xl107 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
-      <td colspan=4 class=xl107 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
+  none'><textarea id="pgjl_xlm_5"></textarea></td>
+      <td colspan=3 class=xl107 style='border-right:.5pt solid black;border-left:
+  none'><textarea id="pgjl_appearance_5"></textarea></td>
       <td colspan=5 class=xl89 style='border-right:.5pt solid black;border-left:
-  none'><textarea></textarea></td>
-      <td class=xl72><textarea></textarea></td>
-      <td class=xl72><textarea></textarea></td>
-      <td class=xl77><textarea></textarea></td>
+  none'><textarea id="pgjl_reasonAndMethod_5"></textarea></td>
+      <td class=xl69><input type="text" id="pgjl_finder_5" class="inputall ipt70"></td>
+      <td class=xl69><input type="text" id="pgjl_confirmer_5" class="inputall ipt70"></td>
+      <td colspan=2 class=xl76><input type="text" id="pgjl_date_5" class="inputall ipt120 dateType"></td>
     </tr>
     <tr height=33 style='height:24.95pt'>
       <td colspan=13 rowspan=2 height=66 class=xl119 style='border-bottom:
   1.0pt solid black;height:49.9pt;width:490pt'>（1-本批次本工序不合格总数÷本批次本工序生产零件总数）×100%=本批次该零件本工序直通率<br><span>     
-        </span>(1－<span class="inputSpan" style="position: relative;">
-          <input></span>÷<span class="inputSpan" style="position: relative;"><input></span>)×100%＝<span
-          class="inputSpan" style="position: relative;"><input></span>%<br>
-        </font>
+        </span><!--(1－<span class="inputSpan" style="position: relative;">
+          <input id='num_value1' class="ipt60" onChange="change()" type="text">
+      </span><span></span>÷<span class="inputSpan" style="position: relative;">
+          <input id='num_value2' class="ipt60" onChange="change()" type="text"></span>)×100%＝<span
+          class="inputSpan" style="position: relative;"><input id='num_value3' disabled class="ipt60" type="text"></span>%<br>-->
+        <span class="font29"><span
+                span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>( 1 </span>
+        <span class="font2">－</span>
+        <span class="font29"><input id='num_value1' class="ipt80 " onChange="change()" type="text"></span>
+        <span class="font2">÷</span>
+        <span class="font29"><input id='num_value2' class="ipt80 " onChange="change()" type="text"></span>
+        <span class="font29">) </span>
+        <span class="font2">×</span>
+        <span class="font29">&nbsp;100% </span>
+        <span class="font2">＝</span>
+        <span class="font29"><input id='num_value3' disabled class="ipt80 " type="text"></span>
+        </span>%</span>
+
       </td>
       <td colspan=2 class=xl66 style='border-right:1.0pt solid black;border-left:
   none'>统计人</td>
     </tr>
     <tr height=33 style='height:24.95pt'>
       <td colspan=2 height=33 class=xl71 style='border-right:1.0pt solid black;
-  height:24.95pt;border-left:none'><textarea></textarea></td>
+  height:24.95pt;border-left:none'><input type="text" id="statisticsUser" class="inputall ipt120"></td>
     </tr>
     <tr height=106 style='height:80.1pt'>
       <td height=106 class=xl78 align=center style='height:80.1pt;border-top:none'>备注</td>
       <td colspan=14 class=xl104 style='border-right:1.0pt solid black;border-left:
-  none'><textarea></textarea></td>
+  none'><textarea id="remark"></textarea></td>
     </tr>
   </table>
 
 </body>
 
+<script language='javascript' type='text/javascript'>
+  function ChangeRowspanHiddenData() {
+    var node;
+    var params = ["r5", "r6", "r9", "r19", "r20", "r24"];
+    for (var i = 0; i < params.length; i++) {
+      node = document.getElementById(params[i]);
+      if (node != null) {
+        node.style.display = "";
+      }
+    }
+  }
+  ChangeRowspanHiddenData();
+  function change() {
+    var num_value1 = document.getElementById("num_value1");
+    var num_value2 = document.getElementById("num_value2");
+    var num_value3 = document.getElementById("num_value3");
+    var value = '';
+    if (num_value2.value > 0) {
+      value = (1 - num_value1.value / num_value2.value).toFixed(4);
+      num_value3.value = value * 100
+    } else {
+      num_value3.value = value
+    }
+  }
+
+  layui.use(['table', 'jquery', 'form', 'layer', 'laydate'], function () {
+    var table = layui.table,
+            layer = layui.layer,
+            form = layui.form,
+            laydate = layui.laydate,
+            $ = layui.jquery;
+    var dd = JSON.parse($('[name=data]').val());
+    console.log(dd)
+    //这里开始拿数据
+    $('.dateType').focus(function () {
+      $(this).attr('type', 'date')
+    }).blur(function () {
+      var timeTxt = $(this).val().replace(/-/g, '.').substring(2);
+      $(this).attr('type', 'text').val(timeTxt)
+    })
+
+    // if (dd.factory == "万吉厂区") {
+    //   $('#area').attr('checked', true)
+    // }
+    // if (dd.factory == "金砂厂区") {
+    //   $('#area1').attr('checked', true)
+    // }
+    if (dd.is_rohs == "是") {
+      $('#RoHS').attr('checked', true)
+    }
+    if (dd.is_rohs == "否") {
+      $('#RoHS1').attr('checked', true)
+    }
+
+    //型号
+    $('#model').val(dd.model_ver)
+    //部件名称
+    $('#modelName').val(dd.model_name)
+    //生产批次
+    $('#taskSheetCode').val(dd.task_sheet_code)
+    //投产台数
+    $('#produceAmount').val(dd.quantity)
+    //pcb板号
+    $('#pcbId').val(dd.pcb_id)
+    /*//数量
+    $('#amount').val(dd.pcb_quantity)
+    //修改标记
+    $('#changeFlag').val(dd.pcb_modify_tag)
+
+    //板编码
+    $('#plateCode').val(dd.batch_id)*/
+
+    var dj = {}
+    function initAjax() {
+      $.ajax({
+        url: '/report/findCurrentReport',
+        type: "post",
+        dataType: "json",
+        data: JSON.stringify({
+          pcbTaskCode: dd.pcb_task_code,
+          reportType: '4'
+        }),
+        contentType: "application/json;charset=UTF-8",
+        success: function (res) {
+          if (res.code === 200) {
+            if (res.data.length > 0) {
+              dj = JSON.parse(res.data[0].json_data);
+            }
+            console.log(dj)
+             if (Object.keys(dj).length > 0) {
+              // 序列码
+              $('#serialNum').val(dj.serialNum)
+              // 文件编号
+              $('#fileNum').val(dj.fileNum)
+              // 调试手册版本
+              $('#version').val(dj.version)
+              // 项数
+              $('#itemNum').val(dj.itemNum)
+              // todo 9.7
+              // 领入记录数据
+              $('#lr_jsr_1').val(dj.lr[0].jsr)
+              $('#lr_amount_1').val(dj.lr[0].amount)
+              $('#lr_date_1').val(dj.lr[0].date)
+              $('#lr_remark_1').val(dj.lr[0].remark)
+
+              $('#lr_jsr_2').val(dj.lr[1].jsr)
+              $('#lr_amount_2').val(dj.lr[1].amount)
+              $('#lr_date_2').val(dj.lr[1].date)
+              $('#lr_remark_2').val(dj.lr[1].remark)
+
+              $('#lr_jsr_3').val(dj.lr[2].jsr)
+              $('#lr_amount_3').val(dj.lr[2].amount)
+              $('#lr_date_3').val(dj.lr[2].date)
+              $('#lr_remark_3').val(dj.lr[2].remark)
+
+              $('#lr_jsr_4').val(dj.lr[3].jsr)
+              $('#lr_amount_4').val(dj.lr[3].amount)
+              $('#lr_date_4').val(dj.lr[3].date)
+              $('#lr_remark_4').val(dj.lr[3].remark)
+
+              $('#lr_jsr_5').val(dj.lr[4].jsr)
+              $('#lr_amount_5').val(dj.lr[4].amount)
+              $('#lr_date_5').val(dj.lr[4].date)
+              $('#lr_remark_5').val(dj.lr[4].remark)
+
+              $('#lr_jsr_6').val(dj.lr[5].jsr)
+              $('#lr_amount_6').val(dj.lr[5].amount)
+              $('#lr_date_6').val(dj.lr[5].date)
+              $('#lr_remark_6').val(dj.lr[5].remark)
+
+              $('#lr_jsr_7').val(dj.lr[6].jsr)
+              $('#lr_amount_7').val(dj.lr[6].amount)
+              $('#lr_date_7').val(dj.lr[6].date)
+              $('#lr_remark_7').val(dj.lr[6].remark)
+
+              $('#lr_jsr_8').val(dj.lr[7].jsr)
+              $('#lr_amount_8').val(dj.lr[7].amount)
+              $('#lr_date_8').val(dj.lr[7].date)
+              $('#lr_remark_8').val(dj.lr[7].remark)
+
+              $('#lr_jsr_9').val(dj.lr[8].jsr)
+              $('#lr_amount_9').val(dj.lr[8].amount)
+              $('#lr_date_9').val(dj.lr[8].date)
+              $('#lr_remark_9').val(dj.lr[8].remark)
+
+              $('#lr_jsr_10').val(dj.lr[9].jsr)
+              $('#lr_amount_10').val(dj.lr[9].amount)
+              $('#lr_date_10').val(dj.lr[9].date)
+              $('#lr_remark_10').val(dj.lr[9].remark)
+
+              // 移交记录数据
+              $('#yj_jsr_1').val(dj.yj[0].jsr)
+              $('#yj_amount_1').val(dj.yj[0].amount)
+              $('#yj_date_1').val(dj.yj[0].date)
+              $('#yj_remark_1').val(dj.yj[0].remark)
+
+              $('#yj_jsr_2').val(dj.yj[1].jsr)
+              $('#yj_amount_2').val(dj.yj[1].amount)
+              $('#yj_date_2').val(dj.yj[1].date)
+              $('#yj_remark_2').val(dj.yj[1].remark)
+
+              $('#yj_jsr_3').val(dj.yj[2].jsr)
+              $('#yj_amount_3').val(dj.yj[2].amount)
+              $('#yj_date_3').val(dj.yj[2].date)
+              $('#yj_remark_3').val(dj.yj[2].remark)
+
+              $('#yj_jsr_4').val(dj.yj[3].jsr)
+              $('#yj_amount_4').val(dj.yj[3].amount)
+              $('#yj_date_4').val(dj.yj[3].date)
+              $('#yj_remark_4').val(dj.yj[3].remark)
+
+              $('#yj_jsr_5').val(dj.yj[4].jsr)
+              $('#yj_amount_5').val(dj.yj[4].amount)
+              $('#yj_date_5').val(dj.yj[4].date)
+              $('#yj_remark_5').val(dj.yj[4].remark)
+
+              $('#yj_jsr_6').val(dj.yj[5].jsr)
+              $('#yj_amount_6').val(dj.yj[5].amount)
+              $('#yj_date_6').val(dj.yj[5].date)
+              $('#yj_remark_6').val(dj.yj[5].remark)
+
+              $('#yj_jsr_7').val(dj.yj[6].jsr)
+              $('#yj_amount_7').val(dj.yj[6].amount)
+              $('#yj_date_7').val(dj.yj[6].date)
+              $('#yj_remark_7').val(dj.yj[6].remark)
+
+              $('#yj_jsr_8').val(dj.yj[7].jsr)
+              $('#yj_amount_8').val(dj.yj[7].amount)
+              $('#yj_date_8').val(dj.yj[7].date)
+              $('#yj_remark_8').val(dj.yj[7].remark)
+
+              $('#yj_jsr_9').val(dj.yj[8].jsr)
+              $('#yj_amount_9').val(dj.yj[8].amount)
+              $('#yj_date_9').val(dj.yj[8].date)
+              $('#yj_remark_9').val(dj.yj[8].remark)
+
+              $('#yj_jsr_10').val(dj.yj[9].jsr)
+              $('#yj_amount_10').val(dj.yj[9].amount)
+              $('#yj_date_10').val(dj.yj[9].date)
+              $('#yj_remark_10').val(dj.yj[9].remark)
+
+              // 仪器调试数据
+              $('#yq_xlm_1').val(dj.yq[0].xlm)
+              $('#yq_banNum_1').val(dj.yq[0].banNum)
+              $('#yq_sizeNum_1').val(dj.yq[0].sizeNum)
+              $('#yq_testUser_1').val(dj.yq[0].testUser)
+              $('#yq_bh_1').val(dj.yq[0].bh)
+              if (dj.yq[0].testStatu == 1) {
+                $('#yq_testStatu_1').attr('checked', true)
+              }
+              if (dj.yq[0].testResult == 1) {
+                $('#yq_testResult_1').attr('checked', true)
+              }
+
+              $('#yq_xlm_2').val(dj.yq[1].xlm)
+              $('#yq_banNum_2').val(dj.yq[1].banNum)
+              $('#yq_sizeNum_2').val(dj.yq[1].sizeNum)
+              $('#yq_testUser_2').val(dj.yq[1].testUser)
+              $('#yq_bh_2').val(dj.yq[1].bh)
+              if (dj.yq[1].testStatu == 1) {
+                $('#yq_testStatu_2').attr('checked', true)
+              }
+              if (dj.yq[1].testResult == 1) {
+                $('#yq_testResult_2').attr('checked', true)
+              }
+
+              $('#yq_xlm_3').val(dj.yq[2].xlm)
+              $('#yq_banNum_3').val(dj.yq[2].banNum)
+              $('#yq_sizeNum_3').val(dj.yq[2].sizeNum)
+              $('#yq_testUser_3').val(dj.yq[2].testUser)
+              $('#yq_bh_3').val(dj.yq[2].bh)
+              if (dj.yq[2].testStatu == 1) {
+                $('#yq_testStatu_3').attr('checked', true)
+              }
+              if (dj.yq[2].testResult == 1) {
+                $('#yq_testResult_3').attr('checked', true)
+              }
+
+              $('#yq_xlm_4').val(dj.yq[3].xlm)
+              $('#yq_banNum_4').val(dj.yq[3].banNum)
+              $('#yq_sizeNum_4').val(dj.yq[3].sizeNum)
+              $('#yq_testUser_4').val(dj.yq[3].testUser)
+              $('#yq_bh_4').val(dj.yq[3].bh)
+              if (dj.yq[3].testStatu == 1) {
+                $('#yq_testStatu_4').attr('checked', true)
+              }
+              if (dj.yq[3].testResult == 1) {
+                $('#yq_testResult_4').attr('checked', true)
+              }
+
+              // 排故记录数据
+              $('#pgjl_xlm_1').val(dj.pgjl[0].xlm)
+              $('#pgjl_appearance_1').val(dj.pgjl[0].appearance)
+              $('#pgjl_reasonAndMethod_1').val(dj.pgjl[0].reasonAndMethod)
+              $('#pgjl_finder_1').val(dj.pgjl[0].finder)
+              $('#pgjl_confirmer_1').val(dj.pgjl[0].confirmer)
+              $('#pgjl_date_1').val(dj.pgjl[0].date)
+
+              $('#pgjl_xlm_2').val(dj.pgjl[1].xlm)
+              $('#pgjl_appearance_2').val(dj.pgjl[1].appearance)
+              $('#pgjl_reasonAndMethod_2').val(dj.pgjl[1].reasonAndMethod)
+              $('#pgjl_finder_2').val(dj.pgjl[1].finder)
+              $('#pgjl_confirmer_2').val(dj.pgjl[1].confirmer)
+              $('#pgjl_date_2').val(dj.pgjl[1].date)
+
+              $('#pgjl_xlm_3').val(dj.pgjl[2].xlm)
+              $('#pgjl_appearance_3').val(dj.pgjl[2].appearance)
+              $('#pgjl_reasonAndMethod_3').val(dj.pgjl[2].reasonAndMethod)
+              $('#pgjl_finder_3').val(dj.pgjl[2].finder)
+              $('#pgjl_confirmer_3').val(dj.pgjl[2].confirmer)
+              $('#pgjl_date_3').val(dj.pgjl[2].date)
+
+              $('#pgjl_xlm_4').val(dj.pgjl[3].xlm)
+              $('#pgjl_appearance_4').val(dj.pgjl[3].appearance)
+              $('#pgjl_reasonAndMethod_4').val(dj.pgjl[3].reasonAndMethod)
+              $('#pgjl_finder_4').val(dj.pgjl[3].finder)
+              $('#pgjl_confirmer_4').val(dj.pgjl[3].confirmer)
+              $('#pgjl_date_4').val(dj.pgjl[3].date)
+
+              $('#pgjl_xlm_5').val(dj.pgjl[4].xlm)
+              $('#pgjl_appearance_5').val(dj.pgjl[4].appearance)
+              $('#pgjl_reasonAndMethod_5').val(dj.pgjl[4].reasonAndMethod)
+              $('#pgjl_finder_5').val(dj.pgjl[4].finder)
+              $('#pgjl_confirmer_5').val(dj.pgjl[4].confirmer)
+              $('#pgjl_date_5').val(dj.pgjl[4].date)
+
+
+
+               $('#remark').val(dj.remark);
+               $('#statisticsUser').val(dj.statisticsUser);
+               $('#num_value1').val(dj.num_value1);
+               $('#num_value2').val(dj.num_value2);
+               $('#num_value3').val(dj.num_value3);
+
+              // ------------------todo 9.7
+
+
+
+
+
+            }
+          } else {
+            layer.alert(res.msg, { icon: 5 })
+          }
+        }
+      })
+    }
+    initAjax();
+    $('#onsubmit').on('click', function () {
+      var datajson = {
+        //"area": dd.factory,
+        //"tempParam": "ZJ-F043H",
+        "RoHS": dd.is_rohs,
+        "model": dd.model_ver,
+        "modelName": dd.model_name,
+        "pcbId": dd.pcb_id,
+        "taskSheetCode": dd.task_sheet_code,
+        "produceAmount": dd.quantity,
+        "serialNum":$('#serialNum').val(),
+        "fileNum":$('#fileNum').val(),
+        "version":$('#version').val(),
+        "itemNum":$('#itemNum').val(),
+        // "amount":dd.pcb_quantity,
+        // "changeFlag":dd.pcb_modify_tag,
+        // "pcbCode": dd.pcb_id,
+        // "plateCode": dd.batch_id,
+        // todo 9.7
+        // 领入数据
+        "lr":[
+          {
+            "jsr": $('#lr_jsr_1').val(),
+            "amount": $('#lr_amount_1').val(),
+            "date": $('#lr_date_1').val(),
+            "remark": $('#lr_remark_1').val()
+          },
+          {
+            "jsr": $('#lr_jsr_2').val(),
+            "amount": $('#lr_amount_2').val(),
+            "date": $('#lr_date_2').val(),
+            "remark": $('#lr_remark_2').val()
+          },
+          {
+            "jsr": $('#lr_jsr_3').val(),
+            "amount": $('#lr_amount_3').val(),
+            "date": $('#lr_date_3').val(),
+            "remark": $('#lr_remark_3').val()
+          },
+          {
+            "jsr": $('#lr_jsr_4').val(),
+            "amount": $('#lr_amount_4').val(),
+            "date": $('#lr_date_4').val(),
+            "remark": $('#lr_remark_4').val()
+          },
+          {
+            "jsr": $('#lr_jsr_5').val(),
+            "amount": $('#lr_amount_5').val(),
+            "date": $('#lr_date_5').val(),
+            "remark": $('#lr_remark_5').val()
+          },
+          {
+            "jsr": $('#lr_jsr_6').val(),
+            "amount": $('#lr_amount_6').val(),
+            "date": $('#lr_date_6').val(),
+            "remark": $('#lr_remark_6').val()
+          },
+          {
+            "jsr": $('#lr_jsr_7').val(),
+            "amount": $('#lr_amount_7').val(),
+            "date": $('#lr_date_7').val(),
+            "remark": $('#lr_remark_7').val()
+          },
+          {
+            "jsr": $('#lr_jsr_8').val(),
+            "amount": $('#lr_amount_8').val(),
+            "date": $('#lr_date_8').val(),
+            "remark": $('#lr_remark_8').val()
+          },
+          {
+            "jsr": $('#lr_jsr_9').val(),
+            "amount": $('#lr_amount_9').val(),
+            "date": $('#lr_date_9').val(),
+            "remark": $('#lr_remark_9').val()
+          },
+          {
+            "jsr": $('#lr_jsr_10').val(),
+            "amount": $('#lr_amount_10').val(),
+            "date": $('#lr_date_10').val(),
+            "remark": $('#lr_remark_10').val()
+          },
+        ],
+
+        // 移交数据
+        "yj":[
+          {
+            "jsr": $('#yj_jsr_1').val(),
+            "amount": $('#yj_amount_1').val(),
+            "date": $('#yj_date_1').val(),
+            "remark": $('#yj_remark_1').val()
+          },
+          {
+            "jsr": $('#yj_jsr_2').val(),
+            "amount": $('#yj_amount_2').val(),
+            "date": $('#yj_date_2').val(),
+            "remark": $('#yj_remark_2').val()
+          },
+          {
+            "jsr": $('#yj_jsr_3').val(),
+            "amount": $('#yj_amount_3').val(),
+            "date": $('#yj_date_3').val(),
+            "remark": $('#yj_remark_3').val()
+          },
+          {
+            "jsr": $('#yj_jsr_4').val(),
+            "amount": $('#yj_amount_4').val(),
+            "date": $('#yj_date_4').val(),
+            "remark": $('#yj_remark_4').val()
+          },
+          {
+            "jsr": $('#yj_jsr_5').val(),
+            "amount": $('#yj_amount_5').val(),
+            "date": $('#yj_date_5').val(),
+            "remark": $('#yj_remark_5').val()
+          },
+          {
+            "jsr": $('#yj_jsr_6').val(),
+            "amount": $('#yj_amount_6').val(),
+            "date": $('#yj_date_6').val(),
+            "remark": $('#yj_remark_6').val()
+          },
+          {
+            "jsr": $('#yj_jsr_7').val(),
+            "amount": $('#yj_amount_7').val(),
+            "date": $('#yj_date_7').val(),
+            "remark": $('#yj_remark_7').val()
+          },
+          {
+            "jsr": $('#yj_jsr_8').val(),
+            "amount": $('#yj_amount_8').val(),
+            "date": $('#yj_date_8').val(),
+            "remark": $('#yj_remark_8').val()
+          },
+          {
+            "jsr": $('#yj_jsr_9').val(),
+            "amount": $('#yj_amount_9').val(),
+            "date": $('#yj_date_9').val(),
+            "remark": $('#yj_remark_9').val()
+          },
+          {
+            "jsr": $('#yj_jsr_10').val(),
+            "amount": $('#yj_amount_10').val(),
+            "date": $('#yj_date_10').val(),
+            "remark": $('#yj_remark_10').val()
+          },
+        ],
+
+        //仪器调试数据
+        "yq": [
+          {
+            "xlm": $('#yq_xlm_1').val(),
+            "banNum": $('#yq_banNum_1').val(),
+            "sizeNum": $('#yq_sizeNum_1').val(),
+            "testUser": $('#yq_testUser_1').val(),
+            "bh": $('#yq_bh_1').val(),
+            "testStatu": $('#yq_testStatu_1').is(":checked")?1:0,
+            "testResult": $('#yq_testResult_1').is(":checked")?1:0,
+          },
+          {
+            "xlm": $('#yq_xlm_2').val(),
+            "banNum": $('#yq_banNum_2').val(),
+            "sizeNum": $('#yq_sizeNum_2').val(),
+            "testUser": $('#yq_testUser_2').val(),
+            "bh": $('#yq_bh_2').val(),
+            "testStatu": $('#yq_testStatu_2').is(":checked")?1:0,
+            "testResult": $('#yq_testResult_2').is(":checked")?1:0,
+          },
+          {
+            "xlm": $('#yq_xlm_3').val(),
+            "banNum": $('#yq_banNum_3').val(),
+            "sizeNum": $('#yq_sizeNum_3').val(),
+            "testUser": $('#yq_testUser_3').val(),
+            "bh": $('#yq_bh_3').val(),
+            "testStatu": $('#yq_testStatu_3').is(":checked")?1:0,
+            "testResult": $('#yq_testResult_3').is(":checked")?1:0,
+          },
+          {
+            "xlm": $('#yq_xlm_4').val(),
+            "banNum": $('#yq_banNum_4').val(),
+            "sizeNum": $('#yq_sizeNum_4').val(),
+            "testUser": $('#yq_testUser_4').val(),
+            "bh": $('#yq_bh_4').val(),
+            "testStatu": $('#yq_testStatu_4').is(":checked")?1:0,
+            "testResult": $('#yq_testResult_4').is(":checked")?1:0,
+          },
+        ],
+
+        // 排故数据
+        "pgjl": [
+          {
+            "xlm": $('#pgjl_xlm_1').val(),
+            "appearance": $('#pgjl_appearance_1').val(),
+            "reasonAndMethod": $('#pgjl_reasonAndMethod_1').val(),
+            "finder": $('#pgjl_finder_1').val(),
+            "confirmer": $('#pgjl_confirmer_1').val(),
+            "date": $('#pgjl_date_1').val(),
+          },
+          {
+            "xlm": $('#pgjl_xlm_2').val(),
+            "appearance": $('#pgjl_appearance_2').val(),
+            "reasonAndMethod": $('#pgjl_reasonAndMethod_2').val(),
+            "finder": $('#pgjl_finder_2').val(),
+            "confirmer": $('#pgjl_confirmer_2').val(),
+            "date": $('#pgjl_date_2').val(),
+          },
+          {
+            "xlm": $('#pgjl_xlm_3').val(),
+            "appearance": $('#pgjl_appearance_3').val(),
+            "reasonAndMethod": $('#pgjl_reasonAndMethod_3').val(),
+            "finder": $('#pgjl_finder_3').val(),
+            "confirmer": $('#pgjl_confirmer_3').val(),
+            "date": $('#pgjl_date_3').val(),
+          },
+          {
+            "xlm": $('#pgjl_xlm_4').val(),
+            "appearance": $('#pgjl_appearance_4').val(),
+            "reasonAndMethod": $('#pgjl_reasonAndMethod_4').val(),
+            "finder": $('#pgjl_finder_4').val(),
+            "confirmer": $('#pgjl_confirmer_4').val(),
+            "date": $('#pgjl_date_4').val(),
+          },
+          {
+            "xlm": $('#pgjl_xlm_5').val(),
+            "appearance": $('#pgjl_appearance_5').val(),
+            "reasonAndMethod": $('#pgjl_reasonAndMethod_5').val(),
+            "finder": $('#pgjl_finder_5').val(),
+            "confirmer": $('#pgjl_confirmer_5').val(),
+            "date": $('#pgjl_date_5').val(),
+          },
+        ],
+
+        // todo 9.7 ----------------
+        "remark": $('#remark').val(),
+        "statisticsUser": $('#statisticsUser').val(),
+        "num_value1": $('#num_value1').val(),
+        "num_value2": $('#num_value2').val(),
+        "num_value3": $('#num_value3').val(),
+
+
+      }
+      console.log(datajson)
+      $.ajax({
+        url: '/currentReport/addCurrentReport',
+        type: "post",
+        dataType: "json",
+        data: JSON.stringify({
+          pcb_task_code: dd.pcb_task_code,
+          json_data: JSON.stringify(datajson),
+          report_type: '4'
+        }),
+        contentType: "application/json;charset=UTF-8",
+        success: function (res) {
+          if (res.code === 200) {
+            var initajax = layer.alert(res.msg, { icon: 1 }, function () {
+              initAjax()
+              layer.close(initajax);
+            })
+          } else {
+            layer.alert(res.msg, { icon: 5 })
+          }
+        }
+      })
+    })
+  })
+</script>
 </html>

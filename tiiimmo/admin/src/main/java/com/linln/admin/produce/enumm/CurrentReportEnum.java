@@ -8,7 +8,8 @@ public enum CurrentReportEnum {
      */
     TPLTB("1", "贴片流通表"),
     ZXLTB("2", "整形流通表"),
-    HHLTB("3", "后焊流通表");
+    HHLTB("3", "后焊流通表"),
+    DLBTS("4", "电路板调试");
 
 
 
