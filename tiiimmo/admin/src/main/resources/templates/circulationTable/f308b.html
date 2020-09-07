@@ -1099,7 +1099,7 @@
         contentType: "application/json;charset=UTF-8",
         success: function (res) {
           if (res.code === 200) {
-            var initajax = layer.alert(res.msg, { icon: 1 }, function () {
+            var initajax = layer.alert(res.msg, { icon: 1, offset: '260px' }, function () {
               initAjax()
               layer.close(initajax);
             })
