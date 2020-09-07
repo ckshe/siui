@@ -2,6 +2,7 @@ package com.linln.admin.reports.service;
 
 import com.linln.admin.produce.domain.CurrentReport;
 import com.linln.admin.reports.request.BadDetailReq;
+import com.linln.admin.reports.request.ClassInfoReq;
 import com.linln.admin.reports.request.CurrentReportReq;
 import com.linln.common.vo.ResultVo;
 
@@ -15,6 +16,6 @@ public interface ReportService {
 
     //班次分析
 
-    public ResultVo findClassInfo();
+    public ResultVo findClassInfo(ClassInfoReq req);
 
 }
