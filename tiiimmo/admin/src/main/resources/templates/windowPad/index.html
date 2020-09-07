@@ -690,6 +690,7 @@
                 if (isLogin()) {
                     layer.open({
                         type: 1,
+                        title:'更新板数量',
                         content: $('#multiple'),
                         area: ['400px', '400px']
                     });
@@ -698,9 +699,9 @@
                         process_task_code: nowGonDan.process_task_code,
                         multiple: nowGonDan.multiple == null ? 1 : nowGonDan.multiple
                     })
-                    if(nowGonDan.count_type==1){
-                        $('[name=multiple]').attr('disabled',true)
-                    }
+                    // if(nowGonDan.count_type==1){
+                    //     $('[name=multiple]').attr('disabled',true)
+                    // }
                     // layer.confirm('确定启动当前工单？', { icon: 3 }, function () {
                     //     layer.load(1, {
                     //         content: '启动中...',
