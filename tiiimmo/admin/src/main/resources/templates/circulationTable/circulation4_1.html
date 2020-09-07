@@ -733,7 +733,7 @@
           type: "post",
           dataType: "json",
           data: JSON.stringify({
-            pcb_task_code: getQueryString('pcb_task_code'),
+            pcbTaskCode: getQueryString('pcb_task_code'),
             reportType: '301'
           }),
           contentType: "application/json;charset=UTF-8",
@@ -742,7 +742,6 @@
               if (res.data.length > 0) {
                 dj = JSON.parse(res.data[0].json_data);
               }
-              console.log(dj)
               if (Object.keys(dj).length > 0) {
                 $('#num_value1').val(dj.num_value1)
                 $('#num_value2').val(dj.num_value2)
@@ -802,7 +801,7 @@
         }
         datajson.tiepianArr = tiepianbmArr;
         datajson.tiepianbadTypeArr = tiepianbmbadTypeArr;
-        console.log(getQueryString('pcb_task_code'))
+        // console.log(getQueryString('pcb_task_code'))
         $.ajax({
           url: '/currentReport/addCurrentReport',
           type: "post",
