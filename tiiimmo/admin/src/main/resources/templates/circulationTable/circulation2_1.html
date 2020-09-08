@@ -525,26 +525,25 @@
             if (res.code === 200) {
               if (res.data.length > 0) {
                 dj = JSON.parse(res.data[0].json_data);
-              }
-              console.log(dj)
-              if (Object.keys(dj).length > 0) {
-                $('#two_value1').val(dj.two_value1)
-                $('#two_value2').val(dj.two_value2)
-                $('#two_value3').val(dj.two_value3)
-                $('#two_user').val(dj.two_user)
-                $('#two_value4').val(dj.two_value4)
-                $('#two_value5').val(dj.two_value5)
-                $('#two_value6').val(dj.two_value6)
-                $('#two_user1').val(dj.two_user1)
-                for (var i = 0; i < dj.zxbmArr.length; i++) {
-                  $('#two_xlm_' + (i + 1)).val(dj.zxbmArr[i].two_xlm)
-                  $('#two_wh_' + (i + 1)).val(dj.zxbmArr[i].two_wh)
-                  $('#two_blxx_' + (i + 1)).val(dj.zxbmArr[i].two_blxx)
-                  $('#two_sl_' + (i + 1)).val(dj.zxbmArr[i].two_sl)
-                  $('#two_clqk_' + (i + 1)).val(dj.zxbmArr[i].two_clqk)
-                  $('#two_czz_' + (i + 1)).val(dj.zxbmArr[i].two_czz)
-                  $('#two_qc_' + (i + 1)).val(dj.zxbmArr[i].two_qc)
-                  $('#two_bz_' + (i + 1)).val(dj.zxbmArr[i].two_bz)
+                if (Object.keys(dj).length > 0) {
+                  $('#two_value1').val(dj.two_value1)
+                  $('#two_value2').val(dj.two_value2)
+                  $('#two_value3').val(dj.two_value3)
+                  $('#two_user').val(dj.two_user)
+                  $('#two_value4').val(dj.two_value4)
+                  $('#two_value5').val(dj.two_value5)
+                  $('#two_value6').val(dj.two_value6)
+                  $('#two_user1').val(dj.two_user1)
+                  for (var i = 0; i < dj.zxbmArr.length; i++) {
+                    $('#two_xlm_' + (i + 1)).val(dj.zxbmArr[i].two_xlm)
+                    $('#two_wh_' + (i + 1)).val(dj.zxbmArr[i].two_wh)
+                    $('#two_blxx_' + (i + 1)).val(dj.zxbmArr[i].two_blxx)
+                    $('#two_sl_' + (i + 1)).val(dj.zxbmArr[i].two_sl)
+                    $('#two_clqk_' + (i + 1)).val(dj.zxbmArr[i].two_clqk)
+                    $('#two_czz_' + (i + 1)).val(dj.zxbmArr[i].two_czz)
+                    $('#two_qc_' + (i + 1)).val(dj.zxbmArr[i].two_qc)
+                    $('#two_bz_' + (i + 1)).val(dj.zxbmArr[i].two_bz)
+                  }
                 }
               }
             } else {

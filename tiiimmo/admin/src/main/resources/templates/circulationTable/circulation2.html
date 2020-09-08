@@ -75,6 +75,12 @@
       width: 240px !important;
     }
 
+    tbody>tr>td:last-child {
+      border: 1px solid red;
+      width: 0 !important;
+      display: none;
+    }
+
     /* * {
       background: #000 !important;
       color: #0f0 !important;
@@ -138,7 +144,7 @@
       <td width='53' style='width:39.75pt;'></td>
       <td width='37' style='width:27.75pt;'></td>
       <td class='x146' width='29' style='width:21.75pt;'>
-        <span>万吉厂区<input id='area' type="checkbox"> </span>
+        <span>万吉厂区<input id='area' checked type="checkbox"> </span>
         <span>金砂厂区<input id='area1' type="checkbox"></span>
       </td>
       <td width='53' style='width:39.75pt;'></td>
@@ -268,6 +274,7 @@
           <table cellpadding='0' cellspacing='0'>
             <tr>
               <td colspan='9' height='30' class='x199' width='353' style='height:22.7pt;width:264.75pt;'>贴胶纸</td>
+              <td></td>
             </tr>
           </table>
         </span></td>
@@ -278,6 +285,7 @@
           <table cellpadding='0' cellspacing='0'>
             <tr>
               <td colspan='10' height='30' class='x199' width='414' style='height:22.7pt;width:310.5pt;'>装配固件</td>
+              <td></td>
             </tr>
           </table>
         </span></td>
@@ -491,6 +499,7 @@
           <table cellpadding='0' cellspacing='0'>
             <tr>
               <td colspan='14' height='22' class='x201' width='578' style='height:16.5pt;width:433.5pt;'>关键工艺参数</td>
+              <td></td>
             </tr>
           </table>
         </span></td>
@@ -630,8 +639,9 @@
           style='position:absolute;z-index:4;margin-left:0px;margin-top:0px;width:148px;height:1px'></span><span>
           <table cellpadding='0' cellspacing='0'>
             <tr>
-              <td colspan='17' height='36' class='x203' width='689' style='height:27pt;width:516.75pt;'> <input
-                  id='remarks' class="inputall" style="width: 780px;" type="text"></td>
+              <td colspan='17' height='36' class='x203' width='689' style='height:27pt;width:516.75pt;'> <input id=''
+                  class="inputall" style="width: 780px;" type="text"></td>
+              <td></td>
             </tr>
           </table>
         </span></td>
@@ -728,111 +738,110 @@
             if (res.code === 200) {
               if (res.data.length > 0) {
                 dj = JSON.parse(res.data[0].json_data);
-              }
-              console.log(dj)
-              if (Object.keys(dj).length > 0) {
-                console.log(dj.cjsdgx[0].cjUser)
-                $('#cjsdgx_cjUser_1').val(dj.cjsdgx[0].cjUser)
-                $('#cjsdgx_cjNum_1').val(dj.cjsdgx[0].cjNum)
-                $('#cjsdgx_cjAmount_1').val(dj.cjsdgx[0].cjAmount)
-                $('#cjsdgx_cjDate_1').val(dj.cjsdgx[0].cjDate)
+                if (Object.keys(dj).length > 0) {
+                  console.log(dj.cjsdgx[0].cjUser)
+                  $('#cjsdgx_cjUser_1').val(dj.cjsdgx[0].cjUser)
+                  $('#cjsdgx_cjNum_1').val(dj.cjsdgx[0].cjNum)
+                  $('#cjsdgx_cjAmount_1').val(dj.cjsdgx[0].cjAmount)
+                  $('#cjsdgx_cjDate_1').val(dj.cjsdgx[0].cjDate)
 
-                $('#cjsdgx_cjUser_2').val(dj.cjsdgx[1].cjUser)
-                $('#cjsdgx_cjNum_2').val(dj.cjsdgx[1].cjNum)
-                $('#cjsdgx_cjAmount_2').val(dj.cjsdgx[1].cjAmount)
-                $('#cjsdgx_cjDate_2').val(dj.cjsdgx[1].cjDate)
+                  $('#cjsdgx_cjUser_2').val(dj.cjsdgx[1].cjUser)
+                  $('#cjsdgx_cjNum_2').val(dj.cjsdgx[1].cjNum)
+                  $('#cjsdgx_cjAmount_2').val(dj.cjsdgx[1].cjAmount)
+                  $('#cjsdgx_cjDate_2').val(dj.cjsdgx[1].cjDate)
 
-                $('#cjsdgx_cjUser_3').val(dj.cjsdgx[2].cjUser)
-                $('#cjsdgx_cjNum_3').val(dj.cjsdgx[2].cjNum)
-                $('#cjsdgx_cjAmount_3').val(dj.cjsdgx[2].cjAmount)
-                $('#cjsdgx_cjDate_3').val(dj.cjsdgx[2].cjDate)
-                //可追溯性 
-                $('#kzsx_zxUser').val(dj.kzsx[0].zxUser)
-                $('#kzsx_qrUser').val(dj.kzsx[0].qrUser)
-                console.log(dj.kzsx[0].date)
-                $('#kzsx_date').val(dj.kzsx[0].date)
-                //贴胶纸
-                $('#tjz_scUser_1').val(dj.tjz[0].scUser)
-                $('#tjz_qcUser_1').val(dj.tjz[0].qcUser)
-                $('#tjz_date_1').val(dj.tjz[0].date)
+                  $('#cjsdgx_cjUser_3').val(dj.cjsdgx[2].cjUser)
+                  $('#cjsdgx_cjNum_3').val(dj.cjsdgx[2].cjNum)
+                  $('#cjsdgx_cjAmount_3').val(dj.cjsdgx[2].cjAmount)
+                  $('#cjsdgx_cjDate_3').val(dj.cjsdgx[2].cjDate)
+                  //可追溯性 
+                  $('#kzsx_zxUser').val(dj.kzsx[0].zxUser)
+                  $('#kzsx_qrUser').val(dj.kzsx[0].qrUser)
+                  console.log(dj.kzsx[0].date)
+                  $('#kzsx_date').val(dj.kzsx[0].date)
+                  //贴胶纸
+                  $('#tjz_scUser_1').val(dj.tjz[0].scUser)
+                  $('#tjz_qcUser_1').val(dj.tjz[0].qcUser)
+                  $('#tjz_date_1').val(dj.tjz[0].date)
 
-                $('#tjz_scUser_2').val(dj.tjz[1].scUser)
-                $('#tjz_qcUser_2').val(dj.tjz[1].qcUser)
-                $('#tjz_date_2').val(dj.tjz[1].date)
+                  $('#tjz_scUser_2').val(dj.tjz[1].scUser)
+                  $('#tjz_qcUser_2').val(dj.tjz[1].qcUser)
+                  $('#tjz_date_2').val(dj.tjz[1].date)
 
-                $('#tjz_scUser_3').val(dj.tjz[2].scUser)
-                $('#tjz_qcUser_3').val(dj.tjz[2].qcUser)
-                $('#tjz_date_3').val(dj.tjz[2].date)
-                // 装配固件
-                $('#zpgj_scUser_1').val(dj.zpgj[0].scUser)
-                $('#zpgj_qchdUser_1').val(dj.zpgj[0].qchdUser)
-                if (dj.zpgj[0].qchs == 1) {
-                  $('#zpgj_qchs_1').attr('checked', true)
-                }
-                $('#zpgj_date_1').val(dj.zpgj[0].date)
-
-                $('#zpgj_scUser_2').val(dj.zpgj[1].scUser)
-                $('#zpgj_qchdUser_2').val(dj.zpgj[1].qchdUser)
-                if (dj.zpgj[1].qchs == 1) {
-                  $('#zpgj_qchs_2').attr('checked', true)
-                }
-                $('#zpgj_date_2').val(dj.zpgj[1].date)
-
-                $('#zpgj_scUser_3').val(dj.zpgj[2].scUser)
-                $('#zpgj_qchdUser_3').val(dj.zpgj[2].qchdUser)
-                if (dj.zpgj[2].qchs == 1) {
-                  $('#zpgj_qchs_3').attr('checked', true)
-                }
-                $('#zpgj_date_3').val(dj.zpgj[2].date)
-                // 手 插
-                for (var i = 0; i < 20; i++) {
-                  $('#sc_record_scUser_' + (i + 1)).val(dj.sc.record[i].scUser)
-                  if (dj.sc.record[i].qchd == 1) {
-                    $('#sc_record_qchd_' + (i + 1)).attr('checked', true)
+                  $('#tjz_scUser_3').val(dj.tjz[2].scUser)
+                  $('#tjz_qcUser_3').val(dj.tjz[2].qcUser)
+                  $('#tjz_date_3').val(dj.tjz[2].date)
+                  // 装配固件
+                  $('#zpgj_scUser_1').val(dj.zpgj[0].scUser)
+                  $('#zpgj_qchdUser_1').val(dj.zpgj[0].qchdUser)
+                  if (dj.zpgj[0].qchs == 1) {
+                    $('#zpgj_qchs_1').attr('checked', true)
                   }
-                }
-                $('#sc_plateAmount').val(dj.sc.plateAmount)
-                $('#sc_sjStatue').val(dj.sc.sjStatue)
-                $('#sc_qcUser').val(dj.sc.qcUser)
-                $('#sc_date').val(dj.sc.date)
-                // 波峰焊接机
-                if (dj.bfhjj.isUser == 1) {
-                  $('#bfhjj_isUser').attr('checked', true)
-                }
-                $('#bfhjj_deviceCode').val(dj.bfhjj.deviceCode)
-                $('#bfhjj_deviceName').val(dj.bfhjj.deviceName)
-                $('#bfhjj_craftParam_yr1B').val(dj.bfhjj.craftParam.yr1B)
-                $('#bfhjj_craftParam_yr2B').val(dj.bfhjj.craftParam.yr2B)
-                $('#bfhjj_craftParam_yr3B').val(dj.bfhjj.craftParam.yr3B)
-                $('#bfhjj_craftParam_yr2T').val(dj.bfhjj.craftParam.yr2T)
-                $('#bfhjj_craftParam_yr3T').val(dj.bfhjj.craftParam.yr3T)
-                $('#bfhjj_craftParam_ltsd').val(dj.bfhjj.craftParam.ltsd)
-                $('#bfhjj_craftParam_xlwd').val(dj.bfhjj.craftParam.xlwd)
-                $('#bfhjj_craftParam_gqyl').val(dj.bfhjj.craftParam.gqyl)
-                $('#bfhjj_craftParam_pwqy').val(dj.bfhjj.craftParam.pwqy)
-                $('#bfhjj_craftParam_zfqy').val(dj.bfhjj.craftParam.zfqy)
-                $('#bfhjj_programName').val(dj.bfhjj.programName)
-                if (dj.bfhjj.programStatus == 1) {
-                  $('#bfhjj_programStatus').attr('checked', true)
-                }
-                $('#bfhjj_produceDate').val(dj.bfhjj.produceDate)
-                $('#bfhjj_amount').val(dj.bfhjj.amount)
-                if (dj.bfhjj.qchd == 1) {
-                  $('#bfhjj_qchd').attr('checked', true)
-                }
-                $('#bfhjj_doUser').val(dj.bfhjj.doUser)
-                $('#bfhjj_sjStatus').val(dj.bfhjj.sjStatus)
-                $('#bfhjj_sjUser').val(dj.bfhjj.sjUser)
-                $('#bfhjj_qcUser').val(dj.bfhjj.qcUser)
-                $('#bfhjj_checkDate').val(dj.bfhjj.checkDate)
+                  $('#zpgj_date_1').val(dj.zpgj[0].date)
+
+                  $('#zpgj_scUser_2').val(dj.zpgj[1].scUser)
+                  $('#zpgj_qchdUser_2').val(dj.zpgj[1].qchdUser)
+                  if (dj.zpgj[1].qchs == 1) {
+                    $('#zpgj_qchs_2').attr('checked', true)
+                  }
+                  $('#zpgj_date_2').val(dj.zpgj[1].date)
+
+                  $('#zpgj_scUser_3').val(dj.zpgj[2].scUser)
+                  $('#zpgj_qchdUser_3').val(dj.zpgj[2].qchdUser)
+                  if (dj.zpgj[2].qchs == 1) {
+                    $('#zpgj_qchs_3').attr('checked', true)
+                  }
+                  $('#zpgj_date_3').val(dj.zpgj[2].date)
+                  // 手 插
+                  for (var i = 0; i < 20; i++) {
+                    $('#sc_record_scUser_' + (i + 1)).val(dj.sc.record[i].scUser)
+                    if (dj.sc.record[i].qchd == 1) {
+                      $('#sc_record_qchd_' + (i + 1)).attr('checked', true)
+                    }
+                  }
+                  $('#sc_plateAmount').val(dj.sc.plateAmount)
+                  $('#sc_sjStatue').val(dj.sc.sjStatue)
+                  $('#sc_qcUser').val(dj.sc.qcUser)
+                  $('#sc_date').val(dj.sc.date)
+                  // 波峰焊接机
+                  if (dj.bfhjj.isUser == 1) {
+                    $('#bfhjj_isUser').attr('checked', true)
+                  }
+                  $('#bfhjj_deviceCode').val(dj.bfhjj.deviceCode)
+                  $('#bfhjj_deviceName').val(dj.bfhjj.deviceName)
+                  $('#bfhjj_craftParam_yr1B').val(dj.bfhjj.craftParam.yr1B)
+                  $('#bfhjj_craftParam_yr2B').val(dj.bfhjj.craftParam.yr2B)
+                  $('#bfhjj_craftParam_yr3B').val(dj.bfhjj.craftParam.yr3B)
+                  $('#bfhjj_craftParam_yr2T').val(dj.bfhjj.craftParam.yr2T)
+                  $('#bfhjj_craftParam_yr3T').val(dj.bfhjj.craftParam.yr3T)
+                  $('#bfhjj_craftParam_ltsd').val(dj.bfhjj.craftParam.ltsd)
+                  $('#bfhjj_craftParam_xlwd').val(dj.bfhjj.craftParam.xlwd)
+                  $('#bfhjj_craftParam_gqyl').val(dj.bfhjj.craftParam.gqyl)
+                  $('#bfhjj_craftParam_pwqy').val(dj.bfhjj.craftParam.pwqy)
+                  $('#bfhjj_craftParam_zfqy').val(dj.bfhjj.craftParam.zfqy)
+                  $('#bfhjj_programName').val(dj.bfhjj.programName)
+                  if (dj.bfhjj.programStatus == 1) {
+                    $('#bfhjj_programStatus').attr('checked', true)
+                  }
+                  $('#bfhjj_produceDate').val(dj.bfhjj.produceDate)
+                  $('#bfhjj_amount').val(dj.bfhjj.amount)
+                  if (dj.bfhjj.qchd == 1) {
+                    $('#bfhjj_qchd').attr('checked', true)
+                  }
+                  $('#bfhjj_doUser').val(dj.bfhjj.doUser)
+                  $('#bfhjj_sjStatus').val(dj.bfhjj.sjStatus)
+                  $('#bfhjj_sjUser').val(dj.bfhjj.sjUser)
+                  $('#bfhjj_qcUser').val(dj.bfhjj.qcUser)
+                  $('#bfhjj_checkDate').val(dj.bfhjj.checkDate)
 
 
-                for (var i = 0; i < 3; i++) {
-                  $('#xdgxjj_cjUser_' + (i + 1)).val(dj.xdgxjj[i].cjUser)
-                  $('#xdgxjj_cjAmount_' + (i + 1)).val(dj.xdgxjj[i].cjAmount)
-                  $('#xdgxjj_cjDate_' + (i + 1)).val(dj.xdgxjj[i].cjDate)
+                  for (var i = 0; i < 3; i++) {
+                    $('#xdgxjj_cjUser_' + (i + 1)).val(dj.xdgxjj[i].cjUser)
+                    $('#xdgxjj_cjAmount_' + (i + 1)).val(dj.xdgxjj[i].cjAmount)
+                    $('#xdgxjj_cjDate_' + (i + 1)).val(dj.xdgxjj[i].cjDate)
+                  }
+                  $('#remarks').val(dj.remarks)
                 }
-                $('#remarks').val(dj.remarks)
               }
             } else {
               layer.alert(res.msg, { icon: 5 })
@@ -905,19 +914,19 @@
             {
               "scUser": $('#zpgj_scUser_1').val(),
               "qchdUser": $('#zpgj_qchdUser_1').val(),
-              "qchs": $('#zpgj_qchs_1').is(":checked")?1:0,
+              "qchs": $('#zpgj_qchs_1').is(":checked") ? 1 : 0,
               "date": $('#zpgj_date_1').val()
             },
             {
               "scUser": $('#zpgj_scUser_2').val(),
               "qchdUser": $('#zpgj_qchdUser_2').val(),
-              "qchs": $('#zpgj_qchs_2').is(":checked")?1:0,
+              "qchs": $('#zpgj_qchs_2').is(":checked") ? 1 : 0,
               "date": $('#zpgj_date_2').val()
             },
             {
               "scUser": $('#zpgj_scUser_3').val(),
               "qchdUser": $('#zpgj_qchdUser_3').val(),
-              "qchs": $('#zpgj_qchs_3').is(":checked")?1:0,
+              "qchs": $('#zpgj_qchs_3').is(":checked") ? 1 : 0,
               "date": $('#zpgj_date_3').val()
             }
           ],
@@ -930,114 +939,114 @@
               {
                 "num": "1",
                 "scUser": $('#sc_record_scUser_1').val(),
-                "qchd": $('#sc_record_qchd_1').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_1').is(":checked") ? 1 : 0
               },
               {
                 "num": "2",
                 "scUser": $('#sc_record_scUser_2').val(),
-                "qchd": $('#sc_record_qchd_2').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_2').is(":checked") ? 1 : 0
               },
               {
                 "num": "3",
                 "scUser": $('#sc_record_scUser_3').val(),
-                "qchd": $('#sc_record_qchd_3').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_3').is(":checked") ? 1 : 0
               },
               {
                 "num": "4",
                 "scUser": $('#sc_record_scUser_4').val(),
-                "qchd": $('#sc_record_qchd_4').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_4').is(":checked") ? 1 : 0
               },
               {
                 "num": "5",
                 "scUser": $('#sc_record_scUser_5').val(),
-                "qchd": $('#sc_record_qchd_5').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_5').is(":checked") ? 1 : 0
               },
               {
                 "num": "6",
                 "scUser": $('#sc_record_scUser_6').val(),
-                "qchd": $('#sc_record_qchd_6').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_6').is(":checked") ? 1 : 0
               },
               {
                 "num": "7",
                 "scUser": $('#sc_record_scUser_7').val(),
-                "qchd": $('#sc_record_qchd_7').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_7').is(":checked") ? 1 : 0
               },
               {
                 "num": "8",
                 "scUser": $('#sc_record_scUser_8').val(),
-                "qchd": $('#sc_record_qchd_8').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_8').is(":checked") ? 1 : 0
               },
               {
                 "num": "9",
                 "scUser": $('#sc_record_scUser_9').val(),
-                "qchd": $('#sc_record_qchd_9').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_9').is(":checked") ? 1 : 0
               },
               {
                 "num": "10",
                 "scUser": $('#sc_record_scUser_10').val(),
-                "qchd": $('#sc_record_qchd_10').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_10').is(":checked") ? 1 : 0
               },
               {
                 "num": "11",
                 "scUser": $('#sc_record_scUser_11').val(),
-                "qchd": $('#sc_record_qchd_11').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_11').is(":checked") ? 1 : 0
               },
               {
                 "num": "12",
                 "scUser": $('#sc_record_scUser_12').val(),
-                "qchd": $('#sc_record_qchd_12').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_12').is(":checked") ? 1 : 0
               },
               {
                 "num": "13",
                 "scUser": $('#sc_record_scUser_13').val(),
-                "qchd": $('#sc_record_qchd_13').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_13').is(":checked") ? 1 : 0
               },
               {
                 "num": "14",
                 "scUser": $('#sc_record_scUser_14').val(),
-                "qchd": $('#sc_record_qchd_14').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_14').is(":checked") ? 1 : 0
               },
               {
                 "num": "15",
                 "scUser": $('#sc_record_scUser_15').val(),
-                "qchd": $('#sc_record_qchd_15').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_15').is(":checked") ? 1 : 0
               },
               {
                 "num": "16",
                 "scUser": $('#sc_record_scUser_16').val(),
-                "qchd": $('#sc_record_qchd_16').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_16').is(":checked") ? 1 : 0
               },
               {
                 "num": "17",
                 "scUser": $('#sc_record_scUser_17').val(),
-                "qchd": $('#sc_record_qchd_17').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_17').is(":checked") ? 1 : 0
               },
               {
                 "num": "18",
                 "scUser": $('#sc_record_scUser_18').val(),
-                "qchd": $('#sc_record_qchd_18').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_18').is(":checked") ? 1 : 0
               },
               {
                 "num": "19",
                 "scUser": $('#sc_record_scUser_19').val(),
-                "qchd": $('#sc_record_qchd_19').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_19').is(":checked") ? 1 : 0
               },
               {
                 "num": "20",
                 "scUser": $('#sc_record_scUser_20').val(),
-                "qchd": $('#sc_record_qchd_20').is(":checked")?1:0
+                "qchd": $('#sc_record_qchd_20').is(":checked") ? 1 : 0
               }
             ]
           },
           "bfhjj": {
-            "isUser": $('#bfhjj_isUser').is(":checked")?1:0,
+            "isUser": $('#bfhjj_isUser').is(":checked") ? 1 : 0,
             "deviceCode": $('#bfhjj_deviceCode').val(),
             "deviceName": $('#bfhjj_deviceName').val(),
             "programName": $('#bfhjj_programName').val(),
-            "programStatus": $('#bfhjj_programStatus').is(":checked")?1:0,
+            "programStatus": $('#bfhjj_programStatus').is(":checked") ? 1 : 0,
             "produceDate": $('#bfhjj_produceDate').val(),
             "amount": $('#bfhjj_amount').val(),
-            "qchd": $('#bfhjj_qchd').is(":checked")?1:0,
+            "qchd": $('#bfhjj_qchd').is(":checked") ? 1 : 0,
             "doUser": $('#bfhjj_doUser').val(),
             "sjStatus": $('#bfhjj_sjStatus').val(),
             "sjUser": $('#bfhjj_sjUser').val(),
@@ -1077,7 +1086,7 @@
               "cjDate": $('#xdgxjj_cjDate_3').val()
             }
           ],
-          "remarks": $('#remarks').val()
+          "": $('#').val()
         }
         console.log(datajson)
         $.ajax({

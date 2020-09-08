@@ -741,26 +741,25 @@
             if (res.code === 200) {
               if (res.data.length > 0) {
                 dj = JSON.parse(res.data[0].json_data);
-              }
-              if (Object.keys(dj).length > 0) {
-                $('#num_value1').val(dj.num_value1)
-                $('#num_value2').val(dj.num_value2)
-                $('#num_value3').val(dj.num_value3)
-                $('#num_user').val(dj.num_user)
-                for (var i = 0; i < dj.tiepianArr.length; i++) {
-                  $('#num_blxx_' + (i + 1)).val(dj.tiepianArr[i].num_blxx)
-                  $('#num_bz_' + (i + 1)).val(dj.tiepianArr[i].num_bz)
-                  $('#num_qc_' + (i + 1)).val(dj.tiepianArr[i].num_qc)
-                  $('#num_wh_' + (i + 1)).val(dj.tiepianArr[i].num_wh)
-                  $('#num_xfqk_' + (i + 1)).val(dj.tiepianArr[i].num_xfqk)
-                  $('#num_xfz_' + (i + 1)).val(dj.tiepianArr[i].num_xfz)
-                  $('#num_xlm_' + (i + 1)).val(dj.tiepianArr[i].num_xlm)
+                if (Object.keys(dj).length > 0) {
+                  $('#num_value1').val(dj.num_value1)
+                  $('#num_value2').val(dj.num_value2)
+                  $('#num_value3').val(dj.num_value3)
+                  $('#num_user').val(dj.num_user)
+                  for (var i = 0; i < dj.tiepianArr.length; i++) {
+                    $('#num_blxx_' + (i + 1)).val(dj.tiepianArr[i].num_blxx)
+                    $('#num_bz_' + (i + 1)).val(dj.tiepianArr[i].num_bz)
+                    $('#num_qc_' + (i + 1)).val(dj.tiepianArr[i].num_qc)
+                    $('#num_wh_' + (i + 1)).val(dj.tiepianArr[i].num_wh)
+                    $('#num_xfqk_' + (i + 1)).val(dj.tiepianArr[i].num_xfqk)
+                    $('#num_xfz_' + (i + 1)).val(dj.tiepianArr[i].num_xfz)
+                    $('#num_xlm_' + (i + 1)).val(dj.tiepianArr[i].num_xlm)
+                  }
+                  for (var i = 0; i < dj.tiepianbadTypeArr.length; i++) {
+                    $('#num_badtype_' + (i + 1)).val(dj.tiepianbadTypeArr[i].badTpye)
+                    $('#num_value_' + (i + 1)).val(dj.tiepianbadTypeArr[i].badTpyeNum)
+                  }
                 }
-                for (var i = 0; i < dj.tiepianbadTypeArr.length; i++) {
-                  $('#num_badtype_' + (i + 1)).val(dj.tiepianbadTypeArr[i].badTpye)
-                  $('#num_value_' + (i + 1)).val(dj.tiepianbadTypeArr[i].badTpyeNum)
-                }
-
               }
             } else {
               layer.alert(res.msg, { icon: 5 })

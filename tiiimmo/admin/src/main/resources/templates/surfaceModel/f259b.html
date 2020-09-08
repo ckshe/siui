@@ -1591,9 +1591,9 @@
           type: "post",
           dataType: "json",
           data: JSON.stringify({
-            pcb_task_code: 'WORK021609',
+            pcb_task_code: dd.pcb_task_code,
             json_data: JSON.stringify(datajson),
-            report_type: '6'
+            report_type: '2'
           }),
           contentType: "application/json;charset=UTF-8",
           success: function (res) {

@@ -84,6 +84,32 @@
         font-size: 30px;
         border: 1px solid #dedede;
     }
+
+    .twoBox {
+        height: 90px;
+    }
+
+    .twoBox button {
+        height: calc(100% - 10px);
+    }
+
+    .scdjPage {
+        width: 100%;
+        display: inline-block;
+        margin: 5px;
+    }
+
+    .scdjPage>div {
+        width: 180px;
+        height: 60px;
+        float: left;
+        margin-right: 10px;
+    }
+
+    .scdjPage button {
+        width: 100%;
+        height: 100%;
+    }
 </style>
 
 <body>
@@ -123,6 +149,32 @@
                 <button class="layui-btn" type="button" lay-submit lay-filter="multipleStatus">确定</button>
             </div>
         </form>
+    </div>
+    <!--生产登记页面-->
+    <div id="scdjPage" style="display: none;padding:14px;box-sizing: border-box">
+        <div class="scdjPage">
+            <div>
+                <button id="ZJ-F043H" class="shenblueButton" type="button">生产流通表(一)</button>
+            </div>
+            <div>
+                <button id="ZJ-F043H_1" class="shenblueButton" type="button">生产流通表背面(一)</button>
+            </div>
+            <div>
+                <button id="ZJ-F044L" class="shenblueButton" type="button">生产流通表(二)</button>
+            </div>
+            <div>
+                <button id="ZJ-F044L_1" class="shenblueButton" type="button">生产流通表背面(二)</button>
+            </div>
+            <div>
+                <button id="ZJ-F252J" class="shenblueButton" type="button">生产流通表(四)</button>
+            </div>
+            <div>
+                <button id="ZJ-F252J_1" class="shenblueButton" type="button">生产流通表背面(四)</button>
+            </div>
+            <div>
+                <button id="ZJ-F308B" class="shenblueButton" type="button">电路板调试流通表</button>
+            </div>
+        </div>
     </div>
     <iframe id="zhidao" style="display: none;width: 880px;height: 650px;" src="">
     </iframe>
@@ -225,7 +277,14 @@
             </div>
         </div>
         <div class="buttonBox">
-            <button id="qie" class="shenblueButton" style="width:100%;height:80px">切换工序</button>
+            <div class="fourBox twoBox">
+                <div class="fourLeft">
+                    <button id="qie" class="shenblueButton" type="button">切换工序</button>
+                </div>
+                <div class="fourRight">
+                    <button id="scdj" class="shenblueButton" type="button">生产登记</button>
+                </div>
+            </div>
             <div class="fourBox">
                 <div class="fourLeft">
                     <button id="run" class="blueButton">启动</button>
@@ -690,7 +749,7 @@
                 if (isLogin()) {
                     layer.open({
                         type: 1,
-                        title:'更新板数量',
+                        title: '更新板数量',
                         content: $('#multiple'),
                         area: ['400px', '400px']
                     });
@@ -799,6 +858,146 @@
                     })
                 }
             });
+            //生产登记界面
+            $('#scdj').on('click', function () {
+                // if (nowGonDan == '') {
+                //     layer.alert('当前无工序', { icon: 5 })
+                //     return
+                // }
+                if (isLogin()) {
+                    layer.open({
+                        type: 1,
+                        title: '生产表模登记',
+                        content: $('#scdjPage'),
+                        area: ['100%', '100%']
+                    });
+                }
+            });
+
+            $('#ZJ-F043H').on('click', function () {
+                if (nowGonDan == '') {
+                    layer.alert('当前无工序', { icon: 5 })
+                    return
+                }
+                layer.open({
+                    type: 2,
+                    area: ["880px", "90%"],
+                    title: '生产流通表(一)',
+                    content: '/circulationTable/circulation1?id=1&pcb_task_code=' + nowGonDan.process_task_code,
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        var d = JSON.stringify(nowGonDan)
+                        body.contents().find("input[name='data']").val(d);
+                    }
+                });
+            });
+            $('#ZJ-F043H_1').on('click', function () {
+                if (nowGonDan == '') {
+                    layer.alert('当前无工序', { icon: 5 })
+                    return
+                }
+                layer.open({
+                    type: 2,
+                    area: ["880px", "90%"],
+                    title: '生产流通表背面(一)',
+                    content: '/circulationTable/circulation1_1?id=101&pcb_task_code=' + nowGonDan.process_task_code,
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        var d = JSON.stringify(nowGonDan)
+                        body.contents().find("input[name='data']").val(d);
+                    }
+                });
+            });
+            $('#ZJ-F044L').on('click', function () {
+                if (nowGonDan == '') {
+                    layer.alert('当前无工序', { icon: 5 })
+                    return
+                }
+                layer.open({
+                    type: 2,
+                    area: ["1050px", "90%"],
+                    title: '生产流通表(二)',
+                    content: '/circulationTable/circulation2?id=2&pcb_task_code=' + nowGonDan.process_task_code,
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        var d = JSON.stringify(nowGonDan)
+                        body.contents().find("input[name='data']").val(d);
+                    }
+                });
+            });
+
+            $('#ZJ-F044L_1').on('click', function () {
+                if (nowGonDan == '') {
+                    layer.alert('当前无工序', { icon: 5 })
+                    return
+                }
+                layer.open({
+                    type: 2,
+                    area: ["880px", "90%"],
+                    title: '生产流通表背面(二)',
+                    content: '/circulationTable/circulation2_1?id=201&pcb_task_code=' + nowGonDan.process_task_code,
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        var d = JSON.stringify(nowGonDan)
+                        body.contents().find("input[name='data']").val(d);
+                    }
+                });
+            });
+
+            $('#ZJ-F252J').on('click', function () {
+                if (nowGonDan == '') {
+                    layer.alert('当前无工序', { icon: 5 })
+                    return
+                }
+                layer.open({
+                    type: 2,
+                    area: ["1350px", "90%"],
+                    title: '生产流通表(四)',
+                    content: '/circulationTable/circulation4?id=3&pcb_task_code=' + nowGonDan.process_task_code,
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        var d = JSON.stringify(nowGonDan)
+                        body.contents().find("input[name='data']").val(d);
+                    }
+                });
+            });
+
+            $('#ZJ-F252J_1').on('click', function () {
+                if (nowGonDan == '') {
+                    layer.alert('当前无工序', { icon: 5 })
+                    return
+                }
+                layer.open({
+                    type: 2,
+                    area: ["1300px", "90%"],
+                    title: '生产流通表背面(四)',
+                    content: '/circulationTable/circulation4_1?id=301&pcb_task_code=' + nowGonDan.process_task_code,
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        var d = JSON.stringify(nowGonDan)
+                        body.contents().find("input[name='data']").val(d);
+                    }
+                });
+            });
+
+            $('#ZJ-F308B').on('click', function () {
+                if (nowGonDan == '') {
+                    layer.alert('当前无工序', { icon: 5 })
+                    return
+                }
+                layer.open({
+                    type: 2,
+                    area: ["1080px", "90%"],
+                    title: '电路板调试流通表',
+                    content: '/circulationTable/f308b?id=4&pcb_task_code=' + nowGonDan.process_task_code,
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        var d = JSON.stringify(nowGonDan)
+                        body.contents().find("input[name='data']").val(d);
+                    }
+                });
+            });
+
             form.on('submit(status)', function (obj) {
                 // console.log(obj.field);
                 $.ajax({
