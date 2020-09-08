@@ -21,25 +21,31 @@
             left: 0;
         }
 
+        .inputCenter {
+            text-align: center;
+        }
+
         td {
             vertical-align: middle;
             position: relative;
             padding: 0;
             overflow: hidden;
         }
+
         .inputall {
             border: none;
             height: 80%;
-            width: 100%;
+            width: 70px !important;
             vertical-align: top;
-            text-align: left;
+            text-align: center;
         }
+
         .ipt30 {
             width: 26px !important;
         }
 
         .ipt40 {
-            width: 36px !important;
+            width: 38px !important;
         }
 
         .ipt50 {
@@ -47,7 +53,7 @@
         }
 
         .ipt60 {
-            width: 55px !important;
+            width: 60px !important;
         }
 
         .ipt70 {
@@ -150,32 +156,19 @@
             </td>
         </tr>
         <tr height=20 style='height:15.0pt'>
-            <!--<td colspan='3' height='21' class='x77'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:15.75pt;'>
-                <font class="font0">生产型号：</font>
-                <font class="font0"><input id='model' class="inputall" type="text"></font>
-            </td>
-            <td colspan='3' class='x80' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                <font class="font0">生产批次：</font>
-                <font class="font0"><input id='taskSheetCode' class="inputall ipt140" type="text"></font>
-            </td>
-            <td colspan='3' class='x80' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
-                <font class="font0">投产台数：</font>
-                <font class="font0"><input id='produceAmount' class="inputall" type="text"></font>
-            </td>-->
             <td colspan=14 height=20 class=xl121 style='border-right:1.0pt solid black;height:15.0pt'>
-                生产型号：<span class="inputSpan"><input id='model' class="ipt80"></span>
+                生产型号：<span class="inputSpan"><input id='model' class="ipt80" style="text-align: center"></span>
                 <font class="font14"><span > </span></font>
-                <font class="font9">生产批次：<span class="inputSpan"><input id='taskSheetCode'></span></font>投产台数：<span
-                    class="inputSpan"><input id='produceAmount'></span></font>数量：<span class="inputSpan"><input id="amount"></span></font>
-                <font class="font9"><span >  </span>修改标记：<span class="inputSpan"><input id="changeFlag"></span>
+                <font class="font9">生产批次：<span class="inputSpan"><input id='taskSheetCode' style="text-align: center"></span></font>投产台数：<span
+                    class="inputSpan"><input id='produceAmount' style="text-align: center"></span></font>数量：<span class="inputSpan" ><input id="amount" style="text-align: center"></span></font>
+                <font class="font9"><span >  </span>修改标记：<span class="inputSpan"><input id="changeFlag" style="text-align: center"></span>
                 </font>
             </td>
 
         </tr>
         <tr height=16 style='height:12.0pt'>
             <td colspan=4 rowspan=2 height=32 class=xl135 style='border-right:.5pt solid black;
-  height:24.0pt'>部件名称：<span class="inputSpan" style="width:150px;"><input id="modelName" class="ipt180" ></span></td>
+  height:24.0pt'>部件名称：<span class="inputSpan" style="width:150px;"><input id="modelName" class="ipt180" style="text-align: center"></span></td>
             <td rowspan=8 class=xl124 style='border-bottom:.5pt solid black;border-top:
   none'>承接<br>上道</td>
             <td rowspan=2 class=xl138 width=37 style='border-bottom:.5pt solid black;
@@ -195,41 +188,41 @@
         <tr height=16 style='height:12.0pt'> </tr>
         <tr height=9 style='height:6.95pt'>
             <td colspan=4 rowspan=3 height=27 class=xl135 style='border-right:.5pt solid black;
-  height:20.85pt'>PCB板号：<span class="inputSpan" style="width:150px;" ><input id="pcbCode" class="ipt180" ></span></td>
+  height:20.85pt'>PCB板号：<span class="inputSpan" style="width:150px;" ><input id="pcbCode" class="ipt180" style="text-align: center"></span></td>
             <td rowspan=2 class=xl124 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id='cjsdgx_cjNum_1'></span></td>
+  none'><span class="inputSpan"><input id='cjsdgx_cjNum_1' class="ipt40" style="text-align: center"></span></td>
             <td rowspan=2 class=xl153 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id='cjsdgx_cjUser_1'></span></td>
-            <td rowspan=2 class=xl114 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjAmount_1"></span></td>
-            <td rowspan=2 class=xl114 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjDate_1" class="dateType"></span></td>
+  none'><span class="inputSpan"><input id='cjsdgx_cjUser_1' class="ipt60" style="text-align: center"></span></td>
+            <td rowspan=2 class=xl114 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjAmount_1" class="ipt50" style="text-align: center"></span></td>
+            <td rowspan=2 class=xl114 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjDate_1" class="dateType ipt80" style="text-align: center"></span></td>
             <td colspan=2 rowspan=6 class=xl127 style='border-right:.5pt solid black;
-  border-bottom:.5pt solid black'><span class="inputSpan"><input id='kzsx_zxUser'></span></td>
+  border-bottom:.5pt solid black'><span class="inputSpan"><input id='kzsx_zxUser' class="ipt80" style="text-align: center"></span></td>
             <td rowspan=6 class=xl140 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id='kzsx_qrUser'></span></td>
+  none'><span class="inputSpan"><input id='kzsx_qrUser' class="ipt70" style="text-align: center"></span></td>
             <td rowspan=6 class=xl133 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id='kzsx_date' class="dateType"></span></td>
+  none'><span class="inputSpan"><input id='kzsx_date' class="dateType ipt70" style="text-align: center"></span></td>
         </tr>
         <tr height=9 style='height:6.95pt'> </tr>
         <tr height=9 style='height:6.95pt'>
             <td rowspan=2 height=18 class=xl124 style='border-bottom:.5pt solid black;
-  height:13.9pt;border-top:none'><span class="inputSpan"><input id='cjsdgx_cjNum_2' ></span></td>
+  height:13.9pt;border-top:none'><span class="inputSpan"><input id='cjsdgx_cjNum_2' class="ipt40" style="text-align: center" ></span></td>
             <td rowspan=2 class=xl141 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id='cjsdgx_cjUser_2'></span></td>
-            <td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjAmount_2"></span></td>
-            <td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjDate_2" class="dateType"></span></td>
+  none'><span class="inputSpan"><input id='cjsdgx_cjUser_2' class="ipt60" style="text-align: center"></span></td>
+            <td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjAmount_2" class="ipt50" style="text-align: center"></span></td>
+            <td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjDate_2" class="dateType ipt80" style="text-align: center"></span></td>
         </tr>
         <tr height=9 style='height:6.95pt'>
             <td colspan=4 rowspan=3 height=27 class=xl135 style='border-right:.5pt solid black;
-  height:20.85pt'>板编码：<span class="inputSpan" style="width:150px;"><input id="plateCode" class="ipt200"></span></td>
+  height:20.85pt'>板编码：<span class="inputSpan" style="width:150px;"><input id="plateCode" class="ipt200" style="text-align: center"></span></td>
         </tr>
         <tr height=9 style='height:6.95pt'>
             <td rowspan=2 height=18 class=xl124 style='border-bottom:.5pt solid black;
-  height:13.9pt;border-top:none'><span class="inputSpan"><input id='cjsdgx_cjNum_3'></span></td>
+  height:13.9pt;border-top:none'><span class="inputSpan"><input id='cjsdgx_cjNum_3' class="ipt40" style="text-align: center"></span></td>
             <td rowspan=2 class=xl141 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id='cjsdgx_cjUser_3'></span></td>
+  none'><span class="inputSpan"><input id='cjsdgx_cjUser_3' class="ipt60" style="text-align: center"></span></td>
             <td rowspan=2 class=xl141 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id="cjsdgx_cjAmount_3"></span></td>
-            <td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjDate_3" class="dateType"></span></td>
+  none'><span class="inputSpan"><input id="cjsdgx_cjAmount_3" class="ipt50" style="text-align: center"></span></td>
+            <td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjDate_3" class="dateType ipt80" style="text-align: center"></span></td>
         </tr>
         <tr height=9 style='height:6.95pt'> </tr>
         <tr height=26 style='height:20.1pt'>
@@ -243,23 +236,23 @@
             <td class=xl80 style='border-top:none;border-left:none'>操作者</td>
         </tr>
         <tr height=20 style='height:15.0pt'>
-            <td rowspan=2 height=40 class=xl148 width=75 style='height:30.0pt;border-top:
-  none;width:56pt'><span class="inputSpan"><input id="sbcs_scnr"></span></td>
+            <td rowspan=2 height=40 class=xl148 width=75 style='height:30.0pt;border-top:none;width:56pt'>
+                <span class="inputSpan"><input id="sbcs_scnr" style="text-align: center"></span></td>
             <td rowspan=2 class=xl127 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id="sbcs_sbmc"></span></td>
+  none'><span class="inputSpan"><input id="sbcs_sbmc" class="ipt80" style="text-align: center"></span></td>
             <td colspan=2 rowspan=2 class=xl127 style='border-right:.5pt solid black;
-  border-bottom:.5pt solid black'><span class="inputSpan"><input id="sbcs_sbbh"></span></td>
-            <td colspan=5 class=xl150 style='border-left:none'>供气压力：<span class="inputSpan"><input id="sbcs_gjgycs_gqyl"></span>
+  border-bottom:.5pt solid black'><span class="inputSpan"><input id="sbcs_sbbh" class="ipt80" style="text-align: center"></span></td>
+            <td colspan=5 class=xl150 style='border-left:none'>供气压力：<span class="inputSpan"><input id="sbcs_gjgycs_gqyl" class="ipt80" style="text-align: center"></span>
                 <font class="font12">
                     kgf/c㎡<span >   </span></font>
             </td>
-            <td colspan=3 rowspan=2 class=xl74><span class="inputSpan" style="width:120px;"><input id="sbcs_gjgycs_cxmc"></span></td>
+            <td colspan=3 rowspan=2 class=xl74><span class="inputSpan" style="width:120px;"><input id="sbcs_gjgycs_cxmc" class="ipt120" style="text-align: center"></span></td>
             <td rowspan=2 class=xl74 style='border-top:none'><input id="sbcs_gjgycs_cxzc" type="checkbox" /></td>
-            <td rowspan=2 class=xl80 style='border-top:none'><span class="inputSpan"><input id="sbcs_gjgycs_czUser"></span></td>
+            <td rowspan=2 class=xl80 style='border-top:none'><span class="inputSpan"><input id="sbcs_gjgycs_czUser" class="ipt80" style="text-align: center"></span></td>
         </tr>
         <tr height=20 style='height:15.0pt'>
             <td colspan=5 height=20 class=xl150 style='height:15.0pt;border-left:none'>焊头温度：<span
-                    class="inputSpan"><input id="sbcs_gjgycs_htwd"></span>
+                    class="inputSpan"><input id="sbcs_gjgycs_htwd" class="ipt80" style="text-align: center"></span>
                 <font class="font12"> ℃<span > </span></font>
             </td>
         </tr>
@@ -270,7 +263,7 @@
             <td class=xl78 width=37 style='border-left:none;width:28pt'>清产核对</td>
             <td class=xl74 style='border-top:none;border-left:none'>首检</td>
             <td colspan=2 class=xl151 style='border-left:none'>QC</td>
-            <td class=xl73 width=41 style='border-top:none;border-left:none;width:31pt'>检查数量</td>
+            <td class=xl73 width=41 style='border-top:none;border-left:none;width:31pt'>检查 数量</td>
             <td class=xl74 style='border-top:none;border-left:none'>日期</td>
             <td rowspan=6 class=xl143 width=37 style='border-top:none;width:28pt'>交接下道</td>
             <td class=xl73 width=37 style='border-top:none;border-left:none;width:28pt'>交接次数</td>
@@ -280,83 +273,83 @@
         </tr>
 
         <tr height=20 style='height:15.6pt'>
-            <td height=20 class=xl104 style='height:15.6pt'><span class="inputSpan"><input id="scqc_gx_1"></span></td>
-            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_1"></span></td>
-            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_1"></span></td>
+            <td height=20 class=xl104 style='height:15.6pt'><span class="inputSpan"><input id="scqc_gx_1" class="ipt80" style="text-align: center"></span></td>
+            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_1" class="ipt80" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_1" class="ipt50" style="text-align: center"></span></td>
             <td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_1" /></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_1"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_1" class="ipt50" style="text-align: center"></span></td>
             <td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
-  none'><span class="inputSpan"><input id="scqc_qc_1"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_1"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_1" class="dateType"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_1"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_1"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_1"></span></td>
-            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_1" class="dateType"></span></td>
+  none'><span class="inputSpan"><input id="scqc_qc_1" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_1" class="ipt50" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_1" class="dateType ipt80" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_1" class="ipt50" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_1" class="ipt70" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_1" class="ipt70" style="text-align: center"></span></td>
+            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_1" class="dateType ipt70" style="text-align: center"></span></td>
         </tr>
         <tr height=20 style='height:15.6pt'>
             <td height=20 class=xl85 width=75 style='height:15.6pt;border-top:none;
-  width:56pt'><span class="inputSpan"><input id="scqc_gx_2"></span></td>
-            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_2"></span></td>
-            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_2"></span></td>
+  width:56pt'><span class="inputSpan"><input id="scqc_gx_2" class="ipt80" style="text-align: center"></span></td>
+            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_2" class="ipt80" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_2" class="ipt50" style="text-align: center"></span></td>
             <td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_2" /></td>
-            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_2"></span></td>
+            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_2" class="ipt50" style="text-align: center"></span></td>
             <td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
-  none'><span class="inputSpan"><input id="scqc_qc_2"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_2"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_2" class="dateType"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_2"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_2"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_2"></span></td>
-            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_2" class="dateType"></span></td>
+  none'><span class="inputSpan"><input id="scqc_qc_2" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_2" class="ipt50" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_2" class="dateType ipt80" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_2" class="ipt50" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_2" class="ipt70" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_2" class="ipt70" style="text-align: center"></span></td>
+            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_2" class="dateType ipt70" style="text-align: center"></span></td>
         </tr>
         <tr height=20 style='height:15.6pt'>
             <td height=20 class=xl85 width=75 style='height:15.6pt;border-top:none;
-  width:56pt'><span class="inputSpan"><input id="scqc_gx_3"></span></td>
-            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_3"></span></td>
-            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_3"></span></td>
+  width:56pt'><span class="inputSpan"><input id="scqc_gx_3" class="ipt80" style="text-align: center"></span></td>
+            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_3" class="ipt80" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_3" class="ipt50" style="text-align: center"></span></td>
             <td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_3" /></td>
-            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_3"></span></td>
+            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_3" class="ipt50" style="text-align: center"></span></td>
             <td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
-  none'><span class="inputSpan"><input id="scqc_qc_3"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_3"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_3" class="dateType"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_3"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_3"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_3"></span></td>
-            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_3" class="dateType"></span></td>
+  none'><span class="inputSpan"><input id="scqc_qc_3" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_3" class="ipt50" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_3" class="dateType ipt80" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_3" class="ipt50" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_3" class="ipt70" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_3" class="ipt70" style="text-align: center"></span></td>
+            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_3" class="dateType ipt70" style="text-align: center"></span></td>
         </tr>
         <tr height=20 style='height:15.6pt'>
             <td height=20 class=xl85 width=75 style='height:15.6pt;border-top:none;
-  width:56pt'><span class="inputSpan"><input id="scqc_gx_4"></span></td>
-            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_4"></span></td>
-            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_4"></span></td>
+  width:56pt'><span class="inputSpan"><input id="scqc_gx_4" class="ipt80" style="text-align: center"></span></td>
+            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_4" class="ipt80" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_4" class="ipt50" style="text-align: center"></span></td>
             <td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_4"/></td>
-            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_4"></span></td>
+            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_4" class="ipt50" style="text-align: center"></span></td>
             <td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
-  none'><span class="inputSpan"><input id="scqc_qc_4"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_4"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_4" class="dateType"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_4"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_4"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_4"></span></td>
-            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_4" class="dateType"></span></td>
+  none'><span class="inputSpan"><input id="scqc_qc_4" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_4" class="ipt50" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_4" class="dateType ipt80" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_4" class="ipt50" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_4" class="ipt70" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_4" class="ipt70" style="text-align: center"></span></td>
+            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_4" class="dateType ipt70" style="text-align: center"></span></td>
         </tr>
         <tr height=20 style='height:15.6pt'>
             <td height=20 class=xl86 width=75 style='height:15.6pt;border-top:none;
-  width:56pt'><span class="inputSpan"><input id="scqc_gx_5"></span></td>
-            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_5"></span></td>
-            <td class=xl75 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_5"></span></td>
+  width:56pt'><span class="inputSpan"><input id="scqc_gx_5" class="ipt80" style="text-align: center"></span></td>
+            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_5" class="ipt80" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_5" class="ipt50" style="text-align: center"></span></td>
             <td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_5" /></td>
-            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_5"></span></td>
+            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_5" class="ipt50" style="text-align: center"></span></td>
             <td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
-  none'><span class="inputSpan"><input id="scqc_qc_5"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_5"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_5" class="dateType"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_5"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_5"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_5"></span></td>
-            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_5" class="dateType"></span></td>
+  none'><span class="inputSpan"><input id="scqc_qc_5" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_5" class="ipt50" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_5" class="dateType ipt80" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_5" class="ipt50" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_5" class="ipt70" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_5" class="ipt70" style="text-align: center"></span></td>
+            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_5" class="dateType ipt70" style="text-align: center"></span></td>
         </tr>
         <tr height=26 style='height:20.1pt'>
             <td colspan=12 height=26 class=xl105 style='border-right:.5pt solid black;
@@ -366,9 +359,9 @@
         <tr height=26 style='height:20.1pt'>
             <td colspan=12 height=26 class=xl108 style='border-right:.5pt solid black;
   height:20.1pt'>(1－<span class="inputSpan">
-                <input id="xdgxjj_cjNum_1" style="text-align: center"></span>÷<span class="inputSpan">
-                <input id="xdgxjj_cjNum_2" style="text-align: center"></span>)×100%＝<span class="inputSpan">
-                <input id="xdgxjj_cjNum_3" style="text-align: center"></span>%</td>
+                <input id="xdgxjj_cjNum_1" onChange="change()" style="text-align: center"></span>÷<span class="inputSpan">
+                <input id="xdgxjj_cjNum_2" onChange="change()" style="text-align: center"></span>)×100%＝<span class="inputSpan">
+                <input id="xdgxjj_cjNum_3" style="text-align: center" disabled></span>%</td>
             <td colspan=2 class=xl109 style='border-right:1.0pt solid black'><span class="inputSpan"><input id="statisticsUser" style="text-align: center"></span></td>
         </tr>
         <tr height=33 style='height:24.95pt'>
@@ -404,7 +397,18 @@
         }
     }
     ChangeRowspanHiddenData();
-
+    function change() {
+        var num_value1 = document.getElementById("xdgxjj_cjNum_1");
+        var num_value2 = document.getElementById("xdgxjj_cjNum_2");
+        var num_value3 = document.getElementById("xdgxjj_cjNum_3");
+        var value = '';
+        if (num_value2.value > 0) {
+            value = (1 - num_value1.value / num_value2.value).toFixed(4);
+            num_value3.value = value * 100
+        } else {
+            num_value3.value = value
+        }
+    }
     layui.use(['table', 'jquery', 'form', 'layer', 'laydate'], function () {
         var table = layui.table,
             layer = layui.layer,
@@ -490,58 +494,7 @@
                             $('#kzsx_qrUser').val(dj.kzsx[0].qrUser)
                             console.log(dj.kzsx[0].date)
                             $('#kzsx_date').val(dj.kzsx[0].date)
-                            // todo-------------------------------------
 
-                            // todo----------------------------------
-                            //贴胶纸
-                            /*$('#tjz_scUser_1').val(dj.tjz[0].scUser)
-                            $('#tjz_qcUser_1').val(dj.tjz[0].qrUser)
-                            $('#tjz_date_1').val(dj.tjz[0].date)
-
-                            $('#tjz_scUser_2').val(dj.tjz[1].scUser)
-                            $('#tjz_qcUser_2').val(dj.tjz[1].qrUser)
-                            $('#tjz_date_2').val(dj.tjz[1].date)
-
-                            $('#tjz_scUser_3').val(dj.tjz[2].scUser)
-                            $('#tjz_qcUser_3').val(dj.tjz[2].qrUser)
-                            $('#tjz_date_3').val(dj.tjz[2].date)
-                            // 装配固件
-                            $('#zpgj_scUser_1').val(dj.zpgj[0].scUser)
-                            $('#zpgj_qchdUser_1').val(dj.zpgj[0].qchdUser)
-                            if (dj.zpgj[0].qchs == 1) {
-                                $('#zpgj_qchs_1').attr('checked', true)
-                            }
-                            $('#zpgj_date_1').val(dj.zpgj[0].date)
-
-                            $('#zpgj_scUser_2').val(dj.zpgj[1].scUser)
-                            $('#zpgj_qchdUser_2').val(dj.zpgj[1].qchdUser)
-                            if (dj.zpgj[1].qchs == 1) {
-                                $('#zpgj_qchs_2').attr('checked', true)
-                            }
-                            $('#zpgj_date_2').val(dj.zpgj[1].date)
-
-                            $('#zpgj_scUser_3').val(dj.zpgj[2].scUser)
-                            $('#zpgj_qchdUser_3').val(dj.zpgj[2].qchdUser)
-                            if (dj.zpgj[2].qchs == 1) {
-                                $('#zpgj_qchs_3').attr('checked', true)
-                            }
-                            $('#zpgj_date_3').val(dj.zpgj[2].date)
-                            // 手 插
-                            for (var i = 0; i < 20; i++) {
-                                $('#sc_record_scUser_' + (i + 1)).val(dj.sc.record[i].scUser)
-                                if (dj.sc.record[i].qchd == 1) {
-                                    $('#sc_record_qchd_' + (i + 1)).attr('checked', true)
-                                }
-                            }
-                            $('#sc_plateAmount').val(dj.sc.plateAmount)
-                            $('#sc_sjStatue').val(dj.sc.sjStatue)
-                            $('#sc_qcUser').val(dj.sc.qcUser)
-                            $('#sc_date').val(dj.sc.date)
-                            // 波峰焊接机
-                            if (dj.bfhjj.isUser == 1) {
-                                $('#bfhjj_isUser').attr('checked', true)
-                            }*/
-                            // todo
                             console.log(""+ dj.sbcs)
                             $('#sbcs_scnr').val(dj.sbcs.scnr)
                             $('#sbcs_sbmc').val(dj.sbcs.sbmc)
