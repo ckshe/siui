@@ -1,30 +1,78 @@
+<!doctype html
+  public "-//w3c//dtd xhtml 1.0 transitional//en" "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
 <html>
 
 <head>
-<meta http-equiv=Content-Type content="text/html; charset=utf-8">
-<link rel="Stylesheet" href="../../css/scltb1.css">
-<style>
-.inputSpan {
-	position: relative;
-    display: inline-block;
-    width: 80px;
-    height: 13px;
-}
-.inputSpan input {
-    position: absolute;
-    width: 100%;
-    border: none;
-    text-align: left;
-    left: 0;
-}
-td{
-	vertical-align: middle;
-    position: relative;
-    padding: 0;
-	overflow: hidden;
-}
-</style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="Stylesheet" href="../../css/scltb2.css">
+  <style>
+    table {
+      margin: 0 auto;
+    }
 
+    td {
+      vertical-align: middle !important;
+    }
+
+    .inputall {
+      border: none;
+      /* height: 80%; */
+      height: 20px !important;
+      width: 70px !important;
+      vertical-align: top;
+      text-align: center;
+    }
+
+    .ipt {
+      width: 80px !important;
+      border: none;
+    }
+
+    input {
+      border: none;
+      text-align: center;
+    }
+
+    .ipt40 {
+      width: 37px !important;
+    }
+
+    .ipt50 {
+      width: 50px !important;
+    }
+
+    .ipt60 {
+      width: 60px !important;
+    }
+
+    .ipt80 {
+      width: 80px !important;
+    }
+
+    #onsubmit {
+      display: inline-block;
+      height: 28px;
+      line-height: 28px;
+      padding: 0 18px;
+      background-color: #1e9fff;
+      color: #fff;
+      white-space: nowrap;
+      text-align: center;
+      span-size: 14px;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    /* 
+    * {
+      background: #000 !important;
+      color: #0f0 !important;
+      outline: solid #f00 1px !important;
+    } */
+  </style>
+  <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+  <script src="../../js/common.js"></script>
 </head>
 
 <body link=blue vlink=purple>
@@ -452,7 +500,131 @@ td{
   <td class=xl103 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
  </tr>
 </table>
+<script language='javascript' type='text/javascript'>
+    function change() {
+      var two_value1 = document.getElementById("two_value1");
+      var two_value2 = document.getElementById("two_value2");
+      var two_value3 = document.getElementById("two_value3");
+      var value = '';
+      if (two_value2.value > 0) {
+        value = (1 - two_value1.value / two_value2.value).toFixed(4);
+        two_value3.value = value * 100
+      } else {
+        two_value3.value = value
+      }
+    }
+    function change1() {
+      var two_value4 = document.getElementById("two_value4");
+      var two_value5 = document.getElementById("two_value5");
+      var two_value6 = document.getElementById("two_value6");
+      var value = '';
+      if (two_value5.value > 0) {
+        value = (1 - two_value4.value / two_value5.value).toFixed(4);
+        two_value6.value = value * 100
+      } else {
+        two_value6.value = value
+      }
+    }
+    layui.use(['table', 'jquery', 'form', 'layer'], function () {
+      var table = layui.table,
+        layer = layui.layer,
+        form = layui.form,
+        $ = layui.jquery;
+      function initAjax() {
+        $.ajax({
+          url: '/report/findCurrentReport',
+          type: "post",
+          dataType: "json",
+          data: JSON.stringify({
+            pcbTaskCode: getQueryString('pcb_task_code'),
+            reportType: '201'
+          }),
+          contentType: "application/json;charset=UTF-8",
+          success: function (res) {
+            if (res.code === 200) {
+              if (res.data.length > 0) {
+                dj = JSON.parse(res.data[0].json_data);
+              }
+              console.log(dj)
+              if (Object.keys(dj).length > 0) {
+                $('#two_value1').val(dj.two_value1)
+                $('#two_value2').val(dj.two_value2)
+                $('#two_value3').val(dj.two_value3)
+                $('#two_user').val(dj.two_user)
+                $('#two_value4').val(dj.two_value4)
+                $('#two_value5').val(dj.two_value5)
+                $('#two_value6').val(dj.two_value6)
+                $('#two_user1').val(dj.two_user1)
+                for (var i = 0; i < dj.zxbmArr.length; i++) {
+                  $('#two_xlm_' + (i + 1)).val(dj.zxbmArr[i].two_xlm)
+                  $('#two_wh_' + (i + 1)).val(dj.zxbmArr[i].two_wh)
+                  $('#two_blxx_' + (i + 1)).val(dj.zxbmArr[i].two_blxx)
+                  $('#two_sl_' + (i + 1)).val(dj.zxbmArr[i].two_sl)
+                  $('#two_clqk_' + (i + 1)).val(dj.zxbmArr[i].two_clqk)
+                  $('#two_czz_' + (i + 1)).val(dj.zxbmArr[i].two_czz)
+                  $('#two_qc_' + (i + 1)).val(dj.zxbmArr[i].two_qc)
+                  $('#two_bz_' + (i + 1)).val(dj.zxbmArr[i].two_bz)
+                }
+              }
+            } else {
+              layer.alert(res.msg, { icon: 5 })
+            }
+          }
+        })
+      }
+      initAjax();
 
+      $('#onsubmit').on('click', function () {
+        var zxbmArr = [];
+        var datajson = {
+          zxbmArr: [],
+          two_value1: $('#two_value1').val(),
+          two_value2: $('#two_value2').val(),
+          two_value3: $('#two_value3').val(),
+          two_user: $('#two_user').val(),
+          two_value4: $('#two_value4').val(),
+          two_value5: $('#two_value5').val(),
+          two_value6: $('#two_value6').val(),
+          two_user1: $('#two_user1').val()
+        };
+        for (var i = 1; i < 31; i++) {
+          var tiepianbmObj = {
+            two_xlm: $('#two_xlm_' + i).val(),
+            two_wh: $('#two_wh_' + i).val(),
+            two_blxx: $('#two_blxx_' + i).val(),
+            two_sl: $('#two_sl_' + i).val(),
+            two_clqk: $('#two_clqk_' + i).val(),
+            two_czz: $('#two_czz_' + i).val(),
+            two_qc: $('#two_qc_' + i).val(),
+            two_bz: $('#two_bz_' + i).val(),
+          }
+          zxbmArr.push(tiepianbmObj)
+        }
+        datajson.zxbmArr = zxbmArr;
+        $.ajax({
+          url: '/currentReport/addCurrentReport',
+          type: "post",
+          dataType: "json",
+          data: JSON.stringify({
+            pcb_task_code: getQueryString('pcb_task_code'),
+            json_data: JSON.stringify(datajson),
+            report_type: '201'
+          }),
+          contentType: "application/json;charset=UTF-8",
+          success: function (res) {
+            if (res.code === 200) {
+              var initajax = layer.alert(res.msg, { icon: 1 }, function () {
+                initAjax();
+                layer.close(initajax);
+              })
+            } else {
+              layer.alert(res.msg, { icon: 5 })
+            }
+          }
+        })
+      })
+    })
+  </script>
 </body>
 
 </html>
