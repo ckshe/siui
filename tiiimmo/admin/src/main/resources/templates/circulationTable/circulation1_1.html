@@ -1,630 +1,612 @@
 <!doctype html
-  public "-//w3c//dtd xhtml 1.0 transitional//en" "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+        public "-//w3c//dtd xhtml 1.0 transitional//en" "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
 <html>
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <link rel="Stylesheet" href="../../css/scltb2.css">
-  <style>
-    table {
-      margin: 0 auto;
-    }
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="Stylesheet" href="../../css/scltb2.css">
+ <style>
+  table {
+   margin: 0 auto;
+  }
 
-    td {
-      vertical-align: middle !important;
-    }
+  td {
+   vertical-align: middle !important;
+  }
 
-    .inputall {
-      border: none;
-      /* height: 80%; */
-      height: 20px !important;
-      width: 70px !important;
-      vertical-align: top;
-      text-align: center;
-    }
+  .inputall {
+   border: none;
+   /* height: 80%; */
+   height: 20px !important;
+   width: 70px !important;
+   vertical-align: top;
+   text-align: center;
+  }
 
-    .ipt {
-      width: 80px !important;
-      border: none;
-    }
+  .ipt {
+   width: 80px !important;
+   border: none;
+  }
 
-    input {
-      border: none;
-      text-align: center;
-    }
+  input {
+   border: none;
+   text-align: center;
+  }
 
-    .ipt40 {
-      width: 37px !important;
-    }
+  .ipt40 {
+   width: 37px !important;
+  }
 
-    .ipt50 {
-      width: 50px !important;
-    }
+  .ipt50 {
+   width: 50px !important;
+  }
 
-    .ipt60 {
-      width: 60px !important;
-    }
+  .ipt60 {
+   width: 60px !important;
+  }
 
-    .ipt80 {
-      width: 80px !important;
-    }
+  .ipt80 {
+   width: 80px !important;
+  }
 
-    #onsubmit {
-      display: inline-block;
-      height: 28px;
-      line-height: 28px;
-      padding: 0 18px;
-      background-color: #1e9fff;
-      color: #fff;
-      white-space: nowrap;
-      text-align: center;
-      span-size: 14px;
-      border: none;
-      border-radius: 2px;
-      cursor: pointer;
-    }
+  #onsubmit {
+   display: inline-block;
+   height: 28px;
+   line-height: 28px;
+   padding: 0 18px;
+   background-color: #1e9fff;
+   color: #fff;
+   white-space: nowrap;
+   text-align: center;
+   font-size: 14px;
+   border: none;
+   border-radius: 2px;
+   cursor: pointer;
+  }
 
-    /* 
-    * {
-      background: #000 !important;
-      color: #0f0 !important;
-      outline: solid #f00 1px !important;
-    } */
-  </style>
-  <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
-  <script src="../../js/common.js"></script>
+  /*
+  * {
+    background: #000 !important;
+    color: #0f0 !important;
+    outline: solid #f00 1px !important;
+  } */
+ </style>
+ <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+ <script src="../../js/common.js"></script>
 </head>
 
-<body link=blue vlink=purple>
 
-<table border=0 cellpadding=0 cellspacing=0 width=749 style='border-collapse: collapse;table-layout:fixed;width:800px'>
- <col width=37 style='width:28pt'>
- <col width=149 style='width:112pt'>
- <col width=69 style='width:52pt'>
- <col width=101 style='width:76pt'>
- <col width=53 style='width:40pt'>
- <col width=85 span=4 style='width:64pt'>
- <tr height=26 style='height:20.1pt'>
-  <td colspan=2 height=26 class=xl159 width=186 style='height:20.1pt;width:140pt'>附表</td>
-  <td width=69 style='width:52pt'></td>
-  <td width=101 style='width:76pt'></td>
-  <td width=53 style='width:40pt'></td>
-  <td width=85 style='width:64pt'></td>
-  <td width=85 style='width:64pt'></td>
-  <td width=85 style='width:64pt'></td>
-  <td width=85 style='width:64pt'></td>
+<body link='blue' vlink='purple'>
+
+<table border='0' cellpadding='0' cellspacing='0' width='704' style='border-collapse:
+ collapse;table-layout:fixed;width:528pt'>
+ <col width='28' style='width:21pt'>
+ <col width='72' span='2' style='width:54pt'>
+ <col width='106' span='2' style='width:79.5pt'>
+ <col width='104' style='width:78pt'>
+ <col width='72' span='3' style='width:54pt'>
+ <tr height='26' style='height:22.1pt'>
+  <td height='24' style='height:18.6pt; padding-bottom: 10px;'><button id="onsubmit">保存</button></td>
  </tr>
- <tr height=26 style='height:20.1pt'>
-  <td height=26 class=xl90 style='height:20.1pt'>序号</td>
-  <td class=xl79 style='border-left:none'>序列码</td>
-  <td class=xl79 style='border-left:none'>位 号</td>
-  <td class=xl79 style='border-left:none'>不良现象</td>
-  <td class=xl79 style='border-left:none'>数 量</td>
-  <td class=xl79 style='border-left:none'>修复情况</td>
-  <td class=xl79 style='border-left:none'>修复人</td>
-  <td class=xl79 style='border-left:none'>QC</td>
-  <td class=xl91 style='border-left:none'>备 注</td>
+ <tr height='40' style='height:30pt'>
+  <td colspan='1' height='25' class='x64' width='704' style='border-bottom:1px solid windowtext;height:19.35pt;'>附表
+  </td>
+  <td colspan='8' height='40' class='x101' style='height:30pt; border: none;span-size:12pt'>生产流通表（一）</td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>1</td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none'><span class="inputSpan"><input></span></td>
+ <tr height='38' style='height:28.5pt' id='r1'>
+  <td height='36' class='x65' style='height:27pt;overflow:hidden;'>序</br>号</td>
+  <td class='x66'>序列码</td>
+  <td class='x67'>位 号</td>
+  <td class='x66'>不良现象</td>
+  <td class='x66'>数 量</td>
+  <td class='x66'>处理情况</td>
+  <td class='x66'>操作者</td>
+  <td class='x66'>QC</td>
+  <td class='x66'>备 注</td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>2</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r2'>
+  <td height='24' class='x68' style='height:18.6pt;'>1</td>
+  <td class='x69'><input id='two_xlm_1' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_1' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_1' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_1' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_1' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_1' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_1' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_1' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>3</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r3'>
+  <td height='24' class='x68' style='height:18.6pt;'>2</td>
+  <td class='x69'><input id='two_xlm_2' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_2' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_2' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_2' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_2' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_2' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_2' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_2' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>4</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r4'>
+  <td height='24' class='x68' style='height:18.6pt;'>3</td>
+  <td class='x69'><input id='two_xlm_3' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_3' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_3' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_3' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_3' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_3' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_3' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_3' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>5</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r5'>
+  <td height='24' class='x68' style='height:18.6pt;'>4</td>
+  <td class='x69'><input id='two_xlm_4' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_4' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_4' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_4' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_4' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_4' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_4' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_4' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>6</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r6'>
+  <td height='24' class='x68' style='height:18.6pt;'>5</td>
+  <td class='x69'><input id='two_xlm_5' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_5' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_5' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_5' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_5' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_5' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_5' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_5' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>7</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r7'>
+  <td height='24' class='x68' style='height:18.6pt;'>6</td>
+  <td class='x69'><input id='two_xlm_6' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_6' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_6' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_6' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_6' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_6' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_6' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_6' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>8</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r8'>
+  <td height='24' class='x68' style='height:18.6pt;'>7</td>
+  <td class='x69'><input id='two_xlm_7' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_7' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_7' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_7' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_7' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_7' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_7' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_7' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>9</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r9'>
+  <td height='24' class='x68' style='height:18.6pt;'>8</td>
+  <td class='x69'><input id='two_xlm_8' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_8' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_8' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_8' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_8' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_8' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_8' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_8' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>10</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r10'>
+  <td height='24' class='x68' style='height:18.6pt;'>9</td>
+  <td class='x69'><input id='two_xlm_9' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_9' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_9' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_9' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_9' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_9' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_9' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_9' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>11</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r11'>
+  <td height='24' class='x68' style='height:18.6pt;'>10</td>
+  <td class='x69'><input id='two_xlm_10' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_10' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_10' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_10' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_10' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_10' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_10' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_10' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>12</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r12'>
+  <td height='24' class='x68' style='height:18.6pt;'>11</td>
+  <td class='x69'><input id='two_xlm_11' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_11' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_11' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_11' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_11' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_11' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_11' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_11' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>13</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r13'>
+  <td height='24' class='x68' style='height:18.6pt;'>12</td>
+  <td class='x69'><input id='two_xlm_12' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_12' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_12' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_12' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_12' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_12' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_12' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_12' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>14</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r14'>
+  <td height='24' class='x68' style='height:18.6pt;'>13</td>
+  <td class='x69'><input id='two_xlm_13' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_13' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_13' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_13' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_13' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_13' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_13' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_13' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>15</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r15'>
+  <td height='24' class='x68' style='height:18.6pt;'>14</td>
+  <td class='x69'><input id='two_xlm_14' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_14' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_14' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_14' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_14' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_14' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_14' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_14' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>16</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r16'>
+  <td height='24' class='x68' style='height:18.6pt;'>15</td>
+  <td class='x69'><input id='two_xlm_15' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_15' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_15' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_15' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_15' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_15' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_15' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_15' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td colspan=8 height=24 class=xl156 style='border-right:.5pt solid black;
-  height:18.0pt'>(1-本批次本工序不合格总数÷本批次本工序生产零件总数)×100%＝本批次该零件本工序生产合格率</td>
-  <td class=xl66 style='border-top:none;border-left:none'>统计人</td>
+ <tr height='33' style='height:24.95pt' id='r17'>
+  <td colspan='8' height='31' class='x70'
+      style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:23.45pt;'>
+   <span class="font4">(1-</span>
+   <span class="font5">本批次本工序不合格总数÷本批次本工序生产零件总数</span>
+   <span class="font4">)×100%=</span>
+   <span class="font5">本批次该零件本工序生产合格率</span>
+  </td>
+  <td colspan='1' class='x71' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>统计人</td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td colspan=8 height=24 class=xl108 style='border-right:.5pt solid black;
-  height:18.0pt'>(1－<span class="inputSpan"><input></span>÷<span class="inputSpan"><input></span>)×100%＝<span class="inputSpan"><input></span>%</td>
-  <td class=xl103 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='33' style='height:24.95pt' id='r18'>
+  <td colspan='8' height='31' class='x72'
+      style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:23.45pt;'>
+   (1<span>&nbsp;&nbsp;-&nbsp;&nbsp;</span><span>
+          <input id='two_value1' class="ipt40 inputall" onChange="change()" type="text">
+        </span><span><span>&nbsp;&nbsp;÷&nbsp;&nbsp;</span><span>
+            <input id='two_value2' class="ipt40 inputall" onChange="change()" type="text">
+          </span>)×100%=<span>&nbsp;<input id='two_value3' disabled class="ipt40 inputall" type="text">%&nbsp;</span>
+  </span></td>
+  <td colspan='1' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+   <span class="font0"><input id='two_user' class="ipt90 inputall" type="text"></span>
+  </td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 colspan=9 class=xl69 style='height:18.0pt;'></td>
+ <tr height='26' style='height:22.1pt' id='r19'>
+  <td height='24' class='x69' style='height:18.6pt;'>1</td>
+  <td class='x69'><input id='two_xlm_16' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_16' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_16' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_16' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_16' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_16' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_16' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_16' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=13 style='height:9.95pt'>
-  <td height=13 style='height:9.95pt'></td>
-  <td colspan=8 class=xl68 ></td>
+ <tr height='26' style='height:22.1pt' id='r20'>
+  <td height='24' class='x69' style='height:18.6pt;'>2</td>
+  <td class='x69'><input id='two_xlm_17' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_17' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_17' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_17' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_17' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_17' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_17' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_17' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=26 style='height:20.1pt'>
-  <td colspan=2 height=26 class=xl159 style='height:20.1pt'>附表</td>
-  <td colspan=7 ></td>
+ <tr height='26' style='height:22.1pt' id='r21'>
+  <td height='24' class='x69' style='height:18.6pt;'>3</td>
+  <td class='x69'><input id='two_xlm_18' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_18' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_18' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_18' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_18' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_18' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_18' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_18' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=26 style='height:20.1pt'>
-  <td height=26 class=xl90 style='height:20.1pt'>序号</td>
-  <td class=xl79 style='border-left:none'>序列码</td>
-  <td class=xl79 style='border-left:none'>位 号</td>
-  <td class=xl79 style='border-left:none'>不良现象</td>
-  <td class=xl79 style='border-left:none'>数 量</td>
-  <td class=xl79 style='border-left:none'>修复情况</td>
-  <td class=xl79 style='border-left:none'>修复人</td>
-  <td class=xl79 style='border-left:none'>QC</td>
-  <td class=xl91 style='border-left:none'>备 注</td>
+ <tr height='26' style='height:22.1pt' id='r22'>
+  <td height='24' class='x69' style='height:18.6pt;'>4</td>
+  <td class='x69'><input id='two_xlm_19' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_19' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_19' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_19' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_19' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_19' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_19' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_19' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>1</td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r23'>
+  <td height='24' class='x69' style='height:18.6pt;'>5</td>
+  <td class='x69'><input id='two_xlm_20' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_20' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_20' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_20' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_20' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_20' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_20' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_20' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>2</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r24'>
+  <td height='24' class='x69' style='height:18.6pt;'>6</td>
+  <td class='x69'><input id='two_xlm_21' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_21' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_21' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_21' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_21' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_21' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_21' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_21' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>3</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r25'>
+  <td height='24' class='x69' style='height:18.6pt;'>7</td>
+  <td class='x69'><input id='two_xlm_22' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_22' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_22' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_22' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_22' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_22' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_22' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_22' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>4</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r26'>
+  <td height='24' class='x69' style='height:18.6pt;'>8</td>
+  <td class='x69'><input id='two_xlm_23' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_23' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_23' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_23' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_23' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_23' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_23' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_23' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>5</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r27'>
+  <td height='24' class='x69' style='height:18.6pt;'>9</td>
+  <td class='x69'><input id='two_xlm_24' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_24' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_24' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_24' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_24' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_24' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_24' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_24' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>6</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r28'>
+  <td height='24' class='x69' style='height:18.6pt;'>10</td>
+  <td class='x69'><input id='two_xlm_25' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_25' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_25' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_25' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_25' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_25' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_25' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_25' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>7</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r29'>
+  <td height='24' class='x69' style='height:18.6pt;'>11</td>
+  <td class='x69'><input id='two_xlm_26' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_26' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_26' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_26' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_26' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_26' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_26' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_26' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>8</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r30'>
+  <td height='24' class='x69' style='height:18.6pt;'>12</td>
+  <td class='x69'><input id='two_xlm_27' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_27' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_27' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_27' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_27' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_27' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_27' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_27' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>9</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r31'>
+  <td height='24' class='x69' style='height:18.6pt;'>13</td>
+  <td class='x69'><input id='two_xlm_28' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_28' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_28' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_28' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_28' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_28' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_28' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_28' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>10</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r32'>
+  <td height='24' class='x69' style='height:18.6pt;'>14</td>
+  <td class='x69'><input id='two_xlm_29' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_29' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_29' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_29' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_29' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_29' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_29' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_29' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>11</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='26' style='height:22.1pt' id='r33'>
+  <td height='24' class='x69' style='height:18.6pt;'>15</td>
+  <td class='x69'><input id='two_xlm_30' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_wh_30' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_blxx_30' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_sl_30' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_clqk_30' class="ipt80 inputall" type="text"></td>
+  <td class='x69'><input id='two_czz_30' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_qc_30' class="ipt60 inputall" type="text"></td>
+  <td class='x69'><input id='two_bz_30' class="ipt60 inputall" type="text"></td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>12</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='33' style='height:24.95pt' id='r34'>
+  <td colspan='8' height='31' class='x70'
+      style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:23.45pt;'>
+   <span class="font4">(1-</span>
+   <span class="font5">本批次本工序不合格总数÷本批次本工序生产零件总数</span>
+   <span class="font4">)×100%=</span>
+   <span class="font5">本批次该零件本工序生产合格率</span>
+  </td>
+  <td colspan='1' class='x71' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>统计人</td>
  </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>13</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
- </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>14</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
- </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>15</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
- </tr>
- <tr height=24 style='height:18.0pt'>
-  <td height=24 class=xl87 style='height:18.0pt;border-top:none'>16</td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl82 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none'><span class="inputSpan"><input></span></td>
-  <td class=xl81 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
-  <td class=xl66 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
- </tr>
- <tr height=24 style='height:18.0pt'>
-  <td colspan=8 height=24 class=xl156 style='border-right:.5pt solid black;
-  height:18.0pt'>(1-本批次本工序不合格总数÷本批次本工序生产零件总数)×100%＝本批次该零件本工序生产合格率</td>
-  <td class=xl66 style='border-top:none;border-left:none'>统计人</td>
- </tr>
- <tr height=24 style='height:18.0pt'>
-  <td colspan=8 height=24 class=xl108 style='border-right:.5pt solid black;
-  height:18.0pt'>(1－<span class="inputSpan"><input></span>÷<span class="inputSpan"><input></span>)×100%＝<span class="inputSpan"><input></span>%</td>
-  <td class=xl103 style='border-top:none;border-left:none'><span class="inputSpan"><input></span></td>
+ <tr height='33' style='height:24.95pt' id='r35'>
+  <td colspan='8' height='31' class='x72'
+      style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:23.45pt;'>
+   (1<span>&nbsp;&nbsp;-&nbsp;&nbsp;</span><span>
+          <input id='two_value4' class="ipt40 inputall" onChange="change1()" type="text">
+        </span><span><span>&nbsp;&nbsp;÷&nbsp;&nbsp;</span><span>
+            <input id='two_value5' class="ipt40 inputall" onChange="change1()" type="text">
+  </span>)×100%=<span>&nbsp;<input id='two_value6' disabled class="ipt40 inputall" type="text">%&nbsp;</span></span>
+  </td>
+  <td colspan='1' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+   <span class="font0"><input id='two_user1' class="ipt90 inputall" type="text"></span>
+  </td>
  </tr>
 </table>
 <script language='javascript' type='text/javascript'>
-    function change() {
-      var two_value1 = document.getElementById("two_value1");
-      var two_value2 = document.getElementById("two_value2");
-      var two_value3 = document.getElementById("two_value3");
-      var value = '';
-      if (two_value2.value > 0) {
-        value = (1 - two_value1.value / two_value2.value).toFixed(4);
-        two_value3.value = value * 100
-      } else {
-        two_value3.value = value
+ function change() {
+  var two_value1 = document.getElementById("two_value1");
+  var two_value2 = document.getElementById("two_value2");
+  var two_value3 = document.getElementById("two_value3");
+  var value = '';
+  if (two_value2.value > 0) {
+   value = (1 - two_value1.value / two_value2.value).toFixed(4);
+   two_value3.value = value * 100
+  } else {
+   two_value3.value = value
+  }
+ }
+ function change1() {
+  var two_value4 = document.getElementById("two_value4");
+  var two_value5 = document.getElementById("two_value5");
+  var two_value6 = document.getElementById("two_value6");
+  var value = '';
+  if (two_value5.value > 0) {
+   value = (1 - two_value4.value / two_value5.value).toFixed(4);
+   two_value6.value = value * 100
+  } else {
+   two_value6.value = value
+  }
+ }
+ layui.use(['table', 'jquery', 'form', 'layer'], function () {
+  var table = layui.table,
+          layer = layui.layer,
+          form = layui.form,
+          $ = layui.jquery;
+  function initAjax() {
+   $.ajax({
+    url: '/report/findCurrentReport',
+    type: "post",
+    dataType: "json",
+    data: JSON.stringify({
+     pcbTaskCode: getQueryString('pcb_task_code'),
+     reportType: '101'
+    }),
+    contentType: "application/json;charset=UTF-8",
+    success: function (res) {
+     if (res.code === 200) {
+      if (res.data.length > 0) {
+       dj = JSON.parse(res.data[0].json_data);
       }
+      console.log(dj)
+      if (Object.keys(dj).length > 0) {
+       $('#two_value1').val(dj.two_value1)
+       $('#two_value2').val(dj.two_value2)
+       $('#two_value3').val(dj.two_value3)
+       $('#two_user').val(dj.two_user)
+       $('#two_value4').val(dj.two_value4)
+       $('#two_value5').val(dj.two_value5)
+       $('#two_value6').val(dj.two_value6)
+       $('#two_user1').val(dj.two_user1)
+       for (var i = 0; i < dj.zxbmArr.length; i++) {
+        $('#two_xlm_' + (i + 1)).val(dj.zxbmArr[i].two_xlm)
+        $('#two_wh_' + (i + 1)).val(dj.zxbmArr[i].two_wh)
+        $('#two_blxx_' + (i + 1)).val(dj.zxbmArr[i].two_blxx)
+        $('#two_sl_' + (i + 1)).val(dj.zxbmArr[i].two_sl)
+        $('#two_clqk_' + (i + 1)).val(dj.zxbmArr[i].two_clqk)
+        $('#two_czz_' + (i + 1)).val(dj.zxbmArr[i].two_czz)
+        $('#two_qc_' + (i + 1)).val(dj.zxbmArr[i].two_qc)
+        $('#two_bz_' + (i + 1)).val(dj.zxbmArr[i].two_bz)
+       }
+      }
+     } else {
+      layer.alert(res.msg, { icon: 5 })
+     }
     }
-    function change1() {
-      var two_value4 = document.getElementById("two_value4");
-      var two_value5 = document.getElementById("two_value5");
-      var two_value6 = document.getElementById("two_value6");
-      var value = '';
-      if (two_value5.value > 0) {
-        value = (1 - two_value4.value / two_value5.value).toFixed(4);
-        two_value6.value = value * 100
-      } else {
-        two_value6.value = value
-      }
-    }
-    layui.use(['table', 'jquery', 'form', 'layer'], function () {
-      var table = layui.table,
-        layer = layui.layer,
-        form = layui.form,
-        $ = layui.jquery;
-      function initAjax() {
-        $.ajax({
-          url: '/report/findCurrentReport',
-          type: "post",
-          dataType: "json",
-          data: JSON.stringify({
-            pcbTaskCode: getQueryString('pcb_task_code'),
-            reportType: '201'
-          }),
-          contentType: "application/json;charset=UTF-8",
-          success: function (res) {
-            if (res.code === 200) {
-              if (res.data.length > 0) {
-                dj = JSON.parse(res.data[0].json_data);
-              }
-              console.log(dj)
-              if (Object.keys(dj).length > 0) {
-                $('#two_value1').val(dj.two_value1)
-                $('#two_value2').val(dj.two_value2)
-                $('#two_value3').val(dj.two_value3)
-                $('#two_user').val(dj.two_user)
-                $('#two_value4').val(dj.two_value4)
-                $('#two_value5').val(dj.two_value5)
-                $('#two_value6').val(dj.two_value6)
-                $('#two_user1').val(dj.two_user1)
-                for (var i = 0; i < dj.zxbmArr.length; i++) {
-                  $('#two_xlm_' + (i + 1)).val(dj.zxbmArr[i].two_xlm)
-                  $('#two_wh_' + (i + 1)).val(dj.zxbmArr[i].two_wh)
-                  $('#two_blxx_' + (i + 1)).val(dj.zxbmArr[i].two_blxx)
-                  $('#two_sl_' + (i + 1)).val(dj.zxbmArr[i].two_sl)
-                  $('#two_clqk_' + (i + 1)).val(dj.zxbmArr[i].two_clqk)
-                  $('#two_czz_' + (i + 1)).val(dj.zxbmArr[i].two_czz)
-                  $('#two_qc_' + (i + 1)).val(dj.zxbmArr[i].two_qc)
-                  $('#two_bz_' + (i + 1)).val(dj.zxbmArr[i].two_bz)
-                }
-              }
-            } else {
-              layer.alert(res.msg, { icon: 5 })
-            }
-          }
-        })
-      }
-      initAjax();
+   })
+  }
+  initAjax();
 
-      $('#onsubmit').on('click', function () {
-        var zxbmArr = [];
-        var datajson = {
-          zxbmArr: [],
-          two_value1: $('#two_value1').val(),
-          two_value2: $('#two_value2').val(),
-          two_value3: $('#two_value3').val(),
-          two_user: $('#two_user').val(),
-          two_value4: $('#two_value4').val(),
-          two_value5: $('#two_value5').val(),
-          two_value6: $('#two_value6').val(),
-          two_user1: $('#two_user1').val()
-        };
-        for (var i = 1; i < 31; i++) {
-          var tiepianbmObj = {
-            two_xlm: $('#two_xlm_' + i).val(),
-            two_wh: $('#two_wh_' + i).val(),
-            two_blxx: $('#two_blxx_' + i).val(),
-            two_sl: $('#two_sl_' + i).val(),
-            two_clqk: $('#two_clqk_' + i).val(),
-            two_czz: $('#two_czz_' + i).val(),
-            two_qc: $('#two_qc_' + i).val(),
-            two_bz: $('#two_bz_' + i).val(),
-          }
-          zxbmArr.push(tiepianbmObj)
-        }
-        datajson.zxbmArr = zxbmArr;
-        $.ajax({
-          url: '/currentReport/addCurrentReport',
-          type: "post",
-          dataType: "json",
-          data: JSON.stringify({
-            pcb_task_code: getQueryString('pcb_task_code'),
-            json_data: JSON.stringify(datajson),
-            report_type: '201'
-          }),
-          contentType: "application/json;charset=UTF-8",
-          success: function (res) {
-            if (res.code === 200) {
-              var initajax = layer.alert(res.msg, { icon: 1 }, function () {
-                initAjax();
-                layer.close(initajax);
-              })
-            } else {
-              layer.alert(res.msg, { icon: 5 })
-            }
-          }
-        })
+  $('#onsubmit').on('click', function () {
+   var zxbmArr = [];
+   var datajson = {
+    zxbmArr: [],
+    two_value1: $('#two_value1').val(),
+    two_value2: $('#two_value2').val(),
+    two_value3: $('#two_value3').val(),
+    two_user: $('#two_user').val(),
+    two_value4: $('#two_value4').val(),
+    two_value5: $('#two_value5').val(),
+    two_value6: $('#two_value6').val(),
+    two_user1: $('#two_user1').val()
+   };
+   for (var i = 1; i < 31; i++) {
+    var tiepianbmObj = {
+     two_xlm: $('#two_xlm_' + i).val(),
+     two_wh: $('#two_wh_' + i).val(),
+     two_blxx: $('#two_blxx_' + i).val(),
+     two_sl: $('#two_sl_' + i).val(),
+     two_clqk: $('#two_clqk_' + i).val(),
+     two_czz: $('#two_czz_' + i).val(),
+     two_qc: $('#two_qc_' + i).val(),
+     two_bz: $('#two_bz_' + i).val(),
+    }
+    zxbmArr.push(tiepianbmObj)
+   }
+   datajson.zxbmArr = zxbmArr;
+   $.ajax({
+    url: '/currentReport/addCurrentReport',
+    type: "post",
+    dataType: "json",
+    data: JSON.stringify({
+     pcb_task_code: getQueryString('pcb_task_code'),
+     json_data: JSON.stringify(datajson),
+     report_type: '101'
+    }),
+    contentType: "application/json;charset=UTF-8",
+    success: function (res) {
+     if (res.code === 200) {
+      var initajax = layer.alert(res.msg, { icon: 1 }, function () {
+       initAjax();
+       layer.close(initajax);
       })
-    })
-  </script>
+     } else {
+      layer.alert(res.msg, { icon: 5 })
+     }
+    }
+   })
+  })
+ })
+</script>
 </body>
+
 
 </html>
