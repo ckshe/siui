@@ -69,16 +69,17 @@
             }
             , parseData: function (res) {
                 var data = res.data.filter(function (t) {
-                    if (t.count_type == 1) {
-                        t.detail_plan_count = t.detail_device_plan_count;
-                    }
                     if (t.id == getQueryString('nowId')) {
                         t.detail_finish_count = parseInt(getQueryString('amount_completed'));
                         t.detail_device_finish_count = parseInt(getQueryString('amount_completed'));
                     }
+                    if (t.count_type == 1) {
+                        t.new_plan_count = t.detail_device_finish_count;
+                    } else {
+                        t.new_plan_count = t.detail_finish_count;
+                    }
                     return t.detail_plan_count != null;
                 })
-                console.log('==========', data)
                 return {
                     "code": res.code, //解析接口状态
                     "data": data //解析数据列表
@@ -92,20 +93,10 @@
                     , { field: 'pcb_plate_id', title: '光板号', minWidth: 218 }
                     , { field: 'pcb_code', title: '规格型号', minWidth: 180 }
                     , {
-                        field: 'detail_plan_count', edit: 'text', title: '日计划量', minWidth: 90, templet: function (d) {
-                            if (d.count_type == 1) {
-                                d.detail_plan_count = d.detail_device_plan_count;
-                            }
-                            return d.detail_plan_count == null ? '' : d.detail_plan_count;
-                        }
+                        field: 'detail_plan_count', title: '日计划量', minWidth: 90
                     }
                     , {
-                        field: 'detail_finish_count', edit: 'text', title: '日完成量', minWidth: 90, templet: function (d) {
-                            if (d.count_type == 1) {
-                                d.detail_finish_count = d.detail_device_finish_count;
-                            }
-                            return d.detail_finish_count == null ? '' : d.detail_finish_count;
-                        }
+                        field: 'new_plan_count', edit: 'text', title: '日完成量', minWidth: 90
                     }
                 ]
             ]
@@ -124,11 +115,17 @@
                 $('tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
             }
         });
+        table.on('edit(table)', function (obj) {
+            // // var value = obj.value //得到修改后的值
+            // //     , data = obj.data //得到所在行所有键值
+            // //     , field = obj.field; //得到字段
+            // // layer.msg('[ID: ' + data.id + '] ' + field + ' 字段更改为：' + value);
+            // console.log(obj.data)
+        });
         table.on('toolbar(table)', function (obj) {
             if (obj.event === 'devs') {
                 var checkStatus = table.checkStatus('table').data;
                 var isCheckData = false;
-                console.log(obj, checkStatus)
                 checkStatus.some(function (t, index) {
                     if (t.id == getQueryString('nowId')) {
                         isCheckData = true;
@@ -142,12 +139,11 @@
                 checkStatus.forEach(function (t) {
                     var object = {
                         processTaskId: t.id,
-                        amountCompleted: t.detail_finish_count,
+                        amountCompleted: t.new_plan_count,
                         deviceCode: getQueryString('deviceCode')
                     }
                     fqData.push(object)
                 })
-                console.log(fqData)
                 $.ajax({
                     type: "POST",
                     url: '/produce/pcbTask/settlementDetailCountByList',
