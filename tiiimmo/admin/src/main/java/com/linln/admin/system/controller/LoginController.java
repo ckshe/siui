@@ -303,6 +303,12 @@ public class LoginController implements ErrorController {
         return "/common/gonxvTable";
     }
 
+    //   批量结单
+    @GetMapping("/batchTable")
+    public String batchTable() {
+        return "/common/batchTable";
+    }
+
     //    设备增加界面
     @GetMapping("/addDevice")
     public String addDevice() {

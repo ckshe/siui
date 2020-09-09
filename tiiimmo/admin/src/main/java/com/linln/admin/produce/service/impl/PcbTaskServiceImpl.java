@@ -2194,7 +2194,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 //step2:状态相同则跳过
                 if(history!=null&&"暂停".equals(history.getProcess_task_status())){
 
-                }else {
+                }else if (history!=null){
                     //step3:状态不同结束上一条并计算持续时间，新增一条
                     if(!deviceDetailFinishFlag){
                         history.setEnd_time(today);

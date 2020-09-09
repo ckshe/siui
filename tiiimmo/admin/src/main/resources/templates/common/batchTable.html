@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>选择工序表格</title>
+    <meta name="Description" content="基于layUI数据表格操作" />
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../lib/layui-v2.3.0/css/layui.css">
+    <style type="text/css">
+        .layui-form-switch {
+            width: 55px;
+        }
+
+        .layui-form-switch em {
+            width: 40px;
+        }
+
+        body {
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="box-sizing: border-box;padding:14px;">
+        <table class="layui-hide" id="table" lay-filter="table"></table>
+        <script type="text/html" id="tool">
+        <a class=" layui-btn layui-btn-xs  "  lay-event="ok">确定</a><a class=" layui-btn layui-btn-xs  layui-btn-normal"  lay-event="detail">详情</a>
+    </script>
+        <script type="text/html" id="toolbarDemo">
+            <button id="sub" class="layui-btn layui-btn-sm" type="button"  lay-event="devs">确定所选</button>
+    </script>
+        <script src="../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+        <script src="../../js/common.js"></script>
+    </div>
+</body>
+<script>
+    layui.use(['table', 'jquery', 'form', 'layer'], function () {
+        var table = layui.table,
+            layer = layui.layer,
+            form = layui.form,
+            $ = layui.jquery;
+        var tdata = []
+        form.on('submit(sub)', function (obj) {
+            var data = obj.field;
+            table.reload('table', {
+                where: data,
+                curr: 1
+            })
+        });
+        table.render({
+            elem: '#table'
+            , url: '/produce/pcbTask/findProcessTaskByDevice' //数据接口
+            , page: false //开启分页
+            , method: 'POST'
+            , contentType: 'application/json'
+            , defaultToolbar: ['filter']
+            , toolbar: '#toolbarDemo'
+            , response: {
+                statusCode: 200
+            },
+            where: {
+                deviceCode: getQueryString('deviceCode'),
+            }
+            , parseData: function (res) {
+                var data = res.data.filter(function (t) {
+                    if (t.count_type == 1) {
+                        t.detail_plan_count = t.detail_device_plan_count;
+                    }
+                    return t.detail_plan_count != null;
+                })
+                return {
+                    "code": res.code, //解析接口状态
+                    "data": data //解析数据列表
+                };
+            }
+            , cols: [
+                [ //标题栏
+                    { type: 'checkbox', fixed: 'left' }
+                    , { field: 'process_name', title: '工序名称', width: 120 }
+                    , { field: 'task_sheet_code', title: '生产批次', width: 164 }
+                    , { field: 'pcb_plate_id', title: '光板号', minWidth: 218 }
+                    , { field: 'pcb_code', title: '规格型号', minWidth: 180 }
+                    , {
+                        field: 'detail_plan_count', edit: 'text', title: '日计划量', minWidth: 90, templet: function (d) {
+                            if (d.count_type == 1) {
+                                d.detail_plan_count = d.detail_device_plan_count;
+                            }
+                            return d.detail_plan_count == null ? '' : d.detail_plan_count;
+                        }
+                    }
+                    , {
+                        field: 'detail_finish_count', edit: 'text', title: '日完成量', minWidth: 90, templet: function (d) {
+                            if (d.count_type == 1) {
+                                d.detail_finish_count = d.detail_device_finish_count;
+                            }
+                            return d.detail_finish_count == null ? '' : d.detail_finish_count;
+                        }
+                    }
+                ]
+            ]
+            , done: function (res, page, count) {
+                var indexNum = 0;
+                res.data.some(function (t, index) {
+                    if (t.id == getQueryString('nowId')) {
+                        indexNum = index;
+                        return true
+                    }
+                })
+                tdata = res.data[indexNum];
+                res.data[indexNum]["LAY_CHECKED"] = 'true';
+                var index = res.data[indexNum]['LAY_TABLE_INDEX'];
+                $('tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+                $('tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+            }
+        });
+        table.on('toolbar(table)', function (obj) {
+            if (obj.event === 'devs') {
+                var checkStatus = table.checkStatus('table').data;
+                var isCheckData = false;
+                checkStatus.some(function (t, index) {
+                    if (t.id == getQueryString('nowId')) {
+                        isCheckData = true;
+                        return true
+                    }
+                })
+                if (!isCheckData) {
+                    checkStatus.push(tdata)
+                }
+                console.log(checkStatus)
+
+                var fqData = []
+                checkStatus.forEach(function (t) {
+                    var object = {
+                        processTaskId: t.id,
+                        amountCompleted: t.amount_completed,
+                        deviceCode: getQueryString('deviceCode')
+                    }
+                    fqData.push(object)
+                })
+                console.log(fqData)
+                $.ajax({
+                    type: "POST",
+                    url: '/produce/pcbTask/settlementDetailCountByList',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(fqData),
+                    dataType: "json",
+                    async: false,
+                    success: function (res) {
+                        if (res.code == 200) {
+                            layer.msg(res.msg, { icon: 1 });
+                            setTimeout(function () {
+                                parent.location.reload();
+                                parent.layer.closeAll()
+                            }, 500);
+                        } else {
+                            layer.alert(res.msg, { icon: 5 });
+                        }
+                    },
+                    error: function (message) {
+                        layer.alert("保存失败！", { icon: 5 });
+                    }
+                });
+            }
+        });
+    })
+</script>
+
+</html>

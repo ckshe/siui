@@ -130,6 +130,7 @@
                 </div>
             </div>
             <div style="text-align: center">
+                <button class="layui-btn" type="button" lay-submit id="batch">批量结算</button>
                 <button class="layui-btn" type="button" lay-submit lay-filter="status">确定</button>
             </div>
         </form>
@@ -613,6 +614,15 @@
             $('#loginClear').on('click', function () {
                 $('#loginCode').val('')
             });
+            //批量结算
+            $('#batch').on('click', function () {
+                layer.open({
+                    type: 2,
+                    area: ["80%", "80%"],
+                    title: '请选择结算工序',
+                    content: '/batchTable?deviceCode=' + getQueryString('deviceCode') + '&nowId=' + nowGonDan.id
+                });
+            });
             //切换工序
             $('#qie').on('click', function () {
                 a = function (data) {
@@ -839,6 +849,7 @@
             })
             //结束工单
             $('#over').on('click', function () {
+                console.log("nowGonDan=========",nowGonDan)
                 if (nowGonDan == '') {
                     layer.alert('当前无工序', { icon: 5 })
                     return
@@ -858,6 +869,7 @@
                     })
                 }
             });
+
             //生产登记界面
             $('#scdj').on('click', function () {
                 // if (nowGonDan == '') {
