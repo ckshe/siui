@@ -616,11 +616,12 @@
             });
             //批量结算
             $('#batch').on('click', function () {
+
                 layer.open({
                     type: 2,
                     area: ["80%", "80%"],
                     title: '请选择结算工序',
-                    content: '/batchTable?deviceCode=' + getQueryString('deviceCode') + '&nowId=' + nowGonDan.id
+                    content: '/batchTable?deviceCode=' + getQueryString('deviceCode') + '&nowId=' + nowGonDan.id+'&amount_completed='+$('[name=amount_completed]').val()
                 });
             });
             //切换工序
