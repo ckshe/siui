@@ -75,6 +75,12 @@
       width: 240px !important;
     }
 
+    .ipt81 {
+      width: 90px !important;
+      border: hidden;
+      font-size: 16px;
+    }
+
     tbody>tr>td:last-child {
       border: 1px solid red;
       width: 0 !important;
@@ -152,7 +158,9 @@
       <td width='37' style='width:27.75pt;'></td>
       <td width='37' style='width:27.75pt;'></td>
       <td width='33' style='width:24.75pt;'></td>
-      <td class='x173' width='69' style='width:51.75pt;'><span style='float:right'>ZJ-F044L</span></td>
+      <td class='x173' width='69' style='width:51.75pt;'><span style='float:right'>
+        <input id="type"  class="ipt81" value="ZJ-F044L" >
+      </span></td>
       <td width='72' style='width:54pt;'></td>
     </tr>
     <tr height='33' style='height:24.95pt' id='r1'>
@@ -639,7 +647,7 @@
           style='position:absolute;z-index:4;margin-left:0px;margin-top:0px;width:148px;height:1px'></span><span>
           <table cellpadding='0' cellspacing='0'>
             <tr>
-              <td colspan='17' height='36' class='x203' width='689' style='height:27pt;width:516.75pt;'> <input id=''
+              <td colspan='17' height='36' class='x203' width='689' style='height:27pt;width:516.75pt;'> <input id="remarks"
                   class="inputall" style="width: 780px;" type="text"></td>
               <td></td>
             </tr>
@@ -698,12 +706,12 @@
         $(this).attr('type', 'text').val(timeTxt)
       })
 
-      if (dd.factory == "万吉厂区") {
+      /*if (dd.factory == "万吉厂区") {
         $('#area').attr('checked', true)
       }
       if (dd.factory == "金砂厂区") {
         $('#area1').attr('checked', true)
-      }
+      }*/
       if (dd.is_rohs == "是") {
         $('#RoHS').attr('checked', true)
       }
@@ -739,7 +747,26 @@
               if (res.data.length > 0) {
                 dj = JSON.parse(res.data[0].json_data);
                 if (Object.keys(dj).length > 0) {
-                  console.log(dj.cjsdgx[0].cjUser)
+                  if (dj.area == 1 || dj.area1 == 1) {
+                    if (dj.area == 1) {
+                      $('#area').attr('checked', true)
+                      $('#area1').attr('checked', false)
+                    }
+                    if (dj.area1 == 1){
+                      $('#area1').attr('checked', true)
+                      $('#area').attr('checked', false)
+                    }
+                  } else{
+                    $('#area').attr('checked', true)
+                    $('#area1').attr('checked', false)
+                  }
+
+                  if (dj.type!= null) {
+                    $('#type').val(dj.type)
+                  } else {
+                    $('#type').val("ZJ-F044L")
+                  }
+                  //console.log(dj.cjsdgx[0].cjUser)
                   $('#cjsdgx_cjUser_1').val(dj.cjsdgx[0].cjUser)
                   $('#cjsdgx_cjNum_1').val(dj.cjsdgx[0].cjNum)
                   $('#cjsdgx_cjAmount_1').val(dj.cjsdgx[0].cjAmount)
@@ -852,7 +879,9 @@
       initAjax();
       $('#onsubmit').on('click', function () {
         var datajson = {
-          "area": dd.factory,
+          "area": $('#area').is(":checked")?1:0,
+          "area1": $('#area1').is(":checked")?1:0,
+          //"area": dd.factory,
           "tempParam": "ZJ-F044L",
           "RoHS": dd.is_rohs,
           "model": dd.model_ver,
@@ -861,6 +890,7 @@
           "produceAmount": dd.amount_completed,
           "pcbCode": dd.pcb_id,
           "plateCode": dd.batch_id,
+          "type":$('#type').val(),
           "cjsdgx": [
             {
               "cjUser": $('#cjsdgx_cjUser_1').val(),
@@ -1086,7 +1116,7 @@
               "cjDate": $('#xdgxjj_cjDate_3').val()
             }
           ],
-          "": $('#').val()
+          "remarks": $('#remarks').val()
         }
         console.log(datajson)
         $.ajax({
