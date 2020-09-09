@@ -18,4 +18,6 @@ public interface ReportService {
 
     public ResultVo findClassInfo(ClassInfoReq req);
 
+    //通用报表
+    public ResultVo findSJJLBReport(CurrentReportReq reportReq);
 }

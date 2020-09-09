@@ -51,4 +51,11 @@ public class ReportController {
         return reportService.findClassInfo(req);
     }
 
+
+    //首检记录表合并
+    @PostMapping("/findSJJLBReport")
+    @ResponseBody
+    public ResultVo findSJJLBReport(@RequestBody CurrentReportReq req){
+        return reportService.findSJJLBReport(req);
+    }
 }
