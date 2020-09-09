@@ -2,15 +2,42 @@
 
 <head>
     <meta http-equiv=Content-Type content="text/html; charset=utf-8">
-
+    <title>后焊流通表</title>
     <link rel="Stylesheet" href="../../css/scltb1.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        .box {
+            background: #eee;
+            box-sizing: border-box;
+            width: 210mm;
+            /*210*/
+            height: 297mm;
+            /*297*/
+            text-align: left;
+            padding: 2mm;
+        }
+
         .inputSpan {
             position: relative;
-            display: inline-block;
+            display: block;
             align-content: center;
-            width: 80px;
+            width: auto;
             height: 13px;
+
+        }
+
+        .displayType .inputSpan {
+            display: inline-block;
+            width: 80px;
         }
 
         .inputSpan input {
@@ -19,6 +46,7 @@
             border: none;
             text-align: left;
             left: 0;
+            background: transparent;
         }
 
         .inputCenter {
@@ -39,69 +67,8 @@
             vertical-align: top;
             text-align: center;
         }
-
-        .ipt30 {
-            width: 26px !important;
-        }
-
-        .ipt40 {
-            width: 38px !important;
-        }
-
-        .ipt50 {
-            width: 45px !important;
-        }
-
-        .ipt60 {
-            width: 60px !important;
-        }
-
-        .ipt70 {
-            width: 65px !important;
-        }
-
-        .ipt80 {
-            width: 75px !important;
-        }
-        .ipt81 {
-            width: 90px !important;
-            border: hidden;
-            font-size: 16px;
-        }
-
-        .ipt100 {
-            width: 95px !important;
-        }
-
-        .ipt120 {
-            width: 120px !important;
-        }
-
-        .ipt140 {
-            width: 140px !important;
-        }
-
-        .ipt160 {
-            width: 160px !important;
-        }
-
-        .ipt180 {
-            width: 180px !important;
-        }
-
-        .ipt200 {
-            width: 200px !important;
-        }
-
-        .ipt220 {
-            width: 220px !important;
-        }
-
-        .ipt240 {
-            width: 240px !important;
-        }
-
-        #onsubmit {
+        #onsubmit,
+        #onPrint {
             display: inline-block;
             height: 28px;
             line-height: 28px;
@@ -120,13 +87,17 @@
     <script src="../../js/common.js"></script>
 </head>
 
-<body link=blue vlink=purple>
-<form>
-    <input type="hidden" name="data">
+<body link=blue vlink=purple class="box">
+    <form>
+        <input type="hidden" name="data">
 
-</form>
-    <table border=0 cellpadding=0 cellspacing=0 width=800 style='border-collapse:
- collapse;table-layout:fixed;width:835px;'>
+    </form>
+    <div>
+        <a id='op' class="btn btn-add" style="margin-bottom:2px;margin-right: 10px"> <i class="icon-add"></i> 打印</a>
+    </div>
+
+    <table border=0 cellpadding=0 cellspacing=0 style='border-collapse:
+ collapse;table-layout:fixed;width:100%;' id="pagePrint">
         <col width=75 style='width:56pt'>
         <col width=101 style='width:76pt'>
         <col width=37 span=2 style='width:28pt'>
@@ -146,10 +117,10 @@
             <td width=37 style='width:28pt'></td>
             <td width=57 style='width:43pt'></td>
             <td width=41 style='width:31pt'></td>
-            <!--<td width=69 style='width:52pt'></td>-->
-            <td class=xl95 colspan=4 width=160 style='width:148pt'>万吉厂区<input id="area" type="checkbox" checked />
-                金砂厂区<input id="area1" type="checkbox" /></td> <!--ZJ-F043H-->
-            <td class=xl70 colspan=2 width=100 style='width:46pt'><input id="type"  class="ipt81" value="ZJ-F043H" ></td>
+            <td width=69 style='width:52pt'></td>
+            <td class=xl95 colspan=4 width=196 style='width:148pt'>万吉厂区<input id="area" checked type="checkbox" />
+                金砂厂区<input id="area1" type="checkbox" /></td>
+            <td class=xl70 width=80 style='width:46pt'>ZJ-F043H</td>
         </tr>
         <tr class=xl89 height=24 style='height:18.6pt' id="r1">
             <td colspan=14 height=24 class=xl117 style='height:18.6pt'>生产流通表（一）</td>
@@ -157,23 +128,26 @@
         <tr height=20 style='height:15.0pt' id="r2">
             <td colspan=14 height=20 class=xl118 style='height:15.0pt;border-right:none;'>
                 RoHS:Y<input id="RoHS" type="checkbox" />
-                    /N<input id="RoHS1" type="checkbox" /><span >    </span>
+                /N<input id="RoHS1" type="checkbox" /><span>    </span>
             </td>
         </tr>
         <tr height=20 style='height:15.0pt'>
-            <td colspan=14 height=20 class=xl121 style='border-right:1.0pt solid black;height:15.0pt'>
-                生产型号：<span class="inputSpan"><input id='model' class="ipt80" style="text-align: center"></span>
-                <font class="font14"><span > </span></font>
-                <font class="font9">生产批次：<span class="inputSpan"><input id='taskSheetCode' style="text-align: center"></span></font>投产台数：<span
-                    class="inputSpan"><input id='produceAmount' style="text-align: center"></span></font>数量：<span class="inputSpan" ><input id="amount" style="text-align: center"></span></font>
-                <font class="font9"><span >  </span>修改标记：<span class="inputSpan"><input id="changeFlag" style="text-align: center"></span>
-                </font>
+            <td colspan=14 height=20 class='xl121 displayType' style='border-right:1.0pt solid black;height:15.0pt' >
+                生产型号：<span class="inputSpan"><input id='model' class="" style="text-align: center"></span>
+                <span class="span9">生产批次：<span class="inputSpan"><input id='taskSheetCode'
+                            style="text-align: center"></span></span>投产台数：<span class="inputSpan"><input
+                        id='produceAmount' style="text-align: center"></span></span>数量：<span class="inputSpan"><input
+                        id="amount" style="text-align: center"></span></span>
+                <span class="span9">修改标记：<span class="inputSpan"><input id="changeFlag"
+                            style="text-align: center"></span>
+                </span>
             </td>
 
         </tr>
         <tr height=16 style='height:12.0pt'>
             <td colspan=4 rowspan=2 height=32 class=xl135 style='border-right:.5pt solid black;
-  height:24.0pt'>部件名称：<span class="inputSpan" style="width:150px;"><input id="modelName" class="ipt180" style="text-align: center"></span></td>
+  height:24.0pt'>部件名称：<span class="inputSpan" style="width:150px;"><input id="modelName" class=""
+                        style="text-align: center"></span></td>
             <td rowspan=8 class=xl124 style='border-bottom:.5pt solid black;border-top:
   none'>承接<br>上道</td>
             <td rowspan=2 class=xl138 width=37 style='border-bottom:.5pt solid black;
@@ -193,41 +167,51 @@
         <tr height=16 style='height:12.0pt'> </tr>
         <tr height=9 style='height:6.95pt'>
             <td colspan=4 rowspan=3 height=27 class=xl135 style='border-right:.5pt solid black;
-  height:20.85pt'>PCB板号：<span class="inputSpan" style="width:150px;" ><input id="pcbCode" class="ipt180" style="text-align: center"></span></td>
+  height:20.85pt'>PCB板号：<span class="inputSpan" style="width:150px;"><input id="pcbCode" class=""
+                        style="text-align: center"></span></td>
             <td rowspan=2 class=xl124 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id='cjsdgx_cjNum_1' class="ipt40" style="text-align: center"></span></td>
+  none'><span class="inputSpan"><input id='cjsdgx_cjNum_1' class="" style="text-align: center"></span></td>
             <td rowspan=2 class=xl153 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id='cjsdgx_cjUser_1' class="ipt60" style="text-align: center"></span></td>
-            <td rowspan=2 class=xl114 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjAmount_1" class="ipt50" style="text-align: center"></span></td>
-            <td rowspan=2 class=xl114 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjDate_1" class="dateType ipt80" style="text-align: center"></span></td>
+  none'><span class="inputSpan"><input id='cjsdgx_cjUser_1' class="" style="text-align: center"></span></td>
+            <td rowspan=2 class=xl114 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjAmount_1"
+                        class="" style="text-align: center"></span></td>
+            <td rowspan=2 class=xl114 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjDate_1"
+                        class="dateType " style="text-align: center"></span></td>
             <td colspan=2 rowspan=6 class=xl127 style='border-right:.5pt solid black;
-  border-bottom:.5pt solid black'><span class="inputSpan"><input id='kzsx_zxUser' class="ipt80" style="text-align: center"></span></td>
+  border-bottom:.5pt solid black'><span class="inputSpan"><input id='kzsx_zxUser' class=""
+                        style="text-align: center"></span></td>
             <td rowspan=6 class=xl140 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id='kzsx_qrUser' class="ipt70" style="text-align: center"></span></td>
+  none'><span class="inputSpan"><input id='kzsx_qrUser' class="" style="text-align: center"></span></td>
             <td rowspan=6 class=xl133 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id='kzsx_date' class="dateType ipt70" style="text-align: center"></span></td>
+  none'><span class="inputSpan"><input id='kzsx_date' class="dateType " style="text-align: center"></span></td>
         </tr>
         <tr height=9 style='height:6.95pt'> </tr>
         <tr height=9 style='height:6.95pt'>
             <td rowspan=2 height=18 class=xl124 style='border-bottom:.5pt solid black;
-  height:13.9pt;border-top:none'><span class="inputSpan"><input id='cjsdgx_cjNum_2' class="ipt40" style="text-align: center" ></span></td>
+  height:13.9pt;border-top:none'><span class="inputSpan"><input id='cjsdgx_cjNum_2' class=""
+                        style="text-align: center"></span></td>
             <td rowspan=2 class=xl141 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id='cjsdgx_cjUser_2' class="ipt60" style="text-align: center"></span></td>
-            <td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjAmount_2" class="ipt50" style="text-align: center"></span></td>
-            <td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjDate_2" class="dateType ipt80" style="text-align: center"></span></td>
+  none'><span class="inputSpan"><input id='cjsdgx_cjUser_2' class="" style="text-align: center"></span></td>
+            <td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjAmount_2"
+                        class="" style="text-align: center"></span></td>
+            <td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjDate_2"
+                        class="dateType " style="text-align: center"></span></td>
         </tr>
         <tr height=9 style='height:6.95pt'>
             <td colspan=4 rowspan=3 height=27 class=xl135 style='border-right:.5pt solid black;
-  height:20.85pt'>板编码：<span class="inputSpan" style="width:150px;"><input id="plateCode" class="ipt200" style="text-align: center"></span></td>
+  height:20.85pt'>板编码：<span class="inputSpan" style="width:150px;"><input id="plateCode" class=""
+                        style="text-align: center"></span></td>
         </tr>
         <tr height=9 style='height:6.95pt'>
             <td rowspan=2 height=18 class=xl124 style='border-bottom:.5pt solid black;
-  height:13.9pt;border-top:none'><span class="inputSpan"><input id='cjsdgx_cjNum_3' class="ipt40" style="text-align: center"></span></td>
+  height:13.9pt;border-top:none'><span class="inputSpan"><input id='cjsdgx_cjNum_3' class=""
+                        style="text-align: center"></span></td>
             <td rowspan=2 class=xl141 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id='cjsdgx_cjUser_3' class="ipt60" style="text-align: center"></span></td>
+  none'><span class="inputSpan"><input id='cjsdgx_cjUser_3' class="" style="text-align: center"></span></td>
             <td rowspan=2 class=xl141 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id="cjsdgx_cjAmount_3" class="ipt50" style="text-align: center"></span></td>
-            <td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjDate_3" class="dateType ipt80" style="text-align: center"></span></td>
+  none'><span class="inputSpan"><input id="cjsdgx_cjAmount_3" class="" style="text-align: center"></span></td>
+            <td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjDate_3"
+                        class="dateType " style="text-align: center"></span></td>
         </tr>
         <tr height=9 style='height:6.95pt'> </tr>
         <tr height=26 style='height:20.1pt'>
@@ -244,21 +228,25 @@
             <td rowspan=2 height=40 class=xl148 width=75 style='height:30.0pt;border-top:none;width:56pt'>
                 <span class="inputSpan"><input id="sbcs_scnr" style="text-align: center"></span></td>
             <td rowspan=2 class=xl127 style='border-bottom:.5pt solid black;border-top:
-  none'><span class="inputSpan"><input id="sbcs_sbmc" class="ipt80" style="text-align: center"></span></td>
+  none'><span class="inputSpan"><input id="sbcs_sbmc" class="" style="text-align: center"></span></td>
             <td colspan=2 rowspan=2 class=xl127 style='border-right:.5pt solid black;
-  border-bottom:.5pt solid black'><span class="inputSpan"><input id="sbcs_sbbh" class="ipt80" style="text-align: center"></span></td>
-            <td colspan=5 class=xl150 style='border-left:none'>供气压力：<span class="inputSpan"><input id="sbcs_gjgycs_gqyl" class="ipt80" style="text-align: center"></span>
-                <font class="font12">
-                    kgf/c㎡<span >   </span></font>
+  border-bottom:.5pt solid black'><span class="inputSpan"><input id="sbcs_sbbh" class=""
+                        style="text-align: center"></span></td>
+            <td colspan=5 class='xl150 displayType' style='border-left:none'>供气压力：<span class="inputSpan"><input id="sbcs_gjgycs_gqyl"
+                        class="" style="text-align: center"></span>
+                <span class="span12">
+                    kgf/c㎡<span>   </span></span>
             </td>
-            <td colspan=3 rowspan=2 class=xl74><span class="inputSpan" style="width:120px;"><input id="sbcs_gjgycs_cxmc" class="ipt120" style="text-align: center"></span></td>
+            <td colspan=3 rowspan=2 class=xl74><span class="inputSpan" style="width:120px;"><input id="sbcs_gjgycs_cxmc"
+                        class="" style="text-align: center"></span></td>
             <td rowspan=2 class=xl74 style='border-top:none'><input id="sbcs_gjgycs_cxzc" type="checkbox" /></td>
-            <td rowspan=2 class=xl80 style='border-top:none'><span class="inputSpan"><input id="sbcs_gjgycs_czUser" class="ipt80" style="text-align: center"></span></td>
+            <td rowspan=2 class=xl80 style='border-top:none'><span class="inputSpan"><input id="sbcs_gjgycs_czUser"
+                        class="" style="text-align: center"></span></td>
         </tr>
         <tr height=20 style='height:15.0pt'>
-            <td colspan=5 height=20 class=xl150 style='height:15.0pt;border-left:none'>焊头温度：<span
-                    class="inputSpan"><input id="sbcs_gjgycs_htwd" class="ipt80" style="text-align: center"></span>
-                <font class="font12"> ℃<span > </span></font>
+            <td colspan=5 height=20 class='xl150 displayType' style='height:15.0pt;border-left:none'>焊头温度：<span
+                    class="inputSpan"><input id="sbcs_gjgycs_htwd" class="" style="text-align: center"></span>
+                <span class="span12"> ℃<span> </span></span>
             </td>
         </tr>
         <tr height=32 style='height:24.0pt'>
@@ -278,83 +266,129 @@
         </tr>
 
         <tr height=20 style='height:15.6pt'>
-            <td height=20 class=xl104 style='height:15.6pt'><span class="inputSpan"><input id="scqc_gx_1" class="ipt80" style="text-align: center"></span></td>
-            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_1" class="ipt80" style="text-align: center"></span></td>
-            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_1" class="ipt50" style="text-align: center"></span></td>
+            <td height=20 class=xl104 style='height:15.6pt'><span class="inputSpan"><input id="scqc_gx_1" class=""
+                        style="text-align: center"></span></td>
+            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_1"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_1" class=""
+                        style="text-align: center"></span></td>
             <td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_1" /></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_1" class="ipt50" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_1"
+                        class="" style="text-align: center"></span></td>
             <td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
   none'><span class="inputSpan"><input id="scqc_qc_1" style="text-align: center"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_1" class="ipt50" style="text-align: center"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_1" class="dateType ipt80" style="text-align: center"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_1" class="ipt50" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_1" class="ipt70" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_1" class="ipt70" style="text-align: center"></span></td>
-            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_1" class="dateType ipt70" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_1"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_1"
+                        class="dateType " style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_1"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_1"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_1"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_1"
+                        class="dateType " style="text-align: center"></span></td>
         </tr>
         <tr height=20 style='height:15.6pt'>
             <td height=20 class=xl85 width=75 style='height:15.6pt;border-top:none;
-  width:56pt'><span class="inputSpan"><input id="scqc_gx_2" class="ipt80" style="text-align: center"></span></td>
-            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_2" class="ipt80" style="text-align: center"></span></td>
-            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_2" class="ipt50" style="text-align: center"></span></td>
+  width:56pt'><span class="inputSpan"><input id="scqc_gx_2" class="" style="text-align: center"></span></td>
+            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_2"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_2" class=""
+                        style="text-align: center"></span></td>
             <td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_2" /></td>
-            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_2" class="ipt50" style="text-align: center"></span></td>
+            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_2"
+                        class="" style="text-align: center"></span></td>
             <td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
   none'><span class="inputSpan"><input id="scqc_qc_2" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_2" class="ipt50" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_2" class="dateType ipt80" style="text-align: center"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_2" class="ipt50" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_2" class="ipt70" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_2" class="ipt70" style="text-align: center"></span></td>
-            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_2" class="dateType ipt70" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_2"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_2"
+                        class="dateType " style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_2"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_2"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_2"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_2"
+                        class="dateType " style="text-align: center"></span></td>
         </tr>
         <tr height=20 style='height:15.6pt'>
             <td height=20 class=xl85 width=75 style='height:15.6pt;border-top:none;
-  width:56pt'><span class="inputSpan"><input id="scqc_gx_3" class="ipt80" style="text-align: center"></span></td>
-            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_3" class="ipt80" style="text-align: center"></span></td>
-            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_3" class="ipt50" style="text-align: center"></span></td>
+  width:56pt'><span class="inputSpan"><input id="scqc_gx_3" class="" style="text-align: center"></span></td>
+            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_3"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_3" class=""
+                        style="text-align: center"></span></td>
             <td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_3" /></td>
-            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_3" class="ipt50" style="text-align: center"></span></td>
+            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_3"
+                        class="" style="text-align: center"></span></td>
             <td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
   none'><span class="inputSpan"><input id="scqc_qc_3" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_3" class="ipt50" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_3" class="dateType ipt80" style="text-align: center"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_3" class="ipt50" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_3" class="ipt70" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_3" class="ipt70" style="text-align: center"></span></td>
-            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_3" class="dateType ipt70" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_3"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_3"
+                        class="dateType " style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_3"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_3"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_3"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_3"
+                        class="dateType " style="text-align: center"></span></td>
         </tr>
         <tr height=20 style='height:15.6pt'>
             <td height=20 class=xl85 width=75 style='height:15.6pt;border-top:none;
-  width:56pt'><span class="inputSpan"><input id="scqc_gx_4" class="ipt80" style="text-align: center"></span></td>
-            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_4" class="ipt80" style="text-align: center"></span></td>
-            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_4" class="ipt50" style="text-align: center"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_4"/></td>
-            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_4" class="ipt50" style="text-align: center"></span></td>
+  width:56pt'><span class="inputSpan"><input id="scqc_gx_4" class="" style="text-align: center"></span></td>
+            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_4"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_4" class=""
+                        style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_4" /></td>
+            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_4"
+                        class="" style="text-align: center"></span></td>
             <td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
   none'><span class="inputSpan"><input id="scqc_qc_4" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_4" class="ipt50" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_4" class="dateType ipt80" style="text-align: center"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_4" class="ipt50" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_4" class="ipt70" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_4" class="ipt70" style="text-align: center"></span></td>
-            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_4" class="dateType ipt70" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_4"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_4"
+                        class="dateType " style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_4"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_4"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_4"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_4"
+                        class="dateType " style="text-align: center"></span></td>
         </tr>
         <tr height=20 style='height:15.6pt'>
             <td height=20 class=xl86 width=75 style='height:15.6pt;border-top:none;
-  width:56pt'><span class="inputSpan"><input id="scqc_gx_5" class="ipt80" style="text-align: center"></span></td>
-            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_5" class="ipt80" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_5" class="ipt50" style="text-align: center"></span></td>
+  width:56pt'><span class="inputSpan"><input id="scqc_gx_5" class="" style="text-align: center"></span></td>
+            <td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_scUser_5"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_5" class=""
+                        style="text-align: center"></span></td>
             <td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_5" /></td>
-            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_5" class="ipt50" style="text-align: center"></span></td>
+            <td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_5"
+                        class="" style="text-align: center"></span></td>
             <td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
   none'><span class="inputSpan"><input id="scqc_qc_5" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_5" class="ipt50" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_5" class="dateType ipt80" style="text-align: center"></span></td>
-            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_5" class="ipt50" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_5" class="ipt70" style="text-align: center"></span></td>
-            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_5" class="ipt70" style="text-align: center"></span></td>
-            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_5" class="dateType ipt70" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_5"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_5"
+                        class="dateType " style="text-align: center"></span></td>
+            <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_5"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_5"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_5"
+                        class="" style="text-align: center"></span></td>
+            <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_5"
+                        class="dateType " style="text-align: center"></span></td>
         </tr>
         <tr height=26 style='height:20.1pt'>
             <td colspan=12 height=26 class=xl105 style='border-right:.5pt solid black;
@@ -362,17 +396,20 @@
             <td colspan=2 class=xl111 style='border-right:1.0pt solid black'>统计人</td>
         </tr>
         <tr height=26 style='height:20.1pt'>
-            <td colspan=12 height=26 class=xl108 style='border-right:.5pt solid black;
+            <td colspan=12 height=26 class='xl108 displayType' style='border-right:.5pt solid black;
   height:20.1pt'>(1－<span class="inputSpan">
-                <input id="xdgxjj_cjNum_1" onChange="change()" style="text-align: center"></span>÷<span class="inputSpan">
-                <input id="xdgxjj_cjNum_2" onChange="change()" style="text-align: center"></span>)×100%＝<span class="inputSpan">
-                <input id="xdgxjj_cjNum_3" style="text-align: center" disabled></span>%</td>
-            <td colspan=2 class=xl109 style='border-right:1.0pt solid black'><span class="inputSpan"><input id="statisticsUser" style="text-align: center"></span></td>
+                    <input id="xdgxjj_cjNum_1" onChange="change()" style="text-align: center"></span>÷<span
+                    class="inputSpan">
+                    <input id="xdgxjj_cjNum_2" onChange="change()" style="text-align: center"></span>)×100%＝<span
+                    class="inputSpan">
+                    <input id="xdgxjj_cjNum_3" style="text-align: center" disabled></span>%</td>
+            <td colspan=2 class=xl109 style='border-right:1.0pt solid black'><span class="inputSpan"><input
+                        id="statisticsUser" style="text-align: center"></span></td>
         </tr>
         <tr height=33 style='height:24.95pt'>
             <td height=33 class=xl88 style='height:24.95pt;border-top:none'>备 注</td>
-            <td colspan=13 class=xl152 style='border-left:none'><span class="inputSpan"
-                    style="width:100%"><input id="remark" style="text-align: center"></span></td>
+            <td colspan=13 class=xl152 style='border-left:none'><span class="inputSpan" style="width:100%"><input
+                        id="remark" style="text-align: center"></span></td>
         </tr>
         <tr height=20 style='height:15.6pt'>
             <td height=20 class=xl92 colspan=13 style='height:15.6pt;'>
@@ -387,7 +424,6 @@
         </tr>
 
     </table>
-
 </body>
 
 <script language='javascript' type='text/javascript'>
@@ -414,6 +450,7 @@
             num_value3.value = value
         }
     }
+
     layui.use(['table', 'jquery', 'form', 'layer', 'laydate'], function () {
         var table = layui.table,
             layer = layui.layer,
@@ -430,12 +467,12 @@
             $(this).attr('type', 'text').val(timeTxt)
         })
 
-        /*if (dd.factory == "万吉厂区") {
+        if (dd.factory == "万吉厂区") {
             $('#area').attr('checked', true)
         }
         if (dd.factory == "金砂厂区") {
             $('#area1').attr('checked', true)
-        }*/
+        }
         if (dd.is_rohs == "是") {
             $('#RoHS').attr('checked', true)
         }
@@ -475,172 +512,161 @@
                     if (res.code === 200) {
                         if (res.data.length > 0) {
                             dj = JSON.parse(res.data[0].json_data);
-                        }
-                        console.log(dj)
-                        console.log(11111)
-                        if (Object.keys(dj).length > 0) {
-                            if (dj.area == 1 || dj.area1 == 1) {
-                                if (dj.area == 1) {
-                                    $('#area').attr('checked', true)
-                                    $('#area1').attr('checked', false)
+                            if (Object.keys(dj).length > 0) {
+                                console.log(dj.cjsdgx[0].cjUser)
+                                $('#cjsdgx_cjUser_1').val(dj.cjsdgx[0].cjUser)
+                                $('#cjsdgx_cjNum_1').val(dj.cjsdgx[0].cjNum)
+                                $('#cjsdgx_cjAmount_1').val(dj.cjsdgx[0].cjAmount)
+                                $('#cjsdgx_cjDate_1').val(dj.cjsdgx[0].cjDate)
+
+                                $('#cjsdgx_cjUser_2').val(dj.cjsdgx[1].cjUser)
+                                $('#cjsdgx_cjNum_2').val(dj.cjsdgx[1].cjNum)
+                                $('#cjsdgx_cjAmount_2').val(dj.cjsdgx[1].cjAmount)
+                                $('#cjsdgx_cjDate_2').val(dj.cjsdgx[1].cjDate)
+
+                                $('#cjsdgx_cjUser_3').val(dj.cjsdgx[2].cjUser)
+                                $('#cjsdgx_cjNum_3').val(dj.cjsdgx[2].cjNum)
+                                $('#cjsdgx_cjAmount_3').val(dj.cjsdgx[2].cjAmount)
+                                $('#cjsdgx_cjDate_3').val(dj.cjsdgx[2].cjDate)
+                                //可追溯性
+                                $('#kzsx_zxUser').val(dj.kzsx[0].zxUser)
+                                $('#kzsx_qrUser').val(dj.kzsx[0].qrUser)
+                                console.log(dj.kzsx[0].date)
+                                $('#kzsx_date').val(dj.kzsx[0].date)
+
+                                console.log("" + dj.sbcs)
+                                $('#sbcs_scnr').val(dj.sbcs.scnr)
+                                $('#sbcs_sbmc').val(dj.sbcs.sbmc)
+                                $('#sbcs_sbbh').val(dj.sbcs.sbbh)
+                                $('#sbcs_gjgycs_gqyl').val(dj.sbcs.gjgycs.gqyl)
+                                $('#sbcs_gjgycs_htwd').val(dj.sbcs.gjgycs.htwd)
+                                $('#sbcs_gjgycs_cxmc').val(dj.sbcs.gjgycs.cxmc)
+                                /*if (dj.sbcs.gjgycs.cxzc.equals("on")) {
+                                    $('#zpgj_qchs_1').attr('checked', true)
+                                }*/
+                                console.log("程序正常:" + dj.sbcs.gjgycs.cxzc);
+                                if (dj.sbcs.gjgycs.cxzc == 1) {
+                                    $('#sbcs_gjgycs_cxzc').attr('checked', true)
                                 }
-                                if (dj.area1 == 1){
-                                    $('#area1').attr('checked', true)
-                                    $('#area').attr('checked', false)
+                                /*$('#sbcs_gjgycs_cxzc').val(dj.sbcs.gjgycs.cxzc)*/
+                                $('#sbcs_gjgycs_czUser').val(dj.sbcs.gjgycs.czUser)
+
+                                // 生产数据 ---------------
+                                $('#scqc_gx_1').val(dj.scqc[0].gx)
+                                $('#scqc_scUser_1').val(dj.scqc[0].scUser)
+                                $('#scqc_scAmount_1').val(dj.scqc[0].scAmount)
+                                /*$('#scqc_qchd_1').val(dj.scqc[0].qchd)*/
+                                console.log("清产核对1:" + dj.scqc[0].qchd);
+                                if (dj.scqc[0].qchd == 1) {
+                                    $('#scqc_qchd_1').attr('checked', true)
                                 }
-                            } else{
-                                $('#area').attr('checked', true)
-                                $('#area1').attr('checked', false)
-                            }
+                                $('#scqc_sj_1').val(dj.scqc[0].sj)
+                                $('#scqc_qc_1').val(dj.scqc[0].qc)
+                                $('#scqc_jcsl_1').val(dj.scqc[0].jcsl)
+                                $('#scqc_date_1').val(dj.scqc[0].date)
 
-                            /*if (dd.factory == "万吉厂区") {
-                                $('#area').attr('checked', true)
-                                $('#area1').attr('checked', false)
-                            }
-                            if (dd.factory == "金砂厂区") {
-                                $('#area1').attr('checked', true)
-                            }*/
+                                $('#scqc_gx_2').val(dj.scqc[1].gx)
+                                $('#scqc_scUser_2').val(dj.scqc[1].scUser)
+                                $('#scqc_scAmount_2').val(dj.scqc[1].scAmount)
+                                /*$('#scqc_qchd_2').val(dj.scqc[1].qchd)*/
+                                if (dj.scqc[1].qchd == 1) {
+                                    $('#scqc_qchd_2').attr('checked', true)
+                                }
+                                $('#scqc_sj_2').val(dj.scqc[1].sj)
+                                $('#scqc_qc_2').val(dj.scqc[1].qc)
+                                $('#scqc_jcsl_2').val(dj.scqc[1].jcsl)
+                                $('#scqc_date_2').val(dj.scqc[1].date)
 
+                                $('#scqc_gx_3').val(dj.scqc[2].gx)
+                                $('#scqc_scUser_3').val(dj.scqc[2].scUser)
+                                $('#scqc_scAmount_3').val(dj.scqc[2].scAmount)
+                                /*$('#scqc_qchd_3').val(dj.scqc[2].qchd)*/
+                                if (dj.scqc[2].qchd == 1) {
+                                    $('#scqc_qchd_3').attr('checked', true)
+                                }
+                                $('#scqc_sj_3').val(dj.scqc[2].sj)
+                                $('#scqc_qc_3').val(dj.scqc[2].qc)
+                                $('#scqc_jcsl_3').val(dj.scqc[2].jcsl)
+                                $('#scqc_date_3').val(dj.scqc[2].date)
 
-                            //console.log(dj.cjsdgx[0].cjUser)
-                            if (dj.type!= null) {
-                                $('#type').val(dj.type)
-                            } else {
-                                $('#type').val("ZJ-F043H")
-                            }
+                                $('#scqc_gx_4').val(dj.scqc[3].gx)
+                                $('#scqc_scUser_4').val(dj.scqc[3].scUser)
+                                $('#scqc_scAmount_4').val(dj.scqc[3].scAmount)
+                                /*$('#scqc_qchd_4').val(dj.scqc[3].qchd)*/
+                                if (dj.scqc[3].qchd == 1) {
+                                    $('#scqc_qchd_4').attr('checked', true)
+                                }
+                                $('#scqc_sj_4').val(dj.scqc[3].sj)
+                                $('#scqc_qc_4').val(dj.scqc[3].qc)
+                                $('#scqc_jcsl_4').val(dj.scqc[3].jcsl)
+                                $('#scqc_date_4').val(dj.scqc[3].date)
 
-                            $('#cjsdgx_cjUser_1').val(dj.cjsdgx[0].cjUser)
-                            $('#cjsdgx_cjNum_1').val(dj.cjsdgx[0].cjNum)
-                            $('#cjsdgx_cjAmount_1').val(dj.cjsdgx[0].cjAmount)
-                            $('#cjsdgx_cjDate_1').val(dj.cjsdgx[0].cjDate)
+                                $('#scqc_gx_5').val(dj.scqc[4].gx)
+                                $('#scqc_scUser_5').val(dj.scqc[4].scUser)
+                                $('#scqc_scAmount_5').val(dj.scqc[4].scAmount)
+                                /*$('#scqc_qchd_5').val(dj.scqc[4].qchd)*/
+                                if (dj.scqc[4].qchd == 1) {
+                                    $('#scqc_qchd_5').attr('checked', true)
+                                }
+                                $('#scqc_sj_5').val(dj.scqc[4].sj)
+                                $('#scqc_qc_5').val(dj.scqc[4].qc)
+                                $('#scqc_jcsl_5').val(dj.scqc[4].jcsl)
+                                $('#scqc_date_5').val(dj.scqc[4].date)
+                                // 交接数据------------------------
+                                // <td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjNum_5"></span></td>
+                                // <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjUser_5"></span></td>
+                                // <td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_5"></span></td>
+                                // <td class=xl101 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjDate_5"></span></td>
+                                $('#jjxd_cjNum_1').val(dj.jjxd[0].cjNum)
+                                $('#jjxd_cjUser_1').val(dj.jjxd[0].cjUser)
+                                $('#jjxd_cjAmount_1').val(dj.jjxd[0].cjAmount)
+                                $('#jjxd_cjDate_1').val(dj.jjxd[0].cjDate)
+                                $('#jjxd_cjNum_2').val(dj.jjxd[1].cjNum)
+                                $('#jjxd_cjUser_2').val(dj.jjxd[1].cjUser)
+                                $('#jjxd_cjAmount_2').val(dj.jjxd[1].cjAmount)
+                                $('#jjxd_cjDate_2').val(dj.jjxd[1].cjDate)
+                                $('#jjxd_cjNum_3').val(dj.jjxd[2].cjNum)
+                                $('#jjxd_cjUser_3').val(dj.jjxd[2].cjUser)
+                                $('#jjxd_cjAmount_3').val(dj.jjxd[2].cjAmount)
+                                $('#jjxd_cjDate_3').val(dj.jjxd[2].cjDate)
+                                $('#jjxd_cjNum_4').val(dj.jjxd[3].cjNum)
+                                $('#jjxd_cjUser_4').val(dj.jjxd[3].cjUser)
+                                $('#jjxd_cjAmount_4').val(dj.jjxd[3].cjAmount)
+                                $('#jjxd_cjDate_4').val(dj.jjxd[3].cjDate)
+                                $('#jjxd_cjNum_5').val(dj.jjxd[4].cjNum)
+                                $('#jjxd_cjUser_5').val(dj.jjxd[4].cjUser)
+                                $('#jjxd_cjAmount_5').val(dj.jjxd[4].cjAmount)
+                                $('#jjxd_cjDate_5').val(dj.jjxd[4].cjDate)
 
-                            $('#cjsdgx_cjUser_2').val(dj.cjsdgx[1].cjUser)
-                            $('#cjsdgx_cjNum_2').val(dj.cjsdgx[1].cjNum)
-                            $('#cjsdgx_cjAmount_2').val(dj.cjsdgx[1].cjAmount)
-                            $('#cjsdgx_cjDate_2').val(dj.cjsdgx[1].cjDate)
+                                $('#remark').val(dj.remark);
+                                $('#statisticsUser').val(dj.statisticsUser);
+                                $('#xdgxjj_cjNum_1').val(dj.xdgxjj[0].cjNum)
+                                $('#xdgxjj_cjNum_2').val(dj.xdgxjj[1].cjNum)
+                                $('#xdgxjj_cjNum_3').val(dj.xdgxjj[2].cjNum);
 
-                            $('#cjsdgx_cjUser_3').val(dj.cjsdgx[2].cjUser)
-                            $('#cjsdgx_cjNum_3').val(dj.cjsdgx[2].cjNum)
-                            $('#cjsdgx_cjAmount_3').val(dj.cjsdgx[2].cjAmount)
-                            $('#cjsdgx_cjDate_3').val(dj.cjsdgx[2].cjDate)
-                            //可追溯性
-                            $('#kzsx_zxUser').val(dj.kzsx[0].zxUser)
-                            $('#kzsx_qrUser').val(dj.kzsx[0].qrUser)
-                            console.log(dj.kzsx[0].date)
-                            $('#kzsx_date').val(dj.kzsx[0].date)
-
-                            console.log(""+ dj.sbcs)
-                            $('#sbcs_scnr').val(dj.sbcs.scnr)
-                            $('#sbcs_sbmc').val(dj.sbcs.sbmc)
-                            $('#sbcs_sbbh').val(dj.sbcs.sbbh)
-                            $('#sbcs_gjgycs_gqyl').val(dj.sbcs.gjgycs.gqyl)
-                            $('#sbcs_gjgycs_htwd').val(dj.sbcs.gjgycs.htwd)
-                            $('#sbcs_gjgycs_cxmc').val(dj.sbcs.gjgycs.cxmc)
-                            /*if (dj.sbcs.gjgycs.cxzc.equals("on")) {
-                                $('#zpgj_qchs_1').attr('checked', true)
-                            }*/
-                            console.log("程序正常:" + dj.sbcs.gjgycs.cxzc);
-                            if (dj.sbcs.gjgycs.cxzc == 1) {
-                                $('#sbcs_gjgycs_cxzc').attr('checked', true)
-                            }
-                            /*$('#sbcs_gjgycs_cxzc').val(dj.sbcs.gjgycs.cxzc)*/
-                            $('#sbcs_gjgycs_czUser').val(dj.sbcs.gjgycs.czUser)
-
-                            // 生产数据 ---------------
-                            $('#scqc_gx_1').val(dj.scqc[0].gx)
-                            $('#scqc_scUser_1').val(dj.scqc[0].scUser)
-                            $('#scqc_scAmount_1').val(dj.scqc[0].scAmount)
-                            /*$('#scqc_qchd_1').val(dj.scqc[0].qchd)*/
-                            console.log("清产核对1:" + dj.scqc[0].qchd);
-                            if (dj.scqc[0].qchd == 1){
-                                $('#scqc_qchd_1').attr('checked', true)
-                            }
-                            $('#scqc_sj_1').val(dj.scqc[0].sj)
-                            $('#scqc_qc_1').val(dj.scqc[0].qc)
-                            $('#scqc_jcsl_1').val(dj.scqc[0].jcsl)
-                            $('#scqc_date_1').val(dj.scqc[0].date)
-
-                            $('#scqc_gx_2').val(dj.scqc[1].gx)
-                            $('#scqc_scUser_2').val(dj.scqc[1].scUser)
-                            $('#scqc_scAmount_2').val(dj.scqc[1].scAmount)
-                            /*$('#scqc_qchd_2').val(dj.scqc[1].qchd)*/
-                            if (dj.scqc[1].qchd == 1){
-                                $('#scqc_qchd_2').attr('checked', true)
-                            }
-                            $('#scqc_sj_2').val(dj.scqc[1].sj)
-                            $('#scqc_qc_2').val(dj.scqc[1].qc)
-                            $('#scqc_jcsl_2').val(dj.scqc[1].jcsl)
-                            $('#scqc_date_2').val(dj.scqc[1].date)
-
-                            $('#scqc_gx_3').val(dj.scqc[2].gx)
-                            $('#scqc_scUser_3').val(dj.scqc[2].scUser)
-                            $('#scqc_scAmount_3').val(dj.scqc[2].scAmount)
-                            /*$('#scqc_qchd_3').val(dj.scqc[2].qchd)*/
-                            if (dj.scqc[2].qchd == 1){
-                                $('#scqc_qchd_3').attr('checked', true)
-                            }
-                            $('#scqc_sj_3').val(dj.scqc[2].sj)
-                            $('#scqc_qc_3').val(dj.scqc[2].qc)
-                            $('#scqc_jcsl_3').val(dj.scqc[2].jcsl)
-                            $('#scqc_date_3').val(dj.scqc[2].date)
-
-                            $('#scqc_gx_4').val(dj.scqc[3].gx)
-                            $('#scqc_scUser_4').val(dj.scqc[3].scUser)
-                            $('#scqc_scAmount_4').val(dj.scqc[3].scAmount)
-                            /*$('#scqc_qchd_4').val(dj.scqc[3].qchd)*/
-                            if (dj.scqc[3].qchd == 1){
-                                $('#scqc_qchd_4').attr('checked', true)
-                            }
-                            $('#scqc_sj_4').val(dj.scqc[3].sj)
-                            $('#scqc_qc_4').val(dj.scqc[3].qc)
-                            $('#scqc_jcsl_4').val(dj.scqc[3].jcsl)
-                            $('#scqc_date_4').val(dj.scqc[3].date)
-
-                            $('#scqc_gx_5').val(dj.scqc[4].gx)
-                            $('#scqc_scUser_5').val(dj.scqc[4].scUser)
-                            $('#scqc_scAmount_5').val(dj.scqc[4].scAmount)
-                            /*$('#scqc_qchd_5').val(dj.scqc[4].qchd)*/
-                            if (dj.scqc[4].qchd == 1){
-                                $('#scqc_qchd_5').attr('checked', true)
-                            }
-                            $('#scqc_sj_5').val(dj.scqc[4].sj)
-                            $('#scqc_qc_5').val(dj.scqc[4].qc)
-                            $('#scqc_jcsl_5').val(dj.scqc[4].jcsl)
-                            $('#scqc_date_5').val(dj.scqc[4].date)
-                            $('#jjxd_cjNum_1').val(dj.jjxd[0].cjNum)
-                            $('#jjxd_cjUser_1').val(dj.jjxd[0].cjUser)
-                            $('#jjxd_cjAmount_1').val(dj.jjxd[0].cjAmount)
-                            $('#jjxd_cjDate_1').val(dj.jjxd[0].cjDate)
-                            $('#jjxd_cjNum_2').val(dj.jjxd[1].cjNum)
-                            $('#jjxd_cjUser_2').val(dj.jjxd[1].cjUser)
-                            $('#jjxd_cjAmount_2').val(dj.jjxd[1].cjAmount)
-                            $('#jjxd_cjDate_2').val(dj.jjxd[1].cjDate)
-                            $('#jjxd_cjNum_3').val(dj.jjxd[2].cjNum)
-                            $('#jjxd_cjUser_3').val(dj.jjxd[2].cjUser)
-                            $('#jjxd_cjAmount_3').val(dj.jjxd[2].cjAmount)
-                            $('#jjxd_cjDate_3').val(dj.jjxd[2].cjDate)
-                            $('#jjxd_cjNum_4').val(dj.jjxd[3].cjNum)
-                            $('#jjxd_cjUser_4').val(dj.jjxd[3].cjUser)
-                            $('#jjxd_cjAmount_4').val(dj.jjxd[3].cjAmount)
-                            $('#jjxd_cjDate_4').val(dj.jjxd[3].cjDate)
-                            $('#jjxd_cjNum_5').val(dj.jjxd[4].cjNum)
-                            $('#jjxd_cjUser_5').val(dj.jjxd[4].cjUser)
-                            $('#jjxd_cjAmount_5').val(dj.jjxd[4].cjAmount)
-                            $('#jjxd_cjDate_5').val(dj.jjxd[4].cjDate)
-
-                            $('#remark').val(dj.remark);
-                            $('#statisticsUser').val(dj.statisticsUser);
-                            $('#xdgxjj_cjNum_1').val(dj.xdgxjj[0].cjNum)
-                            $('#xdgxjj_cjNum_2').val(dj.xdgxjj[1].cjNum)
-                            $('#xdgxjj_cjNum_3').val(dj.xdgxjj[2].cjNum);
+                                /*var a=document.getElementById('xdgxjj_cjNum_1').value;
+                                var b=document.getElementById('xdgxjj_cjNum_2').value;
+                                //var c=document.getElementById('c');
+                                var c;
+                                c.value=Number(a)+Number(b);
+                                console.log("a="+ a);
+                                console.log("b="+ b);
+                                console.log("c="+ c);
+                                $('#xdgxjj_cjNum_3').val(c.value)*/
+                                /*var num1 = $('#xdgxjj_cjNum_1').val(dj.xdgxjj[0].cjNum);
+                                var num2 = $('#xdgxjj_cjNum_2').val(dj.xdgxjj[1].cjNum);
+                                var num3 = num1+num2;
+                                ;*/
 
 
-                            // ------------------------------------------
+                                // ------------------------------------------
 
-                            for (var i = 0; i < 3; i++) {
+                                for (var i = 0; i < 3; i++) {
                                     $('#xdgxjj_cjUser_' + (i + 1)).val(dj.xdgxjj[i].cjUser)
                                     $('#xdgxjj_cjAmount_' + (i + 1)).val(dj.xdgxjj[i].cjAmount)
                                     $('#xdgxjj_cjDate_' + (i + 1)).val(dj.xdgxjj[i].cjDate)
+                                }
+                                //$('#remarks').val(dj.remarks)
                             }
                         }
                     } else {
@@ -651,51 +677,18 @@
         }
         initAjax();
         $('#onsubmit').on('click', function () {
-            /*var factory = dd.factory;
-            if (dd.factory == null || dd.factory == "") {
-
-            }*/
-            //$('#sbcs_gjgycs_cxzc').is(":checked")?1:0,
-            /*var area;
-            if ($('#area').is(":checked") == 1) {
-                area = $('#area').is(":checked")
-            } else {
-                area = dd.factory
-            }
-            var area2;
-            if ($('#area1').is(":checked") == 1) {
-                area2 = $('#area1').is(":checked")
-            } else {
-                area2 = dd.factory
-            }*/
-            /*var area;
-            if (dd.factory ==) {
-                area = dd.factory
-            } else {
-                area = $('#area').is(":checked")
-            }
-            var area2;
-            if (dd.factory != null) {
-                area2 = dd.factory
-            } else {
-                area2 = $('#area1').is(":checked")
-            }*/
             var datajson = {
-                "area": $('#area').is(":checked")?1:0,
-                "area1": $('#area1').is(":checked")?1:0,
-                // "area": area,
-                // "area1": area2,
+                "area": dd.factory,
                 "tempParam": "ZJ-F043H",
                 "RoHS": dd.is_rohs,
                 "model": dd.model_ver,
                 "modelName": dd.model_name,
                 "taskSheetCode": dd.task_sheet_code,
                 "produceAmount": dd.quantity,
-                "amount":dd.pcb_quantity,
-                "changeFlag":dd.pcb_modify_tag,
+                "amount": dd.pcb_quantity,
+                "changeFlag": dd.pcb_modify_tag,
                 "pcbCode": dd.pcb_id,
                 "plateCode": dd.batch_id,
-                "type":$('#type').val(),
                 "cjsdgx": [
                     {
                         "cjUser": $('#cjsdgx_cjUser_1').val(),
@@ -722,8 +715,14 @@
                         "qrUser": $('#kzsx_qrUser').val(),
                         "date": $('#kzsx_date').val()
                     },
+                    // {
+                    //   "zxUser": "李XX",
+                    //   "qrUser": "张XX",
+                    //   "date": "20.01.02"
+                    // }
                 ],
 
+                // todo______________
                 "tjz": [
                     {
                         "scUser": $('#tjz_scUser_1').val(),
@@ -762,28 +761,43 @@
                     }
                 ],
 
+                // todo
                 "sbcs":
+                {
+                    "scnr": $('#sbcs_scnr').val(),
+                    "sbmc": $('#sbcs_sbmc').val(),
+                    "sbbh": $('#sbcs_sbbh').val(),
+                    "gjgycs":
                     {
-                        "scnr": $('#sbcs_scnr').val(),
-                        "sbmc": $('#sbcs_sbmc').val(),
-                        "sbbh": $('#sbcs_sbbh').val(),
-                        "gjgycs":
-                            {
-                                "gqyl": $('#sbcs_gjgycs_gqyl').val(),
-                                "htwd": $('#sbcs_gjgycs_htwd').val(),
-                                "cxmc": $('#sbcs_gjgycs_cxmc').val(),
-                                "cxzc": $('#sbcs_gjgycs_cxzc').is(":checked")?1:0,
-                                "czUser": $('#sbcs_gjgycs_czUser').val()
-                            }
+                        "gqyl": $('#sbcs_gjgycs_gqyl').val(),
+                        "htwd": $('#sbcs_gjgycs_htwd').val(),
+                        "cxmc": $('#sbcs_gjgycs_cxmc').val(),
+                        "cxzc": $('#sbcs_gjgycs_cxzc').is(":checked") ? 1 : 0,
+                        "czUser": $('#sbcs_gjgycs_czUser').val()
+                    }
 
-                    },
+                },
+                // {
+                //     "scnr": "1",
+                //     "sbmc": "2",
+                //     "sbbh": "3",
+                //     "gjgycs": [
+                //         {
+                //             "gqyl": "4_1",
+                //             "htwd": "4_2",
+                //             "cxmc": "4_3",
+                //             "cxzc": "4_4",
+                //             "czUser": "4_5"
+                //         }
+                //     ],
+                // },
 
                 "scqc": [
                     {
                         "gx": $('#scqc_gx_1').val(),
                         "scUser": $('#scqc_scUser_1').val(),
                         "scAmount": $('#scqc_scAmount_1').val(),
-                        "qchd": $('#scqc_qchd_1').is(":checked")?1:0,
+                        "qchd": $('#scqc_qchd_1').is(":checked") ? 1 : 0,
                         "sj": $('#scqc_sj_1').val(),
                         "qc": $('#scqc_qc_1').val(),
                         "jcsl": $('#scqc_jcsl_1').val(),
@@ -793,7 +807,7 @@
                         "gx": $('#scqc_gx_2').val(),
                         "scUser": $('#scqc_scUser_2').val(),
                         "scAmount": $('#scqc_scAmount_2').val(),
-                        "qchd": $('#scqc_qchd_2').is(":checked")?1:0,
+                        "qchd": $('#scqc_qchd_2').is(":checked") ? 1 : 0,
                         "sj": $('#scqc_sj_2').val(),
                         "qc": $('#scqc_qc_2').val(),
                         "jcsl": $('#scqc_jcsl_2').val(),
@@ -803,7 +817,7 @@
                         "gx": $('#scqc_gx_3').val(),
                         "scUser": $('#scqc_scUser_3').val(),
                         "scAmount": $('#scqc_scAmount_3').val(),
-                        "qchd": $('#scqc_qchd_3').is(":checked")?1:0,
+                        "qchd": $('#scqc_qchd_3').is(":checked") ? 1 : 0,
                         "sj": $('#scqc_sj_3').val(),
                         "qc": $('#scqc_qc_3').val(),
                         "jcsl": $('#scqc_jcsl_3').val(),
@@ -813,7 +827,7 @@
                         "gx": $('#scqc_gx_4').val(),
                         "scUser": $('#scqc_scUser_4').val(),
                         "scAmount": $('#scqc_scAmount_4').val(),
-                        "qchd": $('#scqc_qchd_4').is(":checked")?1:0,
+                        "qchd": $('#scqc_qchd_4').is(":checked") ? 1 : 0,
                         "sj": $('#scqc_sj_4').val(),
                         "qc": $('#scqc_qc_4').val(),
                         "jcsl": $('#scqc_jcsl_4').val(),
@@ -823,7 +837,7 @@
                         "gx": $('#scqc_gx_5').val(),
                         "scUser": $('#scqc_scUser_5').val(),
                         "scAmount": $('#scqc_scAmount_5').val(),
-                        "qchd": $('#scqc_qchd_5').is(":checked")?1:0,
+                        "qchd": $('#scqc_qchd_5').is(":checked") ? 1 : 0,
                         "sj": $('#scqc_sj_5').val(),
                         "qc": $('#scqc_qc_5').val(),
                         "jcsl": $('#scqc_jcsl_5').val(),
@@ -879,10 +893,7 @@
                     },
 
                 ],
-
-
             }
-            console.log(datajson)
             $.ajax({
                 url: '/currentReport/addCurrentReport',
                 type: "post",
@@ -906,6 +917,20 @@
             })
         })
     })
+
+    var op = document.getElementById('op');
+    var onsubmit = document.getElementById('onsubmit');
+    op.onclick = function () {
+        op.style.display = 'none';
+        onsubmit.style.display = 'none';
+        setTimeout(() => {
+            op.style.display = 'block';
+            onsubmit.style.display = 'block';
+        }, 500);
+        var iframe = document.createElement('iframe');
+        console.log(iframe.contentWindow)
+        window.print();
+    }
 </script>
 
 </html>
