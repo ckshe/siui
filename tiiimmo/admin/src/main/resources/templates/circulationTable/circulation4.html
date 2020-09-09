@@ -34,6 +34,13 @@
         .ipt80{
             width: 80px !important;
         }
+
+        .ipt81 {
+            width: 90px !important;
+            border: hidden;
+            font-size: 16px;
+        }
+
         .ipt100 {
             width: 100px !important;
         }
@@ -131,14 +138,14 @@
             <td width='77' style='width:57.75pt;'></td>
             <td width='37' style='width:27.75pt;'></td>
             <td class='x157' width='45' style='width:33.75pt;'>
-                <span>万吉厂区<input id='area' type="checkbox"> </span>
+                <span>万吉厂区<input id='area' checked type="checkbox"> </span>
                 <span>金砂厂区<input id='area1' type="checkbox"></span>
             </td>
             <td width='41' style='width:30.75pt;'></td>
             <td width='45' style='width:33.75pt;'></td>
             <td width='45' style='width:33.75pt;'></td>
             <td width='65' style='width:48.75pt;'></td>
-            <td class='x205' width='65' style='width:48.75pt;'><span style='float:right'>ZJ-F252J</span></td>
+            <td class='x205' width='65' style='width:48.75pt;'><span style='float:right'><input id="type"  class="ipt81" value="ZJ-F252J" ></span></td>
         </tr>
         <tr height='40' style='height:30pt' id='r1'>
             <td colspan='21' height='40' class='x101' style='height:30pt;'>生产流通表（四）</td>
@@ -149,23 +156,15 @@
                 </span>清产核对</td>
         </tr>
 
-        <!--<td colspan=14 height=20 class=xl121 style='border-right:1.0pt solid black;height:15.0pt'>
-            生产型号：<span class="inputSpan"><input id='model' class="ipt80"></span>
-            <font class="font14"><span > </span></font>
-            <font class="font9">生产批次：<span class="inputSpan"><input id='taskSheetCode'></span></font>投产台数：<span
-                class="inputSpan"><input id='produceAmount'></span></font>数量：<span class="inputSpan"><input id="amount"></span></font>
-            <font class="font9"><span >  </span>修改标记：<span class="inputSpan"><input id="changeFlag"></span>
-            </font>
-        </td>-->
         <tr height='26' style='height:20.1pt' id='r3'>
             <td colspan='21' height='23' class='x104'
                 style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:17.85pt;'>
 
                 生产型号：<span class="inputSpan"><input id='model'></span>
                 生产批次：<span class="inputSpan"><input id='taskSheetCode'></span>
-                投产台数：<span class="inputSpan"><input id='produceAmount' class="ipt100"></span>
-                数量：<span class="inputSpan"><input id="amount" class="ipt100"></span>
-                修改标记：<span class="inputSpan"><input id="changeFlag" ></span>
+                投产台数：<span class="inputSpan"><input id='produceAmount' class="ipt80"></span>
+                数量：<span class="inputSpan"><input id="amount" class="ipt80"></span>
+                修改标记：<span class="inputSpan"><input id="changeFlag"></span>
                 承接人：<span class="inputSpan"><input id="cjUser" class="ipt100"></span>
 
             </td>
@@ -422,8 +421,6 @@
             <td colspan='21' height='8' class='x108' style='border-right:2px solid windowtext;height:6.6pt;'></td>
 
         </tr>
-        <!-- todo ------------------------------------------------->
-
 
         <tr height='33' style='height:24.95pt' id='r60'>
             <td height='31' class='x108' style='height:23.45pt;'>板面</td>
@@ -718,37 +715,7 @@
             </td>
 
         </tr>
-        <!--<tr height='24' style='height:18pt' id='r35'>
-            <td colspan='11' height='22' class='x151' style='mso-ignore:colspan;height:16.5pt;'>
-                注：1.完成生产后生产者清产核对器件数量，如正确请在清产核对<input type="checkbox" />打√，否则上报车间管理人员；</td>
-            <td class='x203'></td>
-            <td class='x203'></td>
-            <td class='x203'></td>
-            <td class='x203'></td>
-            <td class='x203'></td>
-            <td class='x203'></td>
-            <td class='x203'></td>
-            <td class='x152'></td>
-            <td class='x213'></td>
-            <td class='x213'></td>
 
-        </tr>
-        <tr height='24' style='height:18pt' id='r36'>
-            <td colspan='10' height='24' class='x154' style='mso-ignore:colspan;height:18pt;'>&nbsp;&nbsp;
-                2.生产该板使用到的设备、程序正常项<input type="checkbox" />打√，填写相应的关键工艺参数、程序名称。
-            <td class='x204'></td>
-            <td class='x204'></td>
-            <td class='x204'></td>
-            <td class='x204'></td>
-            <td class='x204'></td>
-            <td class='x204'></td>
-            <td class='x204'></td>
-            <td class='x204'></td>
-            <td class='x155'></td>
-            <td class='x213'></td>
-            <td class='x213'></td>
-
-        </tr>-->
         <tr height=20 style='height:15.6pt'>
             <td height=20 class=xl92 colspan=13 style='height:15.6pt;'>
                 注：1.完成生产后生产者清产核对器件数量，如正确请在清产核对<input type="checkbox" />打√，否则上报车间管理人员；</td>
@@ -811,12 +778,12 @@
                 $(this).attr('type', 'text').val(timeTxt);
             })
 
-            if (dd.factory == "万吉厂区") {
+            /*if (dd.factory == "万吉厂区") {
                 $('#area').attr('checked', true)
             }
             if (dd.factory == "金砂厂区") {
                 $('#area1').attr('checked', true)
-            }
+            }*/
             if (dd.is_rohs == "是") {
                 $('#RoHS').attr('checked', true)
             }
@@ -865,6 +832,28 @@
                             console.log(dj)
                             //console.log("111" + dj.sbcs[0].sbmc)
                             if (Object.keys(dj).length > 0) {
+
+                                if (dj.area == 1 || dj.area1 == 1) {
+                                    if (dj.area == 1) {
+                                        $('#area').attr('checked', true)
+                                        $('#area1').attr('checked', false)
+                                    }
+                                    if (dj.area1 == 1){
+                                        $('#area1').attr('checked', true)
+                                        $('#area').attr('checked', false)
+                                    }
+                                } else{
+                                    $('#area').attr('checked', true)
+                                    $('#area1').attr('checked', false)
+                                }
+
+                                if (dj.type!= null) {
+                                    $('#type').val(dj.type)
+                                } else {
+                                    $('#type').val("ZJ-F044L")
+                                }
+
+
                                 // TODO 9.4 (程序)
                                 $('#date').val(dj.date)
                                 // 承接人
@@ -1274,168 +1263,6 @@
                                 $('#sj_sjxq_sjUser24').val(dj.sj.sjxq[23].sjUser)
                                 $('#sj_sjxq_czUser24').val(dj.sj.sjxq[23].czUser)
 
-                                // TODO 9.4______________
-
-
-
-                                /*$('#cjsdgx_cjUser_1').val(dj.cjsdgx[0].cjUser)
-                                $('#cjsdgx_cjNum_1').val(dj.cjsdgx[0].cjNum)
-                                $('#cjsdgx_cjAmount_1').val(dj.cjsdgx[0].cjAmount)
-                                $('#cjsdgx_cjDate_1').val(dj.cjsdgx[0].cjDate)
-
-                                $('#cjsdgx_cjUser_2').val(dj.cjsdgx[1].cjUser)
-                                $('#cjsdgx_cjNum_2').val(dj.cjsdgx[1].cjNum)
-                                $('#cjsdgx_cjAmount_2').val(dj.cjsdgx[1].cjAmount)
-                                $('#cjsdgx_cjDate_2').val(dj.cjsdgx[1].cjDate)
-
-                                $('#cjsdgx_cjUser_3').val(dj.cjsdgx[2].cjUser)
-                                $('#cjsdgx_cjNum_3').val(dj.cjsdgx[2].cjNum)
-                                $('#cjsdgx_cjAmount_3').val(dj.cjsdgx[2].cjAmount)
-                                $('#cjsdgx_cjDate_3').val(dj.cjsdgx[2].cjDate)
-                                //可追溯性
-                                $('#kzsx_zxUser').val(dj.kzsx[0].zxUser)
-                                $('#kzsx_qrUser').val(dj.kzsx[0].qrUser)
-                                console.log(dj.kzsx[0].date)
-                                $('#kzsx_date').val(dj.kzsx[0].date)
-                                //贴胶纸
-
-                                // todo
-                                console.log(""+ dj.sbcs)
-                                $('#sbcs_scnr').val(dj.sbcs.scnr)
-                                $('#sbcs_sbmc').val(dj.sbcs.sbmc)
-                                $('#sbcs_sbbh').val(dj.sbcs.sbbh)
-                                $('#sbcs_gjgycs_gqyl').val(dj.sbcs.gjgycs.gqyl)
-                                $('#sbcs_gjgycs_htwd').val(dj.sbcs.gjgycs.htwd)
-                                $('#sbcs_gjgycs_cxmc').val(dj.sbcs.gjgycs.cxmc)
-                                /!*if (dj.sbcs.gjgycs.cxzc.equals("on")) {
-                                    $('#zpgj_qchs_1').attr('checked', true)
-                                }*!/
-                                console.log("程序正常:" + dj.sbcs.gjgycs.cxzc);
-                                if (dj.sbcs.gjgycs.cxzc == "on") {
-                                    console.log("程序正常:" + true);
-                                    $('#sbcs_gjgycs_cxzc').attr('checked', true)
-                                }
-                                /!*$('#sbcs_gjgycs_cxzc').val(dj.sbcs.gjgycs.cxzc)*!/
-                                $('#sbcs_gjgycs_czUser').val(dj.sbcs.gjgycs.czUser)
-
-                                // 生产数据 ---------------
-                                $('#scqc_gx_1').val(dj.scqc[0].gx)
-                                $('#scqc_scUser_1').val(dj.scqc[0].scUser)
-                                $('#scqc_scAmount_1').val(dj.scqc[0].scAmount)
-                                /!*$('#scqc_qchd_1').val(dj.scqc[0].qchd)*!/
-                                console.log("清产核对1:" + dj.scqc[0].qchd);
-                                if (dj.scqc[0].qchd == "on"){
-                                    $('#scqc_qchd_1').attr('checked', true)
-                                }
-                                $('#scqc_sj_1').val(dj.scqc[0].sj)
-                                $('#scqc_qc_1').val(dj.scqc[0].qc)
-                                $('#scqc_jcsl_1').val(dj.scqc[0].jcsl)
-                                $('#scqc_date_1').val(dj.scqc[0].date)
-
-                                $('#scqc_gx_2').val(dj.scqc[1].gx)
-                                $('#scqc_scUser_2').val(dj.scqc[1].scUser)
-                                $('#scqc_scAmount_2').val(dj.scqc[1].scAmount)
-                                /!*$('#scqc_qchd_2').val(dj.scqc[1].qchd)*!/
-                                if (dj.scqc[1].qchd == "on"){
-                                    $('#scqc_qchd_2').attr('checked', true)
-                                }
-                                $('#scqc_sj_2').val(dj.scqc[1].sj)
-                                $('#scqc_qc_2').val(dj.scqc[1].qc)
-                                $('#scqc_jcsl_2').val(dj.scqc[1].jcsl)
-                                $('#scqc_date_2').val(dj.scqc[1].date)
-
-                                $('#scqc_gx_3').val(dj.scqc[2].gx)
-                                $('#scqc_scUser_3').val(dj.scqc[2].scUser)
-                                $('#scqc_scAmount_3').val(dj.scqc[2].scAmount)
-                                /!*$('#scqc_qchd_3').val(dj.scqc[2].qchd)*!/
-                                if (dj.scqc[2].qchd == "on"){
-                                    $('#scqc_qchd_3').attr('checked', true)
-                                }
-                                $('#scqc_sj_3').val(dj.scqc[2].sj)
-                                $('#scqc_qc_3').val(dj.scqc[2].qc)
-                                $('#scqc_jcsl_3').val(dj.scqc[2].jcsl)
-                                $('#scqc_date_3').val(dj.scqc[2].date)
-
-                                $('#scqc_gx_4').val(dj.scqc[3].gx)
-                                $('#scqc_scUser_4').val(dj.scqc[3].scUser)
-                                $('#scqc_scAmount_4').val(dj.scqc[3].scAmount)
-                                /!*$('#scqc_qchd_4').val(dj.scqc[3].qchd)*!/
-                                if (dj.scqc[3].qchd == "on"){
-                                    $('#scqc_qchd_4').attr('checked', true)
-                                }
-                                $('#scqc_sj_4').val(dj.scqc[3].sj)
-                                $('#scqc_qc_4').val(dj.scqc[3].qc)
-                                $('#scqc_jcsl_4').val(dj.scqc[3].jcsl)
-                                $('#scqc_date_4').val(dj.scqc[3].date)
-
-                                $('#scqc_gx_5').val(dj.scqc[4].gx)
-                                $('#scqc_scUser_5').val(dj.scqc[4].scUser)
-                                $('#scqc_scAmount_5').val(dj.scqc[4].scAmount)
-                                /!*$('#scqc_qchd_5').val(dj.scqc[4].qchd)*!/
-                                if (dj.scqc[4].qchd == "on"){
-                                    $('#scqc_qchd_5').attr('checked', true)
-                                }
-                                $('#scqc_sj_5').val(dj.scqc[4].sj)
-                                $('#scqc_qc_5').val(dj.scqc[4].qc)
-                                $('#scqc_jcsl_5').val(dj.scqc[4].jcsl)
-                                $('#scqc_date_5').val(dj.scqc[4].date)
-                                // 交接数据------------------------
-                                $('#jjxd_cjNum_1').val(dj.jjxd[0].cjNum)
-                                $('#jjxd_cjUser_1').val(dj.jjxd[0].cjUser)
-                                $('#jjxd_cjAmount_1').val(dj.jjxd[0].cjAmount)
-                                $('#jjxd_cjDate_1').val(dj.jjxd[0].cjDate)
-                                $('#jjxd_cjNum_2').val(dj.jjxd[1].cjNum)
-                                $('#jjxd_cjUser_2').val(dj.jjxd[1].cjUser)
-                                $('#jjxd_cjAmount_2').val(dj.jjxd[1].cjAmount)
-                                $('#jjxd_cjDate_2').val(dj.jjxd[1].cjDate)
-                                $('#jjxd_cjNum_3').val(dj.jjxd[2].cjNum)
-                                $('#jjxd_cjUser_3').val(dj.jjxd[2].cjUser)
-                                $('#jjxd_cjAmount_3').val(dj.jjxd[2].cjAmount)
-                                $('#jjxd_cjDate_3').val(dj.jjxd[2].cjDate)
-                                $('#jjxd_cjNum_4').val(dj.jjxd[3].cjNum)
-                                $('#jjxd_cjUser_4').val(dj.jjxd[3].cjUser)
-                                $('#jjxd_cjAmount_4').val(dj.jjxd[3].cjAmount)
-                                $('#jjxd_cjDate_4').val(dj.jjxd[3].cjDate)
-                                $('#jjxd_cjNum_5').val(dj.jjxd[4].cjNum)
-                                $('#jjxd_cjUser_5').val(dj.jjxd[4].cjUser)
-                                $('#jjxd_cjAmount_5').val(dj.jjxd[4].cjAmount)
-                                $('#jjxd_cjDate_5').val(dj.jjxd[4].cjDate)
-
-                                $('#remark').val(dj.remark);
-                                $('#xdgxjj_cjNum_1').val(dj.xdgxjj[0].cjNum)
-                                $('#xdgxjj_cjNum_2').val(dj.xdgxjj[1].cjNum)
-                                $('#xdgxjj_cjNum_3').val(dj.xdgxjj[2].cjNum)
-
-
-                                // ------------------------------------------
-                                /!*$('#bfhjj_deviceCode').val(dj.bfhjj.deviceCode)
-                                $('#bfhjj_deviceName').val(dj.bfhjj.deviceName)
-                                $('#bfhjj_craftParam_yr1B').val(dj.bfhjj.craftParam.yr1B)
-                                $('#bfhjj_craftParam_yr2B').val(dj.bfhjj.craftParam.yr2B)
-                                $('#bfhjj_craftParam_yr3B').val(dj.bfhjj.craftParam.yr3B)
-                                $('#bfhjj_craftParam_yr2T').val(dj.bfhjj.craftParam.yr2T)
-                                $('#bfhjj_craftParam_yr3T').val(dj.bfhjj.craftParam.yr3T)
-                                $('#bfhjj_craftParam_ltsd').val(dj.bfhjj.craftParam.ltsd)
-                                $('#bfhjj_craftParam_xlwd').val(dj.bfhjj.craftParam.xlwd)
-                                $('#bfhjj_craftParam_gqyl').val(dj.bfhjj.craftParam.gqyl)
-                                $('#bfhjj_craftParam_pwqy').val(dj.bfhjj.craftParam.pwqy)
-                                $('#bfhjj_craftParam_zfqy').val(dj.bfhjj.craftParam.zfqy)
-                                $('#bfhjj_programName').val(dj.bfhjj.programName)
-                                if (dj.bfhjj.programStatus == 1) {
-                                    $('#bfhjj_programStatus').attr('checked', true)
-                                }
-                                $('#bfhjj_produceDate').val(dj.bfhjj.produceDate)
-                                $('#bfhjj_amount').val(dj.bfhjj.amount)
-                                if (dj.bfhjj.qchd == 1) {
-                                    $('#bfhjj_qchd').attr('checked', true)
-                                }
-                                $('#bfhjj_doUser').val(dj.bfhjj.doUser)
-                                $('#bfhjj_sjStatus').val(dj.bfhjj.sjStatus)
-                                $('#bfhjj_sjUser').val(dj.bfhjj.sjUser)
-                                $('#bfhjj_qcUser').val(dj.bfhjj.qcUser)
-                                $('#bfhjj_checkDate').val(dj.bfhjj.checkDate)*!/
-*/
-
                                 for (var i = 0; i < 3; i++) {
                                     //$('#sbcs_sbmc_' + (i + 1)).val(dj.sbcs[i].sbmc)
                                     // $('#xdgxjj_cjAmount_' + (i + 1)).val(dj.xdgxjj[i].cjAmount)
@@ -1452,7 +1279,9 @@
             initAjax();
             $('#onsubmit').on('click', function () {
                 var datajson = {
-                    "area": dd.factory,
+                    "area": $('#area').is(":checked")?1:0,
+                    "area1": $('#area1').is(":checked")?1:0,
+                    //"area": dd.factory,
                     "tempParam": "ZJ-F252J",
                     "RoHS": dd.is_rohs,
                     "model": dd.model_ver,
@@ -1465,11 +1294,11 @@
                     "plateCode": dd.batch_id,
                     "date":$('#date').val(),
                     "cjUser":$('#cjUser').val(),
+                    "type":$('#type').val(),
                     "bm": $('#bm').is(":checked")?1:0,
                     "bm1": $('#bm1').is(":checked")?1:0,
                     "bm2": $('#bm2').is(":checked")?1:0,
                     "bm3": $('#bm3').is(":checked")?1:0,
-                    // TODO 9.4
                     "sbcs": [
                         {
                             "sbmc": $('#sbcs_sbmc_1').val(),
