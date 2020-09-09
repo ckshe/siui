@@ -10,15 +10,14 @@ public enum CurrentReportEnum {
     ZXLTB("2", "整形流通表"),
     HHLTB("3", "后焊流通表"),
     DLBTS("4", "电路板调试"),
-    SJJLB("5", "首检记录表");
-
-
+    SJJLB("5", "首检记录表"),
+    YSJWHJLB("6", "G5全自动视觉印刷机维护记录表");
 
     private String name;
 
     private String message;
 
-    CurrentReportEnum(String  name, String message) {
+    CurrentReportEnum(String name, String message) {
         this.name= name;
         this.message = message;
     }

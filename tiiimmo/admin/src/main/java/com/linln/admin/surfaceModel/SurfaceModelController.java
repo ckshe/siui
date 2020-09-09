@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/surfaceModel")
 public class SurfaceModelController {
-//    G5全自动视觉印刷机维护记录表
+    //    G5全自动视觉印刷机维护记录表
     @GetMapping("/f259b")
     public String f259b(){ return "/surfaceModel/f259b";}
     //    贴片机YS12/YS12F日常维护记录表

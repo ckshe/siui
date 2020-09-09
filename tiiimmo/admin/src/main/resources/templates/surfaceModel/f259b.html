@@ -59,6 +59,13 @@
     .rowDate {
       line-height: 30px;
     }
+
+    .ipt81 {
+      width: 90px !important;
+      border: hidden;
+      font-size: 16px;
+    }
+
     #onsubmit {
       display: inline-block;
       height: 28px;
@@ -107,8 +114,8 @@
         <td class="xl66" width="27" style="width:20pt"></td>
         <td class="xl66" width="27" style="width:20pt"></td>
         <td class="xl66" width="27" style="width:20pt"></td>
-        <td colspan="10" class="xl95" width="282" style="width:209pt">万吉厂区<input type="checkbox" name="area"> 金砂厂区<input
-            type="checkbox" name="area1"> ZJ－F259B</td>
+        <td colspan="10" class="xl95" width="282" style="width:209pt">万吉厂区<input type="checkbox" checked name="area" id="area"> 金砂厂区<input
+            type="checkbox" name="area1" id="area1"> <input id="type"  class="ipt81" value="ZJ-F259B" ></td>
       </tr>
       <tr height="40" style="height:30.0pt">
         <td colspan="1" height="40" class="xl105" style="height:30.0pt"><button id="onsubmit">保存</button></td>
@@ -659,12 +666,12 @@
       if (dd.factory == "金砂厂区") {
         $('#area1').attr('checked', true)
       }
-      if (dd.is_rohs == "是") {
+      /*if (dd.is_rohs == "是") {
         $('#RoHS').attr('checked', true)
       }
       if (dd.is_rohs == "否") {
         $('#RoHS1').attr('checked', true)
-      }
+      }*/
 
      /* //型号
       $('#model').val(dd.model_ver)
@@ -685,7 +692,8 @@
           type: "post",
           dataType: "json",
           data: JSON.stringify({
-            pcbTaskCode: 'WORK021609',
+            //pcbTaskCode: 'WORK021609', //todo  排产号先写死
+            pcbTaskCode: 'WORK021610',
             reportType: '6'
           }),
           contentType: "application/json;charset=UTF-8",
@@ -696,6 +704,27 @@
               }
               console.log(dj)
               if (Object.keys(dj).length > 0) {
+
+                if (dj.area == 1 || dj.area1 == 1) {
+                  if (dj.area == 1) {
+                    $('#area').attr('checked', true)
+                    $('#area1').attr('checked', false)
+                  }
+                  if (dj.area1 == 1){
+                    $('#area1').attr('checked', true)
+                    $('#area').attr('checked', false)
+                  }
+                } else{
+                  $('#area').attr('checked', true)
+                  $('#area1').attr('checked', false)
+                }
+
+                if (dj.type!= null) {
+                  $('#type').val(dj.type)
+                } else {
+                  $('#type').val("ZJ-F259B")
+                }
+
                 $('[name="year"]').val(dj.year)
                 $('[name="month"]').val(dj.month)
                 $('[name="equipmentNo"]').val(dj.equipmentNo)
@@ -1079,111 +1108,6 @@
                 $('[name="row371"]').val(dj.row371)
                 $('[name="row372"]').val(dj.row372)
 
-
-
-
-                /*console.log(dj.cjsdgx[0].cjUser)
-                $('#cjsdgx_cjUser_1').val(dj.cjsdgx[0].cjUser)
-                $('#cjsdgx_cjNum_1').val(dj.cjsdgx[0].cjNum)
-                $('#cjsdgx_cjAmount_1').val(dj.cjsdgx[0].cjAmount)
-                $('#cjsdgx_cjDate_1').val(dj.cjsdgx[0].cjDate)
-
-                $('#cjsdgx_cjUser_2').val(dj.cjsdgx[1].cjUser)
-                $('#cjsdgx_cjNum_2').val(dj.cjsdgx[1].cjNum)
-                $('#cjsdgx_cjAmount_2').val(dj.cjsdgx[1].cjAmount)
-                $('#cjsdgx_cjDate_2').val(dj.cjsdgx[1].cjDate)
-
-                $('#cjsdgx_cjUser_3').val(dj.cjsdgx[2].cjUser)
-                $('#cjsdgx_cjNum_3').val(dj.cjsdgx[2].cjNum)
-                $('#cjsdgx_cjAmount_3').val(dj.cjsdgx[2].cjAmount)
-                $('#cjsdgx_cjDate_3').val(dj.cjsdgx[2].cjDate)
-                //可追溯性 
-                $('#kzsx_zxUser').val(dj.kzsx[0].zxUser)
-                $('#kzsx_qrUser').val(dj.kzsx[0].qrUser)
-                console.log(dj.kzsx[0].date)
-                $('#kzsx_date').val(dj.kzsx[0].date)
-                //贴胶纸
-                $('#tjz_scUser_1').val(dj.tjz[0].scUser)
-                $('#tjz_qcUser_1').val(dj.tjz[0].qcUser)
-                $('#tjz_date_1').val(dj.tjz[0].date)
-
-                $('#tjz_scUser_2').val(dj.tjz[1].scUser)
-                $('#tjz_qcUser_2').val(dj.tjz[1].qcUser)
-                $('#tjz_date_2').val(dj.tjz[1].date)
-
-                $('#tjz_scUser_3').val(dj.tjz[2].scUser)
-                $('#tjz_qcUser_3').val(dj.tjz[2].qcUser)
-                $('#tjz_date_3').val(dj.tjz[2].date)
-                // 装配固件
-                $('#zpgj_scUser_1').val(dj.zpgj[0].scUser)
-                $('#zpgj_qchdUser_1').val(dj.zpgj[0].qchdUser)
-                if (dj.zpgj[0].qchs == 1) {
-                  $('#zpgj_qchs_1').attr('checked', true)
-                }
-                $('#zpgj_date_1').val(dj.zpgj[0].date)
-
-                $('#zpgj_scUser_2').val(dj.zpgj[1].scUser)
-                $('#zpgj_qchdUser_2').val(dj.zpgj[1].qchdUser)
-                if (dj.zpgj[1].qchs == 1) {
-                  $('#zpgj_qchs_2').attr('checked', true)
-                }
-                $('#zpgj_date_2').val(dj.zpgj[1].date)
-
-                $('#zpgj_scUser_3').val(dj.zpgj[2].scUser)
-                $('#zpgj_qchdUser_3').val(dj.zpgj[2].qchdUser)
-                if (dj.zpgj[2].qchs == 1) {
-                  $('#zpgj_qchs_3').attr('checked', true)
-                }
-                $('#zpgj_date_3').val(dj.zpgj[2].date)
-                // 手 插
-                for (var i = 0; i < 20; i++) {
-                  $('#sc_record_scUser_' + (i + 1)).val(dj.sc.record[i].scUser)
-                  if (dj.sc.record[i].qchd == 1) {
-                    $('#sc_record_qchd_' + (i + 1)).attr('checked', true)
-                  }
-                }
-                $('#sc_plateAmount').val(dj.sc.plateAmount)
-                $('#sc_sjStatue').val(dj.sc.sjStatue)
-                $('#sc_qcUser').val(dj.sc.qcUser)
-                $('#sc_date').val(dj.sc.date)
-                // 波峰焊接机
-                if (dj.bfhjj.isUser == 1) {
-                  $('#bfhjj_isUser').attr('checked', true)
-                }
-                $('#bfhjj_deviceCode').val(dj.bfhjj.deviceCode)
-                $('#bfhjj_deviceName').val(dj.bfhjj.deviceName)
-                $('#bfhjj_craftParam_yr1B').val(dj.bfhjj.craftParam.yr1B)
-                $('#bfhjj_craftParam_yr2B').val(dj.bfhjj.craftParam.yr2B)
-                $('#bfhjj_craftParam_yr3B').val(dj.bfhjj.craftParam.yr3B)
-                $('#bfhjj_craftParam_yr2T').val(dj.bfhjj.craftParam.yr2T)
-                $('#bfhjj_craftParam_yr3T').val(dj.bfhjj.craftParam.yr3T)
-                $('#bfhjj_craftParam_ltsd').val(dj.bfhjj.craftParam.ltsd)
-                $('#bfhjj_craftParam_xlwd').val(dj.bfhjj.craftParam.xlwd)
-                $('#bfhjj_craftParam_gqyl').val(dj.bfhjj.craftParam.gqyl)
-                $('#bfhjj_craftParam_pwqy').val(dj.bfhjj.craftParam.pwqy)
-                $('#bfhjj_craftParam_zfqy').val(dj.bfhjj.craftParam.zfqy)
-                $('#bfhjj_programName').val(dj.bfhjj.programName)
-                if (dj.bfhjj.programStatus == 1) {
-                  $('#bfhjj_programStatus').attr('checked', true)
-                }
-                $('#bfhjj_produceDate').val(dj.bfhjj.produceDate)
-                $('#bfhjj_amount').val(dj.bfhjj.amount)
-                if (dj.bfhjj.qchd == 1) {
-                  $('#bfhjj_qchd').attr('checked', true)
-                }
-                $('#bfhjj_doUser').val(dj.bfhjj.doUser)
-                $('#bfhjj_sjStatus').val(dj.bfhjj.sjStatus)
-                $('#bfhjj_sjUser').val(dj.bfhjj.sjUser)
-                $('#bfhjj_qcUser').val(dj.bfhjj.qcUser)
-                $('#bfhjj_checkDate').val(dj.bfhjj.checkDate)*/
-
-
-                /*for (var i = 0; i < 3; i++) {
-                  $('#xdgxjj_cjUser_' + (i + 1)).val(dj.xdgxjj[i].cjUser)
-                  $('#xdgxjj_cjAmount_' + (i + 1)).val(dj.xdgxjj[i].cjAmount)
-                  $('#xdgxjj_cjDate_' + (i + 1)).val(dj.xdgxjj[i].cjDate)
-                }
-                $('#remarks').val(dj.remarks)*/
               }
             } else {
               layer.alert(res.msg, { icon: 5 })
@@ -1199,17 +1123,15 @@
       //console.log("row0 = " + $('[name="row0"]').button);
       $('#onsubmit').on('click', function () {
         var datajson = {
-          area: $('[name="area"]').is(':checked'),
-          area1: $('[name="area1"]').is(':checked'),
+          // area: $('[name="area"]').is(':checked'),
+          // area1: $('[name="area1"]').is(':checked'),
+          "area": $('#area').is(":checked")?1:0,
+          "area1": $('#area1').is(":checked")?1:0,
+          "type":$('#type').val(),
           'year': $('[name="year"]').val(),
           'month': $('[name="month"]').val(),
           'equipmentNo': $('[name="equipmentNo"]').val(),
           'no': $('[name="no"]').val(),
-          //'row0': $('[name="row0"]').button.val(),
-
-
-
-
 
           'row0': $('[name="row0"]').val(),
           'row1': $('[name="row1"]').val(),
@@ -1591,9 +1513,10 @@
           type: "post",
           dataType: "json",
           data: JSON.stringify({
-            pcb_task_code: dd.pcb_task_code,
+            //pcb_task_code: "WORK021609", //todo  排产号先写死
+            pcb_task_code: "WORK021610",
             json_data: JSON.stringify(datajson),
-            report_type: '2'
+            report_type: '6'
           }),
           contentType: "application/json;charset=UTF-8",
           success: function (res) {
