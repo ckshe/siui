@@ -158,10 +158,10 @@
                     success: function (res) {
                         if (res.code == 200) {
                             layer.msg(res.msg, { icon: 1 });
-                            // setTimeout(function () {
-                            //     parent.location.reload();
-                            //     parent.layer.closeAll()
-                            // }, 500);
+                            setTimeout(function () {
+                                parent.location.reload();
+                                parent.layer.closeAll()
+                            }, 500);
                         } else {
                             layer.alert(res.msg, { icon: 5 });
                         }
