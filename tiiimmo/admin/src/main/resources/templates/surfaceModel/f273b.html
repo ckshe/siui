@@ -53,6 +53,8 @@
       height: 90%;
       width: 90%;
       margin: 0px;
+      font-size: 14pt;
+      font-weight: bold;
     }
 
     textarea {
@@ -72,6 +74,27 @@
 
     .rowDate {
       line-height: 30px;
+    }
+
+    .ipt81 {
+      width: 105px !important;
+      border: hidden;
+      font-size: 16px;
+    }
+
+    #onsubmit {
+      display: inline-block;
+      height: 28px;
+      line-height: 28px;
+      padding: 0 11px;
+      background-color: #1e9fff;
+      color: #fff;
+      white-space: nowrap;
+      text-align: center;
+      font-size: 14px;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -104,13 +127,14 @@
         <td class="xl65" width="1059" style="width:20pt"></td>
         <td class="xl65" width="1059" style="width:20pt"></td>
         <td class="xl65" width="1059" style="width:20pt"></td>
-        <td colspan="11" class="xl108" width="1059" style="width:220pt">万吉厂区<input type="checkbox" name="area">
-          金砂厂区<input type="checkbox" name="area1"><span>&nbsp; </span>ZJ－F273B</td>
+        <td colspan="11" class="xl108" width="1059" style="width:220pt">万吉厂区<input type="checkbox" checked name="area" id="area" >
+          金砂厂区<input type="checkbox" name="area1" id="area1"><span>&nbsp; </span><input id="type"  class="ipt81" value="ZJ-F273B" ></td>
       </tr>
       <tr height="58" style="height:43.5pt">
-        <td colspan="33" height="58" class="xl104" style="height:43.5pt"><span class="inputSpan"><input
-              style=" width: 156px; margin-top: -4px; left: 90px; " name="title"></span><span
-            style="text-decoration:underline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+        <td colspan="1" height="58" class="xl104" style="height:43.5pt"><button id="onsubmit">保存</button></td>
+        <td colspan="32" height="58" class="xl104" style="height:43.5pt">
+          <span class="inputSpan"><input name="title" style=" width: 200px; height: 26px; margin-top: -13px; left: 90px; font-size: large; font-weight: bolder "></span>
+          <span style="text-decoration:underline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
           <font class="font6">自动焊接机维护记录表</font>
         </td>
       </tr>
@@ -1105,9 +1129,9 @@
         <td class="xl97" width="1059" style="border-top:none;border-left:none;width:20pt"><button class="rowDate"
             data-index=0 name="row433"></button></td>
       </tr>
-      <tr height="80" style="height:60.0pt">
-        <td colspan="2" height="80" class="xl98" width="1059" style="border-right:.5pt solid black;
-  height:60.0pt;width:166pt">维护人员签名</td>
+      <tr height="60" style="height:45.0pt">
+        <td colspan="2" height="60" class="xl98" width="1059" style="border-right:.5pt solid black;
+  height:45.0pt;width:166pt">维护人员签名</td>
         <td class="xl79" style="border-top:none;border-left:none"><textarea name="row434"></textarea></td>
         <td class="xl79" style="border-top:none;border-left:none"><textarea name="row435"></textarea></td>
         <td class="xl79" style="border-top:none;border-left:none"><textarea name="row436"></textarea></td>
@@ -1203,14 +1227,14 @@
     if (dd.factory == "金砂厂区") {
       $('#area1').attr('checked', true)
     }
-    if (dd.is_rohs == "是") {
+    /*if (dd.is_rohs == "是") {
       $('#RoHS').attr('checked', true)
     }
     if (dd.is_rohs == "否") {
       $('#RoHS1').attr('checked', true)
-    }
+    }*/
 
-    //型号
+    /*//型号
     $('#model').val(dd.model_ver)
     //部件名称
     $('#modelName').val(dd.model_name)
@@ -1221,7 +1245,7 @@
     //投产台数
     $('#pcbCode').val(dd.pcb_id)
     //板编码
-    $('#plateCode').val(dd.batch_id)
+    $('#plateCode').val(dd.batch_id)*/
     var dj = {}
     function initAjax() {
       $.ajax({
@@ -1229,8 +1253,8 @@
         type: "post",
         dataType: "json",
         data: JSON.stringify({
-          pcbTaskCode: dd.pcb_task_code,
-          reportType: '2'
+          pcbTaskCode: 'WORK021610', //todo  排产号先写死 WORK021610
+          reportType: '9'
         }),
         contentType: "application/json;charset=UTF-8",
         success: function (res) {
@@ -1238,107 +1262,503 @@
             if (res.data.length > 0) {
               dj = JSON.parse(res.data[0].json_data);
               if (Object.keys(dj).length > 0) {
-                $('#cjsdgx_cjUser_1').val(dj.cjsdgx[0].cjUser)
-                $('#cjsdgx_cjNum_1').val(dj.cjsdgx[0].cjNum)
-                $('#cjsdgx_cjAmount_1').val(dj.cjsdgx[0].cjAmount)
-                $('#cjsdgx_cjDate_1').val(dj.cjsdgx[0].cjDate)
-
-                $('#cjsdgx_cjUser_2').val(dj.cjsdgx[1].cjUser)
-                $('#cjsdgx_cjNum_2').val(dj.cjsdgx[1].cjNum)
-                $('#cjsdgx_cjAmount_2').val(dj.cjsdgx[1].cjAmount)
-                $('#cjsdgx_cjDate_2').val(dj.cjsdgx[1].cjDate)
-
-                $('#cjsdgx_cjUser_3').val(dj.cjsdgx[2].cjUser)
-                $('#cjsdgx_cjNum_3').val(dj.cjsdgx[2].cjNum)
-                $('#cjsdgx_cjAmount_3').val(dj.cjsdgx[2].cjAmount)
-                $('#cjsdgx_cjDate_3').val(dj.cjsdgx[2].cjDate)
-                //可追溯性 
-                $('#kzsx_zxUser').val(dj.kzsx[0].zxUser)
-                $('#kzsx_qrUser').val(dj.kzsx[0].qrUser)
-                console.log(dj.kzsx[0].date)
-                $('#kzsx_date').val(dj.kzsx[0].date)
-                //贴胶纸
-                $('#tjz_scUser_1').val(dj.tjz[0].scUser)
-                $('#tjz_qcUser_1').val(dj.tjz[0].qcUser)
-                $('#tjz_date_1').val(dj.tjz[0].date)
-
-                $('#tjz_scUser_2').val(dj.tjz[1].scUser)
-                $('#tjz_qcUser_2').val(dj.tjz[1].qcUser)
-                $('#tjz_date_2').val(dj.tjz[1].date)
-
-                $('#tjz_scUser_3').val(dj.tjz[2].scUser)
-                $('#tjz_qcUser_3').val(dj.tjz[2].qcUser)
-                $('#tjz_date_3').val(dj.tjz[2].date)
-                // 装配固件
-                $('#zpgj_scUser_1').val(dj.zpgj[0].scUser)
-                $('#zpgj_qchdUser_1').val(dj.zpgj[0].qchdUser)
-                if (dj.zpgj[0].qchs == 1) {
-                  $('#zpgj_qchs_1').attr('checked', true)
-                }
-                $('#zpgj_date_1').val(dj.zpgj[0].date)
-
-                $('#zpgj_scUser_2').val(dj.zpgj[1].scUser)
-                $('#zpgj_qchdUser_2').val(dj.zpgj[1].qchdUser)
-                if (dj.zpgj[1].qchs == 1) {
-                  $('#zpgj_qchs_2').attr('checked', true)
-                }
-                $('#zpgj_date_2').val(dj.zpgj[1].date)
-
-                $('#zpgj_scUser_3').val(dj.zpgj[2].scUser)
-                $('#zpgj_qchdUser_3').val(dj.zpgj[2].qchdUser)
-                if (dj.zpgj[2].qchs == 1) {
-                  $('#zpgj_qchs_3').attr('checked', true)
-                }
-                $('#zpgj_date_3').val(dj.zpgj[2].date)
-                // 手 插
-                for (var i = 0; i < 20; i++) {
-                  $('#sc_record_scUser_' + (i + 1)).val(dj.sc.record[i].scUser)
-                  if (dj.sc.record[i].qchd == 1) {
-                    $('#sc_record_qchd_' + (i + 1)).attr('checked', true)
+                if (dj.area == 1 || dj.area1 == 1) {
+                  if (dj.area == 1) {
+                    $('#area').attr('checked', true)
+                    $('#area1').attr('checked', false)
                   }
+                  if (dj.area1 == 1){
+                    $('#area1').attr('checked', true)
+                    $('#area').attr('checked', false)
+                  }
+                } else{
+                  $('#area').attr('checked', true)
+                  $('#area1').attr('checked', false)
                 }
-                $('#sc_plateAmount').val(dj.sc.plateAmount)
-                $('#sc_sjStatue').val(dj.sc.sjStatue)
-                $('#sc_qcUser').val(dj.sc.qcUser)
-                $('#sc_date').val(dj.sc.date)
-                // 波峰焊接机
-                if (dj.bfhjj.isUser == 1) {
-                  $('#bfhjj_isUser').attr('checked', true)
+
+                if (dj.type!= null) {
+                  $('#type').val(dj.type)
+                } else {
+                  $('#type').val("ZJ-F260B")
                 }
-                $('#bfhjj_deviceCode').val(dj.bfhjj.deviceCode)
-                $('#bfhjj_deviceName').val(dj.bfhjj.deviceName)
-                $('#bfhjj_craftParam_yr1B').val(dj.bfhjj.craftParam.yr1B)
-                $('#bfhjj_craftParam_yr2B').val(dj.bfhjj.craftParam.yr2B)
-                $('#bfhjj_craftParam_yr3B').val(dj.bfhjj.craftParam.yr3B)
-                $('#bfhjj_craftParam_yr2T').val(dj.bfhjj.craftParam.yr2T)
-                $('#bfhjj_craftParam_yr3T').val(dj.bfhjj.craftParam.yr3T)
-                $('#bfhjj_craftParam_ltsd').val(dj.bfhjj.craftParam.ltsd)
-                $('#bfhjj_craftParam_xlwd').val(dj.bfhjj.craftParam.xlwd)
-                $('#bfhjj_craftParam_gqyl').val(dj.bfhjj.craftParam.gqyl)
-                $('#bfhjj_craftParam_pwqy').val(dj.bfhjj.craftParam.pwqy)
-                $('#bfhjj_craftParam_zfqy').val(dj.bfhjj.craftParam.zfqy)
-                $('#bfhjj_programName').val(dj.bfhjj.programName)
-                if (dj.bfhjj.programStatus == 1) {
-                  $('#bfhjj_programStatus').attr('checked', true)
-                }
-                $('#bfhjj_produceDate').val(dj.bfhjj.produceDate)
-                $('#bfhjj_amount').val(dj.bfhjj.amount)
-                if (dj.bfhjj.qchd == 1) {
-                  $('#bfhjj_qchd').attr('checked', true)
-                }
-                $('#bfhjj_doUser').val(dj.bfhjj.doUser)
-                $('#bfhjj_sjStatus').val(dj.bfhjj.sjStatus)
-                $('#bfhjj_sjUser').val(dj.bfhjj.sjUser)
-                $('#bfhjj_qcUser').val(dj.bfhjj.qcUser)
-                $('#bfhjj_checkDate').val(dj.bfhjj.checkDate)
+
+                $('[name="title"]').val(dj.title)
+                $('[name="year"]').val(dj.year)
+                $('[name="month"]').val(dj.month)
+                $('[name="equipmentNo"]').val(dj.equipmentNo)
+                $('[name="no"]').val(dj.no)
+
+                $('[name="row0"]').val(dj.row0).html(dj.row0)
+                $('[name="row1"]').val(dj.row1).html(dj.row1)
+                $('[name="row2"]').val(dj.row2).html(dj.row2)
+                $('[name="row3"]').val(dj.row3).html(dj.row3)
+                $('[name="row4"]').val(dj.row4).html(dj.row4)
+                $('[name="row5"]').val(dj.row5).html(dj.row5)
+                $('[name="row6"]').val(dj.row6).html(dj.row6)
+                $('[name="row7"]').val(dj.row7).html(dj.row7)
+                $('[name="row8"]').val(dj.row8).html(dj.row8)
+                $('[name="row9"]').val(dj.row9).html(dj.row9)
+                $('[name="row10"]').val(dj.row10).html(dj.row10)
+                $('[name="row11"]').val(dj.row11).html(dj.row11)
+                $('[name="row12"]').val(dj.row12).html(dj.row12)
+                $('[name="row13"]').val(dj.row13).html(dj.row13)
+                $('[name="row14"]').val(dj.row14).html(dj.row14)
+                $('[name="row15"]').val(dj.row15).html(dj.row15)
+                $('[name="row16"]').val(dj.row16).html(dj.row16)
+                $('[name="row17"]').val(dj.row17).html(dj.row17)
+                $('[name="row18"]').val(dj.row18).html(dj.row18)
+                $('[name="row19"]').val(dj.row19).html(dj.row19)
+                $('[name="row20"]').val(dj.row20).html(dj.row20)
+                $('[name="row21"]').val(dj.row21).html(dj.row21)
+                $('[name="row22"]').val(dj.row22).html(dj.row22)
+                $('[name="row23"]').val(dj.row23).html(dj.row23)
+                $('[name="row24"]').val(dj.row24).html(dj.row24)
+                $('[name="row25"]').val(dj.row25).html(dj.row25)
+                $('[name="row26"]').val(dj.row26).html(dj.row26)
+                $('[name="row27"]').val(dj.row27).html(dj.row27)
+                $('[name="row28"]').val(dj.row28).html(dj.row28)
+                $('[name="row29"]').val(dj.row29).html(dj.row29)
+                $('[name="row30"]').val(dj.row30).html(dj.row30)
+                $('[name="row31"]').val(dj.row31).html(dj.row31)
+                $('[name="row32"]').val(dj.row32).html(dj.row32)
+                $('[name="row33"]').val(dj.row33).html(dj.row33)
+                $('[name="row34"]').val(dj.row34).html(dj.row34)
+                $('[name="row35"]').val(dj.row35).html(dj.row35)
+                $('[name="row36"]').val(dj.row36).html(dj.row36)
+                $('[name="row37"]').val(dj.row37).html(dj.row37)
+                $('[name="row38"]').val(dj.row38).html(dj.row38)
+                $('[name="row39"]').val(dj.row39).html(dj.row39)
+                $('[name="row40"]').val(dj.row40).html(dj.row40)
+                $('[name="row41"]').val(dj.row41).html(dj.row41)
+                $('[name="row42"]').val(dj.row42).html(dj.row42)
+                $('[name="row43"]').val(dj.row43).html(dj.row43)
+                $('[name="row44"]').val(dj.row44).html(dj.row44)
+                $('[name="row45"]').val(dj.row45).html(dj.row45)
+                $('[name="row46"]').val(dj.row46).html(dj.row46)
+                $('[name="row47"]').val(dj.row47).html(dj.row47)
+                $('[name="row48"]').val(dj.row48).html(dj.row48)
+                $('[name="row49"]').val(dj.row49).html(dj.row49)
+                $('[name="row50"]').val(dj.row50).html(dj.row50)
+                $('[name="row51"]').val(dj.row51).html(dj.row51)
+                $('[name="row52"]').val(dj.row52).html(dj.row52)
+                $('[name="row53"]').val(dj.row53).html(dj.row53)
+                $('[name="row54"]').val(dj.row54).html(dj.row54)
+                $('[name="row55"]').val(dj.row55).html(dj.row55)
+                $('[name="row56"]').val(dj.row56).html(dj.row56)
+                $('[name="row57"]').val(dj.row57).html(dj.row57)
+                $('[name="row58"]').val(dj.row58).html(dj.row58)
+                $('[name="row59"]').val(dj.row59).html(dj.row59)
+                $('[name="row60"]').val(dj.row60).html(dj.row60)
+                $('[name="row61"]').val(dj.row61).html(dj.row61)
+                $('[name="row62"]').val(dj.row62).html(dj.row62)
+                $('[name="row63"]').val(dj.row63).html(dj.row63)
+                $('[name="row64"]').val(dj.row64).html(dj.row64)
+                $('[name="row65"]').val(dj.row65).html(dj.row65)
+                $('[name="row66"]').val(dj.row66).html(dj.row66)
+                $('[name="row67"]').val(dj.row67).html(dj.row67)
+                $('[name="row68"]').val(dj.row68).html(dj.row68)
+                $('[name="row69"]').val(dj.row69).html(dj.row69)
+                $('[name="row70"]').val(dj.row70).html(dj.row70)
+                $('[name="row71"]').val(dj.row71).html(dj.row71)
+                $('[name="row72"]').val(dj.row72).html(dj.row72)
+                $('[name="row73"]').val(dj.row73).html(dj.row73)
+                $('[name="row74"]').val(dj.row74).html(dj.row74)
+                $('[name="row75"]').val(dj.row75).html(dj.row75)
+                $('[name="row76"]').val(dj.row76).html(dj.row76)
+                $('[name="row77"]').val(dj.row77).html(dj.row77)
+                $('[name="row78"]').val(dj.row78).html(dj.row78)
+                $('[name="row79"]').val(dj.row79).html(dj.row79)
+                $('[name="row80"]').val(dj.row80).html(dj.row80)
+                $('[name="row81"]').val(dj.row81).html(dj.row81)
+                $('[name="row82"]').val(dj.row82).html(dj.row82)
+                $('[name="row83"]').val(dj.row83).html(dj.row83)
+                $('[name="row84"]').val(dj.row84).html(dj.row84)
+                $('[name="row85"]').val(dj.row85).html(dj.row85)
+                $('[name="row86"]').val(dj.row86).html(dj.row86)
+                $('[name="row87"]').val(dj.row87).html(dj.row87)
+                $('[name="row88"]').val(dj.row88).html(dj.row88)
+                $('[name="row89"]').val(dj.row89).html(dj.row89)
+                $('[name="row90"]').val(dj.row90).html(dj.row90)
+                $('[name="row91"]').val(dj.row91).html(dj.row91)
+                $('[name="row92"]').val(dj.row92).html(dj.row92)
+                $('[name="row93"]').val(dj.row93).html(dj.row93)
+                $('[name="row94"]').val(dj.row94).html(dj.row94)
+                $('[name="row95"]').val(dj.row95).html(dj.row95)
+                $('[name="row96"]').val(dj.row96).html(dj.row96)
+                $('[name="row97"]').val(dj.row97).html(dj.row97)
+                $('[name="row98"]').val(dj.row98).html(dj.row98)
+                $('[name="row99"]').val(dj.row99).html(dj.row99)
 
 
-                for (var i = 0; i < 3; i++) {
-                  $('#xdgxjj_cjUser_' + (i + 1)).val(dj.xdgxjj[i].cjUser)
-                  $('#xdgxjj_cjAmount_' + (i + 1)).val(dj.xdgxjj[i].cjAmount)
-                  $('#xdgxjj_cjDate_' + (i + 1)).val(dj.xdgxjj[i].cjDate)
-                }
-                $('#remarks').val(dj.remarks)
+                $('[name="row100"]').val(dj.row100).html(dj.row100)
+                $('[name="row101"]').val(dj.row101).html(dj.row101)
+                $('[name="row102"]').val(dj.row102).html(dj.row102)
+                $('[name="row103"]').val(dj.row103).html(dj.row103)
+                $('[name="row104"]').val(dj.row104).html(dj.row104)
+                $('[name="row105"]').val(dj.row105).html(dj.row105)
+                $('[name="row106"]').val(dj.row106).html(dj.row106)
+                $('[name="row107"]').val(dj.row107).html(dj.row107)
+                $('[name="row108"]').val(dj.row108).html(dj.row108)
+                $('[name="row109"]').val(dj.row109).html(dj.row109)
+                $('[name="row110"]').val(dj.row110).html(dj.row110)
+                $('[name="row111"]').val(dj.row111).html(dj.row111)
+                $('[name="row112"]').val(dj.row112).html(dj.row112)
+                $('[name="row113"]').val(dj.row113).html(dj.row113)
+                $('[name="row114"]').val(dj.row114).html(dj.row114)
+                $('[name="row115"]').val(dj.row115).html(dj.row115)
+                $('[name="row116"]').val(dj.row116).html(dj.row116)
+                $('[name="row117"]').val(dj.row117).html(dj.row117)
+                $('[name="row118"]').val(dj.row118).html(dj.row118)
+                $('[name="row119"]').val(dj.row119).html(dj.row119)
+                $('[name="row120"]').val(dj.row120).html(dj.row120)
+                $('[name="row121"]').val(dj.row121).html(dj.row121)
+                $('[name="row122"]').val(dj.row122).html(dj.row122)
+                $('[name="row123"]').val(dj.row123).html(dj.row123)
+                $('[name="row124"]').val(dj.row124).html(dj.row124)
+                $('[name="row125"]').val(dj.row125).html(dj.row125)
+                $('[name="row126"]').val(dj.row126).html(dj.row126)
+                $('[name="row127"]').val(dj.row127).html(dj.row127)
+                $('[name="row128"]').val(dj.row128).html(dj.row128)
+                $('[name="row129"]').val(dj.row129).html(dj.row129)
+                $('[name="row130"]').val(dj.row130).html(dj.row130)
+                $('[name="row131"]').val(dj.row131).html(dj.row131)
+                $('[name="row132"]').val(dj.row132).html(dj.row132)
+                $('[name="row133"]').val(dj.row133).html(dj.row133)
+                $('[name="row134"]').val(dj.row134).html(dj.row134)
+                $('[name="row135"]').val(dj.row135).html(dj.row135)
+                $('[name="row136"]').val(dj.row136).html(dj.row136)
+                $('[name="row137"]').val(dj.row137).html(dj.row137)
+                $('[name="row138"]').val(dj.row138).html(dj.row138)
+                $('[name="row139"]').val(dj.row139).html(dj.row139)
+                $('[name="row140"]').val(dj.row140).html(dj.row140)
+                $('[name="row141"]').val(dj.row141).html(dj.row141)
+                $('[name="row142"]').val(dj.row142).html(dj.row142)
+                $('[name="row143"]').val(dj.row143).html(dj.row143)
+                $('[name="row144"]').val(dj.row144).html(dj.row144)
+                $('[name="row145"]').val(dj.row145).html(dj.row145)
+                $('[name="row146"]').val(dj.row146).html(dj.row146)
+                $('[name="row147"]').val(dj.row147).html(dj.row147)
+                $('[name="row148"]').val(dj.row148).html(dj.row148)
+                $('[name="row149"]').val(dj.row149).html(dj.row149)
+                $('[name="row150"]').val(dj.row150).html(dj.row150)
+                $('[name="row151"]').val(dj.row151).html(dj.row151)
+                $('[name="row152"]').val(dj.row152).html(dj.row152)
+                $('[name="row153"]').val(dj.row153).html(dj.row153)
+                $('[name="row154"]').val(dj.row154).html(dj.row154)
+                $('[name="row155"]').val(dj.row155).html(dj.row155)
+                $('[name="row156"]').val(dj.row156).html(dj.row156)
+                $('[name="row157"]').val(dj.row157).html(dj.row157)
+                $('[name="row158"]').val(dj.row158).html(dj.row158)
+                $('[name="row159"]').val(dj.row159).html(dj.row159)
+                $('[name="row160"]').val(dj.row160).html(dj.row160)
+                $('[name="row161"]').val(dj.row161).html(dj.row161)
+                $('[name="row162"]').val(dj.row162).html(dj.row162)
+                $('[name="row163"]').val(dj.row163).html(dj.row163)
+                $('[name="row164"]').val(dj.row164).html(dj.row164)
+                $('[name="row165"]').val(dj.row165).html(dj.row165)
+                $('[name="row166"]').val(dj.row166).html(dj.row166)
+                $('[name="row167"]').val(dj.row167).html(dj.row167)
+                $('[name="row168"]').val(dj.row168).html(dj.row168)
+                $('[name="row169"]').val(dj.row169).html(dj.row169)
+                $('[name="row170"]').val(dj.row170).html(dj.row170)
+                $('[name="row171"]').val(dj.row171).html(dj.row171)
+                $('[name="row172"]').val(dj.row172).html(dj.row172)
+                $('[name="row173"]').val(dj.row173).html(dj.row173)
+                $('[name="row174"]').val(dj.row174).html(dj.row174)
+                $('[name="row175"]').val(dj.row175).html(dj.row175)
+                $('[name="row176"]').val(dj.row176).html(dj.row176)
+                $('[name="row177"]').val(dj.row177).html(dj.row177)
+                $('[name="row178"]').val(dj.row178).html(dj.row178)
+                $('[name="row179"]').val(dj.row179).html(dj.row179)
+                $('[name="row180"]').val(dj.row180).html(dj.row180)
+                $('[name="row181"]').val(dj.row181).html(dj.row181)
+                $('[name="row182"]').val(dj.row182).html(dj.row182)
+                $('[name="row183"]').val(dj.row183).html(dj.row183)
+                $('[name="row184"]').val(dj.row184).html(dj.row184)
+                $('[name="row185"]').val(dj.row185).html(dj.row185)
+                $('[name="row186"]').val(dj.row186).html(dj.row186)
+                $('[name="row187"]').val(dj.row187).html(dj.row187)
+                $('[name="row188"]').val(dj.row188).html(dj.row188)
+                $('[name="row189"]').val(dj.row189).html(dj.row189)
+                $('[name="row190"]').val(dj.row190).html(dj.row190)
+                $('[name="row191"]').val(dj.row191).html(dj.row191)
+                $('[name="row192"]').val(dj.row192).html(dj.row192)
+                $('[name="row193"]').val(dj.row193).html(dj.row193)
+                $('[name="row194"]').val(dj.row194).html(dj.row194)
+                $('[name="row195"]').val(dj.row195).html(dj.row195)
+                $('[name="row196"]').val(dj.row196).html(dj.row196)
+                $('[name="row197"]').val(dj.row197).html(dj.row197)
+                $('[name="row198"]').val(dj.row198).html(dj.row198)
+                $('[name="row199"]').val(dj.row199).html(dj.row199)
+                $('[name="row200"]').val(dj.row200).html(dj.row200)
+                $('[name="row201"]').val(dj.row201).html(dj.row201)
+                $('[name="row202"]').val(dj.row202).html(dj.row202)
+                $('[name="row203"]').val(dj.row203).html(dj.row203)
+                $('[name="row204"]').val(dj.row204).html(dj.row204)
+                $('[name="row205"]').val(dj.row205).html(dj.row205)
+                $('[name="row206"]').val(dj.row206).html(dj.row206)
+                $('[name="row207"]').val(dj.row207).html(dj.row207)
+                $('[name="row208"]').val(dj.row208).html(dj.row208)
+                $('[name="row209"]').val(dj.row209).html(dj.row209)
+                $('[name="row210"]').val(dj.row210).html(dj.row210)
+                $('[name="row211"]').val(dj.row211).html(dj.row211)
+                $('[name="row212"]').val(dj.row212).html(dj.row212)
+                $('[name="row213"]').val(dj.row213).html(dj.row213)
+                $('[name="row214"]').val(dj.row214).html(dj.row214)
+                $('[name="row215"]').val(dj.row215).html(dj.row215)
+                $('[name="row216"]').val(dj.row216).html(dj.row216)
+                $('[name="row217"]').val(dj.row217).html(dj.row217)
+                $('[name="row218"]').val(dj.row218).html(dj.row218)
+                $('[name="row219"]').val(dj.row219).html(dj.row219)
+                $('[name="row220"]').val(dj.row220).html(dj.row220)
+                $('[name="row221"]').val(dj.row221).html(dj.row221)
+                $('[name="row222"]').val(dj.row222).html(dj.row222)
+                $('[name="row223"]').val(dj.row223).html(dj.row223)
+                $('[name="row224"]').val(dj.row224).html(dj.row224)
+                $('[name="row225"]').val(dj.row225).html(dj.row225)
+                $('[name="row226"]').val(dj.row226).html(dj.row226)
+                $('[name="row227"]').val(dj.row227).html(dj.row227)
+                $('[name="row228"]').val(dj.row228).html(dj.row228)
+                $('[name="row229"]').val(dj.row229).html(dj.row229)
+                $('[name="row230"]').val(dj.row230).html(dj.row230)
+                $('[name="row231"]').val(dj.row231).html(dj.row231)
+                $('[name="row232"]').val(dj.row232).html(dj.row232)
+                $('[name="row233"]').val(dj.row233).html(dj.row233)
+                $('[name="row234"]').val(dj.row234).html(dj.row234)
+                $('[name="row235"]').val(dj.row235).html(dj.row235)
+                $('[name="row236"]').val(dj.row236).html(dj.row236)
+                $('[name="row237"]').val(dj.row237).html(dj.row237)
+                $('[name="row238"]').val(dj.row238).html(dj.row238)
+                $('[name="row239"]').val(dj.row239).html(dj.row239)
+                $('[name="row240"]').val(dj.row240).html(dj.row240)
+                $('[name="row241"]').val(dj.row241).html(dj.row241)
+                $('[name="row242"]').val(dj.row242).html(dj.row242)
+                $('[name="row243"]').val(dj.row243).html(dj.row243)
+                $('[name="row244"]').val(dj.row244).html(dj.row244)
+                $('[name="row245"]').val(dj.row245).html(dj.row245)
+                $('[name="row246"]').val(dj.row246).html(dj.row246)
+                $('[name="row247"]').val(dj.row247).html(dj.row247)
+                $('[name="row248"]').val(dj.row248).html(dj.row248)
+                $('[name="row249"]').val(dj.row249).html(dj.row249)
+                $('[name="row250"]').val(dj.row250).html(dj.row250)
+                $('[name="row251"]').val(dj.row251).html(dj.row251)
+                $('[name="row252"]').val(dj.row252).html(dj.row252)
+                $('[name="row253"]').val(dj.row253).html(dj.row253)
+                $('[name="row254"]').val(dj.row254).html(dj.row254)
+                $('[name="row255"]').val(dj.row255).html(dj.row255)
+                $('[name="row256"]').val(dj.row256).html(dj.row256)
+                $('[name="row257"]').val(dj.row257).html(dj.row257)
+                $('[name="row258"]').val(dj.row258).html(dj.row258)
+                $('[name="row259"]').val(dj.row259).html(dj.row259)
+                $('[name="row260"]').val(dj.row260).html(dj.row260)
+                $('[name="row261"]').val(dj.row261).html(dj.row261)
+                $('[name="row262"]').val(dj.row262).html(dj.row262)
+                $('[name="row263"]').val(dj.row263).html(dj.row263)
+                $('[name="row264"]').val(dj.row264).html(dj.row264)
+                $('[name="row265"]').val(dj.row265).html(dj.row265)
+                $('[name="row266"]').val(dj.row266).html(dj.row266)
+                $('[name="row267"]').val(dj.row267).html(dj.row267)
+                $('[name="row268"]').val(dj.row268).html(dj.row268)
+                $('[name="row269"]').val(dj.row269).html(dj.row269)
+                $('[name="row270"]').val(dj.row270).html(dj.row270)
+                $('[name="row271"]').val(dj.row271).html(dj.row271)
+                $('[name="row272"]').val(dj.row272).html(dj.row272)
+                $('[name="row273"]').val(dj.row273).html(dj.row273)
+                $('[name="row274"]').val(dj.row274).html(dj.row274)
+                $('[name="row275"]').val(dj.row275).html(dj.row275)
+                $('[name="row276"]').val(dj.row276).html(dj.row276)
+                $('[name="row277"]').val(dj.row277).html(dj.row277)
+                $('[name="row278"]').val(dj.row278).html(dj.row278)
+                $('[name="row279"]').val(dj.row279).html(dj.row279)
+                $('[name="row280"]').val(dj.row280).html(dj.row280)
+                $('[name="row281"]').val(dj.row281).html(dj.row281)
+                $('[name="row282"]').val(dj.row282).html(dj.row282)
+                $('[name="row283"]').val(dj.row283).html(dj.row283)
+                $('[name="row284"]').val(dj.row284).html(dj.row284)
+                $('[name="row285"]').val(dj.row285).html(dj.row285)
+                $('[name="row286"]').val(dj.row286).html(dj.row286)
+                $('[name="row287"]').val(dj.row287).html(dj.row287)
+                $('[name="row288"]').val(dj.row288).html(dj.row288)
+                $('[name="row289"]').val(dj.row289).html(dj.row289)
+                $('[name="row290"]').val(dj.row290).html(dj.row290)
+                $('[name="row291"]').val(dj.row291).html(dj.row291)
+                $('[name="row292"]').val(dj.row292).html(dj.row292)
+                $('[name="row293"]').val(dj.row293).html(dj.row293)
+                $('[name="row294"]').val(dj.row294).html(dj.row294)
+                $('[name="row295"]').val(dj.row295).html(dj.row295)
+                $('[name="row296"]').val(dj.row296).html(dj.row296)
+                $('[name="row297"]').val(dj.row297).html(dj.row297)
+                $('[name="row298"]').val(dj.row298).html(dj.row298)
+                $('[name="row299"]').val(dj.row299).html(dj.row299)
+                $('[name="row300"]').val(dj.row300).html(dj.row300)
+                $('[name="row301"]').val(dj.row301).html(dj.row301)
+                $('[name="row302"]').val(dj.row302).html(dj.row302)
+                $('[name="row303"]').val(dj.row303).html(dj.row303)
+                $('[name="row304"]').val(dj.row304).html(dj.row304)
+                $('[name="row305"]').val(dj.row305).html(dj.row305)
+                $('[name="row306"]').val(dj.row306).html(dj.row306)
+                $('[name="row307"]').val(dj.row307).html(dj.row307)
+                $('[name="row308"]').val(dj.row308).html(dj.row308)
+                $('[name="row309"]').val(dj.row309).html(dj.row309)
+                $('[name="row310"]').val(dj.row310).html(dj.row310)
+                $('[name="row311"]').val(dj.row311).html(dj.row311)
+                $('[name="row312"]').val(dj.row312).html(dj.row312)
+                $('[name="row313"]').val(dj.row313).html(dj.row313)
+                $('[name="row314"]').val(dj.row314).html(dj.row314)
+                $('[name="row315"]').val(dj.row315).html(dj.row315)
+                $('[name="row316"]').val(dj.row316).html(dj.row316)
+                $('[name="row317"]').val(dj.row317).html(dj.row317)
+                $('[name="row318"]').val(dj.row318).html(dj.row318)
+                $('[name="row319"]').val(dj.row319).html(dj.row319)
+                $('[name="row320"]').val(dj.row320).html(dj.row320)
+                $('[name="row321"]').val(dj.row321).html(dj.row321)
+                $('[name="row322"]').val(dj.row322).html(dj.row322)
+                $('[name="row323"]').val(dj.row323).html(dj.row323)
+                $('[name="row324"]').val(dj.row324).html(dj.row324)
+                $('[name="row325"]').val(dj.row325).html(dj.row325)
+                $('[name="row326"]').val(dj.row326).html(dj.row326)
+                $('[name="row327"]').val(dj.row327).html(dj.row327)
+                $('[name="row328"]').val(dj.row328).html(dj.row328)
+                $('[name="row329"]').val(dj.row329).html(dj.row329)
+                $('[name="row330"]').val(dj.row330).html(dj.row330)
+                $('[name="row331"]').val(dj.row331).html(dj.row331)
+                $('[name="row332"]').val(dj.row332).html(dj.row332)
+                $('[name="row333"]').val(dj.row333).html(dj.row333)
+                $('[name="row334"]').val(dj.row334).html(dj.row334)
+                $('[name="row335"]').val(dj.row335).html(dj.row335)
+                $('[name="row336"]').val(dj.row336).html(dj.row336)
+                $('[name="row337"]').val(dj.row337).html(dj.row337)
+                $('[name="row338"]').val(dj.row338).html(dj.row338)
+                $('[name="row339"]').val(dj.row339).html(dj.row339)
+                $('[name="row340"]').val(dj.row340).html(dj.row340)
+                $('[name="row341"]').val(dj.row341).html(dj.row341)
+                $('[name="row342"]').val(dj.row342).html(dj.row342)
+                $('[name="row343"]').val(dj.row343).html(dj.row343)
+                $('[name="row344"]').val(dj.row344).html(dj.row344)
+                $('[name="row345"]').val(dj.row345).html(dj.row345)
+                $('[name="row346"]').val(dj.row346).html(dj.row346)
+                $('[name="row347"]').val(dj.row347).html(dj.row347)
+                $('[name="row348"]').val(dj.row348).html(dj.row348)
+                $('[name="row349"]').val(dj.row349).html(dj.row349)
+                $('[name="row350"]').val(dj.row350).html(dj.row350)
+                $('[name="row351"]').val(dj.row351).html(dj.row351)
+                $('[name="row352"]').val(dj.row352).html(dj.row352)
+                $('[name="row353"]').val(dj.row353).html(dj.row353)
+                $('[name="row354"]').val(dj.row354).html(dj.row354)
+                $('[name="row355"]').val(dj.row355).html(dj.row355)
+                $('[name="row356"]').val(dj.row356).html(dj.row356)
+                $('[name="row357"]').val(dj.row357).html(dj.row357)
+                $('[name="row358"]').val(dj.row358).html(dj.row358)
+                $('[name="row359"]').val(dj.row359).html(dj.row359)
+                $('[name="row360"]').val(dj.row360).html(dj.row360)
+                $('[name="row361"]').val(dj.row361).html(dj.row361)
+                $('[name="row362"]').val(dj.row362).html(dj.row362)
+                $('[name="row363"]').val(dj.row363).html(dj.row363)
+                $('[name="row364"]').val(dj.row364).html(dj.row364)
+                $('[name="row365"]').val(dj.row365).html(dj.row365)
+                $('[name="row366"]').val(dj.row366).html(dj.row366)
+                $('[name="row367"]').val(dj.row367).html(dj.row367)
+                $('[name="row368"]').val(dj.row368).html(dj.row368)
+                $('[name="row369"]').val(dj.row369).html(dj.row369)
+                $('[name="row370"]').val(dj.row370).html(dj.row370)
+                $('[name="row371"]').val(dj.row371).html(dj.row371)
+                $('[name="row372"]').val(dj.row372).html(dj.row372)
+                $('[name="row373"]').val(dj.row373).html(dj.row373)
+                $('[name="row374"]').val(dj.row374).html(dj.row374)
+                $('[name="row375"]').val(dj.row375).html(dj.row375)
+                $('[name="row376"]').val(dj.row376).html(dj.row376)
+                $('[name="row377"]').val(dj.row377).html(dj.row377)
+                $('[name="row378"]').val(dj.row378).html(dj.row378)
+                $('[name="row379"]').val(dj.row379).html(dj.row379)
+                $('[name="row380"]').val(dj.row380).html(dj.row380)
+                $('[name="row381"]').val(dj.row381).html(dj.row381)
+                $('[name="row382"]').val(dj.row382).html(dj.row382)
+                $('[name="row383"]').val(dj.row383).html(dj.row383)
+                $('[name="row384"]').val(dj.row384).html(dj.row384)
+                $('[name="row385"]').val(dj.row385).html(dj.row385)
+                $('[name="row386"]').val(dj.row386).html(dj.row386)
+                $('[name="row387"]').val(dj.row387).html(dj.row387)
+                $('[name="row388"]').val(dj.row388).html(dj.row388)
+                $('[name="row389"]').val(dj.row389).html(dj.row389)
+                $('[name="row390"]').val(dj.row390).html(dj.row390)
+                $('[name="row391"]').val(dj.row391).html(dj.row391)
+                $('[name="row392"]').val(dj.row392).html(dj.row392)
+                $('[name="row393"]').val(dj.row393).html(dj.row393)
+                $('[name="row394"]').val(dj.row394).html(dj.row394)
+                $('[name="row395"]').val(dj.row395).html(dj.row395)
+                $('[name="row396"]').val(dj.row396).html(dj.row396)
+                $('[name="row397"]').val(dj.row397).html(dj.row397)
+                $('[name="row398"]').val(dj.row398).html(dj.row398)
+                $('[name="row399"]').val(dj.row399).html(dj.row399)
+                $('[name="row400"]').val(dj.row400).html(dj.row400)
+                $('[name="row401"]').val(dj.row401).html(dj.row401)
+                $('[name="row402"]').val(dj.row402).html(dj.row402)
+                $('[name="row403"]').val(dj.row403).html(dj.row403)
+                $('[name="row404"]').val(dj.row404).html(dj.row404)
+                $('[name="row405"]').val(dj.row405).html(dj.row405)
+                $('[name="row406"]').val(dj.row406).html(dj.row406)
+                $('[name="row407"]').val(dj.row407).html(dj.row407)
+                $('[name="row408"]').val(dj.row408).html(dj.row408)
+                $('[name="row409"]').val(dj.row409).html(dj.row409)
+                $('[name="row410"]').val(dj.row410).html(dj.row410)
+                $('[name="row411"]').val(dj.row411).html(dj.row411)
+                $('[name="row412"]').val(dj.row412).html(dj.row412)
+                $('[name="row413"]').val(dj.row413).html(dj.row413)
+                $('[name="row414"]').val(dj.row414).html(dj.row414)
+                $('[name="row415"]').val(dj.row415).html(dj.row415)
+                $('[name="row416"]').val(dj.row416).html(dj.row416)
+                $('[name="row417"]').val(dj.row417).html(dj.row417)
+                $('[name="row418"]').val(dj.row418).html(dj.row418)
+                $('[name="row419"]').val(dj.row419).html(dj.row419)
+                $('[name="row420"]').val(dj.row420).html(dj.row420)
+                $('[name="row421"]').val(dj.row421).html(dj.row421)
+                $('[name="row422"]').val(dj.row422).html(dj.row422)
+                $('[name="row423"]').val(dj.row423).html(dj.row423)
+                $('[name="row424"]').val(dj.row424).html(dj.row424)
+                $('[name="row425"]').val(dj.row425).html(dj.row425)
+                $('[name="row426"]').val(dj.row426).html(dj.row426)
+                $('[name="row427"]').val(dj.row427).html(dj.row427)
+                $('[name="row428"]').val(dj.row428).html(dj.row428)
+                $('[name="row429"]').val(dj.row429).html(dj.row429)
+                $('[name="row430"]').val(dj.row430).html(dj.row430)
+                $('[name="row431"]').val(dj.row431).html(dj.row431)
+                $('[name="row432"]').val(dj.row432).html(dj.row432)
+                $('[name="row433"]').val(dj.row433).html(dj.row433)
+
+
+                $('[name="row434"]').val(dj.row434)
+                $('[name="row435"]').val(dj.row435)
+                $('[name="row436"]').val(dj.row436)
+                $('[name="row437"]').val(dj.row437)
+                $('[name="row438"]').val(dj.row438)
+                $('[name="row439"]').val(dj.row439)
+                $('[name="row440"]').val(dj.row440)
+                $('[name="row441"]').val(dj.row441)
+                $('[name="row442"]').val(dj.row442)
+                $('[name="row443"]').val(dj.row443)
+                $('[name="row444"]').val(dj.row444)
+                $('[name="row445"]').val(dj.row445)
+                $('[name="row446"]').val(dj.row446)
+                $('[name="row447"]').val(dj.row447)
+                $('[name="row448"]').val(dj.row448)
+                $('[name="row449"]').val(dj.row449)
+                $('[name="row450"]').val(dj.row450)
+                $('[name="row451"]').val(dj.row451)
+                $('[name="row452"]').val(dj.row452)
+                $('[name="row453"]').val(dj.row453)
+                $('[name="row454"]').val(dj.row454)
+                $('[name="row455"]').val(dj.row455)
+                $('[name="row456"]').val(dj.row456)
+                $('[name="row457"]').val(dj.row457)
+                $('[name="row458"]').val(dj.row458)
+                $('[name="row459"]').val(dj.row459)
+                $('[name="row460"]').val(dj.row460)
+                $('[name="row461"]').val(dj.row461)
+                $('[name="row462"]').val(dj.row462)
+                $('[name="row463"]').val(dj.row463)
+                $('[name="row464"]').val(dj.row464)
+                $('[name="row465"]').val(dj.row465)
+
               }
             }
           } else {
@@ -1350,8 +1770,11 @@
     initAjax();
     $('#onsubmit').on('click', function () {
       var datajson = {
-        area: $('[name="area"]').is(':checked'),
-        area1: $('[name="area1"]').is(':checked'),
+        // area: $('[name="area"]').is(':checked'),
+        // area1: $('[name="area1"]').is(':checked'),
+        "area": $('#area').is(":checked")?1:0,
+        "area1": $('#area1').is(":checked")?1:0,
+        "type":$('#type').val(),
         'title': $('[name="title"]').val(),
         'year': $('[name="year"]').val(),
         'month': $('[name="month"]').val(),
@@ -1831,9 +2254,9 @@
         type: "post",
         dataType: "json",
         data: JSON.stringify({
-          pcb_task_code: dd.pcb_task_code,
+          pcb_task_code: 'WORK021610', //todo  排产号先写死 WORK021610
           json_data: JSON.stringify(datajson),
-          report_type: '2'
+          report_type: '9'
         }),
         contentType: "application/json;charset=UTF-8",
         success: function (res) {
