@@ -117,6 +117,11 @@ public class PcbTaskController {
         return "/produce/pcbTask/plan";
     }
 
+    @GetMapping("/count")
+    public String count() {
+        return "/produce/pcbTask/count";
+    }
+
     @GetMapping("/planDetail")
     public String planDetail() {
         return "/produce/pcbTask/planDetail";

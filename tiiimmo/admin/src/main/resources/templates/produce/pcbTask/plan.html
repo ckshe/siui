@@ -211,12 +211,14 @@
                                     return '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-xs" type="button">下达</button>' +
                                         // '<button lay-event="edit" class="layui-btn layui-btn-normal layui-btn-xs" type="button">编辑</button>'+
                                         // '<button lay-event="status" class="layui-btn layui-btn-danger layui-btn-xs" type="button">修改状态</button>' +
-                                        '<button lay-event="split" class="layui-btn layui-btn-normal layui-btn-xs" style="background-color:#009688" type="button">工序日计划</button>'
+                                        '<button lay-event="split" class="layui-btn layui-btn-normal layui-btn-xs" style="background-color:#009688" type="button">工序日计划</button>' +
+                                        '<button lay-event="count" class="layui-btn layui-btn-danger layui-btn-xs" type="button">扫板计数</button>'
 
                                 } else {
                                     // return '<button lay-event="edit" class="layui-btn layui-btn-normal layui-btn-xs" type="button">编辑</button>' +
                                     // '<button lay-event="status" class="layui-btn layui-btn-danger layui-btn-xs" type="button">修改状态</button>' +
-                                    return '<button lay-event="split" class="layui-btn layui-btn-normal layui-btn-xs" style="background-color:#009688" type="button">工序日计划</button>'
+                                    return '<button lay-event="split" class="layui-btn layui-btn-normal layui-btn-xs" style="background-color:#009688" type="button">工序日计划</button>' +
+                                        '<button lay-event="count" class="layui-btn layui-btn-danger layui-btn-xs" type="button">扫板计数</button>'
 
                                 }
                             }
@@ -279,6 +281,15 @@
                                 var d = JSON.stringify(data)
                                 body.contents().find("input[name='data']").val(d);
                             }
+                        });
+                        break;
+                    case 'count':
+                        console.log(data)
+                        layer.open({
+                            type: 2,
+                            title: '扫板计数',
+                            area: ['90%', '90%'],
+                            content: '/produce/pcbTask/count?process_task_code=' + data.process_task_code
                         });
                         break;
                 }
