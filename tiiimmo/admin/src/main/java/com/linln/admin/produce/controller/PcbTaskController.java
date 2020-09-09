@@ -306,6 +306,13 @@ public class PcbTaskController {
         return pcbTaskService.settlementDetailCount(req);
     }
 
+    //工序任务日计划当天批量结算
+    @PostMapping("/settlementDetailCountByList")
+    @ResponseBody
+    public ResultVo settlementDetailCountByList(@RequestBody List<PcbTaskReq> pcbTaskReqList){
+        return pcbTaskService.settlementDetailCountByList(pcbTaskReqList);
+    }
+
     //工单计数
     @PostMapping("/countProcessTaskAmount")
     @ResponseBody

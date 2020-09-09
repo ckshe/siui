@@ -170,6 +170,8 @@ public class ProcesssTaskWorkTimeTimer {
                 //newRecord.setEnd_time(today);
 
                 processTaskStatusHistoryRepository.save(newRecord);
+                processTaskRepository.save(task);
+
 
             }
 

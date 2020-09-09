@@ -48,15 +48,68 @@ public class ReportServiceImpl implements ReportService {
                     "%' ");
         }
         if(req.getReportType()!=null&&!"".equals(req.getReportType())){
-            wheresql.append(" and t1.report_type like '%" +
+            wheresql.append(" and t1.report_type = '" +
                     req.getReportType() +
-                    "%' ");
+                    "' ");
         }
         if(req.getTaskSheetCode()!=null&&!"".equals(req.getTaskSheetCode())){
             wheresql.append(" and t1.task_sheet_code like '%" +
                     req.getTaskSheetCode() +
                     "%' ");
         }
+
+        StringBuffer sql = new StringBuffer("SELECT\n" +
+                "\t* \n" +
+                "FROM\n" +
+                "\t( SELECT *, ROW_NUMBER ( ) OVER ( ORDER BY t4.Id ASC ) row FROM ( SELECT t1.* FROM produce_current_report t1 " +
+                wheresql +
+                ") t4 ) t3 \n");
+
+        Integer page = 1;
+        Integer size = 10;
+        if(req.getPage()!=null&&req.getSize()!=null){
+            page = req.getPage();
+            size = req.getSize();
+        }
+
+        List<Map<String,Object>> count = jdbcTemplate.queryForList(sql.toString());
+
+        sql.append("where t3.Row between " +
+                ((page-1)*size+1) +
+                " and " +
+                (page*size) +
+                "");
+
+        List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+        return ResultVoUtil.success("查询成功",mapList,count.size());
+
+    }
+
+
+    @Override
+    public ResultVo findSJJLBReport(CurrentReportReq req) {
+
+        StringBuffer wheresql = new StringBuffer( " where 1=1 ");
+
+        if(req.getPcbTaskCode()!=null&&!"".equals(req.getPcbTaskCode())){
+
+            String [] pcbTasks = req.getPcbTaskCode().split(",");
+            String pcbTaskcode = "''";
+            for(String code : pcbTasks){
+                pcbTaskcode = pcbTaskcode + ",'"+code+"'";
+            }
+
+            wheresql.append(" and t1.pcb_task_code in (" +
+                    pcbTaskcode +
+                    ") ");
+        }
+
+        if(req.getReportType()!=null&&!"".equals(req.getReportType())){
+            wheresql.append(" and t1.report_type = '" +
+                    req.getReportType() +
+                    "' ");
+        }
+
 
         StringBuffer sql = new StringBuffer("SELECT\n" +
                 "\t* \n" +
