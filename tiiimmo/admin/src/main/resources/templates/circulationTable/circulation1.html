@@ -67,6 +67,12 @@
             vertical-align: top;
             text-align: center;
         }
+        .ipt81 {
+            width: 80px !important;
+            border: hidden;
+            font-size: 16px;
+            background: #eee;
+        }
         #onsubmit,
         #onPrint {
             display: inline-block;
@@ -117,10 +123,12 @@
             <td width=37 style='width:28pt'></td>
             <td width=57 style='width:43pt'></td>
             <td width=41 style='width:31pt'></td>
-            <td width=69 style='width:52pt'></td>
+
             <td class=xl95 colspan=4 width=196 style='width:148pt'>万吉厂区<input id="area" checked type="checkbox" />
                 金砂厂区<input id="area1" type="checkbox" /></td>
-            <td class=xl70 width=80 style='width:46pt'>ZJ-F043H</td>
+            <td colspan=4 class=xl70 width=80 style='width:46pt'>
+                <input id="type"  class="ipt81" value="ZJ-F043H " >
+            </td>
         </tr>
         <tr class=xl89 height=24 style='height:18.6pt' id="r1">
             <td colspan=14 height=24 class=xl117 style='height:18.6pt'>生产流通表（一）</td>
@@ -146,7 +154,7 @@
         </tr>
         <tr height=16 style='height:12.0pt'>
             <td colspan=4 rowspan=2 height=32 class=xl135 style='border-right:.5pt solid black;
-  height:24.0pt'>部件名称：<span class="inputSpan" style="width:150px;"><input id="modelName" class=""
+  height:24.0pt'>部件名称：<span class="inputSpan" style="width:200px;"><input id="modelName" class=""
                         style="text-align: center"></span></td>
             <td rowspan=8 class=xl124 style='border-bottom:.5pt solid black;border-top:
   none'>承接<br>上道</td>
@@ -167,7 +175,7 @@
         <tr height=16 style='height:12.0pt'> </tr>
         <tr height=9 style='height:6.95pt'>
             <td colspan=4 rowspan=3 height=27 class=xl135 style='border-right:.5pt solid black;
-  height:20.85pt'>PCB板号：<span class="inputSpan" style="width:150px;"><input id="pcbCode" class=""
+  height:20.85pt'>PCB板号：<span class="inputSpan" style="width:200px;"><input id="pcbCode" class=""
                         style="text-align: center"></span></td>
             <td rowspan=2 class=xl124 style='border-bottom:.5pt solid black;border-top:
   none'><span class="inputSpan"><input id='cjsdgx_cjNum_1' class="" style="text-align: center"></span></td>
@@ -199,7 +207,7 @@
         </tr>
         <tr height=9 style='height:6.95pt'>
             <td colspan=4 rowspan=3 height=27 class=xl135 style='border-right:.5pt solid black;
-  height:20.85pt'>板编码：<span class="inputSpan" style="width:150px;"><input id="plateCode" class=""
+  height:20.85pt'>板编码：<span class="inputSpan" style="width:200px;"><input id="plateCode" class=""
                         style="text-align: center"></span></td>
         </tr>
         <tr height=9 style='height:6.95pt'>
@@ -467,12 +475,12 @@
             $(this).attr('type', 'text').val(timeTxt)
         })
 
-        if (dd.factory == "万吉厂区") {
+        /*if (dd.factory == "万吉厂区") {
             $('#area').attr('checked', true)
         }
         if (dd.factory == "金砂厂区") {
             $('#area1').attr('checked', true)
-        }
+        }*/
         if (dd.is_rohs == "是") {
             $('#RoHS').attr('checked', true)
         }
@@ -513,7 +521,26 @@
                         if (res.data.length > 0) {
                             dj = JSON.parse(res.data[0].json_data);
                             if (Object.keys(dj).length > 0) {
-                                console.log(dj.cjsdgx[0].cjUser)
+                                if (dj.area == 1 || dj.area1 == 1) {
+                                    if (dj.area == 1) {
+                                        $('#area').attr('checked', true)
+                                        $('#area1').attr('checked', false)
+                                    }
+                                    if (dj.area1 == 1){
+                                        $('#area1').attr('checked', true)
+                                        $('#area').attr('checked', false)
+                                    }
+                                } else{
+                                    $('#area').attr('checked', true)
+                                    $('#area1').attr('checked', false)
+                                }
+
+                                if (dj.type!= null) {
+                                    $('#type').val(dj.type)
+                                } else {
+                                    $('#type').val("ZJ-F044L")
+                                }
+                                //console.log(dj.cjsdgx[0].cjUser)
                                 $('#cjsdgx_cjUser_1').val(dj.cjsdgx[0].cjUser)
                                 $('#cjsdgx_cjNum_1').val(dj.cjsdgx[0].cjNum)
                                 $('#cjsdgx_cjAmount_1').val(dj.cjsdgx[0].cjAmount)
@@ -678,7 +705,9 @@
         initAjax();
         $('#onsubmit').on('click', function () {
             var datajson = {
-                "area": dd.factory,
+                "area": $('#area').is(":checked")?1:0,
+                "area1": $('#area1').is(":checked")?1:0,
+                //"area": dd.factory,
                 "tempParam": "ZJ-F043H",
                 "RoHS": dd.is_rohs,
                 "model": dd.model_ver,
@@ -689,6 +718,7 @@
                 "changeFlag": dd.pcb_modify_tag,
                 "pcbCode": dd.pcb_id,
                 "plateCode": dd.batch_id,
+                "type":$('#type').val(),
                 "cjsdgx": [
                     {
                         "cjUser": $('#cjsdgx_cjUser_1').val(),
@@ -761,7 +791,6 @@
                     }
                 ],
 
-                // todo
                 "sbcs":
                 {
                     "scnr": $('#sbcs_scnr').val(),
