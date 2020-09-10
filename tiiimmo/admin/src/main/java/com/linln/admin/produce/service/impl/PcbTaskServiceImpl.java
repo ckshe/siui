@@ -2116,10 +2116,12 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     deviceDetailFinishFlag = true;
                     detailDevice.setDevice_detail_status("已完成");
                     ProcessTaskStatusHistory history = processTaskStatusHistoryRepository.findByProcessTaskCodeAndDeviceLastRecord(processTask.getProcess_task_code(),pcbTaskReq.getDeviceCode());
-                    history.setEnd_time(today);
-                    Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
-                    history.setContinue_time(Integer.parseInt(cha+""));
-                    processTaskStatusHistoryRepository.save(history);
+                    if (history!= null){
+                        history.setEnd_time(today);
+                        Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
+                        history.setContinue_time(Integer.parseInt(cha+""));
+                        processTaskStatusHistoryRepository.save(history);
+                    }
                     //新增
                     ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
                     newRecord.setStart_time(today);
@@ -2229,10 +2231,16 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         }
 
         for(PcbTaskReq pcbTaskReq : pcbTaskReqList){
+            if (pcbTaskReqList.size() == 1){
+                break;
+            }
             ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
 
             Integer finishAomout = processTask.getAmount_completed()==null?0:processTask.getAmount_completed();
-            BigDecimal rate = new BigDecimal((float)finishAomout/amountSum).setScale(2, BigDecimal.ROUND_HALF_UP);
+            BigDecimal rate = new BigDecimal(0);
+            if (amountSum != 0){
+                rate = new BigDecimal((float)finishAomout/amountSum).setScale(2, BigDecimal.ROUND_HALF_UP);
+            }
 
             BigDecimal workTime = workTimeSum.multiply(rate);
             processTask.setWork_time(workTime);
