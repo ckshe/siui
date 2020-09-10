@@ -74,8 +74,11 @@
                         t.detail_device_finish_count = parseInt(getQueryString('amount_completed'));
                     }
                     if (t.count_type == 1) {
+                        t.detail_plan_count = t.detail_device_plan_count;
+
                         t.new_plan_count = t.detail_device_finish_count;
                     } else {
+                        t.detail_plan_count = t.detail_plan_count;
                         t.new_plan_count = t.detail_finish_count;
                     }
                     return t.detail_plan_count != null;
