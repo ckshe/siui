@@ -23,7 +23,7 @@
             height: 297mm;
             /*297*/
             text-align: left;
-            padding: 2mm;
+            padding: 3mm;
         }
 
         .inputSpan {
@@ -31,8 +31,7 @@
             display: block;
             align-content: center;
             width: auto;
-            height: 13px;
-
+            height: 14px;
         }
 
         .displayType .inputSpan {
@@ -67,15 +66,17 @@
             vertical-align: top;
             text-align: center;
         }
+
         .ipt81 {
             width: 80px !important;
             border: hidden;
             font-size: 16px;
             background: #eee;
         }
+
         #onsubmit,
-        #onPrint {
-            display: inline-block;
+        #op {
+            display: block;
             height: 28px;
             line-height: 28px;
             padding: 0 18px;
@@ -87,21 +88,21 @@
             border: none;
             border-radius: 2px;
             cursor: pointer;
+            float: left;
+            margin: 0 10px 10px 0;
         }
     </style>
     <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
     <script src="../../js/common.js"></script>
 </head>
 
-<body link=blue vlink=purple class="box">
+<body class="box" style="margin: 0 auto;">
     <form>
         <input type="hidden" name="data">
-
     </form>
     <div>
-        <a id='op' class="btn btn-add" style="margin-bottom:2px;margin-right: 10px"> <i class="icon-add"></i> 打印</a>
+        <button id="onsubmit">保存</button> <button id='op'> 打印</button>
     </div>
-
     <table border=0 cellpadding=0 cellspacing=0 style='border-collapse:
  collapse;table-layout:fixed;width:100%;' id="pagePrint">
         <col width=75 style='width:56pt'>
@@ -115,7 +116,7 @@
         <col width=37 span=2 style='width:28pt'>
         <col width=61 span=3 style='width:46pt'>
         <tr height=18 style='height:14.1pt'>
-            <td height=18 width=75 style='height:14.1pt;width:56pt'><button id="onsubmit">保存</button></td>
+            <td height=18 width=75 style='height:14.1pt;width:56pt'></td>
             <td width=101 style='width:76pt'></td>
             <td class=xl67 width=37 style='width:28pt'></td>
             <td class=xl67 width=37 style='width:28pt'></td>
@@ -127,7 +128,7 @@
             <td class=xl95 colspan=4 width=196 style='width:148pt'>万吉厂区<input id="area" checked type="checkbox" />
                 金砂厂区<input id="area1" type="checkbox" /></td>
             <td colspan=4 class=xl70 width=80 style='width:46pt'>
-                <input id="type"  class="ipt81" value="ZJ-F043H " >
+                <input id="type" class="ipt81" value="ZJ-F043H ">
             </td>
         </tr>
         <tr class=xl89 height=24 style='height:18.6pt' id="r1">
@@ -140,7 +141,7 @@
             </td>
         </tr>
         <tr height=20 style='height:15.0pt'>
-            <td colspan=14 height=20 class='xl121 displayType' style='border-right:1.0pt solid black;height:15.0pt' >
+            <td colspan=14 height=20 class='xl121 displayType' style='border-right:1.0pt solid black;height:15.0pt'>
                 生产型号：<span class="inputSpan"><input id='model' class="" style="text-align: center"></span>
                 <span class="span9">生产批次：<span class="inputSpan"><input id='taskSheetCode'
                             style="text-align: center"></span></span>投产台数：<span class="inputSpan"><input
@@ -240,8 +241,8 @@
             <td colspan=2 rowspan=2 class=xl127 style='border-right:.5pt solid black;
   border-bottom:.5pt solid black'><span class="inputSpan"><input id="sbcs_sbbh" class=""
                         style="text-align: center"></span></td>
-            <td colspan=5 class='xl150 displayType' style='border-left:none'>供气压力：<span class="inputSpan"><input id="sbcs_gjgycs_gqyl"
-                        class="" style="text-align: center"></span>
+            <td colspan=5 class='xl150 displayType' style='border-left:none'>供气压力：<span class="inputSpan"><input
+                        id="sbcs_gjgycs_gqyl" class="" style="text-align: center"></span>
                 <span class="span12">
                     kgf/c㎡<span>   </span></span>
             </td>
@@ -458,7 +459,6 @@
             num_value3.value = value
         }
     }
-
     layui.use(['table', 'jquery', 'form', 'layer', 'laydate'], function () {
         var table = layui.table,
             layer = layui.layer,
@@ -466,7 +466,9 @@
             laydate = layui.laydate,
             $ = layui.jquery;
         var dd = JSON.parse($('[name=data]').val());
-        console.log(dd)
+        if (parent.location.href.indexOf("/windowPad/") > -1) {
+            $('#op').hide();
+        }
         //这里开始拿数据
         $('.dateType').focus(function () {
             $(this).attr('type', 'date')
@@ -526,16 +528,16 @@
                                         $('#area').attr('checked', true)
                                         $('#area1').attr('checked', false)
                                     }
-                                    if (dj.area1 == 1){
+                                    if (dj.area1 == 1) {
                                         $('#area1').attr('checked', true)
                                         $('#area').attr('checked', false)
                                     }
-                                } else{
+                                } else {
                                     $('#area').attr('checked', true)
                                     $('#area1').attr('checked', false)
                                 }
 
-                                if (dj.type!= null) {
+                                if (dj.type != null) {
                                     $('#type').val(dj.type)
                                 } else {
                                     $('#type').val("ZJ-F043H")
@@ -705,8 +707,8 @@
         initAjax();
         $('#onsubmit').on('click', function () {
             var datajson = {
-                "area": $('#area').is(":checked")?1:0,
-                "area1": $('#area1').is(":checked")?1:0,
+                "area": $('#area').is(":checked") ? 1 : 0,
+                "area1": $('#area1').is(":checked") ? 1 : 0,
                 //"area": dd.factory,
                 "tempParam": "ZJ-F043H",
                 "RoHS": dd.is_rohs,
@@ -718,7 +720,7 @@
                 "changeFlag": dd.pcb_modify_tag,
                 "pcbCode": dd.pcb_id,
                 "plateCode": dd.batch_id,
-                "type":$('#type').val(),
+                "type": $('#type').val(),
                 "cjsdgx": [
                     {
                         "cjUser": $('#cjsdgx_cjUser_1').val(),

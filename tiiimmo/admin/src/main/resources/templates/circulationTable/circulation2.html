@@ -2,7 +2,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <link rel="Stylesheet" href="../../css/scltb2.css">
+  <link rel="Stylesheet" href="../../css/scltb2.css?v1.0">
   <style>
     * {
       margin: 0;
@@ -22,7 +22,7 @@
       height: 297mm;
       /*297*/
       text-align: left;
-      padding: 2mm;
+      padding: 4mm;
     }
 
     table {
@@ -44,9 +44,19 @@
     .ipt30 {
       width: 26px !important;
     }
+    .ipt31 {
+      width: 55px !important;
+    }
+    .ipt32 {
+      width: 50px !important;
+    }
 
     .ipt40 {
       width: 36px !important;
+      width: 100% !important;
+    }
+    .ipt41 {
+      width: 60px !important;
     }
 
     .ipt50 {
@@ -55,6 +65,7 @@
 
     .ipt60 {
       width: 55px !important;
+      width: 100% !important;
     }
 
     .ipt70 {
@@ -62,39 +73,7 @@
     }
 
     .ipt80 {
-      width: 75px !important;
-    }
-
-    .ipt100 {
-      width: 95px !important;
-    }
-
-    .ipt120 {
-      width: 120px !important;
-    }
-
-    .ipt140 {
-      width: 140px !important;
-    }
-
-    .ipt160 {
-      width: 160px !important;
-    }
-
-    .ipt180 {
-      width: 180px !important;
-    }
-
-    .ipt200 {
-      width: 200px !important;
-    }
-
-    .ipt220 {
-      width: 220px !important;
-    }
-
-    .ipt240 {
-      width: 240px !important;
+      width: 150px !important;
     }
 
     .ipt81 {
@@ -102,20 +81,21 @@
       border: hidden;
       font-size: 16px;
     }
-
+/* 
     tbody>tr>td:last-child {
       border: 1px solid red;
       width: 0 !important;
       display: none;
-    }
+    } */
 
     /* * {
       background: #000 !important;
       color: #0f0 !important;
       outline: solid #f00 1px !important;
     } */
-    #onsubmit {
-      display: inline-block;
+    #onsubmit,
+    #op {
+      display: block;
       height: 28px;
       line-height: 28px;
       padding: 0 18px;
@@ -127,19 +107,21 @@
       border: none;
       border-radius: 2px;
       cursor: pointer;
+      float: left;
+      margin: 0 10px 10px 0;
     }
   </style>
   <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
   <script src="../../js/common.js"></script>
 </head>
 
-<body link='blue' vlink='purple' class="box">
+<body class="box" style="margin: 10px;">
   <form>
     <input type="hidden" name="data">
 
   </form>
   <div>
-    <a id='op' class="btn btn-add" style="margin-bottom:2px;margin-right: 10px"> <i class="icon-add"></i> 打印</a>
+    <button id="onsubmit">保存</button> <button id='op'> 打印</button>
   </div>
   <table border='0' cellpadding='0' cellspacing='0' width='839' style='border-collapse: 
  collapse;table-layout:fixed;width:750pt'>
@@ -160,9 +142,9 @@
     <col width='37' span='3' style='width:37.75pt'>
     <col width='33' style='width:44.75pt'>
     <col width='69' style='width:51.75pt'>
-    <col width='72' style='width:54pt'>
+    <col width='10' style='width:15pt'>
     <tr height='21' style='height:15.75pt' id='r0'>
-      <td height='21' width='33' style='height:15.75pt;width:24.75pt;'> <button id="onsubmit">保存</button></td>
+      <td height='21'></td>
       <td width='45' style='width:33.75pt;'></td>
       <td width='37' style='width:27.75pt;'></td>
       <td width='29' style='width:21.75pt;'></td>
@@ -184,8 +166,8 @@
       <td width='37' style='width:27.75pt;'></td>
       <td width='33' style='width:24.75pt;'></td>
       <td class='x173' width='69' style='width:51.75pt;'><span style='float:right'>
-        <input id="type"  class="ipt81" value="ZJ-F044L" >
-      </span></td>
+          <input id="type" class="ipt81" value="ZJ-F044L">
+        </span></td>
       <td width='72' style='width:54pt;'></td>
     </tr>
     <tr height='33' style='height:24.95pt' id='r1'>
@@ -193,7 +175,7 @@
       <td></td>
     </tr>
     <tr height='24' style='height:18pt' id='r2'>
-      <td colspan='19' height='22' class='x75' style='border-bottom:2px solid windowtext;height:16.5pt;'>
+      <td colspan='19' height='22' class='x75' style='border-bottom:1px solid windowtext;height:16.5pt;'>
         <span>RoHS：Y<input id='RoHS' type="checkbox"> </span>
         <span>/N<input id='RoHS1' type="checkbox"></span>
       </td>
@@ -209,7 +191,7 @@
         <font class="font0">生产批次：</font>
         <font class="font0"><input id='taskSheetCode' class="inputall ipt140" type="text"></font>
       </td>
-      <td colspan='6' class='x80' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
+      <td colspan='6' class='x80' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <font class="font0">投产台数：</font>
         <font class="font0"><input id='produceAmount' class="inputall" type="text"></font>
       </td>
@@ -222,7 +204,7 @@
         <font class="font0">PCB：</font>
         <font class="font0"><input id='pcbCode' class="inputall ipt140" type="text"></font>
       </td>
-      <td colspan='8' class='x84' style='border-right:2px solid windowtext;'>
+      <td colspan='8' class='x84' style='border-right:1px solid windowtext;'>
         <font class="font0">板编码：</font>
         <font class="font0"><input id='plateCode' class="inputall ipt240" type="text"></font>
       </td>
@@ -231,28 +213,28 @@
     <tr height='24' style='height:18pt' id='r5'>
       <!-- 承接上道工序--第一行 -->
       <td rowspan='3' height='70' class='x85'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:52.5pt;'>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:52.5pt;'>
         承</br>接</br>上</br>道</br>工</br>序</td>
       <td rowspan='3' height='69' class='x86'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:51.75pt;'>承</br>接</br>人</td>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:51.75pt;'>承</br>接</br>人</td>
       <td colspan='2' class='x87' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='cjsdgx_cjUser_1' class="inputall ipt60" type="text">
       </td>
       <td rowspan='3' height='69' class='x88'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:51.75pt;overflow:hidden;'>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:51.75pt;overflow:hidden;'>
         承</br>接</br>次</br>数</td>
       <td class='x87'><input id='cjsdgx_cjNum_1' class="inputall ipt30" type="text"></td>
       <td rowspan='3' height='69' class='x88'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:51.75pt;overflow:hidden;'>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:51.75pt;overflow:hidden;'>
         承</br>接</br>数</br>量</td>
       <td class='x89'><input id='cjsdgx_cjAmount_1' class="inputall ipt50" type="text"></td>
       <td rowspan='3' height='69' class='x88'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:51.75pt;'>日</br>期</td>
-      <td colspan='2' class='x87' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:51.75pt;'>日</br>期</td>
+      <td colspan='2' class='x87' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='cjsdgx_cjDate_1' class="inputall ipt70 dateType" type="text" pattern='yy-MM-dd'>
       </td>
       <td rowspan='3' height='69' class='x148'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:51.75pt;overflow:hidden;'>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:51.75pt;overflow:hidden;'>
         可</br>追</br>溯</br>性</td>
       <td colspan='2' class='x87' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>执行人</td>
       <td colspan='2' class='x87' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>确认人</td>
@@ -267,19 +249,19 @@
       </td>
       <td class='x68'><input id='cjsdgx_cjNum_2' class="inputall ipt30" type="text"></td>
       <td class='x89'><input id='cjsdgx_cjAmount_2' class="inputall ipt50" type="text"></td>
-      <td colspan='2' class='x68' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
+      <td colspan='2' class='x68' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='cjsdgx_cjDate_2' class="inputall ipt70 dateType" type="text">
       </td>
       <td colspan='2' rowspan='2' height='46' class='x73'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:34.5pt;'>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'>
         <input id='kzsx_zxUser' class="inputall ipt60" type="text">
       </td>
       <td colspan='2' rowspan='2' height='46' class='x73'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:34.5pt;'>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'>
         <input id='kzsx_qrUser' class="inputall ipt60" type="text">
       </td>
       <td colspan='2' rowspan='2' height='46' class='x73'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:34.5pt;'>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'>
         <input id='kzsx_date' class="inputall ipt60 dateType" type="text">
       </td>
       <td class='x177'></td>
@@ -287,11 +269,11 @@
     </tr>
     <tr height='24' style='height:18pt' id='r7'>
       <!-- 承接上道工序--第三行 -->
-      <td colspan='2' class='x95' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'><input
+      <td colspan='2' class='x95' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input
           id='cjsdgx_cjUser_3' class="inputall ipt60" type="text"></td>
       <td class='x97'><input id='cjsdgx_cjNum_3' class="inputall ipt30" type="text"></td>
       <td class='x89'><input id='cjsdgx_cjAmount_3' class="inputall ipt50" type="text"></td>
-      <td colspan='2' class='x97' style='border-right:2px solid windowtext;border-bottom:2px solid windowtext;'>
+      <td colspan='2' class='x97' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='cjsdgx_cjDate_3' class="inputall ipt70 dateType" type="text">
       </td>
       <td class='x178'></td>
@@ -299,7 +281,7 @@
     </tr>
     <tr height='33' style='height:24.95pt' id='r8'>
       <td colspan='9' height='30' class='x200' width='353'
-        style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:22.7pt;width:264.75pt;'
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:22.7pt;width:264.75pt;'
         align='left' valign='top'><span
           style='position:absolute;z-index:1;margin-left:316px;margin-top:0px;width:156px;height:1px'>
         </span><span style='position:absolute;z-index:0;margin-left:78px;margin-top:0px;width:178px;height:1px'>
@@ -312,7 +294,7 @@
           </table>
         </span></td>
       <td colspan='10' height='30' class='x200' width='414'
-        style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:22.7pt;width:310.5pt;'
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:22.7pt;width:310.5pt;'
         align='left' valign='top'><span
           style='position:absolute;z-index:2;margin-left:201px;margin-top:0px;width:213px;height:1px'></span><span>
           <table cellpadding='0' cellspacing='0'>
@@ -327,36 +309,36 @@
     <!-- //贴胶纸 -->
     <tr height='24' style='height:18pt' id='r9'>
       <td rowspan='3' height='70' class='x100'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:52.5pt;'>生</br>产</br>者</td>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:52.5pt;'>生</br>产</br>者</td>
       <td colspan='2' class='x101' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='tjz_scUser_1' class="inputall ipt60" type="text">
       </td>
       <td rowspan='3' height='71' class='x102'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:53.25pt;'>Q</br>C</td>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:53.25pt;'>Q</br>C</td>
       <td colspan='2' class='x103' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='tjz_qcUser_1' class="inputall ipt60" type="text">
       </td>
       <td rowspan='3' height='70' class='x105'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:52.5pt;'>日</br>期</td>
-      <td colspan='2' class='x103' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:52.5pt;'>日</br>期</td>
+      <td colspan='2' class='x103' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='tjz_date_1' class="inputall ipt60 dateType" type="text">
       </td>
       <td rowspan='3' height='70' class='x100'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:52.5pt;'>生</br>产</br>者</td>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:52.5pt;'>生</br>产</br>者</td>
       <td colspan='2' class='x103' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='zpgj_scUser_1' class="inputall ipt60" type="text">
       </td>
       <td rowspan='3' height='70' class='x105'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:52.5pt;'>清</br>产</br>核</br>对
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:52.5pt;'>清</br>产</br>核</br>对
       </td>
       <td class='x118'><input id='zpgj_qchs_1' type="checkbox"> </td>
       <td rowspan='3' height='70' class='x105'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:52.5pt;'>Q</br>C</td>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:52.5pt;'>Q</br>C</td>
       <td colspan='2' class='x155' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='zpgj_qchdUser_1' class="inputall ipt60" type="text">
       </td>
       <td rowspan='3' height='70' class='x92'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:52.5pt;'>日</br>期</td>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:52.5pt;'>日</br>期</td>
       <td class='x155'>
         <input id='zpgj_date_1' class="inputall ipt60 dateType" type="text">
       </td>
@@ -369,7 +351,7 @@
       <td colspan='2' class='x104' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='tjz_qcUser_2' class="inputall ipt60" type="text">
       </td>
-      <td colspan='2' class='x103' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
+      <td colspan='2' class='x103' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='tjz_date_2' class="inputall ipt60 dateType" type="text">
       </td>
       <td colspan='2' class='x103' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
@@ -383,20 +365,20 @@
       <td class='x179'></td>
     </tr>
     <tr height='24' style='height:18pt' id='r11'>
-      <td colspan='2' class='x108' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'>
+      <td colspan='2' class='x108' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='tjz_scUser_3' class="inputall ipt60" type="text">
       </td>
-      <td colspan='2' class='x110' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'>
+      <td colspan='2' class='x110' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='tjz_qcUser_3' class="inputall ipt60" type="text">
       </td>
-      <td colspan='2' class='x112' style='border-right:2px solid windowtext;border-bottom:2px solid windowtext;'>
+      <td colspan='2' class='x112' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='tjz_date_3' class="inputall ipt60 dateType" type="text">
       </td>
-      <td colspan='2' class='x112' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'>
+      <td colspan='2' class='x112' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='zpgj_scUser_3' class="inputall ipt60" type="text">
       </td>
       <td class='x110'><input id='zpgj_qchs_3' type="checkbox"></td>
-      <td colspan='2' class='x157' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'>
+      <td colspan='2' class='x157' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='zpgj_qchdUser_3' class="inputall ipt60" type="text">
       </td>
       <td class='x155'><input id='zpgj_date_3' class="inputall ipt60 dateType" type="text"></td>
@@ -405,7 +387,7 @@
     <!-- 手插 -->
     <tr height='33' style='height:24.95pt' id='r12'>
       <td colspan='19' height='30' class='x113'
-        style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:22.7pt;'>手 插</td>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:22.7pt;'>手 插</td>
       <td class='x179'></td>
     </tr>
     <tr height='33' style='height:24.95pt' id='r13'>
@@ -424,7 +406,7 @@
       <td class='x71'>序号</td>
       <td class='x71'>生产者</td>
       <td class='x116'>清产核对</td>
-      <td colspan='4' class='x158' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'></td>
+      <td colspan='4' class='x158' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'></td>
       <td class='x179'></td>
     </tr>
     <tr height='33' style='height:24.95pt' id='r14'>
@@ -443,7 +425,7 @@
       <td class='x68'>17</td>
       <td class='x73'><input id='sc_record_scUser_17' class="inputall ipt40" type="text"></td>
       <td class='x118'><input id='sc_record_qchd_17' type="checkbox"></td>
-      <td colspan='4' class='x160' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
+      <td colspan='4' class='x160' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <span class="font5">板数量：<input id='sc_plateAmount' class="inputall ipt80" type="text"></span>
       </td>
       <td></td>
@@ -464,7 +446,7 @@
       <td class='x68'>18</td>
       <td class='x73'><input id='sc_record_scUser_18' class="inputall ipt40" type="text"></td>
       <td class='x118'><input id='sc_record_qchd_18' type="checkbox"></td>
-      <td colspan='4' class='x161' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
+      <td colspan='4' class='x161' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <span class="font5">首检：<input id='sc_sjStatue' class="inputall ipt80" type="text"></span>
       </td>
       <td></td>
@@ -485,7 +467,7 @@
       <td class='x68'>19</td>
       <td class='x73'><input id='sc_record_scUser_19' class="inputall ipt40" type="text"></td>
       <td class='x118'><input id='sc_record_qchd_19' type="checkbox"></td>
-      <td colspan='4' class='x163' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
+      <td colspan='4' class='x163' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <span class="font5">QC：<input id='sc_qcUser' class="inputall ipt80" type="text"></span>
       </td>
       <td></td>
@@ -506,7 +488,7 @@
       <td class='x97'>20</td>
       <td class='x73'><input id='sc_record_scUser_20' class="inputall ipt40" type="text"></td>
       <td class='x118'><input id='sc_record_qchd_20' type="checkbox"></td>
-      <td colspan='4' class='x165' style='border-right:2px solid windowtext;border-bottom:2px solid windowtext;'>
+      <td colspan='4' class='x165' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <span class="font5">检查日期：<input id='sc_date' class="inputall ipt80 dateType" type="text"></span>
       </td>
       <td></td>
@@ -514,19 +496,19 @@
     <!-- 波峰焊接机 -->
     <tr height='33' style='height:24.95pt' id='r18'>
       <td colspan='19' height='30' class='x113'
-        style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:22.7pt;'>波峰焊接机</td>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:22.7pt;'>波峰焊接机</td>
       <td></td>
     </tr>
     <tr height='24' style='height:18pt' id='r19'>
       <td rowspan='5' height='127' class='x120'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:95.55pt;overflow:hidden;'>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:95.55pt;overflow:hidden;'>
         使</br>用</br><input id='bfhjj_isUser' type="checkbox"></td>
       <td colspan='2' class='x121' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>设备名称
       </td>
       <td colspan='2' class='x71' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>设备编号
       </td>
       <td colspan='14' height='22' class='x202' width='578'
-        style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:16.5pt;width:433.5pt;'
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:16.5pt;width:433.5pt;'
         align='left' valign='top'><span
           style='position:absolute;z-index:9;margin-left:386px;margin-top:0px;width:1px;height:1px'></span><span>
           <table cellpadding='0' cellspacing='0'>
@@ -546,29 +528,29 @@
           id='bfhjj_deviceName' class="inputall ipt60" type="text"></td>
       </td>
       <td colspan='3' class='x127' style='border-bottom:1px solid windowtext;'>预热1B：<input id='bfhjj_craftParam_yr1B'
-          class="inputall ipt40" type="text"> ℃</td>
+          class="inputall ipt41" type="text"> ℃</td>
       <td colspan='3' class='x127' style='border-bottom:1px solid windowtext;'>预热2B：<input id='bfhjj_craftParam_yr2B'
-          class="inputall ipt40" type="text"> ℃</td>
+          class="inputall ipt41" type="text"> ℃</td>
       <td colspan='3' class='x127' style='border-bottom:1px solid windowtext;'>预热3B：<input id='bfhjj_craftParam_yr3B'
-          class="inputall ipt40" type="text"> ℃</td>
+          class="inputall ipt41" type="text"> ℃</td>
       <td colspan='3' class='x127' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-        预热2T：<input id='bfhjj_craftParam_yr2T' class="inputall ipt40" type="text"> ℃</td>
-      <td colspan='2' class='x127' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
-        预热3T：<input id='bfhjj_craftParam_yr3T' class="inputall ipt40" type="text"> ℃</td>
+        预热2T：<input id='bfhjj_craftParam_yr2T' class="inputall ipt41" type="text"> ℃</td>
+      <td colspan='2' class='x127' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+        预热3T：<input id='bfhjj_craftParam_yr3T' class="inputall ipt41" type="text"> ℃</td>
       <td></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r21'>
       <td colspan='3' class='x127' style='border-bottom:1px solid windowtext;'>链条速度：<input id='bfhjj_craftParam_ltsd'
           class="inputall ipt30" type="text"> mm/min</td>
       <td colspan='3' class='x127' style='border-bottom:1px solid windowtext;'>锡炉温度：<input id='bfhjj_craftParam_xlwd'
-          class="inputall ipt30" type="text">℃</td>
+          class="inputall ipt31" type="text">℃</td>
       <td colspan='3' class='x127' style='border-bottom:1px solid windowtext;'>供气压力：<input id='bfhjj_craftParam_gqyl'
-          class="inputall ipt30" type="text">Mpa
+          class="inputall ipt31" type="text">Mpa
       </td>
       <td colspan='3' class='x166' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-        喷雾气压：<input id='bfhjj_craftParam_pwqy' class="inputall ipt30" type="text">Mpa</td>
-      <td colspan='2' class='x166' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
-        针阀气压：<input id='bfhjj_craftParam_zfqy' class="inputall ipt30" type="text">Mpa</td>
+        喷雾气压：<input id='bfhjj_craftParam_pwqy' class="inputall ipt31" type="text">Mpa</td>
+      <td colspan='2' class='x166' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+        针阀气压：<input id='bfhjj_craftParam_zfqy' class="inputall ipt32" type="text">Mpa</td>
       <td></td>
     </tr>
     <tr height='24' style='height:18pt' id='r22'>
@@ -590,27 +572,27 @@
       <td></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r23'>
-      <td colspan='2' class='x132' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'><input
+      <td colspan='2' class='x132' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input
           id='bfhjj_programName' class="inputall ipt80" type="text">
       </td>
-      <td colspan='2' class='x134' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'><input
+      <td colspan='2' class='x134' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input
           id='bfhjj_programStatus' type="checkbox"></td>
-      <td colspan='2' class='x135' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'>
+      <td colspan='2' class='x135' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='bfhjj_produceDate' class="inputall ipt80 dateType" type="text"></td>
       <td class='x135'><input id='bfhjj_amount' class="inputall ipt60" type="text"></td>
       </td>
-      <td colspan='2' class='x167' style='border-bottom:2px solid windowtext;'><input id='bfhjj_qchd' type="checkbox">
+      <td colspan='2' class='x167' style='border-bottom:1px solid windowtext;'><input id='bfhjj_qchd' type="checkbox">
       </td>
       </td>
-      <td colspan='2' class='x135' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'><input
+      <td colspan='2' class='x135' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input
           id='bfhjj_doUser' class="inputall ipt60" type="text">
       </td>
-      <td colspan='2' class='x135' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'><input
+      <td colspan='2' class='x135' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input
           id='bfhjj_sjStatus' class="inputall ipt60" type="text"></td>
-      <td colspan='2' class='x135' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'><input
+      <td colspan='2' class='x135' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input
           id='bfhjj_sjUser' class="inputall ipt60" type="text">
       </td>
-      <td colspan='2' class='x135' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'><input
+      <td colspan='2' class='x135' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input
           id='bfhjj_qcUser' class="inputall ipt60" type="text">
       </td>
       <td class='x194'><input id='bfhjj_checkDate' class="inputall ipt60 dateType" type="text"></td>
@@ -618,7 +600,7 @@
     </tr>
     <tr height='24' style='height:18pt' id='r24'>
       <td rowspan='2' height='55' class='x85'
-        style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:41.45pt;'>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:41.45pt;'>
         下</br>道</br>工</br>序</br>交</br>接</td>
       <td rowspan='2' height='55' class='x136' style='border-right:1px solid windowtext;height:41.45pt;'>
         第</br>一</br>次</br>交</br>接</td>
@@ -635,7 +617,7 @@
       <td colspan='2' class='x169' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>承接人
       </td>
       <td class='x137'>数量</td>
-      <td colspan='2' class='x169' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>日期</td>
+      <td colspan='2' class='x169' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>日期</td>
       <td></td>
     </tr>
     <tr height='33' style='height:24.95pt' id='r25'>
@@ -654,15 +636,15 @@
         <input id='xdgxjj_cjUser_3' class="inputall ipt60" type="text">
       </td>
       <td class='x139'><input id='xdgxjj_cjAmount_3' class="inputall ipt40" type="text"></td>
-      <td colspan='2' class='x196' style='border-right:2px solid windowtext;border-bottom:2px solid windowtext;'>
+      <td colspan='2' class='x196' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='xdgxjj_cjDate_3' class="inputall ipt60 dateType" type="text"></td>
       <td></td>
     </tr>
     <tr height='40' style='height:30pt' id='r26'>
       <td colspan='2' height='36' class='x140'
-        style='border-right:2px solid windowtext;border-bottom:2px solid windowtext;height:27pt;'>备 注</td>
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:27pt;'>备 注</td>
       <td colspan='17' height='36' class='x204' width='689'
-        style='border-right:2px solid windowtext;border-bottom:2px solid windowtext;height:27pt;width:516.75pt;'
+        style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:27pt;width:516.75pt;'
         align='left' valign='top'><span
           style='position:absolute;z-index:8;margin-left:476px;margin-top:0px;width:213px;height:1px'></span><span
           style='position:absolute;z-index:7;margin-left:477px;margin-top:0px;width:212px;height:1px'></span><span
@@ -672,8 +654,8 @@
           style='position:absolute;z-index:4;margin-left:0px;margin-top:0px;width:148px;height:1px'></span><span>
           <table cellpadding='0' cellspacing='0'>
             <tr>
-              <td colspan='17' height='36' class='x203' width='689' style='height:27pt;width:516.75pt;'> <input id="remarks"
-                  class="inputall" style="width: 780px;" type="text"></td>
+              <td colspan='17' height='36' class='x203' width='689' style='height:27pt;width:516.75pt;'> <input
+                  id="remarks" class="inputall" style="width: 780px;" type="text"></td>
               <td></td>
             </tr>
           </table>
@@ -714,6 +696,9 @@
         $ = layui.jquery;
       var dd = JSON.parse($('[name=data]').val());
       console.log(dd)
+      if (parent.location.href.indexOf("/windowPad/") > -1) {
+        $('#op').hide();
+      }
       //这里开始拿数据
       $('.dateType').focus(function () {
         $(this).attr('type', 'date')
@@ -768,16 +753,16 @@
                       $('#area').attr('checked', true)
                       $('#area1').attr('checked', false)
                     }
-                    if (dj.area1 == 1){
+                    if (dj.area1 == 1) {
                       $('#area1').attr('checked', true)
                       $('#area').attr('checked', false)
                     }
-                  } else{
+                  } else {
                     $('#area').attr('checked', true)
                     $('#area1').attr('checked', false)
                   }
 
-                  if (dj.type!= null) {
+                  if (dj.type != null) {
                     $('#type').val(dj.type)
                   } else {
                     $('#type').val("ZJ-F044L")
@@ -895,8 +880,8 @@
       initAjax();
       $('#onsubmit').on('click', function () {
         var datajson = {
-          "area": $('#area').is(":checked")?1:0,
-          "area1": $('#area1').is(":checked")?1:0,
+          "area": $('#area').is(":checked") ? 1 : 0,
+          "area1": $('#area1').is(":checked") ? 1 : 0,
           //"area": dd.factory,
           "tempParam": "ZJ-F044L",
           "RoHS": dd.is_rohs,
@@ -906,7 +891,7 @@
           "produceAmount": dd.amount_completed,
           "pcbCode": dd.pcb_id,
           "plateCode": dd.batch_id,
-          "type":$('#type').val(),
+          "type": $('#type').val(),
           "cjsdgx": [
             {
               "cjUser": $('#cjsdgx_cjUser_1').val(),
@@ -1160,7 +1145,14 @@
     })
 
     var op = document.getElementById('op');
+    var onsubmit = document.getElementById('onsubmit');
     op.onclick = function () {
+      op.style.display = 'none';
+      onsubmit.style.display = 'none';
+      setTimeout(() => {
+        op.style.display = 'block';
+        onsubmit.style.display = 'block';
+      }, 500);
       var iframe = document.createElement('iframe');
       console.log(iframe.contentWindow)
       window.print();

@@ -4,6 +4,27 @@
   <meta http-equiv=Content-Type content="text/html; charset=utf-8">
   <link rel="Stylesheet" href="../../css/f308b.css">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    .box {
+      background: #eee;
+      box-sizing: border-box;
+      width: 210mm;
+      /*210*/
+      height: 297mm;
+      /*297*/
+      text-align: left;
+      padding: 3mm;
+    }
+
     .inputSpan {
       margin-left: 5px;
       display: inline-block;
@@ -12,12 +33,18 @@
       position: relative;
     }
 
+    input {
+      background: transparent;
+      border: none;
+    }
+
     .inputSpan input {
       position: absolute;
       width: 98%;
       border: none;
       text-align: center;
       left: 0;
+      background: transparent;
     }
 
     .inputall {
@@ -26,6 +53,7 @@
       vertical-align: top;
       text-align: center;
       position: relative;
+      background: transparent;
     }
 
     td {
@@ -46,6 +74,7 @@
       height: 90%;
       width: 90%;
       margin: 0px;
+      background: transparent;
     }
 
     .ipt30 {
@@ -123,12 +152,11 @@
       width: 400px !important;
     }
 
-    .ipt1000 {
-      width: 1200px !important;
-    }
 
-    #onsubmit {
-      display: inline-block;
+
+    #onsubmit,
+    #op {
+      display: block;
       height: 28px;
       line-height: 28px;
       padding: 0 18px;
@@ -140,27 +168,31 @@
       border: none;
       border-radius: 2px;
       cursor: pointer;
+      float: left;
+      margin: 0 10px 10px 0;
     }
   </style>
   <script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
   <script src="../../js/common.js"></script>
 </head>
 
-<body link=blue vlink=purple>
+<body class="box">
   <form>
     <input type="hidden" name="data">
   </form>
+  <div>
+    <button id="onsubmit">保存</button> <button id='op'> 打印</button>
+  </div>
   <table border=0 cellpadding=0 cellspacing=0 width=945 style='border-collapse:
  collapse;table-layout:fixed;width:1050px;height:1800px'>
     <tr height=52 style='height:10pt'>
-      <button id="onsubmit">保存</button>
       <td colspan=15 height=52 class=xl65 style='height:10pt;
   width:594pt'><a name="Print_Area">电路板调试流通表</a></td>
     </tr>
     <tr height=22 style='height:16.5pt'>
       <td height=22 class=xl85 colspan=3 style='height:16.5pt;'>RoHS:Y<input id="RoHS" type="checkbox">
-        <font class="font5">/N</font>
-        <font class="font0"><input id="RoHS1" type="checkbox"></font>
+        <spanclass="font5">/N</span>
+        <spanclass="font0"><input id="RoHS1" type="checkbox"></span>
       </td>
       <td colspan=12 class=xl65></td>
     </tr>
@@ -378,19 +410,19 @@
       <td colspan=2 rowspan=4 class=xl91 style='border-right:.5pt solid black;
   border-bottom:.5pt solid black;width:62pt'><textarea id="yq_xlm_1"></textarea></td>
       <td colspan=3 rowspan=4 class=xl99 style='width:108pt'>
-        <font class="font5"><input type="checkbox" id="yq_testStatu_1">1.被测电路板均正常<br>
+        <spanclass="font5"><input type="checkbox" id="yq_testStatu_1">1.被测电路板均正常<br>
           <input type="checkbox" id="yq_testResult_1">2.共有(<span class="inputSpan" style="position: relative;"><input
               id="yq_banNum_1"></span>)块板故障，分别对应第(<span class="inputSpan" style="position: relative;"><input
-              id="yq_sizeNum_1"></span>)号排故记录，其余被测电路板正常。</font><br>
+              id="yq_sizeNum_1"></span>)号排故记录，其余被测电路板正常。</span><br>
       </td>
       <td colspan=2 rowspan=4 class=xl68><input type="text" id="yq_testUser_1" class="inputall ipt120"></td>
       <td rowspan=5 class=xl68 style='border-top:none'>2</td>
       <td colspan=2 rowspan=4 class=xl68><textarea id="yq_xlm_2"></textarea></td>
       <td colspan=3 rowspan=4 class=xl99 style='width:104pt'>
-        <font class="font5"><input type="checkbox" id="yq_testStatu_2">1.被测电路板均正常<br>
+        <spanclass="font5"><input type="checkbox" id="yq_testStatu_2">1.被测电路板均正常<br>
           <input type="checkbox" id="yq_testResult_2">2.共有(<span class="inputSpan" style="position: relative;"><input
               id="yq_banNum_2"></span>)块板故障，分别对应第(<span class="inputSpan" style="position: relative;"><input
-              id="yq_sizeNum_2"></span>)号排故记录，其余被测电路板正常。</font><br>
+              id="yq_sizeNum_2"></span>)号排故记录，其余被测电路板正常。</span><br>
       </td>
       <td rowspan=4 class=xl70 style='border-top:none'><input id="yq_testUser_2" type="text" class="inputall ipt60">
       </td>
@@ -422,19 +454,19 @@
   height:75.0pt;border-top:none'>3</td>
       <td colspan=2 rowspan=4 class=xl68><textarea id="yq_xlm_3"></textarea></td>
       <td colspan=3 rowspan=4 class=xl99 style='width:108pt'>
-        <font class="font5"><input type="checkbox" id="yq_testStatu_3">1.被测电路板均正常<br>
+        <spanclass="font5"><input type="checkbox" id="yq_testStatu_3">1.被测电路板均正常<br>
           <input type="checkbox" id="yq_testResult_3">2.共有(<span class="inputSpan" style="position: relative;"><input
               id="yq_banNum_3"></span>)块板故障，分别对应第(<span class="inputSpan" style="position: relative;"><input
-              id="yq_sizeNum_3"></span>)号排故记录，其余被测电路板正常。</font><br>
+              id="yq_sizeNum_3"></span>)号排故记录，其余被测电路板正常。</span><br>
       </td>
       <td colspan=2 rowspan=4 class=xl68><input type="text" id="yq_testUser_3" class="inputall ipt120"></td>
       <td rowspan=5 class=xl68 style='border-bottom:1.0pt solid black;border-top:none'>4</td>
       <td colspan=2 rowspan=4 class=xl68><textarea id="yq_xlm_4"></textarea></td>
       <td colspan=3 rowspan=4 class=xl99 style='width:104pt'>
-        <font class="font5"><input type="checkbox" id="yq_testStatu_4">1.被测电路板均正常<br>
+        <spanclass="font5"><input type="checkbox" id="yq_testStatu_4">1.被测电路板均正常<br>
           <input type="checkbox" id="yq_testResult_4">2.共有(<span class="inputSpan" style="position: relative;"><input
               id="yq_banNum_4"></span>)块板故障，分别对应第(<span class="inputSpan" style="position: relative;"><input
-              id="yq_sizeNum_4"></span>)号排故记录，其余被测电路板正常。</font><br>
+              id="yq_sizeNum_4"></span>)号排故记录，其余被测电路板正常。</span><br>
       </td>
       <td rowspan=4 class=xl70 style='border-top:none'><input type="text" id="yq_testUser_4" class="inputall ipt60">
       </td>
@@ -606,7 +638,9 @@
       var timeTxt = $(this).val().replace(/-/g, '.').substring(2);
       $(this).attr('type', 'text').val(timeTxt)
     })
-
+    if (parent.location.href.indexOf("/windowPad/") > -1) {
+      $('#op').hide();
+    }
     // if (dd.factory == "万吉厂区") {
     //   $('#area').attr('checked', true)
     // }
@@ -1135,6 +1169,19 @@
       })
     })
   })
+  var op = document.getElementById('op');
+  var onsubmit = document.getElementById('onsubmit');
+  op.onclick = function () {
+    op.style.display = 'none';
+    onsubmit.style.display = 'none';
+    setTimeout(() => {
+      op.style.display = 'block';
+      onsubmit.style.display = 'block';
+    }, 500);
+    var iframe = document.createElement('iframe');
+    console.log(iframe.contentWindow)
+    window.print();
+  }
 </script>
 
 </html>

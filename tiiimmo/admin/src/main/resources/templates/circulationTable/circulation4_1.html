@@ -10,8 +10,51 @@
       margin: 0 auto;
     }
 
-    table {
-      margin: 0 auto;
+    td {
+      vertical-align: middle !important;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    .box {
+      background: #eee;
+      box-sizing: border-box;
+      width: 210mm;
+      /*210*/
+      height: 297mm;
+      /*297*/
+      text-align: left;
+      padding: 3mm;
+    }
+
+    .inputSpan {
+      position: relative;
+      display: block;
+      align-content: center;
+      width: auto;
+      height: 14px;
+    }
+
+    .displayType .inputSpan {
+      display: inline-block;
+      width: 80px;
+    }
+
+    .inputSpan input {
+      position: absolute;
+      width: 100%;
+      border: none;
+      text-align: left;
+      left: 0;
+      background: transparent;
     }
 
     .inputall {
@@ -21,6 +64,7 @@
       width: 70px !important;
       vertical-align: top;
       text-align: center;
+      background: transparent;
     }
 
     .ipt {
@@ -33,52 +77,9 @@
       text-align: center;
     }
 
-    .ipt40 {
-      width: 37px !important;
-    }
-
-    .ipt60 {
-      width: 60px !important;
-    }
-
-    .ipt90 {
-      width: 90px !important;
-    }
-
-    .ipt120 {
-      width: 115px !important;
-    }
-
-    .ipt140 {
-      width: 140px !important;
-    }
-
-    .ipt160 {
-      width: 160px !important;
-    }
-
-    .ipt180 {
-      width: 180px !important;
-    }
-
-    .ipt200 {
-      width: 200px !important;
-    }
-
-    .ipt220 {
-      width: 220px !important;
-    }
-
-    .ipt240 {
-      width: 240px !important;
-    }
-
-    .ipt1000 {
-      width: 1200px !important;
-    }
-
-    #onsubmit {
-      display: inline-block;
+    #onsubmit,
+    #op {
+      display: block;
       height: 28px;
       line-height: 28px;
       padding: 0 18px;
@@ -90,6 +91,8 @@
       border: none;
       border-radius: 2px;
       cursor: pointer;
+      float: left;
+      margin: 0 10px 10px 0;
     }
 
     /*
@@ -103,8 +106,10 @@
   <script src="../../js/common.js"></script>
 </head>
 
-<body link='blue' vlink='purple'>
-
+<body class="box">
+  <div>
+    <button id="onsubmit">保存</button> <button id='op'> 打印</button>
+  </div>
   <table border='0' cellpadding='0' cellspacing='0' width='1229' style='border-collapse:
  collapse;table-layout:fixed;width:921pt'>
     <col width='37' style='width:27.75pt'>
@@ -120,9 +125,6 @@
     <col width='85' span='2' style='width:63.75pt'>
     <col width='69' span='2' style='width:51.75pt'>
     <col width='85' style='width:63.75pt'>
-    <tr height='26' style='height:20.1pt'>
-      <td height='24' style='height:18.6pt; padding-bottom: 10px;'><button id="onsubmit">保存</button></td>
-    </tr>
     <tr height='40' style='height:30pt'>
       <td colspan='21' height='40' class='x101' style='height:30pt;'>生产流通表（四）</td>
     </tr>
@@ -178,501 +180,501 @@
     </tr>
     <tr height='26' style='height:20.1pt' id='r1'>
       <td height='24' class='x70' style='height:18.6pt;'>1</td>
-      <td class='x71'><input id='num_xlm_1' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_1' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_1' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_1' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_1' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_1' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_1' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_1' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_1' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_1' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_1' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_1' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_1' class="ipt70 inputall" type="text"></td>
       <td class='x70'>26</td>
-      <td class='x71'><input id='num_xlm_26' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_26' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_26' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_26' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_26' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_26' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_26' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_26' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_26' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_26' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_26' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_26' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_26' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r2'>
       <td height='24' class='x70' style='height:18.6pt;'>2</td>
-      <td class='x71'><input id='num_xlm_2' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_2' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_2' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_2' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_2' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_2' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_2' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_2' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_2' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_2' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_2' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_2' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_2' class="ipt70 inputall" type="text"></td>
       <td class='x70'>27</td>
-      <td class='x71'><input id='num_xlm_27' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_27' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_27' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_27' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_27' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_27' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_27' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_27' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_27' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_27' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_27' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_27' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_27' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r3'>
       <td height='24' class='x70' style='height:18.6pt;'>3</td>
-      <td class='x71'><input id='num_xlm_3' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_3' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_3' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_3' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_3' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_3' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_3' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_3' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_3' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_3' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_3' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_3' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_3' class="ipt70 inputall" type="text"></td>
       <td class='x70'>28</td>
-      <td class='x71'><input id='num_xlm_28' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_28' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_28' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_28' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_28' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_28' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_28' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_28' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_28' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_28' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_28' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_28' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_28' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r4'>
       <td height='24' class='x70' style='height:18.6pt;'>4</td>
-      <td class='x71'><input id='num_xlm_4' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_4' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_4' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_4' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_4' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_4' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_4' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_4' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_4' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_4' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_4' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_4' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_4' class="ipt70 inputall" type="text"></td>
       <td class='x70'>29</td>
-      <td class='x71'><input id='num_xlm_29' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_29' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_29' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_29' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_29' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_29' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_29' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_29' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_29' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_29' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_29' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_29' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_29' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r5'>
       <td height='24' class='x70' style='height:18.6pt;'>5</td>
-      <td class='x71'><input id='num_xlm_5' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_5' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_5' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_5' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_5' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_5' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_5' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_5' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_5' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_5' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_5' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_5' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_5' class="ipt70 inputall" type="text"></td>
       <td class='x70'>30</td>
-      <td class='x71'><input id='num_xlm_30' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_30' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_30' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_30' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_30' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_30' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_30' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_30' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_30' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_30' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_30' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_30' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_30' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r6'>
       <td height='24' class='x70' style='height:18.6pt;'>6</td>
-      <td class='x71'><input id='num_xlm_6' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_6' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_6' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_6' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_6' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_6' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_6' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_6' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_6' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_6' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_6' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_6' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_6' class="ipt70 inputall" type="text"></td>
       <td class='x70'>31</td>
-      <td class='x71'><input id='num_xlm_31' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_31' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_31' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_31' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_31' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_31' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_31' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_31' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_31' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_31' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_31' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_31' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_31' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r7'>
       <td height='24' class='x70' style='height:18.6pt;'>7</td>
-      <td class='x71'><input id='num_xlm_7' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_7' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_7' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_7' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_7' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_7' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_7' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_7' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_7' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_7' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_7' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_7' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_7' class="ipt70 inputall" type="text"></td>
       <td class='x70'>32</td>
-      <td class='x71'><input id='num_xlm_32' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_32' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_32' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_32' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_32' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_32' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_32' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_32' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_32' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_32' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_32' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_32' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_32' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r8'>
       <td height='24' class='x70' style='height:18.6pt;'>8</td>
-      <td class='x71'><input id='num_xlm_8' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_8' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_8' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_8' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_8' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_8' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_8' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_8' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_8' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_8' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_8' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_8' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_8' class="ipt70 inputall" type="text"></td>
       <td class='x70'>33</td>
-      <td class='x71'><input id='num_xlm_33' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_33' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_33' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_33' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_33' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_33' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_33' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_33' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_33' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_33' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_33' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_33' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_33' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r9'>
       <td height='24' class='x70' style='height:18.6pt;'>9</td>
-      <td class='x71'><input id='num_xlm_9' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_9' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_9' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_9' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_9' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_9' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_9' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_9' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_9' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_9' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_9' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_9' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_9' class="ipt70 inputall" type="text"></td>
       <td class='x70'>34</td>
-      <td class='x71'><input id='num_xlm_34' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_34' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_34' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_34' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_34' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_34' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_34' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_34' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_34' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_34' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_34' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_34' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_34' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r10'>
       <td height='24' class='x70' style='height:18.6pt;'>10</td>
-      <td class='x71'><input id='num_xlm_10' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_10' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_10' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_10' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_10' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_10' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_10' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_10' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_10' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_10' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_10' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_10' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_10' class="ipt70 inputall" type="text"></td>
       <td class='x70'>35</td>
-      <td class='x71'><input id='num_xlm_35' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_35' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_35' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_35' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_35' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_35' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_35' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_35' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_35' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_35' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_35' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_35' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_35' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r11'>
       <td height='24' class='x70' style='height:18.6pt;'>11</td>
-      <td class='x71'><input id='num_xlm_11' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_11' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_11' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_11' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_11' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_11' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_11' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_11' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_11' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_11' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_11' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_11' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_11' class="ipt70 inputall" type="text"></td>
       <td class='x70'>36</td>
-      <td class='x71'><input id='num_xlm_36' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_36' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_36' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_36' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_36' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_36' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_36' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_36' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_36' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_36' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_36' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_36' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_36' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r12'>
       <td height='24' class='x70' style='height:18.6pt;'>12</td>
-      <td class='x71'><input id='num_xlm_12' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_12' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_12' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_12' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_12' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_12' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_12' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_12' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_12' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_12' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_12' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_12' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_12' class="ipt70 inputall" type="text"></td>
       <td class='x70'>37</td>
-      <td class='x71'><input id='num_xlm_37' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_37' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_37' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_37' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_37' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_37' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_37' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_37' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_37' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_37' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_37' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_37' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_37' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r13'>
       <td height='24' class='x70' style='height:18.6pt;'>13</td>
-      <td class='x71'><input id='num_xlm_13' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_13' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_13' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_13' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_13' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_13' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_13' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_13' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_13' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_13' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_13' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_13' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_13' class="ipt70 inputall" type="text"></td>
       <td class='x70'>38</td>
-      <td class='x71'><input id='num_xlm_38' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_38' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_38' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_38' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_38' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_38' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_38' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_38' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_38' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_38' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_38' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_38' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_38' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r14'>
       <td height='24' class='x70' style='height:18.6pt;'>14</td>
-      <td class='x71'><input id='num_xlm_14' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_14' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_14' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_14' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_14' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_14' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_14' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_14' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_14' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_14' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_14' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_14' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_14' class="ipt70 inputall" type="text"></td>
       <td class='x70'>39</td>
-      <td class='x71'><input id='num_xlm_39' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_39' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_39' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_39' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_39' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_39' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_39' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_39' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_39' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_39' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_39' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_39' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_39' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r15'>
       <td height='24' class='x70' style='height:18.6pt;'>15</td>
-      <td class='x71'><input id='num_xlm_15' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_15' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_15' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_15' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_15' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_15' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_15' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_15' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_15' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_15' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_15' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_15' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_15' class="ipt70 inputall" type="text"></td>
       <td class='x70'>40</td>
-      <td class='x71'><input id='num_xlm_40' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_40' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_40' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_40' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_40' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_40' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_40' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_40' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_40' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_40' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_40' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_40' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_40' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r16'>
       <td height='24' class='x70' style='height:18.6pt;'>16</td>
-      <td class='x71'><input id='num_xlm_16' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_16' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_16' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_16' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_16' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_16' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_16' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_16' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_16' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_16' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_16' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_16' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_16' class="ipt70 inputall" type="text"></td>
       <td class='x70'>41</td>
-      <td class='x71'><input id='num_xlm_41' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_41' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_41' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_41' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_41' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_41' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_41' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_41' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_41' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_41' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_41' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_41' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_41' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r17'>
       <td height='24' class='x70' style='height:18.6pt;'>17</td>
-      <td class='x71'><input id='num_xlm_17' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_17' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_17' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_17' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_17' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_17' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_17' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_17' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_17' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_17' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_17' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_17' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_17' class="ipt70 inputall" type="text"></td>
       <td class='x70'>42</td>
-      <td class='x71'><input id='num_xlm_42' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_42' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_42' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_42' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_42' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_42' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_42' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_42' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_42' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_42' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_42' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_42' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_42' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r18'>
       <td height='24' class='x70' style='height:18.6pt;'>18</td>
-      <td class='x71'><input id='num_xlm_18' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_18' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_18' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_18' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_18' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_18' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_18' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_18' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_18' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_18' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_18' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_18' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_18' class="ipt70 inputall" type="text"></td>
       <td class='x70'>43</td>
-      <td class='x71'><input id='num_xlm_43' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_43' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_43' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_43' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_43' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_43' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_43' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_43' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_43' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_43' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_43' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_43' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_43' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r19'>
       <td height='24' class='x70' style='height:18.6pt;'>19</td>
-      <td class='x71'><input id='num_xlm_19' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_19' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_19' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_19' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_19' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_19' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_19' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_19' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_19' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_19' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_19' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_19' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_19' class="ipt70 inputall" type="text"></td>
       <td class='x70'>44</td>
-      <td class='x71'><input id='num_xlm_44' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_44' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_44' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_44' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_44' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_44' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_44' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_44' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_44' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_44' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_44' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_44' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_44' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r20'>
       <td height='24' class='x70' style='height:18.6pt;'>20</td>
-      <td class='x71'><input id='num_xlm_20' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_20' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_20' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_20' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_20' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_20' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_20' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_20' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_20' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_20' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_20' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_20' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_20' class="ipt70 inputall" type="text"></td>
       <td class='x70'>45</td>
-      <td class='x71'><input id='num_xlm_45' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_45' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_45' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_45' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_45' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_45' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_45' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_45' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_45' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_45' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_45' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_45' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_45' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r21'>
       <td height='24' class='x70' style='height:18.6pt;'>21</td>
-      <td class='x71'><input id='num_xlm_21' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_21' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_21' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_21' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_21' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_21' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_21' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_21' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_21' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_21' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_21' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_21' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_21' class="ipt70 inputall" type="text"></td>
       <td class='x70'>46</td>
-      <td class='x71'><input id='num_xlm_46' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_46' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_46' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_46' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_46' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_46' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_46' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_46' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_46' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_46' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_46' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_46' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_46' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r22'>
       <td height='24' class='x70' style='height:18.6pt;'>22</td>
-      <td class='x71'><input id='num_xlm_22' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_22' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_22' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_22' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_22' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_22' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_22' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_22' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_22' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_22' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_22' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_22' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_22' class="ipt70 inputall" type="text"></td>
       <td class='x70'>47</td>
-      <td class='x71'><input id='num_xlm_47' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_47' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_47' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_47' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_47' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_47' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_47' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_47' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_47' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_47' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_47' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_47' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_47' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r23'>
       <td height='24' class='x70' style='height:18.6pt;'>23</td>
-      <td class='x71'><input id='num_xlm_23' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_23' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_23' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_23' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_23' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_23' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_23' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_23' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_23' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_23' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_23' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_23' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_23' class="ipt70 inputall" type="text"></td>
       <td class='x70'>48</td>
-      <td class='x71'><input id='num_xlm_48' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_48' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_48' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_48' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_48' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_48' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_48' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_48' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_48' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_48' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_48' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_48' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_48' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r24'>
       <td height='24' class='x70' style='height:18.6pt;'>24</td>
-      <td class='x71'><input id='num_xlm_24' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_24' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_24' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_24' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_24' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_24' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_24' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_24' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_24' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_24' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_24' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_24' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_24' class="ipt70 inputall" type="text"></td>
       <td class='x70'>49</td>
-      <td class='x71'><input id='num_xlm_49' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_49' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_49' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_49' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_49' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_49' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_49' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_49' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_49' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_49' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_49' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_49' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_49' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' style='height:20.1pt' id='r25'>
       <td height='23' class='x70' style='height:17.85pt;'>25</td>
-      <td class='x71'><input id='num_xlm_25' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_25' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_25' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_25' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_25' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_25' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_25' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_25' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_25' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_25' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_25' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_25' class=" inputall" type="text"></td>
       <td class='x73'><input id='num_bz_25' class="ipt70 inputall" type="text"></td>
       <td class='x70'>50</td>
-      <td class='x71'><input id='num_xlm_50' class="ipt120 inputall" type="text"></td>
-      <td class='x71'><input id='num_wh_50' class="ipt40 inputall" type="text"></td>
-      <td class='x72'><input id='num_blxx_50' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfqk_50' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_xfz_50' class="ipt60 inputall" type="text"></td>
-      <td class='x72'><input id='num_qc_50' class="ipt60 inputall" type="text"></td>
+      <td class='x71'><input id='num_xlm_50' class=" inputall" type="text"></td>
+      <td class='x71'><input id='num_wh_50' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_blxx_50' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfqk_50' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_xfz_50' class=" inputall" type="text"></td>
+      <td class='x72'><input id='num_qc_50' class=" inputall" type="text"></td>
       <td class='x94'><input id='num_bz_50' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='26' class='x64' style='height:20.1pt' id='r26'>
       <td rowspan='2' height='51' class='x81'
         style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:38.7pt;'>缺陷类型统计</td>
-      <td class='x82'><input id='num_badtype_1' class="ipt120 inputall" type="text"></td>
+      <td class='x82'><input id='num_badtype_1' class=" inputall" type="text"></td>
       <td colspan='2' class='x82' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input
-          id='num_badtype_2' class="ipt120 inputall" type="text"></td>
+          id='num_badtype_2' class=" inputall" type="text"></td>
       <td class='x82' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input
           id='num_badtype_3' class="ipt70 inputall" type="text"></td>
       <td colspan='2' class='x82' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-        <input id='num_badtype_4' class="ipt140 inputall" type="text">
+        <input id='num_badtype_4' class=" inputall" type="text">
       </td>
       <td colspan='3' class='x67' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-        <input id='num_badtype_5' class="ipt120 inputall" type="text">
+        <input id='num_badtype_5' class=" inputall" type="text">
       </td>
       <td class='x82' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input
-          id='num_badtype_6' class="ipt120 inputall" type="text"></td>
+          id='num_badtype_6' class=" inputall" type="text"></td>
       <td colspan='2' class='x82' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-        <input id='num_badtype_7' class="ipt120 inputall" type="text">
+        <input id='num_badtype_7' class=" inputall" type="text">
       </td>
       <td class='x82' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
         <input id='num_badtype_8' class="ipt70 inputall" type="text">
       </td>
       <td colspan='2' class='x82' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-        <input id='num_badtype_9' class="ipt120 inputall" type="text">
+        <input id='num_badtype_9' class=" inputall" type="text">
       </td>
       <td class='x82'>
         <input id='num_badtype_10' class="ipt70 inputall" type="text">
       </td>
     </tr>
     <tr height='26' class='x64' style='height:20.1pt' id='r27'>
-      <td class='x82'><input id='num_value_1' class="ipt120 inputall" type="text"></td>
+      <td class='x82'><input id='num_value_1' class=" inputall" type="text"></td>
       <td colspan='2' class='x85' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'><input
-          id='num_value_2' class="ipt120 inputall" type="text"></td>
+          id='num_value_2' class=" inputall" type="text"></td>
       <td class='x82' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input
           id='num_value_3' class="ipt70 inputall" type="text"></td>
       <td colspan='2' class='x82' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input
-          id='num_value_4' class="ipt140 inputall" type="text"></td>
+          id='num_value_4' class=" inputall" type="text"></td>
       <td colspan='3' class='x86' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'><input
-          id='num_value_5' class="ipt120 inputall" type="text"></td>
+          id='num_value_5' class=" inputall" type="text"></td>
       <td class='x82' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input
-          id='num_value_6' class="ipt120 inputall" type="text"></td>
+          id='num_value_6' class=" inputall" type="text"></td>
       <td colspan='2' class='x85' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'><input
-          id='num_value_7' class="ipt120 inputall" type="text"></td>
+          id='num_value_7' class=" inputall" type="text"></td>
       <td class='x82' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input
           id='num_value_8' class="ipt70 inputall" type="text"></td>
       <td colspan='2' class='x85' style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;'><input
-          id='num_value_9' class="ipt120 inputall" type="text"></td>
+          id='num_value_9' class=" inputall" type="text"></td>
       <td class='x82'><input id='num_value_10' class="ipt70 inputall" type="text"></td>
     </tr>
     <tr height='29' class='x64' style='height:21.95pt' id='r28'>
@@ -682,18 +684,18 @@
             span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </span>( 1 </span>
         <span class="font2">－</span>
-        <span class="font29"><input id='num_value1' class="ipt40 inputall" onChange="change()" type="text"></span>
+        <span class="font29"><input id='num_value1' class=" inputall" onChange="change()" type="text"></span>
         <span class="font2">÷</span>
-        <span class="font29"><input id='num_value2' class="ipt40 inputall" onChange="change()" type="text"></span>
+        <span class="font29"><input id='num_value2' class=" inputall" onChange="change()" type="text"></span>
         <span class="font29">) </span>
         <span class="font2">×</span>
         <span class="font29">&nbsp;100% </span>
         <span class="font2">＝</span>
-        <span class="font29"><input id='num_value3' disabled class="ipt40 inputall" type="text"></span>
+        <span class="font29"><input id='num_value3' disabled class=" inputall" type="text"></span>
         </span>%</span>
       </td>
       <td colspan='2' class='x88' style='border-right:2px solid windowtext;border-bottom:2px solid windowtext;'>
-        统计人:<input id='num_user' class="ipt90 inputall" type="text">
+        统计人:<input id='num_user' class=" inputall" type="text">
       </td>
     </tr>
   </table>
@@ -727,6 +729,9 @@
         layer = layui.layer,
         form = layui.form,
         $ = layui.jquery;
+      if (parent.location.href.indexOf("/windowPad/") > -1) {
+        $('#op').hide();
+      }
       function initAjax() {
         $.ajax({
           url: '/report/findCurrentReport',
@@ -824,6 +829,19 @@
         })
       })
     })
+    var op = document.getElementById('op');
+    var onsubmit = document.getElementById('onsubmit');
+    op.onclick = function () {
+      op.style.display = 'none';
+      onsubmit.style.display = 'none';
+      setTimeout(() => {
+        op.style.display = 'block';
+        onsubmit.style.display = 'block';
+      }, 500);
+      var iframe = document.createElement('iframe');
+      console.log(iframe.contentWindow)
+      window.print();
+    }
   </script>
 </body>
 

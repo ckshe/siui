@@ -4,6 +4,49 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="Stylesheet" href="../../css/scltb4.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        .box {
+            background: #eee;
+            box-sizing: border-box;
+            width: 210mm;
+            /*210*/
+            height: 297mm;
+            /*297*/
+            text-align: left;
+            padding: 3mm;
+        }
+
+        /* .inputSpan {
+            position: relative;
+            display: block;
+            align-content: center;
+            width: auto;
+            height: 14px;
+        } */
+
+        /* .displayType .inputSpan {
+            display: inline-block;
+            width: 80px;
+        } */
+
+        /* .inputSpan input {
+            position: absolute;
+            width: 100%;
+            border: none;
+            text-align: left;
+            left: 0;
+            background: transparent;
+        } */
+
         table {
             margin: 0 auto;
         }
@@ -14,24 +57,28 @@
             width: 70px !important;
             vertical-align: top;
             text-align: center;
+            background: transparent;
         }
 
         .ipt {
             width: 80px !important;
             border: none;
         }
-        input{
+
+        input {
             border: none;
             text-align: center;
         }
 
-        .ipt40{
-            width: 37px !important;
+        .ipt40 {
+            width: 28px !important;
         }
-        .ipt60{
+
+        .ipt60 {
             width: 60px !important;
         }
-        .ipt80{
+
+        .ipt80 {
             width: 80px !important;
         }
 
@@ -53,28 +100,34 @@
             width: 140px !important;
         }
 
-        .ipt160{
+        .ipt160 {
             width: 160px !important;
         }
 
         .ipt180 {
             width: 180px !important;
         }
+
         .ipt200 {
             width: 200px !important;
         }
+
         .ipt220 {
             width: 220px !important;
         }
+
         .ipt240 {
             width: 240px !important;
         }
+
         .ipt1000 {
-            width: 1200px !important;
+            width: 1150px !important;
         }
 
-        #onsubmit {
-            display: inline-block;
+
+        #onsubmit,
+        #op {
+            display: block;
             height: 28px;
             line-height: 28px;
             padding: 0 18px;
@@ -86,6 +139,8 @@
             border: none;
             border-radius: 2px;
             cursor: pointer;
+            float: left;
+            margin: 0 10px 10px 0;
         }
 
         /* * {
@@ -98,10 +153,13 @@
     <script src="../../js/common.js"></script>
 </head>
 
-<body link='blue' vlink='purple'>
+<body class="box">
     <form>
         <input type="hidden" name="data">
     </form>
+    <div>
+        <button id="onsubmit">保存</button> <button id='op'> 打印</button>
+    </div>
     <table border='0' cellpadding='0' cellspacing='0' width='1288' style='border-collapse: 
  collapse;table-layout:fixed;width:966pt'>
         <col width='32' style='width:24pt'>
@@ -117,12 +175,12 @@
         <col width='37' span='2' style='width:27.75pt'>
         <col width='77' style='width:57.75pt'>
         <col width='37' style='width:27.75pt'>
-        <col width='45' style='width:33.75pt'>
+        <col width='45' style='width:45.75pt'>
         <col width='41' style='width:30.75pt'>
         <col width='45' span='2' style='width:33.75pt'>
         <col width='65' span='2' style='width:48.75pt'>
+        <col width='65' span='2' style='width:12pt'>
         <tr height='19' style='height:14.25pt' id='r0'>
-            <td height='19' width='32' style='height:14.25pt;width:24pt;'><button id="onsubmit">保存</button></td>
             <td width='38' style='width:28.5pt;'></td>
             <td width='37' style='width:27.75pt;'></td>
             <td class='x100' width='75' style='width:56.25pt;'></td>
@@ -145,13 +203,16 @@
             <td width='45' style='width:33.75pt;'></td>
             <td width='45' style='width:33.75pt;'></td>
             <td width='65' style='width:48.75pt;'></td>
-            <td class='x205' width='65' style='width:48.75pt;'><span style='float:right'><input id="type"  class="ipt81" value="ZJ-F252J" ></span></td>
+            <td class='x205' width='65' style='width:48.75pt;'><span style='float:right'><input id="type" class="ipt81"
+                        value="ZJ-F252J"></span></td>
+            <td></td>
         </tr>
         <tr height='40' style='height:30pt' id='r1'>
             <td colspan='21' height='40' class='x101' style='height:30pt;'>生产流通表（四）</td>
         </tr>
         <tr height='26' style='height:20.1pt' id='r2'>
-            <td colspan='21' height='24' class='x102' style='border-bottom:2px solid windowtext;height:18.6pt; border-right:0px solid windowtext'>
+            <td colspan='21' height='24' class='x102'
+                style='border-bottom:2px solid windowtext;height:18.6pt; border-right:0px solid windowtext'>
                 RoHS:Y<input id='RoHS' type="checkbox"> /N<input id='RoHS1' type="checkbox"> <span>&nbsp;&nbsp;
                 </span>清产核对</td>
         </tr>
@@ -170,7 +231,8 @@
             </td>
         </tr>
         <tr height='26' style='height:20.1pt' id='r4'>
-            <td colspan='21' height='24' class='x104' style='border-right:2px solid windowtext; border-bottom:2px solid windowtext; height:18.6pt;'>
+            <td colspan='21' height='24' class='x104'
+                style='border-right:2px solid windowtext; border-bottom:2px solid windowtext; height:18.6pt;'>
                 日期：<span class="inputSpan"><input id="date" class="dateType ipt220"></span>
                 部件名称：<span class="inputSpan"><input id="modelName" class="ipt220"></span>
                 PCB板号：<span class="inputSpan"><input id="pcbCode" class="ipt220"></span>
@@ -186,8 +248,8 @@
             <td colspan='3' class='x109' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 程序名称</td>
             <td class='x111'>程序正常</td>
-            <td class='x158'>生产 日期</td>
-            <td class='x209'>生产 内容</td>
+            <td class='x158'>生产日期</td>
+            <td class='x111'>生产内容</td>
             <td class='x210'>班次</td>
             <td height='30' class='x232' width='45' style='height:22.7pt;width:33.75pt;' align='left' valign='top'><span
                     style='position:absolute;z-index:29;margin-left:0px;margin-top:0px;width:175px;height:1px'></span><span
@@ -206,18 +268,21 @@
         <tr height='24' style='height:18pt' id='r6'>
             <td height='23' class='x113' style='height:17.25pt;'></td>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                <input id='sbcs_sbmc_1' class="inputall" type="text"><span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span></td>
+                <input id='sbcs_sbmc_1' class="inputall" type="text"><span
+                    style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span></td>
             <td class='x115'><input id='sbcs_sbbh_1' class="inputall" type="text"></td>
             <td class='x116'><input id='sbcs_sbzt_1' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                供气压力：<input id='sbcs_gjgycs_1_1' class="inputall" type="text">kgf/cm2；丝印速度：<input id='sbcs_gjgycs_1_2' class="inputall" type="text"><span>&nbsp;
+                供气压力：<input id='sbcs_gjgycs_1_1' class="inputall" type="text">kgf/cm2；丝印速度：<input id='sbcs_gjgycs_1_2'
+                    class="inputall" type="text"><span>&nbsp;
                 </span>mm/s<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x71' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_1' class="ipt140" type="text">
+            <td colspan='3' class='x71' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='sbcs_cxmc_1' class="ipt140" type="text">
             </td>
             <td class='x109'><input id='sbcs_cxzc_1' type="checkbox"></td>
             <td rowspan='10' height='235' class='x159'
                 style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:176.25pt;'>
-                <input id="sj_sjxq_date1" class="dateType ipt40 inputall">
+                <input id="sj_sjxq_date1" class="dateType ipt60 inputall">
             </td>
             <!--丝印-->
             <td rowspan='3' height='70' class='x214'
@@ -257,7 +322,8 @@
                 供气压力：<input id='sbcs_gjgycs_3_1' class="inputall" type="text">kgf/cm2；丝印速度：<input id='sbcs_gjgycs_3_2'
                     class="inputall" type="text"><span>&nbsp;
                 </span>mm/s<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_3' class="ipt140" type="text">
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='sbcs_cxmc_3' class="ipt140" type="text">
             </td>
             <td class='x109'><input id='sbcs_cxzc_3' type="checkbox"></td>
             <td class='x216'><input id='sj_sjxq_bc3' class="ipt40 inputall" type="text"></td>
@@ -267,17 +333,20 @@
         </tr>
         <tr height='24' style='height:18pt' id='r9'>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                <input id='sbcs_sbmc_4' class="inputall" type="text"><span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
+                <input id='sbcs_sbmc_4' class="inputall" type="text"><span
+                    style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
             <td class='x115'><input id='sbcs_sbbh_4' class="inputall" type="text"></td>
             <td class='x120'><input id='sbcs_sbzt_4' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 供气压力：<input id='sbcs_gjgycs_4_1' class="inputall" type="text">kgf/cm2；<span>&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_4' class="ipt140" type="text">
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='sbcs_cxmc_4' class="ipt140" type="text">
             </td>
             <td class='x109'><input id='sbcs_cxzc_4' type="checkbox"></td>
             <!--贴片-->
             <td rowspan='4' height='94' class='x214'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:70.5pt;'><input id='sj_sjxq_scnr2' class="ipt40 inputall" type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:70.5pt;'><input
+                    id='sj_sjxq_scnr2' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_bc4' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_amount4' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_sjUser4' class="ipt60 inputall" type="text"></td>
@@ -285,12 +354,14 @@
         </tr>
         <tr height='24' style='height:18pt' id='r10'>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                <input id='sbcs_sbmc_5' class="inputall" type="text"> <span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp; </span> </td>
+                <input id='sbcs_sbmc_5' class="inputall" type="text"> <span
+                    style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp; </span> </td>
             <td class='x115'><input id='sbcs_sbbh_5' class="inputall" type="text"></td>
             <td class='x120'><input id='sbcs_sbzt_5' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 供气压力：<input id='sbcs_gjgycs_5_1' class="inputall" type="text">kgf/cm2；<span>&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_5' class="ipt140" type="text">
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='sbcs_cxmc_5' class="ipt140" type="text">
             </td>
             <td class='x109'><input id='sbcs_cxzc_5' type="checkbox"></td>
             <td class='x216'><input id='sj_sjxq_bc5' class="ipt40 inputall" type="text"></td>
@@ -300,12 +371,14 @@
         </tr>
         <tr height='24' style='height:18pt' id='r11'>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                <input id='sbcs_sbmc_6' class="inputall" type="text"><span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span></td>
+                <input id='sbcs_sbmc_6' class="inputall" type="text"><span
+                    style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span></td>
             <td class='x115'><input id='sbcs_sbbh_6' class="inputall" type="text"></td>
             <td class='x121'><input id='sbcs_sbzt_6' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 供气压力：<input id='sbcs_gjgycs_6_1' class="inputall" type="text">kgf/cm2；<span>&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_6' class="ipt140" type="text">
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='sbcs_cxmc_6' class="ipt140" type="text">
             </td>
             <td class='x109'><input id='sbcs_cxzc_6' type="checkbox"></td>
             <td class='x216'><input id='sj_sjxq_bc6' class="ipt40 inputall" type="text"></td>
@@ -316,12 +389,14 @@
         <tr height='24' style='height:18pt' id='r12'>
             <td height='24' class='x119' style='height:18pt;'></td>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                <input id='sbcs_sbmc_7' class="inputall" type="text"><span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span> </td>
+                <input id='sbcs_sbmc_7' class="inputall" type="text"><span
+                    style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span> </td>
             <td class='x115'><input id='sbcs_sbbh_7' class="inputall" type="text"></td>
             <td class='x120'><input id='sbcs_sbzt_7' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 供气压力：<input id='sbcs_gjgycs_7_1' class="inputall" type="text">kgf/cm2；<span>&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_7' class="ipt140" type="text">
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='sbcs_cxmc_7' class="ipt140" type="text">
             </td>
             <td class='x109'><input id='sbcs_cxzc_7' type="checkbox"></td>
             <td class='x216'><input id='sj_sjxq_bc7' class="ipt40 inputall" type="text"></td>
@@ -338,12 +413,15 @@
             <td colspan='6' class='x109' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 回流炉实时显示温度、速度</td>
             <td colspan='3' rowspan='3' height='67' class='x77'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:50.25pt;'><input id='sbcs_cxmc_8' class="ipt140 inputall" type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:50.25pt;'><input
+                    id='sbcs_cxmc_8' class="ipt140 inputall" type="text"></td>
             <td rowspan='3' height='67' class='x165'
-                style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:50.25pt;'><input id='sbcs_cxzc_8' type="checkbox"></td>
+                style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:50.25pt;'><input
+                    id='sbcs_cxzc_8' type="checkbox"></td>
             <!--回流焊接-->
             <td rowspan='3' height='66' class='x214'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:49.5pt;'> <input id='sj_sjxq_scnr3' class="ipt40 inputall" type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:49.5pt;'> <input
+                    id='sj_sjxq_scnr3' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_bc8' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_amount8' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_sjUser8' class="ipt60 inputall" type="text"></td>
@@ -352,15 +430,19 @@
         </tr>
         <tr height='24' style='height:18pt' id='r14'>
             <td colspan='2' rowspan='2' height='46' class='x114'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'><input id='sbcs_sbmc_8' class="inputall" type="text"><span
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'><input
+                    id='sbcs_sbmc_8' class="inputall" type="text"><span
                     style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
             <td rowspan='2' height='47' class='x128'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input id='sbcs_sbbh_8' class="inputall" type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input
+                    id='sbcs_sbbh_8' class="inputall" type="text"></td>
             <td rowspan='2' height='47' class='x129'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input id='sbcs_sbzt_8' type="checkbox"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input
+                    id='sbcs_sbzt_8' type="checkbox"></td>
             <td class='x130'>温区1：<input id='sbcs_gjgycs_wq1' class="ipt40" type="text"> ℃</td>
             <td colspan='2' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                温区2：<input id='sbcs_gjgycs_wq2' class="ipt40" type="text"> ℃<span style='white-space:nowrap;'>&nbsp; </span></td>
+                温区2：<input id='sbcs_gjgycs_wq2' class="ipt40" type="text"> ℃<span style='white-space:nowrap;'>&nbsp;
+                </span></td>
             <td class='x130'>温区3：<input id='sbcs_gjgycs_wq3' class="ipt40" type="text"> ℃</td>
             <td class='x130'>温区4：<input id='sbcs_gjgycs_wq4' class="ipt40" type="text"> ℃</td>
             <td rowspan='2' height='47' class='x166'
@@ -385,12 +467,15 @@
         </tr>
         <tr height='20' style='height:15pt' id='r16'>
             <td colspan='2' rowspan='2' height='46' class='x114'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'><input id='sbcs_sbmc_9' class="inputall" type="text"><span
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'><input
+                    id='sbcs_sbmc_9' class="inputall" type="text"><span
                     style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
             <td rowspan='2' height='47' class='x128'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input id='sbcs_sbbh_9' class="inputall" type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input
+                    id='sbcs_sbbh_9' class="inputall" type="text"></td>
             <td rowspan='2' height='39' class='x129'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'><input id='sbcs_sbzt_9' type="checkbox"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'><input
+                    id='sbcs_sbzt_9' type="checkbox"></td>
             <td colspan='6' rowspan='2' height='39' class='x126'
                 style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'>
                 供气压力：<input id='sbcs_gjgycs_9_1' class="ipt100" type="text"><span>&nbsp; </span>kgf/cm2； </td>
@@ -398,12 +483,15 @@
                 style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'>
                 <input id='sbcs_cxmc_9' class="ipt140 inputall" type="text"></td>
             <td rowspan='2' height='39' class='x165'
-                style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'><input id='sbcs_cxzc_9' type="checkbox"></td>
+                style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'><input
+                    id='sbcs_cxzc_9' type="checkbox"></td>
             <td rowspan='2' height='39' class='x177'
-                style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:29.25pt;'><input id='sj_sjxq_date2' class="dateType ipt40 inputall"  type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:29.25pt;'><input
+                    id='sj_sjxq_date2' class="dateType ipt60 inputall" type="text"></td>
             <!--QC -->
             <td rowspan='2' height='39' class='x218'
-                style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:29.25pt;'><input id='sj_sjxq_scnr4' class="ipt40 inputall" type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:29.25pt;'><input
+                    id='sj_sjxq_scnr4' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_bc11' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_amount11' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_sjUser11' class="ipt60 inputall" type="text"></td>
@@ -452,23 +540,26 @@
         <tr height='24' style='height:18pt' id='r19'>
             <td height='23' class='x113' style='height:17.25pt;'></td>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                <input id='sbcs_sbmc_13' class="inputall" type="text"><span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span></td>
+                <input id='sbcs_sbmc_13' class="inputall" type="text"><span
+                    style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span></td>
             <td class='x115'><input id='sbcs_sbbh_13' class="inputall" type="text"></td>
             <td class='x116'><input id='sbcs_sbzt_13' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 供气压力：<input id='sbcs_gjgycs_13_1' class="inputall" type="text">kgf/cm2；
                 丝印速度：<input id='sbcs_gjgycs_13_2' class="inputall" type="text"><span>&nbsp;
                 </span>mm/s<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x71' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_13' class="ipt140" type="text">
+            <td colspan='3' class='x71' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='sbcs_cxmc_13' class="ipt140" type="text">
             </td>
             <td class='x109'><input id='sbcs_cxzc_13' type="checkbox"></td>
             <td rowspan='10' height='235' class='x159'
                 style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:176.25pt;'>
-                <input id="sj_sjxq_date3" class="dateType ipt40 inputall">
+                <input id="sj_sjxq_date3" class="dateType ipt60 inputall">
             </td>
             <!--丝印-->
             <td rowspan='3' height='70' class='x214'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:52.5pt;'><input id='sj_sjxq_scnr5' class="ipt40 inputall" type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:52.5pt;'><input
+                    id='sj_sjxq_scnr5' class="ipt40 inputall" type="text"></td>
             <td class='x134'><input id='sj_sjxq_bc13' class="ipt40 inputall" type="text"></td>
             <td class='x134'><input id='sj_sjxq_amount13' class="ipt40 inputall" type="text"></td>
             <td class='x215'><input id='sj_sjxq_sjUser13' class="ipt60 inputall" type="text"></td>
@@ -478,7 +569,8 @@
             <td rowspan='5' height='120' class='x119' style='border-right:1px solid windowtext;height:90pt;'>
                 A<input id='bm2' name="bm" type="checkbox"></td>
             <td colspan='2' rowspan='2' height='46' class='x114'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'><input id='sbcs_sbmc_14' class="inputall" type="text"><span
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'><input
+                    id='sbcs_sbmc_14' class="inputall" type="text"><span
                     style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
             <td class='x115'><input id='sbcs_sbbh_14' class="inputall" type="text"></td>
             <td class='x120'><input id='sbcs_sbzt_14' type="checkbox"></td>
@@ -486,7 +578,8 @@
                 供气压力：<input id='sbcs_gjgycs_14_1' class="inputall" type="text">kgf/cm2；
                 丝印速度：<input id='sbcs_gjgycs_14_2' class="inputall" type="text"><span>&nbsp;
                 </span>mm/s<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_14' class="ipt140" type="text">
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='sbcs_cxmc_14' class="ipt140" type="text">
             </td>
             <td class='x109'><input id='sbcs_cxzc_14' type="checkbox"></td>
             <td class='x216'><input id='sj_sjxq_bc14' class="ipt40 inputall" type="text"></td>
@@ -501,7 +594,8 @@
                 供气压力：<input id='sbcs_gjgycs_15_1' class="inputall" type="text">kgf/cm2；
                 丝印速度：<input id='sbcs_gjgycs_15_2' class="inputall" type="text"><span>&nbsp;
                 </span>mm/s<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_15' class="ipt140" type="text">
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='sbcs_cxmc_15' class="ipt140" type="text">
             </td>
             <td class='x109'><input id='sbcs_cxzc_15' type="checkbox"></td>
             <td class='x216'><input id='sj_sjxq_bc15' class="ipt40 inputall" type="text"></td>
@@ -511,17 +605,20 @@
         </tr>
         <tr height='24' style='height:18pt' id='r22'>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                <input id='sbcs_sbmc_16' class="inputall" type="text"><span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
+                <input id='sbcs_sbmc_16' class="inputall" type="text"><span
+                    style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
             <td class='x115'><input id='sbcs_sbbh_16' class="inputall" type="text"></td>
             <td class='x120'><input id='sbcs_sbzt_16' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 供气压力：<input id='sbcs_gjgycs_16_1' class="inputall" type="text">kgf/cm2；<span>&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_16' class="ipt140" type="text">
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='sbcs_cxmc_16' class="ipt140" type="text">
             </td>
             <td class='x109'><input id='sbcs_cxzc_16' type="checkbox"></td>
             <!--贴片-->
             <td rowspan='4' height='94' class='x214'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:70.5pt;'><input id='sj_sjxq_scnr6' class="ipt40 inputall" type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:70.5pt;'><input
+                    id='sj_sjxq_scnr6' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_bc16' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_amount16' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_sjUser16' class="ipt60 inputall" type="text"></td>
@@ -529,12 +626,14 @@
         </tr>
         <tr height='24' style='height:18pt' id='r23'>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                <input id='sbcs_sbmc_17' class="inputall" type="text"> <span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp; </span> </td>
+                <input id='sbcs_sbmc_17' class="inputall" type="text"> <span
+                    style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp; </span> </td>
             <td class='x115'><input id='sbcs_sbbh_17' class="inputall" type="text"></td>
             <td class='x120'><input id='sbcs_sbzt_17' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 供气压力：<input id='sbcs_gjgycs_17_1' class="inputall" type="text">kgf/cm2；<span>&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_17' class="ipt140" type="text">
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='sbcs_cxmc_17' class="ipt140" type="text">
             </td>
             <td class='x109'><input id='sbcs_cxzc_17' type="checkbox"></td>
             <td class='x216'><input id='sj_sjxq_bc17' class="ipt40 inputall" type="text"></td>
@@ -544,12 +643,14 @@
         </tr>
         <tr height='24' style='height:18pt' id='r24'>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                <input id='sbcs_sbmc_18' class="inputall" type="text"><span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span></td>
+                <input id='sbcs_sbmc_18' class="inputall" type="text"><span
+                    style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span></td>
             <td class='x115'><input id='sbcs_sbbh_18' class="inputall" type="text"></td>
             <td class='x121'><input id='sbcs_sbzt_18' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 供气压力：<input id='sbcs_gjgycs_18_1' class="inputall" type="text">kgf/cm2；<span>&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_18' class="ipt140" type="text">
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='sbcs_cxmc_18' class="ipt140" type="text">
             </td>
             <td class='x109'><input id='sbcs_cxzc_18' type="checkbox"></td>
             <td class='x216'><input id='sj_sjxq_bc18' class="ipt40 inputall" type="text"></td>
@@ -560,12 +661,14 @@
         <tr height='24' style='height:18pt' id='r25'>
             <td height='24' class='x119' style='height:18pt;'></td>
             <td colspan='2' class='x114' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                <input id='sbcs_sbmc_19' class="inputall" type="text"><span style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span> </td>
+                <input id='sbcs_sbmc_19' class="inputall" type="text"><span
+                    style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp; </span> </td>
             <td class='x115'><input id='sbcs_sbbh_19' class="inputall" type="text"></td>
             <td class='x120'><input id='sbcs_sbzt_19' type="checkbox"></td>
             <td colspan='6' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 供气压力：<input id='sbcs_gjgycs_19_1' class="inputall" type="text">kgf/cm2；<span>&nbsp;&nbsp; </span></td>
-            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='sbcs_cxmc_19' class="ipt140" type="text">
+            <td colspan='3' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='sbcs_cxmc_19' class="ipt140" type="text">
             </td>
             <td class='x109'><input id='sbcs_cxzc_19' type="checkbox"></td>
             <td class='x216'><input id='sj_sjxq_bc19' class="ipt40 inputall" type="text"></td>
@@ -582,12 +685,15 @@
             <td colspan='6' class='x109' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
                 回流炉实时显示温度、速度</td>
             <td colspan='3' rowspan='3' height='67' class='x77'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:50.25pt;'><input id='sbcs_cxmc_20' class="ipt140 inputall" type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:50.25pt;'><input
+                    id='sbcs_cxmc_20' class="ipt140 inputall" type="text"></td>
             <td rowspan='3' height='67' class='x165'
-                style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:50.25pt;'><input id='sbcs_cxzc_20' type="checkbox"></td>
+                style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:50.25pt;'><input
+                    id='sbcs_cxzc_20' type="checkbox"></td>
             <!--回流焊接-->
             <td rowspan='3' height='66' class='x214'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:49.5pt;'> <input id='sj_sjxq_scnr7' class="ipt40 inputall" type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:49.5pt;'> <input
+                    id='sj_sjxq_scnr7' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_bc20' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_amount20' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_sjUser20' class="ipt60 inputall" type="text"></td>
@@ -596,15 +702,19 @@
         </tr>
         <tr height='24' style='height:18pt' id='r27'>
             <td colspan='2' rowspan='2' height='46' class='x114'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'><input id='sbcs_sbmc_20' class="inputall" type="text"><span
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'><input
+                    id='sbcs_sbmc_20' class="inputall" type="text"><span
                     style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
             <td rowspan='2' height='47' class='x128'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input id='sbcs_sbbh_20' class="inputall" type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input
+                    id='sbcs_sbbh_20' class="inputall" type="text"></td>
             <td rowspan='2' height='47' class='x129'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input id='sbcs_sbzt_20' type="checkbox"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input
+                    id='sbcs_sbzt_20' type="checkbox"></td>
             <td class='x130'>温区1：<input id='sbcs_gjgycs_wq9' class="ipt40" type="text"> ℃</td>
             <td colspan='2' class='x117' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
-                温区2：<input id='sbcs_gjgycs_wq10' class="ipt40" type="text"> ℃<span style='white-space:nowrap;'>&nbsp; </span></td>
+                温区2：<input id='sbcs_gjgycs_wq10' class="ipt40" type="text"> ℃<span style='white-space:nowrap;'>&nbsp;
+                </span></td>
             <td class='x130'>温区3：<input id='sbcs_gjgycs_wq11' class="ipt40" type="text"> ℃</td>
             <td class='x130'>温区4：<input id='sbcs_gjgycs_wq12' class="ipt40" type="text"> ℃</td>
             <td rowspan='2' height='47' class='x166'
@@ -629,12 +739,15 @@
         </tr>
         <tr height='20' style='height:15pt' id='r29'>
             <td colspan='2' rowspan='2' height='46' class='x114'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'><input id='sbcs_sbmc_21' class="inputall" type="text"><span
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:34.5pt;'><input
+                    id='sbcs_sbmc_21' class="inputall" type="text"><span
                     style='white-space:nowrap;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></td>
             <td rowspan='2' height='47' class='x128'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input id='sbcs_sbbh_21' class="inputall" type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:35.25pt;'><input
+                    id='sbcs_sbbh_21' class="inputall" type="text"></td>
             <td rowspan='2' height='39' class='x129'
-                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'><input id='sbcs_sbzt_21' type="checkbox"></td>
+                style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'><input
+                    id='sbcs_sbzt_21' type="checkbox"></td>
             <td colspan='6' rowspan='2' height='39' class='x126'
                 style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'>
                 供气压力：<input id='sbcs_gjgycs_21_1' class="ipt100" type="text"><span>&nbsp; </span>kgf/cm2； </td>
@@ -642,12 +755,15 @@
                 style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'>
                 <input id='sbcs_cxmc_21' class="ipt140 inputall" type="text"></td>
             <td rowspan='2' height='39' class='x165'
-                style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'><input id='sbcs_cxzc_21' type="checkbox"></td>
+                style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;height:29.25pt;'><input
+                    id='sbcs_cxzc_21' type="checkbox"></td>
             <td rowspan='2' height='39' class='x177'
-                style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:29.25pt;'><input id='sj_sjxq_date4' class="dateType ipt40 inputall"  type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:29.25pt;'><input
+                    id='sj_sjxq_date4' class="dateType ipt60 inputall" type="text"></td>
             <!--QC -->
             <td rowspan='2' height='39' class='x218'
-                style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:29.25pt;'><input id='sj_sjxq_scnr8' class="ipt40 inputall" type="text"></td>
+                style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:29.25pt;'><input
+                    id='sj_sjxq_scnr8' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_bc23' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_amount23' class="ipt40 inputall" type="text"></td>
             <td class='x216'><input id='sj_sjxq_sjUser23' class="ipt60 inputall" type="text"></td>
@@ -692,18 +808,22 @@
 
         </tr>
         <tr height='26' style='height:20.1pt' id='r33'>
-            <td colspan='1' class='x144' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='jjxd_cjUser1' class="ipt60 inputall" type="text">
+            <td colspan='1' class='x144' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='jjxd_cjUser1' class="ipt60 inputall" type="text">
             </td>
             <td colspan='2' class='x147'><input id='jjxd_cjAmount1' class="ipt60 inputall" type="text"></td>
             <td colspan='2' class='x148'><input id='jjxd_cjDate1' class="ipt60 inputall dateType" type="text"></td>
             <td class='x147'><input id='jjxd_cjUser2' class="ipt60 inputall" type="text"></td>
-            <td colspan='2'class='x147'><input id='jjxd_cjAmount2' class="ipt60 inputall" type="text"></td>
+            <td colspan='2' class='x147'><input id='jjxd_cjAmount2' class="ipt60 inputall" type="text"></td>
             <td colspan='2' class='x147'><input id='jjxd_cjDate2' class="ipt60 inputall dateType" type="text"></td>
-            <td colspan='2' class='x147' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='jjxd_cjUser3' class="ipt60 inputall" type="text">
+            <td colspan='2' class='x147' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='jjxd_cjUser3' class="ipt60 inputall" type="text">
             </td>
-            <td colspan='2' class='x147' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'><input id='jjxd_cjAmount3' class="ipt60 inputall" type="text">
+            <td colspan='2' class='x147' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='jjxd_cjAmount3' class="ipt60 inputall" type="text">
             </td>
-            <td colspan='2' class='x147' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'><input id='jjxd_cjDate3' class="ipt60 inputall dateType" type="text">
+            <td colspan='2' class='x147' style='border-right:2px solid windowtext;border-bottom:1px solid windowtext;'>
+                <input id='jjxd_cjDate3' class="ipt60 inputall dateType" type="text">
             </td>
 
         </tr>
@@ -711,7 +831,7 @@
             <td colspan='2' height='37' class='x149'
                 style='border-right:1px solid windowtext;border-bottom:2px solid windowtext;height:27.75pt;'>备注</td>
             <td colspan='19' class='x147' style='border-right:2px solid windowtext;border-bottom:2px solid windowtext;'>
-                <input id='remarks'  class="ipt1000 inputall">
+                <input id='remarks' class="ipt1000 inputall">
             </td>
 
         </tr>
@@ -777,7 +897,9 @@
                 var timeTxt = $(this).val().replace(/-/g, '.').substring(2);
                 $(this).attr('type', 'text').val(timeTxt);
             })
-
+            if (parent.location.href.indexOf("/windowPad/") > -1) {
+                $('#op').hide();
+            }
             /*if (dd.factory == "万吉厂区") {
                 $('#area').attr('checked', true)
             }
@@ -838,16 +960,16 @@
                                         $('#area').attr('checked', true)
                                         $('#area1').attr('checked', false)
                                     }
-                                    if (dj.area1 == 1){
+                                    if (dj.area1 == 1) {
                                         $('#area1').attr('checked', true)
                                         $('#area').attr('checked', false)
                                     }
-                                } else{
+                                } else {
                                     $('#area').attr('checked', true)
                                     $('#area1').attr('checked', false)
                                 }
 
-                                if (dj.type!= null) {
+                                if (dj.type != null) {
                                     $('#type').val(dj.type)
                                 } else {
                                     $('#type').val("ZJ-F252J")
@@ -858,14 +980,14 @@
                                 $('#date').val(dj.date)
                                 // 承接人
                                 $('#cjUser').val(dj.cjUser)
-                                if(dj.bm == 1){
+                                if (dj.bm == 1) {
                                     $('#bm').attr('checked', true)
                                     //$('#bm2').attr('checked', true)
                                 } else {
                                     $('#bm1').attr('checked', true)
                                     //$('#bm3').attr('checked', true)
                                 }
-                                if(dj.bm2 == 1){
+                                if (dj.bm2 == 1) {
                                     //$('#bm').attr('checked', true)
                                     $('#bm2').attr('checked', true)
                                 } else {
@@ -1279,8 +1401,8 @@
             initAjax();
             $('#onsubmit').on('click', function () {
                 var datajson = {
-                    "area": $('#area').is(":checked")?1:0,
-                    "area1": $('#area1').is(":checked")?1:0,
+                    "area": $('#area').is(":checked") ? 1 : 0,
+                    "area1": $('#area1').is(":checked") ? 1 : 0,
                     //"area": dd.factory,
                     "tempParam": "ZJ-F252J",
                     "RoHS": dd.is_rohs,
@@ -1288,397 +1410,397 @@
                     "modelName": dd.model_name,
                     "taskSheetCode": dd.task_sheet_code,
                     "produceAmount": dd.quantity,
-                    "amount":dd.pcb_quantity,
-                    "changeFlag":dd.pcb_modify_tag,
+                    "amount": dd.pcb_quantity,
+                    "changeFlag": dd.pcb_modify_tag,
                     "pcbCode": dd.pcb_id,
                     "plateCode": dd.batch_id,
-                    "date":$('#date').val(),
-                    "cjUser":$('#cjUser').val(),
-                    "type":$('#type').val(),
-                    "bm": $('#bm').is(":checked")?1:0,
-                    "bm1": $('#bm1').is(":checked")?1:0,
-                    "bm2": $('#bm2').is(":checked")?1:0,
-                    "bm3": $('#bm3').is(":checked")?1:0,
+                    "date": $('#date').val(),
+                    "cjUser": $('#cjUser').val(),
+                    "type": $('#type').val(),
+                    "bm": $('#bm').is(":checked") ? 1 : 0,
+                    "bm1": $('#bm1').is(":checked") ? 1 : 0,
+                    "bm2": $('#bm2').is(":checked") ? 1 : 0,
+                    "bm3": $('#bm3').is(":checked") ? 1 : 0,
                     "sbcs": [
                         {
                             "sbmc": $('#sbcs_sbmc_1').val(),
                             "sbbh": $('#sbcs_sbbh_1').val(),
-                            "sbzt": $('#sbcs_sbzt_1').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_1').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_1_1').val(),
                             "gjgyc_sd": $('#sbcs_gjgycs_1_2').val(),
-                            "cxmc":$('#sbcs_cxmc_1').val(),
-                            "cxzc":$('#sbcs_cxzc_1').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_1').val(),
+                            "cxzc": $('#sbcs_cxzc_1').is(":checked") ? 1 : 0
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_2').val(),
                             "sbbh": $('#sbcs_sbbh_2').val(),
-                            "sbzt": $('#sbcs_sbzt_2').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_2').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_2_1').val(),
                             "gjgyc_sd": $('#sbcs_gjgycs_2_2').val(),
-                            "cxmc":$('#sbcs_cxmc_2').val(),
-                            "cxzc":$('#sbcs_cxzc_2').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_2').val(),
+                            "cxzc": $('#sbcs_cxzc_2').is(":checked") ? 1 : 0
                         },
                         {
                             //"sbmc": $('#sbcs_sbmc_3').val(),
                             "sbbh": $('#sbcs_sbbh_3').val(),
-                            "sbzt": $('#sbcs_sbzt_3').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_3').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_3_1').val(),
                             "gjgyc_sd": $('#sbcs_gjgycs_3_2').val(),
-                            "cxmc":$('#sbcs_cxmc_3').val(),
-                            "cxzc":$('#sbcs_cxzc_3').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_3').val(),
+                            "cxzc": $('#sbcs_cxzc_3').is(":checked") ? 1 : 0
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_4').val(),
                             "sbbh": $('#sbcs_sbbh_4').val(),
-                            "sbzt": $('#sbcs_sbzt_4').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_4').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_4_1').val(),
                             //"gjgyc_sd": $('#sbcs_gjgycs_4_2').val(),
-                            "cxmc":$('#sbcs_cxmc_4').val(),
-                            "cxzc":$('#sbcs_cxzc_4').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_4').val(),
+                            "cxzc": $('#sbcs_cxzc_4').is(":checked") ? 1 : 0
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_5').val(),
                             "sbbh": $('#sbcs_sbbh_5').val(),
-                            "sbzt": $('#sbcs_sbzt_5').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_5').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_5_1').val(),
                             //"gjgyc_sd": $('#sbcs_gjgycs_5_2').val(),
-                            "cxmc":$('#sbcs_cxmc_5').val(),
-                            "cxzc":$('#sbcs_cxzc_5').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_5').val(),
+                            "cxzc": $('#sbcs_cxzc_5').is(":checked") ? 1 : 0
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_6').val(),
                             "sbbh": $('#sbcs_sbbh_6').val(),
-                            "sbzt": $('#sbcs_sbzt_6').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_6').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_6_1').val(),
                             //"gjgyc_sd": $('#sbcs_gjgycs_6_2').val(),
-                            "cxmc":$('#sbcs_cxmc_6').val(),
-                            "cxzc":$('#sbcs_cxzc_6').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_6').val(),
+                            "cxzc": $('#sbcs_cxzc_6').is(":checked") ? 1 : 0
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_7').val(),
                             "sbbh": $('#sbcs_sbbh_7').val(),
-                            "sbzt": $('#sbcs_sbzt_7').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_7').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_7_1').val(),
                             //"gjgyc_sd": $('#sbcs_gjgycs_7_2').val(),
-                            "cxmc":$('#sbcs_cxmc_7').val(),
-                            "cxzc":$('#sbcs_cxzc_7').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_7').val(),
+                            "cxzc": $('#sbcs_cxzc_7').is(":checked") ? 1 : 0
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_8').val(),
                             "sbbh": $('#sbcs_sbbh_8').val(),
-                            "sbzt": $('#sbcs_sbzt_8').is(":checked")?1:0,
-                            "gjgycs":{
-                                "wq1":$('#sbcs_gjgycs_wq1').val(),
-                                "wq2":$('#sbcs_gjgycs_wq2').val(),
-                                "wq3":$('#sbcs_gjgycs_wq3').val(),
-                                "wq4":$('#sbcs_gjgycs_wq4').val(),
-                                "wq5":$('#sbcs_gjgycs_wq5').val(),
-                                "wq6":$('#sbcs_gjgycs_wq6').val(),
-                                "wq7":$('#sbcs_gjgycs_wq7').val(),
-                                "wq8":$('#sbcs_gjgycs_wq8').val(),
-                                "sd":$('#sbcs_gjgycs_sd').val()
+                            "sbzt": $('#sbcs_sbzt_8').is(":checked") ? 1 : 0,
+                            "gjgycs": {
+                                "wq1": $('#sbcs_gjgycs_wq1').val(),
+                                "wq2": $('#sbcs_gjgycs_wq2').val(),
+                                "wq3": $('#sbcs_gjgycs_wq3').val(),
+                                "wq4": $('#sbcs_gjgycs_wq4').val(),
+                                "wq5": $('#sbcs_gjgycs_wq5').val(),
+                                "wq6": $('#sbcs_gjgycs_wq6').val(),
+                                "wq7": $('#sbcs_gjgycs_wq7').val(),
+                                "wq8": $('#sbcs_gjgycs_wq8').val(),
+                                "sd": $('#sbcs_gjgycs_sd').val()
                             },
-                            "cxmc":$('#sbcs_cxmc_8').val(),
-                            "cxzc":$('#sbcs_cxzc_8').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_8').val(),
+                            "cxzc": $('#sbcs_cxzc_8').is(":checked") ? 1 : 0
 
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_9').val(),
                             "sbbh": $('#sbcs_sbbh_9').val(),
-                            "sbzt": $('#sbcs_sbzt_9').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_9').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_9_1').val(),
-                            "cxmc":$('#sbcs_cxmc_9').val(),
-                            "cxzc":$('#sbcs_cxzc_9').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_9').val(),
+                            "cxzc": $('#sbcs_cxzc_9').is(":checked") ? 1 : 0
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_13').val(),
                             "sbbh": $('#sbcs_sbbh_13').val(),
-                            "sbzt": $('#sbcs_sbzt_13').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_13').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_13_1').val(),
                             "gjgyc_sd": $('#sbcs_gjgycs_13_2').val(),
-                            "cxmc":$('#sbcs_cxmc_13').val(),
-                            "cxzc":$('#sbcs_cxzc_13').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_13').val(),
+                            "cxzc": $('#sbcs_cxzc_13').is(":checked") ? 1 : 0
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_14').val(),
                             "sbbh": $('#sbcs_sbbh_14').val(),
-                            "sbzt": $('#sbcs_sbzt_14').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_14').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_14_1').val(),
                             "gjgyc_sd": $('#sbcs_gjgycs_14_2').val(),
-                            "cxmc":$('#sbcs_cxmc_14').val(),
-                            "cxzc":$('#sbcs_cxzc_14').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_14').val(),
+                            "cxzc": $('#sbcs_cxzc_14').is(":checked") ? 1 : 0
                         },
                         {
                             //"sbmc": $('#sbcs_sbmc_3').val(),
                             "sbbh": $('#sbcs_sbbh_15').val(),
-                            "sbzt": $('#sbcs_sbzt_15').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_15').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_15_1').val(),
                             "gjgyc_sd": $('#sbcs_gjgycs_15_2').val(),
-                            "cxmc":$('#sbcs_cxmc_15').val(),
-                            "cxzc":$('#sbcs_cxzc_15').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_15').val(),
+                            "cxzc": $('#sbcs_cxzc_15').is(":checked") ? 1 : 0
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_16').val(),
                             "sbbh": $('#sbcs_sbbh_16').val(),
-                            "sbzt": $('#sbcs_sbzt_16').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_16').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_16_1').val(),
                             //"gjgyc_sd": $('#sbcs_gjgycs_4_2').val(),
-                            "cxmc":$('#sbcs_cxmc_16').val(),
-                            "cxzc":$('#sbcs_cxzc_16').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_16').val(),
+                            "cxzc": $('#sbcs_cxzc_16').is(":checked") ? 1 : 0
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_17').val(),
                             "sbbh": $('#sbcs_sbbh_17').val(),
-                            "sbzt": $('#sbcs_sbzt_17').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_17').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_17_1').val(),
                             //"gjgyc_sd": $('#sbcs_gjgycs_5_2').val(),
-                            "cxmc":$('#sbcs_cxmc_17').val(),
-                            "cxzc":$('#sbcs_cxzc_17').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_17').val(),
+                            "cxzc": $('#sbcs_cxzc_17').is(":checked") ? 1 : 0
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_18').val(),
                             "sbbh": $('#sbcs_sbbh_18').val(),
-                            "sbzt": $('#sbcs_sbzt_18').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_18').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_18_1').val(),
                             //"gjgyc_sd": $('#sbcs_gjgycs_6_2').val(),
-                            "cxmc":$('#sbcs_cxmc_18').val(),
-                            "cxzc":$('#sbcs_cxzc_18').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_18').val(),
+                            "cxzc": $('#sbcs_cxzc_18').is(":checked") ? 1 : 0
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_19').val(),
                             "sbbh": $('#sbcs_sbbh_19').val(),
-                            "sbzt": $('#sbcs_sbzt_19').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_19').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_19_1').val(),
                             //"gjgyc_sd": $('#sbcs_gjgycs_7_2').val(),
-                            "cxmc":$('#sbcs_cxmc_19').val(),
-                            "cxzc":$('#sbcs_cxzc_19').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_19').val(),
+                            "cxzc": $('#sbcs_cxzc_19').is(":checked") ? 1 : 0
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_20').val(),
                             "sbbh": $('#sbcs_sbbh_20').val(),
-                            "sbzt": $('#sbcs_sbzt_20').is(":checked")?1:0,
-                            "gjgycs":{
-                                "wq1":$('#sbcs_gjgycs_wq9').val(),
-                                "wq2":$('#sbcs_gjgycs_wq10').val(),
-                                "wq3":$('#sbcs_gjgycs_wq11').val(),
-                                "wq4":$('#sbcs_gjgycs_wq12').val(),
-                                "wq5":$('#sbcs_gjgycs_wq13').val(),
-                                "wq6":$('#sbcs_gjgycs_wq14').val(),
-                                "wq7":$('#sbcs_gjgycs_wq15').val(),
-                                "wq8":$('#sbcs_gjgycs_wq16').val(),
-                                "sd":$('#sbcs_gjgycs_sd2').val()
+                            "sbzt": $('#sbcs_sbzt_20').is(":checked") ? 1 : 0,
+                            "gjgycs": {
+                                "wq1": $('#sbcs_gjgycs_wq9').val(),
+                                "wq2": $('#sbcs_gjgycs_wq10').val(),
+                                "wq3": $('#sbcs_gjgycs_wq11').val(),
+                                "wq4": $('#sbcs_gjgycs_wq12').val(),
+                                "wq5": $('#sbcs_gjgycs_wq13').val(),
+                                "wq6": $('#sbcs_gjgycs_wq14').val(),
+                                "wq7": $('#sbcs_gjgycs_wq15').val(),
+                                "wq8": $('#sbcs_gjgycs_wq16').val(),
+                                "sd": $('#sbcs_gjgycs_sd2').val()
                             },
-                            "cxmc":$('#sbcs_cxmc_20').val(),
-                            "cxzc":$('#sbcs_cxzc_20').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_20').val(),
+                            "cxzc": $('#sbcs_cxzc_20').is(":checked") ? 1 : 0
 
                         },
                         {
                             "sbmc": $('#sbcs_sbmc_21').val(),
                             "sbbh": $('#sbcs_sbbh_21').val(),
-                            "sbzt": $('#sbcs_sbzt_21').is(":checked")?1:0,
+                            "sbzt": $('#sbcs_sbzt_21').is(":checked") ? 1 : 0,
                             "gjgyc_yl": $('#sbcs_gjgycs_21_1').val(),
-                            "cxmc":$('#sbcs_cxmc_21').val(),
-                            "cxzc":$('#sbcs_cxzc_21').is(":checked")?1:0
+                            "cxmc": $('#sbcs_cxmc_21').val(),
+                            "cxzc": $('#sbcs_cxzc_21').is(":checked") ? 1 : 0
                         },
 
                     ],
-                    "sj":{
+                    "sj": {
                         //"date":"20.01.01",
-                        "sjxq":[
+                        "sjxq": [
                             {
-                                "date":$('#sj_sjxq_date1').val(),
-                                "scnr":$('#sj_sjxq_scnr1').val(),
-                                "bc":$('#sj_sjxq_bc1').val(),
-                                "amount":$('#sj_sjxq_amount1').val(),
-                                "sjUser":$('#sj_sjxq_sjUser1').val(),
-                                "czUser":$('#sj_sjxq_czUser1').val()
+                                "date": $('#sj_sjxq_date1').val(),
+                                "scnr": $('#sj_sjxq_scnr1').val(),
+                                "bc": $('#sj_sjxq_bc1').val(),
+                                "amount": $('#sj_sjxq_amount1').val(),
+                                "sjUser": $('#sj_sjxq_sjUser1').val(),
+                                "czUser": $('#sj_sjxq_czUser1').val()
                             },
                             {
                                 //"scnr":$('#sj_sjxq_scnr1').val(),
-                                "bc":$('#sj_sjxq_bc2').val(),
-                                "amount":$('#sj_sjxq_amount2').val(),
-                                "sjUser":$('#sj_sjxq_sjUser2').val(),
-                                "czUser":$('#sj_sjxq_czUser2').val()
+                                "bc": $('#sj_sjxq_bc2').val(),
+                                "amount": $('#sj_sjxq_amount2').val(),
+                                "sjUser": $('#sj_sjxq_sjUser2').val(),
+                                "czUser": $('#sj_sjxq_czUser2').val()
                             },
                             {
                                 //"scnr":$('#sj_sjxq_scnr1').val(),
-                                "bc":$('#sj_sjxq_bc3').val(),
-                                "amount":$('#sj_sjxq_amount3').val(),
-                                "sjUser":$('#sj_sjxq_sjUser3').val(),
-                                "czUser":$('#sj_sjxq_czUser3').val()
+                                "bc": $('#sj_sjxq_bc3').val(),
+                                "amount": $('#sj_sjxq_amount3').val(),
+                                "sjUser": $('#sj_sjxq_sjUser3').val(),
+                                "czUser": $('#sj_sjxq_czUser3').val()
                             },
                             {
-                                "scnr":$('#sj_sjxq_scnr2').val(),
-                                "bc":$('#sj_sjxq_bc4').val(),
-                                "amount":$('#sj_sjxq_amount4').val(),
-                                "sjUser":$('#sj_sjxq_sjUser4').val(),
-                                "czUser":$('#sj_sjxq_czUser4').val()
-                            },
-                            {
-                                //"scnr":$('#sj_sjxq_scnr2').val(),
-                                "bc":$('#sj_sjxq_bc5').val(),
-                                "amount":$('#sj_sjxq_amount5').val(),
-                                "sjUser":$('#sj_sjxq_sjUser5').val(),
-                                "czUser":$('#sj_sjxq_czUser5').val()
+                                "scnr": $('#sj_sjxq_scnr2').val(),
+                                "bc": $('#sj_sjxq_bc4').val(),
+                                "amount": $('#sj_sjxq_amount4').val(),
+                                "sjUser": $('#sj_sjxq_sjUser4').val(),
+                                "czUser": $('#sj_sjxq_czUser4').val()
                             },
                             {
                                 //"scnr":$('#sj_sjxq_scnr2').val(),
-                                "bc":$('#sj_sjxq_bc6').val(),
-                                "amount":$('#sj_sjxq_amount6').val(),
-                                "sjUser":$('#sj_sjxq_sjUser6').val(),
-                                "czUser":$('#sj_sjxq_czUser6').val()
+                                "bc": $('#sj_sjxq_bc5').val(),
+                                "amount": $('#sj_sjxq_amount5').val(),
+                                "sjUser": $('#sj_sjxq_sjUser5').val(),
+                                "czUser": $('#sj_sjxq_czUser5').val()
                             },
                             {
                                 //"scnr":$('#sj_sjxq_scnr2').val(),
-                                "bc":$('#sj_sjxq_bc7').val(),
-                                "amount":$('#sj_sjxq_amount7').val(),
-                                "sjUser":$('#sj_sjxq_sjUser7').val(),
-                                "czUser":$('#sj_sjxq_czUser7').val()
+                                "bc": $('#sj_sjxq_bc6').val(),
+                                "amount": $('#sj_sjxq_amount6').val(),
+                                "sjUser": $('#sj_sjxq_sjUser6').val(),
+                                "czUser": $('#sj_sjxq_czUser6').val()
                             },
                             {
-                                "scnr":$('#sj_sjxq_scnr3').val(),
-                                "bc":$('#sj_sjxq_bc8').val(),
-                                "amount":$('#sj_sjxq_amount8').val(),
-                                "sjUser":$('#sj_sjxq_sjUser8').val(),
-                                "czUser":$('#sj_sjxq_czUser8').val()
+                                //"scnr":$('#sj_sjxq_scnr2').val(),
+                                "bc": $('#sj_sjxq_bc7').val(),
+                                "amount": $('#sj_sjxq_amount7').val(),
+                                "sjUser": $('#sj_sjxq_sjUser7').val(),
+                                "czUser": $('#sj_sjxq_czUser7').val()
+                            },
+                            {
+                                "scnr": $('#sj_sjxq_scnr3').val(),
+                                "bc": $('#sj_sjxq_bc8').val(),
+                                "amount": $('#sj_sjxq_amount8').val(),
+                                "sjUser": $('#sj_sjxq_sjUser8').val(),
+                                "czUser": $('#sj_sjxq_czUser8').val()
                             },
                             {
                                 //"scnr":$('#sj_sjxq_scnr3').val(),
-                                "bc":$('#sj_sjxq_bc9').val(),
-                                "amount":$('#sj_sjxq_amount9').val(),
-                                "sjUser":$('#sj_sjxq_sjUser9').val(),
-                                "czUser":$('#sj_sjxq_czUser9').val()
+                                "bc": $('#sj_sjxq_bc9').val(),
+                                "amount": $('#sj_sjxq_amount9').val(),
+                                "sjUser": $('#sj_sjxq_sjUser9').val(),
+                                "czUser": $('#sj_sjxq_czUser9').val()
                             },
                             {
                                 //"scnr":$('#sj_sjxq_scnr3').val(),
-                                "bc":$('#sj_sjxq_bc10').val(),
-                                "amount":$('#sj_sjxq_amount10').val(),
-                                "sjUser":$('#sj_sjxq_sjUser10').val(),
-                                "czUser":$('#sj_sjxq_czUser10').val()
+                                "bc": $('#sj_sjxq_bc10').val(),
+                                "amount": $('#sj_sjxq_amount10').val(),
+                                "sjUser": $('#sj_sjxq_sjUser10').val(),
+                                "czUser": $('#sj_sjxq_czUser10').val()
                             },
                             {
-                                "date":$('#sj_sjxq_date2').val(),
-                                "scnr":$('#sj_sjxq_scnr4').val(),
-                                "bc":$('#sj_sjxq_bc11').val(),
-                                "amount":$('#sj_sjxq_amount11').val(),
-                                "sjUser":$('#sj_sjxq_sjUser11').val(),
-                                "czUser":$('#sj_sjxq_czUser11').val()
+                                "date": $('#sj_sjxq_date2').val(),
+                                "scnr": $('#sj_sjxq_scnr4').val(),
+                                "bc": $('#sj_sjxq_bc11').val(),
+                                "amount": $('#sj_sjxq_amount11').val(),
+                                "sjUser": $('#sj_sjxq_sjUser11').val(),
+                                "czUser": $('#sj_sjxq_czUser11').val()
                             },
                             {
                                 //"scnr":$('#sj_sjxq_scnr4').val(),
-                                "bc":$('#sj_sjxq_bc12').val(),
-                                "amount":$('#sj_sjxq_amount12').val(),
-                                "sjUser":$('#sj_sjxq_sjUser12').val(),
-                                "czUser":$('#sj_sjxq_czUser12').val()
+                                "bc": $('#sj_sjxq_bc12').val(),
+                                "amount": $('#sj_sjxq_amount12').val(),
+                                "sjUser": $('#sj_sjxq_sjUser12').val(),
+                                "czUser": $('#sj_sjxq_czUser12').val()
                             },
                             {
-                                "date":$('#sj_sjxq_date3').val(),
-                                "scnr":$('#sj_sjxq_scnr5').val(),
-                                "bc":$('#sj_sjxq_bc13').val(),
-                                "amount":$('#sj_sjxq_amount13').val(),
-                                "sjUser":$('#sj_sjxq_sjUser13').val(),
-                                "czUser":$('#sj_sjxq_czUser13').val()
-                            },
-                            {
-                                //"scnr":$('#sj_sjxq_scnr1').val(),
-                                "bc":$('#sj_sjxq_bc14').val(),
-                                "amount":$('#sj_sjxq_amount14').val(),
-                                "sjUser":$('#sj_sjxq_sjUser14').val(),
-                                "czUser":$('#sj_sjxq_czUser14').val()
+                                "date": $('#sj_sjxq_date3').val(),
+                                "scnr": $('#sj_sjxq_scnr5').val(),
+                                "bc": $('#sj_sjxq_bc13').val(),
+                                "amount": $('#sj_sjxq_amount13').val(),
+                                "sjUser": $('#sj_sjxq_sjUser13').val(),
+                                "czUser": $('#sj_sjxq_czUser13').val()
                             },
                             {
                                 //"scnr":$('#sj_sjxq_scnr1').val(),
-                                "bc":$('#sj_sjxq_bc15').val(),
-                                "amount":$('#sj_sjxq_amount15').val(),
-                                "sjUser":$('#sj_sjxq_sjUser15').val(),
-                                "czUser":$('#sj_sjxq_czUser15').val()
+                                "bc": $('#sj_sjxq_bc14').val(),
+                                "amount": $('#sj_sjxq_amount14').val(),
+                                "sjUser": $('#sj_sjxq_sjUser14').val(),
+                                "czUser": $('#sj_sjxq_czUser14').val()
                             },
                             {
-                                "scnr":$('#sj_sjxq_scnr6').val(),
-                                "bc":$('#sj_sjxq_bc16').val(),
-                                "amount":$('#sj_sjxq_amount16').val(),
-                                "sjUser":$('#sj_sjxq_sjUser16').val(),
-                                "czUser":$('#sj_sjxq_czUser16').val()
+                                //"scnr":$('#sj_sjxq_scnr1').val(),
+                                "bc": $('#sj_sjxq_bc15').val(),
+                                "amount": $('#sj_sjxq_amount15').val(),
+                                "sjUser": $('#sj_sjxq_sjUser15').val(),
+                                "czUser": $('#sj_sjxq_czUser15').val()
                             },
                             {
-                                //"scnr":$('#sj_sjxq_scnr2').val(),
-                                "bc":$('#sj_sjxq_bc17').val(),
-                                "amount":$('#sj_sjxq_amount17').val(),
-                                "sjUser":$('#sj_sjxq_sjUser17').val(),
-                                "czUser":$('#sj_sjxq_czUser17').val()
-                            },
-                            {
-                                //"scnr":$('#sj_sjxq_scnr2').val(),
-                                "bc":$('#sj_sjxq_bc18').val(),
-                                "amount":$('#sj_sjxq_amount18').val(),
-                                "sjUser":$('#sj_sjxq_sjUser18').val(),
-                                "czUser":$('#sj_sjxq_czUser18').val()
+                                "scnr": $('#sj_sjxq_scnr6').val(),
+                                "bc": $('#sj_sjxq_bc16').val(),
+                                "amount": $('#sj_sjxq_amount16').val(),
+                                "sjUser": $('#sj_sjxq_sjUser16').val(),
+                                "czUser": $('#sj_sjxq_czUser16').val()
                             },
                             {
                                 //"scnr":$('#sj_sjxq_scnr2').val(),
-                                "bc":$('#sj_sjxq_bc19').val(),
-                                "amount":$('#sj_sjxq_amount19').val(),
-                                "sjUser":$('#sj_sjxq_sjUser19').val(),
-                                "czUser":$('#sj_sjxq_czUser19').val()
+                                "bc": $('#sj_sjxq_bc17').val(),
+                                "amount": $('#sj_sjxq_amount17').val(),
+                                "sjUser": $('#sj_sjxq_sjUser17').val(),
+                                "czUser": $('#sj_sjxq_czUser17').val()
                             },
                             {
-                                "scnr":$('#sj_sjxq_scnr7').val(),
-                                "bc":$('#sj_sjxq_bc20').val(),
-                                "amount":$('#sj_sjxq_amount20').val(),
-                                "sjUser":$('#sj_sjxq_sjUser20').val(),
-                                "czUser":$('#sj_sjxq_czUser20').val()
+                                //"scnr":$('#sj_sjxq_scnr2').val(),
+                                "bc": $('#sj_sjxq_bc18').val(),
+                                "amount": $('#sj_sjxq_amount18').val(),
+                                "sjUser": $('#sj_sjxq_sjUser18').val(),
+                                "czUser": $('#sj_sjxq_czUser18').val()
+                            },
+                            {
+                                //"scnr":$('#sj_sjxq_scnr2').val(),
+                                "bc": $('#sj_sjxq_bc19').val(),
+                                "amount": $('#sj_sjxq_amount19').val(),
+                                "sjUser": $('#sj_sjxq_sjUser19').val(),
+                                "czUser": $('#sj_sjxq_czUser19').val()
+                            },
+                            {
+                                "scnr": $('#sj_sjxq_scnr7').val(),
+                                "bc": $('#sj_sjxq_bc20').val(),
+                                "amount": $('#sj_sjxq_amount20').val(),
+                                "sjUser": $('#sj_sjxq_sjUser20').val(),
+                                "czUser": $('#sj_sjxq_czUser20').val()
                             },
                             {
                                 //"scnr":$('#sj_sjxq_scnr3').val(),
-                                "bc":$('#sj_sjxq_bc21').val(),
-                                "amount":$('#sj_sjxq_amount21').val(),
-                                "sjUser":$('#sj_sjxq_sjUser21').val(),
-                                "czUser":$('#sj_sjxq_czUser21').val()
+                                "bc": $('#sj_sjxq_bc21').val(),
+                                "amount": $('#sj_sjxq_amount21').val(),
+                                "sjUser": $('#sj_sjxq_sjUser21').val(),
+                                "czUser": $('#sj_sjxq_czUser21').val()
                             },
                             {
                                 //"scnr":$('#sj_sjxq_scnr3').val(),
-                                "bc":$('#sj_sjxq_bc22').val(),
-                                "amount":$('#sj_sjxq_amount22').val(),
-                                "sjUser":$('#sj_sjxq_sjUser22').val(),
-                                "czUser":$('#sj_sjxq_czUser22').val()
+                                "bc": $('#sj_sjxq_bc22').val(),
+                                "amount": $('#sj_sjxq_amount22').val(),
+                                "sjUser": $('#sj_sjxq_sjUser22').val(),
+                                "czUser": $('#sj_sjxq_czUser22').val()
                             },
                             {
-                                "date":$('#sj_sjxq_date4').val(),
-                                "scnr":$('#sj_sjxq_scnr8').val(),
-                                "bc":$('#sj_sjxq_bc23').val(),
-                                "amount":$('#sj_sjxq_amount23').val(),
-                                "sjUser":$('#sj_sjxq_sjUser23').val(),
-                                "czUser":$('#sj_sjxq_czUser23').val()
+                                "date": $('#sj_sjxq_date4').val(),
+                                "scnr": $('#sj_sjxq_scnr8').val(),
+                                "bc": $('#sj_sjxq_bc23').val(),
+                                "amount": $('#sj_sjxq_amount23').val(),
+                                "sjUser": $('#sj_sjxq_sjUser23').val(),
+                                "czUser": $('#sj_sjxq_czUser23').val()
                             },
                             {
                                 //"scnr":$('#sj_sjxq_scnr4').val(),
-                                "bc":$('#sj_sjxq_bc24').val(),
-                                "amount":$('#sj_sjxq_amount24').val(),
-                                "sjUser":$('#sj_sjxq_sjUser24').val(),
-                                "czUser":$('#sj_sjxq_czUser24').val()
+                                "bc": $('#sj_sjxq_bc24').val(),
+                                "amount": $('#sj_sjxq_amount24').val(),
+                                "sjUser": $('#sj_sjxq_sjUser24').val(),
+                                "czUser": $('#sj_sjxq_czUser24').val()
                             },
 
-                    ]
-                },
+                        ]
+                    },
 
-                // TODO 9.4_____________
-                "jjxd": [
-                    {
-                        "cjUser": $('#jjxd_cjUser1').val(),
-                        "cjAmount": $('#jjxd_cjAmount1').val(),
-                        "cjDate": $('#jjxd_cjDate1').val()
-                    },
-                    {
-                        "cjUser": $('#jjxd_cjUser2').val(),
-                        "cjAmount": $('#jjxd_cjAmount2').val(),
-                        "cjDate": $('#jjxd_cjDate2').val()
-                    },
-                    {
-                        "cjUser": $('#jjxd_cjUser3').val(),
-                        "cjAmount": $('#jjxd_cjAmount3').val(),
-                        "cjDate": $('#jjxd_cjDate3').val()
-                    },
-                ],
+                    // TODO 9.4_____________
+                    "jjxd": [
+                        {
+                            "cjUser": $('#jjxd_cjUser1').val(),
+                            "cjAmount": $('#jjxd_cjAmount1').val(),
+                            "cjDate": $('#jjxd_cjDate1').val()
+                        },
+                        {
+                            "cjUser": $('#jjxd_cjUser2').val(),
+                            "cjAmount": $('#jjxd_cjAmount2').val(),
+                            "cjDate": $('#jjxd_cjDate2').val()
+                        },
+                        {
+                            "cjUser": $('#jjxd_cjUser3').val(),
+                            "cjAmount": $('#jjxd_cjAmount3').val(),
+                            "cjDate": $('#jjxd_cjDate3').val()
+                        },
+                    ],
                     /*"kzsx": [
                         {
                             "zxUser": $('#kzsx_zxUser').val(),
@@ -2047,7 +2169,19 @@
                 })
             })
         })
-
+        var op = document.getElementById('op');
+        var onsubmit = document.getElementById('onsubmit');
+        op.onclick = function () {
+            op.style.display = 'none';
+            onsubmit.style.display = 'none';
+            setTimeout(() => {
+                op.style.display = 'block';
+                onsubmit.style.display = 'block';
+            }, 500);
+            var iframe = document.createElement('iframe');
+            console.log(iframe.contentWindow)
+            window.print();
+        }
     </script>
 </body>
 
