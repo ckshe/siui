@@ -2104,7 +2104,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         BigDecimal workTimeSum = BigDecimal.ZERO;
         List<ProcessTask> processTaskList = new ArrayList<>();
         for(PcbTaskReq pcbTaskReq : pcbTaskReqList){
-
             ProcessTask processTask = processTaskRepository.findById(pcbTaskReq.getProcessTaskId()).get();
             ProcessTaskDetail detail = processTaskDetailRepositoty.findAllByProcess_task_codeAndPlan_day_time(processTask.getProcess_task_code(), todayStr);
             detail.setFinish_count(pcbTaskReq.getAmountCompleted());
@@ -2244,7 +2243,6 @@ public class PcbTaskServiceImpl implements PcbTaskService {
 
             BigDecimal workTime = workTimeSum.multiply(rate);
             processTask.setWork_time(workTime);
-            processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
             processTaskRepository.save(processTask);
 
             List<ProcessTaskStatusHistory> historyList = processTaskStatusHistoryRepository.findByProcessTaskCodeAndStatus(processTask.getProcess_task_code(), "生产中");
