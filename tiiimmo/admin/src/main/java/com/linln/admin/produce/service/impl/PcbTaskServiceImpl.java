@@ -1515,7 +1515,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             ProcessTaskStatusHistory newhistory = new ProcessTaskStatusHistory();
             newhistory.setContinue_time(0);
             newhistory.setStart_time(today);
-            newhistory.setDevice_code(processTask.getDevice_code());
+            newhistory.setDevice_code(pcbTaskReq.getDeviceCode());
             if(pcbTaskReq.getCountType()==1){
                 newhistory.setDevice_code(pcbTaskReq.getDeviceCode());
             }
@@ -1541,7 +1541,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
                 newRecord.setContinue_time(0);
                 newRecord.setStart_time(today);
-                newRecord.setDevice_code(processTask.getDevice_code());
+                newRecord.setDevice_code(pcbTaskReq.getDeviceCode());
                 if(pcbTaskReq.getCountType()==1){
                     newRecord.setDevice_code(pcbTaskReq.getDeviceCode());
                 }
@@ -1991,6 +1991,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 newRecord.setStart_time(today);
                 newRecord.setContinue_time(0);
                 newRecord.setDevice_code(pcbTaskReq.getDeviceCode());
+                newRecord.setDevice_name(pcbTaskReq.getDeviceName());
                 newRecord.setProcess_task_status("已完成");
                 //newRecord.setDevice_name(processTask.getDevice_name());
                 newRecord.setProcess_task_code(processTask.getProcess_task_code());
@@ -2033,9 +2034,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
                 newRecord.setStart_time(today);
                 newRecord.setContinue_time(0);
-                newRecord.setDevice_code(processTask.getDevice_code());
+                newRecord.setDevice_code(pcbTaskReq.getDeviceCode());
+                newRecord.setDevice_name(pcbTaskReq.getDeviceName());
                 newRecord.setProcess_task_status("已完成");
-                newRecord.setDevice_name(processTask.getDevice_name());
                 newRecord.setProcess_task_code(processTask.getProcess_task_code());
                 newRecord.setProcess_name(processTask.getProcess_name());
                 newRecord.setEnd_time(today);
@@ -2064,16 +2065,18 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             }else {
                 //step3:状态不同结束上一条并计算持续时间，新增一条
                 if(!deviceDetailFinishFlag){
-                    history.setEnd_time(today);
-                    Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
-                    history.setContinue_time(Integer.parseInt(cha+""));
-                    processTaskStatusHistoryRepository.save(history);
+                    if (history!=null){
+                        history.setEnd_time(today);
+                        Long cha = (today.getTime()-history.getStart_time().getTime())/(1000*60);
+                        history.setContinue_time(Integer.parseInt(cha+""));
+                        processTaskStatusHistoryRepository.save(history);
+                    }
                     //新增
                     ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
                     newRecord.setContinue_time(0);
                     newRecord.setStart_time(today);
-                    newRecord.setDevice_code(processTask.getDevice_code());
-                    newRecord.setDevice_name(processTask.getDevice_name());
+                    newRecord.setDevice_code(pcbTaskReq.getDeviceCode());
+                    newRecord.setDevice_name(pcbTaskReq.getDeviceName());
                     newRecord.setProcess_task_status("暂停");
                     newRecord.setProcess_name(processTask.getProcess_name());
                     newRecord.setProcess_task_code(processTask.getProcess_task_code());
@@ -2126,6 +2129,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     newRecord.setStart_time(today);
                     newRecord.setContinue_time(0);
                     newRecord.setDevice_code(pcbTaskReq.getDeviceCode());
+                    newRecord.setDevice_name(pcbTaskReq.getDeviceName());
                     newRecord.setProcess_task_status("已完成");
                     //newRecord.setDevice_name(processTask.getDevice_name());
                     newRecord.setProcess_task_code(processTask.getProcess_task_code());
@@ -2168,9 +2172,9 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
                     newRecord.setStart_time(today);
                     newRecord.setContinue_time(0);
-                    newRecord.setDevice_code(processTask.getDevice_code());
+                    newRecord.setDevice_code(pcbTaskReq.getDeviceCode());
                     newRecord.setProcess_task_status("已完成");
-                    newRecord.setDevice_name(processTask.getDevice_name());
+                    newRecord.setDevice_name(pcbTaskReq.getDeviceName());
                     newRecord.setProcess_task_code(processTask.getProcess_task_code());
                     newRecord.setProcess_name(processTask.getProcess_name());
                     newRecord.setEnd_time(today);
@@ -2207,8 +2211,8 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                         ProcessTaskStatusHistory newRecord = new ProcessTaskStatusHistory();
                         newRecord.setContinue_time(0);
                         newRecord.setStart_time(today);
-                        newRecord.setDevice_code(processTask.getDevice_code());
-                        newRecord.setDevice_name(processTask.getDevice_name());
+                        newRecord.setDevice_code(pcbTaskReq.getDeviceCode());
+                        newRecord.setDevice_name(pcbTaskReq.getDeviceName());
                         newRecord.setProcess_task_status("暂停");
                         newRecord.setProcess_name(processTask.getProcess_name());
                         newRecord.setProcess_task_code(processTask.getProcess_task_code());
