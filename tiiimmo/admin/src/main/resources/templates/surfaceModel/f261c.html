@@ -117,8 +117,8 @@
         <td class="xl65" width="27"></td>
         <td class="xl65" width="27"></td>
         <td class="xl65" width="27"></td>
-        <td colspan="11" class="xl97" width="297" style="width:220pt">万吉厂区<input type="checkbox" name="area" id="area"> 金砂厂区<input
-            type="checkbox" name="area1" id="area1"><span>&nbsp; </span><input id="type"  class="ipt81" value="ZJ-F261C" ></td>
+        <td colspan="11" class="xl97" width="297" style="width:220pt">万吉厂区<input type="checkbox" checked name="area" id="area"> 金砂厂区<input
+            type="checkbox" name="area1" id="area1"><span>&nbsp; </span><input id="type" autocomplete="off"   class="ipt81" value="ZJ-F261C" ></td>
       </tr>
       <tr height="47" style="height:35.25pt">
         <td colspan="1" height="47" class="xl94" style="height:26.1pt"><button id="onsubmit">保存</button></td>
@@ -127,13 +127,14 @@
       </tr>
       <tr height="31" style="height:23.25pt">
         <td colspan="2" height="31" class="xl103" width="1065" style="height:23.25pt;
-  width:171pt"><span class="inputSpan" style="position:relative"><input name="year"></span>年<span class="inputSpan"
-            style="position:relative"><input name="month"></span>月</td>
+  width:171pt"><span class="inputSpan" style="position:relative">
+          <input name="year" autocomplete="off" ></span>年<span class="inputSpan"
+            style="position:relative"><input name="month" autocomplete="off" ></span>月</td>
         <td colspan="31" class="xl66" width="837" style="width:620pt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>设备编号：<span class="inputSpan"
-            style="position:relative;width:200px;"><input name="equipmentNo"></span></td>
+            style="position:relative;width:200px;"><input name="equipmentNo" autocomplete="off" ></span></td>
       </tr>
       <tr height="34" style="height:25.5pt">
         <td colspan="2" height="34" class="xl95" width="1065" style="border-right:1.0pt solid black;
@@ -566,7 +567,7 @@
                 if (dj.type!= null) {
                   $('#type').val(dj.type)
                 } else {
-                  $('#type').val("ZJ-F260B")
+                  $('#type').val("ZJ-F261C")
                 }
 
 
