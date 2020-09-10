@@ -22,4 +22,7 @@ public interface ProcessTaskStatusHistoryRepository extends BaseRepository<Proce
     @Query(value = "select * from produce_process_task_status_history where process_task_code = ?1 and (process_task_status = '进行中' or process_task_status = '生产中')",nativeQuery = true)
     List<ProcessTaskStatusHistory> findByProcessTaskCode(String processTaskCode);
 
+    @Query(value = "select * from produce_process_task_status_history where process_task_code = ?1 and  process_task_status = ?2 and start_time is NOT null and end_time is not null",nativeQuery = true)
+    List<ProcessTaskStatusHistory> findByProcessTaskCodeAndStatus(String processTaskCode,String processTaskStatus);
+
 }

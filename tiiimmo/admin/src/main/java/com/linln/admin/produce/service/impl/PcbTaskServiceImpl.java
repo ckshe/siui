@@ -30,6 +30,7 @@ import com.linln.modules.system.repository.UserRepository;
 import com.linln.utill.ApiUtil;
 import com.linln.utill.DateUtil;
 import org.apache.xmlbeans.impl.common.ResolverUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -2236,6 +2237,32 @@ public class PcbTaskServiceImpl implements PcbTaskService {
             BigDecimal workTime = workTimeSum.multiply(rate);
             processTask.setWork_time(workTime);
             processTask.setAmount_completed(pcbTaskReq.getAmountCompleted());
+            processTaskRepository.save(processTask);
+
+            List<ProcessTaskStatusHistory> historyList = processTaskStatusHistoryRepository.findByProcessTaskCodeAndStatus(processTask.getProcess_task_code(), "生产中");
+            historyList.forEach(h->h.setContinue_time(0));
+            processTaskStatusHistoryRepository.saveAll(historyList);
+
+            ProcessTaskStatusHistory history = new ProcessTaskStatusHistory();
+            history.setStatus(StatusEnum.OK.getCode());
+            history.setProcess_task_code(processTask.getProcess_task_code());
+            history.setDevice_code(pcbTaskReq.getDeviceCode());
+            Device device = deviceRepository.findbyDeviceCode(pcbTaskReq.getDeviceCode());
+            if(device!=null){
+                history.setDevice_name(device.getDevice_name());
+            }
+            history.setStart_time(today);
+            history.setEnd_time(today);
+            BigDecimal tempWorkTime = workTime.setScale(0,BigDecimal.ROUND_HALF_UP);
+            history.setContinue_time(Integer.parseInt(tempWorkTime.toString()));
+            history.setProcess_task_status("生产中");
+            ProcessTaskStatusHistory history1 = new ProcessTaskStatusHistory();
+            BeanUtils.copyProperties(history,history1);
+            processTaskStatusHistoryRepository.save(history);
+            history1.setProcess_task_status("暂停");
+            history1.setContinue_time(0);
+            processTaskStatusHistoryRepository.save(history1);
+
         }
 
         return ResultVoUtil.success("操作成功");
