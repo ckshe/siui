@@ -30,7 +30,6 @@ public class FirstRecordController {
 
     @Autowired
     private FirstRecordService firstRecordService;
-
     /**
      * 列表页面
      */
@@ -50,6 +49,14 @@ public class FirstRecordController {
         model.addAttribute("list", list.getContent());
         model.addAttribute("page", list);
         return "/quality/firstRecord/index";
+    }
+    /**
+     * 首检记录列表页面
+     */
+    @GetMapping("/recodeForm")
+    @RequiresPermissions("quality:firstRecord:recodeForm")
+    public String recodeForm() {
+        return "/quality/firstRecord/recodeForm";
     }
 
     /**

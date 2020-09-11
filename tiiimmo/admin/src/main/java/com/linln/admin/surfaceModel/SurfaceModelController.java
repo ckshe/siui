@@ -26,4 +26,10 @@ public class SurfaceModelController {
     // Py100A回流焊接机维护记录表
     @GetMapping("/f287a")
     public String f287a(){ return "/surfaceModel/f287a";}
+
+    // 2_F205B（SMT首检记录表）
+    @GetMapping("/f205b")
+    public String f205b(){ return "/surfaceModel/f205b";}
+    @GetMapping("/f205b_1")
+    public String f205b_1(){ return "/surfaceModel/f205b_1";}
 }
