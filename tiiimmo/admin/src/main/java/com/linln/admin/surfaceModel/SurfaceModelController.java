@@ -23,4 +23,7 @@ public class SurfaceModelController {
     //    WS-450Ⅱ波峰焊日常维护记录表
     @GetMapping("/f285a")
     public String f285a(){ return "/surfaceModel/f285a";}
+    // Py100A回流焊接机维护记录表
+    @GetMapping("/f287a")
+    public String f287a(){ return "/surfaceModel/f287a";}
 }
