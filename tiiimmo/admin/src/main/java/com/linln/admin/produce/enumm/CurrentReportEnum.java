@@ -12,8 +12,9 @@ public enum CurrentReportEnum {
     YSJWHJLB("6", "印刷机维护记录表"),
     TPJWHJLB("7", "贴片机维护记录表"),
     AOIWHJLB("8", "AOI维护记录表"),
-    HJJWHJLB("9", "焊接机维护记录表"),
-    BFHWHJLB("10", "波峰焊维护记录表");
+    ZDHJJWHJLB("9", "自动焊接机维护记录表"),
+    BFHWHJLB("10", "波峰焊维护记录表"),
+    HLHJJWHJLB("11", "回流焊接机维护记录表");
 
 
     private String name;
