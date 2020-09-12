@@ -33,5 +33,11 @@ public class MaintenanceAmbientController {
     public String dateReportForm() {
         return "/maintenance/deviceAmbient/index";
     }
-
+//    设备记录表模
+    @GetMapping("/deviceRecord")
+    ///report/badDetailReport/maintenance/deviceAmbient
+    @RequiresPermissions("maintenance:deviceRecord")
+    public String deviceRecord() {
+        return "/maintenance/deviceRecord/index";
+    }
 }
