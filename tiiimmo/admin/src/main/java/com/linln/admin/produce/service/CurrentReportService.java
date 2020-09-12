@@ -6,4 +6,7 @@ import com.linln.common.vo.ResultVo;
 public interface CurrentReportService {
 
     public ResultVo addCurrentReport(CurrentReport currentReport);
+
+    public ResultVo addDeviceRepairReport(CurrentReport currentReport);
+
 }

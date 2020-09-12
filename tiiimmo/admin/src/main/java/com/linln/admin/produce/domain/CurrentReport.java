@@ -34,4 +34,7 @@ public class CurrentReport {
     @Lob
     private String json_data;
 
+    //年月
+    private String year_month;
+
 }

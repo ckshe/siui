@@ -1,19 +1,24 @@
 package com.linln.admin.reports.service.impl;
 
 import com.linln.admin.produce.domain.CurrentReport;
+import com.linln.admin.produce.domain.DevciceRepairRecord;
 import com.linln.admin.produce.repository.CurrentReportRepository;
+import com.linln.admin.produce.repository.DevciceRepairRecordRepository;
 import com.linln.admin.quality.repository.BadClassDetailRepository;
 import com.linln.admin.reports.request.BadDetailReq;
 import com.linln.admin.reports.request.ClassInfoReq;
 import com.linln.admin.reports.request.CurrentReportReq;
+import com.linln.admin.reports.request.DevciceRepairRecordReq;
 import com.linln.admin.reports.service.ReportService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
 import com.linln.utill.DateUtil;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +29,9 @@ public class ReportServiceImpl implements ReportService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private DevciceRepairRecordRepository devciceRepairRecordRepository;
 
 
 
@@ -45,6 +53,12 @@ public class ReportServiceImpl implements ReportService {
         if(req.getProcessTaskCode()!=null&&!"".equals(req.getProcessTaskCode())){
             wheresql.append(" and t1.process_task_code like '%" +
                     req.getProcessTaskCode() +
+                    "%' ");
+        }
+
+        if(req.getYearMonth()!=null&&!"".equals(req.getYearMonth())){
+            wheresql.append(" and t1.year_month like '%" +
+                    req.getYearMonth() +
                     "%' ");
         }
         if(req.getReportType()!=null&&!"".equals(req.getReportType())){
@@ -136,6 +150,33 @@ public class ReportServiceImpl implements ReportService {
         List<Map<String,Object>> mapList = jdbcTemplate.queryForList(sql.toString());
         return ResultVoUtil.success("查询成功",mapList,count.size());
 
+    }
+
+    @Override
+    public ResultVo findYearMonth(DevciceRepairRecordReq req) {
+        String year = DateUtil.date2String(new Date(),"yyyy");
+        if(req.getYear()!=null&&!"".equals(req.getYear())){
+            year = req.getYear();
+        }
+        List<DevciceRepairRecord> allByYear = devciceRepairRecordRepository.findAllByYear(year);
+
+        if(allByYear.size()==0){
+
+            for(int i=1;i<13;i++){
+                DevciceRepairRecord repairRecord = new DevciceRepairRecord();
+                String month = i+"";
+                if(month.length()<2){
+                    month = "0"+month;
+                }
+                repairRecord.setMonth(month);
+                repairRecord.setYear(year);
+                repairRecord.setYear_month(year+"-"+month);
+                allByYear.add(repairRecord);
+            }
+            devciceRepairRecordRepository.saveAll(allByYear);
+
+        }
+        return ResultVoUtil.success("查询成功",allByYear);
     }
 
     @Override

@@ -46,4 +46,9 @@ public class CurrentReportServiceImpl implements CurrentReportService {
         }
         return ResultVoUtil.success("保存成功");
     }
+
+    @Override
+    public ResultVo addDeviceRepairReport(CurrentReport currentReport) {
+        currentReportRepository.save(currentReport);
+        return ResultVoUtil.success("保存成功");    }
 }

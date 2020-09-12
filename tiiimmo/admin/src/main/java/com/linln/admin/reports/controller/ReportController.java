@@ -4,6 +4,7 @@ import com.linln.RespAndReqs.PcbTaskReq;
 import com.linln.admin.reports.request.BadDetailReq;
 import com.linln.admin.reports.request.ClassInfoReq;
 import com.linln.admin.reports.request.CurrentReportReq;
+import com.linln.admin.reports.request.DevciceRepairRecordReq;
 import com.linln.admin.reports.service.ReportService;
 import com.linln.common.utils.ResultVoUtil;
 import com.linln.common.vo.ResultVo;
@@ -58,4 +59,13 @@ public class ReportController {
     public ResultVo findSJJLBReport(@RequestBody CurrentReportReq req){
         return reportService.findSJJLBReport(req);
     }
+
+
+    //根据年份查询
+    @PostMapping("/findYearMonth")
+    @ResponseBody
+    public ResultVo findYearMonth(@RequestBody DevciceRepairRecordReq req){
+        return reportService.findYearMonth(req);
+    }
+
 }

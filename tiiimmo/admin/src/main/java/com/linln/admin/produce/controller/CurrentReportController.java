@@ -23,6 +23,13 @@ public class CurrentReportController {
     @ResponseBody
     public ResultVo addCurrentReport(@RequestBody CurrentReport currentReport){
         return currentReportService.addCurrentReport(currentReport);
-
     }
+
+    //新增设备维护报表
+    @PostMapping("/addDeviceRepairReport")
+    @ResponseBody
+    public ResultVo addDeviceRepairReport(@RequestBody CurrentReport currentReport){
+        return currentReportService.addDeviceRepairReport(currentReport);
+    }
+
 }

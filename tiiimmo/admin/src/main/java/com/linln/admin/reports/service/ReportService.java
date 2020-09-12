@@ -4,6 +4,7 @@ import com.linln.admin.produce.domain.CurrentReport;
 import com.linln.admin.reports.request.BadDetailReq;
 import com.linln.admin.reports.request.ClassInfoReq;
 import com.linln.admin.reports.request.CurrentReportReq;
+import com.linln.admin.reports.request.DevciceRepairRecordReq;
 import com.linln.common.vo.ResultVo;
 
 public interface ReportService {
@@ -18,6 +19,9 @@ public interface ReportService {
 
     public ResultVo findClassInfo(ClassInfoReq req);
 
-    //通用报表
+    //首件记录表合并
     public ResultVo findSJJLBReport(CurrentReportReq reportReq);
+
+    //年月查询
+    public ResultVo findYearMonth(DevciceRepairRecordReq req);
 }

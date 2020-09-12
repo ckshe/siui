@@ -19,4 +19,7 @@ public class CurrentReportReq extends  ReportReq {
 
     //生产批次号
     private String taskSheetCode;
+
+    //年月
+    private String yearMonth;
 }
