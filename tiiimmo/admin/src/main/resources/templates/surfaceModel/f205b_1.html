@@ -151,7 +151,7 @@
         </tr>
         <tr height='22' style='height:17pt' id='r3'>
             <td rowspan='9' height='218' class='x72' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:163.55pt;'>
-                <textarea name="first_productionType1" id="first_productionType1" style="text-align: justify"></textarea>
+                <div name="first_productionType1" id="first_productionType1" style="text-align: center"></div>
             </td>
             <td rowspan='3' height='71' class='x73' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:53.25pt;'>
                 <input type="checkbox" name="yj_sy_1">丝印
@@ -281,7 +281,7 @@
             if (dd.factory == "金砂厂区") {
                 $('#area1').attr('checked', true)
             }
-            $('#first_productionType1').val(dd.model_ver + " " +  dd.task_sheet_code + " " + dd.pcb_id);
+            //$('#first_productionType1').val(dd.model_ver + " " +  dd.task_sheet_code + " " + dd.pcb_id);
             /*yj_sy_1*/
 
             //console.log(dd.factory);
@@ -330,7 +330,7 @@
                         }
 
                         //$('#first_productionType1').val(dj.first_productionType1);
-                        $('#first_productionType1').val(dd.model_ver + " " +  dd.task_sheet_code + " " + dd.pcb_id);
+                        $('#first_productionType1').html(dd.model_ver + " " +  dd.task_sheet_code + " " + dd.pcb_id);
                         /*$('[name="first_productionType1"]').val(dj.first_productionType1)*/
 
                         if (dj.yj_sy_1 == 1){
