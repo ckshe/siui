@@ -161,7 +161,7 @@
             table.on('toolbar(table)', function (obj) {
                 if (obj.event === 'devs') {
                     var checkStatus = table.checkStatus('table').data;
-                    console.log(checkStatus.length)
+                    console.log(checkStatus)
                     if (checkStatus.length > 4 || checkStatus.length==0) {
                         layer.alert('合并数据最多只能4条且最少必须有一条', { icon: 5 })
                         return;
@@ -170,11 +170,11 @@
                         title: '贴片流通表',
                         type: 2,
                         area: ['800px', '80%'],
-                        content: '/surfaceModel/f205b?id=5&pcb_task_code=',
+                        content: '/surfaceModel/f205b?id=5',
                         success: function (layero, index) {
-                            // var body = layer.getChildFrame('body', index);
-                            // var d = JSON.stringify(data)
-                            // body.contents().find("input[name='data']").val(d);
+                            var body = layer.getChildFrame('body', index);
+                            var d = JSON.stringify(checkStatus)
+                            body.contents().find("input[name='data']").val(d);
                         }
                     });
                 }
