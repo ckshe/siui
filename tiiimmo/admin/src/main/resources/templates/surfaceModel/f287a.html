@@ -122,8 +122,8 @@
  </tr>
  <tr height="31" style="mso-height-source:userset;height:23.25pt">
   <td colspan="2" height="31" class="xl95" style="height:23.25pt"><span class="inputSpan">
-   <input name="year" autocomplete="off"></span>年<span class="inputSpan">
-   <input name="month" autocomplete="off"></span>月</td>
+   <input name="year" autocomplete="off" disabled></span>年<span class="inputSpan">
+   <input name="month" autocomplete="off" disabled></span>月</td>
   <td colspan="31" class="xl90"><span style="mso-spacerun:yes">
   </span><span style="mso-spacerun:yes">
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -650,12 +650,15 @@
           type: "post",
           dataType: "json",
           data: JSON.stringify({
-            pcbTaskCode: 'WORK021610', //todo
+            //pcbTaskCode: 'WORK021610', //todo
+            yearMonth:getQueryString('year_month'),
             reportType: '11'
           }),
           contentType: "application/json;charset=UTF-8",
           success: function (res) {
             if (res.code === 200) {
+              $('[name="year"]').val(getQueryString('year'))
+              $('[name="month"]').val(getQueryString('month'))
               if (res.data.length > 0) {
                 dj = JSON.parse(res.data[0].json_data);
                 if (Object.keys(dj).length > 0) {
@@ -678,8 +681,8 @@
                  } else {
                   $('#type').val("ZJ-F287A")
                  }
-                 $('[name="year"]').val(dj.year)
-                 $('[name="month"]').val(dj.month)
+                 //$('[name="year"]').val(dj.year)
+                 //$('[name="month"]').val(dj.month)
                  $('[name="equipmentNo"]').val(dj.equipmentNo)
                  $('[name="no"]').val(dj.no)
 
@@ -1394,11 +1397,12 @@
 		}
         console.log(datajson)
         $.ajax({
-          url: '/currentReport/addCurrentReport',
+          url: '/currentReport/addDeviceRepairReport',
           type: "post",
           dataType: "json",
           data: JSON.stringify({
-            pcb_task_code: 'WORK021610', //todo
+            // pcb_task_code: 'WORK021610', //todo
+            year_month:getQueryString('year_month'),
             json_data: JSON.stringify(datajson),
             report_type: '11'
           }),

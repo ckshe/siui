@@ -124,8 +124,8 @@
       </tr>
       <tr height="29" style="height:21.95pt">
         <td colspan="2" height="29" class="xl107" style="height:21.95pt">
-          <font class="font9"><span class="inputSpan" style="position:relative"><input name="year" autocomplete="off"  id="year" style="text-align: center"></span>年<span><span
-                class="inputSpan" style="position:relative"><input name="month" id="month" autocomplete="off"  style="text-align: center"></span></span></font>
+          <font class="font9"><span class="inputSpan" style="position:relative"><input name="year" autocomplete="off" disabled  id="year" style="text-align: center"></span>年<span><span
+                class="inputSpan" style="position:relative"><input name="month"  disabled id="month" autocomplete="off"  style="text-align: center"></span></span></font>
           <font class="font9">月</font>
         </td>
         <td colspan="31" class="xl104">
@@ -688,18 +688,22 @@
       $('#plateCode').val(dd.batch_id)*/
       var dj = {}
       function initAjax() {
+        console.log(getQueryString('year_month'))
         $.ajax({
           url: '/report/findCurrentReport',
           type: "post",
           dataType: "json",
           data: JSON.stringify({
             //pcbTaskCode: 'WORK021609', //todo  排产号先写死
-            pcbTaskCode: 'WORK021610',
+            //pcbTaskCode: 'WORK021610',
+            yearMonth:getQueryString('year_month'),
             reportType: '6'
           }),
           contentType: "application/json;charset=UTF-8",
           success: function (res) {
             if (res.code === 200) {
+              $('[name="year"]').val(getQueryString('year'))
+              $('[name="month"]').val(getQueryString('month'))
               if (res.data.length > 0) {
                 dj = JSON.parse(res.data[0].json_data);
               }
@@ -726,11 +730,9 @@
                   $('#type').val("ZJ-F259B")
                 }
 
-                $('[name="year"]').val(dj.year)
-                $('[name="month"]').val(dj.month)
+
                 $('[name="equipmentNo"]').val(dj.equipmentNo)
                 $('[name="no"]').val(dj.no)
-                  console.log(dj.row0)
                 $('[name="row0"]').val(dj.row0).html(dj.row0)
                 $('[name="row1"]').val(dj.row1).html(dj.row1)
                 $('[name="row2"]').val(dj.row2).html(dj.row2)
@@ -1509,13 +1511,16 @@
           'row372': $('[name="row372"]').val()
         }
         console.log(datajson)
+        console.log(getQueryString('year_month'))
         $.ajax({
-          url: '/currentReport/addCurrentReport',
+          //url: '/currentReport/addCurrentReport',
+          url: '/currentReport/addDeviceRepairReport',
           type: "post",
           dataType: "json",
           data: JSON.stringify({
             //pcb_task_code: "WORK021609", //todo  排产号先写死
-            pcb_task_code: "WORK021610",
+            //pcb_task_code: "WORK021610",
+            year_month:getQueryString('year_month'),
             json_data: JSON.stringify(datajson),
             report_type: '6'
           }),

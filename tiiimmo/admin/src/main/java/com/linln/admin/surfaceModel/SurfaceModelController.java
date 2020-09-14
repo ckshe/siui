@@ -14,6 +14,8 @@ public class SurfaceModelController {
     //    贴片机YS12/YS12F日常维护记录表
     @GetMapping("/f260b")
     public String f260b(){ return "/surfaceModel/f260b";}
+    @GetMapping("/f260b_1")
+    public String f260b_1(){ return "/surfaceModel/f260b_1";}
     //    AOI维护记录表
     @GetMapping("/f261c")
     public String f261c(){ return "/surfaceModel/f261c";}

@@ -131,8 +131,8 @@
       <tr height="31" style="height:23.25pt">
         <td colspan="2" height="31" class="xl103" width="1065" style="height:23.25pt;
   width:171pt"><span class="inputSpan" style="position:relative">
-          <input name="year" autocomplete="off" ></span>年<span class="inputSpan"
-            style="position:relative"><input name="month" autocomplete="off" ></span>月</td>
+          <input name="year" autocomplete="off" disabled ></span>年<span class="inputSpan"
+            style="position:relative"><input name="month" autocomplete="off" disabled ></span>月</td>
         <td colspan="31" class="xl66" width="837" style="width:620pt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -544,12 +544,15 @@
         type: "post",
         dataType: "json",
         data: JSON.stringify({
-          pcbTaskCode: 'WORK021610', //todo  排产号先写死 WORK021610
+          //pcbTaskCode: 'WORK021610', //todo  排产号先写死 WORK021610
+          yearMonth:getQueryString('year_month'),
           reportType: '8'
         }),
         contentType: "application/json;charset=UTF-8",
         success: function (res) {
           if (res.code === 200) {
+            $('[name="year"]').val(getQueryString('year'))
+            $('[name="month"]').val(getQueryString('month'))
             if (res.data.length > 0) {
               dj = JSON.parse(res.data[0].json_data);
               if (Object.keys(dj).length > 0) {
@@ -574,8 +577,8 @@
                 }
 
 
-                $('[name="year"]').val(dj.year)
-                $('[name="month"]').val(dj.month)
+                // $('[name="year"]').val(dj.year)
+                // $('[name="month"]').val(dj.month)
                 $('[name="equipmentNo"]').val(dj.equipmentNo)
                 //$('[name="no"]').val(dj.no)
 
@@ -1105,11 +1108,12 @@
       }
       console.log(datajson)
       $.ajax({
-        url: '/currentReport/addCurrentReport',
+        url: '/currentReport/addDeviceRepairReport',
         type: "post",
         dataType: "json",
         data: JSON.stringify({
-          pcb_task_code: 'WORK021610', //todo  排产号先写死 WORK021610
+          //pcb_task_code: 'WORK021610',
+          year_month:getQueryString('year_month'),
           json_data: JSON.stringify(datajson),
           report_type: '8'
         }),
