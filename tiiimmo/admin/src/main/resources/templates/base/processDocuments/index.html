@@ -4,27 +4,22 @@
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
 </head>
 <body class="timo-layout-page">
+
 <iframe id="zhidao" style="display: none;width: 880px;height: 650px;" src="">
 
 </iframe>
     <div class="layui-card">
         <div class="layui-card-header timo-card-header">
-            <span><i class="fa fa-bars"></i> ESOP变更记录管理</span>
+            <span><i class="fa fa-bars"></i> 工艺文件管理管理</span>
             <i class="layui-icon layui-icon-refresh refresh-btn"></i>
         </div>
         <div class="layui-card-body">
             <div class="layui-row timo-card-screen">
                 <div class="pull-left layui-form-pane timo-search-box">
-                    <div style="display: none;" class="layui-inline">
-                        <label  class="layui-form-label">状态</label>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态</label>
                         <div class="layui-input-block timo-search-status">
                             <select class="timo-search-select" name="status" mo:dict="SEARCH_STATUS" mo-selected="${param.status}"></select>
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label" style="width: auto !important;">ESOP名称</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="title" th:value="${param.title}" placeholder="请输入ESOP名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -39,15 +34,15 @@
                         </button>
                     </div>
                 </div>
-                <div  style="display: none;" class="pull-right screen-btn-group">
-                    <button class="layui-btn open-popup" data-title="添加文件操作记录" th:attr="data-url=@{/produce/fileRecord/add}" data-size="auto">
+                <div class="pull-right screen-btn-group">
+                    <button class="layui-btn open-popup" data-title="添加工艺文件管理" th:attr="data-url=@{/base/processDocuments/add}" data-size="auto">
                         <i class="fa fa-plus"></i> 添加</button>
                     <div class="btn-group">
                         <button class="layui-btn">操作<span class="caret"></span></button>
                         <dl class="layui-nav-child layui-anim layui-anim-upbit">
-                            <dd><a class="ajax-status" th:href="@{/produce/fileRecord/status/ok}">启用</a></dd>
-                            <dd><a class="ajax-status" th:href="@{/produce/fileRecord/status/freezed}">冻结</a></dd>
-                            <dd><a class="ajax-status" th:href="@{/produce/fileRecord/status/delete}">删除</a></dd>
+                            <dd><a class="ajax-status" th:href="@{/base/processDocuments/status/ok}">启用</a></dd>
+                            <dd><a class="ajax-status" th:href="@{/base/processDocuments/status/freezed}">冻结</a></dd>
+                            <dd><a class="ajax-status" th:href="@{/base/processDocuments/status/delete}">删除</a></dd>
                         </dl>
                     </div>
                 </div>
@@ -61,16 +56,11 @@
                                 <i class="layui-icon layui-icon-ok"></i></label>
                         </th>
                         <th>主键ID</th>
-                        <th>ESOP名称</th>
-                        <th>类型</th>
-                        <th>记录人</th>
                         <th>规格型号</th>
-<!--                        <th>esop记录id</th>-->
-                        <th>文件名</th>
-                        <th>文件查看</th>
-                        <th>创建时间</th>
-<!--                        <th>数据状态</th>-->
-                       <!-- <th>操作</th>-->
+                        <th>文件名称</th>
+                        <th>文件</th>
+                        <th>上传时间</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -78,22 +68,17 @@
                         <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
                             <i class="layui-icon layui-icon-ok"></i></label></td>
                         <td th:text="${item.id}">主键ID</td>
-                        <td th:text="${item.title}">文件名</td>
-                        <td th:text="${item.type}">类型</td>
-                        <td th:text="${item.recorder_name}">记录人</td>
                         <td th:text="${item.pcb_code}">规格型号</td>
-<!--                        <td th:text="${item.esop_id}">esop记录id</td>-->
-                        <td th:text="${item.file_path}">文件名</td>
+                        <td th:text="${item.uploadFile}">文件名称</td>
                         <td>
                             <button lay-submit lay-filter="look" th:data-id="${item.id}" class="layui-btn layui-btn-sm" type="button" th:width="60px" >查看</button>
                         </td>
-                        <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
-<!--                        <td th:text="${#dicts.dataStatus(item.status)}">数据状态</td>-->
-                       <!-- <td>
-                            <a class="open-popup" data-title="编辑文件操作记录" th:attr="data-url=@{'/produce/fileRecord/edit/'+${item.id}}" data-size="auto" href="#">编辑</a>
-                            <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/produce/fileRecord/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>
-                            <a class="ajax-get" data-msg="您是否确认删除" th:href="@{/produce/fileRecord/status/delete(ids=${item.id})}">删除</a>
-                        </td>-->
+                        <td th:text="${item.uploadTime}">上传时间</td>
+                        <td>
+                            <a class="open-popup" data-title="编辑工艺文件" th:attr="data-url=@{'/base/processDocuments/edit/'+${item.id}}" data-size="auto" href="#">重新上传</a>
+                            <!--                            <a class="open-popup" data-title="详细信息" th:attr="data-url=@{'/base/processDocuments/detail/'+${item.id}}" data-size="800,600" href="#">详细</a>-->
+                            <a class="ajax-get" data-msg="您是否确认删除" th:href="@{/base/processDocuments/status/delete(ids=${item.id})}">删除</a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -102,7 +87,6 @@
         </div>
     </div>
 <script th:replace="/common/template :: script"></script>
-
     <script>
         layui.use(['jquery','layer','form'],function () {
             var $ = layui.jquery,
@@ -110,9 +94,9 @@
                 form = layui.form;
             form.on('submit(look)',function (obj) {
                 var id = obj.elem.getAttribute('data-id');
-                document.getElementById('zhidao').src='/produce/fileRecord/showPDF?id='+id;
+                document.getElementById('zhidao').src='/base/processDocuments/showPDF?id='+id;
                 layer.open({
-                    title:'ESOP',
+                    title:'processDocuments',
                     type:1,
                     offset:10,
                     area:['900px','700px'],
@@ -122,5 +106,16 @@
 
         })
     </script>
+</body>
+
+<div id="ver" style="display: none">
+    <form class="layui-form" lay-filter="form" style="margin-top: 20px">
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" id="upload" lay-filter="upload">上传文件</button>
+            </div>
+        </div>
+    </form>
+</div>
 </body>
 </html>

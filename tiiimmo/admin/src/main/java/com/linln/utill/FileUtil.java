@@ -135,7 +135,7 @@ public class FileUtil {
         timestamp = timestamp.substring(5,9);
         String fileName = multipartFile.getOriginalFilename();
         String name[] = fileName.split("\\.");
-        fileName = name[0]+strDate+"-"+timestamp+".pdf";
+        fileName = name[0]+strDate+"-"+timestamp+"."+name[name.length-1];
         File saveFileDir = new File(savePath);
         if (!saveFileDir.exists()){
             saveFileDir.mkdirs();

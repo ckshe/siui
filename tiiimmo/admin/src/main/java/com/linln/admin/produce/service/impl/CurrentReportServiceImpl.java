@@ -49,6 +49,10 @@ public class CurrentReportServiceImpl implements CurrentReportService {
 
     @Override
     public ResultVo addDeviceRepairReport(CurrentReport currentReport) {
+        CurrentReport byYear_monthAndReport_type = currentReportRepository.findByYear_monthAndReport_type(currentReport.getYear_month(), currentReport.getReport_type());
+        if(byYear_monthAndReport_type!=null){
+            currentReport.setId(byYear_monthAndReport_type.getId());
+        }
         currentReportRepository.save(currentReport);
         return ResultVoUtil.success("保存成功");    }
 }
