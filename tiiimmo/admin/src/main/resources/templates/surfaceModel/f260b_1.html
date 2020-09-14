@@ -122,7 +122,7 @@
       <tr height="34" style="height:26.1pt">
         <td colspan="1" height="34" class="xl105" style="height:26.1pt"><button id="onsubmit">保存</button></td>
         <td colspan="32" height="34" class="xl101" style="height:26.1pt">
-          <span class="inputSpan"><input name="title" style=" width: 200px; height: 26px; margin-top: -13px; left: 90px; font-size: large; font-weight: bolder " value="YS12"></span>
+          <span class="inputSpan"><input name="title" style=" width: 200px; height: 26px; margin-top: -13px; left: 90px; font-size: large; font-weight: bolder " value="YS12F"></span>
           <span style="text-decoration:underline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
           <span class="font6">贴片机维护记录表</span>
         </td>
@@ -890,7 +890,7 @@
         data: JSON.stringify({
           //pcbTaskCode: 'WORK021610',
           yearMonth:getQueryString('year_month'),
-          reportType: '7'
+          reportType: '701'
         }),
         contentType: "application/json;charset=UTF-8",
         success: function (res) {
@@ -2077,7 +2077,7 @@
           //pcb_task_code: 'WORK021610',
           year_month:getQueryString('year_month'),
           json_data: JSON.stringify(datajson),
-          report_type: '7'
+          report_type: '701'
         }),
         contentType: "application/json;charset=UTF-8",
         success: function (res) {

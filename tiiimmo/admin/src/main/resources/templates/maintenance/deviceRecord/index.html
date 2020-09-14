@@ -123,7 +123,7 @@
                             title: '丝印机G5日常维护记录表',
                             type: 2,
                             area: ['1350px', '96%'],
-                            content: '/surfaceModel/f259b?id=6',
+                            content: '/surfaceModel/f259b?id=6&year_month='+data.year_month+'&year='+data.year+'&month='+data.month,
                             success: function (layero, index) {
                                 var body = layer.getChildFrame('body', index);
                                 var d = JSON.stringify(data)
@@ -136,7 +136,7 @@
                             title: '贴片机YS12日常维护记录表',
                             type: 2,
                             area: ['1350px', '96%'],
-                            content: '/surfaceModel/f260b?id=7&deviceName=YS12',
+                            content: '/surfaceModel/f260b?id=7&deviceName=YS12&year_month='+data.year_month+'&year='+data.year+'&month='+data.month,
                             success: function (layero, index) {
                                 var body = layer.getChildFrame('body', index);
                                 var d = JSON.stringify(data)
@@ -149,7 +149,7 @@
                             title: '贴片机YS12F日常维护记录表',
                             type: 2,
                             area: ['1350px', '96%'],
-                            content: '/surfaceModel/f260b?id=701&deviceName=YS12F',
+                            content: '/surfaceModel/f260b_1?id=701&deviceName=YS12F&year_month='+data.year_month+'&year='+data.year+'&month='+data.month,
                             success: function (layero, index) {
                                 var body = layer.getChildFrame('body', index);
                                 var d = JSON.stringify(data)
@@ -162,7 +162,7 @@
                             title: 'AOI维护记录表',
                             type: 2,
                             area: ['1350px', '96%'],
-                            content: '/surfaceModel/f261c?id=8',
+                            content: '/surfaceModel/f261c?id=8&year_month='+data.year_month+'&year='+data.year+'&month='+data.month,
                             success: function (layero, index) {
                                 var body = layer.getChildFrame('body', index);
                                 var d = JSON.stringify(data)
@@ -175,7 +175,7 @@
                             title: '自动焊机日常维护',
                             type: 2,
                             area: ['1350px', '96%'],
-                            content: '/surfaceModel/f273b?id=9',
+                            content: '/surfaceModel/f273b?id=9&year_month='+data.year_month+'&year='+data.year+'&month='+data.month,
                             success: function (layero, index) {
                                 var body = layer.getChildFrame('body', index);
                                 var d = JSON.stringify(data)
@@ -188,7 +188,7 @@
                             title: '波峰焊机日常维护',
                             type: 2,
                             area: ['1350px', '96%'],
-                            content: '/surfaceModel/f285a?id=10',
+                            content: '/surfaceModel/f285a?id=10&year_month='+data.year_month+'&year='+data.year+'&month='+data.month,
                             success: function (layero, index) {
                                 var body = layer.getChildFrame('body', index);
                                 var d = JSON.stringify(data)
@@ -196,12 +196,12 @@
                             }
                         });
                         break;
-                    case 'bfhj':
+                    case 'hlhj':
                         layer.open({
                             title: '回流焊机日常维护',
                             type: 2,
                             area: ['1350px', '96%'],
-                            content: '/surfaceModel/f287a?id=11',
+                            content: '/surfaceModel/f287a?id=11&year_month='+data.year_month+'&year='+data.year+'&month='+data.month,
                             success: function (layero, index) {
                                 var body = layer.getChildFrame('body', index);
                                 var d = JSON.stringify(data)
