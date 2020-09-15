@@ -167,7 +167,7 @@ public class UserSignatureController {
         if(result==null){
             return ResultVoUtil.error("查无此人该类型签名");
         }else {
-            String path = CommonConstant.file_path+CommonConstant.sinature_path+result.getPic_path();
+            String path = "/document/"+result.getPic_path();
             return ResultVoUtil.success("查询成功",path);
         }
     }
