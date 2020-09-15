@@ -31,7 +31,9 @@
             display: block;
             align-content: center;
             width: auto;
-            height: 14px;
+            /* height: 14px; */
+			height: auto;
+			margin: auto;
         }
 
         .displayType .inputSpan {
@@ -47,7 +49,6 @@
             left: 0;
             background: transparent;
         }
-
         .inputCenter {
             text-align: center;
         }
@@ -58,7 +59,7 @@
             padding: 0;
             overflow: hidden;
         }
-
+		td img{width: 100%; height: auto%;}
         .inputall {
             border: none;
             height: 80%;
@@ -500,8 +501,8 @@
 					success: function(res) {
 						if (res.code === 200) {
 							console.log(res)
-							// var imgdata = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1600094239106&di=91e111344087484c4da94a5d6db1c1af&imgtype=0&src=http%3A%2F%2Ft7.baidu.com%2Fit%2Fu%3D378254553%2C3884800361%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D2030"
-							var imgdata = res.data;
+							// var imgdata = res.data;
+							var imgdata = "http://10.33.10.1:8755/images/3x1.jpg"
 							that.next().attr('src', imgdata).show();
 							that.hide()
 						}
@@ -522,8 +523,8 @@
 					success: function(res) {
 						if (res.code === 200) {
 							console.log(res)
-							// var imgdata = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1600094239106&di=91e111344087484c4da94a5d6db1c1af&imgtype=0&src=http%3A%2F%2Ft7.baidu.com%2Fit%2Fu%3D378254553%2C3884800361%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D2030"
-							var imgdata = res.data;
+							// var imgdata = res.data;
+							var imgdata = "http://10.33.10.1:8755/images/1x3.jpg"
 							console.log(imgdata)
 							that.next().attr('src', imgdata).show();
 							that.hide()
@@ -531,12 +532,16 @@
 					},
 				});
 			})
-			$('.inputImg').click(function(){
+			$('.inputImg').click(function() {
 				var that = $(this);
 				that.attr('src', '').hide();
-				that.prev().show();
+				that.prev().show().focus();
+				that.parent().css({
+					'width': 'auto',
+					'height': 'auto'
+				})
 			})
-			if(dd.is_rohs == "是") {
+			if (dd.is_rohs == "是") {
 				$('#RoHS').attr('checked', true)
 			}
 			if (dd.is_rohs == "否") {
