@@ -104,6 +104,7 @@
         height: 60px;
         float: left;
         margin-right: 10px;
+        margin-bottom: 10px;
     }
 
     .scdjPage button {
@@ -174,6 +175,31 @@
             </div>
             <div>
                 <button id="ZJ-F308B" class="shenblueButton" type="button">电路板调试流通表</button>
+            </div>
+            <hr />
+            <div>
+                <button id="ZJ-F205B" class="shenGreenButton" type="button">SMT首检</button>
+            </div>
+            <div>
+                <button id="ZJ-F259B" class="shenGreenButton" type="button">丝印机日常维护</button>
+            </div>
+            <div>
+                <button id="ZJ-F260B" class="shenGreenButton" type="button">贴片机YS12日常维护</button>
+            </div>
+            <div>
+                <button id="ZJ-F260B_1" class="shenGreenButton" type="button">贴片机YS12F日常维护</button>
+            </div>
+            <div>
+                <button id="ZJ-F261C" class="shenGreenButton" type="button">AOI日常维护</button>
+            </div>
+            <div>
+                <button id="ZJ-F273B" class="shenGreenButton" type="button">自动焊机日常维护</button>
+            </div>
+            <div>
+                <button id="ZJ-F285A" class="shenGreenButton" type="button">波峰焊机日常维护</button>
+            </div>
+            <div>
+                <button id="ZJ-F287A" class="shenGreenButton" type="button">回流焊机日常维护</button>
             </div>
         </div>
     </div>
@@ -510,13 +536,10 @@
             var loginCode = document.getElementById('loginCode');
             var outCode = document.getElementById('outCode');
             $('#login').on('click', function () {
-                console.log('上机');
                 document.getElementById('zezao').style.display = 'block';
                 loginCode.focus();
             })
             $('#out').on('click', function () {
-                console.log('下机');
-                console.log(nowGonDan, isLogin())
                 if (!isLogin()) {
                     layer.alert('当前未上机，不能下机!', { icon: 5 })
                     return;
@@ -764,7 +787,6 @@
                         content: $('#multiple'),
                         area: ['400px', '400px']
                     });
-                    console.log(nowGonDan)
                     form.val('multipleForm', {
                         process_task_code: nowGonDan.process_task_code,
                         multiple: nowGonDan.multiple == null ? 1 : nowGonDan.multiple
@@ -809,8 +831,7 @@
                     // })
                 }
             });
-            form.on('submit(multipleStatus)', function (obj) {
-                // console.log(obj.field);
+            form.on('submit(multipleStatus)', function (obj) {;
                 $.ajax({
                     url: '/produce/pcbTask/changeMultiple',
                     type: "post",
@@ -850,7 +871,6 @@
             })
             //结束工单
             $('#over').on('click', function () {
-                console.log("nowGonDan=========",nowGonDan)
                 if (nowGonDan == '') {
                     layer.alert('当前无工序', { icon: 5 })
                     return
@@ -861,8 +881,6 @@
                         content: $('#status'),
                         area: ['400px', '400px']
                     });
-                    // console.log(nowGonDan)
-
                     form.val('statusForm', {
                         pcb_quantity: nowGonDan.detail_plan_count,
                         amount_completed: nowGonDan.detail_finish_count,
@@ -896,7 +914,7 @@
                     type: 2,
                     area: ["880px", "90%"],
                     title: '生产流通表(一)',
-                    content: '/circulationTable/circulation1?id=1&pcb_task_code=' + nowGonDan.process_task_code,
+                    content: '/circulationTable/circulation1?id=1&pcb_task_code=' + nowGonDan.pcb_task_code,
                     success: function (layero, index) {
                         var body = layer.getChildFrame('body', index);
                         var d = JSON.stringify(nowGonDan)
@@ -913,7 +931,7 @@
                     type: 2,
                     area: ["880px", "90%"],
                     title: '生产流通表背面(一)',
-                    content: '/circulationTable/circulation1_1?id=101&pcb_task_code=' + nowGonDan.process_task_code,
+                    content: '/circulationTable/circulation1_1?id=101&pcb_task_code=' + nowGonDan.pcb_task_code,
                     success: function (layero, index) {
                         var body = layer.getChildFrame('body', index);
                         var d = JSON.stringify(nowGonDan)
@@ -930,7 +948,7 @@
                     type: 2,
                     area: ["1050px", "90%"],
                     title: '生产流通表(二)',
-                    content: '/circulationTable/circulation2?id=2&pcb_task_code=' + nowGonDan.process_task_code,
+                    content: '/circulationTable/circulation2?id=2&pcb_task_code=' + nowGonDan.pcb_task_code,
                     success: function (layero, index) {
                         var body = layer.getChildFrame('body', index);
                         var d = JSON.stringify(nowGonDan)
@@ -948,7 +966,7 @@
                     type: 2,
                     area: ["880px", "90%"],
                     title: '生产流通表背面(二)',
-                    content: '/circulationTable/circulation2_1?id=201&pcb_task_code=' + nowGonDan.process_task_code,
+                    content: '/circulationTable/circulation2_1?id=201&pcb_task_code=' + nowGonDan.pcb_task_code,
                     success: function (layero, index) {
                         var body = layer.getChildFrame('body', index);
                         var d = JSON.stringify(nowGonDan)
@@ -966,7 +984,7 @@
                     type: 2,
                     area: ["1350px", "90%"],
                     title: '生产流通表(四)',
-                    content: '/circulationTable/circulation4?id=3&pcb_task_code=' + nowGonDan.process_task_code,
+                    content: '/circulationTable/circulation4?id=3&pcb_task_code=' + nowGonDan.pcb_task_code,
                     success: function (layero, index) {
                         var body = layer.getChildFrame('body', index);
                         var d = JSON.stringify(nowGonDan)
@@ -984,7 +1002,7 @@
                     type: 2,
                     area: ["1300px", "90%"],
                     title: '生产流通表背面(四)',
-                    content: '/circulationTable/circulation4_1?id=301&pcb_task_code=' + nowGonDan.process_task_code,
+                    content: '/circulationTable/circulation4_1?id=301&pcb_task_code=' + nowGonDan.pcb_task_code,
                     success: function (layero, index) {
                         var body = layer.getChildFrame('body', index);
                         var d = JSON.stringify(nowGonDan)
@@ -1002,7 +1020,7 @@
                     type: 2,
                     area: ["1080px", "90%"],
                     title: '电路板调试流通表',
-                    content: '/circulationTable/f308b?id=4&pcb_task_code=' + nowGonDan.process_task_code,
+                    content: '/circulationTable/f308b?id=4&pcb_task_code=' + nowGonDan.pcb_task_code,
                     success: function (layero, index) {
                         var body = layer.getChildFrame('body', index);
                         var d = JSON.stringify(nowGonDan)
@@ -1011,8 +1029,151 @@
                 });
             });
 
+            $('#ZJ-F205B').on('click', function () {
+                if (nowGonDan == '') {
+                    layer.alert('当前无工序', { icon: 5 })
+                    return
+                }
+                layer.open({
+                    type: 2,
+                    area: ["800px", "90%"],
+                    title: 'SMT首检记录表',
+                    content: '/surfaceModel/f205b_1?id=4&pcb_task_code=' + nowGonDan.pcb_task_code,
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        var d = JSON.stringify(nowGonDan)
+                        body.contents().find("input[name='data']").val(d);
+                    }
+                });
+            });
+			
+            $('#ZJ-F259B').on('click', function () {
+                if (nowGonDan == '') {
+                    layer.alert('当前无工序', { icon: 5 })
+                    return
+                }
+                layer.open({
+                    type: 2,
+                    area: ["1250px", "90%"],
+                    title: '丝印机G5日常维护记录表',
+                    content: '/surfaceModel/f259b?id=6&pcb_task_code=' + nowGonDan.pcb_task_code,
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        var d = JSON.stringify(nowGonDan)
+                        body.contents().find("input[name='data']").val(d);
+                    }
+                });
+            });
+			
+            $('#ZJ-F260B').on('click', function () {
+                if (nowGonDan == '') {
+                    layer.alert('当前无工序', { icon: 5 })
+                    return
+                }
+                layer.open({
+                    type: 2,
+                    area: ["1250px", "90%"],
+                    title: '贴片机YS12日常维护记录表',
+                    content: '/surfaceModel/f260b?id=7&pcb_task_code=' + nowGonDan.pcb_task_code,
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        var d = JSON.stringify(nowGonDan)
+                        body.contents().find("input[name='data']").val(d);
+                    }
+                });
+            });
+			
+			$('#ZJ-F260B_1').on('click', function () {
+			    if (nowGonDan == '') {
+			        layer.alert('当前无工序', { icon: 5 })
+			        return
+			    }
+			    layer.open({
+			        type: 2,
+			        area: ["1250px", "90%"],
+			        title: '贴片机YS12F日常维护记录表',
+			        content: '/surfaceModel/f260b_1?id=701&pcb_task_code=' + nowGonDan.pcb_task_code,
+			        success: function (layero, index) {
+			            var body = layer.getChildFrame('body', index);
+			            var d = JSON.stringify(nowGonDan)
+			            body.contents().find("input[name='data']").val(d);
+			        }
+			    });
+			});
+			
+			$('#ZJ-F261C').on('click', function () {
+			    if (nowGonDan == '') {
+			        layer.alert('当前无工序', { icon: 5 })
+			        return
+			    }
+			    layer.open({
+			        type: 2,
+			        area: ["1250px", "90%"],
+			        title: 'AOI维护记录表',
+			        content: '/surfaceModel/f261c?id=8&pcb_task_code=' + nowGonDan.pcb_task_code,
+			        success: function (layero, index) {
+			            var body = layer.getChildFrame('body', index);
+			            var d = JSON.stringify(nowGonDan)
+			            body.contents().find("input[name='data']").val(d);
+			        }
+			    });
+			});
+			
+			$('#ZJ-F273B').on('click', function () {
+			    if (nowGonDan == '') {
+			        layer.alert('当前无工序', { icon: 5 })
+			        return
+			    }
+			    layer.open({
+			        type: 2,
+			        area: ["1250px", "90%"],
+			        title: '自动焊接机维护记录表',
+			        content: '/surfaceModel/f273b?id=9&pcb_task_code=' + nowGonDan.pcb_task_code,
+			        success: function (layero, index) {
+			            var body = layer.getChildFrame('body', index);
+			            var d = JSON.stringify(nowGonDan)
+			            body.contents().find("input[name='data']").val(d);
+			        }
+			    });
+			});
+			
+			$('#ZJ-F285A').on('click', function () {
+			    if (nowGonDan == '') {
+			        layer.alert('当前无工序', { icon: 5 })
+			        return
+			    }
+			    layer.open({
+			        type: 2,
+			        area: ["1250px", "90%"],
+			        title: 'WS-450Ⅱ波峰焊日常维护记录表',
+			        content: '/surfaceModel/f285a?id=10&pcb_task_code=' + nowGonDan.pcb_task_code,
+			        success: function (layero, index) {
+			            var body = layer.getChildFrame('body', index);
+			            var d = JSON.stringify(nowGonDan)
+			            body.contents().find("input[name='data']").val(d);
+			        }
+			    });
+			});
+			
+			$('#ZJ-F287A').on('click', function () {
+			    if (nowGonDan == '') {
+			        layer.alert('当前无工序', { icon: 5 })
+			        return
+			    }
+			    layer.open({
+			        type: 2,
+			        area: ["1250px", "90%"],
+			        title: 'Py100A回流焊接机维护记录表',
+			        content: '/surfaceModel/f287a?id=11&pcb_task_code=' + nowGonDan.pcb_task_code,
+			        success: function (layero, index) {
+			            var body = layer.getChildFrame('body', index);
+			            var d = JSON.stringify(nowGonDan)
+			            body.contents().find("input[name='data']").val(d);
+			        }
+			    });
+			});
+
             form.on('submit(status)', function (obj) {
-                // console.log(obj.field);
                 $.ajax({
                     url: '/produce/pcbTask/settlementDetailCount',
                     type: "post",
@@ -1050,7 +1211,6 @@
             });
             //工艺文件
             $('#esopPdf').on('click', function () {
-                // console.log(nowGonDan)
                 if (nowGonDan == '') {
                     layer.alert('当前无工序', { icon: 5 })
                     return;
@@ -1151,10 +1311,7 @@
             setInterval(function () {
                 systemTime.innerHTML = timeToDate(new Date());
                 //更新生产数
-                // console.log('首页计时')
                 if (parseInt(new Date().getTime() / 1000) % shuaTime === (shuaTime - 1)) {
-                    // console.log(shuaTime)
-                    // console.log('首页触发')
                     changeData()
                 }
             }, 1000)
@@ -1164,4 +1321,4 @@
 
 </script>
 
-</html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+</html>

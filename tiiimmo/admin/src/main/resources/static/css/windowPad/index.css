@@ -44,6 +44,26 @@
     box-shadow:0 0 2px 3px #0566b1 inset,
     0 0 5px 1px #fff inset
 }
+.shenGreenButton{
+    border-radius: 4px;
+    color:#fff;
+    border: none;
+    cursor: pointer;
+
+    background:#1e9a2f ;
+    box-shadow:0 0 2px 3px #39b54a inset,
+    0 0 5px 1px #fff inset
+}
+.shenYelloButton{
+    border-radius: 4px;
+    color:#fff;
+    border: none;
+    cursor: pointer;
+
+    background:#e46807 ;
+    box-shadow:0 0 2px 3px #f37b1d inset,
+    0 0 5px 1px #fff inset
+}
 .huiButton{
     border-radius: 4px;
     color:#fff;
