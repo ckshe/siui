@@ -160,12 +160,14 @@ public class ESOPServiceImpl implements ESOPService {
     }
     @Override
     public void showPDF(HttpServletResponse response, Long id ) {
-
+        String path = CommonConstant.file_path+CommonConstant.esop_path;
         ESOP esop = esopRepository.findById(id).get();
         if(esop ==null){
-            return;
+            path = path+"不存在的.pdf";
+        }else {
+          path = path+esop.getUploadFile();
         }
-        String path = CommonConstant.file_path+CommonConstant.esop_path+esop.getUploadFile();
+
         FileUtil.readPDF(response,path);
     }
 
