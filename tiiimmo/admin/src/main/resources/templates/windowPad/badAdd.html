@@ -1,148 +1,146 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="UTF-8">
-    <title>添加不良</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
-    <style type="text/css">
-        .label_width {
-            width: 100px;
-        }
+	<head>
+		<meta charset="UTF-8">
+		<title>添加不良</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+		<style type="text/css">
+			.label_width {
+				width: 100px;
+			}
 
-        #testEquipment input {
-            padding-left: 0px !important;
-            border: 1px solid rgb(255, 255, 255) !important;
-        }
+			#testEquipment input {
+				padding-left: 0px !important;
+				border: 1px solid rgb(255, 255, 255) !important;
+			}
 
-        .xm-select-dl {
-            height: 200px !important;
-        }
+			.xm-select-dl {
+				height: 200px !important;
+			}
 
-        .blueButton {
-            border-radius: 4px;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            background: #1e9fff;
-            box-shadow: 0 0 2px 3px #0585e4 inset, 0 0 5px 1px #fff inset;
-            width: 60px;
-            height: 30px;
-            float: revert;
-            margin-left: 10px;
-        }
+			.blueButton {
+				border-radius: 4px;
+				color: #fff;
+				border: none;
+				cursor: pointer;
+				background: #1e9fff;
+				box-shadow: 0 0 2px 3px #0585e4 inset, 0 0 5px 1px #fff inset;
+				width: 60px;
+				height: 30px;
+				float: revert;
+				margin-left: 10px;
+			}
 
-        .blueButton.gree {
-            background: #009688;
-            box-shadow: 0 0 2px 3px #219055 inset, 0 0 5px 1px #fff inset;
-        }
+			.blueButton.gree {
+				background: #009688;
+				box-shadow: 0 0 2px 3px #219055 inset, 0 0 5px 1px #fff inset;
+			}
 
-        .blueButton:active {
-            opacity: 0.5;
-        }
+			.blueButton:active {
+				opacity: 0.5;
+			}
 
-        .layui-form-item .layui-input-inline {
-            width: 400px !important;
-        }
+			.layui-form-item .layui-input-inline {
+				width: 400px !important;
+			}
 
-        .layui-input,
-        .layui-textarea {
-            display: inline-block;
-            width: initial;
-        }
+			.layui-input,
+			.layui-textarea {
+				display: inline-block;
+				width: initial;
+			}
 
-        .noChoice i {
-            background: #ccc !important;
-            color: #ccc !important;
-        }
-        .noChoice .layui-checkbox-disbaled:hover i{
-            color: #ccc !important;
-        }
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 10px;
-            background-color: #999;
-        }
-    </style>
-</head>
+			.noChoice i {
+				background: #ccc !important;
+				color: #ccc !important;
+			}
 
-<body>
-    <div class="layui-tab layui-tab-brief" lay-filter="quality">
-        <ul class="layui-tab-title">
-            <li class="layui-this">质检录入</li>
-            <li>QC录入</li>
-        </ul>
-        <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
-                <form class="layui-form" style="padding-top:20px;" lay-filter="form2">
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">板编号<span style="color:red">*</span></label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="plateNo" name="plateNo" placeholder="扫码录入板编号" autocomplete="off"
-                                    class="layui-input">
-                                <button class="blueButton" id="boardClear" type="button">清除</button>
-                            </div>
-                        </div>
-                        <div class="layui-inline" style="width: 100px">
-                            <label class="layui-form-label"></label>
-                            <div class="layui-input-inline">
-                                <input type="hidden" id="imConfigId">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">检验人<span style="color:red">*</span></label>
-                            <div class="layui-input-inline">
-                                <!-- <input  disabled type="text" name="cardSequence"  autocomplete="off" class="layui-input"> -->
-                                <input type="text" name="cardSequence" placeholder="扫码录入工号" autocomplete="off"
-                                    class="layui-input">
-                                <button class="blueButton" id="cardClear" type="button">清除</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">位号<span style="color:red">*</span></label>
-                            <div class="layui-input-inline">
-                                <input id="position" type="text" name="position" autocomplete="off" class="layui-input">
-                                <button class="blueButton" id="positionClear" type="button">清除</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-form-item" id="badBox">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">不良描述</label>
-                            <div class="layui-input-inline">
-                                <div id="badSay"
-                                    style="display: none; width:518px!important;border:1px solid #e6e6e6;color:#666;min-height:30px;padding:10px">
-                                </div>
-                                <div id="badCheck" style="width:518px">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--            <div class="layui-form-item">-->
-                    <!--                <div class="layui-inline" >-->
-                    <!--                    <label class="layui-form-label">补充说明</label>-->
-                    <!--                    <div class="layui-input-inline" >-->
-                    <!--                        <input class="layui-input" name="remark" placeholder="补充说明" style="width:518px!important;" autocomplete="off" />-->
-                    <!--                    </div>-->
-                    <!--                </div>-->
-                    <!--            </div>-->
-                    <div class="layui-form-item" style="text-align: center;">
-                        <button class="layui-btn" type="button" lay-submit lay-filter="add">保存</button>
-                        <button class="layui-btn layui-btn-normal" type="reset">重置</button>
-                    </div>
-                </form>
-            </div>
-            <!--qc按钮-->
-            <div class="layui-tab-item">
+			.noChoice .layui-checkbox-disbaled:hover i {
+				color: #ccc !important;
+			}
+
+			::-webkit-scrollbar {
+				width: 5px;
+				height: 10px;
+				background-color: #999;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="layui-tab layui-tab-brief" lay-filter="quality">
+			<ul class="layui-tab-title">
+				<li class="layui-this">质检录入</li>
+				<!-- <li>QC录入</li> -->
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<form class="layui-form" style="padding-top:20px;" lay-filter="form2">
+						<div class="layui-form-item">
+							<div class="layui-inline">
+								<label class="layui-form-label">板编号<span style="color:red">*</span></label>
+								<div class="layui-input-inline">
+									<input type="text" id="plateNo" name="plateNo" placeholder="扫码录入板编号" autocomplete="off" class="layui-input">
+									<button class="blueButton" id="boardClear" type="button">清除</button>
+								</div>
+							</div>
+							<div class="layui-inline" style="width: 100px">
+								<label class="layui-form-label"></label>
+								<div class="layui-input-inline">
+									<input type="hidden" id="imConfigId">
+								</div>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-inline">
+								<label class="layui-form-label">检验人<span style="color:red">*</span></label>
+								<div class="layui-input-inline">
+									<!-- <input  disabled type="text" name="cardSequence"  autocomplete="off" class="layui-input"> -->
+									<input type="text" name="cardSequence" placeholder="扫码录入工号" autocomplete="off" class="layui-input">
+									<button class="blueButton" id="cardClear" type="button">清除</button>
+								</div>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-inline">
+								<label class="layui-form-label">位号<span style="color:red">*</span></label>
+								<div class="layui-input-inline">
+									<input id="position" type="text" name="position" autocomplete="off" class="layui-input">
+									<button class="blueButton" id="positionClear" type="button">清除</button>
+								</div>
+							</div>
+						</div>
+						<div class="layui-form-item" id="badBox">
+							<div class="layui-inline">
+								<label class="layui-form-label">不良描述</label>
+								<div class="layui-input-inline">
+									<div id="badSay" style="display: none; width:518px!important;border:1px solid #e6e6e6;color:#666;min-height:30px;padding:10px">
+									</div>
+									<div id="badCheck" style="width:518px">
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--            <div class="layui-form-item">-->
+						<!--                <div class="layui-inline" >-->
+						<!--                    <label class="layui-form-label">补充说明</label>-->
+						<!--                    <div class="layui-input-inline" >-->
+						<!--                        <input class="layui-input" name="remark" placeholder="补充说明" style="width:518px!important;" autocomplete="off" />-->
+						<!--                    </div>-->
+						<!--                </div>-->
+						<!--            </div>-->
+						<div class="layui-form-item" style="text-align: center;">
+							<button class="layui-btn" type="button" lay-submit lay-filter="add">保存</button>
+							<button class="layui-btn layui-btn-normal" type="reset">重置</button>
+						</div>
+					</form>
+				</div>
+				<!--qc按钮-->
+				<!--            <div class="layui-tab-item">
                 <form class="layui-form" style="padding-top:20px;" id="table1" lay-filter="form3">
                     <div class="layui-form-item">
                         <div class="layui-inline">
@@ -175,292 +173,337 @@
                     </div>
                     <table class="layui-hide" id="table" lay-filter="table"></table>
                 </form>
+            </div> -->
+			</div>
+		</div>
+		<script src="../../lib/layui-v2.3.0/layui.js"></script>
+		<script src="../../js/common.js"></script>
+		<script type="text/javascript">
+			var a = '';
+			var nowDeviceCode = getQueryString2('deviceCode');
+			var qcName = "",
+				qualityIndex = 0;
+			layui.use(['table', 'form', 'layer', 'laydate', 'jquery', 'element'], function() {
+				var form = layui.form,
+					table = layui.table,
+					layer = layui.layer,
+					laydate = layui.laydate,
+					element = layui.element,
+					$ = layui.jquery;
+				// laydate.render({
+				//     elem: '#inspectionTime',
+				//     type: 'datetime'
+				// });
+				$.get('/ShowBoard/findOneLastOnTimeNotDown/' + getQueryString2('deviceCode'), function(res) {
+					if (res.code === 200) {
+						var data = res.data
+						$('[name=cardSequence]').val(data.cardSequence);
+						qcName = data.cardSequence;
+					} else {
+						layer.alert(res.msg, {
+							icon: 5
+						})
+					}
+				});
+				new Checkboxs({
+					url: '/base/badNews/findBadNewsList',
+					elemId: 'badCheck',
+					value: 'bad_name',
+					title: 'bad_name',
+					done: function() {
+						form.render()
+					}
+				});
+				scanCode('plateNo');
+				// $('#user').on('click',function () {
+				//     var userBox =  layer.open({
+				//         title:'用户列表',
+				//         type:2,
+				//         area:['98%',"94%"],
+				//         content:'/userTable'
+				//     });
+				//     a=function (data) {
+				//         layer.close(userBox);
+				//         var d=data[0];
+				//         form.val('form2',{user:d.nickname})
+				//
+				//     }
+				// });
+				var badCheck = document.getElementById('badCheck');
+				var nowData = null;
+				layer.load(1);
+				$.ajax({
+					url: "/produce/pcbTask/findProcessTaskByDevice",
+					type: 'post',
+					dataType: "json",
+					data: JSON.stringify({
+						deviceCode: getQueryString2('deviceCode')
+					}),
+					contentType: "application/json;charset=UTF-8",
+					success: function(res) {
+						layer.closeAll()
+						res.data.some(function(t, i) {
+							if (("" + t.is_now_flag).indexOf(nowDeviceCode) != -1) {
+								nowData = t;
+								return true
+							}
+						});
+					}
+				})
+				form.on('submit(add)', function(obj) {
+					var checkeds = badCheck.getElementsByTagName('input');
+					var arr = [];
+					for (var i = 0; i < checkeds.length; i++) {
+						if (checkeds[i].checked) {
+							arr.push({
+								badNews: checkeds[i].value
+							})
+						}
+					}
+					obj.field.badNewsList = arr;
+					obj.field.pcbTaskCode = nowData.pcb_task_code;
+					if (obj.field.cardSequence == '') {
+						layer.alert('工号信息必填！', {
+							icon: 5
+						})
+						return;
+					}
+					if (obj.field.plateNo == '') {
+						layer.alert('板编号必填！', {
+							icon: 5
+						})
+						return;
+					}
+					if (obj.field.position == '') {
+						layer.alert('位号必填！', {
+							icon: 5
+						})
+						return;
+					}
+					if (obj.field.badNewsList.length == 0) {
+						layer.alert('不良类型必选！', {
+							icon: 5
+						})
+						return;
+					}
+					$.ajax({
+						url: "/produce/pcbTask/recordBadTypeList",
+						type: 'post',
+						dataType: "json",
+						data: JSON.stringify(obj.field),
+						contentType: "application/json;charset=UTF-8",
+						success: function(res) {
+							layer.closeAll();
+							if (res.code === 200) {
+								recordBadTypeListIndex = layer.alert(res.msg, {
+									icon: 1
+								}, function() {
+									// parent.window.location.reload()
+									layer.close(recordBadTypeListIndex);
+								})
+							} else {
+								layer.alert(res.msg, {
+									icon: 5
+								})
+							}
 
-            </div>
-        </div>
-    </div>
-    <script src="../../lib/layui-v2.3.0/layui.js"></script>
-    <script src="../../js/common.js"></script>
-    <script type="text/javascript">
-        var a = '';
-        var nowDeviceCode = getQueryString2('deviceCode');
-        var qcName = "", qualityIndex = 0;
-        layui.use(['table', 'form', 'layer', 'laydate', 'jquery', 'element'], function () {
-            var form = layui.form,
-                table = layui.table,
-                layer = layui.layer,
-                laydate = layui.laydate,
-                element = layui.element,
-                $ = layui.jquery;
-            // laydate.render({
-            //     elem: '#inspectionTime',
-            //     type: 'datetime'
-            // });
-            $.get('/ShowBoard/findOneLastOnTimeNotDown/' + getQueryString2('deviceCode'), function (res) {
-                if (res.code === 200) {
-                    var data = res.data
-                    $('[name=cardSequence]').val(data.cardSequence);
-                    qcName = data.cardSequence;
-                } else {
-                    layer.alert(res.msg, { icon: 5 })
-                }
-            });
-            new Checkboxs({
-                url: '/base/badNews/findBadNewsList',
-                elemId: 'badCheck',
-                value: 'bad_name',
-                title: 'bad_name',
-                done: function () {
-                    form.render()
-                }
-            });
-            scanCode('plateNo');
-            // $('#user').on('click',function () {
-            //     var userBox =  layer.open({
-            //         title:'用户列表',
-            //         type:2,
-            //         area:['98%',"94%"],
-            //         content:'/userTable'
-            //     });
-            //     a=function (data) {
-            //         layer.close(userBox);
-            //         var d=data[0];
-            //         form.val('form2',{user:d.nickname})
-            //
-            //     }
-            // });
-            var badCheck = document.getElementById('badCheck');
-            var nowData = null;
-            layer.load(1);
-            $.ajax({
-                url: "/produce/pcbTask/findProcessTaskByDevice",
-                type: 'post',
-                dataType: "json",
-                data: JSON.stringify({
-                    deviceCode: getQueryString2('deviceCode')
-                }),
-                contentType: "application/json;charset=UTF-8",
-                success: function (res) {
-                    layer.closeAll()
-                    res.data.some(function (t, i) {
-                        if (("" + t.is_now_flag).indexOf(nowDeviceCode) != -1) {
-                            nowData = t;
-                            return true
-                        }
-                    });
-                }
-            })
-            form.on('submit(add)', function (obj) {
-                var checkeds = badCheck.getElementsByTagName('input');
-                var arr = [];
-                for (var i = 0; i < checkeds.length; i++) {
-                    if (checkeds[i].checked) {
-                        arr.push({ badNews: checkeds[i].value })
-                    }
-                }
-                obj.field.badNewsList = arr;
-                obj.field.pcbTaskCode = nowData.pcb_task_code;
-                if (obj.field.cardSequence == '') {
-                    layer.alert('工号信息必填！', { icon: 5 })
-                    return;
-                }
-                if (obj.field.plateNo == '') {
-                    layer.alert('板编号必填！', { icon: 5 })
-                    return;
-                }
-                if (obj.field.position == '') {
-                    layer.alert('位号必填！', { icon: 5 })
-                    return;
-                }
-                if (obj.field.badNewsList.length == 0) {
-                    layer.alert('不良类型必选！', { icon: 5 })
-                    return;
-                }
-                $.ajax({
-                    url: "/produce/pcbTask/recordBadTypeList",
-                    type: 'post',
-                    dataType: "json",
-                    data: JSON.stringify(obj.field),
-                    contentType: "application/json;charset=UTF-8",
-                    success: function (res) {
-                        layer.closeAll();
-                        if (res.code === 200) {
-                            recordBadTypeListIndex = layer.alert(res.msg, { icon: 1 }, function () {
-                                // parent.window.location.reload()
-                                layer.close(recordBadTypeListIndex);
-                            })
-                        } else {
-                            layer.alert(res.msg, { icon: 5 })
-                        }
+						}
+					});
+				});
+				//tab事件监听
+				element.on('tab(quality)', function(data) {
+					qualityIndex = data.index;
+					if (data.index == 0) {
+						$('#plateNo').focus()
+						qcName = $('[name=u1]').val();
+					}
+					if (data.index == 1) {
+						if (qcName != '') {
+							$('#plateNo1').focus();
+							$('[name=u1]').val(qcName)
+						} else {
+							$('[name=u1]').val(qcName).focus()
+							// $('#plateNo1').val('');
+						}
+						//切出来初始
+						loadTableData("ss_test_nb");
+						// $('#plateNo').val(qcName).focus()
+					}
+				});
+				//监听数据项
+				form.on('submit(devs)', function(obj) {
+					var checkStatus = table.checkStatus('table').data;
+					var ids = [];
+					// console.log(obj, checkStatus)
+					checkStatus.forEach(function(item) {
+						ids.push(item.id);
+					});
+					// console.log(ids)
+					if (obj.field.u1 == '') {
+						layer.alert('工号信息必填！', {
+							icon: 5
+						})
+						return;
+					}
+					if (ids.length == 0) {
+						layer.alert('无不良情况确认！', {
+							icon: 5
+						})
+						return;
+					}
+					$.ajax({
+						url: "/produce/pcbTask/badDetailRecordQc",
+						type: 'post',
+						dataType: "json",
+						data: JSON.stringify({
+							cardSequence: obj.field.u1,
+							ids: ids.join(',')
+						}),
+						contentType: "application/json;charset=UTF-8",
+						success: function(res) {
+							layer.closeAll();
+							if (res.code === 200) {
+								badDetailRecordQcIndex = layer.alert("提交成功！", {
+									icon: 1
+								}, function() {
+									layer.close(badDetailRecordQcIndex);
+									//提交后重新刷新
+									loadTableData();
+								})
+							} else {
+								layer.alert(res.msg, {
+									icon: 5
+								})
+							}
 
-                    }
-                });
-            });
-            //tab事件监听
-            element.on('tab(quality)', function (data) {
-                qualityIndex = data.index;
-                if (data.index == 0) {
-                    $('#plateNo').focus()
-                    qcName = $('[name=u1]').val();
-                }
-                if (data.index == 1) {
-                    if (qcName != '') {
-                        $('#plateNo1').focus();
-                        $('[name=u1]').val(qcName)
-                    } else {
-                        $('[name=u1]').val(qcName).focus()
-                        // $('#plateNo1').val('');
-                    }
-                    //切出来初始
-                    loadTableData("ss_test_nb");
-                    // $('#plateNo').val(qcName).focus()
-                }
-            });
-            //监听数据项
-            form.on('submit(devs)', function (obj) {
-                var checkStatus = table.checkStatus('table').data;
-                var ids = [];
-                // console.log(obj, checkStatus)
-                checkStatus.forEach(function (item) {
-                    ids.push(item.id);
-                });
-                // console.log(ids)
-                if (obj.field.u1 == '') {
-                    layer.alert('工号信息必填！', { icon: 5 })
-                    return;
-                }
-                if (ids.length == 0) {
-                    layer.alert('无不良情况确认！', { icon: 5 })
-                    return;
-                }
-                $.ajax({
-                    url: "/produce/pcbTask/badDetailRecordQc",
-                    type: 'post',
-                    dataType: "json",
-                    data: JSON.stringify({
-                        cardSequence: obj.field.u1,
-                        ids: ids.join(',')
-                    }),
-                    contentType: "application/json;charset=UTF-8",
-                    success: function (res) {
-                        layer.closeAll();
-                        if (res.code === 200) {
-                            badDetailRecordQcIndex = layer.alert("提交成功！", { icon: 1 }, function () {
-                                layer.close(badDetailRecordQcIndex);
-                                //提交后重新刷新
-                                loadTableData();
-                            })
-                        } else {
-                            layer.alert(res.msg, { icon: 5 })
-                        }
+						}
+					});
+				});
+				//按钮事件
+				$('#qcClear').on('click', function() {
+					$('[name=u1]').val('').focus()
+				});
+				$('#cardClear').on('click', function() {
+					$('[name=cardSequence]').val('').focus()
+				});
+				$('#positionClear').on('click', function() {
+					$('[name=position]').val('').focus()
+				});
+				//QC页清除
+				$('#boardClear').on('click', function() {
+					$('#plateNo').val('').focus()
 
-                    }
-                });
-            });
-            //按钮事件
-            $('#qcClear').on('click', function () {
-                $('[name=u1]').val('').focus()
-            });
-            $('#cardClear').on('click', function () {
-                $('[name=cardSequence]').val('').focus()
-            });
-            $('#positionClear').on('click', function () {
-                $('[name=position]').val('').focus()
-            });
-            //QC页清除
-            $('#boardClear').on('click', function () {
-                $('#plateNo').val('').focus()
+				});
+				$('#boardQCClear').on('click', function() {
+					$('#plateNo1').val('').focus()
+					loadTableData("ss_test_nb");
+				});
+				var plateNo1 = document.getElementById('plateNo1');
+				document.onkeydown = function(e) {
+					if (qualityIndex == 1) {
+						if (e.keyCode === 13) {
+							if ($('#plateNo1').val() == '') {
+								layer.alert('板编号必填！', {
+									icon: 5
+								})
+								return;
+							}
+							//获取数据
+							loadTableData();
+						}
+					}
+				};
 
-            });
-            $('#boardQCClear').on('click', function () {
-                $('#plateNo1').val('').focus()
-                loadTableData("ss_test_nb");
-            });
-            var plateNo1 = document.getElementById('plateNo1');
-            document.onkeydown = function (e) {
-                if (qualityIndex == 1) {
-                    if (e.keyCode === 13) {
-                        if ($('#plateNo1').val() == '') {
-                            layer.alert('板编号必填！', { icon: 5 })
-                            return;
-                        }
-                        //获取数据
-                        loadTableData();
-                    }
-                }
-            };
-            function loadTableData(ss_test_nb) {
-                table.render({
-                            elem: '#table'
-                            , height: 315 //容器高度
-                            , url: '/produce/pcbTask/findBadTypeRecordList' //数据接口
-                            , page: false //开启分页
-                            , method: 'POST'
-                            , contentType: 'application/json'
-                            , defaultToolbar: ['filter']
-                            , response: {
-                                statusCode: 200
-                            },
-                            // toolbar: '#toolbarlist',
-                            where: {
-                                plateNo: ss_test_nb || $('#plateNo1').val(),
-                                // processName:'贴片',
-                            }
-                            , parseData: function (res) {
-                                return {
-                                    "code": res.code, //解析接口状态
-                                    "data": res.data //解析数据列表
-                                };
-                            }
-                            , done: function (res, curr, count) {
-                                console.log(res.data)
-                                var data = res.data;
-                                var allck = true;
+				function loadTableData(ss_test_nb) {
+					table.render({
+						elem: '#table',
+						height: 315 //容器高度
+							,
+						url: '/produce/pcbTask/findBadTypeRecordList' //数据接口
+							,
+						page: false //开启分页
+							,
+						method: 'POST',
+						contentType: 'application/json',
+						defaultToolbar: ['filter'],
+						response: {
+							statusCode: 200
+						},
+						// toolbar: '#toolbarlist',
+						where: {
+							plateNo: ss_test_nb || $('#plateNo1').val(),
+							// processName:'贴片',
+						},
+						parseData: function(res) {
+							return {
+								"code": res.code, //解析接口状态
+								"data": res.data //解析数据列表
+							};
+						},
+						done: function(res, curr, count) {
+							console.log(res.data)
+							var data = res.data;
+							var allck = true;
 
-                                //遍历 表格数据所有行 有一行状态为0 则不能全选
-                                for (var item in data) {
-                                    if (data[item].qc_nama != null) {
+							//遍历 表格数据所有行 有一行状态为0 则不能全选
+							for (var item in data) {
+								if (data[item].qc_nama != null) {
 
-                                        allck = false;
-                                        break;
-                                    }
-                                }
-
-                                if (!allck) { //为0  不可全选
-                                    $(".layui-table-header").find("input[name = 'layTableCheckbox'][lay-filter='layTableAllChoose']").each(function () {
-                                        $(this).attr("disabled", 'disabled').next().removeClass("layui-form-checked");
-                                        form.render('checkbox');
-                                    });
-                                }
-
-                                i = 0;
-                                //遍历表格所有行  改行状态为0 则选择框不可选
-                                $(".layui-table-fixed.layui-table-fixed-l").find(".layui-table-body").find("input[name='layTableCheckbox']").each(function () {
-                                    if (res.data[i].qc_nama != null) {
-                                        $(this).attr("disabled", 'disabled').removeAttr("checked").parent().addClass('noChoice');
-                                        form.render('checkbox');
-                                    }
-                                    i++;
-                                });
-                            }
-                            , cols: [
-                                [
-                                    { type: 'checkbox', fixed: 'left' }
-                                    , { field: 'bad_type', title: '不良类型', width: 120 }
-                                    , { field: 'position', title: '位号', width: 80 }
-                                    , { field: 'qc_nama', title: '质检员', width: 100 }
-                                    , { field: 'pcb_task_code', title: '排产任务号', width: 140 }
-                                    , {
-                                        field: 'time', title: '时间', minWidth: 150, templet: function (d) {
-                                            return "<span>" + (d.record_time == "" ? "" : timeToDate(d.record_time)) + "</span>"
-                                        }
-                                    }
-                                ]
-                            ]
-                        });
-            }
-        });
-    </script>
-</body>
+									allck = false;
+									break;
+								}
+							}
+							if (!allck) { //为0  不可全选
+								$(".layui-table-header").find("input[name = 'layTableCheckbox'][lay-filter='layTableAllChoose']").each(
+									function() {
+										$(this).attr("disabled", 'disabled').next().removeClass("layui-form-checked");
+										form.render('checkbox');
+									});
+							}
+							i = 0;
+							//遍历表格所有行  改行状态为0 则选择框不可选
+							$(".layui-table-fixed.layui-table-fixed-l").find(".layui-table-body").find("input[name='layTableCheckbox']")
+								.each(function() {
+									if (res.data[i].qc_nama != null) {
+										$(this).attr("disabled", 'disabled').removeAttr("checked").parent().addClass('noChoice');
+										form.render('checkbox');
+									}
+									i++;
+								});
+						},
+						cols: [
+							[{
+								type: 'checkbox',
+								fixed: 'left'
+							}, {
+								field: 'bad_type',
+								title: '不良类型',
+								width: 120
+							}, {
+								field: 'position',
+								title: '位号',
+								width: 80
+							}, {
+								field: 'qc_nama',
+								title: '质检员',
+								width: 100
+							}, {
+								field: 'pcb_task_code',
+								title: '排产任务号',
+								width: 140
+							}, {
+								field: 'time',
+								title: '时间',
+								minWidth: 150,
+								templet: function(d) {
+									return "<span>" + (d.record_time == "" ? "" : timeToDate(d.record_time)) + "</span>"
+								}
+							}]
+						]
+					});
+				}
+			});
+		</script>
+	</body>
 
 </html>
