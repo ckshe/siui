@@ -74,7 +74,8 @@ public class PcbTaskPositionRecordServiceImpl implements PcbTaskPositionRecordSe
         Map<String,String> map = new HashMap<>();
 
         for(DeviceProductElement element : elementList){
-            String key = element.getPcb_code()+element.getProduct_code();
+            //String key = element.getPcb_code()+element.getProduct_code();
+            String key = element.getPcb_code()+element.getElement_name();
             if(map.containsKey(key)){
                 continue;
             }else {
