@@ -89,12 +89,14 @@ public class UserSignatureController {
     public ResultVo save(@RequestParam("picture") MultipartFile file, UserSignature userSignature, HttpServletRequest request) {
 
 
-        // 复制保留无需修改的数据
-        if (userSignature.getId() != null) {
-            UserSignature beUserSignature = userSignatureService.findByCardSequenceAndType(userSignature.getCardSequence(),userSignature.getType());
 
-            EntityBeanUtil.copyProperties(beUserSignature, userSignature);
+        UserSignature beUserSignature = userSignatureService.findByCardSequenceAndType(userSignature.getCardSequence(),userSignature.getType());
+
+        if(beUserSignature!=null){
+            userSignature.setId(beUserSignature.getId());
+            userSignature.setCreateDate(new Date());
         }
+
         String  nfile = null;
         String path = CommonConstant.file_path+CommonConstant.sinature_path;
         try {
