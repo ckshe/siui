@@ -62,6 +62,12 @@ public class windowPadController {
         return "/windowPad/showPDF";
     }
 
+    // 显示操作指导
+    @GetMapping("/operationPDF")
+    public String operationPDF(){
+        return "/windowPad/operationPDF";
+    }
+
     //    历史记录
     @GetMapping("/history")
     public String history(){
