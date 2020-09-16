@@ -157,10 +157,11 @@ public class OperationInstructionServiceImpl implements OperationInstructionServ
     public void showPDF(HttpServletResponse response, Long id ) {
 
         OperationInstruction operationInstruction = operationInstructionRepository.findById(id).get();
+        String path = CommonConstant.file_path+CommonConstant.usebook_path;
         if(operationInstruction ==null){
-            return;
+            path = path+"不存在的.pdf";
         }
-        String path = CommonConstant.file_path+CommonConstant.usebook_path+operationInstruction.getUploadFile();
+            path = path+operationInstruction.getUploadFile();
         FileUtil.readPDF(response,path);
     }
 }

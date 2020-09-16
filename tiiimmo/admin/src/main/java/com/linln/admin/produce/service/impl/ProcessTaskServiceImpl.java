@@ -308,16 +308,20 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         if("1".equals(type)){
             OperationInstruction operationInstruction = operationInstructionRepository.findByCode(device.getUse_book());
             if(operationInstruction ==null){
-                return;
+                path = CommonConstant.file_path+CommonConstant.usebook_path+ path+"不存在的.pdf";
+            }else {
+                path = CommonConstant.file_path+CommonConstant.usebook_path+operationInstruction.getUploadFile();
+
             }
-            path = CommonConstant.file_path+CommonConstant.usebook_path+operationInstruction.getUploadFile();
         }else {
             //作业指导书
             TaskInstruction taskInstruction = taskInstructionRepository.findByCode(device.getWork_book());
             if(taskInstruction ==null){
-                return;
+                path = CommonConstant.file_path+CommonConstant.usebook_path+ path+"不存在的.pdf";
+            }else {
+                path = CommonConstant.file_path+CommonConstant.workbook_path+taskInstruction.getUploadFile();
+
             }
-            path = CommonConstant.file_path+CommonConstant.workbook_path+taskInstruction.getUploadFile();
 
         }
         FileUtil.readPDF(response,path);
@@ -328,9 +332,12 @@ public class ProcessTaskServiceImpl implements ProcessTaskService {
         ESOP esop = esopRepository.findByPcbCode(pcbCode);
         String path = "";
         if(esop ==null){
-            return;
+            path = CommonConstant.file_path+CommonConstant.esop_path+ path+"不存在的.pdf";
+
+        }else {
+            path = CommonConstant.file_path+CommonConstant.esop_path+esop.getUploadFile();
+
         }
-        path = CommonConstant.file_path+CommonConstant.esop_path+esop.getUploadFile();
 
         FileUtil.readPDF(response,path);
     }
