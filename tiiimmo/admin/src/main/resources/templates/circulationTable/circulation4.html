@@ -1,4 +1,4 @@
-﻿﻿<html>
+<html>
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -17,9 +17,9 @@
         .box {
             background: #eee;
             box-sizing: border-box;
-            width: 210mm;
+            width: 297mm;
             /*210*/
-            height: 297mm;
+            height: 210mm;
             /*297*/
             text-align: left;
             padding: 3mm;
@@ -900,12 +900,47 @@
             if (parent.location.href.indexOf("/windowPad/") > -1) {
                 $('#op').hide();
             }
-            /*if (dd.factory == "万吉厂区") {
-                $('#area').attr('checked', true)
-            }
-            if (dd.factory == "金砂厂区") {
-                $('#area1').attr('checked', true)
-            }*/
+			function findUserSignature(that, typeValue) {
+				$.ajax({
+					url: '/base/userSignature/findUserSignature',
+					type: "post",
+					dataType: "json",
+					data: JSON.stringify({
+						cardSequence: that.val(),
+						type: typeValue
+					}),
+					contentType: "application/json;charset=UTF-8",
+					success: function(res) {
+						if (res.code === 200) {
+							console.log(res)
+							var imgdata = res.data;
+							that.next().attr('src', imgdata).show();
+							that.hide()
+						}
+					},
+				});
+			}
+			$('.inputOnblur0').bind('keypress', function(event) {
+				if (event.keyCode == "13") {
+					var that = $(this);
+					findUserSignature(that, 0);
+				}
+			});
+			$('.inputOnblur1').bind('keypress', function(event) {
+				if (event.keyCode == "13") {
+					var that = $(this);
+					findUserSignature(that, 1);
+				}
+			});
+			$('.inputImg').click(function() {
+				var that = $(this);
+				that.attr('src', '').hide();
+				that.prev().show().focus();
+				that.parent().css({
+					'width': 'auto',
+					'height': 'auto'
+				})
+			})
             if (dd.is_rohs == "是") {
                 $('#RoHS').attr('checked', true)
             }

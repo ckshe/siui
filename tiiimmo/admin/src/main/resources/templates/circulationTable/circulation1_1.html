@@ -550,51 +550,38 @@
         $('#op').hide();
       }
 
-      $('.inputOnblur0').blur(function() {
-        var that = $(this);
-        $.ajax({
-          url: '/base/userSignature/findUserSignature',
-          type: "post",
-          dataType: "json",
-          data: JSON.stringify({
-            cardSequence: that.val(),
-            type: 0
-          }),
-          contentType: "application/json;charset=UTF-8",
-          success: function(res) {
-            if (res.code === 200) {
-              console.log(res)
-              var imgdata = res.data;
-              //var imgdata = "http://10.33.10.1:8755/images/3x1.jpg"
-              that.next().attr('src', imgdata).show();
-              that.hide()
-            }
-          },
-        });
-      })
-      $('.inputOnblur1').blur(function() {
-        var that = $(this);
-        $.ajax({
-          url: '/base/userSignature/findUserSignature',
-          type: "post",
-          dataType: "json",
-          data: JSON.stringify({
-            cardSequence: that.val(),
-            type: 1
-          }),
-          contentType: "application/json;charset=UTF-8",
-          success: function(res) {
-            if (res.code === 200) {
-              console.log(res)
-              var imgdata = res.data;
-              //var imgdata = "http://10.33.10.1:8755/images/1x3.jpg"
-              console.log(imgdata)
-              that.next().attr('src', imgdata).show();
-              that.hide()
-            }
-          },
-        });
-      })
+     function findUserSignature(that,typeValue){
+     	$.ajax({
+     		url: '/base/userSignature/findUserSignature',
+     		type: "post",
+     		dataType: "json",
+     		data: JSON.stringify({
+     			cardSequence: that.val(),
+     			type: typeValue
+     		}),
+     		contentType: "application/json;charset=UTF-8",
+     		success: function(res) {
+     			if (res.code === 200) {
+     				console.log(res)
+     				var imgdata = res.data;
+     				that.next().attr('src', imgdata).show();
+     				that.hide()
+     			}
+     		},
+     	});
+     }
+     $('.inputOnblur0').bind('keypress', function(event) {
+     	if (event.keyCode == "13") {
+     		var that = $(this);
+     		findUserSignature(that,0);
+     	}
+     });
+     $('.inputOnblur1').bind('keypress', function(event) {
+     	if (event.keyCode == "13") {
+     		var that = $(this);
+     		findUserSignature(that,1);
+     	}
+     });
       $('.inputImg').click(function() {
         var that = $(this);
         that.attr('src', '').hide();
