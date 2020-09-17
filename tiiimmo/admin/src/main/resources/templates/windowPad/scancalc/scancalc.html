@@ -1,201 +1,226 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>扫码计数</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
-    <link rel="stylesheet" href="../../css/main.css">
-    <link rel="stylesheet" href="../../css/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../../css/windowPad/scancalc.css">
-</head>
-<body>
-<div class="mainBox">
-    <div class="imBox">
-        <span class=""  style="width:100px;display: inline-block;font-size: 20px">扫码登记：</span>
-        <input id="codeBox" autocomplete="off" class="layui-input" type="text" style="width: calc(100% - 110px);display: inline-block">
-    </div>
-    <div class="taskBox">
-        <div class="title">当前登记列表</div>
-        <table class="layui-hide" id="table" lay-filter="table"></table>
-    </div>
-</div>
+	<head>
+		<meta charset="UTF-8">
+		<title>扫码计数</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../lib/layui-v2.3.0/css/layui.css">
+		<link rel="stylesheet" href="../../css/main.css">
+		<link rel="stylesheet" href="../../css/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../../css/windowPad/scancalc.css">
+	</head>
+	<body>
+		<div class="mainBox">
+			<div class="imBox">
+				<span class="" style="width:100px;display: inline-block;font-size: 20px">扫码登记：</span>
+				<input id="codeBox" autocomplete="off" class="layui-input" type="text" style="width: calc(100% - 110px);display: inline-block">
+			</div>
+			<div class="taskBox">
+				<div class="title">当前登记列表</div>
+				<table class="layui-hide" id="table" lay-filter="table"></table>
+			</div>
+		</div>
 
-<script src="../../lib/layui-v2.3.0/layui.js" ></script>
-<script src="../../js/common.js" ></script>
-</body>
-<script>
-    window.onload = function () {
-        layui.use(['jquery', 'form','table'], function () {
-            var $ = layui.jquery,
-                table = layui.table,
-                form = layui.form;
-            var keke = parent.document.getElementById('scs')
-            var codeBox = document.getElementById('codeBox');
-            var nowDeviceCode = getQueryString2('deviceCode');
+		<script src="../../lib/layui-v2.3.0/layui.js"></script>
+		<script src="../../js/common.js"></script>
+	</body>
+	<script>
+		window.onload = function() {
+			layui.use(['jquery', 'form', 'table'], function() {
+				var $ = layui.jquery,
+					table = layui.table,
+					form = layui.form;
+				var keke = parent.document.getElementById('scs')
+				var codeBox = document.getElementById('codeBox');
+				var nowDeviceCode = getQueryString2('deviceCode');
 
-            codeBox.focus();
-            scanCode('codeBox',function () {
-                layer.load(1,{
-                    content: '添加中...',
-                    success: function (layero) {
-                        layero.find('.layui-layer-content').css({
-                            'padding-top': '39px',
-                            'width': '60px'
-                        });
-                    }
-                });
-                $.ajax({
-                    url:"/produce/pcbTask/findProcessTaskByDevice",
-                    type:'post',
-                    dataType : "json",
-                    contentType : "application/json;charset=UTF-8",
-                    data:JSON.stringify({
-                        deviceCode:getQueryString2('deviceCode'),
-                    }),
-                    success: function (res) {
-                        layer.closeAll();
-                        res.data.some(function (t,i) {
-                            if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
-                                if(parentLogin()){
-                                    $.ajax({
-                                        url: '/produce/pcbTask/countProcessTaskAmount',
-                                        type: "post",
-                                        dataType : "json",
-                                        data : JSON.stringify({
-                                            processTaskCode:t.process_task_code,
-                                            deviceCode:getQueryString2('deviceCode'),
-                                            plateNo:$('#codeBox').val()
-                                        }),
-                                        contentType : "application/json;charset=UTF-8",
-                                        success: function (res2) {
-                                            layer.closeAll();
-                                            if(res2.code === 200){
-                                                layer.msg(res.msg,{icon:1});
-                                                keke.innerHTML=parseInt(keke.innerHTML)+1
+				codeBox.focus();
+				scanCode('codeBox', function() {
+					layer.load(1, {
+						content: '添加中...',
+						success: function(layero) {
+							layero.find('.layui-layer-content').css({
+								'padding-top': '39px',
+								'width': '60px'
+							});
+						}
+					});
+					$.ajax({
+						url: "/produce/pcbTask/findProcessTaskByDevice",
+						type: 'post',
+						dataType: "json",
+						contentType: "application/json;charset=UTF-8",
+						data: JSON.stringify({
+							deviceCode: getQueryString2('deviceCode'),
+						}),
+						success: function(res) {
+							layer.closeAll();
+							console.log(5555)
+							res.data.some(function(t, i) {
+								if (("" + t.is_now_flag).indexOf(nowDeviceCode) != -1) {
+									if (parentLogin()) {
+										$.ajax({
+											url: '/produce/pcbTask/countProcessTaskAmount',
+											type: "post",
+											dataType: "json",
+											data: JSON.stringify({
+												processTaskCode: t.process_task_code,
+												deviceCode: getQueryString2('deviceCode'),
+												plateNo: $('#codeBox').val()
+											}),
+											contentType: "application/json;charset=UTF-8",
+											success: function(res2) {
+												layer.closeAll();
+												if (res2.code === 200) {
+													layer.msg(res.msg, {
+														icon: 1
+													});
+													keke.innerHTML = parseInt(keke.innerHTML) + 1
 
-                                                setTimeout(function () {
-                                                    window.location.reload();
-                                                },1000)
-                                            }else{
-                                                $('#codeBox').val("")
-                                                $('#codeBox').focus();
-                                                layer.alert(res2.msg,{icon:5})
-                                            }
+													setTimeout(function() {
+														window.location.reload();
+													}, 1000)
+												} else {
+													$('#codeBox').val("")
+													$('#codeBox').focus();
+													layer.alert(res2.msg, {
+														icon: 5
+													})
+												}
 
-                                        }
-                                    })
-                                }
-                                return true
-                            }
-                        });
-                    }
-                })
-            });
-            //展示已知数据
-            findPcbTaskPlateNo();
-            //10秒定时刷新一次
-            findPcbTaskPlateNoInterval = setInterval(function () {
-                findPcbTaskPlateNo()
-            }, 10000);
-            table.on('tool(table)',function (obj) {
-                var data = obj.data;
-                switch (obj.event) {
-                    case 'set':
-                        if(parentLogin()){
-
-                        layer.open({
-                            type:2,
-                            area:['90%','90%'],
-                            title:"详情",
-                            content:'/detail',
-                            success: function (i, index) {
-                                var iframeWin = window[i.find('iframe')[0]['name']];
-                                data.plan_start_time = timeToDate(data.plan_start_time)
-                                data.plan_finish_time = timeToDate(data.plan_finish_time)
-                                var title = {
-                                    process_task_code: '工序任务号',
-                                    process_name: '工序名称',
-                                    task_sheet_code: '生产批次',
-                                    process_task_status: '工单状态',
-                                    model_name: '机型名称',
-                                    pcb_code: '规格型号',
-                                    pcb_quantity: '计划生产数量',
-                                    amount_completed: '实际生产数量',
-                                    RoHS: 'RoHS',
-                                    plan_start_time: '计划生产时间',
-                                    plan_finish_time: '计划结束时间',
-                                    qqq: '板编号',
-                                };
-                                iframeWin.render(data,title,1)
-                            }
-                        })
-                        }
-
-                        break;
-                }
-            })
-            function findPcbTaskPlateNo() {
-                $.ajax({
-                    url:"/produce/pcbTask/findProcessTaskByDevice",
-                    type:'post',
-                    dataType : "json",
-                    data : JSON.stringify({
-                        deviceCode:getQueryString2('deviceCode')
-                    }),
-                    contentType : "application/json;charset=UTF-8",
-                    success: function (res) {
-                        layer.closeAll();
-                        res.data.some(function (t,i) {
-                            if((""+t.is_now_flag).indexOf(nowDeviceCode)!=-1){
-                                table.render({
-                                    elem: '#table'
-                                    ,url: '/produce/pcbTask/findPcbTaskPlateNo' //数据接口
-                                    ,page: true //开启分页
-                                    ,method:'POST'
-                                    ,loading:false
-                                    ,contentType: 'application/json'
-                                    ,response: {
-                                        statusCode: 200
-                                    }
-                                    ,parseData: function(res){
-                                        return {
-                                            "code": res.code, //解析接口状态
-                                            "data": res.data, //解析数据列表
-                                            "count": res.total//解析数据长度
-                                        };
-                                    }
-                                    ,where:{
-                                        pcbTaskCode: t.pcb_task_code,
-                                        processTaskCode: t.process_task_code
-                                    }
-                                    ,cols: [
-                                        [ //标题栏
-                                            {field: 'plate_no', title: '板编号', minWidth: 145}
-                                            ,{field: 'process_task_code', title: '工序任务号', width: 140}
-                                            ,{field: 'pcb_code', title: '规格型号', width: 180}
-                                            ,{field: 'is_count', title: '是否登記', width: 124,templet:function (d) {
-                                                return d.is_count==0?'<span style="color:red">否</span>':'<span style="color:#2acd02">是</span>'
-                                            }}
-                                            // ,{ field: 'qwe',title: '操作',fixed:'right', minWidth: 100,templet:function (d) {
-                                            //     return  '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-sm" type="button">查看详情</button> '
-                                            // }}
-                                        ]
-                                    ]
-                                });
-                                return true
-                            }
-                        });
-                    }
-                });
-            }
-        });
-    };
-    window.onbeforeunload=function () {
-        window.clearInterval(findPcbTaskPlateNoInterval)
-    }
-</script>
+											}
+										})
+									}
+									return true
+								}
+							});
+						}
+					})
+				});
+				//展示已知数据
+				var count_type;
+				findPcbTaskPlateNo();
+				//10秒定时刷新一次
+				findPcbTaskPlateNoInterval = setInterval(function() {
+					//非贴片不可进行数据刷新
+					if (count_type == 0) {
+						findPcbTaskPlateNo()
+					}
+				}, 10000);
+				table.on('tool(table)', function(obj) {
+					var data = obj.data;
+					switch (obj.event) {
+						case 'set':
+							if (parentLogin()) {
+								layer.open({
+									type: 2,
+									area: ['90%', '90%'],
+									title: "详情",
+									content: '/detail',
+									success: function(i, index) {
+										var iframeWin = window[i.find('iframe')[0]['name']];
+										data.plan_start_time = timeToDate(data.plan_start_time)
+										data.plan_finish_time = timeToDate(data.plan_finish_time)
+										var title = {
+											process_task_code: '工序任务号',
+											process_name: '工序名称',
+											task_sheet_code: '生产批次',
+											process_task_status: '工单状态',
+											model_name: '机型名称',
+											pcb_code: '规格型号',
+											pcb_quantity: '计划生产数量',
+											amount_completed: '实际生产数量',
+											RoHS: 'RoHS',
+											plan_start_time: '计划生产时间',
+											plan_finish_time: '计划结束时间',
+											qqq: '板编号',
+										};
+										iframeWin.render(data, title, 1)
+									}
+								})
+							}
+							break;
+					}
+				})
+				function findPcbTaskPlateNo() {
+					$.ajax({
+						url: "/produce/pcbTask/findProcessTaskByDevice",
+						type: 'post',
+						dataType: "json",
+						data: JSON.stringify({
+							deviceCode: getQueryString2('deviceCode')
+						}),
+						contentType: "application/json;charset=UTF-8",
+						success: function(res) {
+							layer.closeAll();
+							res.data.some(function(t, i) {
+								if (("" + t.is_now_flag).indexOf(nowDeviceCode) != -1) {
+									console.log(t)
+									count_type = t.count_type
+									table.render({
+										elem: '#table',
+										url: '/produce/pcbTask/findPcbTaskPlateNo' //数据接口
+											,
+										page: true //开启分页
+											,
+										method: 'POST',
+										loading: false,
+										contentType: 'application/json',
+										response: {
+											statusCode: 200
+										},
+										parseData: function(res) {
+											return {
+												"code": res.code, //解析接口状态
+												"data": res.data, //解析数据列表
+												"count": res.total //解析数据长度
+											};
+										},
+										where: {
+											pcbTaskCode: t.pcb_task_code,
+											processTaskCode: t.process_task_code
+										},
+										cols: [
+											[ //标题栏
+												{
+													field: 'plate_no',
+													title: '板编号',
+													minWidth: 145
+												}, {
+													field: 'process_task_code',
+													title: '工序任务号',
+													width: 140
+												}, {
+													field: 'pcb_code',
+													title: '规格型号',
+													width: 180
+												}, {
+													field: 'is_count',
+													title: '是否登記',
+													width: 124,
+													templet: function(d) {
+														return d.is_count == 0 ? '<span style="color:red">否</span>' :
+															'<span style="color:#2acd02">是</span>'
+													}
+												}
+												// ,{ field: 'qwe',title: '操作',fixed:'right', minWidth: 100,templet:function (d) {
+												//     return  '<button lay-event="set" class="layui-btn layui-btn-warm layui-btn-sm" type="button">查看详情</button> '
+												// }}
+											]
+										]
+									});
+									return true
+								}
+							});
+						}
+					});
+				}
+			});
+		};
+		window.onbeforeunload = function() {
+			window.clearInterval(findPcbTaskPlateNoInterval)
+		}
+	</script>
 </html>
