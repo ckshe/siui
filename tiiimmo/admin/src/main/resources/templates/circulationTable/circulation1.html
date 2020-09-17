@@ -31,9 +31,8 @@
             display: block;
             align-content: center;
             width: auto;
-            /* height: 14px; */
-			height: auto;
-			margin: auto;
+            height: 14px;
+			background: transparent;
         }
 
         .displayType .inputSpan {
@@ -42,7 +41,7 @@
         }
 
         .inputSpan input {
-            position: absolute;
+            /* position: absolute; */
             width: 100%;
             border: none;
             text-align: left;
@@ -59,7 +58,6 @@
             padding: 0;
             overflow: hidden;
         }
-		td img{width: 100%; height: auto%;}
         .inputall {
             border: none;
             height: 80%;
@@ -74,7 +72,9 @@
             font-size: 16px;
             background: #eee;
         }
-
+/* 		.inputOnblur0{
+			margin-top: -3px;
+		} */
         #onsubmit,
         #op {
             display: block;
@@ -141,7 +141,7 @@
 					/N<input id="RoHS1" type="checkbox" /><span>    </span>
 				</td>
 			</tr>
-			<tr height=20 style='height:15.0pt'>
+			<tr height=20 style='height:20.0pt'>
 				<td colspan=14 height=20 class='xl121 displayType' style='border-right:1.0pt solid black;height:15.0pt'>
 					生产型号：<span class="inputSpan"><input id='model' class="" style="text-align: center"></span>
 					<span class="span9">生产批次：<span class="inputSpan"><input id='taskSheetCode' style="text-align: center"></span></span>投产台数：<span
@@ -172,8 +172,8 @@
 				<td rowspan=2 class=xl133 style='border-bottom:.5pt solid black;border-top:
   none'>日期</td>
 			</tr>
-			<tr height=16 style='height:12.0pt'> </tr>
-			<tr height=9 style='height:6.95pt'>
+			<tr height=16 style='height:15.0pt'> </tr>
+			<tr height=9 style='height:15pt'>
 				<td colspan=4 rowspan=3 height=27 class=xl135 style='border-right:.5pt solid black;
   height:20.85pt'>PCB板号：<span
 					 class="inputSpan" style="width:200px;"><input id="pcbCode" class="" style="text-align: center"></span></td>
@@ -185,7 +185,7 @@
   none'><span class="inputSpan">
 					<!-- 承接人1	-->
 					<input id='cjsdgx_cjUser_1' class="inputOnblur0" style="text-align: center">
-					<img src="" id="cjsdgx_cjUser_1_img" class="inputImg"></span>
+					<img src="" id="cjsdgx_cjUser_1_img"  width="54" height="18" class="inputImg"></span>
 				</td>
 				<td rowspan=2 class=xl114 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjAmount_1" class=""
 						 style="text-align: center"></span></td>
@@ -194,19 +194,19 @@
 				<td colspan=2 rowspan=6 class=xl127 style='border-right:.5pt solid black;
   border-bottom:.5pt solid black'><span class="inputSpan">
 					<input id='kzsx_zxUser' class="inputOnblur0" style="text-align: center">
-					<img src="" id="kzsx_zxUser_img" class="inputImg"></span>
+					<img src="" id="kzsx_zxUser_img" width="96" height="32" class="inputImg"></span>
 				</td>
 				<td rowspan=6 class=xl140 style='border-bottom:.5pt solid black;border-top:
   none'><span class="inputSpan">
 					<input id='kzsx_qrUser' class="inputOnblur0" style="text-align: center">
-					<img src="" id="kzsx_qrUser_img" class="inputImg"></span>
+					<img src="" id="kzsx_qrUser_img"  width="57" height="19" class="inputImg"></span>
 				</td>
 				<td rowspan=6 class=xl133 style='border-bottom:.5pt solid black;border-top:
   none'><span class="inputSpan"><input
 						 id='kzsx_date' class="dateType " style="text-align: center"></span></td>
 			</tr>
-			<tr height=9 style='height:6.95pt'> </tr>
-			<tr height=9 style='height:6.95pt'>
+			<tr height=9 style='height:15pt'> </tr>
+			<tr height=9 style='height:15pt'>
 				<td rowspan=2 height=18 class=xl124 style='border-bottom:.5pt solid black;
   height:13.9pt;border-top:none'><span
 					 class="inputSpan"><input id='cjsdgx_cjNum_2' class="" style="text-align: center"></span></td>
@@ -214,19 +214,19 @@
   none'><span class="inputSpan">
 					<!-- 承接人2	-->
 					<input id='cjsdgx_cjUser_2' class="inputOnblur0" style="text-align: center">
-					<img src="" id="cjsdgx_cjUser_2_img" class="inputImg"></span>
+					<img src="" id="cjsdgx_cjUser_2_img" width="54" height="18" class="inputImg"></span>
 				</td>
 				<td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjAmount_2" class=""
 						 style="text-align: center"></span></td>
 				<td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjDate_2" class="dateType "
 						 style="text-align: center"></span></td>
 			</tr>
-			<tr height=9 style='height:6.95pt'>
+			<tr height=9 style='height:15pt'>
 				<td colspan=4 rowspan=3 height=27 class=xl135 style='border-right:.5pt solid black;
   height:20.85pt'>板编码：<span
 					 class="inputSpan" style="width:200px;"><input id="plateCode" class="" style="text-align: center"></span></td>
 			</tr>
-			<tr height=9 style='height:6.95pt'>
+			<tr height=9 style='height:15pt'>
 				<td rowspan=2 height=18 class=xl124 style='border-bottom:.5pt solid black;
   height:13.9pt;border-top:none'><span
 					 class="inputSpan"><input id='cjsdgx_cjNum_3' class="" style="text-align: center"></span></td>
@@ -234,7 +234,7 @@
   none'><span class="inputSpan">
 					<!-- 承接人3	-->
 					<input id='cjsdgx_cjUser_3' class="inputOnblur0" style="text-align: center">
-					<img src="" id="cjsdgx_cjUser_3_img" class="inputImg"></span>
+					<img src="" id="cjsdgx_cjUser_3_img"  width="54" height="18" class="inputImg"></span>
 				</td>
 				<td rowspan=2 class=xl141 style='border-bottom:.5pt solid black;border-top:
   none'><span class="inputSpan"><input
@@ -242,7 +242,7 @@
 				<td rowspan=2 class=xl115 style='border-top:none'><span class="inputSpan"><input id="cjsdgx_cjDate_3" class="dateType "
 						 style="text-align: center"></span></td>
 			</tr>
-			<tr height=9 style='height:6.95pt'> </tr>
+			<tr height=9 style='height:15pt'> </tr>
 			<tr height=26 style='height:20.1pt'>
 				<td height=26 class=xl71 width=75 style='height:20.1pt;border-top:none;
   width:56pt'>生产内容</td>
@@ -273,7 +273,7 @@
 				<td rowspan=2 class=xl80 style='border-top:none'><span class="inputSpan">
 					<!-- 操作者	-->
 					<input id='sbcs_gjgycs_czUser' class="inputOnblur0" style="text-align: center">
-					<img src="" id="sbcs_gjgycs_czUser_img" class="inputImg"></span>
+					<img src="" id="sbcs_gjgycs_czUser_img" width="57" height="19" class="inputImg"></span>
 				</td>
 			</tr>
 			<tr height=20 style='height:15.0pt'>
@@ -298,12 +298,12 @@
 				<td class=xl77 style='border-left:none'>日期</td>
 			</tr>
 			<!-- 1 -->
-			<tr height=20 style='height:15.6pt'>
-				<td height=20 class=xl104 style='height:15.6pt'><span class="inputSpan"><input id="scqc_gx_1" class="" style="text-align: center"></span></td>
+			<tr height=20 style='height:24.6pt'>
+				<td height=20 class=xl104 style='height:24.6pt'><span class="inputSpan"><input id="scqc_gx_1" class="" style="text-align: center"></span></td>
 				<td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan">
 					<!-- 生产者1	-->
 					<input id='scqc_scUser_1' class="inputOnblur0" style="text-align: center">
-					<img src="" id="scqc_scUser_1_img" class="inputImg"></span>
+					<img src="" id="scqc_scUser_1_img" class="inputImg" style="width: 90px; margin-top: -8px;"></span>
 				</td>
 				<td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_1" class="" style="text-align: center"></span></td>
 				<td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_1" /></td>
@@ -311,7 +311,7 @@
 						 style="text-align: center"></span></td>
 				<td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
   none'><span class="inputSpan"><input
-						 id="scqc_qc_1" style="text-align: center"></span></td>
+						 id="scqc_qc_1" class="inputOnblur0" style="text-align: center"><img src="" id="scqc_qc_1_img" class="inputImg" style="width: 90px; margin-top: -8px;"></span></td>
 				<td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_1" class=""
 						 style="text-align: center"></span></td>
 				<td class=xl74 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_1" class="dateType "
@@ -321,7 +321,7 @@
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan">
 					<!-- 交接者1	-->
 					<input id='jjxd_cjUser_1' class="inputOnblur0" style="text-align: center">
-					<img src="" id="jjxd_cjUser_1_img" class="inputImg"></span>
+					<img src="" id="jjxd_cjUser_1_img" class="inputImg" style="width: 54px; margin-top: -4px; margin-left: 4px;"></span>
 				</td>
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_1" class=""
 						 style="text-align: center"></span></td>
@@ -329,22 +329,21 @@
 						 style="text-align: center"></span></td>
 			</tr>
 			<!-- 2 -->
-			<tr height=20 style='height:15.6pt'>
-				<td height=20 class=xl85 width=75 style='height:15.6pt;border-top:none;
+			<tr height=20 style='height:24.6pt'>
+				<td height=20 class=xl85 width=75 style='height:24.6pt;border-top:none;
   width:56pt'><span class="inputSpan"><input
 						 id="scqc_gx_2" class="" style="text-align: center"></span></td>
 				<td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan">
 					<!-- 生产者2	-->
 					<input id='scqc_scUser_2' class="inputOnblur0" style="text-align: center">
-					<img src="" id="scqc_scUser_2_img" class="inputImg"></span>
+					<img src="" id="scqc_scUser_2_img" class="inputImg" style="width: 90px; margin-top: -8px;"></span>
 				</td>
 				<td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_2" class="" style="text-align: center"></span></td>
 				<td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_2" /></td>
 				<td class=xl65 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_sj_2" class=""
 						 style="text-align: center"></span></td>
 				<td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
-  none'><span class="inputSpan"><input
-						 id="scqc_qc_2" style="text-align: center"></span></td>
+  none'><span class="inputSpan"><input id="scqc_qc_2" class="inputOnblur0" style="text-align: center; position: absolute; margin-top: -5px;"><img src="" id="scqc_qc_2_img" class="inputImg" style="width: 90px; margin-top: -8px;"></span></td>
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_2" class=""
 						 style="text-align: center"></span></td>
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_2" class="dateType "
@@ -354,7 +353,7 @@
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan">
 					<!-- 交接者2	-->
 					<input id='jjxd_cjUser_2' class="inputOnblur0" style="text-align: center">
-					<img src="" id="jjxd_cjUser_2_img" class="inputImg"></span>
+					<img src="" id="jjxd_cjUser_2_img" class="inputImg"  style="width: 54px; margin-top: -4px; margin-left: 4px;"></span>
 				</td>
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_2" class=""
 						 style="text-align: center"></span></td>
@@ -362,14 +361,14 @@
 						 style="text-align: center"></span></td>
 			</tr>
 			<!--3-->
-			<tr height=20 style='height:15.6pt'>
-				<td height=20 class=xl85 width=75 style='height:15.6pt;border-top:none;
+			<tr height=20 style='height:24.6pt'>
+				<td height=20 class=xl85 width=75 style='height:24.6pt;border-top:none;
   width:56pt'><span class="inputSpan"><input
 						 id="scqc_gx_3" class="" style="text-align: center"></span></td>
 				<td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan">
 					<!-- 生产者3	-->
 					<input id='scqc_scUser_3' class="inputOnblur0" style="text-align: center">
-					<img src="" id="scqc_scUser_3_img" class="inputImg"></span>
+					<img src="" id="scqc_scUser_3_img" class="inputImg" style="width: 90px; margin-top: -8px;"></span>
 				</td>
 				<td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_3" class="" style="text-align: center"></span></td>
 				<td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_3" /></td>
@@ -377,7 +376,7 @@
 						 style="text-align: center"></span></td>
 				<td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
   none'><span class="inputSpan"><input
-						 id="scqc_qc_3" style="text-align: center"></span></td>
+						 id="scqc_qc_3" class="inputOnblur0" style="text-align: center"><img src="" id="scqc_qc_3_img" class="inputImg" style="width: 90px; margin-top: -8px;"></span></td>
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_3" class=""
 						 style="text-align: center"></span></td>
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_3" class="dateType "
@@ -387,7 +386,7 @@
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan">
 					<!-- 交接者3	-->
 					<input id='jjxd_cjUser_3' class="inputOnblur0" style="text-align: center">
-					<img src="" id="jjxd_cjUser_3_img" class="inputImg"></span>
+					<img src="" id="jjxd_cjUser_3_img" class="inputImg" style="width: 54px; margin-top: -4px; margin-left: 4px;"></span>
 				</td>
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_3" class=""
 						 style="text-align: center"></span></td>
@@ -395,14 +394,14 @@
 						 style="text-align: center"></span></td>
 			</tr>
 			<!--4-->
-			<tr height=20 style='height:15.6pt'>
-				<td height=20 class=xl85 width=75 style='height:15.6pt;border-top:none;
+			<tr height=20 style='height:24.6pt'>
+				<td height=20 class=xl85 width=75 style='height:24.6pt;border-top:none;
   width:56pt'><span class="inputSpan"><input
 						 id="scqc_gx_4" class="" style="text-align: center"></span></td>
 				<td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan">
 					<!-- 生产者4	-->
 					<input id='scqc_scUser_4' class="inputOnblur0" style="text-align: center">
-					<img src="" id="scqc_scUser_4_img" class="inputImg"></span>
+					<img src="" id="scqc_scUser_4_img" class="inputImg" style="width: 90px; margin-top: -8px;"></span>
 				</td>
 				<td class=xl74 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_4" class="" style="text-align: center"></span></td>
 				<td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_4" /></td>
@@ -410,7 +409,7 @@
 						 style="text-align: center"></span></td>
 				<td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
   none'><span class="inputSpan"><input
-						 id="scqc_qc_4" style="text-align: center"></span></td>
+						 id="scqc_qc_4" class="inputOnblur0" style="text-align: center"><img src="" id="scqc_qc_4_img" class="inputImg" style="width: 90px; margin-top: -8px;"></span></td>
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_4" class=""
 						 style="text-align: center"></span></td>
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_4" class="dateType "
@@ -420,7 +419,7 @@
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan">
 					<!-- 交接者4	-->
 					<input id='jjxd_cjUser_4' class="inputOnblur0" style="text-align: center">
-					<img src="" id="jjxd_cjUser_4_img" class="inputImg"></span>
+					<img src="" id="jjxd_cjUser_4_img" class="inputImg" style="width: 54px; margin-top: -4px; margin-left: 4px;"></span>
 				</td>
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_4" class=""
 						 style="text-align: center"></span></td>
@@ -428,14 +427,14 @@
 						 style="text-align: center"></span></td>
 			</tr>
 			<!--5-->
-			<tr height=20 style='height:15.6pt'>
-				<td height=20 class=xl86 width=75 style='height:15.6pt;border-top:none;
+			<tr height=20 style='height:24.6pt'>
+				<td height=20 class=xl86 width=75 style='height:24.6pt;border-top:none;vertical-align: middle;
   width:56pt'><span class="inputSpan"><input
 						 id="scqc_gx_5" class="" style="text-align: center"></span></td>
 				<td class=xl72 style='border-top:none;border-left:none'><span class="inputSpan">
 					<!-- 生产者5	-->
 					<input id='scqc_scUser_5' class="inputOnblur0" style="text-align: center">
-					<img src="" id="scqc_scUser_5_img" class="inputImg"></span>
+					<img src="" id="scqc_scUser_5_img" class="inputImg" style="width: 90px; margin-top: -8px;"></span>
 				</td>
 				<td class=xl75 style='border-top:none'><span class="inputSpan"><input id="scqc_scAmount_5" class="" style="text-align: center"></span></td>
 				<td class=xl74 style='border-top:none;border-left:none'><input type="checkbox" id="scqc_qchd_5" /></td>
@@ -443,7 +442,7 @@
 						 style="text-align: center"></span></td>
 				<td colspan=2 class=xl72 style='border-right:.5pt solid black;border-left:
   none'><span class="inputSpan"><input
-						 id="scqc_qc_5" style="text-align: center"></span></td>
+						 id="scqc_qc_5"  class="inputOnblur0" style="text-align: center"><img src="" id="scqc_qc_5_img" class="inputImg" style="width: 90px; margin-top: -8px;"></span></td>
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_jcsl_5" class=""
 						 style="text-align: center"></span></td>
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="scqc_date_5" class="dateType "
@@ -453,7 +452,7 @@
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan">
 					<!-- 交接者5	-->
 					<input id='jjxd_cjUser_5' class="inputOnblur0" style="text-align: center">
-					<img src="" id="jjxd_cjUser_5_img" class="inputImg"></span>
+					<img src="" id="jjxd_cjUser_5_img" class="inputImg" style="width: 54px; margin-top: -4px; margin-left: 4px;"></span>
 				</td>
 				<td class=xl75 style='border-top:none;border-left:none'><span class="inputSpan"><input id="jjxd_cjAmount_5" class=""
 						 style="text-align: center"></span></td>
@@ -465,7 +464,7 @@
   height:20.1pt'>(1-不良电路板数量÷电路板总数)×100%＝电路板合格率</td>
 				<td colspan=2 class=xl111 style='border-right:1.0pt solid black'>统计人</td>
 			</tr>
-			<tr height=26 style='height:20.1pt'>
+			<tr height=26 style='height:24.1pt'>
 				<td colspan=12 height=26 class='xl108 displayType' style='border-right:.5pt solid black;
   height:20.1pt'>(1－<span
 					 class="inputSpan">
@@ -475,7 +474,7 @@
 				<td colspan=2 class=xl109 style='border-right:1.0pt solid black'><span class="inputSpan">
 					<!-- 统计人-->
 					<input id='statisticsUser' class="inputOnblur0" style="text-align: center">
-					<img src="" id="statisticsUser_img" class="inputImg">
+					<img src="" id="statisticsUser_img" class="inputImg" width="75">
 				</td>
 			</tr>
 			<tr height=33 style='height:24.95pt'>
@@ -483,13 +482,13 @@
 				<td colspan=13 class=xl152 style='border-left:none'><span class="inputSpan" style="width:100%"><input id="remark"
 						 style="text-align: center"></span></td>
 			</tr>
-			<tr height=20 style='height:15.6pt'>
-				<td height=20 class=xl92 colspan=13 style='height:15.6pt;'>
+			<tr height=20 style='height:20.6pt'>
+				<td height=20 class=xl92 colspan=13 style='height:20.6pt;'>
 					注：1.完成生产后生产者清产核对器件数量，如正确请在清产核对<input type="checkbox" />打√，否则上报车间管理人员；</td>
 				<td class=xl102></td>
 			</tr>
-			<tr height=20 style='height:15.6pt'>
-				<td height=20 class=xl92 colspan=12 style='height:15.6pt;'>
+			<tr height=20 style='height:20.6pt'>
+				<td height=20 class=xl92 colspan=12 style='height:20.6pt;'>
 					&nbsp;&nbsp;2.生产该板使用到的设备、程序正常项<input type="checkbox" />打√，填写相应的关键工艺参数、程序名称。
 				</td>
 				<td colspan=2 class=xl68></td>
@@ -737,7 +736,12 @@
 										$('#scqc_qchd_1').attr('checked', true)
 									}
 									$('#scqc_sj_1').val(dj.scqc[0].sj)
-									$('#scqc_qc_1').val(dj.scqc[0].qc)
+									// $('#scqc_qc_1').val(dj.scqc[0].qc)
+									if (dj.scqc[0].qcImg) {
+										$('#scqc_qc_1_img').attr('src', dj.scqc[0].qcImg).show().prev().hide();
+									} else {
+										$('#scqc_qc_1').val(dj.scqc[0].qc).show().next().hide()
+									}
 									$('#scqc_jcsl_1').val(dj.scqc[0].jcsl)
 									$('#scqc_date_1').val(dj.scqc[0].date)
 
@@ -754,7 +758,12 @@
 										$('#scqc_qchd_2').attr('checked', true)
 									}
 									$('#scqc_sj_2').val(dj.scqc[1].sj)
-									$('#scqc_qc_2').val(dj.scqc[1].qc)
+									
+									if (dj.scqc[1].qcImg) {
+										$('#scqc_qc_2_img').attr('src', dj.scqc[1].qcImg).show().prev().hide();
+									} else {
+										$('#scqc_qc_').val(dj.scqc[1].qc).show().next().hide()
+									}
 									$('#scqc_jcsl_2').val(dj.scqc[1].jcsl)
 									$('#scqc_date_2').val(dj.scqc[1].date)
 
@@ -771,7 +780,11 @@
 										$('#scqc_qchd_3').attr('checked', true)
 									}
 									$('#scqc_sj_3').val(dj.scqc[2].sj)
-									$('#scqc_qc_3').val(dj.scqc[2].qc)
+									if (dj.scqc[2].qcImg) {
+										$('#scqc_qc_3_img').attr('src', dj.scqc[2].qcImg).show().prev().hide();
+									} else {
+										$('#scqc_qc_3').val(dj.scqc[2].qc).show().next().hide()
+									}
 									$('#scqc_jcsl_3').val(dj.scqc[2].jcsl)
 									$('#scqc_date_3').val(dj.scqc[2].date)
 
@@ -788,7 +801,11 @@
 										$('#scqc_qchd_4').attr('checked', true)
 									}
 									$('#scqc_sj_4').val(dj.scqc[3].sj)
-									$('#scqc_qc_4').val(dj.scqc[3].qc)
+									if (dj.scqc[3].qcImg) {
+										$('#scqc_qc_4_img').attr('src', dj.scqc[3].qcImg).show().prev().hide();
+									} else {
+										$('#scqc_qc_4').val(dj.scqc[3].qc).show().next().hide()
+									}
 									$('#scqc_jcsl_4').val(dj.scqc[3].jcsl)
 									$('#scqc_date_4').val(dj.scqc[3].date)
 
@@ -805,7 +822,11 @@
 										$('#scqc_qchd_5').attr('checked', true)
 									}
 									$('#scqc_sj_5').val(dj.scqc[4].sj)
-									$('#scqc_qc_5').val(dj.scqc[4].qc)
+									if (dj.scqc[4].qcImg) {
+										$('#scqc_qc_5_img').attr('src', dj.scqc[4].qcImg).show().prev().hide();
+									} else {
+										$('#scqc_qc_5').val(dj.scqc[4].qc).show().next().hide()
+									}
 									$('#scqc_jcsl_5').val(dj.scqc[4].jcsl)
 									$('#scqc_date_5').val(dj.scqc[4].date)
 									// 交接数据------------------------
@@ -1031,6 +1052,7 @@
 							"qchd": $('#scqc_qchd_1').is(":checked") ? 1 : 0,
 							"sj": $('#scqc_sj_1').val(),
 							"qc": $('#scqc_qc_1').val(),
+							"qcImg": $('#scqc_qc_1_img').attr('src'),
 							"jcsl": $('#scqc_jcsl_1').val(),
 							"date": $('#scqc_date_1').val()
 						},
@@ -1042,6 +1064,7 @@
 							"qchd": $('#scqc_qchd_2').is(":checked") ? 1 : 0,
 							"sj": $('#scqc_sj_2').val(),
 							"qc": $('#scqc_qc_2').val(),
+							"qcImg": $('#scqc_qc_2_img').attr('src'),
 							"jcsl": $('#scqc_jcsl_2').val(),
 							"date": $('#scqc_date_2').val()
 						},
@@ -1053,6 +1076,7 @@
 							"qchd": $('#scqc_qchd_3').is(":checked") ? 1 : 0,
 							"sj": $('#scqc_sj_3').val(),
 							"qc": $('#scqc_qc_3').val(),
+							"qcImg": $('#scqc_qc_3_img').attr('src'),
 							"jcsl": $('#scqc_jcsl_3').val(),
 							"date": $('#scqc_date_3').val()
 						},
@@ -1064,6 +1088,7 @@
 							"qchd": $('#scqc_qchd_4').is(":checked") ? 1 : 0,
 							"sj": $('#scqc_sj_4').val(),
 							"qc": $('#scqc_qc_4').val(),
+							"qcImg": $('#scqc_qc_4_img').attr('src'),
 							"jcsl": $('#scqc_jcsl_4').val(),
 							"date": $('#scqc_date_4').val()
 						},
@@ -1075,6 +1100,7 @@
 							"qchd": $('#scqc_qchd_5').is(":checked") ? 1 : 0,
 							"sj": $('#scqc_sj_5').val(),
 							"qc": $('#scqc_qc_5').val(),
+							"qcImg": $('#scqc_qc_5_img').attr('src'),
 							"jcsl": $('#scqc_jcsl_5').val(),
 							"date": $('#scqc_date_5').val()
 						}
