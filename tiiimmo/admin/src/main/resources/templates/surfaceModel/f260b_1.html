@@ -23,9 +23,11 @@
 
 	.inputOnblur1 {
 		width: 28px;
-		height: 64px;
+		height: 60px;
 		margin-left: 2px;
 		border: none;
+		position: absolute;
+		top: 0px;
 	}
 
 	td {
@@ -2051,6 +2053,15 @@ layui.use(['table', 'jquery', 'form', 'layer', 'laydate'], function () {
       var that = $(this)
       findUserSignature(that, 1)
     }
+  })
+  $('.inputImg').click(function () {
+    var that = $(this)
+    that.attr('src', '').hide()
+    that.prev().show().focus()
+    that.parent().css({
+      'width': 'auto',
+      'height': 'auto'
+    })
   })
   //这里开始拿数据
   $('.rowDate').click(function () {
