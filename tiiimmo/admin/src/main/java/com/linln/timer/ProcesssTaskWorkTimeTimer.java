@@ -140,7 +140,7 @@ public class ProcesssTaskWorkTimeTimer {
 
 
     //每45分钟检测是否有变动
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 0/45 * * * ?")
     public void autoPauseProcessTaskStatus() {
         log.info("====45分钟暂停工单====");
         // 处理生产中的贴片任务
