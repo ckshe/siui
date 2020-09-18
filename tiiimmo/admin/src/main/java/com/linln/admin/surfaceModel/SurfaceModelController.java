@@ -11,14 +11,22 @@ public class SurfaceModelController {
     //    G5全自动视觉印刷机维护记录表
     @GetMapping("/f259b")
     public String f259b(){ return "/surfaceModel/f259b";}
+    //    G5全自动视觉印刷机维护记录表
+    @GetMapping("/f259b_1")
+    public String f259b_1(){ return "/surfaceModel/f259b_1";}
     //    贴片机YS12/YS12F日常维护记录表
     @GetMapping("/f260b")
     public String f260b(){ return "/surfaceModel/f260b";}
     @GetMapping("/f260b_1")
     public String f260b_1(){ return "/surfaceModel/f260b_1";}
+    @GetMapping("/f260b_2")
+    public String f260b_2(){ return "/surfaceModel/f260b_2";}
     //    AOI维护记录表
     @GetMapping("/f261c")
     public String f261c(){ return "/surfaceModel/f261c";}
+    //    AOI维护记录表
+    @GetMapping("/f261c_1")
+    public String f261c_1(){ return "/surfaceModel/f261c_1";}
     //    自动焊接机维护记录表
     @GetMapping("/f273b")
     public String f273b(){ return "/surfaceModel/f273b";}

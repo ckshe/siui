@@ -180,13 +180,19 @@
 					<button id="ZJ-F205B" class="shenGreenButton" type="button">SMT首检</button>
 				</div>
 				<div>
-					<button id="ZJ-F259B" class="shenGreenButton" type="button">丝印机日常维护</button>
+					<button id="ZJ-F259B" class="shenGreenButton" type="button">丝印机1日常维护</button>
 				</div>
 				<div>
-					<button id="ZJ-F260B" class="shenGreenButton" type="button">贴片机YS12日常维护</button>
+					<button id="ZJ-F259B_1" class="shenGreenButton" type="button">丝印机2日常维护</button>
 				</div>
 				<div>
-					<button id="ZJ-F260B_1" class="shenGreenButton" type="button">贴片机YS12F日常维护</button>
+					<button id="ZJ-F260B" class="shenGreenButton" type="button">贴片机1-YS12日常维护</button>
+				</div>
+				<div>
+					<button id="ZJ-F260B_1" class="shenGreenButton" type="button">贴片机2-YS12F日常维护</button>
+				</div>
+				<div>
+					<button id="ZJ-F260B_2" class="shenGreenButton" type="button">贴片机3-YS12F日常维护</button>
 				</div>
 				<div>
 					<button id="ZJ-F261C" class="shenGreenButton" type="button">AOI日常维护</button>
@@ -1139,7 +1145,7 @@
 					layer.open({
 						type: 2,
 						area: ["1250px", "90%"],
-						title: '丝印机G5日常维护记录表',
+						title: '丝印机1-G5日常维护记录表',
 						content: '/surfaceModel/f259b?id=6&pcb_task_code=' + nowGonDan.pcb_task_code,
 						success: function(layero, index) {
 							var body = layer.getChildFrame('body', index);
@@ -1148,7 +1154,25 @@
 						}
 					});
 				});
-
+				$('#ZJ-F259B_1').on('click', function() {
+					if (nowGonDan == '') {
+						layer.alert('当前无工序', {
+							icon: 5
+						})
+						return
+					}
+					layer.open({
+						type: 2,
+						area: ["1250px", "90%"],
+						title: '丝印机2-G5日常维护记录表',
+						content: '/surfaceModel/f259b_1?id=601&pcb_task_code=' + nowGonDan.pcb_task_code,
+						success: function(layero, index) {
+							var body = layer.getChildFrame('body', index);
+							var d = JSON.stringify(nowGonDan)
+							body.contents().find("input[name='data']").val(d);
+						}
+					});
+				});
 				$('#ZJ-F260B').on('click', function() {
 					if (nowGonDan == '') {
 						layer.alert('当前无工序', {
@@ -1159,7 +1183,7 @@
 					layer.open({
 						type: 2,
 						area: ["1250px", "90%"],
-						title: '贴片机YS12日常维护记录表',
+						title: '贴片机1-YS12日常维护记录表',
 						content: '/surfaceModel/f260b?id=7&pcb_task_code=' + nowGonDan.pcb_task_code,
 						success: function(layero, index) {
 							var body = layer.getChildFrame('body', index);
@@ -1179,7 +1203,7 @@
 					layer.open({
 						type: 2,
 						area: ["1250px", "90%"],
-						title: '贴片机YS12F日常维护记录表',
+						title: '贴片机2-YS12F日常维护记录表',
 						content: '/surfaceModel/f260b_1?id=701&pcb_task_code=' + nowGonDan.pcb_task_code,
 						success: function(layero, index) {
 							var body = layer.getChildFrame('body', index);
@@ -1189,6 +1213,25 @@
 					});
 				});
 
+				$('#ZJ-F260B_2').on('click', function() {
+					if (nowGonDan == '') {
+						layer.alert('当前无工序', {
+							icon: 5
+						})
+						return
+					}
+					layer.open({
+						type: 2,
+						area: ["1250px", "90%"],
+						title: '贴片机3-YS12F日常维护记录表',
+						content: '/surfaceModel/f260b_2?id=702&pcb_task_code=' + nowGonDan.pcb_task_code,
+						success: function(layero, index) {
+							var body = layer.getChildFrame('body', index);
+							var d = JSON.stringify(nowGonDan)
+							body.contents().find("input[name='data']").val(d);
+						}
+					});
+				});
 				$('#ZJ-F261C').on('click', function() {
 					if (nowGonDan == '') {
 						layer.alert('当前无工序', {

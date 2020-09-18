@@ -88,11 +88,14 @@
                     [
                         { field: 'year_month', title: '记录月份', sort: true, minWidth: 180 }
                         , {
-                            title: '日常维护记录表', fixed: 'right', minWidth: 600, align: 'center', templet: function (d) {
-                                return '<button lay-event="syj" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#fbb417" type="button">丝印机</button>'
-                                    + '<button lay-event="tpj" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#3366cc" type="button">YS12贴片机</button>'
-                                    + '<button lay-event="tpj1" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#3366cc" type="button">YS12F贴片机</button>'
-                                    + '<button lay-event="aoi" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#a1488e" type="button">AOI日常维护</button>'
+                            title: '日常维护记录表', fixed: 'right', minWidth:960, align: 'center', templet: function (d) {
+                                return '<button lay-event="syj1" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#fbb417" type="button">丝印机1</button>'
+                                    +'<button lay-event="syj2" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#fbb417" type="button">丝印机2</button>'
+                                    + '<button lay-event="tpj" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#3366cc" type="button">YS12贴片机1</button>'
+                                    + '<button lay-event="tpj1" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#3366cc" type="button">YS12F贴片机2</button>'
+                                    + '<button lay-event="tpj2" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#3366cc" type="button">YS12F贴片机3</button>'
+                                    + '<button lay-event="aoi1" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#a1488e" type="button">AOI1日常维护</button>'
+                                    + '<button lay-event="aoi2" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#a1488e" type="button">AOI2日常维护</button>'
                                     + '<button lay-event="zdhj" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#3f9337" type="button">自动焊机</button>'
                                     + '<button lay-event="bfhj" class="layui-btn  layui-btn-xs" style="margin-right:6px;background-color:#239676" type="button">波峰焊机</button>'
                                     + '<button lay-event="hlhj" class="layui-btn  layui-btn-xs"style="margin-right:6px;background-color:#1f9baa" type="button"> 回流焊机</button>'
@@ -118,9 +121,9 @@
                 var data = obj.data;
                 console.log(data)
                 switch (obj.event) {
-                    case 'syj':
+                    case 'syj1':
                         layer.open({
-                            title: '丝印机G5日常维护记录表',
+                            title: '丝印机1G5日常维护记录表',
                             type: 2,
                             area: ['1350px', '96%'],
                             content: '/surfaceModel/f259b?id=6&year_month='+data.year_month+'&year='+data.year+'&month='+data.month,
@@ -131,9 +134,22 @@
                             }
                         });
                         break;
+                    case 'syj2':
+                        layer.open({
+                            title: '丝印机2G5日常维护记录表',
+                            type: 2,
+                            area: ['1350px', '96%'],
+                            content: '/surfaceModel/f259b_1?id=601&year_month='+data.year_month+'&year='+data.year+'&month='+data.month,
+                            success: function (layero, index) {
+                                var body = layer.getChildFrame('body', index);
+                                var d = JSON.stringify(data)
+                                body.contents().find("input[name='data']").val(d);
+                            }
+                        });
+                        break;
                     case 'tpj':
                         layer.open({
-                            title: '贴片机YS12日常维护记录表',
+                            title: '贴片机1-YS12日常维护记录表',
                             type: 2,
                             area: ['1350px', '96%'],
                             content: '/surfaceModel/f260b?id=7&deviceName=YS12&year_month='+data.year_month+'&year='+data.year+'&month='+data.month,
@@ -146,7 +162,7 @@
                         break;
                     case 'tpj1':
                         layer.open({
-                            title: '贴片机YS12F日常维护记录表',
+                            title: '贴片机2-YS12F日常维护记录表',
                             type: 2,
                             area: ['1350px', '96%'],
                             content: '/surfaceModel/f260b_1?id=701&deviceName=YS12F&year_month='+data.year_month+'&year='+data.year+'&month='+data.month,
@@ -157,12 +173,38 @@
                             }
                         });
                         break;
-                    case 'aoi':
+                    case 'tpj2':
                         layer.open({
-                            title: 'AOI维护记录表',
+                            title: '贴片机3-YS12F日常维护记录表',
+                            type: 2,
+                            area: ['1350px', '96%'],
+                            content: '/surfaceModel/f260b_c?id=702&deviceName=YS12F&year_month='+data.year_month+'&year='+data.year+'&month='+data.month,
+                            success: function (layero, index) {
+                                var body = layer.getChildFrame('body', index);
+                                var d = JSON.stringify(data)
+                                body.contents().find("input[name='data']").val(d);
+                            }
+                        });
+                        break;
+                    case 'aoi1':
+                        layer.open({
+                            title: 'AOI1维护记录表',
                             type: 2,
                             area: ['1350px', '96%'],
                             content: '/surfaceModel/f261c?id=8&year_month='+data.year_month+'&year='+data.year+'&month='+data.month,
+                            success: function (layero, index) {
+                                var body = layer.getChildFrame('body', index);
+                                var d = JSON.stringify(data)
+                                body.contents().find("input[name='data']").val(d);
+                            }
+                        });
+                        break;
+                    case 'aoi2':
+                        layer.open({
+                            title: 'AOI2维护记录表',
+                            type: 2,
+                            area: ['1350px', '96%'],
+                            content: '/surfaceModel/f261c_1?id=801&year_month='+data.year_month+'&year='+data.year+'&month='+data.month,
                             success: function (layero, index) {
                                 var body = layer.getChildFrame('body', index);
                                 var d = JSON.stringify(data)

@@ -147,7 +147,7 @@
 					<td colspan="31" class="xl105"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>设备编号：<span class="inputSpan" style="position:relative;width:180px;"><input
-							 name="equipmentNo" id="equipmentNo" autocomplete="off"  value="B15003"></span>NO：<span class="inputSpan" style="position:relative;width:100px;"><input
+							 name="equipmentNo" id="equipmentNo" autocomplete="off" value="B1902001"></span>NO：<span class="inputSpan" style="position:relative;width:100px;"><input
 							 name="no" id="no" autocomplete="off"></span></td>
 				</tr>
 				<tr height="30" style="height:23.1pt">
@@ -2082,7 +2082,7 @@
 					dataType: 'json',
 					data: JSON.stringify({
 						yearMonth: getQueryString('year_month') || doHandleDate(),
-						reportType: '701'
+						reportType: '702'
 					}),
 					contentType: 'application/json;charset=UTF-8',
 					success: function(res) {
@@ -3427,7 +3427,7 @@
 					data: JSON.stringify({
 						year_month: getQueryString('year_month') || doHandleDate(),
 						json_data: JSON.stringify(datajson),
-						report_type: '701'
+						report_type: '702'
 					}),
 					contentType: 'application/json;charset=UTF-8',
 					success: function(res) {

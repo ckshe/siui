@@ -143,7 +143,7 @@
 					</td>
 					<td colspan="31" class="xl104">
 						<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>设备编号：<span
-						 class="inputSpan" style="position:relative;width:200px;"><input name="equipmentNo" autocomplete="off" id="equipmentNo" value="B16011"
+						 class="inputSpan" style="position:relative;width:200px;"><input name="equipmentNo" autocomplete="off" id="equipmentNo" value="B15001"
 							 style="text-align: center"></span>NO：<span class="inputSpan" style="position:relative;width:100px;"><input name="no"
 							 id="no" autocomplete="off" style="text-align: center"></span></td>
 				</tr>
@@ -1496,7 +1496,7 @@
 							//pcbTaskCode: 'WORK021609', //todo  排产号先写死
 							//pcbTaskCode: 'WORK021610',
 							yearMonth: getQueryString('year_month') || doHandleDate(),
-							reportType: '6'
+							reportType: '601'
 						}),
 						contentType: 'application/json;charset=UTF-8',
 						success: function(res) {
@@ -2469,7 +2469,7 @@
 						data: JSON.stringify({
 							year_month: getQueryString('year_month') || doHandleDate(),
 							json_data: JSON.stringify(datajson),
-							report_type: '6'
+							report_type: '601'
 						}),
 						contentType: 'application/json;charset=UTF-8',
 						success: function(res) {
