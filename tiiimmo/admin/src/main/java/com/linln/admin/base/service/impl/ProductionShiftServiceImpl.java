@@ -61,7 +61,8 @@ public class ProductionShiftServiceImpl implements ProductionShiftService {
         User users = userRepository.queryByUserName(userName);
         productionShift.setUsers(users);
         //productionShift.setStation(users.getRoleNames());
-        String role = users.getRoles().iterator().next().getTitle();
+        //String role = users.getRoles().iterator().next().getTitle();
+        String role = users.getClassNo();
         productionShift.setStation(role);
 
         return productionShiftRepository.save(productionShift);

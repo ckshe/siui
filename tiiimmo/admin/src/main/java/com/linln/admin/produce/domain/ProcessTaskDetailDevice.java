@@ -32,4 +32,6 @@ public class ProcessTaskDetailDevice {
     //工时
     private BigDecimal work_time;
 
+    private Integer last_amount;
+
 }

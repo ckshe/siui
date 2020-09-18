@@ -25,4 +25,6 @@ public interface ProcessTaskDetailDeviceRepository extends BaseRepository<Proces
     @Query(value = "delete from produce_process_task_detail_device where process_task_code = ?1 ",nativeQuery = true)
     void deleteByTaskCode(String processTaskCode);
 
+    @Query(value = "select * from produce_process_task_detail_device where device_detail_status = ?1",nativeQuery = true)
+    List<ProcessTaskDetailDevice> findWorkTasks(String status);
 }
