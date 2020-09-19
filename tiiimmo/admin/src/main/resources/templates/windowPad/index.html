@@ -941,7 +941,7 @@
 						})
 						return
 					}
-					if (nowGonDan.process_task_status=='生产中' || nowGonDan.process_task_status=='进行中' ) {
+					if ((nowGonDan.count_type === 0)&&(nowGonDan.process_task_status=='生产中' || nowGonDan.process_task_status=='进行中' )) {
 						layer.alert('当前状态处于"'+nowGonDan.process_task_status+'"不能结算', {
 							icon: 5
 						})
