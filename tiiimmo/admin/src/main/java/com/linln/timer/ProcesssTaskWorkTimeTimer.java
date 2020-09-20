@@ -179,7 +179,7 @@ public class ProcesssTaskWorkTimeTimer {
             }
         }
         // 处理生产中的工站任务
-        List<ProcessTaskDetailDevice> processTaskDetailDevices = processTaskDetailDeviceRepository.findWorkTasks("生产中");
+        /*List<ProcessTaskDetailDevice> processTaskDetailDevices = processTaskDetailDeviceRepository.findWorkTasks("生产中");
         for (ProcessTaskDetailDevice processTaskDetailDevice : processTaskDetailDevices) {
             Integer lastAmount = processTaskDetailDevice.getLast_amount() == null ? 0 : processTaskDetailDevice.getLast_amount();
             if (!lastAmount.equals(processTaskDetailDevice.getFinish_count())) {
@@ -208,6 +208,6 @@ public class ProcesssTaskWorkTimeTimer {
                 processTaskStatusHistoryRepository.save(newRecord);
                 processTaskDetailDeviceRepository.save(processTaskDetailDevice);
             }
-        }
+        }*/
     }
 }
