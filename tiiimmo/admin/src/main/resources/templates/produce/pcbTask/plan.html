@@ -269,21 +269,7 @@
 						]
 					]
 				});
-				$.ajax({
-					contentType: 'application/json',
-					type: 'get',
-					url: '/base/device/getDeviceByProcessType',
-					dataType: "json",
-					success: function(res) {
-						data2 = res.data;
-						tree.render({
-							elem: '#test7',
-							data: data2,
-							showCheckbox: true,
-							id: 'id'
-						});
-					}
-				});
+
 				//开启复选框
 
 				table.on('tool(table)', function(obj) {
@@ -302,7 +288,22 @@
 								type: 1,
 								area: ['720px', '96%'],
 								success: function(layero, index) {
-									$('#processMame').val(nowData.process_name)
+									$('#processMame').val(nowData.process_name),
+									$.ajax({
+										contentType: 'application/json',
+										type: 'get',
+										url: '/base/device/getDeviceByProcessType?countType='+nowData.count_type,
+										dataType: "json",
+										success: function(res) {
+											data2 = res.data;
+											tree.render({
+												elem: '#test7',
+												data: data2,
+												showCheckbox: true,
+												id: 'id'
+											});
+										}
+									});
 								}
 							});
 							break;
