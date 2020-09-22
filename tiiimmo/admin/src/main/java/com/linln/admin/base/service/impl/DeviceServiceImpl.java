@@ -91,16 +91,25 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public ResultVo getDeviceByProcessType() {
+    public ResultVo getDeviceByProcessType(String countType) {
 
         StringBuffer sql = new StringBuffer("SELECT device_type FROM base_device GROUP BY device_type order by device_type desc");
         List<Map<String, Object>> typeList = jdbcTemplate.queryForList(sql.toString());
         List<Map<String,Object>> result = new ArrayList<>();
         for(int i = 0;i<typeList.size();i++){
             String type = (String)typeList.get(i).get("device_type");
+            if(type!=null){
+                type = type.trim();
+            }
+            if("0".equals(countType)&&!"TPJ".equals(type)){
+                continue;
+            }
+            if("1".equals(countType)&&"TPJ".equals(type)){
+                continue;
+            }
             StringBuffer deviceListByTypeSql = new StringBuffer("SELECT device_code+'\\'+device_name as title,id ,device_code,device_name from base_device WHERE device_type = '" +
                     type +
-                    "'");
+                    "' ");
             if(type==null){
                 deviceListByTypeSql = new StringBuffer("SELECT device_code+'\\'+device_name as title,id ,device_code,device_name from base_device WHERE device_type is null ");
                 type = "OTHER";

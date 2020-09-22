@@ -45,7 +45,7 @@ public interface DeviceService {
 
     ResultVo getDeviceByProcess(DeviceReq req);
 
-    ResultVo getDeviceByProcessType();
+    ResultVo getDeviceByProcessType(String countType);
 
     List<Device> list();
 

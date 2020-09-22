@@ -146,8 +146,8 @@ public class DeviceController {
     //@RequiresPermissions("base:device:status")
     @ResponseBody
     //暂时所有设备可选
-    public ResultVo getDeviceByProcessType(){
-        return deviceService.getDeviceByProcessType();
+    public ResultVo getDeviceByProcessType(String countType ){
+        return deviceService.getDeviceByProcessType(countType);
     }
 
 
