@@ -195,7 +195,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         List<PcbTask> pckTaskList = new ArrayList<>();
         List<PCBPlateNo> plateNoList = new ArrayList<>();
         List<String> pcbTaskCodeList = new ArrayList<>();
-        List<PcbTask> touchanPcbTaskList = pcbTaskRepository.findAllByPcbTaskStatus("已投产");
+        List<PcbTask> touchanPcbTaskList = pcbTaskRepository.findAllByPcbTask2Status();
 
         for(int i = 0 ; i<lists.size();i++){
             JSONObject param = lists.getJSONObject(i);
@@ -251,7 +251,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     continue;
                 }
                 if(!"已完成".equals(pcbTask.getPcb_task_status())){
-                    if(!pcbTask.getAmount_completed().equals(finishCount)){
+                    if(pcbTask.getAmount_completed()!=null&&!pcbTask.getAmount_completed().equals(finishCount)){
                         //更改入库时间
                         pcbTask.setWarehousing_time(new Date());
                     }
@@ -331,11 +331,11 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         pcbPlateNoRepository.saveAll(plateNoList);
         pcbTaskRepository.saveAll(pckTaskList);
 
-        //循环本地已投产的排产计划
+        //循环本地已投产与下达的排产计划
         for(PcbTask pcbTask : touchanPcbTaskList){
             boolean isExist = pcbTaskCodeList.contains(pcbTask.getPcb_task_code());
             if(!isExist){
-                if(!pcbTask.getAmount_completed().equals(pcbTask.getPcb_quantity())){
+                if(pcbTask.getAmount_completed()!=null&&!pcbTask.getAmount_completed().equals(pcbTask.getPcb_quantity())){
                     //更改入库时间
                     pcbTask.setWarehousing_time(new Date());
                 }
@@ -346,11 +346,13 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                 pcbTaskRepository.save(pcbTask);
                 //修改入库工序
                 ProcessTask rukuProcessTaskCode = processTaskRepository.findByPcb_task_idAndProcess(pcbTask.getId(), "入库");
-                rukuProcessTaskCode.setProcess_task_status("已完成");
-                rukuProcessTaskCode.setIs_now_flag("");
-                rukuProcessTaskCode.setAmount_completed(rukuProcessTaskCode.getPcb_quantity());
-                rukuProcessTaskCode.setFinish_time(new Date());
-                processTaskRepository.save(rukuProcessTaskCode);
+                if(rukuProcessTaskCode != null){
+                    rukuProcessTaskCode.setProcess_task_status("已完成");
+                    rukuProcessTaskCode.setIs_now_flag("");
+                    rukuProcessTaskCode.setAmount_completed(rukuProcessTaskCode.getPcb_quantity());
+                    rukuProcessTaskCode.setFinish_time(new Date());
+                    processTaskRepository.save(rukuProcessTaskCode);
+                }
             }
         }
         System.out.println("-----------结束同步-------------");

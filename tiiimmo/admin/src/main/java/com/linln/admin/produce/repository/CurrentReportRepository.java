@@ -2,7 +2,6 @@ package com.linln.admin.produce.repository;
 
 import com.linln.admin.produce.domain.CurrentReport;
 import com.linln.modules.system.repository.BaseRepository;
-import org.apache.commons.beanutils.converters.StringArrayConverter;
 import org.springframework.data.jpa.repository.Query;
 
 public interface CurrentReportRepository extends BaseRepository<CurrentReport,Long> {

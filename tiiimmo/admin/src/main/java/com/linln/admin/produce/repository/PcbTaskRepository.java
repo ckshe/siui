@@ -23,4 +23,7 @@ public interface PcbTaskRepository extends BaseRepository<PcbTask, Long> {
 
     @Query(value = "select * from produce_pcb_task  where pcb_task_status = ?1",nativeQuery = true)
     List<PcbTask> findAllByPcbTaskStatus(String status);
+
+    @Query(value = "select * from produce_pcb_task  where pcb_task_status = '已投产' or pcb_task_status = '下达'",nativeQuery = true)
+    List<PcbTask> findAllByPcbTask2Status();
 }
