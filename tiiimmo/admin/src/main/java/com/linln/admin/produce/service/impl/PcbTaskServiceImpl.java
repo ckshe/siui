@@ -195,7 +195,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
         List<PcbTask> pckTaskList = new ArrayList<>();
         List<PCBPlateNo> plateNoList = new ArrayList<>();
         List<String> pcbTaskCodeList = new ArrayList<>();
-        List<PcbTask> touchanPcbTaskList = pcbTaskRepository.findAllByPcbTaskStatus("已投产");
+        List<PcbTask> touchanPcbTaskList = pcbTaskRepository.findAllByPcbTask2Status();
 
         for(int i = 0 ; i<lists.size();i++){
             JSONObject param = lists.getJSONObject(i);
