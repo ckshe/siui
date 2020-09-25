@@ -42,4 +42,12 @@ public class SurfaceModelController {
     public String f205b(){ return "/surfaceModel/f205b";}
     @GetMapping("/f205b_1")
     public String f205b_1(){ return "/surfaceModel/f205b_1";}
+    //设备使用记录 贴片机
+    @GetMapping("/f006c")
+    public String f006c(){ return "/surfaceModel/f006c";}
+    @GetMapping("/f006c_1")
+    public String f006c_1(){ return "/surfaceModel/f006c_1";}
+    @GetMapping("/f006c_2")
+    public String f006c_2(){ return "/surfaceModel/f006c_2";}
+
 }

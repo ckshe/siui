@@ -1,0 +1,1988 @@
+<html>
+
+	<head>
+		<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+		<link rel="Stylesheet" href="../../css/surfaceModel/f006c.css">
+		<style>
+
+			* {
+      margin: 0;
+      padding: 0;
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    .box {
+      background: #eee;
+      box-sizing: border-box;
+      width: 210mm;
+      /*210*/
+      height: 297mm;
+      /*297*/
+      text-align: left;
+      padding: 3mm;
+    }
+
+			.inputSpan {
+    margin-left: 5px;
+    display: inline-block;
+    width: 50px;
+    height: 13px;
+    position: relative;
+}
+.inputSpan input {
+    position: absolute;
+    width: 98%;
+    border: none;
+    text-align: center;
+    left: 0;
+}
+td{
+	vertical-align: middle;
+    position: relative;
+    padding: 0;
+	overflow: hidden;
+	    height: 20.1pt;
+	    border-top: none;
+}
+    .inputall {
+      border: none;
+      height:90%;
+      width: 99% !important;
+      vertical-align: top;
+      text-align: center;
+      background: transparent;
+    }
+
+    #onsubmit,
+    #op {
+      display: block;
+      height: 28px;
+      line-height: 28px;
+      padding: 0 18px;
+      background-color: #1e9fff;
+      color: #fff;
+      white-space: nowrap;
+      text-align: center;
+      font-size: 14px;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      float: left;
+      margin: 0 10px 10px 0;
+    }
+</style>
+	</head>
+	<body class="box">
+		<form>
+			<input type="hidden" name="data">
+		</form>
+		<div style="display: block; position: absolute; z-index: 100;">
+			<button id="onsubmit">保存</button> <button id='op'> 打印</button>
+		</div>
+
+		<table border=0 cellpadding=0 cellspacing=0 width=729 style='border-collapse:
+ collapse;table-layout:fixed;width:835px'>
+			<tr height=19 style='height:14.25pt'>
+				<td height=19 width=79 style='height:14.25pt;width:59pt'></td>
+				<td width=76 style='width:57pt'></td>
+				<td width=66 style='width:50pt'></td>
+				<td width=135 style='width:101pt'></td>
+				<td width=53 style='width:40pt'></td>
+				<td width=53 style='width:40pt'></td>
+				<td width=61 style='width:46pt'></td>
+				<td class=xl66 width=61 style='width:70px'>万吉厂区<input name="area" type="checkbox"></td>
+				<td class=xl66 width=61 style='width:70px'>金砂厂区<input name="area1" type="checkbox"></td>
+				<td class=xl66 width=84 style='width:63pt'><input name="title" type="text" value="ZJ-F006C" disabled style="background: none; text-align: left;text-align: left;width: 90%;margin-left: 10px;border: none;"></td>
+			</tr>
+			<tr height=31 style='height:23.25pt'>
+				<td colspan=10 height=31 class=xl67 style='height:23.25pt'><span style='text-decoration:underline'>
+						YS12F </span>
+					<font class="font7">贴片机使用记录表</font>
+				</td>
+			</tr>
+			<tr height=31 style='height:23.25pt'>
+				<td height=31 class=xl72 colspan=10 style='height:23.25pt;'>设备编号：<span class="inputSpan" style="width:150px;"><input
+						 name="equipmentNo" type="text" value="B15003" class="inputall" style="background: none; text-align: left;">
+					</span></td>
+			</tr>
+			<tr height=13 style='height:9.75pt'>
+				<td height=13 class=xl67 style='height:9.75pt'></td>
+				<td colspan=7 class=xl68 style=''></td>
+				<td colspan=2 style=''></td>
+			</tr>
+			<tr class=xl71 height=21 style='height:15.95pt'>
+				<td colspan=10 height=21 class=xl73 style='height:15.95pt'>校板人：调用程序,戴防静电手套校好板,调好接驳台,换好吸嘴。</td>
+			</tr>
+			<tr class=xl71 height=21 style='height:15.95pt'>
+				<td colspan=10 height=21 class=xl73 style='height:15.95pt'>上料人:及时完成上料,对上料的料架进级调位进行检查,戴防静电手套并把首只器
+					件放在该板的盒子。</td>
+			</tr>
+			<tr class=xl71 height=21 style='height:15.95pt'>
+				<td colspan=10 height=21 class=xl73 style='height:15.95pt'>看机人:戴防静电手套放板收板,处理机器报错,换料接料,进行可追溯记录。</td>
+			</tr>
+			<tr height=13 style='height:9.75pt'>
+				<td height=13 colspan=10 style='height:9.75pt;'></td>
+			</tr>
+			<tr class=xl70 height=26 style='height:20.1pt'>
+				<td height=26 class=xl69 width=79 style='height:20.1pt;width:59pt'>日期</td>
+				<td class=xl69 width=76 style='border-left:none;width:57pt'>开始时间</td>
+				<td class=xl69 width=66 style='border-left:none;width:50pt'>PCB板号</td>
+				<td class=xl69 width=135 style='border-left:none;width:101pt'>序列码</td>
+				<td class=xl69 width=53 style='border-left:none;width:40pt'>焊接面</td>
+				<td class=xl69 width=53 style='border-left:none;width:40pt'>元件面</td>
+				<td class=xl69 width=61 style='border-left:none;width:46pt'>校板人</td>
+				<td class=xl69 width=61 style='border-left:none;width:46pt'>上料人</td>
+				<td class=xl69 width=61 style='border-left:none;width:46pt'>看机人</td>
+				<td class=xl69 width=84 style='border-left:none;width:63pt'>结束时间</td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_1' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_1' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_1' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_1' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_1' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_1' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_1' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_1_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_1' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_1_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_1' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_1_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_1' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_2' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_2' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_2' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_2' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_2' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_2' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_2' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_2_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_2' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_2_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_2' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_2_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_2' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_3' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_3' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_3' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_3' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_3' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_3' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_3' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_3_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_3' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_3_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_3' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_3_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_3' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_4' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_4' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_4' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_4' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_4' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_4' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_4' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_4_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_4' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_4_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_4' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_4_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_4' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_5' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_5' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_5' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_5' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_5' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_5' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_5' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_5_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_5' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_5_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_5' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_5_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_5' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_6' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_6' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_6' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_6' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_6' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_6' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_6' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_6_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_6' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_6_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_6' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_6_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_6' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_7' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_7' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_7' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_7' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_7' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_7' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_7' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_7_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_7' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_7_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_7' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_7_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_7' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_8' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_8' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_8' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_8' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_8' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_8' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_8' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_8_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_8' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_8_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_8' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_8_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_8' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_9' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_9' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_9' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_9' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_9' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_9' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_9' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_9_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_9' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_9_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_9' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_9_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_9' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_10' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_10' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_10' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_10' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_10' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_10' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_10' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_10_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_10' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_10_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_10' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_10_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_10' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_11' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_11' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_11' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_11' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_11' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_11' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_11' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_11_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_11' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_11_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_11' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_11_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_11' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_12' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_12' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_12' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_12' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_12' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_12' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_12' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_12_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_12' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_12_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_12' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_12_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_12' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_13' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_13' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_13' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_13' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_13' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_13' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_13' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_13_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_13' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_13_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_13' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_13_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_13' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_14' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_14' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_14' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_14' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_14' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_14' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_14' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_14_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_14' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_14_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_14' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_14_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_14' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_15' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_15' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_15' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_15' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_15' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_15' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_15' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_15_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_15' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_15_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_15' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_15_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_15' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_16' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_16' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_16' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_16' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_16' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_16' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_16' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_16_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_16' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_16_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_16' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_16_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_16' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_17' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_17' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_17' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_17' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_17' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_17' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_17' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_17_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_17' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_17_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_17' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_17_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_17' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_18' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_18' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_18' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_18' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_18' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_18' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_18' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_18_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_18' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_18_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_18' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_18_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_18' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_19' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_19' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_19' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_19' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_19' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_19' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_19' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_19_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_19' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_19_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_19' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_19_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_19' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_20' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_20' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_20' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_20' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_20' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_20' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_20' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_20_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_20' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_20_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_20' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_20_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_20' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_21' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_21' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_21' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_21' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_21' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_21' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_21' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_21_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_21' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_21_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_21' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_21_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_21' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_22' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_22' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_22' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_22' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_22' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_22' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_22' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_22_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_22' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_22_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_22' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_22_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_22' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_23' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_23' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_23' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_23' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_23' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_23' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_23' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_23_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_23' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_23_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_23' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_23_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_23' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_24' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_24' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_24' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_24' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_24' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_24' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_24' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_24_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_24' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_24_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_24' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_24_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_24' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_25' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_25' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_25' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_25' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_25' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_25' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_25' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_25_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_25' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_25_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_25' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_25_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_25' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_26' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_26' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_26' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_26' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_26' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_26' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_26' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_26_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_26' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_26_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_26' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_26_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_26' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_27' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_27' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_27' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_27' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_27' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_27' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_27' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_27_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_27' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_27_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_27' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_27_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_27' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_28' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_28' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_28' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_28' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_28' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_28' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_28' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_28_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_28' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_28_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_28' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_28_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_28' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_29' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_29' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_29' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_29' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_29' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_29' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_29' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_29_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_29' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_29_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_29' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_29_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_29' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+			<tr height=26 style='height:20.1pt'>
+				<td height=26 class=xl65 style='height:20.1pt;border-top:none'><input id='one_rq_30' class="inputall dateType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_nte_30' class="inputall timeType" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_pcb_30' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ser_30' class="inputall" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_hjm_30' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_yjm_30' class="inputall rowDate" type="text" /></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_jbr_30' class="inputall inputOnblur0" type="text" /><img
+					 width="66" height="18" src="" id="one_jbr_30_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_slr_30' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_slr_30_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_kjr_30' class="inputall inputOnblur0" type="text" /><img
+					 width="76" height="17" src="" id="one_kjr_30_img" class="inputImg"></td>
+				<td class=xl65 style='border-top:none;border-left:none'><input id='one_ete_30' class="inputall timeType inputOnblur0"
+					 type="text" /></td>
+			</tr>
+		</table>
+		<script src="../../lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+		<script src="../../js/common.js"></script>
+		<script>
+			layui.use(['table', 'jquery', 'form', 'layer'], function() {
+				var table = layui.table,
+					layer = layui.layer,
+					form = layui.form,
+					$ = layui.jquery;
+				var dd = JSON.parse($('[name=data]').val());
+				//这里开始拿数据
+				$('.dateType').focus(function() {
+					$(this).attr('type', 'date')
+				}).bind('keypress', function(event) {
+					if (event.keyCode == "13") {
+						var timeTxt = $(this).val().replace(/-/g, '.').substring(2);
+						$(this).attr('type', 'text').val(timeTxt);
+					}
+				});
+				$('.timeType').focus(function() {
+					$(this).attr('type', 'time')
+				}).bind('keypress', function(event) {
+					if (event.keyCode == "13") {
+						var timeTxt = $(this).val()
+						$(this).attr('type', 'text').val(timeTxt);
+					}
+				});
+				$('.rowDate').click(function() {
+					var index = $(this).attr('index')
+					if (index == undefined || index == 0) {
+						$(this).val('√').attr('index', 1).html('√')
+					} else {
+						$(this).val('').attr('index', 0).html('')
+					}
+				})
+				if (parent.location.href.indexOf("/windowPad/") > -1) {
+					$('#op').hide();
+				}
+
+				function findUserSignature(that, typeValue) {
+					$.ajax({
+						url: '/base/userSignature/findUserSignature',
+						type: "post",
+						dataType: "json",
+						data: JSON.stringify({
+							cardSequence: that.val(),
+							type: typeValue
+						}),
+						contentType: "application/json;charset=UTF-8",
+						success: function(res) {
+							if (res.code === 200) {
+								console.log(res)
+								var imgdata = res.data;
+								that.next().attr('src', imgdata).show();
+								that.hide()
+							}
+						},
+					});
+				}
+				$('.inputOnblur0').bind('keypress', function(event) {
+					if (event.keyCode == "13") {
+						var that = $(this);
+						findUserSignature(that, 0);
+					}
+				});
+				$('.inputOnblur1').bind('keypress', function(event) {
+					if (event.keyCode == "13") {
+						var that = $(this);
+						findUserSignature(that, 1);
+					}
+				});
+				$('.inputImg').click(function() {
+					var that = $(this);
+					that.attr('src', '').hide();
+					that.prev().show().focus();
+					that.parent().css({
+						'width': 'auto',
+						'height': 'auto'
+					})
+				})
+
+				function initAjax() {
+					console.log(getQueryString('year_month'), doHandleDate())
+					$.ajax({ // /report/findSJJLBReport
+						url: '/report/findCurrentReport',
+						type: 'post',
+						dataType: 'json',
+						data: JSON.stringify({
+							yearMonth: getQueryString('year_month') || doHandleDate(),
+							reportType: '131'
+						}),
+						contentType: "application/json;charset=UTF-8",
+						success: function(res) {
+							if (res.code === 200) {
+								if (res.data.length > 0) {
+									for (var i = 0; i < res.data.length; i++) {
+										dj = JSON.parse(res.data[i].json_data);
+										if (Object.keys(dj).length > 0) {
+											console.log(dj)
+											if (dj.area) {
+												$('[name="area"]').attr('checked', true)
+											}
+											if (dj.area1) {
+												$('[name="area1"]').attr('checked', true)
+											}
+											$('[name="equipmentNo"]').val(dj.equipmentNo),
+												$('[name="title"]').val(dj.title),
+
+
+												 $('#one_rq_1').val(dj.one_rq_1);
+												 $('#one_rq_2').val(dj.one_rq_2);
+												 $('#one_rq_3').val(dj.one_rq_3);
+												 $('#one_rq_4').val(dj.one_rq_4);
+												 $('#one_rq_5').val(dj.one_rq_5);
+												 $('#one_rq_6').val(dj.one_rq_6);
+												 $('#one_rq_7').val(dj.one_rq_7);
+												 $('#one_rq_8').val(dj.one_rq_8);
+												 $('#one_rq_9').val(dj.one_rq_9);
+												$('#one_rq_10').val(dj.one_rq_10);
+												$('#one_rq_11').val(dj.one_rq_11);
+												$('#one_rq_12').val(dj.one_rq_12);
+												$('#one_rq_13').val(dj.one_rq_13);
+												$('#one_rq_14').val(dj.one_rq_14);
+												$('#one_rq_15').val(dj.one_rq_15);
+												$('#one_rq_16').val(dj.one_rq_16);
+												$('#one_rq_17').val(dj.one_rq_17);
+												$('#one_rq_18').val(dj.one_rq_18);
+												$('#one_rq_19').val(dj.one_rq_19);
+												$('#one_rq_20').val(dj.one_rq_20);
+												$('#one_rq_21').val(dj.one_rq_21);
+												$('#one_rq_22').val(dj.one_rq_22);
+												$('#one_rq_23').val(dj.one_rq_23);
+												$('#one_rq_24').val(dj.one_rq_24);
+												$('#one_rq_25').val(dj.one_rq_25);
+												$('#one_rq_26').val(dj.one_rq_26);
+												$('#one_rq_27').val(dj.one_rq_27);
+												$('#one_rq_28').val(dj.one_rq_28);
+												$('#one_rq_29').val(dj.one_rq_29);
+												$('#one_rq_30').val(dj.one_rq_30);
+												$('#one_nte_1').val(dj.one_nte_1);
+												$('#one_pcb_1').val(dj.one_pcb_1);
+												$('#one_ser_1').val(dj.one_ser_1);
+												$('#one_hjm_1').val(dj.one_hjm_1);
+												$('#one_yjm_1').val(dj.one_yjm_1);
+												$('#one_jbr_1').val(dj.one_jbr_1);
+												$('#one_slr_1').val(dj.one_slr_1);
+												$('#one_kjr_1').val(dj.one_kjr_1);
+												$('#one_ete_1').val(dj.one_ete_1);
+												$('#one_nte_2').val(dj.one_nte_2);
+												$('#one_pcb_2').val(dj.one_pcb_2);
+												$('#one_ser_2').val(dj.one_ser_2);
+												$('#one_hjm_2').val(dj.one_hjm_2);
+												$('#one_yjm_2').val(dj.one_yjm_2);
+												$('#one_jbr_2').val(dj.one_jbr_2);
+												$('#one_slr_2').val(dj.one_slr_2);
+												$('#one_kjr_2').val(dj.one_kjr_2);
+												$('#one_ete_2').val(dj.one_ete_2);
+												$('#one_nte_3').val(dj.one_nte_3);
+												$('#one_pcb_3').val(dj.one_pcb_3);
+												$('#one_ser_3').val(dj.one_ser_3);
+												$('#one_hjm_3').val(dj.one_hjm_3);
+												$('#one_yjm_3').val(dj.one_yjm_3);
+												$('#one_jbr_3').val(dj.one_jbr_3);
+												$('#one_slr_3').val(dj.one_slr_3);
+												$('#one_kjr_3').val(dj.one_kjr_3);
+												$('#one_ete_3').val(dj.one_ete_3);
+												$('#one_nte_4').val(dj.one_nte_4);
+												$('#one_pcb_4').val(dj.one_pcb_4);
+												$('#one_ser_4').val(dj.one_ser_4);
+												$('#one_hjm_4').val(dj.one_hjm_4);
+												$('#one_yjm_4').val(dj.one_yjm_4);
+												$('#one_jbr_4').val(dj.one_jbr_4);
+												$('#one_slr_4').val(dj.one_slr_4);
+												$('#one_kjr_4').val(dj.one_kjr_4);
+												$('#one_ete_4').val(dj.one_ete_4);
+												$('#one_nte_5').val(dj.one_nte_5);
+												$('#one_pcb_5').val(dj.one_pcb_5);
+												$('#one_ser_5').val(dj.one_ser_5);
+												$('#one_hjm_5').val(dj.one_hjm_5);
+												$('#one_yjm_5').val(dj.one_yjm_5);
+												$('#one_jbr_5').val(dj.one_jbr_5);
+												$('#one_slr_5').val(dj.one_slr_5);
+												$('#one_kjr_5').val(dj.one_kjr_5);
+												$('#one_ete_5').val(dj.one_ete_5);
+												$('#one_nte_6').val(dj.one_nte_6);
+												$('#one_pcb_6').val(dj.one_pcb_6);
+												$('#one_ser_6').val(dj.one_ser_6);
+												$('#one_hjm_6').val(dj.one_hjm_6);
+												$('#one_yjm_6').val(dj.one_yjm_6);
+												$('#one_jbr_6').val(dj.one_jbr_6);
+												$('#one_slr_6').val(dj.one_slr_6);
+												$('#one_kjr_6').val(dj.one_kjr_6);
+												$('#one_ete_6').val(dj.one_ete_6);
+												$('#one_nte_7').val(dj.one_nte_7);
+												$('#one_pcb_7').val(dj.one_pcb_7);
+												$('#one_ser_7').val(dj.one_ser_7);
+												$('#one_hjm_7').val(dj.one_hjm_7);
+												$('#one_yjm_7').val(dj.one_yjm_7);
+												$('#one_jbr_7').val(dj.one_jbr_7);
+												$('#one_slr_7').val(dj.one_slr_7);
+												$('#one_kjr_7').val(dj.one_kjr_7);
+												$('#one_ete_7').val(dj.one_ete_7);
+												$('#one_nte_8').val(dj.one_nte_8);
+												$('#one_pcb_8').val(dj.one_pcb_8);
+												$('#one_ser_8').val(dj.one_ser_8);
+												$('#one_hjm_8').val(dj.one_hjm_8);
+												$('#one_yjm_8').val(dj.one_yjm_8);
+												$('#one_jbr_8').val(dj.one_jbr_8);
+												$('#one_slr_8').val(dj.one_slr_8);
+												$('#one_kjr_8').val(dj.one_kjr_8);
+												$('#one_ete_8').val(dj.one_ete_8);
+												$('#one_nte_9').val(dj.one_nte_9);
+												$('#one_pcb_9').val(dj.one_pcb_9);
+												$('#one_ser_9').val(dj.one_ser_9);
+												$('#one_hjm_9').val(dj.one_hjm_9);
+												$('#one_yjm_9').val(dj.one_yjm_9);
+												$('#one_jbr_9').val(dj.one_jbr_9);
+												$('#one_slr_9').val(dj.one_slr_9);
+												$('#one_kjr_9').val(dj.one_kjr_9);
+												$('#one_ete_9').val(dj.one_ete_9);
+												$('#one_nte_10').val(dj.one_nte_10);
+												$('#one_pcb_10').val(dj.one_pcb_10);
+												$('#one_ser_10').val(dj.one_ser_10);
+												$('#one_hjm_10').val(dj.one_hjm_10);
+												$('#one_yjm_10').val(dj.one_yjm_10);
+												$('#one_jbr_10').val(dj.one_jbr_10);
+												$('#one_slr_10').val(dj.one_slr_10);
+												$('#one_kjr_10').val(dj.one_kjr_10);
+												$('#one_ete_10').val(dj.one_ete_10);
+												$('#one_nte_11').val(dj.one_nte_11);
+												$('#one_pcb_11').val(dj.one_pcb_11);
+												$('#one_ser_11').val(dj.one_ser_11);
+												$('#one_hjm_11').val(dj.one_hjm_11);
+												$('#one_yjm_11').val(dj.one_yjm_11);
+												$('#one_jbr_11').val(dj.one_jbr_11);
+												$('#one_slr_11').val(dj.one_slr_11);
+												$('#one_kjr_11').val(dj.one_kjr_11);
+												$('#one_ete_11').val(dj.one_ete_11);
+												$('#one_nte_12').val(dj.one_nte_12);
+												$('#one_pcb_12').val(dj.one_pcb_12);
+												$('#one_ser_12').val(dj.one_ser_12);
+												$('#one_hjm_12').val(dj.one_hjm_12);
+												$('#one_yjm_12').val(dj.one_yjm_12);
+												$('#one_jbr_12').val(dj.one_jbr_12);
+												$('#one_slr_12').val(dj.one_slr_12);
+												$('#one_kjr_12').val(dj.one_kjr_12);
+												$('#one_ete_12').val(dj.one_ete_12);
+												$('#one_nte_13').val(dj.one_nte_13);
+												$('#one_pcb_13').val(dj.one_pcb_13);
+												$('#one_ser_13').val(dj.one_ser_13);
+												$('#one_hjm_13').val(dj.one_hjm_13);
+												$('#one_yjm_13').val(dj.one_yjm_13);
+												$('#one_jbr_13').val(dj.one_jbr_13);
+												$('#one_slr_13').val(dj.one_slr_13);
+												$('#one_kjr_13').val(dj.one_kjr_13);
+												$('#one_ete_13').val(dj.one_ete_13);
+												$('#one_nte_14').val(dj.one_nte_14);
+												$('#one_pcb_14').val(dj.one_pcb_14);
+												$('#one_ser_14').val(dj.one_ser_14);
+												$('#one_hjm_14').val(dj.one_hjm_14);
+												$('#one_yjm_14').val(dj.one_yjm_14);
+												$('#one_jbr_14').val(dj.one_jbr_14);
+												$('#one_slr_14').val(dj.one_slr_14);
+												$('#one_kjr_14').val(dj.one_kjr_14);
+												$('#one_ete_14').val(dj.one_ete_14);
+												$('#one_nte_15').val(dj.one_nte_15);
+												$('#one_pcb_15').val(dj.one_pcb_15);
+												$('#one_ser_15').val(dj.one_ser_15);
+												$('#one_hjm_15').val(dj.one_hjm_15);
+												$('#one_yjm_15').val(dj.one_yjm_15);
+												$('#one_jbr_15').val(dj.one_jbr_15);
+												$('#one_slr_15').val(dj.one_slr_15);
+												$('#one_kjr_15').val(dj.one_kjr_15);
+												$('#one_ete_15').val(dj.one_ete_15);
+												$('#one_nte_16').val(dj.one_nte_16);
+												$('#one_pcb_16').val(dj.one_pcb_16);
+												$('#one_ser_16').val(dj.one_ser_16);
+												$('#one_hjm_16').val(dj.one_hjm_16);
+												$('#one_yjm_16').val(dj.one_yjm_16);
+												$('#one_jbr_16').val(dj.one_jbr_16);
+												$('#one_slr_16').val(dj.one_slr_16);
+												$('#one_kjr_16').val(dj.one_kjr_16);
+												$('#one_ete_16').val(dj.one_ete_16);
+												$('#one_nte_17').val(dj.one_nte_17);
+												$('#one_pcb_17').val(dj.one_pcb_17);
+												$('#one_ser_17').val(dj.one_ser_17);
+												$('#one_hjm_17').val(dj.one_hjm_17);
+												$('#one_yjm_17').val(dj.one_yjm_17);
+												$('#one_jbr_17').val(dj.one_jbr_17);
+												$('#one_slr_17').val(dj.one_slr_17);
+												$('#one_kjr_17').val(dj.one_kjr_17);
+												$('#one_ete_17').val(dj.one_ete_17);
+												$('#one_nte_18').val(dj.one_nte_18);
+												$('#one_pcb_18').val(dj.one_pcb_18);
+												$('#one_ser_18').val(dj.one_ser_18);
+												$('#one_hjm_18').val(dj.one_hjm_18);
+												$('#one_yjm_18').val(dj.one_yjm_18);
+												$('#one_jbr_18').val(dj.one_jbr_18);
+												$('#one_slr_18').val(dj.one_slr_18);
+												$('#one_kjr_18').val(dj.one_kjr_18);
+												$('#one_ete_18').val(dj.one_ete_18);
+												$('#one_nte_19').val(dj.one_nte_19);
+												$('#one_pcb_19').val(dj.one_pcb_19);
+												$('#one_ser_19').val(dj.one_ser_19);
+												$('#one_hjm_19').val(dj.one_hjm_19);
+												$('#one_yjm_19').val(dj.one_yjm_19);
+												$('#one_jbr_19').val(dj.one_jbr_19);
+												$('#one_slr_19').val(dj.one_slr_19);
+												$('#one_kjr_19').val(dj.one_kjr_19);
+												$('#one_ete_19').val(dj.one_ete_19);
+												$('#one_nte_20').val(dj.one_nte_20);
+												$('#one_pcb_20').val(dj.one_pcb_20);
+												$('#one_ser_20').val(dj.one_ser_20);
+												$('#one_hjm_20').val(dj.one_hjm_20);
+												$('#one_yjm_20').val(dj.one_yjm_20);
+												$('#one_jbr_20').val(dj.one_jbr_20);
+												$('#one_slr_20').val(dj.one_slr_20);
+												$('#one_kjr_20').val(dj.one_kjr_20);
+												$('#one_ete_20').val(dj.one_ete_20);
+												$('#one_nte_21').val(dj.one_nte_21);
+												$('#one_pcb_21').val(dj.one_pcb_21);
+												$('#one_ser_21').val(dj.one_ser_21);
+												$('#one_hjm_21').val(dj.one_hjm_21);
+												$('#one_yjm_21').val(dj.one_yjm_21);
+												$('#one_jbr_21').val(dj.one_jbr_21);
+												$('#one_slr_21').val(dj.one_slr_21);
+												$('#one_kjr_21').val(dj.one_kjr_21);
+												$('#one_ete_21').val(dj.one_ete_21);
+												$('#one_nte_22').val(dj.one_nte_22);
+												$('#one_pcb_22').val(dj.one_pcb_22);
+												$('#one_ser_22').val(dj.one_ser_22);
+												$('#one_hjm_22').val(dj.one_hjm_22);
+												$('#one_yjm_22').val(dj.one_yjm_22);
+												$('#one_jbr_22').val(dj.one_jbr_22);
+												$('#one_slr_22').val(dj.one_slr_22);
+												$('#one_kjr_22').val(dj.one_kjr_22);
+												$('#one_ete_22').val(dj.one_ete_22);
+												$('#one_nte_23').val(dj.one_nte_23);
+												$('#one_pcb_23').val(dj.one_pcb_23);
+												$('#one_ser_23').val(dj.one_ser_23);
+												$('#one_hjm_23').val(dj.one_hjm_23);
+												$('#one_yjm_23').val(dj.one_yjm_23);
+												$('#one_jbr_23').val(dj.one_jbr_23);
+												$('#one_slr_23').val(dj.one_slr_23);
+												$('#one_kjr_23').val(dj.one_kjr_23);
+												$('#one_ete_23').val(dj.one_ete_23);
+												$('#one_nte_24').val(dj.one_nte_24);
+												$('#one_pcb_24').val(dj.one_pcb_24);
+												$('#one_ser_24').val(dj.one_ser_24);
+												$('#one_hjm_24').val(dj.one_hjm_24);
+												$('#one_yjm_24').val(dj.one_yjm_24);
+												$('#one_jbr_24').val(dj.one_jbr_24);
+												$('#one_slr_24').val(dj.one_slr_24);
+												$('#one_kjr_24').val(dj.one_kjr_24);
+												$('#one_ete_24').val(dj.one_ete_24);
+												$('#one_nte_25').val(dj.one_nte_25);
+												$('#one_pcb_25').val(dj.one_pcb_25);
+												$('#one_ser_25').val(dj.one_ser_25);
+												$('#one_hjm_25').val(dj.one_hjm_25);
+												$('#one_yjm_25').val(dj.one_yjm_25);
+												$('#one_jbr_25').val(dj.one_jbr_25);
+												$('#one_slr_25').val(dj.one_slr_25);
+												$('#one_kjr_25').val(dj.one_kjr_25);
+												$('#one_ete_25').val(dj.one_ete_25);
+												$('#one_nte_26').val(dj.one_nte_26);
+												$('#one_pcb_26').val(dj.one_pcb_26);
+												$('#one_ser_26').val(dj.one_ser_26);
+												$('#one_hjm_26').val(dj.one_hjm_26);
+												$('#one_yjm_26').val(dj.one_yjm_26);
+												$('#one_jbr_26').val(dj.one_jbr_26);
+												$('#one_slr_26').val(dj.one_slr_26);
+												$('#one_kjr_26').val(dj.one_kjr_26);
+												$('#one_ete_26').val(dj.one_ete_26);
+												$('#one_nte_27').val(dj.one_nte_27);
+												$('#one_pcb_27').val(dj.one_pcb_27);
+												$('#one_ser_27').val(dj.one_ser_27);
+												$('#one_hjm_27').val(dj.one_hjm_27);
+												$('#one_yjm_27').val(dj.one_yjm_27);
+												$('#one_jbr_27').val(dj.one_jbr_27);
+												$('#one_slr_27').val(dj.one_slr_27);
+												$('#one_kjr_27').val(dj.one_kjr_27);
+												$('#one_ete_27').val(dj.one_ete_27);
+												$('#one_nte_28').val(dj.one_nte_28);
+												$('#one_pcb_28').val(dj.one_pcb_28);
+												$('#one_ser_28').val(dj.one_ser_28);
+												$('#one_hjm_28').val(dj.one_hjm_28);
+												$('#one_yjm_28').val(dj.one_yjm_28);
+												$('#one_jbr_28').val(dj.one_jbr_28);
+												$('#one_slr_28').val(dj.one_slr_28);
+												$('#one_kjr_28').val(dj.one_kjr_28);
+												$('#one_ete_28').val(dj.one_ete_28);
+												$('#one_nte_29').val(dj.one_nte_29);
+												$('#one_pcb_29').val(dj.one_pcb_29);
+												$('#one_ser_29').val(dj.one_ser_29);
+												$('#one_hjm_29').val(dj.one_hjm_29);
+												$('#one_yjm_29').val(dj.one_yjm_29);
+												$('#one_jbr_29').val(dj.one_jbr_29);
+												$('#one_slr_29').val(dj.one_slr_29);
+												$('#one_kjr_29').val(dj.one_kjr_29);
+												$('#one_ete_29').val(dj.one_ete_29);
+												$('#one_nte_30').val(dj.one_nte_30);
+												$('#one_pcb_30').val(dj.one_pcb_30);
+												$('#one_ser_30').val(dj.one_ser_30);
+												$('#one_hjm_30').val(dj.one_hjm_30);
+												$('#one_yjm_30').val(dj.one_yjm_30);
+												$('#one_jbr_30').val(dj.one_jbr_30);
+												$('#one_slr_30').val(dj.one_slr_30);
+												$('#one_kjr_30').val(dj.one_kjr_30);
+												$('#one_ete_30').val(dj.one_ete_30);
+											if (dj.one_jbr_1_img) {
+												$('#one_jbr_1_img').attr('src', dj.one_jbr_1_img).show().prev().hide();
+											} else {
+												$('#one_jbr_1').val(dj.one_jbr_1).show().next().hide();
+											}
+											
+											if (dj.one_jbr_2_img) {
+												$('#one_jbr_2_img').attr('src', dj.one_jbr_2_img).show().prev().hide();
+											} else {
+												$('#one_jbr_2').val(dj.one_jbr_2).show().next().hide();
+											}
+											
+											if (dj.one_jbr_3_img) {
+												$('#one_jbr_3_img').attr('src', dj.one_jbr_3_img).show().prev().hide();
+											} else {
+												$('#one_jbr_3').val(dj.one_jbr_3).show().next().hide();
+											}
+											
+											if (dj.one_jbr_4_img) {
+												$('#one_jbr_4_img').attr('src', dj.one_jbr_4_img).show().prev().hide();
+											} else {
+												$('#one_jbr_4').val(dj.one_jbr_4).show().next().hide();
+											}
+											
+											if (dj.one_jbr_5_img) {
+												$('#one_jbr_5_img').attr('src', dj.one_jbr_5_img).show().prev().hide();
+											} else {
+												$('#one_jbr_5').val(dj.one_jbr_5).show().next().hide();
+											}
+											
+											if (dj.one_jbr_6_img) {
+												$('#one_jbr_6_img').attr('src', dj.one_jbr_6_img).show().prev().hide();
+											} else {
+												$('#one_jbr_6').val(dj.one_jbr_6).show().next().hide();
+											}
+											if (dj.one_jbr_7_img) {
+												$('#one_jbr_7_img').attr('src', dj.one_jbr_7_img).show().prev().hide();
+											} else {
+												$('#one_jbr_7').val(dj.one_jbr_7).show().next().hide();
+											}
+											if (dj.one_jbr_8_img) {
+												$('#one_jbr_8_img').attr('src', dj.one_jbr_8_img).show().prev().hide();
+											} else {
+												$('#one_jbr_8').val(dj.one_jbr_8).show().next().hide();
+											}
+											if (dj.one_jbr_9_img) {
+												$('#one_jbr_9_img').attr('src', dj.one_jbr_9_img).show().prev().hide();
+											} else {
+												$('#one_jbr_9').val(dj.one_jbr_9).show().next().hide();
+											}
+											if (dj.one_jbr_10_img) {
+												$('#one_jbr_10_img').attr('src', dj.one_jbr_10_img).show().prev().hide();
+											} else {
+												$('#one_jbr_10').val(dj.one_jbr_10).show().next().hide();
+											}
+											
+											if (dj.one_jbr_11_img) {
+												$('#one_jbr_11_img').attr('src', dj.one_jbr_11_img).show().prev().hide();
+											} else {
+												$('#one_jbr_11').val(dj.one_jbr_11).show().next().hide();
+											}
+											if (dj.one_jbr_12_img) {
+												$('#one_jbr_12_img').attr('src', dj.one_jbr_12_img).show().prev().hide();
+											} else {
+												$('#one_jbr_12').val(dj.one_jbr_12).show().next().hide();
+											}
+											if (dj.one_jbr_13_img) {
+												$('#one_jbr_13_img').attr('src', dj.one_jbr_13_img).show().prev().hide();
+											} else {
+												$('#one_jbr_13').val(dj.one_jbr_13).show().next().hide();
+											}
+											if (dj.one_jbr_14_img) {
+												$('#one_jbr_14_img').attr('src', dj.one_jbr_14_img).show().prev().hide();
+											} else {
+												$('#one_jbr_14').val(dj.one_jbr_14).show().next().hide();
+											}
+											if (dj.one_jbr_15_img) {
+												$('#one_jbr_15_img').attr('src', dj.one_jbr_15_img).show().prev().hide();
+											} else {
+												$('#one_jbr_15').val(dj.one_jbr_15).show().next().hide();
+											}
+											if (dj.one_jbr_16_img) {
+												$('#one_jbr_16_img').attr('src', dj.one_jbr_16_img).show().prev().hide();
+											} else {
+												$('#one_jbr_16').val(dj.one_jbr_16).show().next().hide();
+											}
+											if (dj.one_jbr_17_img) {
+												$('#one_jbr_17_img').attr('src', dj.one_jbr_17_img).show().prev().hide();
+											} else {
+												$('#one_jbr_17').val(dj.one_jbr_17).show().next().hide();
+											}
+											if (dj.one_jbr_18_img) {
+												$('#one_jbr_18_img').attr('src', dj.one_jbr_18_img).show().prev().hide();
+											} else {
+												$('#one_jbr_18').val(dj.one_jbr_18).show().next().hide();
+											}
+											if (dj.one_jbr_19_img) {
+												$('#one_jbr_19_img').attr('src', dj.one_jbr_19_img).show().prev().hide();
+											} else {
+												$('#one_jbr_19').val(dj.one_jbr_19).show().next().hide();
+											}
+											if (dj.one_jbr_20_img) {
+												$('#one_jbr_20_img').attr('src', dj.one_jbr_20_img).show().prev().hide();
+											} else {
+												$('#one_jbr_20').val(dj.one_jbr_20).show().next().hide();
+											}
+											if (dj.one_jbr_21_img) {
+												$('#one_jbr_21_img').attr('src', dj.one_jbr_21_img).show().prev().hide();
+											} else {
+												$('#one_jbr_21').val(dj.one_jbr_21).show().next().hide();
+											}
+											if (dj.one_jbr_22_img) {
+												$('#one_jbr_22_img').attr('src', dj.one_jbr_22_img).show().prev().hide();
+											} else {
+												$('#one_jbr_22').val(dj.one_jbr_22).show().next().hide();
+											}
+											if (dj.one_jbr_23_img) {
+												$('#one_jbr_23_img').attr('src', dj.one_jbr_23_img).show().prev().hide();
+											} else {
+												$('#one_jbr_23').val(dj.one_jbr_23).show().next().hide();
+											}
+											if (dj.one_jbr_24_img) {
+												$('#one_jbr_24_img').attr('src', dj.one_jbr_24_img).show().prev().hide();
+											} else {
+												$('#one_jbr_24').val(dj.one_jbr_24).show().next().hide();
+											}
+											if (dj.one_jbr_25_img) {
+												$('#one_jbr_25_img').attr('src', dj.one_jbr_25_img).show().prev().hide();
+											} else {
+												$('#one_jbr_25').val(dj.one_jbr_25).show().next().hide();
+											}
+											if (dj.one_jbr_26_img) {
+												$('#one_jbr_26_img').attr('src', dj.one_jbr_26_img).show().prev().hide();
+											} else {
+												$('#one_jbr_26').val(dj.one_jbr_26).show().next().hide();
+											}
+											if (dj.one_jbr_27_img) {
+												$('#one_jbr_27_img').attr('src', dj.one_jbr_27_img).show().prev().hide();
+											} else {
+												$('#one_jbr_27').val(dj.one_jbr_27).show().next().hide();
+											}
+											if (dj.one_jbr_28_img) {
+												$('#one_jbr_28_img').attr('src', dj.one_jbr_28_img).show().prev().hide();
+											} else {
+												$('#one_jbr_28').val(dj.one_jbr_28).show().next().hide();
+											}
+											if (dj.one_jbr_29_img) {
+												$('#one_jbr_29_img').attr('src', dj.one_jbr_29_img).show().prev().hide();
+											} else {
+												$('#one_jbr_29').val(dj.one_jbr_29).show().next().hide();
+											}
+											if (dj.one_jbr_30_img) {
+												$('#one_jbr_30_img').attr('src', dj.one_jbr_30_img).show().prev().hide();
+											} else {
+												$('#one_jbr_30').val(dj.one_jbr_30).show().next().hide();
+											}
+											
+											if (dj.one_slr_1_img) {
+												$('#one_slr_1_img').attr('src', dj.one_slr_1_img).show().prev().hide();
+											} else {
+												$('#one_slr_1').val(dj.one_slr_1).show().next().hide();
+											}
+											
+											if (dj.one_slr_2_img) {
+												$('#one_slr_2_img').attr('src', dj.one_slr_2_img).show().prev().hide();
+											} else {
+												$('#one_slr_2').val(dj.one_slr_2).show().next().hide();
+											}
+											
+											if (dj.one_slr_3_img) {
+												$('#one_slr_3_img').attr('src', dj.one_slr_3_img).show().prev().hide();
+											} else {
+												$('#one_slr_3').val(dj.one_slr_3).show().next().hide();
+											}
+											
+											if (dj.one_slr_4_img) {
+												$('#one_slr_4_img').attr('src', dj.one_slr_4_img).show().prev().hide();
+											} else {
+												$('#one_slr_4').val(dj.one_slr_4).show().next().hide();
+											}
+											
+											if (dj.one_slr_5_img) {
+												$('#one_slr_5_img').attr('src', dj.one_slr_5_img).show().prev().hide();
+											} else {
+												$('#one_slr_5').val(dj.one_slr_5).show().next().hide();
+											}
+											
+											if (dj.one_slr_6_img) {
+												$('#one_slr_6_img').attr('src', dj.one_slr_6_img).show().prev().hide();
+											} else {
+												$('#one_slr_6').val(dj.one_slr_6).show().next().hide();
+											}
+											if (dj.one_slr_7_img) {
+												$('#one_slr_7_img').attr('src', dj.one_slr_7_img).show().prev().hide();
+											} else {
+												$('#one_slr_7').val(dj.one_slr_7).show().next().hide();
+											}
+											if (dj.one_slr_8_img) {
+												$('#one_slr_8_img').attr('src', dj.one_slr_8_img).show().prev().hide();
+											} else {
+												$('#one_slr_8').val(dj.one_slr_8).show().next().hide();
+											}
+											if (dj.one_slr_9_img) {
+												$('#one_slr_9_img').attr('src', dj.one_slr_9_img).show().prev().hide();
+											} else {
+												$('#one_slr_9').val(dj.one_slr_9).show().next().hide();
+											}
+											if (dj.one_slr_10_img) {
+												$('#one_slr_10_img').attr('src', dj.one_slr_10_img).show().prev().hide();
+											} else {
+												$('#one_slr_10').val(dj.one_slr_10).show().next().hide();
+											}
+											
+											if (dj.one_slr_11_img) {
+												$('#one_slr_11_img').attr('src', dj.one_slr_11_img).show().prev().hide();
+											} else {
+												$('#one_slr_11').val(dj.one_slr_11).show().next().hide();
+											}
+											if (dj.one_slr_12_img) {
+												$('#one_slr_12_img').attr('src', dj.one_slr_12_img).show().prev().hide();
+											} else {
+												$('#one_slr_12').val(dj.one_slr_12).show().next().hide();
+											}
+											if (dj.one_slr_13_img) {
+												$('#one_slr_13_img').attr('src', dj.one_slr_13_img).show().prev().hide();
+											} else {
+												$('#one_slr_13').val(dj.one_slr_13).show().next().hide();
+											}
+											if (dj.one_slr_14_img) {
+												$('#one_slr_14_img').attr('src', dj.one_slr_14_img).show().prev().hide();
+											} else {
+												$('#one_slr_14').val(dj.one_slr_14).show().next().hide();
+											}
+											if (dj.one_slr_15_img) {
+												$('#one_slr_15_img').attr('src', dj.one_slr_15_img).show().prev().hide();
+											} else {
+												$('#one_slr_15').val(dj.one_slr_15).show().next().hide();
+											}
+											if (dj.one_slr_16_img) {
+												$('#one_slr_16_img').attr('src', dj.one_slr_16_img).show().prev().hide();
+											} else {
+												$('#one_slr_16').val(dj.one_slr_16).show().next().hide();
+											}
+											if (dj.one_slr_17_img) {
+												$('#one_slr_17_img').attr('src', dj.one_slr_17_img).show().prev().hide();
+											} else {
+												$('#one_slr_17').val(dj.one_slr_17).show().next().hide();
+											}
+											if (dj.one_slr_18_img) {
+												$('#one_slr_18_img').attr('src', dj.one_slr_18_img).show().prev().hide();
+											} else {
+												$('#one_slr_18').val(dj.one_slr_18).show().next().hide();
+											}
+											if (dj.one_slr_19_img) {
+												$('#one_slr_19_img').attr('src', dj.one_slr_19_img).show().prev().hide();
+											} else {
+												$('#one_slr_19').val(dj.one_slr_19).show().next().hide();
+											}
+											if (dj.one_slr_20_img) {
+												$('#one_slr_20_img').attr('src', dj.one_slr_20_img).show().prev().hide();
+											} else {
+												$('#one_slr_20').val(dj.one_slr_20).show().next().hide();
+											}
+											if (dj.one_slr_21_img) {
+												$('#one_slr_21_img').attr('src', dj.one_slr_21_img).show().prev().hide();
+											} else {
+												$('#one_slr_21').val(dj.one_slr_21).show().next().hide();
+											}
+											if (dj.one_slr_22_img) {
+												$('#one_slr_22_img').attr('src', dj.one_slr_22_img).show().prev().hide();
+											} else {
+												$('#one_slr_22').val(dj.one_slr_22).show().next().hide();
+											}
+											if (dj.one_slr_23_img) {
+												$('#one_slr_23_img').attr('src', dj.one_slr_23_img).show().prev().hide();
+											} else {
+												$('#one_slr_23').val(dj.one_slr_23).show().next().hide();
+											}
+											if (dj.one_slr_24_img) {
+												$('#one_slr_24_img').attr('src', dj.one_slr_24_img).show().prev().hide();
+											} else {
+												$('#one_slr_24').val(dj.one_slr_24).show().next().hide();
+											}
+											if (dj.one_slr_25_img) {
+												$('#one_slr_25_img').attr('src', dj.one_slr_25_img).show().prev().hide();
+											} else {
+												$('#one_slr_25').val(dj.one_slr_25).show().next().hide();
+											}
+											if (dj.one_slr_26_img) {
+												$('#one_slr_26_img').attr('src', dj.one_slr_26_img).show().prev().hide();
+											} else {
+												$('#one_slr_26').val(dj.one_slr_26).show().next().hide();
+											}
+											if (dj.one_slr_27_img) {
+												$('#one_slr_27_img').attr('src', dj.one_slr_27_img).show().prev().hide();
+											} else {
+												$('#one_slr_27').val(dj.one_slr_27).show().next().hide();
+											}
+											if (dj.one_slr_28_img) {
+												$('#one_slr_28_img').attr('src', dj.one_slr_28_img).show().prev().hide();
+											} else {
+												$('#one_slr_28').val(dj.one_slr_28).show().next().hide();
+											}
+											if (dj.one_slr_29_img) {
+												$('#one_slr_29_img').attr('src', dj.one_slr_29_img).show().prev().hide();
+											} else {
+												$('#one_slr_29').val(dj.one_slr_29).show().next().hide();
+											}
+											if (dj.one_slr_30_img) {
+												$('#one_slr_30_img').attr('src', dj.one_slr_30_img).show().prev().hide();
+											} else {
+												$('#one_slr_30').val(dj.one_slr_30).show().next().hide();
+											}
+											
+											if (dj.one_kjr_1_img) {
+												$('#one_kjr_1_img').attr('src', dj.one_kjr_1_img).show().prev().hide();
+											} else {
+												$('#one_kjr_1').val(dj.one_kjr_1).show().next().hide();
+											}
+											
+											if (dj.one_kjr_2_img) {
+												$('#one_kjr_2_img').attr('src', dj.one_kjr_2_img).show().prev().hide();
+											} else {
+												$('#one_kjr_2').val(dj.one_kjr_2).show().next().hide();
+											}
+											
+											if (dj.one_kjr_3_img) {
+												$('#one_kjr_3_img').attr('src', dj.one_kjr_3_img).show().prev().hide();
+											} else {
+												$('#one_kjr_3').val(dj.one_kjr_3).show().next().hide();
+											}
+											
+											if (dj.one_kjr_4_img) {
+												$('#one_kjr_4_img').attr('src', dj.one_kjr_4_img).show().prev().hide();
+											} else {
+												$('#one_kjr_4').val(dj.one_kjr_4).show().next().hide();
+											}
+											
+											if (dj.one_kjr_5_img) {
+												$('#one_kjr_5_img').attr('src', dj.one_kjr_5_img).show().prev().hide();
+											} else {
+												$('#one_kjr_5').val(dj.one_kjr_5).show().next().hide();
+											}
+											
+											if (dj.one_kjr_6_img) {
+												$('#one_kjr_6_img').attr('src', dj.one_kjr_6_img).show().prev().hide();
+											} else {
+												$('#one_kjr_6').val(dj.one_kjr_6).show().next().hide();
+											}
+											if (dj.one_kjr_7_img) {
+												$('#one_kjr_7_img').attr('src', dj.one_kjr_7_img).show().prev().hide();
+											} else {
+												$('#one_kjr_7').val(dj.one_kjr_7).show().next().hide();
+											}
+											if (dj.one_kjr_8_img) {
+												$('#one_kjr_8_img').attr('src', dj.one_kjr_8_img).show().prev().hide();
+											} else {
+												$('#one_kjr_8').val(dj.one_kjr_8).show().next().hide();
+											}
+											if (dj.one_kjr_9_img) {
+												$('#one_kjr_9_img').attr('src', dj.one_kjr_9_img).show().prev().hide();
+											} else {
+												$('#one_kjr_9').val(dj.one_kjr_9).show().next().hide();
+											}
+											if (dj.one_kjr_10_img) {
+												$('#one_kjr_10_img').attr('src', dj.one_kjr_10_img).show().prev().hide();
+											} else {
+												$('#one_kjr_10').val(dj.one_kjr_10).show().next().hide();
+											}
+											
+											if (dj.one_kjr_11_img) {
+												$('#one_kjr_11_img').attr('src', dj.one_kjr_11_img).show().prev().hide();
+											} else {
+												$('#one_kjr_11').val(dj.one_kjr_11).show().next().hide();
+											}
+											if (dj.one_kjr_12_img) {
+												$('#one_kjr_12_img').attr('src', dj.one_kjr_12_img).show().prev().hide();
+											} else {
+												$('#one_kjr_12').val(dj.one_kjr_12).show().next().hide();
+											}
+											if (dj.one_kjr_13_img) {
+												$('#one_kjr_13_img').attr('src', dj.one_kjr_13_img).show().prev().hide();
+											} else {
+												$('#one_kjr_13').val(dj.one_kjr_13).show().next().hide();
+											}
+											if (dj.one_kjr_14_img) {
+												$('#one_kjr_14_img').attr('src', dj.one_kjr_14_img).show().prev().hide();
+											} else {
+												$('#one_kjr_14').val(dj.one_kjr_14).show().next().hide();
+											}
+											if (dj.one_kjr_15_img) {
+												$('#one_kjr_15_img').attr('src', dj.one_kjr_15_img).show().prev().hide();
+											} else {
+												$('#one_kjr_15').val(dj.one_kjr_15).show().next().hide();
+											}
+											if (dj.one_kjr_16_img) {
+												$('#one_kjr_16_img').attr('src', dj.one_kjr_16_img).show().prev().hide();
+											} else {
+												$('#one_kjr_16').val(dj.one_kjr_16).show().next().hide();
+											}
+											if (dj.one_kjr_17_img) {
+												$('#one_kjr_17_img').attr('src', dj.one_kjr_17_img).show().prev().hide();
+											} else {
+												$('#one_kjr_17').val(dj.one_kjr_17).show().next().hide();
+											}
+											if (dj.one_kjr_18_img) {
+												$('#one_kjr_18_img').attr('src', dj.one_kjr_18_img).show().prev().hide();
+											} else {
+												$('#one_kjr_18').val(dj.one_kjr_18).show().next().hide();
+											}
+											if (dj.one_kjr_19_img) {
+												$('#one_kjr_19_img').attr('src', dj.one_kjr_19_img).show().prev().hide();
+											} else {
+												$('#one_kjr_19').val(dj.one_kjr_19).show().next().hide();
+											}
+											if (dj.one_kjr_20_img) {
+												$('#one_kjr_20_img').attr('src', dj.one_kjr_20_img).show().prev().hide();
+											} else {
+												$('#one_kjr_20').val(dj.one_kjr_20).show().next().hide();
+											}
+											if (dj.one_kjr_21_img) {
+												$('#one_kjr_21_img').attr('src', dj.one_kjr_21_img).show().prev().hide();
+											} else {
+												$('#one_kjr_21').val(dj.one_kjr_21).show().next().hide();
+											}
+											if (dj.one_kjr_22_img) {
+												$('#one_kjr_22_img').attr('src', dj.one_kjr_22_img).show().prev().hide();
+											} else {
+												$('#one_kjr_22').val(dj.one_kjr_22).show().next().hide();
+											}
+											if (dj.one_kjr_23_img) {
+												$('#one_kjr_23_img').attr('src', dj.one_kjr_23_img).show().prev().hide();
+											} else {
+												$('#one_kjr_23').val(dj.one_kjr_23).show().next().hide();
+											}
+											if (dj.one_kjr_24_img) {
+												$('#one_kjr_24_img').attr('src', dj.one_kjr_24_img).show().prev().hide();
+											} else {
+												$('#one_kjr_24').val(dj.one_kjr_24).show().next().hide();
+											}
+											if (dj.one_kjr_25_img) {
+												$('#one_kjr_25_img').attr('src', dj.one_kjr_25_img).show().prev().hide();
+											} else {
+												$('#one_kjr_25').val(dj.one_kjr_25).show().next().hide();
+											}
+											if (dj.one_kjr_26_img) {
+												$('#one_kjr_26_img').attr('src', dj.one_kjr_26_img).show().prev().hide();
+											} else {
+												$('#one_kjr_26').val(dj.one_kjr_26).show().next().hide();
+											}
+											if (dj.one_kjr_27_img) {
+												$('#one_kjr_27_img').attr('src', dj.one_kjr_27_img).show().prev().hide();
+											} else {
+												$('#one_kjr_27').val(dj.one_kjr_27).show().next().hide();
+											}
+											if (dj.one_kjr_28_img) {
+												$('#one_kjr_28_img').attr('src', dj.one_kjr_28_img).show().prev().hide();
+											} else {
+												$('#one_kjr_28').val(dj.one_kjr_28).show().next().hide();
+											}
+											if (dj.one_kjr_29_img) {
+												$('#one_kjr_29_img').attr('src', dj.one_kjr_29_img).show().prev().hide();
+											} else {
+												$('#one_kjr_29').val(dj.one_kjr_29).show().next().hide();
+											}
+											if (dj.one_kjr_30_img) {
+												$('#one_kjr_30_img').attr('src', dj.one_kjr_30_img).show().prev().hide();
+											} else {
+												$('#one_kjr_30').val(dj.one_kjr_30).show().next().hide();
+											}
+											
+											
+										}
+									}
+								}
+							} else {
+								layer.alert(res.msg, {
+									icon: 5
+								})
+							}
+						}
+					})
+				}
+				initAjax();
+
+				$('#onsubmit').on('click', function() {
+					var datajson = {
+						'area': $('[name="area"]').is(':checked'),
+						'area1': $('[name="area1"]').is(':checked'),
+						'title': $('[name="title"]').val(),
+						'equipmentNo': $('[name="equipmentNo"]').val(),
+
+						'one_rq_1': $('#one_rq_1').val(),
+						'one_rq_2': $('#one_rq_2').val(),
+						'one_rq_3': $('#one_rq_3').val(),
+						'one_rq_4': $('#one_rq_4').val(),
+						'one_rq_5': $('#one_rq_5').val(),
+						'one_rq_6': $('#one_rq_6').val(),
+						'one_rq_7': $('#one_rq_7').val(),
+						'one_rq_8': $('#one_rq_8').val(),
+						'one_rq_9': $('#one_rq_9').val(),
+						'one_rq_10': $('#one_rq_10').val(),
+						'one_rq_11': $('#one_rq_11').val(),
+						'one_rq_12': $('#one_rq_12').val(),
+						'one_rq_13': $('#one_rq_13').val(),
+						'one_rq_14': $('#one_rq_14').val(),
+						'one_rq_15': $('#one_rq_15').val(),
+						'one_rq_16': $('#one_rq_16').val(),
+						'one_rq_17': $('#one_rq_17').val(),
+						'one_rq_18': $('#one_rq_18').val(),
+						'one_rq_19': $('#one_rq_19').val(),
+						'one_rq_20': $('#one_rq_20').val(),
+						'one_rq_21': $('#one_rq_21').val(),
+						'one_rq_22': $('#one_rq_22').val(),
+						'one_rq_23': $('#one_rq_23').val(),
+						'one_rq_24': $('#one_rq_24').val(),
+						'one_rq_25': $('#one_rq_25').val(),
+						'one_rq_26': $('#one_rq_26').val(),
+						'one_rq_27': $('#one_rq_27').val(),
+						'one_rq_28': $('#one_rq_28').val(),
+						'one_rq_29': $('#one_rq_29').val(),
+						'one_rq_30': $('#one_rq_30').val(),
+
+						'one_nte_1': $('#one_nte_1').val(),
+						'one_pcb_1': $('#one_pcb_1').val(),
+						'one_ser_1': $('#one_ser_1').val(),
+						'one_hjm_1': $('#one_hjm_1').val(),
+						'one_yjm_1': $('#one_yjm_1').val(),
+						'one_jbr_1': $('#one_jbr_1').val(),
+						'one_slr_1': $('#one_slr_1').val(),
+						'one_kjr_1': $('#one_kjr_1').val(),
+						'one_ete_1': $('#one_ete_1').val(),
+						'one_jbr_1_img': $('#one_jbr_1_img').attr('src'),
+						'one_slr_1_img': $('#one_slr_1_img').attr('src'),
+						'one_kjr_1_img': $('#one_kjr_1_img').attr('src'),
+
+
+						'one_nte_2': $('#one_nte_2').val(),
+						'one_pcb_2': $('#one_pcb_2').val(),
+						'one_ser_2': $('#one_ser_2').val(),
+						'one_hjm_2': $('#one_hjm_2').val(),
+						'one_yjm_2': $('#one_yjm_2').val(),
+						'one_jbr_2': $('#one_jbr_2').val(),
+						'one_slr_2': $('#one_slr_2').val(),
+						'one_kjr_2': $('#one_kjr_2').val(),
+						'one_ete_2': $('#one_ete_2').val(),
+						'one_jbr_2_img': $('#one_jbr_2_img').attr('src'),
+						'one_slr_2_img': $('#one_slr_2_img').attr('src'),
+						'one_kjr_2_img': $('#one_kjr_2_img').attr('src'),
+
+						'one_nte_3': $('#one_nte_3').val(),
+						'one_pcb_3': $('#one_pcb_3').val(),
+						'one_ser_3': $('#one_ser_3').val(),
+						'one_hjm_3': $('#one_hjm_3').val(),
+						'one_yjm_3': $('#one_yjm_3').val(),
+						'one_jbr_3': $('#one_jbr_3').val(),
+						'one_slr_3': $('#one_slr_3').val(),
+						'one_kjr_3': $('#one_kjr_3').val(),
+						'one_ete_3': $('#one_ete_3').val(),
+						'one_jbr_3_img': $('#one_jbr_3_img').attr('src'),
+						'one_slr_3_img': $('#one_slr_3_img').attr('src'),
+						'one_kjr_3_img': $('#one_kjr_3_img').attr('src'),
+
+						'one_nte_4': $('#one_nte_4').val(),
+						'one_pcb_4': $('#one_pcb_4').val(),
+						'one_ser_4': $('#one_ser_4').val(),
+						'one_hjm_4': $('#one_hjm_4').val(),
+						'one_yjm_4': $('#one_yjm_4').val(),
+						'one_jbr_4': $('#one_jbr_4').val(),
+						'one_slr_4': $('#one_slr_4').val(),
+						'one_kjr_4': $('#one_kjr_4').val(),
+						'one_ete_4': $('#one_ete_4').val(),
+						'one_jbr_4_img': $('#one_jbr_4_img').attr('src'),
+						'one_slr_4_img': $('#one_slr_4_img').attr('src'),
+						'one_kjr_4_img': $('#one_kjr_4_img').attr('src'),
+
+						'one_nte_5': $('#one_nte_5').val(),
+						'one_pcb_5': $('#one_pcb_5').val(),
+						'one_ser_5': $('#one_ser_5').val(),
+						'one_hjm_5': $('#one_hjm_5').val(),
+						'one_yjm_5': $('#one_yjm_5').val(),
+						'one_jbr_5': $('#one_jbr_5').val(),
+						'one_slr_5': $('#one_slr_5').val(),
+						'one_kjr_5': $('#one_kjr_5').val(),
+						'one_ete_5': $('#one_ete_5').val(),
+						'one_jbr_5_img': $('#one_jbr_5_img').attr('src'),
+						'one_slr_5_img': $('#one_slr_5_img').attr('src'),
+						'one_kjr_5_img': $('#one_kjr_5_img').attr('src'),
+
+						'one_nte_6': $('#one_nte_6').val(),
+						'one_pcb_6': $('#one_pcb_6').val(),
+						'one_ser_6': $('#one_ser_6').val(),
+						'one_hjm_6': $('#one_hjm_6').val(),
+						'one_yjm_6': $('#one_yjm_6').val(),
+						'one_jbr_6': $('#one_jbr_6').val(),
+						'one_slr_6': $('#one_slr_6').val(),
+						'one_kjr_6': $('#one_kjr_6').val(),
+						'one_ete_6': $('#one_ete_6').val(),
+						'one_jbr_6_img': $('#one_jbr_6_img').attr('src'),
+						'one_slr_6_img': $('#one_slr_6_img').attr('src'),
+						'one_kjr_6_img': $('#one_kjr_6_img').attr('src'),
+
+						'one_nte_7': $('#one_nte_7').val(),
+						'one_pcb_7': $('#one_pcb_7').val(),
+						'one_ser_7': $('#one_ser_7').val(),
+						'one_hjm_7': $('#one_hjm_7').val(),
+						'one_yjm_7': $('#one_yjm_7').val(),
+						'one_jbr_7': $('#one_jbr_7').val(),
+						'one_slr_7': $('#one_slr_7').val(),
+						'one_kjr_7': $('#one_kjr_7').val(),
+						'one_ete_7': $('#one_ete_7').val(),
+						'one_jbr_7_img': $('#one_jbr_7_img').attr('src'),
+						'one_slr_7_img': $('#one_slr_7_img').attr('src'),
+						'one_kjr_7_img': $('#one_kjr_7_img').attr('src'),
+
+						'one_nte_8': $('#one_nte_8').val(),
+						'one_pcb_8': $('#one_pcb_8').val(),
+						'one_ser_8': $('#one_ser_8').val(),
+						'one_hjm_8': $('#one_hjm_8').val(),
+						'one_yjm_8': $('#one_yjm_8').val(),
+						'one_jbr_8': $('#one_jbr_8').val(),
+						'one_slr_8': $('#one_slr_8').val(),
+						'one_kjr_8': $('#one_kjr_8').val(),
+						'one_ete_8': $('#one_ete_8').val(),
+						'one_jbr_8_img': $('#one_jbr_8_img').attr('src'),
+						'one_slr_8_img': $('#one_slr_8_img').attr('src'),
+						'one_kjr_8_img': $('#one_kjr_8_img').attr('src'),
+
+						'one_nte_9': $('#one_nte_9').val(),
+						'one_pcb_9': $('#one_pcb_9').val(),
+						'one_ser_9': $('#one_ser_9').val(),
+						'one_hjm_9': $('#one_hjm_9').val(),
+						'one_yjm_9': $('#one_yjm_9').val(),
+						'one_jbr_9': $('#one_jbr_9').val(),
+						'one_slr_9': $('#one_slr_9').val(),
+						'one_kjr_9': $('#one_kjr_9').val(),
+						'one_ete_9': $('#one_ete_9').val(),
+						'one_jbr_9_img': $('#one_jbr_9_img').attr('src'),
+						'one_slr_9_img': $('#one_slr_9_img').attr('src'),
+						'one_kjr_9_img': $('#one_kjr_9_img').attr('src'),
+
+						'one_nte_10': $('#one_nte_10').val(),
+						'one_pcb_10': $('#one_pcb_10').val(),
+						'one_ser_10': $('#one_ser_10').val(),
+						'one_hjm_10': $('#one_hjm_10').val(),
+						'one_yjm_10': $('#one_yjm_10').val(),
+						'one_jbr_10': $('#one_jbr_10').val(),
+						'one_slr_10': $('#one_slr_10').val(),
+						'one_kjr_10': $('#one_kjr_10').val(),
+						'one_ete_10': $('#one_ete_10').val(),
+						'one_jbr_10_img': $('#one_jbr_10_img').attr('src'),
+						'one_slr_10_img': $('#one_slr_10_img').attr('src'),
+						'one_kjr_10_img': $('#one_kjr_10_img').attr('src'),
+
+						'one_nte_11': $('#one_nte_11').val(),
+						'one_pcb_11': $('#one_pcb_11').val(),
+						'one_ser_11': $('#one_ser_11').val(),
+						'one_hjm_11': $('#one_hjm_11').val(),
+						'one_yjm_11': $('#one_yjm_11').val(),
+						'one_jbr_11': $('#one_jbr_11').val(),
+						'one_slr_11': $('#one_slr_11').val(),
+						'one_kjr_11': $('#one_kjr_11').val(),
+						'one_ete_11': $('#one_ete_11').val(),
+						'one_jbr_11_img': $('#one_jbr_11_img').attr('src'),
+						'one_slr_11_img': $('#one_slr_11_img').attr('src'),
+						'one_kjr_11_img': $('#one_kjr_11_img').attr('src'),
+
+						'one_nte_12': $('#one_nte_12').val(),
+						'one_pcb_12': $('#one_pcb_12').val(),
+						'one_ser_12': $('#one_ser_12').val(),
+						'one_hjm_12': $('#one_hjm_12').val(),
+						'one_yjm_12': $('#one_yjm_12').val(),
+						'one_jbr_12': $('#one_jbr_12').val(),
+						'one_slr_12': $('#one_slr_12').val(),
+						'one_kjr_12': $('#one_kjr_12').val(),
+						'one_ete_12': $('#one_ete_12').val(),
+						'one_jbr_12_img': $('#one_jbr_12_img').attr('src'),
+						'one_slr_12_img': $('#one_slr_12_img').attr('src'),
+						'one_kjr_12_img': $('#one_kjr_12_img').attr('src'),
+
+						'one_nte_13': $('#one_nte_13').val(),
+						'one_pcb_13': $('#one_pcb_13').val(),
+						'one_ser_13': $('#one_ser_13').val(),
+						'one_hjm_13': $('#one_hjm_13').val(),
+						'one_yjm_13': $('#one_yjm_13').val(),
+						'one_jbr_13': $('#one_jbr_13').val(),
+						'one_slr_13': $('#one_slr_13').val(),
+						'one_kjr_13': $('#one_kjr_13').val(),
+						'one_ete_13': $('#one_ete_13').val(),
+						'one_jbr_13_img': $('#one_jbr_13_img').attr('src'),
+						'one_slr_13_img': $('#one_slr_13_img').attr('src'),
+						'one_kjr_13_img': $('#one_kjr_13_img').attr('src'),
+
+						'one_nte_14': $('#one_nte_14').val(),
+						'one_pcb_14': $('#one_pcb_14').val(),
+						'one_ser_14': $('#one_ser_14').val(),
+						'one_hjm_14': $('#one_hjm_14').val(),
+						'one_yjm_14': $('#one_yjm_14').val(),
+						'one_jbr_14': $('#one_jbr_14').val(),
+						'one_slr_14': $('#one_slr_14').val(),
+						'one_kjr_14': $('#one_kjr_14').val(),
+						'one_ete_14': $('#one_ete_14').val(),
+						'one_jbr_14_img': $('#one_jbr_14_img').attr('src'),
+						'one_slr_14_img': $('#one_slr_14_img').attr('src'),
+						'one_kjr_14_img': $('#one_kjr_14_img').attr('src'),
+
+						'one_nte_15': $('#one_nte_15').val(),
+						'one_pcb_15': $('#one_pcb_15').val(),
+						'one_ser_15': $('#one_ser_15').val(),
+						'one_hjm_15': $('#one_hjm_15').val(),
+						'one_yjm_15': $('#one_yjm_15').val(),
+						'one_jbr_15': $('#one_jbr_15').val(),
+						'one_slr_15': $('#one_slr_15').val(),
+						'one_kjr_15': $('#one_kjr_15').val(),
+						'one_ete_15': $('#one_ete_15').val(),
+						'one_jbr_15_img': $('#one_jbr_15_img').attr('src'),
+						'one_slr_15_img': $('#one_slr_15_img').attr('src'),
+						'one_kjr_15_img': $('#one_kjr_15_img').attr('src'),
+
+						'one_nte_16': $('#one_nte_16').val(),
+						'one_pcb_16': $('#one_pcb_16').val(),
+						'one_ser_16': $('#one_ser_16').val(),
+						'one_hjm_16': $('#one_hjm_16').val(),
+						'one_yjm_16': $('#one_yjm_16').val(),
+						'one_jbr_16': $('#one_jbr_16').val(),
+						'one_slr_16': $('#one_slr_16').val(),
+						'one_kjr_16': $('#one_kjr_16').val(),
+						'one_ete_16': $('#one_ete_16').val(),
+						'one_jbr_16_img': $('#one_jbr_16_img').attr('src'),
+						'one_slr_16_img': $('#one_slr_16_img').attr('src'),
+						'one_kjr_16_img': $('#one_kjr_16_img').attr('src'),
+
+						'one_nte_17': $('#one_nte_17').val(),
+						'one_pcb_17': $('#one_pcb_17').val(),
+						'one_ser_17': $('#one_ser_17').val(),
+						'one_hjm_17': $('#one_hjm_17').val(),
+						'one_yjm_17': $('#one_yjm_17').val(),
+						'one_jbr_17': $('#one_jbr_17').val(),
+						'one_slr_17': $('#one_slr_17').val(),
+						'one_kjr_17': $('#one_kjr_17').val(),
+						'one_ete_17': $('#one_ete_17').val(),
+						'one_jbr_17_img': $('#one_jbr_17_img').attr('src'),
+						'one_slr_17_img': $('#one_slr_17_img').attr('src'),
+						'one_kjr_17_img': $('#one_kjr_17_img').attr('src'),
+
+						'one_nte_18': $('#one_nte_18').val(),
+						'one_pcb_18': $('#one_pcb_18').val(),
+						'one_ser_18': $('#one_ser_18').val(),
+						'one_hjm_18': $('#one_hjm_18').val(),
+						'one_yjm_18': $('#one_yjm_18').val(),
+						'one_jbr_18': $('#one_jbr_18').val(),
+						'one_slr_18': $('#one_slr_18').val(),
+						'one_kjr_18': $('#one_kjr_18').val(),
+						'one_ete_18': $('#one_ete_18').val(),
+						'one_jbr_18_img': $('#one_jbr_18_img').attr('src'),
+						'one_slr_18_img': $('#one_slr_18_img').attr('src'),
+						'one_kjr_18_img': $('#one_kjr_18_img').attr('src'),
+
+						'one_nte_19': $('#one_nte_19').val(),
+						'one_pcb_19': $('#one_pcb_19').val(),
+						'one_ser_19': $('#one_ser_19').val(),
+						'one_hjm_19': $('#one_hjm_19').val(),
+						'one_yjm_19': $('#one_yjm_19').val(),
+						'one_jbr_19': $('#one_jbr_19').val(),
+						'one_slr_19': $('#one_slr_19').val(),
+						'one_kjr_19': $('#one_kjr_19').val(),
+						'one_ete_19': $('#one_ete_19').val(),
+						'one_jbr_19_img': $('#one_jbr_19_img').attr('src'),
+						'one_slr_19_img': $('#one_slr_19_img').attr('src'),
+						'one_kjr_19_img': $('#one_kjr_19_img').attr('src'),
+
+						'one_nte_20': $('#one_nte_20').val(),
+						'one_pcb_20': $('#one_pcb_20').val(),
+						'one_ser_20': $('#one_ser_20').val(),
+						'one_hjm_20': $('#one_hjm_20').val(),
+						'one_yjm_20': $('#one_yjm_20').val(),
+						'one_jbr_20': $('#one_jbr_20').val(),
+						'one_slr_20': $('#one_slr_20').val(),
+						'one_kjr_20': $('#one_kjr_20').val(),
+						'one_ete_20': $('#one_ete_20').val(),
+						'one_jbr_20_img': $('#one_jbr_20_img').attr('src'),
+						'one_slr_20_img': $('#one_slr_20_img').attr('src'),
+						'one_kjr_20_img': $('#one_kjr_20_img').attr('src'),
+
+						'one_nte_21': $('#one_nte_21').val(),
+						'one_pcb_21': $('#one_pcb_21').val(),
+						'one_ser_21': $('#one_ser_21').val(),
+						'one_hjm_21': $('#one_hjm_21').val(),
+						'one_yjm_21': $('#one_yjm_21').val(),
+						'one_jbr_21': $('#one_jbr_21').val(),
+						'one_slr_21': $('#one_slr_21').val(),
+						'one_kjr_21': $('#one_kjr_21').val(),
+						'one_ete_21': $('#one_ete_21').val(),
+						'one_jbr_21_img': $('#one_jbr_21_img').attr('src'),
+						'one_slr_21_img': $('#one_slr_21_img').attr('src'),
+						'one_kjr_21_img': $('#one_kjr_21_img').attr('src'),
+
+						'one_nte_22': $('#one_nte_22').val(),
+						'one_pcb_22': $('#one_pcb_22').val(),
+						'one_ser_22': $('#one_ser_22').val(),
+						'one_hjm_22': $('#one_hjm_22').val(),
+						'one_yjm_22': $('#one_yjm_22').val(),
+						'one_jbr_22': $('#one_jbr_22').val(),
+						'one_slr_22': $('#one_slr_22').val(),
+						'one_kjr_22': $('#one_kjr_22').val(),
+						'one_ete_22': $('#one_ete_22').val(),
+						'one_jbr_22_img': $('#one_jbr_22_img').attr('src'),
+						'one_slr_22_img': $('#one_slr_22_img').attr('src'),
+						'one_kjr_22_img': $('#one_kjr_22_img').attr('src'),
+
+						'one_nte_23': $('#one_nte_23').val(),
+						'one_pcb_23': $('#one_pcb_23').val(),
+						'one_ser_23': $('#one_ser_23').val(),
+						'one_hjm_23': $('#one_hjm_23').val(),
+						'one_yjm_23': $('#one_yjm_23').val(),
+						'one_jbr_23': $('#one_jbr_23').val(),
+						'one_slr_23': $('#one_slr_23').val(),
+						'one_kjr_23': $('#one_kjr_23').val(),
+						'one_ete_23': $('#one_ete_23').val(),
+						'one_jbr_23_img': $('#one_jbr_23_img').attr('src'),
+						'one_slr_23_img': $('#one_slr_23_img').attr('src'),
+						'one_kjr_23_img': $('#one_kjr_23_img').attr('src'),
+
+						'one_nte_24': $('#one_nte_24').val(),
+						'one_pcb_24': $('#one_pcb_24').val(),
+						'one_ser_24': $('#one_ser_24').val(),
+						'one_hjm_24': $('#one_hjm_24').val(),
+						'one_yjm_24': $('#one_yjm_24').val(),
+						'one_jbr_24': $('#one_jbr_24').val(),
+						'one_slr_24': $('#one_slr_24').val(),
+						'one_kjr_24': $('#one_kjr_24').val(),
+						'one_ete_24': $('#one_ete_24').val(),
+						'one_jbr_24_img': $('#one_jbr_24_img').attr('src'),
+						'one_slr_24_img': $('#one_slr_24_img').attr('src'),
+						'one_kjr_24_img': $('#one_kjr_24_img').attr('src'),
+
+						'one_nte_25': $('#one_nte_25').val(),
+						'one_pcb_25': $('#one_pcb_25').val(),
+						'one_ser_25': $('#one_ser_25').val(),
+						'one_hjm_25': $('#one_hjm_25').val(),
+						'one_yjm_25': $('#one_yjm_25').val(),
+						'one_jbr_25': $('#one_jbr_25').val(),
+						'one_slr_25': $('#one_slr_25').val(),
+						'one_kjr_25': $('#one_kjr_25').val(),
+						'one_ete_25': $('#one_ete_25').val(),
+						'one_jbr_25_img': $('#one_jbr_25_img').attr('src'),
+						'one_slr_25_img': $('#one_slr_25_img').attr('src'),
+						'one_kjr_25_img': $('#one_kjr_25_img').attr('src'),
+
+						'one_nte_26': $('#one_nte_26').val(),
+						'one_pcb_26': $('#one_pcb_26').val(),
+						'one_ser_26': $('#one_ser_26').val(),
+						'one_hjm_26': $('#one_hjm_26').val(),
+						'one_yjm_26': $('#one_yjm_26').val(),
+						'one_jbr_26': $('#one_jbr_26').val(),
+						'one_slr_26': $('#one_slr_26').val(),
+						'one_kjr_26': $('#one_kjr_26').val(),
+						'one_ete_26': $('#one_ete_26').val(),
+						'one_jbr_26_img': $('#one_jbr_26_img').attr('src'),
+						'one_slr_26_img': $('#one_slr_26_img').attr('src'),
+						'one_kjr_26_img': $('#one_kjr_26_img').attr('src'),
+
+						'one_nte_27': $('#one_nte_27').val(),
+						'one_pcb_27': $('#one_pcb_27').val(),
+						'one_ser_27': $('#one_ser_27').val(),
+						'one_hjm_27': $('#one_hjm_27').val(),
+						'one_yjm_27': $('#one_yjm_27').val(),
+						'one_jbr_27': $('#one_jbr_27').val(),
+						'one_slr_27': $('#one_slr_27').val(),
+						'one_kjr_27': $('#one_kjr_27').val(),
+						'one_ete_27': $('#one_ete_27').val(),
+						'one_jbr_27_img': $('#one_jbr_27_img').attr('src'),
+						'one_slr_27_img': $('#one_slr_27_img').attr('src'),
+						'one_kjr_27_img': $('#one_kjr_27_img').attr('src'),
+
+						'one_nte_28': $('#one_nte_28').val(),
+						'one_pcb_28': $('#one_pcb_28').val(),
+						'one_ser_28': $('#one_ser_28').val(),
+						'one_hjm_28': $('#one_hjm_28').val(),
+						'one_yjm_28': $('#one_yjm_28').val(),
+						'one_jbr_28': $('#one_jbr_28').val(),
+						'one_slr_28': $('#one_slr_28').val(),
+						'one_kjr_28': $('#one_kjr_28').val(),
+						'one_ete_28': $('#one_ete_28').val(),
+						'one_jbr_28_img': $('#one_jbr_28_img').attr('src'),
+						'one_slr_28_img': $('#one_slr_28_img').attr('src'),
+						'one_kjr_28_img': $('#one_kjr_28_img').attr('src'),
+
+						'one_nte_29': $('#one_nte_29').val(),
+						'one_pcb_29': $('#one_pcb_29').val(),
+						'one_ser_29': $('#one_ser_29').val(),
+						'one_hjm_29': $('#one_hjm_29').val(),
+						'one_yjm_29': $('#one_yjm_29').val(),
+						'one_jbr_29': $('#one_jbr_29').val(),
+						'one_slr_29': $('#one_slr_29').val(),
+						'one_kjr_29': $('#one_kjr_29').val(),
+						'one_ete_29': $('#one_ete_29').val(),
+						'one_jbr_29_img': $('#one_jbr_29_img').attr('src'),
+						'one_slr_29_img': $('#one_slr_29_img').attr('src'),
+						'one_kjr_29_img': $('#one_kjr_29_img').attr('src'),
+
+						'one_nte_30': $('#one_nte_30').val(),
+						'one_pcb_30': $('#one_pcb_30').val(),
+						'one_ser_30': $('#one_ser_30').val(),
+						'one_hjm_30': $('#one_hjm_30').val(),
+						'one_yjm_30': $('#one_yjm_30').val(),
+						'one_jbr_30': $('#one_jbr_30').val(),
+						'one_slr_30': $('#one_slr_30').val(),
+						'one_kjr_30': $('#one_kjr_30').val(),
+						'one_ete_30': $('#one_ete_30').val(),
+						'one_jbr_30_img': $('#one_jbr_30_img').attr('src'),
+						'one_slr_30_img': $('#one_slr_30_img').attr('src'),
+						'one_kjr_30_img': $('#one_kjr_30_img').attr('src')
+					}
+
+					console.log(datajson)
+					$.ajax({
+						url: '/currentReport/addDeviceRepairReport',
+						type: 'post',
+						dataType: 'json',
+						data: JSON.stringify({
+							year_month: getQueryString('year_month') || doHandleDate(),
+							json_data: JSON.stringify(datajson),
+							report_type: '131'
+						}),
+						contentType: "application/json;charset=UTF-8",
+						success: function(res) {
+							if (res.code === 200) {
+								var initajax = layer.alert(res.msg, {
+									icon: 1
+								}, function() {
+									initAjax()
+									layer.close(initajax);
+								})
+							} else {
+								layer.alert(res.msg, {
+									icon: 5
+								})
+							}
+						}
+					})
+				})
+			})
+
+
+			var op = document.getElementById('op');
+			op.onclick = function() {
+				op.style.display = 'none';
+				setTimeout(() => {
+					op.style.display = 'block';
+				}, 500);
+				var iframe = document.createElement('iframe');
+				window.print();
+			}
+		</script>
+	</body>
+
+</html>

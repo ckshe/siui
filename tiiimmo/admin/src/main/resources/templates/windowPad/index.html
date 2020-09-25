@@ -206,6 +206,16 @@
 				<div>
 					<button id="ZJ-F287A" class="shenGreenButton" type="button">回流焊机日常维护</button>
 				</div>
+				<hr />
+				<div>
+					<button id="ZJ-F006C" class="shenYelloButton" type="button">贴片机1-YS12日常使用</button>
+				</div>
+				<div>
+					<button id="ZJ-F006C_1" class="shenYelloButton" type="button">贴片机2-YS12F日常使用</button>
+				</div>
+				<div>
+					<button id="ZJ-F006C_2" class="shenYelloButton" type="button">贴片机3-YS12F日常使用</button>
+				</div>
 			</div>
 		</div>
 		<iframe id="zhidao" style="display: none;width: 880px;height: 650px;" src="">
@@ -976,7 +986,7 @@
 						});
 					}
 				});
-
+				//优化级为1
 				$('#ZJ-F043H').on('click', function() {
 					if (nowGonDan == '') {
 						layer.alert('当前无工序', {
@@ -1114,7 +1124,7 @@
 						}
 					});
 				});
-
+				//优化级为2
 				$('#ZJ-F205B').on('click', function() {
 					if (nowGonDan == '') {
 						layer.alert('当前无工序', {
@@ -1304,6 +1314,66 @@
 						area: ["1250px", "90%"],
 						title: 'Py100A回流焊接机维护记录表',
 						content: '/surfaceModel/f287a?id=11&pcb_task_code=' + nowGonDan.pcb_task_code,
+						success: function(layero, index) {
+							var body = layer.getChildFrame('body', index);
+							var d = JSON.stringify(nowGonDan)
+							body.contents().find("input[name='data']").val(d);
+						}
+					});
+				});
+				//优化级为3
+				$('#ZJ-F006C').on('click', function() {
+					if (nowGonDan == '') {
+						layer.alert('当前无工序', {
+							icon: 5
+						})
+						return
+					}
+					layer.open({
+						type: 2,
+						area: ["880px", "90%"],
+						title: '贴片机1-YS12日常使用记录表',
+						content: '/surfaceModel/f006c?id=7&pcb_task_code=' + nowGonDan.pcb_task_code,
+						success: function(layero, index) {
+							var body = layer.getChildFrame('body', index);
+							var d = JSON.stringify(nowGonDan)
+							body.contents().find("input[name='data']").val(d);
+						}
+					});
+				});
+
+				$('#ZJ-F006C_1').on('click', function() {
+					if (nowGonDan == '') {
+						layer.alert('当前无工序', {
+							icon: 5
+						})
+						return
+					}
+					layer.open({
+						type: 2,
+						area: ["880px", "90%"],
+						title: '贴片机2-YS12F日常使用记录表',
+						content: '/surfaceModel/f006c_1?id=701&pcb_task_code=' + nowGonDan.pcb_task_code,
+						success: function(layero, index) {
+							var body = layer.getChildFrame('body', index);
+							var d = JSON.stringify(nowGonDan)
+							body.contents().find("input[name='data']").val(d);
+						}
+					});
+				});
+
+				$('#ZJ-F006C_2').on('click', function() {
+					if (nowGonDan == '') {
+						layer.alert('当前无工序', {
+							icon: 5
+						})
+						return
+					}
+					layer.open({
+						type: 2,
+						area: ["880px", "90%"],
+						title: '贴片机3-YS12F日常使用记录表',
+						content: '/surfaceModel/f006c_2?id=702&pcb_task_code=' + nowGonDan.pcb_task_code,
 						success: function(layero, index) {
 							var body = layer.getChildFrame('body', index);
 							var d = JSON.stringify(nowGonDan)

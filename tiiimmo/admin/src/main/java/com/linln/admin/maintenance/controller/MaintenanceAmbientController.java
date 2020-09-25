@@ -35,9 +35,14 @@ public class MaintenanceAmbientController {
     }
 //    设备记录表模
     @GetMapping("/deviceRecord")
-    ///report/badDetailReport/maintenance/deviceAmbient
     @RequiresPermissions("maintenance:deviceRecord")
     public String deviceRecord() {
         return "/maintenance/deviceRecord/index";
+    }
+    //    设备使用记录表模
+    @GetMapping("/deviceUseRecord")
+    @RequiresPermissions("maintenance:deviceUseRecord")
+    public String deviceUseRecord() {
+        return "/maintenance/deviceUseRecord/index";
     }
 }
