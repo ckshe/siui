@@ -101,10 +101,10 @@ public class DeviceServiceImpl implements DeviceService {
             if(type!=null){
                 type = type.trim();
             }
-            if("0".equals(countType)&&!"TPJ".equals(type)){
+            if("0".equals(countType)&&!"贴片".equals(type)){
                 continue;
             }
-            if("1".equals(countType)&&"TPJ".equals(type)){
+            if("1".equals(countType)&&"贴片".equals(type)){
                 continue;
             }
             StringBuffer deviceListByTypeSql = new StringBuffer("SELECT device_code+'\\'+device_name as title,id ,device_code,device_name from base_device WHERE device_type = '" +
