@@ -267,6 +267,14 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     continue;
                 }
                 if("已完成".equals(pcbTask.getPcb_task_status())){
+                    //查找已完成的排产计划是否已投产，有工序计划，有改为已投产，没有则改为传过来的状态
+                    List<ProcessTask> processTaskList = processTaskRepository.findAllByPcb_task_id(pcbTask.getId());
+                    if(processTaskList!=null&&processTaskList.size()!=0){
+                        pcbTask.setPcb_task_status("已投产");
+                    }else {
+                        pcbTask.setPcb_task_status("下达");
+                    }
+                    pcbTaskRepository.save(pcbTask);
                     continue;
                 }
             }
