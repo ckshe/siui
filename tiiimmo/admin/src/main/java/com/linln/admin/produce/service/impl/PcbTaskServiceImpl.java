@@ -272,7 +272,7 @@ public class PcbTaskServiceImpl implements PcbTaskService {
                     if(processTaskList!=null&&processTaskList.size()!=0){
                         pcbTask.setPcb_task_status("已投产");
                     }else {
-                        pcbTask.setPcb_task_status("下达");
+                        pcbTask.setPcb_task_status(pcb_task_status);
                     }
                     pcbTaskRepository.save(pcbTask);
                     continue;
