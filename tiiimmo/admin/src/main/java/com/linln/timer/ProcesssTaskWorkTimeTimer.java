@@ -140,24 +140,34 @@ public class ProcesssTaskWorkTimeTimer {
 
 
     //每45分钟检测是否有变动
-    @Scheduled(cron = "0 0/45 * * * ?")
+    @Scheduled(cron = "0 0/5 * * * ?")
     public void autoPauseProcessTaskStatus() {
         log.info("====45分钟暂停工单====");
         // 处理生产中的贴片任务
         List<ProcessTask> processTaskList = processTaskRepository.findByProducing();
         processTaskList = processTaskList.stream().filter(e -> e.getCount_type() == 0).collect(Collectors.toList());
+        Date today = new Date();
         for (ProcessTask task : processTaskList) {
             Integer lastAmount = task.getLast_amount() == null ? 0 : task.getLast_amount();
             if (!lastAmount.equals(task.getAmount_completed())) {
                 task.setLast_amount(task.getAmount_completed());
+                task.setLast_count_time(today);
                 processTaskRepository.save(task);
             } else {
                 //相等则改为暂停状态
+                if (task.getLast_count_time()!=null){
+                    long timeContinue = (today.getTime() - task.getLast_count_time().getTime()) / (1000 * 60);
+                    if (timeContinue<30){
+                        continue;
+                    }
+                }else {
+                    task.setLast_count_time(today);
+                    processTaskRepository.save(task);
+                    continue;
+                }
                 task.setProcess_task_status("暂停");
-                ProcessTaskStatusHistory history = new ProcessTaskStatusHistory();
                 log.info(task.getProcess_task_code());
-                history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(task.getProcess_task_code());
-                Date today = new Date();
+                ProcessTaskStatusHistory history = processTaskStatusHistoryRepository.findByProcessTaskCodeLastRecord(task.getProcess_task_code());
                 if (history!=null){
                     history.setEnd_time(today);
                     Long cha = (today.getTime() - history.getStart_time().getTime()) / (1000 * 60);
